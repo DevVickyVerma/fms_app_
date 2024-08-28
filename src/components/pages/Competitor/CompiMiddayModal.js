@@ -9,9 +9,10 @@ import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import LoaderImg from "../../../Utils/Loader";
 import { handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import InputTime from "./InputTime";
+
 
 const CompiMiddayModal = ({
     open,
@@ -24,13 +25,12 @@ const CompiMiddayModal = ({
 }) => {
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const [selected, setSelected] = useState([]);
+    const [Showerrormessage, setShowerrormessage] = useState("");
     const [notificationTypes, setNotificationTypes] = useState({
         mobileSMS: false,
         email: false,
     });
 
-    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -110,67 +110,115 @@ const CompiMiddayModal = ({
         setIsLoading(true);
         const formData = new FormData();
 
-        values?.listing?.forEach((listing) => {
-            listing.fuels.forEach((fuelGroup) => {
-                fuelGroup?.forEach((fuel) => {
-                    const siteId = values.siteId;
-                    const priceId = fuel.priceid;
+        let isValid = true;
+        let validationMessage = "";
 
-                    const fieldKey = `fuels[${siteId}][${priceId}]`;
-                    const timeKey = `time[${siteId}][${priceId}]`;
-                    const fieldValue = fuel.price.toString();
-                    const fieldTime = fuel.time;
-                    // Add validation to check if fieldValue and fieldTime are not empty, null, or undefined
-                    if (
-                        fieldValue !== "" &&
-                        fieldValue !== null &&
-                        fieldValue !== undefined &&
-                        fieldTime !== "" &&
-                        fieldTime !== null &&
-                        fieldTime !== undefined
-                    ) {
-                        // Append the fuel price and time to the FormData
-                        formData.append(fieldKey, fieldValue);
-                        formData.append(timeKey, fieldTime);
+        values?.listing.forEach((item) => {
+            if (Array.isArray(item.fuels)) {
+                item.fuels[0].forEach((_, fuelItemIndex) => {
+                    let hasPriceAtIndex = false;
+
+                    item.fuels.forEach((fuelArray) => {
+                        const priceAtIndex = fuelArray[fuelItemIndex].price;
+
+                        if (
+                            priceAtIndex !== null &&
+                            priceAtIndex !== undefined &&
+                            priceAtIndex !== ""
+                        ) {
+                            hasPriceAtIndex = true;
+                        }
+                    });
+
+                    if (hasPriceAtIndex) {
+                        item.fuels.forEach((fuelArray) => {
+                            const priceAtIndex = fuelArray[fuelItemIndex].price;
+
+                            if (
+                                priceAtIndex === null ||
+                                priceAtIndex === undefined ||
+                                priceAtIndex === ""
+                            ) {
+                                isValid = false;
+                                validationMessage += `Row ${fuelItemIndex + 1}:\nInput must not be empty.\n`;
+                            }
+                        });
                     }
                 });
-            });
-        });
-
-        const isMobileSelected = selected.some(option => option.value === "mobile-sms");
-        const isEmailSelected = selected.some(option => option.value === "email");
-
-        formData.append("drs_date", selectedDrsDate);
-        formData.append("site_id", selectedItem);
-        formData.append("send_sms", notificationTypes?.mobileSMS);
-        formData.append("notify_operator", notificationTypes?.email);
-        formData.append("update_tlm_price", values?.update_tlm_price);
-        const token = localStorage.getItem("token");
-        const axiosInstance = axios.create({
-            baseURL: process.env.REACT_APP_BASE_URL,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        try {
-            const response = await axiosInstance.post(
-                "/site/fuel-price/update-siteprice",
-                formData
-            );
-
-            if (response.status === 200 && response.data.api_response === "success") {
-                sendDataToParent();
-                SuccessAlert(response.data.message);
-                // navigate("/fuelprice");
-                onClose();
-            } else {
-                // Handle other cases or errors here
             }
-        } catch (error) {
-            handleError(error);
-        } finally {
+        });
+
+        if (!isValid) {
+            setShowerrormessage(validationMessage);
             setIsLoading(false);
+        } else {
+            setShowerrormessage("");
+            values.listing.forEach((listing) => {
+                listing.fuels.forEach((fuelGroup) => {
+                    fuelGroup.forEach((fuel) => {
+                        const siteId = values.siteId;
+                        const priceId = fuel.priceid;
+
+                        const fieldKey = `fuels[${siteId}][${priceId}]`;
+                        const timeKey = `time[${siteId}][${priceId}]`;
+                        const fieldValue = fuel.price.toString();
+                        const fieldTime = fuel.time;
+
+                        if (
+                            fieldValue !== "" &&
+                            fieldValue !== null &&
+                            fieldValue !== undefined &&
+                            fieldTime !== "" &&
+                            fieldTime !== null &&
+                            fieldTime !== undefined
+                        ) {
+                            formData.append(fieldKey, fieldValue);
+                            formData.append(timeKey, fieldTime);
+                        }
+                    });
+                });
+            });
+
+            formData.append("drs_date", selectedDrsDate);
+            formData.append("site_id", selectedItem.id);
+            formData.append("send_sms", notificationTypes?.mobileSMS);
+            formData.append("notify_operator", notificationTypes?.email);
+            if (
+                values?.update_tlm_price
+            ) {
+                formData.append("update_tlm_price", values?.update_tlm_price);
+            }
+
+
+            const token = localStorage.getItem("token");
+            const axiosInstance = axios.create({
+                baseURL: process.env.REACT_APP_BASE_URL,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            try {
+                const response = await axiosInstance.post(
+                    "/site/fuel-price/update-siteprice",
+                    formData
+                );
+
+                if (
+                    response.status === 200 &&
+                    response.data.api_response === "success"
+                ) {
+                    onClose()
+                    sendDataToParent();
+                    SuccessAlert(response.data.message);
+                } else {
+                    // Handle other cases or errors here
+                }
+            } catch (error) {
+                handleError(error);
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
     const handleTimeChange = (columnIndex, rowIndex, newTime) => {
@@ -278,7 +326,7 @@ const CompiMiddayModal = ({
                                 >
                                     <tr>
                                         <th>Time</th>
-                                        {data?.head_array?.map((header, columnIndex) => (
+                                        {data?.head_array.map((header, columnIndex) => (
                                             <th key={columnIndex}>{header}</th>
                                         ))}
                                     </tr>
@@ -288,20 +336,20 @@ const CompiMiddayModal = ({
                                         <tr key={rowIndex} className="middayModal-tr">
                                             <td className="middayModal-td">
                                                 {fuel.is_editable ? (
-                                                    <input
-                                                        className="table-input"
-                                                        name={`listing[0].fuels[0][${rowIndex}].time`}
-                                                        type="time"
-                                                        placeholder="Enter Values"
-                                                        value={
-                                                            formik.values?.listing[0]?.fuels[0][rowIndex]
-                                                                ?.time
-                                                        }
-                                                        onChange={
-                                                            (e) =>
-                                                                handleTimeChange(0, rowIndex, e.target.value) // Column index is 0
-                                                        }
-                                                    />
+
+                                                    <>
+                                                        <InputTime
+                                                            label="Time"
+                                                            value={
+                                                                formik.values?.listing[0]?.fuels[0][rowIndex]?.time
+                                                            }
+                                                            onChange={(newValue) =>
+                                                                handleTimeChange(rowIndex, 0, newValue)
+                                                            }
+                                                        // onKeyDown={(e) => e.preventDefault()}
+                                                        // onKeyUp={(e) => e.preventDefault()}
+                                                        />
+                                                    </>
                                                 ) : (
                                                     <span>
                                                         {
@@ -311,34 +359,32 @@ const CompiMiddayModal = ({
                                                     </span>
                                                 )}
                                             </td>
-                                            {data?.listing?.[0]?.fuels?.map(
-                                                (fuelPrices, columnIndex) => (
-                                                    <td key={columnIndex} className="middayModal-td">
-                                                        {fuelPrices[rowIndex]?.is_editable ? (
-                                                            <input
-                                                                className={`table-input ${fuelPrices[rowIndex]?.status === "UP"
-                                                                    ? "table-inputGreen"
-                                                                    : fuelPrices[rowIndex]?.status === "DOWN"
-                                                                        ? "table-inputRed"
-                                                                        : ""
-                                                                    }`}
-                                                                type="number"
-                                                                placeholder="Enter Values"
-                                                                name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
-                                                                value={
-                                                                    formik.values?.listing[0]?.fuels[columnIndex][
-                                                                        rowIndex
-                                                                    ]?.price
-                                                                }
-                                                                onChange={formik.handleChange}
-                                                                step="0.010"
-                                                            />
-                                                        ) : (
-                                                            <span>{fuelPrices[rowIndex]?.price}</span>
-                                                        )}
-                                                    </td>
-                                                )
-                                            )}
+                                            {data?.listing?.[0]?.fuels?.map((fuelPrices, columnIndex) => (
+                                                <td key={columnIndex} className="middayModal-td">
+                                                    {fuelPrices[rowIndex]?.is_editable ? (
+                                                        <input
+                                                            className={`table-input ${fuelPrices[rowIndex]?.status === "UP"
+                                                                ? "table-inputGreen"
+                                                                : fuelPrices[rowIndex]?.status === "DOWN"
+                                                                    ? "table-inputRed"
+                                                                    : ""
+                                                                }`}
+                                                            type="number"
+                                                            placeholder="Enter Values"
+                                                            name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
+                                                            value={
+                                                                formik.values?.listing[0]?.fuels[columnIndex][
+                                                                    rowIndex
+                                                                ]?.price
+                                                            }
+                                                            onChange={formik.handleChange}
+                                                            step="0.010"
+                                                        />
+                                                    ) : (
+                                                        <span>{fuelPrices[rowIndex]?.price}</span>
+                                                    )}
+                                                </td>
+                                            ))}
                                         </tr>
                                     ))}
                                 </tbody>
@@ -348,120 +394,60 @@ const CompiMiddayModal = ({
                 </DialogContent>
                 <Card.Footer>
                     <div className="text-end notification-class">
-                        {/* <div className="Notification">
-              <input
-                type="checkbox"
-                id="notificationCheckboxmidday" // Add an id attribute here
-                checked={isChecked}
-                onChange={SendNotification}
-              />
-              <label
-                htmlFor="notificationCheckboxmidday"
-                className="form-label ms-2 "
-              >
-                Send Notifications
-              </label>
-            </div> */}
-                        {/* <div
-              //  className="Notification"
-              style={{ width: "200px", textAlign: "left" }}
-            >
-              {!selected.length && (
-                <>
-                  {setSelected([{ label: "Send Notification Type", value: "", disabled: true }])}
-                </>
-              )}
-
-
-              <MultiSelect
-                value={selected}
-                onChange={(values) => {
-                  // Remove the placeholder option if it's selected
-                  const updatedSelection = values.filter((value) => value.value !== "");
-                  setSelected(updatedSelection);
-                }}
-                disableSearch={true}
-                options={[
-                  { label: "Mobile SMS Notification", value: "mobile-sms" },
-                  { label: "Email Notification", value: "email" }
-                ]}
-                showCheckbox="false"
-                style={{ width: "200px" }}
-                placeholder="Notification Type"
-              />
-
-            </div> */}
-                        {/* <div>
-              <strong>Send Notification</strong>
-              <div style={{ display: "flex", gap: "10px" }}>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="mobileSMS"
-                      checked={notificationTypes.mobileSMS}
-                      onChange={() => handleCheckboxChange("mobileSMS")}
-                    />
-                    {" "}Mobile
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="email"
-                      checked={notificationTypes.email}
-                      onChange={() => handleCheckboxChange("email")}
-                    />
-                    {" "}Email
-                  </label>
-                </div>
-              </div>
-            </div> */}
-
-                        {data?.update_tlm_price == 1 && (<>
-                            <div className="pointer" onClick={() => formik.setFieldValue('update_tlm_price', !formik.values.update_tlm_price)}>
+                        {data?.update_tlm_price === 1 && (
+                            <div
+                                className="pointer"
+                                onClick={() =>
+                                    formik.setFieldValue(
+                                        "update_tlm_price",
+                                        !formik.values.update_tlm_price
+                                    )
+                                }
+                            >
                                 <div style={{ display: "flex", gap: "10px" }}>
                                     <div>
                                         <input
                                             type="checkbox"
                                             name="update_tlm_price"
-                                            onChange={formik?.handleChange}
+                                            onChange={formik.handleChange}
                                             checked={formik.values.update_tlm_price}
                                             className="form-check-input pointer mx-2"
                                         />
-                                        <label htmlFor={"update_tlm_price"} className="mt-1 ms-6 pointer">
+                                        <label
+                                            htmlFor={"update_tlm_price"}
+                                            className="mt-1 ms-6 pointer"
+                                        >
                                             Update TLM Price
                                         </label>
-
                                     </div>
                                 </div>
                             </div>
-                        </>)}
-
-
+                        )}
+                        {Showerrormessage && (
+                            <span style={{ fontSize: "13px" }} className="custom-error-class">
+                                {Showerrormessage}
+                            </span>
+                        )}
 
                         <button
                             className="btn btn-danger me-2"
-                            type="submit"
+                            type="button"
                             onClick={onClose}
                         >
                             Close
                         </button>
-                        {data?.btn_clickable ? (
+                        {data?.btn_clickable && (
                             <button
                                 className="btn btn-primary me-2"
-                                type="submit"
+                                type="button"
                                 onClick={formik.handleSubmit}
                             >
                                 Submit
                             </button>
-                        ) : (
-                            ""
                         )}
                     </div>
                 </Card.Footer>
-            </Dialog >
+            </Dialog>
         </>
     );
 };

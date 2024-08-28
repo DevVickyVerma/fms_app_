@@ -25,7 +25,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [Compititorloading, setCompititorloading] = useState(false);
   const { id } = useParams();
   const [selected, setSelected] = useState();
-  const [mySelectedDate, setMySelectedDate] = useState();
+  const [mySelectedDate, setMySelectedDate] = useState(new Date()?.toISOString()?.split('T')[0]);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -68,7 +68,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
         const response3 = await axiosInstance.get(
           selectedValues?.start_date
             ? `/site/competitor-price/stats?site_id=${id}&drs_date=${selectedValues?.start_date}`
-            : `/site/competitor-price/stats?site_id=${id}`
+            : `/site/competitor-price/stats?site_id=${id}&drs_date=${mySelectedDate}`
         );
 
         if (response3 && response3.data) {
@@ -157,7 +157,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
 
   const today = new Date(); // Current date
   const maxDate = new Date(today); // Set max date as current date
-  maxDate.setDate(today.getDate() - 1); // Set max date to yesterday
+  maxDate.setDate(today.getDate()); // Set max date to yesterday
   const formattedMaxDate = maxDate.toISOString().split("T")[0]; // Format max date
 
   const minDate = new Date(today); // Set min date as current date

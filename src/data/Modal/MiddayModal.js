@@ -45,7 +45,7 @@ const CustomModal = ({
         );
 
         const responseData = response?.data?.data;
-        if(responseData){
+        if (responseData) {
           setData(responseData);
 
           formik.setValues({
@@ -63,7 +63,7 @@ const CustomModal = ({
           });
 
         }
-     
+
 
         if (responseData?.update_tlm_price === 1) {
           formik.setFieldValue("update_tlm_price", true);
@@ -166,12 +166,12 @@ const CustomModal = ({
       formData.append("site_id", selectedItem.id);
       formData.append("send_sms", notificationTypes?.mobileSMS);
       formData.append("notify_operator", notificationTypes?.email);
-      if(
+      if (
         values?.update_tlm_price
-      ){
+      ) {
         formData.append("update_tlm_price", values?.update_tlm_price);
       }
-    
+
 
       const token = localStorage.getItem("token");
       const axiosInstance = axios.create({
@@ -279,15 +279,20 @@ const CustomModal = ({
                     <tr key={rowIndex} className="middayModal-tr">
                       <td className="middayModal-td">
                         {fuel.is_editable ? (
-                          <InputTime
-                            label="Time"
-                            value={
-                              formik.values?.listing[0]?.fuels[0][rowIndex]?.time
-                            }
-                            onChange={(newValue) =>
-                              handleTimeChange(rowIndex, 0, newValue)
-                            }
-                          />
+
+                          <>
+                            <InputTime
+                              label="Time"
+                              value={
+                                formik.values?.listing[0]?.fuels[0][rowIndex]?.time
+                              }
+                              onChange={(newValue) =>
+                                handleTimeChange(rowIndex, 0, newValue)
+                              }
+                            // onKeyDown={(e) => e.preventDefault()}
+                            // onKeyUp={(e) => e.preventDefault()}
+                            />
+                          </>
                         ) : (
                           <span>
                             {
@@ -301,13 +306,12 @@ const CustomModal = ({
                         <td key={columnIndex} className="middayModal-td">
                           {fuelPrices[rowIndex]?.is_editable ? (
                             <input
-                              className={`table-input ${
-                                fuelPrices[rowIndex]?.status === "UP"
-                                  ? "table-inputGreen"
-                                  : fuelPrices[rowIndex]?.status === "DOWN"
+                              className={`table-input ${fuelPrices[rowIndex]?.status === "UP"
+                                ? "table-inputGreen"
+                                : fuelPrices[rowIndex]?.status === "DOWN"
                                   ? "table-inputRed"
                                   : ""
-                              }`}
+                                }`}
                               type="number"
                               placeholder="Enter Values"
                               name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
