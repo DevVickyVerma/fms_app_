@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 
 const FuelPrices = (props) => {
@@ -796,7 +797,7 @@ const FuelPrices = (props) => {
                               </td>
                               <td className=" align-middle fuel-price-conent">
                                 <span className="text-muted fs-15 fw-semibold text-center  ">
-                                  {item?.time}
+                                  {item?.time ? moment(item?.time, 'HH:mm').format('h:mm A') : ''}
                                 </span>
                               </td>
 
