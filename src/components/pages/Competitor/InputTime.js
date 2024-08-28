@@ -57,7 +57,9 @@ const InputTime = ({ label, value, onChange }) => {
 
   return (
     <div className="wd-150 mg-b-30">
-      <div className="input-group">
+      <div className="input-group"
+        onKeyDown={(e) => e.preventDefault()}
+        onKeyUp={(e) => e.preventDefault()}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <TimePicker
             value={timeValue}
@@ -66,6 +68,8 @@ const InputTime = ({ label, value, onChange }) => {
               const formattedTime = newValue ? newValue.format('HH:mm') : '';
               onChange(formattedTime);
             }}
+            onKeyDown={(e) => e.preventDefault()}
+            onKeyUp={(e) => e.preventDefault()}
             minutesStep={1}
             renderInput={(params) => (
               <TextField {...params} fullWidth label={label} />

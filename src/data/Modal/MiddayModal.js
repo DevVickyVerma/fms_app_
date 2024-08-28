@@ -289,8 +289,8 @@ const CustomModal = ({
                               onChange={(newValue) =>
                                 handleTimeChange(rowIndex, 0, newValue)
                               }
-                            // onKeyDown={(e) => e.preventDefault()}
-                            // onKeyUp={(e) => e.preventDefault()}
+                              onKeyDown={(e) => e.preventDefault()}
+                              onKeyUp={(e) => e.preventDefault()}
                             />
                           </>
                         ) : (
