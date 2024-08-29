@@ -134,7 +134,6 @@ const ManageSiteTank = (props) => {
         localStorage.setItem("SiteNozzle", JSON.stringify(tank));
         setData(response.data.data);
 
-        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -203,18 +202,7 @@ const ManageSiteTank = (props) => {
     permissionsArray?.includes("nozzle-assign");
 
   const columns = [
-    {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "5%",
-      center: true,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
+
     {
       name: "Site Name",
       selector: (row) => [row.site],
@@ -398,15 +386,7 @@ const ManageSiteTank = (props) => {
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
 
-    const filteredData = searchvalue.filter((item) =>
-      item.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
 
 

@@ -33,7 +33,7 @@ const EditSiteNozzle = (props) => {
       const response = await getData(`/site-nozzle/${id}`);
 
       if (response) {
-        formik.setValues(response.data.data);
+        formik.setValues(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -48,7 +48,7 @@ const EditSiteNozzle = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("charge_code", values.charge_code);
+      formData.append("code", values.code);
       formData.append("name", values.name);
       formData.append("status", values.status);
       formData.append("id", values.id);
@@ -56,6 +56,7 @@ const EditSiteNozzle = (props) => {
       formData.append("client_id", values.client_id);
       formData.append("site_pump_id", values.site_pump_id);
       formData.append("fuel_id", values.fuel_id);
+
 
       const postDataUrl = "/site-nozzle/update";
       const navigatePath = "/managesitenozzle";
@@ -166,30 +167,30 @@ const EditSiteNozzle = (props) => {
                         <div className="form-group">
                           <label
                             className=" form-label mt-4"
-                            htmlFor="charge_code"
+                            htmlFor="code"
                           >
                             Site Nozzle Code
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            id="charge_code"
-                            charge_code="name"
+                            id="code"
+                            code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${formik.errors.charge_code &&
-                              formik.touched.charge_code
+                            className={`input101 readonly ${formik.errors.code &&
+                              formik.touched.code
                               ? "is-invalid"
                               : ""
                               }`}
                             placeholder="Site Nozzle Code"
                             onChange={formik.handleChange}
-                            value={formik.values.charge_code || ""}
+                            value={formik.values.code || ""}
                             readOnly
                           />
-                          {formik.errors.charge_code &&
-                            formik.touched.charge_code && (
+                          {formik.errors.code &&
+                            formik.touched.code && (
                               <div className="invalid-feedback">
-                                {formik.errors.charge_code}
+                                {formik.errors.code}
                               </div>
                             )}
                         </div>

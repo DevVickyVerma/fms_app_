@@ -50,6 +50,8 @@ const CompetitorFuelPrices = (props) => {
 
 
   const [data, setData] = useState(null);
+
+
   const handleSubmit1 = async (values) => {
     setSelectedCompanyId(values.company_id);
     setSelectedDrsDate(values.start_date);
@@ -61,13 +63,18 @@ const CompetitorFuelPrices = (props) => {
       formData.append("company_id", values.company_id);
 
       let clientIDCondition = "";
+
+
       if (localStorage.getItem("superiorRole") !== "Client") {
-        clientIDCondition = `client_id=${values.client_id}&`;
+        clientIDCondition = `client_id=${values?.client_id}&`;
       } else {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
       }
+
+
+
       const response1 = await getData(
-        `site/competitor-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
+        `site/competitor-price?${clientIDCondition}company_id=${values?.company_id}&drs_date=${values.start_date}`
       );
 
       const { data } = response1;
@@ -85,16 +92,16 @@ const CompetitorFuelPrices = (props) => {
     inputDateElement.showPicker();
   };
   const extractFuelData = (site) => {
-    if (site.competitors && site.competitors.length > 0) {
-      const competitorData = site.competitors.map((competitor) => {
+    if (site.competitors && site?.competitors?.length > 0) {
+      const competitorData = site?.competitors?.map((competitor) => {
         const competitorname = competitor?.competitor_name;
         const competitorID = competitor?.id;
         const competitorimage = competitor?.supplier;
-        const fuels = competitor.fuels[0] || {};
-        const time = fuels.time || "N/A";
+        const fuels = competitor?.fuels?.[0] || {};
+        const time = fuels?.time || "N/A";
 
         // Create an array of objects for each heading in the head_array with price data
-        const priceData = data.head_array.map((heading) => {
+        const priceData = data?.head_array?.map((heading) => {
           const categoryPrice =
             fuels[heading] !== undefined ? fuels[heading] : "N/A";
           return { heading, price: categoryPrice };
@@ -127,14 +134,16 @@ const CompetitorFuelPrices = (props) => {
   };
   const handleDataFromChild = async (dataFromChild) => {
     try {
-      // Assuming you have the 'values' object constructed from 'dataFromChild'
-      const values = {
-        start_date: selectedDrsDate,
-        client_id: selectedClientId,
-        company_id: selectedCompanyId,
-      };
 
-      await handleSubmit1(values);
+      const competitorFuelPrice = JSON.parse(localStorage.getItem('competitorFuelPrice'));
+      if (competitorFuelPrice) {
+        formik.setFieldValue('client_id', competitorFuelPrice?.client_id);
+        formik.setFieldValue('company_id', competitorFuelPrice?.company_id);
+        formik.setFieldValue('start_date', competitorFuelPrice?.start_date);
+
+        handleSubmit1(competitorFuelPrice);
+      }
+
     } catch (error) {
       console.error("Error handling data from child:", error);
     }
@@ -159,8 +168,6 @@ const CompetitorFuelPrices = (props) => {
     }),
 
     onSubmit: (values) => {
-
-
       localStorage.setItem('competitorFuelPrice', JSON.stringify(values));
       handleSubmit1(values);
     },
@@ -169,16 +176,17 @@ const CompetitorFuelPrices = (props) => {
   useEffect(() => {
     const competitorFuelPrice = JSON.parse(localStorage.getItem('competitorFuelPrice'));
     if (competitorFuelPrice) {
-      formik.setFieldValue('client_id', competitorFuelPrice.client_id);
-      formik.setFieldValue('company_id', competitorFuelPrice.company_id);
-      formik.setFieldValue('start_date', competitorFuelPrice.start_date);
+      formik.setFieldValue('client_id', competitorFuelPrice?.client_id);
+      formik.setFieldValue('company_id', competitorFuelPrice?.company_id);
+      formik.setFieldValue('start_date', competitorFuelPrice?.start_date);
 
 
-      GetCompanyList(competitorFuelPrice.client_id);
-      GetSiteList(competitorFuelPrice.company_id)
+      GetCompanyList(competitorFuelPrice?.client_id);
+      GetSiteList(competitorFuelPrice?.company_id)
       handleSubmit1(competitorFuelPrice);
     }
   }, []);
+
 
   const handleClearForm = async (resetForm) => {
     formik.setFieldValue("site_id", "")
@@ -204,6 +212,9 @@ const CompetitorFuelPrices = (props) => {
       formik.setFieldValue("client_id", clientId)
     }
   };
+
+  console.log(formik?.values, "formik valuesss");
+
 
 
   const fetchCommonListData = async () => {
@@ -242,8 +253,8 @@ const CompetitorFuelPrices = (props) => {
         );
 
         if (response) {
-
           setCompanyList(response?.data?.data);
+          formik.setFieldValue('client_id', values);
         } else {
           throw new Error("No data available in the response");
         }
@@ -283,6 +294,7 @@ const CompetitorFuelPrices = (props) => {
       GetCompanyList(clientId)
     }
   }, []);
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -378,10 +390,10 @@ const CompetitorFuelPrices = (props) => {
                                 }}
                               >
                                 <option value="">Select a Client</option>
-                                {ClientList.data && ClientList.data.length > 0 ? (
-                                  ClientList.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
+                                {ClientList?.data && ClientList?.data?.length > 0 ? (
+                                  ClientList?.data?.map((item) => (
+                                    <option key={item?.id} value={item?.id}>
+                                      {item?.client_name}
                                     </option>
                                   ))
                                 ) : (
@@ -449,9 +461,9 @@ const CompetitorFuelPrices = (props) => {
                               {selectedClientId && CompanyList.length > 0 ? (
                                 <>
                                   setSelectedCompanyId([])
-                                  {CompanyList.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                      {company.company_name}
+                                  {CompanyList?.map((company) => (
+                                    <option key={company?.id} value={company?.id}>
+                                      {company?.company_name}
                                     </option>
                                   ))}
                                 </>
@@ -532,7 +544,7 @@ const CompetitorFuelPrices = (props) => {
                 {data ? (
                   <div>
                     {data &&
-                      data.listing.map((site) => (
+                      data?.listing?.map((site) => (
                         <div key={site.id} className="mt-2">
                           <Collapse accordion>
                             <Panel header={site.site_name} key={site.id}>
@@ -577,7 +589,7 @@ const CompetitorFuelPrices = (props) => {
                                         </span>
                                       ),
                                     },
-                                    ...data.head_array.map(
+                                    ...data?.head_array?.map(
                                       (heading, headingIndex) => ({
                                         title: heading,
                                         dataIndex: "priceData",

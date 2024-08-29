@@ -195,10 +195,18 @@ const AddSitePump = (props) => {
                   Dashboard
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
+                  className="breadcrumb-item  breadcrumds"
+                  aria-current="page"
+                  linkAs={Link}
+                  linkProps={{ to: "/assignppl" }}
+                >
+                  Manage Site PPL Rate
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage Site PPL Rate
+                  Add Site PPL Rate
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
