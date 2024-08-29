@@ -28,6 +28,7 @@ export default function ResetPassword() {
       .catch((error) => {
         setTimeout(() => {
           window.location.href = `/login`;
+          localStorage.clear()
         }, 1000);
 
         ErrorAlert(error?.message);
