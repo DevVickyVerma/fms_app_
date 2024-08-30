@@ -241,11 +241,11 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
       <Row>
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
-            <Card.Header className="d-flex justify-content-between">
+            <Card.Header className="d-flex justify-content-between flex-wrap">
               <h3 className="card-title">Grades Analysis</h3>
 
               {getSiteStats?.data ? (
-                <div>
+                <div className=" mt-2 mt-sm-0">
                   <button className="btn btn-primary" onClick={handleOpenModal}>
                     {" "}
                     <MdOutlineCalendarMonth />{" "}
