@@ -164,8 +164,8 @@ const ManageUser = (props) => {
       width: "18%",
       cell: (row, index) => (
         <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+          <div className="ms-2 mt-0 mt-sm-2 d-flex">
+            <h6 className="mb-0 fs-14 fw-semibold wrap-text">{row.full_name}</h6>
           </div>
         </div>
       ),

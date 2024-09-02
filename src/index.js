@@ -37,6 +37,7 @@ import AddBunkeringBalance from "./components/pages/BunkeringBalance/AddBunkerin
 import SetFuelGrades from "./components/pages/ManageSite/SetFuelGrades";
 import FuturePriceLogs from "./components/pages/Emaillogs/FuturePriceLogs";
 import DashboardWetStock from "./components/Dashboard/DashboardWetStock/DashboardWetStock";
+import DummyPage from "./components/pages/DummyPage/DummyPage";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -1091,6 +1092,10 @@ const Root = () => {
                   <Route
                     path={`/add-group`}
                     element={<WrappedAddCardGroup />}
+                  />
+                  <Route
+                    path={`/dummy-page`}
+                    element={<DummyPage />}
                   />
 
                   <Route
