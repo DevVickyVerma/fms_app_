@@ -49,8 +49,8 @@ const CustomModal = ({
           setData(responseData);
 
           formik.setValues({
-            siteId: selectedItem.id,
-            siteName: selectedItem.site_name,
+            siteId: selectedItem?.id,
+            siteName: selectedItem?.site_name,
             listing: responseData?.listing?.map((listingItem) => ({
               fuels: listingItem?.fuels?.map((fuelArray) =>
                 fuelArray.map((fuel) => ({
@@ -96,13 +96,15 @@ const CustomModal = ({
     let isValid = true;
     let validationMessage = "";
 
-    values?.listing.forEach((item) => {
-      if (Array.isArray(item.fuels)) {
-        item.fuels[0].forEach((_, fuelItemIndex) => {
+    values?.listing?.forEach((item) => {
+      if (Array?.isArray(item.fuels)) {
+        item?.fuels?.[0]?.forEach((_, fuelItemIndex) => {
           let hasPriceAtIndex = false;
 
-          item.fuels.forEach((fuelArray) => {
-            const priceAtIndex = fuelArray[fuelItemIndex].price;
+
+
+          item?.fuels?.forEach((fuelArray) => {
+            const priceAtIndex = fuelArray?.[fuelItemIndex]?.price;
 
             if (
               priceAtIndex !== null &&
@@ -114,8 +116,8 @@ const CustomModal = ({
           });
 
           if (hasPriceAtIndex) {
-            item.fuels.forEach((fuelArray) => {
-              const priceAtIndex = fuelArray[fuelItemIndex].price;
+            item?.fuels?.forEach((fuelArray) => {
+              const priceAtIndex = fuelArray?.[fuelItemIndex]?.price;
 
               if (
                 priceAtIndex === null ||
@@ -136,16 +138,16 @@ const CustomModal = ({
       setIsLoading(false);
     } else {
       setShowerrormessage("");
-      values.listing.forEach((listing) => {
-        listing.fuels.forEach((fuelGroup) => {
-          fuelGroup.forEach((fuel) => {
-            const siteId = values.siteId;
-            const priceId = fuel.priceid;
+      values?.listing?.forEach((listing) => {
+        listing?.fuels?.forEach((fuelGroup) => {
+          fuelGroup?.forEach((fuel) => {
+            const siteId = values?.siteId;
+            const priceId = fuel?.priceid;
 
             const fieldKey = `fuels[${siteId}][${priceId}]`;
             const timeKey = `time[${siteId}][${priceId}]`;
-            const fieldValue = fuel.price.toString();
-            const fieldTime = fuel.time;
+            const fieldValue = fuel?.price?.toString();
+            const fieldTime = fuel?.time;
 
             if (
               fieldValue !== "" &&
@@ -163,7 +165,7 @@ const CustomModal = ({
       });
 
       formData.append("drs_date", selectedDrsDate);
-      formData.append("site_id", selectedItem.id);
+      formData.append("site_id", selectedItem?.id);
       formData.append("send_sms", notificationTypes?.mobileSMS);
       formData.append("notify_operator", notificationTypes?.email);
       if (
@@ -337,6 +339,13 @@ const CustomModal = ({
         </DialogContent>
         <Card.Footer>
           <div className="text-end notification-class">
+
+            {Showerrormessage && (
+              <span style={{ fontSize: "13px" }} className="custom-error-class mt-0">
+                {Showerrormessage}
+              </span>
+            )}
+
             {data?.update_tlm_price === 1 && (
               <div
                 className="pointer"
@@ -366,11 +375,7 @@ const CustomModal = ({
                 </div>
               </div>
             )}
-            {Showerrormessage && (
-              <span style={{ fontSize: "13px" }} className="custom-error-class">
-                {Showerrormessage}
-              </span>
-            )}
+
 
             <button
               className="btn btn-danger me-2"
