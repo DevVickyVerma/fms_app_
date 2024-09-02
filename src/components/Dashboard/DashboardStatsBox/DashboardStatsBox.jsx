@@ -123,14 +123,14 @@ const DashboardStatsBox = (props) => {
                     {GrossVolume?.status === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
+                        <span className="white-text">
                           {GrossVolume?.percentage}% Last Month
                         </span>
                       </>
                     ) : (
                       <>
                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
+                        <span className="white-text">
                           {GrossVolume?.percentage}% Last Month
                         </span>
                       </>
@@ -205,14 +205,14 @@ const DashboardStatsBox = (props) => {
                     {FuelValue?.status === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
+                        <span className="white-text">
                           {FuelValue?.percentage}% Last Month
                         </span>
                       </>
                     ) : (
                       <>
                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
+                        <span className="white-text">
                           {FuelValue?.percentage}% Last Month
                         </span>
                       </>
@@ -285,14 +285,14 @@ const DashboardStatsBox = (props) => {
                     {GrossProfitValue?.status === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
+                        <span className="white-text">
                           {GrossProfitValue?.percentage}% Last Month
                         </span>
                       </>
                     ) : (
                       <>
                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
+                        <span className="white-text">
                           {GrossProfitValue?.percentage}% Last Month
                         </span>
                       </>
@@ -379,14 +379,14 @@ const DashboardStatsBox = (props) => {
                     {GrossMarginValue?.status === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
+                        <span className="white-text">
                           {GrossMarginValue?.percentage}% Last Month
                         </span>
                       </>
                     ) : (
                       <>
                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
+                        <span className="white-text">
                           {GrossMarginValue?.percentage}% Last Month
                         </span>
                       </>
@@ -451,14 +451,14 @@ const DashboardStatsBox = (props) => {
                     {shopsale?.status === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
+                        <span className="white-text">
                           {shopsale?.percentage}% Last Month
                         </span>
                       </>
                     ) : (
                       <>
                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
+                        <span className="white-text">
                           {shopsale?.percentage}% Last Month
                         </span>
                       </>
@@ -520,14 +520,14 @@ const DashboardStatsBox = (props) => {
                     {shop_fees?.status === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
+                        <span className="white-text">
                           {shop_fees?.percentage}% Last Month
                         </span>
                       </>
                     ) : (
                       <>
                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
+                        <span className="white-text">
                           {shop_fees?.percentage}% Last Month
                         </span>
                       </>
@@ -601,14 +601,14 @@ const DashboardStatsBox = (props) => {
                     {shopmargin?.status === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
+                        <span className="white-text">
                           {shopmargin?.percentage}% Last Month
                         </span>
                       </>
                     ) : (
                       <>
                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
+                        <span className="white-text">
                           {shopmargin?.percentage}% Last Month
                         </span>
                       </>

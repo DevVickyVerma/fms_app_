@@ -1847,3 +1847,7 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
   word-break: break-all;
   overflow-wrap: break-word;
 }
+
+.white-text {
+  color: #fff !important;
+}

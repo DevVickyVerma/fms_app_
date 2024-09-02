@@ -103,14 +103,14 @@ const DashSubStatsBox = (props) => {
                   {singleSiteFuelVolume?.status === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="text-success">
+                      <span className="white-text">
                         {singleSiteFuelVolume?.percentage}% Last Month
                       </span>
                     </>
                   ) : (
                     <>
                       <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                      <span className="text-danger">
+                      <span className="white-text">
                         {singleSiteFuelVolume?.percentage}% Last Month
                       </span>
                     </>
@@ -184,14 +184,14 @@ const DashSubStatsBox = (props) => {
                   {singleSiteFuelSales?.status === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="text-success">
+                      <span className="white-text">
                         {singleSiteFuelSales?.percentage}% Last Month
                       </span>
                     </>
                   ) : (
                     <>
                       <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                      <span className="text-danger">
+                      <span className="white-text">
                         {singleSiteFuelSales?.percentage}% Last Month
                       </span>
                     </>
@@ -264,14 +264,14 @@ const DashSubStatsBox = (props) => {
                   {singleSiteGrossProfit?.status === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="text-success">
+                      <span className="white-text">
                         {singleSiteGrossProfit?.percentage}% Last Month
                       </span>
                     </>
                   ) : (
                     <>
                       <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                      <span className="text-danger">
+                      <span className="white-text">
                         {singleSiteGrossProfit?.percentage}% Last Month
                       </span>
                     </>
@@ -358,14 +358,14 @@ const DashSubStatsBox = (props) => {
                   {singleSiteGrossMargin?.status === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="text-success">
+                      <span className="white-text">
                         {singleSiteGrossMargin?.percentage}% Last Month
                       </span>
                     </>
                   ) : (
                     <>
                       <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                      <span className="text-danger">
+                      <span className="white-text">
                         {singleSiteGrossMargin?.percentage}% Last Month
                       </span>
                     </>
@@ -428,14 +428,14 @@ const DashSubStatsBox = (props) => {
                   {singleSiteShopSale?.status === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="text-success">
+                      <span className="white-text">
                         {singleSiteShopSale?.percentage}% Last Month
                       </span>
                     </>
                   ) : (
                     <>
                       <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                      <span className="text-danger">
+                      <span className="white-text">
                         {singleSiteShopSale?.percentage}% Last Month
                       </span>
                     </>
@@ -499,14 +499,14 @@ const DashSubStatsBox = (props) => {
                   {singleSiteShopFee?.status === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="text-success">
+                      <span className="white-text">
                         {singleSiteShopFee?.percentage}% Last Month
                       </span>
                     </>
                   ) : (
                     <>
                       <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                      <span className="text-danger">
+                      <span className="white-text">
                         {singleSiteShopFee?.percentage}% Last Month
                       </span>
                     </>
@@ -581,14 +581,14 @@ const DashSubStatsBox = (props) => {
                   {singleSiteShopMargin?.status === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="text-success">
+                      <span className="white-text">
                         {singleSiteShopMargin?.percentage}% Last Month
                       </span>
                     </>
                   ) : (
                     <>
                       <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                      <span className="text-danger">
+                      <span className="white-text">
                         {singleSiteShopMargin?.percentage}% Last Month
                       </span>
                     </>
