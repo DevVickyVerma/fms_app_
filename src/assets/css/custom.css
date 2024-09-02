@@ -1557,7 +1557,8 @@ span.text-error {
 
 .statscard {
   cursor: pointer;
-  padding: "24px";
+
+  padding: 15px;
 }
 
 .statscard:hover {
@@ -1626,12 +1627,12 @@ span.text-error {
 }
 
 .margin-div {
-  background: #ffffffcf;
+  /* background: #ffffffcf;
   padding: 7px 10px;
   width: 100%;
   margin-top: 10px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 14px; */
 }
 
 .boxtitle {
