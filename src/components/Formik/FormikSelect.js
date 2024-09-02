@@ -26,8 +26,8 @@ const FormikSelect = ({
                 name={name}
                 onChange={handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values[name]}
-                className={`form-control py-3 ${className}`}
+                value={formik.values?.[name]}
+                className={`input101 ${className}`}
             >
                 <option value="">Select {label}</option>
                 {options?.map((option) => (
