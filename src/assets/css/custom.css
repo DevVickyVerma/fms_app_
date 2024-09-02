@@ -39,7 +39,7 @@ span.text-danger.danger-title {
   /* font-size: 12px !important; */
   text-decoration: none;
   color: #ffffff;
-  background: #2d8ba8;
+  background: #4663ac;
   padding: 30.5px 10px;
   border-radius: 0px;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
@@ -599,7 +599,7 @@ span.ModalTitle {
   padding: 8px 15px;
   margin-bottom: 0px;
   color: #fff;
-  background: #2d8ba8;
+  background: #4663ac;
 }
 
 .profile-box {
@@ -608,7 +608,7 @@ span.ModalTitle {
 }
 
 .header-name {
-  color: #2d8ba8;
+  color: #4663ac;
   font-size: 14px;
   font-weight: 400;
   padding: 10px;
@@ -725,7 +725,7 @@ span.fairbank-title {
 }
 
 span.Fuelinvenrtytime_range {
-  background: #2d8ba8;
+  background: #4663ac;
   padding: 4px;
   color: #fff;
   border-radius: 2px;
@@ -942,7 +942,7 @@ span.ModalTitle-2fa {
 .dashboard-shop-sale-icon {
   height: 25px;
   width: 25px;
-  background: #2d8ba8;
+  background: #4663ac;
   border-radius: 50%;
   color: white;
   display: flex;
@@ -952,7 +952,7 @@ span.ModalTitle-2fa {
   width: 58px;
   height: 58px;
   border: 7px solid #fff;
-  border-bottom-color: #2d8ba8;
+  border-bottom-color: #4663ac;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
@@ -976,7 +976,7 @@ span.ModalTitle-2fa {
   display: block;
   margin: 15px auto;
   position: relative;
-  color: #2d8ba8;
+  color: #4663ac;
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
@@ -988,7 +988,7 @@ span.ModalTitle-2fa {
   display: block;
   margin: 15px auto;
   position: relative;
-  color: #2d8ba8;
+  color: #4663ac;
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
@@ -1050,7 +1050,7 @@ span.ModalTitle-2fa {
 .MidSmallloader {
   width: 48px;
   height: 48px;
-  border: 3px dotted #2d8ba8;
+  border: 3px dotted #4663ac;
   border-style: solid solid dotted dotted;
   border-radius: 50%;
   display: inline-block;
@@ -1080,7 +1080,7 @@ span.ModalTitle-2fa {
 .Smallloader {
   width: 20px;
   height: 20px;
-  border: 3px dotted #2d8ba8;
+  border: 3px dotted #4663ac;
   border-style: solid solid dotted dotted;
   border-radius: 50%;
   display: inline-block;
@@ -1219,7 +1219,7 @@ span.ModalTitle-2fa {
 }
 
 span.uk-date-time {
-  color: #2d8ba8;
+  color: #4663ac;
   padding: 0px 5px;
   font-size: 12px;
   border-radius: 5px;
@@ -1251,7 +1251,7 @@ span.uk-date-time {
 }
 
 .uk-text-time {
-  color: #2d8ba8;
+  color: #4663ac;
   padding: 0px 5px;
   font-size: 8.7px;
   /* border-radius: 5px; */
@@ -1362,10 +1362,10 @@ span.circle-info {
 .pay-role-custom-header {
   vertical-align: bottom;
   border-top: 0;
-  border-bottom: 1px solid #2d8ba8 !important;
+  border-bottom: 1px solid #4663ac !important;
   padding: 13px 4px;
   min-width: 14.28% !important;
-  background-color: #2d8ba8 !important;
+  background-color: #4663ac !important;
   min-height: 48px;
   color: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -1569,7 +1569,7 @@ span.text-error {
 }
 
 .dash-plates-1 {
-  background-color: #2d8ba8 !important;
+  background-color: #4663ac !important;
 }
 
 .dash-plates-2 {
@@ -1599,7 +1599,7 @@ span.text-error {
 }
 
 .badge {
-  background-color: #2d8ba8;
+  background-color: #4663ac;
 
   /* font-size: 30px; */
 }
@@ -1618,11 +1618,11 @@ span.text-error {
 }
 
 .swal2-styled.swal2-confirm {
-  background-color: #2d8ba8 !important;
+  background-color: #4663ac !important;
 }
 
 .page-title {
-  color: #2d8ba8;
+  color: #4663ac;
 }
 
 .margin-div {

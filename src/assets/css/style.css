@@ -99,8 +99,8 @@ License        :   Licensed under ThemeForest License
 /*shadow variables*/
 /* ###### Bootstrap ###### */
 :root {
-  --primary-bg-color: #2D8BA8;
-  --primary-bg-hover: #259dc2;
+  --primary-bg-color: #4663ac;
+  --primary-bg-hover: #3d68d4;
   --primary-bg-border: #2d8ba8e0;
   --dark-body: #292e4a;
   --dark-border: #30314e;
@@ -10510,7 +10510,7 @@ body.fixed-header .page {
 
 .page-title {
   margin: 0;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 600;
   position: relative;
   margin-bottom: 0.2rem;
