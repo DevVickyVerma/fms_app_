@@ -450,13 +450,18 @@ const FuelPrices = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <div className="overflow-container" style={containerStyles}>
-        <CustomModal
-          open={modalOpen}
-          onClose={handleModalClose}
-          selectedItem={selectedItem}
-          selectedDrsDate={selectedDrsDate}
-          onDataFromChild={handleDataFromChild}
-        />
+
+        {modalOpen && (<>
+          <CustomModal
+            open={modalOpen}
+            onClose={handleModalClose}
+            selectedItem={selectedItem}
+            selectedDrsDate={selectedDrsDate}
+            onDataFromChild={handleDataFromChild}
+          />
+
+        </>)}
+
         <div className="page-header ">
           <div>
             <h1 className="page-title"> Fuel Price</h1>
