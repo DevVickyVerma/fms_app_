@@ -383,9 +383,7 @@ const UpdateFuelPrices = (props) => {
         }
     };
 
-    const SendNotification = (event) => {
-        setIsChecked(event.target.checked);
-    };
+
     const handleDataFromChild = async (dataFromChild) => {
         try {
             // Assuming you have the 'values' object constructed from 'dataFromChild'
@@ -1344,8 +1342,36 @@ const UpdateFuelPrices = (props) => {
                                 </form>
                             </Card.Body>
                             <Card.Footer>
-                                <div className="text-end">
-                                    <button className="btn btn-primary mt-2" type="submit">
+                                <div className="text-end d-flex align-items-end justify-content-end">
+
+                                    <div
+                                        className="pointer"
+                                        onClick={() =>
+                                            formik.setFieldValue(
+                                                "update_tlm_price",
+                                                !formik.values.update_tlm_price
+                                            )
+                                        }
+                                    >
+                                        <div style={{ display: "flex", gap: "10px" }}>
+                                            <div>
+                                                <input
+                                                    type="checkbox"
+                                                    name="update_tlm_price"
+                                                    onChange={formik.handleChange}
+                                                    checked={formik.values.update_tlm_price}
+                                                    className="form-check-input pointer mx-2"
+                                                />
+                                                <label
+                                                    htmlFor={"update_tlm_price"}
+                                                    className="mt-1 ms-6 pointer"
+                                                >
+                                                    Update TLM Price
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button className="btn btn-primary mt-2 ms-2" type="submit">
                                         Submit
                                     </button>
                                 </div>
