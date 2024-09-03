@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bounce, Slide, toast } from "react-toastify";
 
@@ -62,10 +62,24 @@ const withApi = (WrappedComponent) => {
       }
     );
 
-    const getData = async (url, id, formData) => {
-      try {
+    const pendingRequests = useRef(0); // Ref to track ongoing requests
+    const manageLoadingState = (isStarting) => {
+      if (isStarting) {
+        pendingRequests.current += 1;
         setIsLoading(true);
-        const modifiedUrl = id ? `${url}/${id}` : url; // Append the ID to the URL if it exists
+      } else {
+        pendingRequests.current -= 1;
+        if (pendingRequests.current === 0) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    const getData = async (url, id, formData) => {
+      manageLoadingState(true); // Start loading
+
+      try {
+        const modifiedUrl = id ? `${url}/${id}` : url;
         const response = await axiosInstance.get(modifiedUrl, {
           params: formData,
         });
@@ -73,18 +87,43 @@ const withApi = (WrappedComponent) => {
         if (response && response.data) {
           const data = response.data;
           setApiData(data);
-          setIsLoading(false);
-          return response; // Return the response 
+          return response;
         } else {
-          throw new Error("Invalid response"); // Handle the case where the response or response.data is undefined
+          throw new Error("Invalid response");
         }
       } catch (error) {
         handleError(error);
         setError(error);
-        setIsLoading(false);
-        throw error; // Throw the error to handle it in the calling function
+        throw error;
+      } finally {
+        manageLoadingState(false); // End loading
       }
     };
+
+
+    // const getData = async (url, id, formData) => {
+    //   try {
+    //     setIsLoading(true);
+    //     const modifiedUrl = id ? `${url}/${id}` : url; // Append the ID to the URL if it exists
+    //     const response = await axiosInstance.get(modifiedUrl, {
+    //       params: formData,
+    //     });
+
+    //     if (response && response.data) {
+    //       const data = response.data;
+    //       setApiData(data);
+    //       setIsLoading(false);
+    //       return response; // Return the response 
+    //     } else {
+    //       throw new Error("Invalid response"); // Handle the case where the response or response.data is undefined
+    //     }
+    //   } catch (error) {
+    //     handleError(error);
+    //     setError(error);
+    //     setIsLoading(false);
+    //     throw error; // Throw the error to handle it in the calling function
+    //   }
+    // };
 
     const postData = async (url, body, navigatePath) => {
       try {
