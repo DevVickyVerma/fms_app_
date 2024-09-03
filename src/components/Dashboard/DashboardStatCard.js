@@ -74,7 +74,7 @@
 //       <Card.Body className="card-body pb-0">
 //         <Row>
 //           {request?.map((requests) => (
-//             <Col sm={12} md={6} lg={6} xl={2} key={Math.random()}>
+//             <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
 //               <Card
 //                 className={`card bg-${requests?.color} img-card box-${requests?.color}-shadow`}
 //               >
@@ -187,18 +187,18 @@ console.log(formattedDateTime, "formattedDateTime");
     <Card>
       <Card.Header className="card-header">
         <h4 className="card-title">
-          
+        {/* Live Data{" "} */}
           <img
             src={require("../../assets/images/commonimages/LiveIMg.gif")}
             alt="Live Img"
             className="Liveimage"
-          />{" "}Live Data{" "} ({formattedDateTime})
-    
+          />{" "}{" "} Last Updated On : (03-09-2024 11:15 PM) 
+    {/* ({formattedDateTime}) */}
         </h4>
       </Card.Header>
       <Card.Body className="card-body pb-0">
         <Row>
-          <Col sm={12} md={6} lg={6} xl={2}>
+          <Col sm={12} md={6} lg={6} xl={4}>
             <Card
               className={`card bg-${request[0].color} img-card box-${request[0].color}-shadow`}
             >
@@ -218,7 +218,7 @@ console.log(formattedDateTime, "formattedDateTime");
             </Card>
           </Col>
 
-          <Col sm={12} md={6} lg={6} xl={2}>
+          <Col sm={12} md={6} lg={6} xl={4}>
             <Card
               className={`card bg-${request[1].color} img-card box-${request[1].color}-shadow`}
             >
@@ -238,7 +238,7 @@ console.log(formattedDateTime, "formattedDateTime");
             </Card>
           </Col>
 
-          <Col sm={12} md={6} lg={6} xl={2}>
+          <Col sm={12} md={6} lg={6} xl={4}>
             <Card
               className={`card bg-${request[2].color} img-card box-${request[2].color}-shadow`}
             >
@@ -258,7 +258,7 @@ console.log(formattedDateTime, "formattedDateTime");
             </Card>
           </Col>
 
-          <Col sm={12} md={6} lg={6} xl={2}>
+          <Col sm={12} md={6} lg={6} xl={4}>
             <Card
               className={`card bg-${request[3].color} img-card box-${request[3].color}-shadow`}
             >
@@ -278,7 +278,7 @@ console.log(formattedDateTime, "formattedDateTime");
             </Card>
           </Col>
 
-          <Col sm={12} md={6} lg={6} xl={2}>
+          <Col sm={12} md={6} lg={6} xl={4}>
             <Card
               className={`card bg-${request[4].color} img-card box-${request[4].color}-shadow`}
             >
@@ -298,7 +298,7 @@ console.log(formattedDateTime, "formattedDateTime");
             </Card>
           </Col>
 
-          <Col sm={12} md={6} lg={6} xl={2}>
+          <Col sm={12} md={6} lg={6} xl={4}>
             <Card
               className={`card bg-${request[5].color} img-card box-${request[5].color}-shadow`}
             >

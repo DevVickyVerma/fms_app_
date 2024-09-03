@@ -101,7 +101,7 @@ h3.SidebarSearch-title {
 }
 
 .readonly {
-  background-color: rgb(221 221 221 / 59%) !important;
+  background-color: #dddddd !important;
   cursor: default;
 }
 
@@ -1868,4 +1868,10 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
   display: block;
   height: 15px;
   background-color: #1c8b3359;
+}
+.Readonlyboxx {
+  width: 15px;
+  display: block;
+  height: 15px;
+  background-color: #dddddd;
 }

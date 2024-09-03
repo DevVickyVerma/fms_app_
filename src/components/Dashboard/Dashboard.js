@@ -860,7 +860,7 @@ const Dashboard = (props) => {
 
         <div className="mb-2 text-end">
           <button className="  mb-2 btn btn-primary" onClick={handleShowLive}>
-      Live Margin
+            Live Margin
             {/* {ShowLiveData ? " Live Data" : " Live Data"} */}
           </button>
         </div>

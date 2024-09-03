@@ -1235,6 +1235,10 @@ const UpdateFuelPrices = (props) => {
                                                 <span className="text-mute">
                                                     Current Price
                                                 </span>
+                                                <span className="Readonlyboxx me-2 ms-2 "> </span>
+                                                <span className="text-mute">
+                                                   ReadOnly input
+                                                </span>
                                             </span>
                                         </div>
 
