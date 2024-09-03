@@ -16,7 +16,6 @@ import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useSelector } from "react-redux";
-import moment from "moment";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import { handleError } from "../../../Utils/ToastUtils";
 import {
@@ -44,12 +43,7 @@ const UpdateFuelPrices = (props) => {
 
     const [ClientList, setClientList] = useState([]);
     const [CompanyList, setCompanyList] = useState([]);
-    const [SiteList, setSiteList] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
-    const [notificationTypes, setNotificationTypes] = useState({
-        mobileSMS: false,
-        email: false,
-    });
 
     const formik = useFormik({
         initialValues: {
@@ -184,204 +178,24 @@ const UpdateFuelPrices = (props) => {
             .min(new Date("2023-01-01"), "Date cannot be before January 1, 2023"),
     });
 
-    // const formik = useFormik({
-    //     initialValues: {
-    //         client_id: "",
-    //         company_id: "",
-    //         site_id: "",
-    //         start_date: "",
-    //         notify_operator: "",
-    //         email: false,
-    //     },
-    //     validationSchema: validationSchemaForCustomInput,
-    //     // validationSchema: Yup.object({
-    //     //   company_id: Yup.string().required("Company is required"),
-    //     //   start_date: Yup.date()
-    //     //     .required("Date is required")
-    //     //     .min(
-    //     //       new Date("2023-01-01"),
-    //     //       "Date cannot be before January 1, 2023"
-    //     //     ),
-    //     // }),
 
-    //     onSubmit: (values) => {
-    //         localStorage.setItem('fuelSellingPrice', JSON.stringify(values));
-    //         handleSubmit1(values);
-    //     },
-    // });
 
     const handleClearForm = async (resetForm) => {
         console.log("celared callled");
         setData(null);
-        // formik.resetForm()
-        // formik.setFieldValue("site_id", "")
-        // formik.setFieldValue("start_date", "")
-        // formik.setFieldValue("client_id", "")
-        // formik.setFieldValue("company_id", "")
-        // formik.setFieldValue("endDate", "")
-        // formik.setFieldValue("startDate", "")
-        // formik.resetForm()
-        // setSelectedCompanyList([]);
-        // setSelectedClientId("");
-        // setCompanyList([])
-        // setData(null)
-        // localStorage.removeItem("fuelSellingPrice")
-        // const clientId = localStorage.getItem("superiorId");
-
-        // Check if the role is Client, then set the client_id and client_name from local storage
-
-        // if (localStorage.getItem("superiorRole") !== "Client") {
-        //   fetchCommonListData();
-        //   formik.setFieldValue("client_id", "")
-        //   setCompanyList([])
-        // } else {
-        //   setSelectedClientId(clientId);
-        //   GetCompanyList(clientId);
-        //   formik.setFieldValue("client_id", clientId)
-        // }
     };
 
-    console.log(formik?.values, "formik valuesssss");
 
     const [data, setData] = useState();
-    const renderTableHeader = () => {
-        return (
-            <tr className="fuelprice-tr" style={{ padding: "0px" }}>
-                {data?.head_array &&
-                    data.head_array.map((item, index) => <th key={index}>{item}</th>)}
-            </tr>
-        );
-    };
 
-    const hadndleShowDate = () => {
-        const inputDateElement = document.querySelector('input[type="date"]');
-        inputDateElement.showPicker();
-    };
+
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [selectedItemDate, setSelectedItemDate] = useState();
-    const handleModalOpen = (item) => {
-        setSelectedItem(item); // Set the selected item
-        setModalOpen(true);
-    };
 
     const handleModalClose = () => {
         setModalOpen(false);
     };
 
-    const renderTableData = () => {
-        return data?.listing?.map((item) => (
-            <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }}>
-                <td style={{ maxWidth: "14.28%" }}>
-                    <span
-                        className={
-                            item?.link_clickable
-                                ? "text-muted fs-15 fw-semibold text-center fuel-site-name"
-                                : "text-muted fs-15 fw-semibold text-center"
-                        }
-                        onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
-                    >
-                        {item?.site_name} <span className="itemcount">{item?.count}</span>
-                    </span>
-                </td>
-                <td>
-                    <span className="text-muted fs-15 fw-semibold text-center ">
-                        {item?.time}
-                    </span>
-                </td>
-
-                {Array.isArray(item?.fuels) &&
-                    item.fuels.map((fuel, index) => (
-                        <td key={index}>
-                            {Array.isArray(fuel) ? (
-                                <input type="text" className="table-input  input101 fuel-readonly" readOnly />
-                            ) : (
-                                <input
-                                    type="number"
-                                    step="0.010"
-                                    className={`table-input  input101 ${fuel?.status === "UP"
-                                        ? "table-inputGreen"
-                                        : fuel?.status === "DOWN"
-                                            ? "table-inputRed"
-                                            : ""
-                                        } ${!fuel?.is_editable ? "fuel-readonly" : ""}`}
-                                    value={fuel?.price}
-                                    readOnly={!fuel?.is_editable}
-                                    id={fuel?.id}
-                                    onChange={(e) =>
-                                        handleInputChange(e.target.id, e.target.value)
-                                    }
-                                />
-                            )}
-                        </td>
-                    ))}
-            </tr>
-        ));
-    };
-
-    const handleInputChange = (id, value) => {
-        const updatedData = {
-            ...data,
-            listing: data?.listing?.map((item) => ({
-                ...item,
-                fuels: item.fuels.map((fuel) =>
-                    fuel.id === id ? { ...fuel, price: value } : fuel
-                ),
-            })),
-        };
-
-        setData(updatedData);
-    };
-
-    const handleSubmit = async (values) => {
-        try {
-            const formData = new FormData();
-
-            data?.listing?.forEach((item) => {
-                const siteId = item.id;
-
-                item.fuels.forEach((fuel) => {
-                    if (!Array.isArray(fuel) && fuel.price !== undefined) {
-                        const priceId = fuel.id;
-                        const fieldKey = `fuels[${siteId}][${priceId}]`;
-                        const timeKey = `time[${siteId}][${priceId}]`;
-                        const fieldValue = fuel.price.toString();
-                        const fieldtime = fuel.time;
-                        formData.append(fieldKey, fieldValue);
-                        formData.append(timeKey, fieldtime);
-                    }
-                });
-            });
-
-            // const isMobileSelected = selected.some(option => option.value === "mobile-sms");
-            // const isEmailSelected = selected.some(option => option.value === "email");
-
-            setSelectedItemDate(selectedDrsDate);
-            formData.append("send_sms", notificationTypes?.mobileSMS);
-            formData.append("notify_operator", notificationTypes?.email);
-            formData.append("drs_date", selectedDrsDate);
-            formData.append("client_id", selectedClientId);
-            formData.append("company_id", selectedCompanyId);
-            // setSelectedClientId()
-            const response = await postData(
-                "/site/fuel-price/update-midday",
-                formData
-            );
-
-            if (apidata.status_code === "200") {
-                const values = {
-                    start_date: selectedDrsDate,
-                    client_id: selectedClientId,
-                    company_id: selectedCompanyId,
-                };
-                handleModalClose();
-                handleSubmit1(values);
-            }
-            // Set the submission state to false after the API call is completed
-        } catch (error) {
-            console.log(error); // Set the submission state to false if an error occurs
-        }
-    };
 
 
     const handleDataFromChild = async (dataFromChild) => {
@@ -399,17 +213,7 @@ const UpdateFuelPrices = (props) => {
         }
     };
 
-    const headerHeight = 135;
 
-    const containerStyles = {
-        // overflowY: "scroll", // or 'auto'
-        // overflowX: "hidden", // or 'auto'
-        // maxHeight: "100vh", // Set a maximum height for the container
-        // maxHeight: `calc(100vh - ${headerHeight}px)`,
-        // border: "1px solid #ccc",
-        // backgroundColor: "#f5f5f5",
-        // padding: "10px",
-    };
 
     const fetchCommonListData = async () => {
         try {
@@ -459,23 +263,7 @@ const UpdateFuelPrices = (props) => {
         }
     };
 
-    const GetSiteList = async (values) => {
-        try {
-            if (values) {
-                const response = await getData(`common/site-list?company_id=${values}`);
 
-                if (response) {
-                    setSiteList(response?.data?.data);
-                } else {
-                    throw new Error("No data available in the response");
-                }
-            } else {
-                console.error("No site_id found ");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
 
     useEffect(() => {
         const clientId = localStorage.getItem("superiorId");
@@ -489,18 +277,6 @@ const UpdateFuelPrices = (props) => {
         }
     }, []);
 
-    // useEffect(() => {
-    //   const fuelSellingPrice = JSON.parse(localStorage.getItem('fuelSellingPrice'));
-    //   if (fuelSellingPrice) {
-    //     formik.setFieldValue('client_id', fuelSellingPrice.client_id);
-    //     formik.setFieldValue('company_id', fuelSellingPrice.company_id);
-    //     formik.setFieldValue('start_date', fuelSellingPrice.start_date);
-
-    //     GetCompanyList(fuelSellingPrice.client_id);
-    //     GetSiteList(fuelSellingPrice.company_id)
-    //     handleSubmit1(fuelSellingPrice);
-    //   }
-    // }, []);
 
     const handleLinkClick = () => {
         const futurepriceLog = {
@@ -553,454 +329,10 @@ const UpdateFuelPrices = (props) => {
         }
     };
 
-    const [fuelTable, setFuelTable] = useState({
-        date: "",
-        time: "",
-        headings: [
-            { id: 0, fuel: "date" },
-            { id: 0, fuel: "time" },
-            { id: 21, fuel: "unleaded" },
-            { id: 22, fuel: "Diesel" },
-        ],
-        currentPrice: [
-            { id: 21, date: "", time: "", name: "unleaded", price: "1.65" },
-            { id: 22, date: "", time: "", name: "Diesel", price: "1.65" },
-        ],
-        listingPrices: {
-            0: [
-                {
-                    id: 21,
-                    date: "",
-                    time: "",
-                    name: "unleaded",
-                    price: "1.65",
-                    flag: false,
-                },
-                {
-                    id: 22,
-                    date: "",
-                    time: "",
-                    name: "Diesel",
-                    price: "1.65",
-                    flag: false,
-                },
-            ],
-            1: [
-                {
-                    id: 21,
-                    date: "",
-                    time: "",
-                    name: "unleaded",
-                    price: "1.65",
-                    flag: false,
-                },
-                {
-                    id: 22,
-                    date: "",
-                    time: "",
-                    name: "Diesel",
-                    price: "1.65",
-                    flag: false,
-                },
-            ],
-            2: [
-                {
-                    id: 21,
-                    date: "",
-                    time: "",
-                    name: "unleaded",
-                    price: "1.65",
-                    flag: false,
-                },
-                {
-                    id: 22,
-                    date: "",
-                    time: "",
-                    name: "Diesel",
-                    price: "1.65",
-                    flag: false,
-                },
-            ],
-        },
-    });
-
-    const handleInputChangee = (listIndex, itemIndex, field, value) => {
-        const updatedFuelTable = { ...fuelTable };
-        updatedFuelTable.listingPrices[listIndex][itemIndex][field] = value;
-        setFuelTable(updatedFuelTable);
-    };
-
-    // Example of Dynamic Data
-    const headingDataa = [
-        { id: 0, fuel: "date" },
-        { id: 1, fuel: "time" },
-        { id: 101, fuel: "unleaded" },
-        { id: 102, fuel: "Diesel" },
-        { id: 103, fuel: "premium" },
-        { id: 104, fuel: "biofuel" },
-    ];
-
-    const initialBodyData = {
-        0: [
-            {
-                id: 101,
-                date: "2024-09-01",
-                time: "08:00",
-                name: "unleaded",
-                price: 1.75,
-                flag: false,
-            },
-            {
-                id: 102,
-                date: "2024-09-01",
-                time: "08:00",
-                name: "Diesel",
-                price: 1.85,
-                flag: false,
-            },
-            {
-                id: 103,
-                date: "2024-09-01",
-                time: "08:00",
-                name: "premium",
-                price: 2.1,
-                flag: false,
-            },
-        ],
-        1: [
-            {
-                id: 101,
-                date: "2024-09-02",
-                time: "09:00",
-                name: "unleaded",
-                price: 1.8,
-                flag: false,
-            },
-            {
-                id: 102,
-                date: "2024-09-02",
-                time: "09:00",
-                name: "Diesel",
-                price: 1.9,
-                flag: false,
-            },
-            {
-                id: 103,
-                date: "2024-09-02",
-                time: "09:00",
-                name: "premium",
-                price: 2.15,
-                flag: false,
-            },
-            {
-                id: 104,
-                date: "2024-09-02",
-                time: "09:00",
-                name: "biofuel",
-                price: 2.25,
-                flag: false,
-            },
-        ],
-        2: [
-            {
-                id: 101,
-                date: "2024-09-03",
-                time: "10:00",
-                name: "unleaded",
-                price: 1.85,
-                flag: false,
-            },
-            {
-                id: 102,
-                date: "2024-09-03",
-                time: "10:00",
-                name: "Diesel",
-                price: 1.95,
-                flag: false,
-            },
-            {
-                id: 103,
-                date: "2024-09-03",
-                time: "10:00",
-                name: "premium",
-                price: 2.2,
-                flag: false,
-            },
-            {
-                id: 104,
-                date: "2024-09-03",
-                time: "10:00",
-                name: "biofuel",
-                price: 2.3,
-                flag: false,
-            },
-        ],
-    };
-
-    const DynamicTable = ({ headingData, initialBodyData }) => {
-        const [bodyData, setBodyData] = useState(initialBodyData);
-
-        // Handle input change for any field
-        const handleInputChange = (key, id, field, value) => {
-            setBodyData((prevData) => ({
-                ...prevData,
-                [key]: prevData[key].map((item) =>
-                    item.id === id ? { ...item, [field]: value } : item
-                ),
-            }));
-        };
-
-        console.log(bodyData, "bodyData");
-
-        return (
-            <table border="1">
-                <thead>
-                    <tr>
-                        {headingData.map((heading) => (
-                            <th key={heading.id}>{heading.fuel}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(bodyData).map((key) => (
-                        <tr key={key}>
-                            {headingData.map((heading, index) => {
-                                const rowItem = bodyData[key].find(
-                                    (item) => item.id === heading.id
-                                );
-                                if (!rowItem) return <td key={heading.id}>—</td>;
-
-                                return (
-                                    <>
-                                        {index == 0 && (
-                                            <>
-                                                <input
-                                                    type="date"
-                                                    value={rowItem.date}
-                                                    onChange={(e) =>
-                                                        handleInputChange(
-                                                            key,
-                                                            rowItem.id,
-                                                            "date",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </>
-                                        )}
-                                        {index == 1 && (
-                                            <>
-                                                <span>sadgasdjsagdgasduk</span>
-                                            </>
-                                        )}
-
-                                        <td key={heading.id}>
-                                            {heading.fuel === "date" ? (
-                                                <>
-                                                    <input
-                                                        type="date"
-                                                        value={rowItem.date}
-                                                        onChange={(e) =>
-                                                            handleInputChange(
-                                                                key,
-                                                                rowItem.id,
-                                                                "date",
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-
-                                                    <input
-                                                        type="number"
-                                                        value={2222222}
-                                                        onChange={(e) =>
-                                                            handleInputChange(
-                                                                key,
-                                                                rowItem.id,
-                                                                "price",
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        step="0.01" // Allows two decimal places for the price
-                                                    />
-                                                </>
-                                            ) : heading.fuel === "time" ? (
-                                                <input
-                                                    type="time"
-                                                    value={rowItem.time}
-                                                    onChange={(e) =>
-                                                        handleInputChange(
-                                                            key,
-                                                            rowItem.id,
-                                                            "time",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            ) : (
-                                                <input
-                                                    type="number"
-                                                    value={rowItem.price}
-                                                    onChange={(e) =>
-                                                        handleInputChange(
-                                                            key,
-                                                            rowItem.id,
-                                                            "price",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    step="0.01" // Allows two decimal places for the price
-                                                />
-                                            )}
-                                        </td>
-                                    </>
-                                );
-                            })}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        );
-    };
-
-    const [validationSchema, setValidationSchema] = useState(
-        Yup.object().shape({})
-    );
-
     useEffect(() => {
         async function fetchData() {
-            const unstructuredata = {
-                head_array: [
-                    "Unleaded",
-                    "Super Unleaded",
-                    "Diesel",
-                    "Super Diesel",
-                    "Adblue",
-                ],
-                listing: [
-                    {
-                        id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-                        site_name: "Amersham",
-                        fuels: [
-                            // Unleaded array
-                            [
-                                {
-                                    id: "U1d1WlFtYnpyVE8wNUR1cW4vR1RsUT09",
-                                    name: "Unleaded",
-                                    time: "00:00",
-                                    price: "1.429",
-                                    prev_price: 1.429,
-                                    date: "2024-09-02 00:00:00",
-                                    prev_date: "2024-09-01 00:00:00",
-                                    is_editable: true,
-                                    status: "SAME",
-                                },
-                                // More Unleaded entries...
-                            ],
-                            // Super Unleaded array
-                            // [
-                            //     {
-                            //         id: "aXgwdmE4cms5ZFRMVXRCMEN6Z1hLQT09",
-                            //         name: "Super Unleaded",
-                            //         time: "00:00",
-                            //         price: "1.629",
-                            //         prev_price: 1.629,
-                            //         date: "2024-09-02 00:00:00",
-                            //         prev_date: "2024-09-01 00:00:00",
-                            //         is_editable: true,
-                            //         status: "SAME",
-                            //     },
-                            //     // More Super Unleaded entries...
-                            // ],
-                            // [
-                            //     {
-                            //         id: "aXgwdmE4cms5ZFRMVXRCMEN6Z1hLQT09",
-                            //         name: "Diesel",
-                            //         time: "00:00",
-                            //         price: "1.629",
-                            //         prev_price: 1.629,
-                            //         date: "2024-09-02 00:00:00",
-                            //         prev_date: "2024-09-01 00:00:00",
-                            //         is_editable: true,
-                            //         status: "SAME",
-                            //     },
-                            //     // More Super Unleaded entries...
-                            // ],
-                            // [
-                            //     {
-                            //         id: "aXgwdmE4cms5ZFRMVXRCMEN6Z1hLQT09",
-                            //         name: "Super Diesel",
-                            //         time: "00:00",
-                            //         price: "1.629",
-                            //         prev_price: 1.629,
-                            //         date: "2024-09-02 00:00:00",
-                            //         prev_date: "2024-09-01 00:00:00",
-                            //         is_editable: true,
-                            //         status: "SAME",
-                            //     },
-                            //     // More Super Unleaded entries...
-                            // ],
-                            // [
-                            //     {
-                            //         id: "aXgwdmE4cms5ZFRMVXRCMEN6Z1hLQT09",
-                            //         name: "Adblue",
-                            //         time: "00:00",
-                            //         price: "1.629",
-                            //         prev_price: 1.629,
-                            //         date: "2024-09-02 00:00:00",
-                            //         prev_date: "2024-09-01 00:00:00",
-                            //         is_editable: true,
-                            //         status: "SAME",
-                            //     },
-                            //     // More Super Unleaded entries...
-                            // ],
-                            // More fuel types...
-                        ],
-                    },
-                ],
-                btn_clickable: true,
-                notify_operator: false,
-                update_tlm_price: 0,
-            };
 
-            const restructuredData = {
-                site_name: unstructuredata?.listing[0].site_name,
-                fuels: unstructuredata?.head_array.map((fuelName, index) => ({
-                    name: fuelName,
-                    entries: unstructuredata?.listing[0].fuels[index],
-                })),
-                btn_clickable: unstructuredata?.btn_clickable,
-                notify_operator: unstructuredata?.notify_operator,
-                update_tlm_price: unstructuredata?.update_tlm_price,
-            };
 
-            //   const data = {
-            //     columns: [
-            //       "time",
-            //       "petrol Type",
-            //       "fuel Type",
-            //       "petrol Type2",
-            //       "fuel Type3",
-            //     ],
-            //     rows: [
-            //       {
-            //         id: uuidv4(),
-            //         time: "08:00",
-            //         "petrol Type": "Diesel",
-            //         "fuel Type": "Type A",
-            //         "petrol Type2": "Diesel",
-            //         "fuel Type3": "Type A",
-            //       },
-            //       {
-            //         id: uuidv4(),
-            //         time: "10:00",
-            //         "petrol Type": "Petrol",
-            //         "fuel Type": "Type B",
-            //         "petrol Type2": "Diesel",
-            //         "fuel Type3": "Type A",
-            //       },
-            //     ],
-            //   };
             const data = {
                 columns: [
                     "date",
@@ -1071,36 +403,15 @@ const UpdateFuelPrices = (props) => {
                     )
                 ),
             });
-            setValidationSchema(dynamicValidationSchema);
+            // setValidationSchema(dynamicValidationSchema);
         }
         fetchData();
     }, []);
 
-    const addNewRow = () => {
-        const lastRow = formik.values.rows[formik.values.rows.length - 1];
-
-        const newRow = formik.values.columns.reduce(
-            (acc, column) => {
-                acc[column] = lastRow ? lastRow[column] : ""; // Copy values from the last row or use empty string if no last row
-                return acc;
-            },
-            { id: uuidv4() }
-        );
-
-        formik.setFieldValue("rows", [...formik.values.rows, newRow]);
-    };
-
-    const removeRow = (id) => {
-        const updatedRows = formik.values.rows.filter((row) => row.id !== id);
-        formik.setFieldValue("rows", updatedRows);
-    };
-
-    console.log(formik?.values, "formik valuesssss");
-
     return (
         <>
             {isLoading ? <Loaderimg /> : null}
-            <div className="overflow-container" style={containerStyles}>
+            <div className="overflow-container" >
                 {modalOpen && (
                     <>
                         <CustomModal
@@ -1143,50 +454,7 @@ const UpdateFuelPrices = (props) => {
                     </div>
                 </div>
 
-                {/* <div>
-                    <h2>Update Fuel Price Listing</h2>
-                    <table border="1">
-                        <thead>
-                            <tr>
 
-                                {fuelTable.headings.map((heading) => (
-                                    <th key={heading.id}>{heading.fuel}</th>
-                                ))}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {Object.keys(fuelTable.listingPrices).map((listIndex) => (
-                                <tr key={listIndex}>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            value={fuelTable.listingPrices[listIndex][0].date}
-                                            onChange={(e) => handleInputChangee(listIndex, 0, 'date', e.target.value)}
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            value={fuelTable.listingPrices[listIndex][0].time}
-                                            onChange={(e) => handleInputChangee(listIndex, 0, 'time', e.target.value)}
-                                        />
-                                    </td>
-                                    {fuelTable.listingPrices[listIndex].map((item, itemIndex) => (
-                                        <td key={item.id}>
-                                            <input
-                                                type="text"
-                                                value={item.price}
-                                                onChange={(e) => handleInputChangee(listIndex, itemIndex, 'price', e.target.value)}
-                                                readOnly={item.flag}
-                                            />
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div> */}
 
                 <Row>
                     <Col md={12} xl={12}>
@@ -1261,11 +529,7 @@ const UpdateFuelPrices = (props) => {
                             </Card.Header>
                             <Card.Body>
                                 <form onSubmit={formik.handleSubmit}>
-                                    {/* <div className="text-end">
-                        <button className="  btn btn-primary" type="button" onClick={addNewRow}>
-                            Add Row
-                        </button>
-                    </div> */}
+
 
                                     <table className="w-100">
                                         <thead className="w-100">
@@ -1275,7 +539,6 @@ const UpdateFuelPrices = (props) => {
                                                         {column.charAt(0).toUpperCase() + column.slice(1)}
                                                     </th>
                                                 ))}
-                                                {/* <th>Actions</th> */}
                                             </tr>
                                         </thead>
 
