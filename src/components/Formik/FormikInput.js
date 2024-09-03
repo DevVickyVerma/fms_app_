@@ -135,7 +135,7 @@ const FormikInput = ({
 
     return (
         <div className='form-group'>
-            <label htmlFor={name} className="form-label mt-4">
+            <label htmlFor={name} className="mb-2">
                 {dynamicLabel}
                 {isRequired && <span className="text-danger">*</span>}
             </label>

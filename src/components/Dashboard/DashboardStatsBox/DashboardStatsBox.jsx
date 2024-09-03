@@ -13,6 +13,7 @@ const DashboardStatsBox = (props) => {
     FuelValue,
     shopsale,
     searchdata,
+    dashboardData
   } = props;
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -24,14 +25,37 @@ const DashboardStatsBox = (props) => {
       setPermissionsArray(UserPermissions?.permissions);
     }
   }, [UserPermissions]);
+
+
+
   const isDetailPermissionAvailable =
     permissionsArray?.includes("dashboard-details");
   const navigate = useNavigate();
 
+  // const handleNavigateClick = () => {
+  //   let ApplyFilterrequired = UserPermissions?.applyFilter;
+
+  //   // if (searchdata && Object.keys(searchdata).length > 0) {
+  //   //   // Set ApplyFilterrequired to false if searchdata has keys
+  //   //   ApplyFilterrequired = false;
+  //   // }
+
+  //   // if (ApplyFilterrequired && isDetailPermissionAvailable) {
+  //   //   navigate(`/dashboard-details`);
+  //   // }
+
+  //   if (isDetailPermissionAvailable) {
+  //     navigate(`/dashboard-details`);
+  //   }
+  //   // else if (!ApplyFilterrequired && isDetailPermissionAvailable) {
+  //   // } else if (!ApplyFilterrequired && !isDetailPermissionAvailable) {
+  //   // }
+  // };
+
   const handleNavigateClick = () => {
     let ApplyFilterrequired = UserPermissions?.applyFilter;
 
-    if (searchdata && Object.keys(searchdata).length > 0) {
+    if (dashboardData && Object?.keys(dashboardData)?.length > 0) {
       // Set ApplyFilterrequired to false if searchdata has keys
       ApplyFilterrequired = false;
     }
@@ -40,7 +64,6 @@ const DashboardStatsBox = (props) => {
     } else if (!ApplyFilterrequired && isDetailPermissionAvailable) {
       navigate(`/dashboard-details`);
     } else if (!ApplyFilterrequired && !isDetailPermissionAvailable) {
-
     }
   };
 

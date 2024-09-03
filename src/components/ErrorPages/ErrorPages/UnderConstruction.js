@@ -17,10 +17,12 @@ const UnderConstruction = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+
   const GetDetails = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`/detail`);
+      const response = await getData(`/detail`);
       if (response) {
         navigate(response?.data?.data?.route);
         setLoading(false);
@@ -30,9 +32,12 @@ const UnderConstruction = (props) => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     GetDetails();
   }, []);
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

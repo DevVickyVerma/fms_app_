@@ -51,7 +51,7 @@ const DynamicTableForm = () => {
 
 
 
-    console.log(formik?.values);
+    // console.log(formik?.values);
 
     return (
         <form onSubmit={formik.handleSubmit}>

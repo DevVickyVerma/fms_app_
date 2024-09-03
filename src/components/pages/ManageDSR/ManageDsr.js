@@ -39,6 +39,7 @@ import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
 import { handleError } from "../../../Utils/ToastUtils";
+import NewFilterTab from "../Filtermodal/NewFilterTab";
 
 
 
@@ -243,9 +244,13 @@ const ManageDsr = (props) => {
       if (result.isConfirmed) {
         const token = localStorage.getItem("token");
 
+
+        let parshedData = JSON.parse(storedData);
+
+
         const formData = new FormData();
-        formData.append("site_id", SiteId);
-        formData.append("drs_date", DRSDate);
+        formData.append("site_id", parshedData?.site_id);
+        formData.append("drs_date", parshedData?.start_date);
 
         const DeleteRole = async () => {
           try {
@@ -255,14 +260,14 @@ const ManageDsr = (props) => {
               formData
             );
             if (responseForDelete?.api_response == "success") {
-              const current = {
-                client_id: PropsClientId,
-                company_id: PropsCompanyId,
-                site_id: SiteId,
-                start_date: DRSDate,
-              };
+              // const current = {
+              //   client_id: PropsClientId,
+              //   company_id: PropsCompanyId,
+              //   site_id: SiteId,
+              //   start_date: DRSDate,
+              // };
 
-              GetDataWithClient(current);
+              GetDataWithClient(parshedData);
               Swal.fire({
                 title: "Deleted!",
                 text: "Your item has been deleted.",
@@ -294,32 +299,32 @@ const ManageDsr = (props) => {
     }
   };
 
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-    if (localStorage.getItem("dailyWorkFlowInput")) {
-      let parsedDataFromLocal = JSON.parse(
-        localStorage.getItem("dailyWorkFlowInput")
-      )
-        ? JSON.parse(localStorage.getItem("dailyWorkFlowInput"))
-        : "null";
+  // useEffect(() => {
+  //   const clientId = localStorage.getItem("superiorId");
+  //   if (localStorage.getItem("dailyWorkFlowInput")) {
+  //     let parsedDataFromLocal = JSON.parse(
+  //       localStorage.getItem("dailyWorkFlowInput")
+  //     )
+  //       ? JSON.parse(localStorage.getItem("dailyWorkFlowInput"))
+  //       : "null";
 
-      formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "");
-      formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "");
-      formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "");
-      formik.setFieldValue("start_date", parsedDataFromLocal?.start_date || "");
-      setSiteId(parsedDataFromLocal?.site_id);
-      setDRSDate(parsedDataFromLocal?.start_date);
-      GetCompanyList(
-        parsedDataFromLocal?.client_id
-          ? parsedDataFromLocal?.client_id
-          : clientId
-      );
-      GetSiteList(
-        parsedDataFromLocal?.company_id ? parsedDataFromLocal?.company_id : null
-      );
-      GetDataWithClient(parsedDataFromLocal);
-    }
-  }, []);
+  //     formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "");
+  //     formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "");
+  //     formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "");
+  //     formik.setFieldValue("start_date", parsedDataFromLocal?.start_date || "");
+  //     setSiteId(parsedDataFromLocal?.site_id);
+  //     setDRSDate(parsedDataFromLocal?.start_date);
+  //     GetCompanyList(
+  //       parsedDataFromLocal?.client_id
+  //         ? parsedDataFromLocal?.client_id
+  //         : clientId
+  //     );
+  //     GetSiteList(
+  //       parsedDataFromLocal?.company_id ? parsedDataFromLocal?.company_id : null
+  //     );
+  //     GetDataWithClient(parsedDataFromLocal);
+  //   }
+  // }, []);
 
   const GetDataHttech = (data) => {
     if (localStorage.getItem("dailyWorkFlowInput")) {
@@ -339,7 +344,7 @@ const ManageDsr = (props) => {
   };
 
   const GetDataWithClient = async (values) => {
-    localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values));
+    // localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values));
     try {
       const formData = new FormData();
 
@@ -360,7 +365,7 @@ const ManageDsr = (props) => {
         setPropsCompanyId(values.company_id);
 
         const response1 = await getData(
-          `/drs/modules/?site_id=${values.site_id}&drs_date=${values.start_date}`
+          `/drs/modules/?site_id=${values?.site_id}&drs_date=${values?.start_date}`
         );
 
         const { data } = response1;
@@ -457,7 +462,25 @@ const ManageDsr = (props) => {
     inputDateElement.showPicker();
   };
 
-  const validationSchema = Yup.object({
+  // const validationSchema = Yup.object({
+  //   company_id: Yup.string().required("Company is required"),
+  //   site_id: Yup.string().required("Site is required"),
+  //   start_date: Yup.date()
+  //     .required("Start Date is required")
+  //     .min(
+  //       new Date("2023-01-01"),
+  //       "Start Date cannot be before January 1, 2023"
+  //     )
+  //     .max(new Date(), "Start Date cannot be after the current date"),
+  // });
+
+
+
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const validationSchemaForCustomInput = Yup.object({
+    client_id: isNotClient
+      ? Yup.string().required("Client is required")
+      : Yup.mixed().notRequired(),
     company_id: Yup.string().required("Company is required"),
     site_id: Yup.string().required("Site is required"),
     start_date: Yup.date()
@@ -476,11 +499,14 @@ const ManageDsr = (props) => {
       site_id: "",
       start_date: "",
     },
-    validationSchema,
+    validationSchemaForCustomInput,
     onSubmit: (values) => {
       GetDataWithClient(values);
     },
   });
+
+
+
   const handleFormReset = () => {
     formik.resetForm(); // This will reset the form to its initial values
     setSelectedSiteList([]);
@@ -488,6 +514,8 @@ const ManageDsr = (props) => {
     setSelectedClientId("");
     localStorage.removeItem("dailyWorkFlowInput");
   };
+
+
   const handleSuccess = (message) => {
     setSuccessMessage(message);
     GetDataHttech();
@@ -499,8 +527,11 @@ const ManageDsr = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("site_id", PropsSiteId);
-      formData.append("drs_date", formik.values.start_date);
+      let parshedData = JSON.parse(storedData);
+
+      formData.append("site_id", parshedData?.site_id);
+      formData.append("drs_date", parshedData?.start_date);
+
 
       const postDataUrl = "/send-report/email";
 
@@ -509,6 +540,85 @@ const ManageDsr = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
+
+
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+  useEffect(() => {
+    if (storedData) {
+
+      let parshedData = JSON.parse(storedData);
+
+      if (parshedData?.start_date && parshedData?.site_id) {
+        GetDataWithClient(parshedData)
+      }
+      // handleApplyFilters(JSON.parse(storedData));
+    } else if (localStorage.getItem("superiorRole") === "Client") {
+      const storedClientIdData = localStorage.getItem("superiorId");
+
+      if (storedClientIdData) {
+        // fetchCompanyList(storedClientIdData)
+        const futurepriceLog = {
+          client_id: storedClientIdData,
+        };
+        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+        // handleApplyFilters(futurepriceLog);
+      }
+    }
+
+  }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
+
+
+  const handleApplyFilters = (values) => {
+    console.log(values, "submitted values");
+
+    if (values?.start_date) {
+      GetDataWithClient(values)
+    }
+
+  }
+
+  const handleClearForm = async (resetForm) => {
+
+    console.log("celared callled");
+
+
+    setUploadList();
+    setDataEnteryList();
+    setUploadTabname();
+    setgetDataBtn();
+    setUploadtitle();
+
+
+    // setData(null)
+    // formik.resetForm()
+    // formik.setFieldValue("site_id", "")
+    // formik.setFieldValue("start_date", "")
+    // formik.setFieldValue("client_id", "")
+    // formik.setFieldValue("company_id", "")
+    // formik.setFieldValue("endDate", "")
+    // formik.setFieldValue("startDate", "")
+    // formik.resetForm()
+    // setSelectedCompanyList([]);
+    // setSelectedClientId("");
+    // setCompanyList([])
+    // setData(null)
+    // localStorage.removeItem("fuelSellingPrice")
+    // const clientId = localStorage.getItem("superiorId");
+
+    // Check if the role is Client, then set the client_id and client_name from local storage
+
+    // if (localStorage.getItem("superiorRole") !== "Client") {
+    //   fetchCommonListData();
+    //   formik.setFieldValue("client_id", "")
+    //   setCompanyList([])
+    // } else {
+    //   setSelectedClientId(clientId);
+    //   GetCompanyList(clientId);
+    //   formik.setFieldValue("client_id", clientId)
+    // }
+  };
+
 
   return (
     <>
@@ -539,9 +649,34 @@ const ManageDsr = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
-              <Card.Body>
+
+
+
+              <NewFilterTab
+                getData={getData}
+                isLoading={isLoading}
+                isStatic={true}
+                onApplyFilters={handleApplyFilters}
+                handleSendEmail={handleSendEmail}
+                handleDeleteDRS={handleDelete}
+                validationSchema={validationSchemaForCustomInput}
+                storedKeyName={storedKeyName}
+                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+                lg="3"
+                showStationValidation={false}
+                showMonthInput={false}
+                showDateInput={true}
+                showStationInput={true}
+                showSendEmail={getDataBtn?.sendReportEmail && DataEnteryList}
+                showDRSDelete={isDeletePermissionAvailable && DataEnteryList}
+                ClearForm={handleClearForm}
+              />
+
+
+              {/* <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
+
                     <CustomClient
                       formik={formik}
                       lg={3}
@@ -608,8 +743,15 @@ const ManageDsr = (props) => {
                           )}
                       </div>
                     </Col>
+
                   </Row>
+
+
+
+
                   <div className="text-end">
+
+
                     {getDataBtn?.sendReportEmail && DataEnteryList ? (
                       <OverlayTrigger
                         placement="top"
@@ -626,6 +768,8 @@ const ManageDsr = (props) => {
                     ) : (
                       ""
                     )}
+
+
                     {isDeletePermissionAvailable && DataEnteryList ? (
                       <OverlayTrigger
                         placement="top"
@@ -653,6 +797,8 @@ const ManageDsr = (props) => {
                     ) : (
                       ""
                     )}
+
+
                     <Link
                       type="button"
                       className="btn btn-danger me-2"
@@ -665,7 +811,7 @@ const ManageDsr = (props) => {
                     </button>
                   </div>
                 </form>
-              </Card.Body>
+              </Card.Body> */}
             </Card>
           </Col>
         </Row>

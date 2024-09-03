@@ -46,7 +46,7 @@ const ManageSite = (props) => {
         }
 
         const response = await getData(
-          `/workflow/?${clientIDCondition}company_id=${values.company_id}`
+          `/workflow?${clientIDCondition}company_id=${values.company_id}`
         );
 
         const { data } = response;
@@ -210,6 +210,8 @@ const ManageSite = (props) => {
     },
   });
 
+
+
   const fetchCommonListData = async () => {
     try {
       const response = await getData("/common/client-list");
@@ -286,6 +288,35 @@ const ManageSite = (props) => {
   }, []);
 
 
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+  useEffect(() => {
+    if (storedData) {
+
+      let parshedData = JSON.parse(storedData);
+
+      if (parshedData?.start_date && parshedData?.site_id) {
+        handleSubmit1(parshedData)
+      }
+      // handleApplyFilters(JSON.parse(storedData));
+    } else if (localStorage.getItem("superiorRole") === "Client") {
+      const storedClientIdData = localStorage.getItem("superiorId");
+
+      if (storedClientIdData) {
+        // fetchCompanyList(storedClientIdData)
+        const futurepriceLog = {
+          client_id: storedClientIdData,
+        };
+        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+        // handleApplyFilters(futurepriceLog);
+      }
+    }
+
+  }, [, storedKeyName,]); // Add any other dependencies needed here
+
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -323,9 +354,6 @@ const ManageSite = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
-
-
-
                     <CustomClient
                       formik={formik}
                       lg={6}

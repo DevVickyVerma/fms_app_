@@ -191,11 +191,14 @@ const ManageClient = (props) => {
     isDeletePermissionAvailable ||
     isReportsPermissionAvailable;
 
+
+  let storedKeyName = "localFilterModalData";
   const handleClientLogin = async (row) => {
     try {
       const response = await getData(`/account-login/${row.id}`);
 
       if (response) {
+        localStorage.removeItem(storedKeyName)
         localStorage.setItem("token", response.data.data.access_token);
         navigate(UserPermissions?.route);
         const firstName = response.data.data.first_name ?? "";

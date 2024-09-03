@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
@@ -6,10 +6,8 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 
 const DashboardChildTable = (props) => {
-  const { isLoading, getData, searchdata } = props;
-
+  const { isLoading, getData, searchdata, data, setData } = props;
   const [permissionsArray, setPermissionsArray] = useState([]);
-
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
@@ -18,11 +16,9 @@ const DashboardChildTable = (props) => {
     }
   }, [UserPermissions]);
 
-  const isSitePermissionAvailable = permissionsArray?.includes(
-    "dashboard-site-detail"
-  );
+  const isSitePermissionAvailable = permissionsArray?.includes("dashboard-site-detail");
 
-  const [data, setData] = useState();
+  // const [data, setData] = useState();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
 
 
@@ -64,10 +60,19 @@ const DashboardChildTable = (props) => {
   };
 
   useEffect(() => {
-    FetchTableData();
-    setClientID(localStorage.getItem("superiorId"));
-    console.clear();
-  }, [searchdata]);
+    // callTableData() /
+  }, [])
+
+
+
+
+
+
+  // useEffect(() => {
+  //   FetchTableData();
+  //   setClientID(localStorage.getItem("superiorId"));
+  //   console.clear();
+  // }, [searchdata]);
 
   function handleSaveSingleSiteData(row) {
     const rowDataString = JSON.stringify(row);

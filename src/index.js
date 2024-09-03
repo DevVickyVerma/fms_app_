@@ -38,6 +38,7 @@ import SetFuelGrades from "./components/pages/ManageSite/SetFuelGrades";
 import FuturePriceLogs from "./components/pages/Emaillogs/FuturePriceLogs";
 import DashboardWetStock from "./components/Dashboard/DashboardWetStock/DashboardWetStock";
 import DummyPage from "./components/pages/DummyPage/DummyPage";
+import UpdateFuelPrices from "./components/pages/ManageFuelPrices/UpdateFuelPrices";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -668,6 +669,7 @@ const Root = () => {
   const WrappedEditItems = withApi(EditItems);
 
   const WrappedFUELPRICE = withApi(FUELPRICE);
+  const WrappedUpdateFuelPrices = withApi(UpdateFuelPrices);
   const WrappedFuelPurchasePrices = withApi(FuelPurchasePrices);
   const WrappedAddFuelPurchase = withApi(AddFuelPurchasePrices);
   const WrappedAssignmanneger = withApi(Assignmanneger);
@@ -1161,6 +1163,8 @@ const Root = () => {
                   {/* SitePump components start */}
 
                   <Route path={`/fuelprice`} element={<WrappedFUELPRICE />} />
+                  <Route path={`/update-fuel-price`} element={<WrappedUpdateFuelPrices />} />
+
                   <Route
                     path={`/competitor-fuel-price`}
                     element={<WrappedCompetitorFuelPrices />}

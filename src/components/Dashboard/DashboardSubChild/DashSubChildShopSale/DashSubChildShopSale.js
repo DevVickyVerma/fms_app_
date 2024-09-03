@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Col,
@@ -10,7 +10,6 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { AiFillEye } from "react-icons/ai";
-import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../../Utils/Loader";
@@ -25,7 +24,7 @@ import { DateRangePicker } from "react-date-range";
 import withApi from "../../../../Utils/ApiHelper";
 import { useMyContext } from "../../../../Utils/MyContext";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
+import { handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
 import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
 
 const DashSubChildShopSale = ({
@@ -284,34 +283,27 @@ const DashSubChildShopSale = ({
 
   const fetchData = async (values) => {
     setGradsLoading(true);
-    try {
-      if (localStorage.getItem("Dashboardsitestats") === "true") {
-        try {
-          // Attempt to parse JSON data from local storage
-          const searchdata = await JSON.parse(
-            localStorage.getItem("mySearchData")
-          );
-          const superiorRole = localStorage.getItem("superiorRole");
-          const role = localStorage.getItem("role");
-          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-          let companyId = ""; // Define companyId outside the conditionals
 
-          if (superiorRole === "Client" && role !== "Client") {
-            // Set companyId based on conditions
-            companyId =
-              searchdata?.company_id !== undefined
-                ? searchdata.company_id
-                : localStoragecompanyId;
-          } else {
-            companyId =
-              searchdata?.company_id !== undefined ? searchdata.company_id : "";
-          }
+    const storedData = localStorage.getItem("localFilterModalData");
+    const parshedData = JSON.parse(storedData);
+
+    let { client_id, company_id, site_id, client_name } = parshedData;
+
+    // Check if the role is Client, then set the client_id and client_name from local storage
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = localStorage.getItem("superiorId");
+      client_name = localStorage.getItem("First_name");
+    }
+
+    try {
+      if (parshedData) {
+        try {
 
           // Use async/await to fetch data
           const response3 = await getData(
             localStorage.getItem("superiorRole") !== "Client"
-              ? `/dashboard/get-site-shop-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}&end_date=${endDate}&start_date=${startDate}`
-              : `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}&end_date=${endDate}&start_date=${startDate}`
+              ? `/dashboard/get-site-shop-details?client_id=${client_id}&company_id=${company_id}&site_id=${id}&end_date=${endDate}&start_date=${startDate}`
+              : `/dashboard/get-site-shop-details?client_id=${client_id}&company_id=${company_id}&site_id=${id}&end_date=${endDate}&start_date=${startDate}`
           );
           setStartDatePath(startDate);
           setEndDatePath(endDate);
@@ -339,8 +331,19 @@ const DashSubChildShopSale = ({
 
   const ResetForm = async (values) => {
     setGradsLoading(true);
+
+    const storedData = localStorage.getItem("localFilterModalData");
+    const parshedData = JSON.parse(storedData);
+
+    let { client_id, company_id, site_id, client_name } = parshedData;
+
+    // Check if the role is Client, then set the client_id and client_name from local storage
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = localStorage.getItem("superiorId");
+      client_name = localStorage.getItem("First_name");
+    }
     try {
-      if (localStorage.getItem("Dashboardsitestats") === "true") {
+      if (parshedData) {
         try {
           // Attempt to parse JSON data from local storage
           const searchdata = await JSON.parse(
@@ -365,8 +368,8 @@ const DashSubChildShopSale = ({
           // Use async/await to fetch data
           const response3 = await getData(
             localStorage.getItem("superiorRole") !== "Client"
-              ? `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
-              : `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
+              ? `/dashboard/get-site-shop-details?client_id=${client_id}&company_id=${company_id}&site_id=${id}`
+              : `/dashboard/get-site-shop-details?client_id=${client_id}&company_id=${company_id}&site_id=${id}`
           );
           setStartDatePath(startDate);
           setEndDatePath(endDate);
@@ -391,6 +394,8 @@ const DashSubChildShopSale = ({
     }
     setGradsLoading(false);
   };
+
+
   return (
     <>
       {isLoading || gradsLoading ? <Loaderimg /> : ""}
