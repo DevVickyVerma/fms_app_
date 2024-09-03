@@ -1209,6 +1209,7 @@ const UpdateFuelPrices = (props) => {
                                 showMonthInput={false}
                                 showStationInput={true}
                                 ClearForm={handleClearForm}
+                                showResetBtn={false}
                             />
                         </Card>
                     </Col>
@@ -1224,7 +1225,18 @@ const UpdateFuelPrices = (props) => {
                             <Card.Header>
                                 <h3 className="card-title w-100 ">
                                     <div className=" d-flex w-100 justify-content-between align-items-center">
-                                        <span>Update Fuel Price (10-12-2024, 10:24 AM)</span>
+                                        <div>
+                                            <span>Update {getCompetitorsPrice
+                                                ? getCompetitorsPrice?.siteName
+                                                : " "} {" Fuel "} Price (10-12-2024, 10:24 AM)
+                                            </span>
+                                            <span className=" d-flex pt-1 align-items-center" style={{ fontSize: "12px" }}>
+                                                <span className="greenboxx me-2 "> </span>
+                                                <span className="text-mute">
+                                                    Current Price
+                                                </span>
+                                            </span>
+                                        </div>
 
                                         {formik?.values?.client_id &&
                                             formik?.values?.company_id &&
@@ -1250,8 +1262,8 @@ const UpdateFuelPrices = (props) => {
                         </button>
                     </div> */}
 
-                                    <table>
-                                        <thead>
+                                    <table className="w-100">
+                                        <thead className="w-100">
                                             <tr>
                                                 {formik.values.columns.map((column, index) => (
                                                     <th key={index}>
@@ -1262,7 +1274,7 @@ const UpdateFuelPrices = (props) => {
                                             </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody className="w-100">
                                             {formik.values.rows.map((row, rowIndex) => (
                                                 <tr className="middayModal-tr" key={row.id}>
                                                     {formik.values.columns.map((column, colIndex) => (

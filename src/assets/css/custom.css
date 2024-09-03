@@ -1862,3 +1862,10 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 .fuel-readonly {
   background-color: #1c8b3359 !important;
 }
+
+.greenboxx {
+  width: 15px;
+  display: block;
+  height: 15px;
+  background-color: #1c8b3359;
+}

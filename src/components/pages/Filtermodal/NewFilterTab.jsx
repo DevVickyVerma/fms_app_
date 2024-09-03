@@ -27,6 +27,7 @@ const NewFilterTab = ({
     showDateInput = true,
     showSendEmail = false,
     showDRSDelete = false,
+    showResetBtn = true,
     validationSchema,
     storedKeyName,
     layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5',
@@ -310,13 +311,17 @@ const NewFilterTab = ({
                                 )}
 
 
-                                <button
-                                    className="btn btn-danger me-2"
-                                    type="btn"
-                                    onClick={handleClearForm}
-                                >
-                                    Reset
-                                </button>
+                                {showResetBtn && (<>
+                                    <button
+                                        className="btn btn-danger me-2"
+                                        type="btn"
+                                        onClick={handleClearForm}
+                                    >
+                                        Reset
+                                    </button>
+
+                                </>)}
+
 
 
                                 <button
