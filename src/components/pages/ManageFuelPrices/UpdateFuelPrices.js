@@ -102,9 +102,9 @@ const UpdateFuelPrices = (props) => {
                 const response = await getData(
                     `site/competitor-price/stats?${queryString}`
                 );
-                const response2 = await getData(
-                    `site/fuel-price/mid-day?${queryString}`
-                );
+                // const response2 = await getData(
+                //     `site/fuel-price/mid-day?${queryString}`
+                // );
                 if (response && response.data && response.data.data) {
                     setGetCompetitorsPrice(response?.data?.data);
                 }
