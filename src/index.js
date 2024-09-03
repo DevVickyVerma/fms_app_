@@ -1163,7 +1163,7 @@ const Root = () => {
                   {/* SitePump components start */}
 
                   <Route path={`/fuelprice`} element={<WrappedFUELPRICE />} />
-                  <Route path={`/update-fuel-price`} element={<WrappedUpdateFuelPrices />} />
+                  <Route path={`/update-fuel-price/:id`} element={<WrappedUpdateFuelPrices />} />
 
                   <Route
                     path={`/competitor-fuel-price`}

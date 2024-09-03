@@ -654,7 +654,8 @@ const FuelPrices = (props) => {
                                         ? "text-muted fs-15 fw-semibold  flex-grow-1 "
                                         : "text-muted fs-15 fw-semibold  flex-grow-1"
                                     }
-                                    onClick={item?.link_clickable && item?.count > 0 ? () => handleModalOpen(item) : null}
+                                    // onClick={item?.link_clickable && item?.count > 0 ? () => handleModalOpen(item) : null}
+                                    onClick={() => navigate(`/update-fuel-price/${item?.id}`)}
                                   >
                                     {item?.site_name} <span className="itemcount ">
                                       <span className=" d-flex justify-content-center">
