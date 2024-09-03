@@ -102,6 +102,9 @@ const UpdateFuelPrices = (props) => {
                 const response = await getData(
                     `site/competitor-price/stats?${queryString}`
                 );
+                const response2 = await getData(
+                    `site/fuel-price/mid-day?${queryString}`
+                );
                 if (response && response.data && response.data.data) {
                     setGetCompetitorsPrice(response?.data?.data);
                 }
@@ -1235,10 +1238,10 @@ const UpdateFuelPrices = (props) => {
                                                 <span className="text-mute">
                                                     Current Price
                                                 </span>
-                                                <span className="Readonlyboxx me-2 ms-2 "> </span>
+                                                {/* <span className="Readonlyboxx me-2 ms-2 "> </span>
                                                 <span className="text-mute">
-                                                   ReadOnly input
-                                                </span>
+                                                    ReadOnly input
+                                                </span> */}
                                             </span>
                                         </div>
 
