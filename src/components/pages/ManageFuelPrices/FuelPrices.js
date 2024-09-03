@@ -473,6 +473,45 @@ const FuelPrices = (props) => {
 
 
 
+  const handleFuelPriceLinkClick = (id) => {
+    const futurepriceLog = {
+      client_id: formik?.values?.client_id,
+      company_id: formik?.values?.company_id,
+    };
+
+
+    let storedKeyName = "localFilterModalData";
+    const storedData = localStorage.getItem(storedKeyName);
+
+
+    if (storedData) {
+      let updatedStoredData = JSON.parse(storedData);
+
+      // updatedStoredData = JSON.parse(storedData);
+      updatedStoredData.site_id = id; // Update the site_id here
+
+      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+      // localStorage.setItem(storedKeyName, updatedStoredData)
+      handleApplyFilters(updatedStoredData);
+
+      // localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData))
+    } else if (localStorage.getItem("superiorRole") === "Client") {
+      const storedClientIdData = localStorage.getItem("superiorId");
+
+      if (storedClientIdData) {
+        // fetchCompanyList(storedClientIdData)
+        const futurepriceLog = {
+          client_id: storedClientIdData,
+        };
+        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+        handleApplyFilters(futurepriceLog);
+      }
+    }
+    navigate(`/update-fuel-price/${id}`);
+  };
+
+
+
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
 
@@ -551,6 +590,9 @@ const FuelPrices = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
+              <Card.Header>
+                <h3 className="card-title"> Fuel Price </h3>
+              </Card.Header>
 
               <NewFilterTab
                 getData={getData}
@@ -655,7 +697,9 @@ const FuelPrices = (props) => {
                                         : "text-muted fs-15 fw-semibold  flex-grow-1"
                                     }
                                     // onClick={item?.link_clickable && item?.count > 0 ? () => handleModalOpen(item) : null}
-                                    onClick={() => navigate(`/update-fuel-price/${item?.id}`)}
+                                    // onClick={() => navigate(`/update-fuel-price/${item?.id}`)}
+                                    onClick={() => handleFuelPriceLinkClick(item?.id)}
+
                                   >
                                     {item?.site_name} <span className="itemcount ">
                                       <span className=" d-flex justify-content-center">
