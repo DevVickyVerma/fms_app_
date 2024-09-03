@@ -10,15 +10,21 @@ import { Box } from "@material-ui/core";
 import { useMyContext } from "../../Utils/MyContext";
 import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
-import { Button, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
 import { initialState, reducer } from "../../Utils/CustomReducer";
 import NewDashboardFilterModal from "../pages/Filtermodal/NewDashboardFilterModal";
-import * as Yup from 'yup';
-
-
+import * as Yup from "yup";
+import DashboardStatCard from "./DashboardStatCard";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -34,9 +40,9 @@ const Dashboard = (props) => {
   const [dashboardData, setDashboardData] = useState();
 
   const [filters, setFilters] = useState({
-    client_id: '',
-    company_id: '',
-    site_id: '',
+    client_id: "",
+    company_id: "",
+    site_id: "",
   });
 
   const [myclientID, setMyClientID] = useState(
@@ -116,8 +122,9 @@ const Dashboard = (props) => {
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role !== "Client") {
-        url = `dashboard/stats?client_id=${clientId == null ? "" : clientId
-          }&company_id=${companyId == null ? "" : companyId}`;
+        url = `dashboard/stats?client_id=${
+          clientId == null ? "" : clientId
+        }&company_id=${companyId == null ? "" : companyId}`;
         // Corrected: Use JSON.stringify to convert the object to a JSON string
         localStorage.setItem(
           "mySearchData",
@@ -135,7 +142,7 @@ const Dashboard = (props) => {
       const { data } = response;
 
       setMyClientID(localStorage.getItem("superiorId"));
-      setCenterFilterModalOpen(false)
+      setCenterFilterModalOpen(false);
       if (data) {
         reducerDispatch({
           type: "UPDATE_DATA",
@@ -241,12 +248,16 @@ const Dashboard = (props) => {
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${clientId == null ? " " : clientId
-          }&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id
-          }`
-          : `dashboard/stats?client_id=${clientId == null ? " " : clientId
-          }&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id
-          }`
+          ? `dashboard/stats?client_id=${
+              clientId == null ? " " : clientId
+            }&company_id=${companyId == null ? "" : companyId}&site_id=${
+              values.site_id
+            }`
+          : `dashboard/stats?client_id=${
+              clientId == null ? " " : clientId
+            }&company_id=${companyId == null ? "" : companyId}&site_id=${
+              values.site_id
+            }`
       );
 
       const { data } = response;
@@ -321,7 +332,6 @@ const Dashboard = (props) => {
     //  console.clear();
   }, [UserPermissions, permissionsArray]);
 
-
   const isStatusPermissionAvailable =
     permissionsArray?.includes("dashboard-view");
 
@@ -341,7 +351,9 @@ const Dashboard = (props) => {
   const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
 
   let storedKeyName = "localFilterModalData";
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -351,9 +363,8 @@ const Dashboard = (props) => {
 
   const handleApplyFilters = (values) => {
     console.log(values, "submitted values");
-    callFetchFilterData(values)
-  }
-
+    callFetchFilterData(values);
+  };
 
   const callFetchFilterData = async (filters) => {
     let { client_id, company_id, site_id, client_name } = filters;
@@ -368,24 +379,23 @@ const Dashboard = (props) => {
     const updatedFilters = {
       ...filters,
       client_id,
-      client_name
+      client_name,
     };
-
 
     if (client_id) {
       try {
         const queryParams = new URLSearchParams();
-        if (client_id) queryParams.append('client_id', client_id);
-        if (company_id) queryParams.append('company_id', company_id);
-        if (site_id) queryParams.append('site_id', site_id);
+        if (client_id) queryParams.append("client_id", client_id);
+        if (company_id) queryParams.append("company_id", company_id);
+        if (site_id) queryParams.append("site_id", site_id);
 
         const queryString = queryParams.toString();
         const response = await getData(`dashboard/stats?${queryString}`);
         if (response && response.data && response.data.data) {
-          setDashboardData(response?.data?.data)
+          setDashboardData(response?.data?.data);
 
-          setFilters(updatedFilters)
-          setCenterFilterModalOpen(false)
+          setFilters(updatedFilters);
+          setCenterFilterModalOpen(false);
           setShouldNavigateToDetailsPage(true);
           const { data } = response;
 
@@ -412,18 +422,16 @@ const Dashboard = (props) => {
         }
         // setData(response.data);
       } catch (error) {
-        handleError(error)
+        handleError(error);
       } finally {
       }
     }
   };
 
-
-
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
-    setFilters(null)
-    setDashboardData(null)
+    setFilters(null);
+    setDashboardData(null);
     reducerDispatch({
       type: "RESET_STATE",
     });
@@ -432,7 +440,6 @@ const Dashboard = (props) => {
   const storedData = localStorage.getItem(storedKeyName);
 
   useEffect(() => {
-
     if (storedData) {
       handleApplyFilters(JSON.parse(storedData));
     } else if (localStorage.getItem("superiorRole") === "Client") {
@@ -447,24 +454,19 @@ const Dashboard = (props) => {
         handleApplyFilters(futurepriceLog);
       }
     }
+  }, [dispatch, storedKeyName]); // Add any other dependencies needed here
 
-  }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
+  const [ShowLiveData, setShowLiveData] = useState(false);
 
-
-  console.log(dashboardData, "dashboardData");
-
-
-
-
-
-
+  const handleShowLive = () => {
+    setShowLiveData((prevState) => !prevState); // Toggle the state
+  };
   return (
     <>
       {isLoading || isLoadingState ? <Loaderimg /> : null}
 
-
       {centerFilterModalOpen && (
-        <div className=''>
+        <div className="">
           <NewDashboardFilterModal
             isOpen={centerFilterModalOpen}
             onClose={() => setCenterFilterModalOpen(false)}
@@ -482,8 +484,8 @@ const Dashboard = (props) => {
         </div>
       )}
 
-
-      {!UserPermissions?.role == "Client" && !UserPermissions?.sms_balance < 3 ? (
+      {!UserPermissions?.role == "Client" &&
+      !UserPermissions?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -510,48 +512,51 @@ const Dashboard = (props) => {
         </div>
       ) : (
         ""
-      )
-      }
+      )}
 
-
-      <div className='d-flex justify-content-between align-items-center flex-wrap mb-5'>
+      <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
         <div className="">
-          <h2 className='page-title dashboard-page-title'>
-            Dashboard ({dashboardData?.dateString ? dashboardData?.dateString : UserPermissions?.dates})
+          <h2 className="page-title dashboard-page-title">
+            Dashboard (
+            {dashboardData?.dateString
+              ? dashboardData?.dateString
+              : UserPermissions?.dates}
+            )
           </h2>
         </div>
 
-
-        <div className=' d-flex gap-2 flex-wrap'>
+        <div className=" d-flex gap-2 flex-wrap">
           {filters?.client_id || filters?.company_id || filters?.site_id ? (
             <>
-              <div className="badges-container  d-flex flex-wrap align-items-center gap-2 px-4 py-sm-0 py-2 text-white" style={{ background: "#ddd" }}>
+              <div
+                className="badges-container  d-flex flex-wrap align-items-center gap-2 px-4 py-sm-0 py-2 text-white"
+                style={{ background: "#ddd" }}
+              >
                 {filters?.client_id && (
                   <div className="badge bg-blue-600  d-flex align-items-center gap-2 p-3 ">
-                    <span className="font-semibold">Client :</span> {filters?.client_name ? filters?.client_name : <>
-
-                    </>}
+                    <span className="font-semibold">Client :</span>{" "}
+                    {filters?.client_name ? filters?.client_name : <></>}
                   </div>
                 )}
 
                 {filters?.company_id && filters?.company_name && (
                   <div className="badge bg-green-600  d-flex align-items-center gap-2 p-3 ">
-                    <span className="font-semibold">Company : </span> {filters?.company_name}
+                    <span className="font-semibold">Company : </span>{" "}
+                    {filters?.company_name}
                   </div>
                 )}
 
                 {filters?.site_id && filters?.site_name && (
                   <div className="badge bg-red-600  d-flex align-items-center gap-2 p-3 ">
-                    <span className="font-semibold">Site :</span> {filters?.site_name}
+                    <span className="font-semibold">Site :</span>{" "}
+                    {filters?.site_name}
                   </div>
                 )}
               </div>
             </>
           ) : (
             <>
-
               <div className="d-flex m-auto">
-
                 <span className="p-2 badge bg-red-600  p-3">
                   *Please apply filter to see the stats
                 </span>
@@ -559,7 +564,11 @@ const Dashboard = (props) => {
             </>
           )}
 
-          <Button onClick={() => handleToggleSidebar1()} type="button" className="btn btn-primary ">
+          <Button
+            onClick={() => handleToggleSidebar1()}
+            type="button"
+            className="btn btn-primary "
+          >
             Filter
             <span className="">
               <SortIcon />
@@ -573,15 +582,13 @@ const Dashboard = (props) => {
               </span>
             </>
           ) : (
-            ''
+            ""
           )}
         </div>
       </div>
 
-
-
-
-      {!UserPermissions?.role == "Client" && !UserPermissions?.sms_balance < 3 ? (
+      {!UserPermissions?.role == "Client" &&
+      !UserPermissions?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -608,8 +615,7 @@ const Dashboard = (props) => {
         </div>
       ) : (
         ""
-      )
-      }
+      )}
 
       <div>
         {/* <Box
@@ -852,6 +858,26 @@ const Dashboard = (props) => {
           ""
         )} */}
 
+        <div className="mb-2 text-end">
+          <button className="  mb-2 btn btn-primary" onClick={handleShowLive}>
+      Live Margin
+            {/* {ShowLiveData ? " Live Data" : " Live Data"} */}
+          </button>
+        </div>
+
+        {ShowLiveData && (
+          <DashboardStatCard
+            isLoading={isLoading}
+            getData={getData}
+            title="Total Sales"
+            value="2323"
+            percentageChange="3%"
+            iconClass="icon icon-rocket text-white mb-5"
+            iconBgColor="bg-danger-gradient"
+            trendColor="text-primary"
+          />
+        )}
+
         <DashboardStatsBox
           GrossVolume={dashboardData?.gross_volume}
           shopmargin={dashboardData?.shop_profit}
@@ -866,171 +892,33 @@ const Dashboard = (props) => {
           dashboardData={dashboardData}
         />
 
-
-
-
-        <Row>
-          <Col lg={12} md={12} sm={12} xl={12}>
-            <Row>
-              <Col lg={6} md={12} sm={12} xl={3}>
-                <Card className=" overflow-hidden">
-                  <Card.Body className="card-body">
-                    <Row>
-                      <div className="col">
-                        <h6 className="">Total Sales</h6>
-                        <h3 className="mb-2 number-font">
-                          2323
-
-                          {/* <CountUp
-                            end={34516}
-                            separator=","
-                            start={0}
-                            duration={2.94}
-                          /> */}
-                        </h3>
-                        <p className="text-muted mb-0">
-                          <span className="text-primary me-1">
-                            <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                            <span>3% </span>
-                          </span>
-                          last month
-                        </p>
-                      </div>
-                      <div className="col col-auto">
-                        <div className="counter-icon bg-primary-gradient box-shadow-primary brround ms-auto">
-                          <i className="fe fe-trending-up text-white mb-5 "></i>
-                        </div>
-                      </div>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-xl-3">
-                <div className="card overflow-hidden">
-                  <div className="card-body">
-                    <Row>
-                      <div className="col">
-                        <h6 className="">Total Leads</h6>
-                        <h3 className="mb-2 number-font">
-                          sad {/* <CountUp
-                            end={56992}
-                            separator=","
-                            start={0}
-                            duration={2.94}
-                          /> */}
-                        </h3>
-                        <p className="text-muted mb-0">
-                          <span className="text-secondary me-1">
-                            <i className="fa fa-chevron-circle-up text-secondary me-1"></i>
-                            <span>3% </span>
-                          </span>
-                          last month
-                        </p>
-                      </div>
-                      <div className="col col-auto">
-                        <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                          <i className="icon icon-rocket text-white mb-5 "></i>
-                        </div>
-                      </div>
-                    </Row>
-                  </div>
-                </div>
-              </div>
-              <Col lg={6} md={12} sm={12} xl={3}>
-                <Card className="card overflow-hidden">
-                  <Card.Body className="card-body">
-                    <Row>
-                      <div className="col">
-                        <h6 className="">Total Profit</h6>
-                        <h3 className="mb-2 number-font">
-                          $ 3223
-                          {/* <CountUp
-                            end={42567}
-                            separator=","
-                            start={0}
-                            duration={2.94}
-                          /> */}
-                        </h3>
-                        <p className="text-muted mb-0">
-                          <span className="text-success me-1">
-                            <i className="fa fa-chevron-circle-down text-success me-1"></i>
-                            <span>0.5% </span>
-                          </span>
-                          last month
-                        </p>
-                      </div>
-                      <div className="col col-auto">
-                        <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
-                          <i className="fe fe-dollar-sign text-white mb-5 "></i>
-                        </div>
-                      </div>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col lg={6} md={12} sm={12} xl={3}>
-                <Card className=" overflow-hidden">
-                  <Card.Body className="card-body">
-                    <Row>
-                      <div className="col">
-                        <h6 className="">Total Cost</h6>
-                        <h3 className="mb-2 number-font">
-                          $ 2222
-                          {/* <CountUp
-                            end={34789}
-                            separator=","
-                            start={0}
-                            duration={2.94}
-                          /> */}
-                        </h3>
-                        <p className="text-muted mb-0">
-                          <span className="text-danger me-1">
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span>0.2% </span>
-                          </span>
-                          last month
-                        </p>
-                      </div>
-                      <div className="col col-auto">
-                        <div className="counter-icon bg-success-gradient box-shadow-success brround  ms-auto">
-                          <i className="fe fe-briefcase text-white mb-5 "></i>
-                        </div>
-                      </div>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
-          <Col
-            lg={8}
-          >
+          <Col lg={8}>
             <Card>
               <Card.Header className="card-header">
-                <h4 className="card-title" >
-                  Total Transactions
-                </h4>
+                <h4 className="card-title">Total Transactions</h4>
               </Card.Header>
-              <Card.Body className="card-body pb-0 
+              <Card.Body
+                className="card-body pb-0 
               
-              ">
+              "
+              >
                 {/* // dashboard-chart-height */}
                 {dashboardData?.line_graph && dashboardData?.line_graph ? (
                   <div id="chart">
                     <>
                       <StackedLineBarChart
-                        stackedLineBarData={dashboardData?.line_graph?.datasets || []}
-                        stackedLineBarLabels={dashboardData?.line_graph?.labels || []}
+                        stackedLineBarData={
+                          dashboardData?.line_graph?.datasets || []
+                        }
+                        stackedLineBarLabels={
+                          dashboardData?.line_graph?.labels || []
+                        }
                       />
                     </>
-
                   </div>
                 ) : (
                   <>
-
                     <div className=" h-100">
                       <img
                         src={require("../../assets/images/no-chart-img.png")}
@@ -1048,8 +936,6 @@ const Dashboard = (props) => {
                         Please Apply Filter To Visualize Chart.....
                       </p>
                     </div>
-
-
                   </>
                 )}
               </Card.Body>
@@ -1059,22 +945,23 @@ const Dashboard = (props) => {
           <Col lg={4}>
             <Card className=" pie-card-default-height">
               <Card.Header className="card-header">
-                <h4 className="card-title" >
-                  Overall Stats
-                </h4>
+                <h4 className="card-title">Overall Stats</h4>
               </Card.Header>
-              <Card.Body className="card-body pb-0 
+              <Card.Body
+                className="card-body pb-0 
               
-              ">
+              "
+              >
                 {/* // dashboard-chart-height */}
                 <div id="chart" className=" h-100">
                   {pie_chart_values ? (
                     <>
-                      <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
+                      <DashboardOverallStatsPieChart
+                        data={dashboardData?.pi_graph}
+                      />
                     </>
                   ) : (
                     <>
-
                       <img
                         src={require("../../assets/images/no-chart-img.png")}
                         alt="MyChartImage"
@@ -1109,7 +996,9 @@ const Dashboard = (props) => {
                 <div id="chart">
                   <DashboardMultiLineChart
                     LinechartValues={dashboardData?.d_line_graph?.series || []}
-                    LinechartOption={dashboardData?.d_line_graph?.option?.labels || []}
+                    LinechartOption={
+                      dashboardData?.d_line_graph?.option?.labels || []
+                    }
                   />
                 </div>
               </Card.Body>
@@ -1122,4 +1011,3 @@ const Dashboard = (props) => {
 };
 
 export default withApi(Dashboard);
-

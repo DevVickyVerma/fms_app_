@@ -835,6 +835,11 @@ p.f2a img {
   max-width: 350px;
   margin: auto;
 }
+.Liveimage {
+  max-height: 80px;
+  max-width: 80px;
+  margin: auto;
+}
 
 span.ModalTitle-2fa {
   font-size: 20px;
