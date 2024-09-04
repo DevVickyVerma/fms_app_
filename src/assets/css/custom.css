@@ -1659,7 +1659,7 @@ span.text-error {
 
 @media screen and (max-width: 990px) {
   .c-login-left-card {
-    display: none;
+    /* display: none; */
   }
 
   .c-login-right-card {

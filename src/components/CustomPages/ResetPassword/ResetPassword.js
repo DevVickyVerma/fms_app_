@@ -84,7 +84,7 @@ export default function ResetPassword() {
         {isLoading ? <LoaderImg /> : null}
 
         <Row>
-          <Col lg={7} sm={0} className="c-login-left-card">
+          {/* <Col lg={7} sm={0} className="c-login-left-card">
             <div className="page">
 
               <div className=" d-flex align-items-center justify-content-center">
@@ -95,10 +95,10 @@ export default function ResetPassword() {
                 />
               </div>
             </div>
-          </Col>
+          </Col> */}
 
 
-          <Col lg={5} sm={0} className="c-login-right-card">
+          <Col lg={12} sm={12} className="c-login-left-card">
             <div className="page">
               <div className="container-login100 d-flex justify-content-center">
 

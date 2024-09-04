@@ -57,7 +57,7 @@ export default function ForgotPassword() {
       {isLoading ? <Loaderimg /> : null}
 
       <Row>
-        <Col lg={7} sm={0} className="c-login-left-card">
+        {/* <Col lg={7} sm={0} className="c-login-left-card">
           <div className="page">
 
             <div className=" d-flex align-items-center justify-content-center">
@@ -68,12 +68,12 @@ export default function ForgotPassword() {
               />
             </div>
           </div>
-        </Col>
+        </Col> */}
 
 
-        <Col lg={5} sm={0} className="c-login-right-card">
+        <Col lg={12} sm={12} className="c-login-left-card">
           <div className="page">
-            <div className="container-login100 d-flex justify-content-center">
+            <div className="container-login100 p-0 d-flex justify-content-center">
 
               <div className="wrap-login100 p-0">
                 <div className="col col-login mx-auto">
@@ -81,7 +81,7 @@ export default function ForgotPassword() {
 
                   </div>
                 </div>
-                <div className="container-login100">
+                <div className="container-login100 p-0">
                   <Row>
                     <Col className=" col-login mx-auto">
                       <Formik
@@ -94,7 +94,7 @@ export default function ForgotPassword() {
                         }}
                       >
                         {({ errors, touched }) => (
-                          <Form className="card shadow-none " method="post">
+                          <Form className=" shadow-none p-0 m-0" method="post">
                             <Card.Body className="mx-auto">
                               <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"271px"} className="forgot-body">
                                 <div className="text-center ">
