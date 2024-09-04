@@ -117,6 +117,16 @@ const Dashboard = (props) => {
 
 
   const handleApplyFilters = (values) => {
+
+    if (!values?.start_date) {
+      // If start_date does not exist, set it to the current date
+      const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+      values.start_date = currentDate;
+
+      // Update the stored data with the new start_date
+      localStorage.setItem(storedKeyName, JSON.stringify(values));
+    }
+
     FetchFilterData(values);
   };
 
@@ -226,6 +236,9 @@ const Dashboard = (props) => {
   const handleShowLive = () => {
     setShowLiveData((prevState) => !prevState); // Toggle the state
   };
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

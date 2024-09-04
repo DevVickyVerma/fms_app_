@@ -37,6 +37,7 @@ import {
   AiFillCaretRight,
   AiOutlineArrowRight,
 } from "react-icons/ai";
+import { useMyContext } from "../../../Utils/MyContext";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -47,6 +48,18 @@ const DashSubChild = ({
   statsID,
   getSiteDetails,
 }) => {
+  const {
+    setGradsGetSiteDetails,
+    setDashboardShopSaleData,
+    setDashboardGradsLoading,
+    setDashboardSiteDetailsLoading,
+    dashSubChildShopSaleLoading,
+    setDashSubChildShopSaleLoading,
+    DashboardGradsLoading
+  } = useMyContext();
+
+  console.log(DashboardGradsLoading, "DashboardGradsLoadingDashboardGradsLoading");
+
   const [showLoader, setShowLoader] = useState(true);
   const id = useParams();
   useEffect(() => {
@@ -84,6 +97,7 @@ const DashSubChild = ({
     { name: "Low Fuel", color: "#ffa801" },
     { name: "Enough Fuel", color: "#009432" },
   ];
+
 
   const alertStatus = getSiteStats?.data?.cash_tracker?.alert_status;
   const [getCompetitorsPrice, setGetCompetitorsPrice] =
@@ -464,117 +478,6 @@ const DashSubChild = ({
                   </Box>
                 </Box>
               </Box>
-
-              {/* last day end competitor */}
-              {/* <Box
-                display={"flex"}
-                flexDirection={"column"}
-                bgcolor={"#ecf0f1"}
-              >
-                <Box
-                  my={"4px"}
-                  color={"#2d3436"}
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                  px={"13px"}
-                >
-                  <Typography fontSize={"14px"}>
-                    Last Day End : {}
-                    {getSiteStats?.data?.last_dayend ? (
-                      moment(getSiteStats?.data?.last_dayend).format("Do MMM")
-                    ) : (
-                      <span className="Smallloader"></span>
-                    )}
-                  </Typography>
-                  {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
-                    <Typography
-                      onClick={handleModalOpen}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <BsCalendarWeek />
-                    </Typography>
-                  ) : (
-                    <span className="Smallloader"></span>
-                  )}
-                </Box>
-
-                <Box display={"flex"}>
-                  <Box>
-                    <Typography
-                      height={"48px"}
-                      width={"140px"}
-                      position={"relative"}
-                      bgcolor={"rgb(25 122 66)"}
-                      textAlign={"center"}
-                      py={"2px"}
-                      color={"#dfe6e9"}
-                      fontSize={"14px"}
-                    >
-                      {" "}
-                      Opening Time
-                      <Typography
-                        height={"27px"}
-                        width={"100%"}
-                        bgcolor={"rgb(25 122 66)"}
-                        position={"absolute"}
-                        bottom={0}
-                        color={"#dfe6e9"}
-                        textAlign={"center"}
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        fontSize={"14px"}
-                      >
-                        {getSiteStats?.data?.opening ? (
-                          moment(getSiteStats?.data?.opening).format(
-                            "Do MMM, HH:mm"
-                          )
-                        ) : (
-                          <span className="Smallloader"></span>
-                        )}
-                      </Typography>
-                    </Typography>
-                  </Box>
-
-                  <Box>
-                    <Typography
-                      height={"48px"}
-                      width={"140px"}
-                      position={"relative"}
-                      bgcolor={"#b52d2d"}
-                      textAlign={"center"}
-                      py={"2px"}
-                      color={"#dfe6e9"}
-                      fontSize={"14px"}
-                    >
-                      {" "}
-                      Closing Time
-                      <Typography
-                        height={"27px"}
-                        width={"100%"}
-                        bgcolor={"#b52d2d"}
-                        position={"absolute"}
-                        bottom={0}
-                        color={"#dfe6e9"}
-                        textAlign={"center"}
-                        display={"flex"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                        fontSize={"14px"}
-                      >
-                        {getSiteStats?.data?.closing ? (
-                          moment(getSiteStats?.data?.closing).format(
-                            "Do MMM, HH:mm"
-                          )
-                        ) : (
-                          <span className="Smallloader"></span>
-                        )}
-                      </Typography>
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box> */}
             </Box>
           </Box>
         </>
@@ -682,15 +585,64 @@ const DashSubChild = ({
           </Box>
         </Box>
 
-        {/* Grads Section */}
-        <DashSubChildGrads getSiteStats={getSiteStats} />
+
       </div>
 
-      {/* new Shop sale */}
-      <DashSubChildShopSale
-        getSiteDetails={getSiteDetails}
-        getSiteStats={getSiteStats}
-      />
+
+      {/* Grads Section */}
+      {DashboardGradsLoading ? <>
+        <Row>
+          <Col lg={12}>
+
+            <Card>
+              <Card.Header>
+
+                <h3 className="card-title">Grades Analysis</h3>
+              </Card.Header>
+
+              <Card.Body>
+                <span className="Smallloader"></span>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </> :
+        <>
+
+          <DashSubChildGrads getSiteStats={getSiteStats} />
+        </>
+      }
+
+
+      {/* Grads Section */}
+      {dashSubChildShopSaleLoading ? <>
+        <Row>
+          <Col lg={12}>
+
+            <Card>
+              <Card.Header>
+
+                <h3 className="card-title">Shop Sales</h3>
+              </Card.Header>
+
+              <Card.Body>
+                <span className="Smallloader"></span>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </> :
+        <>
+
+          {/* new Shop sale */}
+          <DashSubChildShopSale
+            getSiteDetails={getSiteDetails}
+            getSiteStats={getSiteStats}
+          />
+        </>
+      }
+
+
 
       {/* tank analysis */}
       <Row

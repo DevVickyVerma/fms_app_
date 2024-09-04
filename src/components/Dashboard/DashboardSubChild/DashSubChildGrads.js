@@ -233,9 +233,13 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
     }
     setGradsLoading(false);
   };
+
+
   return (
     <>
       {gradsLoading ? <Loaderimg /> : ""}
+
+
 
       {/* Grads with bootstrap */}
       <Row>
@@ -282,10 +286,13 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
               )}
             </Card.Header>
 
+            {/* <span className="Smallloader"></span> */}
+
             {DashboardGradsLoading ? (
               <>
                 <p className="all-center-flex" style={{ height: "150px" }}>
                   <span className="primary-loader"></span>
+
                 </p>
               </>
             ) : (

@@ -41,9 +41,15 @@ const UpdateFuelPrices = (props) => {
     const [selectedClientId, setSelectedClientId] = useState("");
     const [selectedCompanyId, setSelectedCompanyId] = useState("");
 
+    const reduxData = useSelector(state => state?.data?.data?.permissions || []);
     const [ClientList, setClientList] = useState([]);
     const [CompanyList, setCompanyList] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
+
+    const iscompititorStatsPermissionAvailable = reduxData?.includes('competitor-stats');
+
+    console.log(iscompititorStatsPermissionAvailable, "redux  dataa");
+
 
     const formik = useFormik({
         initialValues: {
@@ -96,9 +102,6 @@ const UpdateFuelPrices = (props) => {
                 const response = await getData(
                     `site/competitor-price/stats?${queryString}`
                 );
-                // const response2 = await getData(
-                //     `site/fuel-price/mid-day?${queryString}`
-                // );
                 if (response && response.data && response.data.data) {
                     setGetCompetitorsPrice(response?.data?.data);
                 }
@@ -142,11 +145,6 @@ const UpdateFuelPrices = (props) => {
                     setData(data.data || {});
                     setis_editable(data.data?.btn_clickable || false);
                     setIsChecked(data.data?.notify_operator || false);
-
-                    // setNotificationTypes((prevTypes) => ({
-                    //   mobileSMS: data.data?.notify_operator || false,
-                    //   // email: data?.data?.
-                    // }));
                 } else {
                     // Handle the error case
                     // You can display an error message or take appropriate action
@@ -318,14 +316,14 @@ const UpdateFuelPrices = (props) => {
     }, [storedKeyName, paramSite_id]); // Add any other dependencies needed here
 
     const handleApplyFilters = (values) => {
-        console.log(values, "submitted values");
 
         navigate(`/update-fuel-price/${values?.site_id}`);
 
         if (values?.start_date) {
             handleSubmit1(values);
-            callFetchFilterData(values);
-
+            if (iscompititorStatsPermissionAvailable) {
+                callFetchFilterData(values);
+            }
         }
     };
 

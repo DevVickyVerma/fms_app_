@@ -34,9 +34,6 @@ const NewDashboardFilterModal = ({
     const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     const reduxData = useSelector(state => state?.data?.data);
 
-    const navigate = useNavigate();
-
-    console.log(reduxData?.full_name, "reduxDatareduxData");
 
 
     const formik = useFormik({

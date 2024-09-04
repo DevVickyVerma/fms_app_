@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -9,6 +9,8 @@ const DashboardChildTable = (props) => {
   const { isLoading, getData, searchdata, data, setData } = props;
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (UserPermissions) {
@@ -52,6 +54,23 @@ const DashboardChildTable = (props) => {
   };
 
 
+  const handleFuelPriceLinkClick = (item) => {
+    let storedKeyName = "localFilterModalData";
+    const storedData = localStorage.getItem(storedKeyName);
+
+    if (storedData) {
+      let updatedStoredData = JSON.parse(storedData);
+
+      updatedStoredData.site_id = item?.id; // Update the site_id here
+      updatedStoredData.site_name = item?.name; // Update the site_id here
+
+      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+      navigate(`/dashboard-details/${item?.id}`);
+    }
+  };
+
+
+
   const renderTableData = () => {
     return data?.map((item, index) => (
       <>
@@ -59,7 +78,8 @@ const DashboardChildTable = (props) => {
           <div onClick={() => handleSaveSingleSiteData(item)} key={index}>
             <Link
               Link
-              to={`/dashboard-details/${item?.id}`}
+              onClick={() => handleFuelPriceLinkClick(item)}
+              // to={`/dashboard-details/${item?.id}`}
               style={{ padding: "0px", color: "black" }}
             >
               <tr
