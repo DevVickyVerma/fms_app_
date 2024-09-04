@@ -1,97 +1,72 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
   Col,
   Row,
 } from "react-bootstrap";
-import { useFormik } from "formik";
 import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
-import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import CustomClient from "../../../Utils/CustomClient";
-import CustomCompany from "../../../Utils/CustomCompany";
+import NewFilterTab from "../Filtermodal/NewFilterTab";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageSite = (props) => {
   const { isLoading, getData, } = props;
-
   const [data, setData] = useState();
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-
-  const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
-
+  const navigate = useNavigate()
 
 
   const handleSubmit1 = async (values) => {
+
+    let { client_id, company_id, } = values;
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = localStorage.getItem("superiorId");
+    }
+
     try {
-      try {
-        let clientIDCondition = "";
-        if (localStorage.getItem("superiorRole") !== "Client") {
-          clientIDCondition = `client_id=${values.client_id}&`;
-        } else {
-          clientIDCondition = `client_id=${clientIDLocalStorage}&`;
-        }
+      const queryParams = new URLSearchParams();
+      if (client_id) queryParams.append("client_id", client_id);
+      if (company_id) queryParams.append("company_id", company_id);
 
-        const response = await getData(
-          `/workflow?${clientIDCondition}company_id=${values.company_id}`
-        );
+      const queryString = queryParams.toString();
+      const response = await getData(`workflow?${queryString}`);
 
-        const { data } = response;
-        if (data) {
-          setData(data?.data);
-        }
-      } catch (error) {
-        console.error("API error:", error);
-      } // Set the submission state to false after the API call is completed
+      const { data } = response;
+      if (data) {
+        setData(data?.data);
+      }
     } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
-    }
+      handleError(error)
+      console.error("API error:", error);
+    } // Set the submission state to false after the API call is completed
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
 
-  useEffect(() => {
-    setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
+
   const PerformAction = (row) => {
-    const dataToSend = {
-      client_id: row.client_id,
-      company_id: row.company_id,
-      start_date: row.drs_date,
-      site_id: row.id,
-    };
 
+    let storedKeyName = "localFilterModalData";
+    const storedData = localStorage.getItem(storedKeyName);
 
-    localStorage.setItem("dailyWorkFlowInput", JSON.stringify(dataToSend));
+    if (storedData) {
+      let updatedStoredData = JSON.parse(storedData);
 
-    // Encode the data and create the query parameter string
-    const queryParam = encodeURIComponent(JSON.stringify(dataToSend));
+      updatedStoredData.site_id = row?.id; // Update the site_id here
+      updatedStoredData.site_name = row?.site_name; // Update the site_id here
 
-    // Construct the link URL with the encoded query parameter
-    // const linkUrl = `/data-entry?data=${queryParam}`;
-    const linkUrl = `/data-entry`;
+      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+      navigate(`/data-entry`);
+    }
 
-    // Navigate to the desired route
-    window.location.href = linkUrl;
   };
+
+
+
   const columns = [
     {
       name: "Sr. No.",
@@ -175,146 +150,64 @@ const ManageSite = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
 
-  useEffect(() => {
-    const workFlowStatus = JSON.parse(localStorage.getItem('workFlowStatus'));
-    if (workFlowStatus) {
-      formik.setFieldValue('client_id', workFlowStatus.client_id);
-      formik.setFieldValue('company_id', workFlowStatus.company_id);
-      formik.setFieldValue('site_id', workFlowStatus.site_id);
-
-      GetCompanyList(workFlowStatus.client_id);
-      GetSiteList(workFlowStatus.company_id)
-      handleSubmit1(workFlowStatus);
-    }
-  }, []);
-
-
-  const formik = useFormik({
-    initialValues: {
-      client_id: "",
-      company_id: "",
-    },
-    validationSchema: Yup.object({
-      company_id: Yup.string().required("Company is required"),
-    }),
-
-    onSubmit: (values) => {
-      localStorage.setItem('workFlowStatus', JSON.stringify(values));
-      handleSubmit1(values);
-    },
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const validationSchemaForCustomInput = Yup.object({
+    client_id: isNotClient
+      ? Yup.string().required("Client is required")
+      : Yup.mixed().notRequired(),
+    company_id: Yup.string().required("Company is required"),
   });
-
-
-
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/common/client-list");
-      const { data } = response;
-      if (data) {
-        setClientList(response.data);
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId)
-    }
-  }, []);
 
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
+
   useEffect(() => {
     if (storedData) {
+      let parsedData = JSON.parse(storedData);
 
-      let parshedData = JSON.parse(storedData);
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
 
-      if (parshedData?.start_date && parshedData?.site_id) {
-        handleSubmit1(parshedData)
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        handleApplyFilters(parsedData);
+      } else {
+        handleApplyFilters(parsedData);
       }
-      // handleApplyFilters(JSON.parse(storedData));
+
+      // Call the API with the updated or original data
     } else if (localStorage.getItem("superiorRole") === "Client") {
       const storedClientIdData = localStorage.getItem("superiorId");
 
       if (storedClientIdData) {
-        // fetchCompanyList(storedClientIdData)
         const futurepriceLog = {
           client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
         };
-        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-        // handleApplyFilters(futurepriceLog);
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        handleApplyFilters(futurepriceLog);
       }
     }
+  }, [storedKeyName]); // Add any other dependencies needed here
 
-  }, [, storedKeyName,]); // Add any other dependencies needed here
+  const handleApplyFilters = (values) => {
+    if (values?.company_id) {
+      handleSubmit1(values)
+    }
+  }
 
-
+  const handleClearForm = async (resetForm) => {
+    setData(null)
+  };
 
 
   return (
@@ -351,41 +244,23 @@ const ManageSite = (props) => {
               <Card.Header>
                 <h3 className="card-title"> Filter Data</h3>
               </Card.Header>
-              <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <Row>
-                    <CustomClient
-                      formik={formik}
-                      lg={6}
-                      md={6}
-                      ClientList={ClientList}
-                      setSelectedClientId={setSelectedClientId}
-                      setSiteList={setSiteList}
-                      setCompanyList={setCompanyList}
-                      GetCompanyList={GetCompanyList}
-                    />
 
-                    <CustomCompany
-                      formik={formik}
-                      lg={6}
-                      md={6}
-                      CompanyList={CompanyList}
-                      setSelectedCompanyId={setSelectedCompanyId}
-                      setSiteList={setSiteList}
-                      selectedClientId={selectedClientId}
-                      GetSiteList={GetSiteList}
-                    />
+              <NewFilterTab
+                getData={getData}
+                isLoading={isLoading}
+                isStatic={true}
+                onApplyFilters={handleApplyFilters}
+                validationSchema={validationSchemaForCustomInput}
+                storedKeyName={storedKeyName}
+                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+                lg="4"
+                showStationValidation={false}
+                showMonthInput={false}
+                showDateInput={false}
+                showStationInput={false}
+                ClearForm={handleClearForm}
+              />
 
-
-                  </Row>
-
-                  <Card.Footer className="text-end">
-                    <button className="btn btn-primary me-2" type="submit">
-                      Submit
-                    </button>
-                  </Card.Footer>
-                </form>
-              </Card.Body>
             </Card>
           </Col>
         </Row>

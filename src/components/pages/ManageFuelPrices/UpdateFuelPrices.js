@@ -62,15 +62,19 @@ const UpdateFuelPrices = (props) => {
             formData.append("client_id", values.client_id);
             formData.append("company_id", values.company_id);
 
-            // ...
 
-            let clientIDCondition = "";
-            if (localStorage.getItem("superiorRole") !== "Client") {
-                clientIDCondition = `client_id=${values.client_id}&`;
+            let { client_id, company_id, start_date } = values;
+            if (localStorage.getItem("superiorRole") === "Client") {
+                client_id = localStorage.getItem("superiorId");
             }
-            const response1 = await getData(
-                `site/fuel-price?${clientIDCondition}company_id=${values?.company_id}&drs_date=${values.start_date}`
-            );
+
+            const queryParams = new URLSearchParams();
+            if (client_id) queryParams.append("client_id", client_id);
+            if (company_id) queryParams.append("company_id", company_id);
+            if (start_date) queryParams.append("drs_date", start_date);
+
+            const queryString = queryParams.toString();
+            const response1 = await getData(`site/fuel-price?${queryString}`);
 
             const { data } = response1;
             console.log(data, "data");
