@@ -1,0 +1,24 @@
+import { handleError } from '../../Utils/ToastUtils';
+
+const useToggleStatus = () => {
+    const toggleStatus = async (
+        postData, // (url: string, body: any) => Promise<any>
+        apiUrl,
+        formData,
+        handleSuccess
+    ) => {
+        try {
+            const response = await postData(apiUrl, formData);
+            if (response.api_response === 'success') {
+                handleSuccess();
+            }
+        } catch (error) {
+            handleError(error);
+            console.error('Error toggling status:', error);
+        }
+    };
+
+    return { toggleStatus };
+};
+
+export default useToggleStatus;

@@ -6,29 +6,14 @@ import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-boots
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { useFormik } from "formik";
 import * as Yup from "yup";
-import CustomClient from "../../../Utils/CustomClient";
-import CustomCompany from "../../../Utils/CustomCompany";
-import CustomSite from "../../../Utils/CustomSite";
 import useCustomDelete from "../../../Utils/useCustomDelete";
+import NewFilterTab from "../Filtermodal/NewFilterTab";
 
 const ManageSiteTank = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [submitSiteID, setsubmitSiteID] = useState();
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
-  const [SiteId, setSiteId] = useState();
   const { customDelete } = useCustomDelete();
-
-
-
 
   const handleDelete = (id) => {
     const formData = new FormData();
@@ -36,21 +21,8 @@ const ManageSiteTank = (props) => {
     customDelete(postData, 'site-ppl/delete', formData, handleSuccess);
   };
 
-
-  const handleSuccess = () => {
-    const localPPLRate = JSON.parse(localStorage.getItem('localPPLRate'));
-    if (localPPLRate) {
-      handleSubmit1(localPPLRate)
-    }
-  };
-
-
-
-
-
   const handleSubmit1 = async (values) => {
     try {
-      setsubmitSiteID(values?.site_id);
       const response = await getData(
         `/site-ppl/list?site_id=${values.site_id}`
       );
@@ -230,143 +202,70 @@ const ManageSiteTank = (props) => {
   ];
 
 
-
-  const formik = useFormik({
-    initialValues: {
-      client_id: "",
-      company_id: "",
-      site_id: "",
-
-
-    },
-    validationSchema: Yup.object({
-      company_id: Yup.string().required("Company is required"),
-      site_id: Yup.string().required("Site is required"),
-    }),
-
-    onSubmit: (values) => {
-      localStorage.setItem('localPPLRate', JSON.stringify(values));
-      handleSubmit1(values);
-    },
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const validationSchemaForCustomInput = Yup.object({
+    client_id: isNotClient
+      ? Yup.string().required("Client is required")
+      : Yup.mixed().notRequired(),
+    company_id: Yup.string().required("Company is required"),
+    site_id: Yup.string().required("Site is required"),
   });
 
-  useEffect(() => {
-    const localPPLRate = JSON.parse(localStorage.getItem('localPPLRate'));
-    if (localPPLRate) {
-      formik.setFieldValue('client_id', localPPLRate?.client_id);
-      formik.setFieldValue('company_id', localPPLRate?.company_id);
-      formik.setFieldValue('site_id', localPPLRate?.site_id);
-      formik.setFieldValue('start_date', localPPLRate?.start_date);
 
-      GetCompanyList(localPPLRate?.client_id);
-      GetSiteList(localPPLRate?.company_id)
-      handleSubmit1(localPPLRate);
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+
+  useEffect(() => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
+
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        handleApplyFilters(parsedData);
+      } else {
+        handleApplyFilters(parsedData);
+      }
+
+      // Call the API with the updated or original data
+    } else if (localStorage.getItem("superiorRole") === "Client") {
+      const storedClientIdData = localStorage.getItem("superiorId");
+
+      if (storedClientIdData) {
+        const futurepriceLog = {
+          client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+        };
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        handleApplyFilters(futurepriceLog);
+      }
     }
-  }, []);
+  }, [storedKeyName]); // Add any other dependencies needed here
+
+  const handleApplyFilters = (values) => {
+    if (values?.company_id && values?.site_id) {
+      handleSubmit1(values)
+    }
+  }
 
   const handleClearForm = async (resetForm) => {
-    formik.setFieldValue("site_id", "")
-    formik.setFieldValue("start_date", "")
-    formik.setFieldValue("client_id", "")
-    formik.setFieldValue("company_id", "")
-    formik.setFieldValue("endDate", "")
-    formik.setFieldValue("startDate", "")
-    formik.resetForm()
-    setSelectedCompanyList([]);
-    setSelectedClientId("");
-    setCompanyList([])
     setData(null)
-    localStorage.removeItem("localPPLRate")
-    const clientId = localStorage.getItem("superiorId");
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-      formik.setFieldValue("client_id", "")
-      setCompanyList([])
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-      formik.setFieldValue("client_id", clientId)
-    }
   };
 
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/common/client-list");
-
-      const { data } = response;
-      if (data) {
-        setClientList(response.data);
-
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
+  const handleSuccess = () => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+      handleApplyFilters(parsedData);
     }
-  };
-
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId)
-    }
-  }, []);
+  }
 
   return (
     <>
@@ -409,59 +308,24 @@ const ManageSiteTank = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
-              <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <Row>
+              <Card.Header>
+                <h3 className="card-title"> Filter Data</h3>
+              </Card.Header>
 
-
-
-                    <CustomClient
-                      formik={formik}
-                      lg={4}
-                      md={6}
-                      ClientList={ClientList}
-                      setSelectedClientId={setSelectedClientId}
-                      setSiteList={setSiteList}
-                      setCompanyList={setCompanyList}
-                      GetCompanyList={GetCompanyList}
-                    />
-
-                    <CustomCompany
-                      formik={formik}
-                      lg={4}
-                      md={6}
-                      CompanyList={CompanyList}
-                      setSelectedCompanyId={setSelectedCompanyId}
-                      setSiteList={setSiteList}
-                      selectedClientId={selectedClientId}
-                      GetSiteList={GetSiteList}
-                    />
-
-                    <CustomSite
-                      formik={formik}
-                      lg={4}
-                      md={6}
-                      SiteList={SiteList}
-                      setSelectedSiteId={setSelectedSiteId}
-                      CompanyList={CompanyList}
-                      setSiteId={setSiteId}
-                    />
-                  </Row>
-                  <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-danger me-2"
-                      type="button" // Set the type to "button" to prevent form submission
-                      onClick={() => handleClearForm()} // Call a function to clear the form
-                    >
-                      Clear
-                    </button>
-                    <button className="btn btn-primary me-2" type="submit">
-                      Submit
-                    </button>
-                  </Card.Footer>
-                </form>
-
-              </Card.Body>
+              <NewFilterTab
+                getData={getData}
+                isLoading={isLoading}
+                isStatic={true}
+                onApplyFilters={handleApplyFilters}
+                validationSchema={validationSchemaForCustomInput}
+                storedKeyName={storedKeyName}
+                lg="4"
+                showStationValidation={true}
+                showMonthInput={false}
+                showDateInput={false}
+                showStationInput={true}
+                ClearForm={handleClearForm}
+              />
             </Card>
           </Col>
         </Row>

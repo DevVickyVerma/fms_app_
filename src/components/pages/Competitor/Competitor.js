@@ -10,271 +10,81 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useFormik } from "formik";
 import * as Yup from "yup";
-
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
-
 import { useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import { Box } from "@mui/material";
 import { handleError } from "../../../Utils/ToastUtils";
-import CustomClient from "../../../Utils/CustomClient";
-import CustomCompany from "../../../Utils/CustomCompany";
-import CustomSite from "../../../Utils/CustomSite";
 import CustomPagination from "../../../Utils/CustomPagination";
+import NewFilterTab from "../Filtermodal/NewFilterTab";
+import useCustomDelete from "../../CommonComponent/useCustomDelete";
+import useToggleStatus from "../../CommonComponent/useToggleStatus";
 
 const Competitor = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [SiteId, setSiteId] = useState();
-  const [SupplierData, setSupplierData] = useState({});
+  const { isLoading, getData, postData } = props;
   const [CompetitorList, setCompetitorList] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
   useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isAddPermissionAvailable =
-    permissionsArray?.includes("competitor-create");
-
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("competitor-delete");
-  const isEditPermissionAvailable =
-    permissionsArray?.includes("competitor-edit");
+    handleSuccess()
+  }, [currentPage])
 
 
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
 
-    const GetSiteData = async () => {
-      try {
-        const response = await axiosInstance.get("suppliers");
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'site/competitor/delete', formData, handleSuccess);
+  };
 
-        if (response.data) {
-          setSupplierData(response.data.data);
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    };
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append('id', row.id.toString());
+    formData.append('status', (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/site/competitor/update-status', formData, handleSuccess);
+  };
+
+
+
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+
+  const isAddPermissionAvailable = UserPermissions?.includes("competitor-create");
+  const isDeletePermissionAvailable = UserPermissions?.includes("competitor-delete");
+  const isEditPermissionAvailable = UserPermissions?.includes("competitor-edit");
+
+
+
+
+
+  const handleSubmit1 = async (values) => {
+    let { site_id } = values;
     try {
-      GetSiteData();
-    } catch (error) {
-      handleError(error);
-    }
-    // console.clear()
-    console.clear();
-  }, []);
+      const queryParams = new URLSearchParams();
+      if (site_id) queryParams.append("site_id", site_id);
+      queryParams.append("page", currentPage);
 
-  const formik = useFormik({
-    initialValues: {
-      client_id: "",
-      company_id: "",
-      site_id: "",
-    },
-    validationSchema: Yup.object({
-      company_id: Yup.string().required("Company is required"),
-      site_id: Yup.string().required("Site  is required"),
-    }),
-
-    onSubmit: (values) => {
-
-      handleSubmit(values);
-    },
-  });
-
-  const fetchCommonListData = async () => {
-    try {
-
-      const response = await getData("/common/client-list");
+      const queryString = queryParams.toString();
+      const response = await getData(`site/competitor/list?${queryString}`);
 
       const { data } = response;
       if (data) {
-        setClientList(response.data);
-
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId)
-    }
-  }, []);
-
-  const handleSubmit = async (values) => {
-    try {
-      const competitor = {
-        site_id: values.site_id,
-        client_id: values.client_id,
-        company_id: values.company_id,
-      };
-      localStorage.setItem("manageCompetitor", JSON.stringify(competitor));
-      const response = await getData(
-        `site/competitor/list?site_id=${values?.site_id}&page=${currentPage}`
-      );
-
-      if (response && response.data && response.data.data) {
         setCompetitorList(response.data.data.competitors);
         setCurrentPage(response.data.data?.currentPage || 1);
         setLastPage(response.data.data?.lastPage || 1);
-      } else {
-        throw new Error("No data available in the response");
-
       }
     } catch (error) {
+      handleError(error)
       console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-    if (localStorage.getItem("manageCompetitor")) {
-      let parsedDataFromLocal = JSON.parse(
-        localStorage.getItem("manageCompetitor")
-      ) ? JSON.parse(
-        localStorage.getItem("manageCompetitor")
-      ) : "null"
-
-      formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "")
-      formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "")
-      formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "")
-      setSiteId(parsedDataFromLocal?.site_id)
-      GetCompanyList(parsedDataFromLocal?.client_id ? parsedDataFromLocal?.client_id : clientId)
-      GetSiteList(parsedDataFromLocal?.company_id ? parsedDataFromLocal?.company_id : null)
-      handleSubmit(parsedDataFromLocal)
-    }
-  }, [])
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-    if (localStorage.getItem("manageCompetitor")) {
-      let parsedDataFromLocal = JSON.parse(
-        localStorage.getItem("manageCompetitor")
-      ) ? JSON.parse(
-        localStorage.getItem("manageCompetitor")
-      ) : "null"
-      handleSubmit(parsedDataFromLocal)
-    }
-  }, [currentPage])
-
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "/site/competitor/delete",
-              formData
-            );
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            handleSubmit(formik?.values);
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
-  };
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData(
-        "/site/competitor/update-status",
-        formData
-      );
-
-      if (apidata.api_response === "success") {
-        handleSubmit(formik?.values);
-      }
-    } catch (error) {
-      handleError(error);
-    }
+    } // Set the submission state to false after the API call is completed
   };
 
   const columns = [
@@ -429,50 +239,78 @@ const Competitor = (props) => {
       ),
     },
   ];
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
 
-        if (response) {
 
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
+
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const validationSchemaForCustomInput = Yup.object({
+    client_id: isNotClient
+      ? Yup.string().required("Client is required")
+      : Yup.mixed().notRequired(),
+    company_id: Yup.string().required("Company is required"),
+    site_id: Yup.string().required("Site is required"),
+  });
+
+
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+
+  useEffect(() => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
+
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        handleApplyFilters(parsedData);
       } else {
-        console.error("No site_id found ");
+        handleApplyFilters(parsedData);
       }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
 
-        if (response) {
+      // Call the API with the updated or original data
+    } else if (localStorage.getItem("superiorRole") === "Client") {
+      const storedClientIdData = localStorage.getItem("superiorId");
 
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
+      if (storedClientIdData) {
+        const futurepriceLog = {
+          client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+        };
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        handleApplyFilters(futurepriceLog);
       }
-    } catch (error) {
-      console.error("API error:", error);
     }
+  }, [storedKeyName]); // Add any other dependencies needed here
+
+  const handleApplyFilters = (values) => {
+    if (values?.company_id && values?.site_id) {
+      handleSubmit1(values)
+    }
+  }
+
+  const handleClearForm = async (resetForm) => {
+    setCompetitorList(null)
   };
 
+  const handleSuccess = () => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+      handleApplyFilters(parsedData);
+    }
+  }
 
-  const tableDatas = {
-    columns,
-    CompetitorList,
-  };
+
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -523,50 +361,24 @@ const Competitor = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Manage Competitor</Card.Title>
+                <h3 className="card-title"> Filter Data</h3>
               </Card.Header>
-              <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <Row>
-                    <CustomClient
-                      formik={formik}
-                      lg={4}
-                      md={4}
-                      ClientList={ClientList}
-                      setSelectedClientId={setSelectedClientId}
-                      setSiteList={setSiteList}
-                      setCompanyList={setCompanyList}
-                      GetCompanyList={GetCompanyList}
-                    />
 
-                    <CustomCompany
-                      formik={formik}
-                      lg={4}
-                      md={4}
-                      CompanyList={CompanyList}
-                      setSelectedCompanyId={setSelectedCompanyId}
-                      setSiteList={setSiteList}
-                      selectedClientId={selectedClientId}
-                      GetSiteList={GetSiteList}
-                    />
+              <NewFilterTab
+                getData={getData}
+                isLoading={isLoading}
+                isStatic={true}
+                onApplyFilters={handleApplyFilters}
+                validationSchema={validationSchemaForCustomInput}
+                storedKeyName={storedKeyName}
+                lg="4"
+                showStationValidation={true}
+                showMonthInput={false}
+                showDateInput={false}
+                showStationInput={true}
+                ClearForm={handleClearForm}
+              />
 
-                    <CustomSite
-                      formik={formik}
-                      lg={4}
-                      md={3}
-                      SiteList={SiteList}
-                      setSelectedSiteId={setSelectedSiteId}
-                      CompanyList={CompanyList}
-                      setSiteId={setSiteId}
-                    />
-                  </Row>
-                  <div className="text-end">
-                    <button type="submit" className="btn btn-primary">
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </Card.Body>
             </Card>
           </Col>
         </Row>
@@ -589,7 +401,6 @@ const Competitor = (props) => {
                         defaultSortAsc={false}
                         striped={true}
                         persistTableHead
-                        // pagination
                         highlightOnHover
                         searchable={false}
                       />

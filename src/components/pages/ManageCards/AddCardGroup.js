@@ -10,12 +10,28 @@ import { MultiSelect } from "react-multi-select-component";
 
 const AddCardGroup = ({ isLoading, getData, postData }) => {
   const [cardData, setCardData] = useState();
-  const companyId = localStorage.getItem("cardsCompanyId");
 
   const paramId = useParams();
   const [selected, setSelected] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  const GetSiteList = async () => {
+
+
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+
+  useEffect(() => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+      fetchUpdateCardDetail(parsedData?.company_id);
+      GetSiteList(parsedData?.company_id)
+      // companyId = parsedData?.company_id;
+    }
+  }, [storedKeyName]); // Add any other dependencies needed here
+
+
+
+
+  const GetSiteList = async (companyId) => {
     try {
       if (companyId) {
         const response = await getData(
@@ -38,11 +54,11 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
     label: site.site_name,
     value: site.id,
   }));
-  useEffect(() => {
-    fetchUpdateCardDetail();
-    GetSiteList();
-    console.clear();
-  }, []);
+  // useEffect(() => {
+  //   fetchUpdateCardDetail();
+  //   GetSiteList();
+  //   console.clear();
+  // }, []);
 
   const initialValues = {
     cardData: cardData || "",
@@ -61,14 +77,14 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
     // ... Add other Formik configuration options as needed
   });
 
-  const fetchUpdateCardDetail = async () => {
+  const fetchUpdateCardDetail = async (companyId) => {
     try {
       const response = await getData(
         `/sage/card-group/list?company_id=${companyId}`
       );
       const { data } = response;
       if (data) {
-        setCardData(data?.data ? data.data.cards : []);
+        setCardData(data?.data ? data?.data?.cards : []);
         formik.setFieldValue("AssignFormikCards", data?.data?.cards);
       }
     } catch (error) {
@@ -96,7 +112,13 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
       selectedSiteIds?.forEach((id, index) => {
         formData.append(`site_id[${index}]`, id);
       });
-      formData.append("company_id", companyId);
+
+      if (storedData) {
+        let parsedData = JSON.parse(storedData);
+        formData.append("company_id", parsedData?.company_id);
+      }
+
+
       formData.append("name", values?.card_name);
       // formData.append("group_id", paramId.id);
 

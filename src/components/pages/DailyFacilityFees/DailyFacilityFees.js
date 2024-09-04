@@ -1,137 +1,48 @@
 import { useEffect, useState } from "react";
-
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import CustomCompany from "../../../Utils/CustomCompany";
-import CustomClient from "../../../Utils/CustomClient";
+import { handleError } from "../../../Utils/ToastUtils";
+import NewFilterTab from "../Filtermodal/NewFilterTab";
 
 const SiteSettings = (props) => {
   const { isLoading, getData, postData } = props;
-  const [ClientList, setClientList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
-  const [CompanyList, setCompanyList] = useState([]);
   const [data, setData] = useState();
 
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const isEditPermissionAvailable = UserPermissions?.includes("shop-update-facility-fees");
 
-
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/common/client-list");
-
-      const { data } = response;
-      if (data) {
-        setClientList(response.data);
-
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId)
-    }
-  }, []);
-
   const handleSubmit = async (values) => {
-    let clientIDCondition = "";
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      clientIDCondition = `client_id=${formik.values.client_id}&`;
-    } else {
-      clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+    let { client_id, company_id, } = values;
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = localStorage.getItem("superiorId");
     }
 
+    const queryParams = new URLSearchParams();
+    if (client_id) queryParams.append("client_id", client_id);
+    if (company_id) queryParams.append("company_id", company_id);
+
     try {
-      const response = await getData(
-        `/daily-facility-fees/?${clientIDCondition}&company_id=${values.company_id}`
-      );
+
+      const queryString = queryParams.toString();
+      const response = await getData(`daily-facility-fees?${queryString}`);
+
+
       const { data } = response;
       if (data) {
         setData(data?.data);
         const formValues = data?.data.map((item) => {
           return {
-            charge_id: item.charge_id,
-            date: item.date,
-            site_id: item.site_id,
-            site_name: item.site_name,
-            value: item.value,
+            charge_id: item?.charge_id,
+            date: item?.date,
+            site_id: item?.site_id,
+            site_name: item?.site_name,
+            value: item?.value,
           };
         });
 
@@ -158,44 +69,6 @@ const SiteSettings = (props) => {
     },
   });
 
-  useEffect(() => {
-    const localDailyFacilityFees = JSON.parse(localStorage.getItem('localDailyFacilityFees'));
-    if (localDailyFacilityFees) {
-      formik.setFieldValue('client_id', localDailyFacilityFees.client_id);
-      formik.setFieldValue('company_id', localDailyFacilityFees.company_id);
-      formik.setFieldValue('start_date', localDailyFacilityFees.start_date);
-
-
-      GetCompanyList(localDailyFacilityFees.client_id);
-      GetSiteList(localDailyFacilityFees.company_id)
-      handleSubmit(localDailyFacilityFees);
-    }
-  }, []);
-
-  const handleClearForm = async (resetForm) => {
-    formik.setFieldValue("site_id", "")
-    formik.setFieldValue("start_date", "")
-    formik.setFieldValue("client_id", "")
-    formik.setFieldValue("company_id", "")
-    formik.setFieldValue("endDate", "")
-    formik.setFieldValue("startDate", "")
-    formik.resetForm()
-    setSelectedCompanyList([]);
-    setSelectedClientId("");
-    setCompanyList([])
-    setData(null)
-    localStorage.removeItem("localDailyFacilityFees")
-    const clientId = localStorage.getItem("superiorId");
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-      formik.setFieldValue("client_id", "")
-      setCompanyList([])
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-      formik.setFieldValue("client_id", clientId)
-    }
-  };
 
 
 
@@ -203,39 +76,39 @@ const SiteSettings = (props) => {
   const columns = [
     {
       name: "SITE NAME",
-      selector: (row) => row.site_name,
+      selector: (row) => row?.site_name,
       sortable: false,
       width: "33%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.site_name !== undefined ? `${row.site_name}` : ""}
+          {row?.site_name !== undefined ? `${row?.site_name}` : ""}
         </span>
       ),
     },
     {
       name: "CREATED DATE",
-      selector: (row) => row.date,
+      selector: (row) => row?.date,
       sortable: false,
       width: "33%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.date !== undefined ? `${row.date}` : ""}
+          {row?.date !== undefined ? `${row?.date}` : ""}
         </span>
       ),
     },
 
     {
       name: "VALUE",
-      selector: (row) => row.value,
+      selector: (row) => row?.value,
       sortable: false,
       width: "33%",
       center: false,
 
       cell: (row, index) =>
-        row.fuel_name === "Total" ? (
-          <h4 className="bottom-toal">{row.value}</h4>
+        row?.fuel_name === "Total" ? (
+          <h4 className="bottom-toal">{row?.value}</h4>
         ) : (
           <div>
             <input
@@ -254,18 +127,17 @@ const SiteSettings = (props) => {
 
     // ... remaining columns
   ];
-  const tableDatas = {
-    columns,
-    data,
-  };
+
+
+
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
 
     try {
       const formData = new FormData();
-      formik.values.data.forEach((obj) => {
-        const id = obj.site_id;
-        const values = obj.value;
+      formik?.values?.data?.forEach((obj) => {
+        const id = obj?.site_id;
+        const values = obj?.value;
         const charges_price = `charges[${id}]`;
 
         const platts_price_Value = values;
@@ -280,9 +152,75 @@ const SiteSettings = (props) => {
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
+      handleError(error)
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
+
+
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const validationSchemaForCustomInput = Yup.object({
+    client_id: isNotClient
+      ? Yup.string().required("Client is required")
+      : Yup.mixed().notRequired(),
+    company_id: Yup.string().required("Company is required"),
+  });
+
+
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+
+  useEffect(() => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
+
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        handleApplyFilters(parsedData);
+      } else {
+        handleApplyFilters(parsedData);
+      }
+
+      // Call the API with the updated or original data
+    } else if (localStorage.getItem("superiorRole") === "Client") {
+      const storedClientIdData = localStorage.getItem("superiorId");
+
+      if (storedClientIdData) {
+        const futurepriceLog = {
+          client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+        };
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        handleApplyFilters(futurepriceLog);
+      }
+    }
+  }, [storedKeyName]); // Add any other dependencies needed here
+
+  const handleApplyFilters = (values) => {
+    if (values?.company_id) {
+      handleSubmit(values)
+    }
+  }
+
+  const handleClearForm = async (resetForm) => {
+    setData(null)
+  };
+
+  const handleSuccess = () => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+      handleApplyFilters(parsedData);
+    }
+  }
 
   return (
     <>
@@ -315,50 +253,24 @@ const SiteSettings = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Daily Facility Fees</Card.Title>
+                <h3 className="card-title"> Filter Data</h3>
               </Card.Header>
 
-              <div className="card-body">
-                <form onSubmit={formik.handleSubmit}>
-                  <Row>
-                    <CustomClient
-                      formik={formik}
-                      lg={4}
-                      md={6}
-                      ClientList={ClientList}
-                      setSelectedClientId={setSelectedClientId}
-                      setSiteList={setSiteList}
-                      setCompanyList={setCompanyList}
-                      GetCompanyList={GetCompanyList}
-                    />
+              <NewFilterTab
+                getData={getData}
+                isLoading={isLoading}
+                isStatic={true}
+                onApplyFilters={handleApplyFilters}
+                validationSchema={validationSchemaForCustomInput}
+                storedKeyName={storedKeyName}
+                lg="4"
+                showStationValidation={true}
+                showMonthInput={false}
+                showDateInput={false}
+                showStationInput={false}
+                ClearForm={handleClearForm}
+              />
 
-                    <CustomCompany
-                      formik={formik}
-                      lg={4}
-                      md={6}
-                      CompanyList={CompanyList}
-                      setSelectedCompanyId={setSelectedCompanyId}
-                      setSiteList={setSiteList}
-                      selectedClientId={selectedClientId}
-                      GetSiteList={GetSiteList}
-                    />
-
-                  </Row>
-                  <div className="text-end">
-                    <button
-                      className="btn btn-danger me-2"
-                      type="button" // Set the type to "button" to prevent form submission
-                      onClick={() => handleClearForm()} // Call a function to clear the form
-                    >
-                      Clear
-                    </button>
-
-                    <button type="submit" className="btn btn-primary">
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
             </Card>
           </Col>
         </Row>

@@ -10,10 +10,22 @@ import { MultiSelect } from "react-multi-select-component";
 
 const UpdateCardGroup = ({ isLoading, getData, postData }) => {
   const [cardData, setCardData] = useState();
-  const companyId = localStorage.getItem("cardsCompanyId");
   const [selected, setSelected] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [loadingFetchUpdateCard, setLoadingFetchUpdateCard] = useState(false);
+
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+
+  useEffect(() => {
+    if (storedData) {
+      fetchUpdateCardDetail();
+      let parsedData = JSON.parse(storedData);
+      GetSiteList(parsedData?.company_id)
+      // companyId = parsedData?.company_id;
+    }
+  }, [storedKeyName]); // Add any other dependencies needed here
+
   const GetSiteList = async (companyId) => {
     try {
       if (companyId) {
@@ -39,10 +51,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
   }));
   const paramId = useParams();
 
-  useEffect(() => {
-    fetchUpdateCardDetail();
-    GetSiteList(companyId)
-  }, []);
+
 
   const initialValues = {
     cardData: cardData,
@@ -101,7 +110,12 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
       selectedSiteIds?.forEach((id, index) => {
         formData.append(`site_id[${index}]`, id);
       });
-      formData.append("company_id", companyId);
+
+      if (storedData) {
+        let parsedData = JSON.parse(storedData);
+        formData.append("company_id", parsedData?.company_id);
+      }
+
       formData.append("name", values?.card_name);
       formData.append("group_id", paramId.id);
 
