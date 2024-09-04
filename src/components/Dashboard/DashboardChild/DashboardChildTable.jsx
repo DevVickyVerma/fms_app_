@@ -18,61 +18,6 @@ const DashboardChildTable = (props) => {
 
   const isSitePermissionAvailable = permissionsArray?.includes("dashboard-site-detail");
 
-  // const [data, setData] = useState();
-  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
-
-
-  const FetchTableData = async () => {
-    try {
-      const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
-      const superiorRole = localStorage.getItem("superiorRole");
-      const role = localStorage.getItem("role");
-      const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-
-      const siteID =
-        searchdata?.site_id !== undefined ? searchdata.site_id : "";
-      let companyId = ""; // Define companyId outside the conditionals
-
-      if (superiorRole === "Client" && role !== "Client") {
-        companyId =
-          searchdata?.company_id !== undefined
-            ? searchdata.company_id
-            : localStoragecompanyId;
-      } else {
-        companyId =
-          searchdata?.company_id !== undefined ? searchdata.company_id : "";
-      }
-      const response = await getData(
-        localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/get-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${siteID}`
-          : `dashboard/get-details?client_id=${ClientID}&company_id=${companyId}&site_id=${siteID}`
-      );
-
-      if (response && response.data && response.data.data) {
-        setData([]);
-        setData(response?.data?.data?.sites);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    // callTableData() /
-  }, [])
-
-
-
-
-
-
-  // useEffect(() => {
-  //   FetchTableData();
-  //   setClientID(localStorage.getItem("superiorId"));
-  //   console.clear();
-  // }, [searchdata]);
 
   function handleSaveSingleSiteData(row) {
     const rowDataString = JSON.stringify(row);
@@ -105,6 +50,7 @@ const DashboardChildTable = (props) => {
       </tr>
     );
   };
+
 
   const renderTableData = () => {
     return data?.map((item, index) => (

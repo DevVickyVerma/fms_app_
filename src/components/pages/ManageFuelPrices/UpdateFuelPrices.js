@@ -683,9 +683,9 @@ const UpdateFuelPrices = (props) => {
                                                             </span>
                                                         </span>
                                                     </th>
-                                                    {Object.keys(
+                                                    {Object?.keys(
                                                         getCompetitorsPrice?.competitorListing
-                                                    ).map((fuelType) => (
+                                                    )?.map((fuelType) => (
                                                         <th key={fuelType}>
                                                             <span className="single-Competitor-heading cardd block w-99 ">
                                                                 <BsFuelPumpFill /> {fuelType}

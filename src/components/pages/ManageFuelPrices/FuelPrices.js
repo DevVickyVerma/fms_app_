@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useSelector } from "react-redux";
 import moment from "moment";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
@@ -27,17 +17,12 @@ const FuelPrices = (props) => {
   const [editable, setis_editable] = useState();
   const navigate = useNavigate()
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [headingData, setheadingData] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
-
-  const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [notificationTypes, setNotificationTypes] = useState({
     mobileSMS: false,
@@ -70,8 +55,8 @@ const FuelPrices = (props) => {
         clientIDCondition = `client_id=${values.client_id}&`;
       } else {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
-        formik.setFieldValue("client_id", clientIDLocalStorage)
-        GetCompanyList(clientIDLocalStorage);
+        // formik.setFieldValue("client_id", clientIDLocalStorage)
+        // GetCompanyList(clientIDLocalStorage);
       }
       const response1 = await getData(
         `site/fuel-price?${clientIDCondition}company_id=${values?.company_id}&drs_date=${values.start_date}`
@@ -88,14 +73,6 @@ const FuelPrices = (props) => {
           setData(data.data || {});
           setis_editable(data.data?.btn_clickable || false);
           setIsChecked(data.data?.notify_operator || false);
-
-
-
-          // setNotificationTypes((prevTypes) => ({
-          //   mobileSMS: data.data?.notify_operator || false,
-          //   // email: data?.data?.
-          // }));
-
         } else {
           // Handle the error case
           // You can display an error message or take appropriate action
@@ -129,154 +106,36 @@ const FuelPrices = (props) => {
       ),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      client_id: "",
-      company_id: "",
-      site_id: "",
-      start_date: "",
-      notify_operator: "",
-      email: false,
-    },
-    validationSchema: validationSchemaForCustomInput,
-    // validationSchema: Yup.object({
-    //   company_id: Yup.string().required("Company is required"),
-    //   start_date: Yup.date()
-    //     .required("Date is required")
-    //     .min(
-    //       new Date("2023-01-01"),
-    //       "Date cannot be before January 1, 2023"
-    //     ),
-    // }),
-
-    onSubmit: (values) => {
-      localStorage.setItem('fuelSellingPrice', JSON.stringify(values));
-      handleSubmit1(values);
-    },
-  });
-
 
 
   const handleClearForm = async (resetForm) => {
 
-    console.log("celared callled");
     setData(null)
-    // formik.resetForm()
-    // formik.setFieldValue("site_id", "")
-    // formik.setFieldValue("start_date", "")
-    // formik.setFieldValue("client_id", "")
-    // formik.setFieldValue("company_id", "")
-    // formik.setFieldValue("endDate", "")
-    // formik.setFieldValue("startDate", "")
-    // formik.resetForm()
-    // setSelectedCompanyList([]);
-    // setSelectedClientId("");
-    // setCompanyList([])
-    // setData(null)
-    // localStorage.removeItem("fuelSellingPrice")
-    // const clientId = localStorage.getItem("superiorId");
-
-    // Check if the role is Client, then set the client_id and client_name from local storage
-
-    // if (localStorage.getItem("superiorRole") !== "Client") {
-    //   fetchCommonListData();
-    //   formik.setFieldValue("client_id", "")
-    //   setCompanyList([])
-    // } else {
-    //   setSelectedClientId(clientId);
-    //   GetCompanyList(clientId);
-    //   formik.setFieldValue("client_id", clientId)
-    // }
   };
-
-  console.log(formik?.values, "formik valuesssss");
 
 
 
 
   const [data, setData] = useState();
-  const renderTableHeader = () => {
-    return (
-      <tr className="fuelprice-tr" style={{ padding: "0px" }}>
-        {data?.head_array &&
-          data.head_array.map((item, index) => <th key={index}>{item}</th>)}
-      </tr>
-    );
-  };
 
-  const hadndleShowDate = () => {
-    const inputDateElement = document.querySelector('input[type="date"]');
-    inputDateElement.showPicker();
-  };
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemDate, setSelectedItemDate] = useState();
-  const handleModalOpen = (item) => {
-    setSelectedItem(item); // Set the selected item
-    setModalOpen(true);
-  };
+
 
   const handleModalClose = () => {
     setModalOpen(false);
   };
 
-  const renderTableData = () => {
-    return data?.listing?.map((item) => (
-      <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }}>
-        <td style={{ maxWidth: "14.28%" }}>
-          <span
-            className={
-              item?.link_clickable
-                ? "text-muted fs-15 fw-semibold text-center fuel-site-name"
-                : "text-muted fs-15 fw-semibold text-center"
-            }
-            onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
-          >
-            {item?.site_name} <span className="itemcount">{item?.count}</span>
-          </span>
-        </td>
-        <td>
-          <span className="text-muted fs-15 fw-semibold text-center ">
-            {item?.time}
-          </span>
-        </td>
 
-        {Array.isArray(item?.fuels) &&
-          item.fuels.map((fuel, index) => (
-            <td key={index}>
-              {Array.isArray(fuel) ? (
-                <input type="text" className="table-input readonly" readOnly />
-              ) : (
-                <input
-                  type="number"
-                  step="0.010"
-                  className={`table-input ${fuel?.status === "UP"
-                    ? "table-inputGreen"
-                    : fuel?.status === "DOWN"
-                      ? "table-inputRed"
-                      : ""
-                    } ${!fuel?.is_editable ? "readonly" : ""}`}
-                  value={fuel?.price}
-                  readOnly={!fuel?.is_editable}
-                  id={fuel?.id}
-                  onChange={(e) =>
-                    handleInputChange(e.target.id, e.target.value)
-                  }
-                />
-              )}
-            </td>
-          ))}
-      </tr>
-    ));
-  };
 
   const handleInputChange = (id, value) => {
     const updatedData = {
       ...data,
       listing: data?.listing?.map((item) => ({
         ...item,
-        fuels: item.fuels.map((fuel) =>
-          fuel.id === id ? { ...fuel, price: value } : fuel
+        fuels: item?.fuels?.map((fuel) =>
+          fuel?.id === id ? { ...fuel, price: value } : fuel
         ),
       })),
     };
@@ -334,9 +193,7 @@ const FuelPrices = (props) => {
     }
   };
 
-  const SendNotification = (event) => {
-    setIsChecked(event.target.checked);
-  };
+
   const handleDataFromChild = async (dataFromChild) => {
     try {
       // Assuming you have the 'values' object constructed from 'dataFromChild'
@@ -367,147 +224,23 @@ const FuelPrices = (props) => {
 
 
 
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/common/client-list");
-
-      const { data } = response;
-      if (data) {
-        setClientList(response.data);
-
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-      formik.setFieldValue("client_id", clientId)
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   const fuelSellingPrice = JSON.parse(localStorage.getItem('fuelSellingPrice'));
-  //   if (fuelSellingPrice) {
-  //     formik.setFieldValue('client_id', fuelSellingPrice.client_id);
-  //     formik.setFieldValue('company_id', fuelSellingPrice.company_id);
-  //     formik.setFieldValue('start_date', fuelSellingPrice.start_date);
-
-
-  //     GetCompanyList(fuelSellingPrice.client_id);
-  //     GetSiteList(fuelSellingPrice.company_id)
-  //     handleSubmit1(fuelSellingPrice);
-  //   }
-  // }, []);
-
-
-  const handleLinkClick = () => {
-    const futurepriceLog = {
-      client_id: formik?.values?.client_id,
-      company_id: formik?.values?.company_id,
-    };
-    localStorage.setItem('futurepriceLog', JSON.stringify(futurepriceLog));
-    navigate('/future-price-logs');
-  };
 
 
 
-  const handleFuelPriceLinkClick = (id) => {
-    const futurepriceLog = {
-      client_id: formik?.values?.client_id,
-      company_id: formik?.values?.company_id,
-    };
-
-
+  const handleFuelPriceLinkClick = (item) => {
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
-
 
     if (storedData) {
       let updatedStoredData = JSON.parse(storedData);
 
       // updatedStoredData = JSON.parse(storedData);
-      updatedStoredData.site_id = id; // Update the site_id here
+      updatedStoredData.site_id = item?.id; // Update the site_id here
+      updatedStoredData.site_name = item?.site_name; // Update the site_id here
 
       localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
-      // localStorage.setItem(storedKeyName, updatedStoredData)
-      handleApplyFilters(updatedStoredData);
-
-      // localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData))
-    } else if (localStorage.getItem("superiorRole") === "Client") {
-      const storedClientIdData = localStorage.getItem("superiorId");
-
-      if (storedClientIdData) {
-        // fetchCompanyList(storedClientIdData)
-        const futurepriceLog = {
-          client_id: storedClientIdData,
-        };
-        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-        handleApplyFilters(futurepriceLog);
-      }
+      navigate(`/update-fuel-price/${item?.id}`);
     }
-    navigate(`/update-fuel-price/${id}`);
   };
 
 
@@ -515,34 +248,50 @@ const FuelPrices = (props) => {
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
 
-  useEffect(() => {
 
+
+  useEffect(() => {
     if (storedData) {
-      handleApplyFilters(JSON.parse(storedData));
+      let parsedData = JSON.parse(storedData);
+
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
+
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        handleApplyFilters(parsedData);
+      } else {
+        handleApplyFilters(parsedData);
+      }
+
+      // Call the API with the updated or original data
     } else if (localStorage.getItem("superiorRole") === "Client") {
       const storedClientIdData = localStorage.getItem("superiorId");
 
       if (storedClientIdData) {
-        // fetchCompanyList(storedClientIdData)
         const futurepriceLog = {
           client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
         };
-        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
         handleApplyFilters(futurepriceLog);
       }
     }
+  }, [storedKeyName]); // Add any other dependencies needed here
 
-  }, [storedKeyName,]); // Add any other dependencies needed here
 
 
 
   const handleApplyFilters = (values) => {
-    console.log(values, "submitted values");
-
-    if (values?.start_date) {
+    if (values?.start_date && values?.company_id) {
       handleSubmit1(values)
     }
-
   }
 
 
@@ -629,13 +378,13 @@ const FuelPrices = (props) => {
                       Fuel Price (10-12-2024, 10:24 AM)
                     </span>
 
-                    {formik?.values?.client_id && formik?.values?.company_id && isFuelHistoryPermissionAvailable && (<>
+                    {/* {formik?.values?.client_id && formik?.values?.company_id && isFuelHistoryPermissionAvailable && (<>
                       <Button className="btn btn-primary btn-icon text-white" onClick={handleLinkClick}>
                         <span>
                         </span>
                         Go To Future Price Logs <ExitToAppIcon />
                       </Button>
-                    </>)}
+                    </>)} */}
 
 
                   </div>
@@ -698,7 +447,7 @@ const FuelPrices = (props) => {
                                     }
                                     // onClick={item?.link_clickable && item?.count > 0 ? () => handleModalOpen(item) : null}
                                     // onClick={() => navigate(`/update-fuel-price/${item?.id}`)}
-                                    onClick={() => handleFuelPriceLinkClick(item?.id)}
+                                    onClick={() => handleFuelPriceLinkClick(item)}
 
                                   >
                                     {item?.site_name} <span className="itemcount ">
@@ -709,16 +458,16 @@ const FuelPrices = (props) => {
                                   </div>
                                 </div>
                               </td>
-                              <td className=" align-middle fuel-price-conent">
+                              <td className=" align-middle fuel-price-conent fuel-price-time-td">
                                 <span className="text-muted fs-15 fw-semibold text-center  ">
                                   {item?.time ? moment(item?.time, 'HH:mm').format('h:mm A') : ''}
                                 </span>
                               </td>
 
-                              {Array.isArray(item?.fuels) &&
-                                item.fuels.map((fuel, index) => (
+                              {Array?.isArray(item?.fuels) &&
+                                item?.fuels?.map((fuel, index) => (
                                   <td key={index}>
-                                    {Array.isArray(fuel) ? (
+                                    {Array?.isArray(fuel) ? (
                                       <input type="text" className="table-input readonly fuel-price-conent" readOnly />
                                     ) : (
                                       <input
@@ -747,34 +496,7 @@ const FuelPrices = (props) => {
                         </tbody>
                       </table>
                     </>
-                    {/* <div
-                      className="table-container table-responsive"
-                      // style={{ height: "700px", overflowY: "auto" }}
-                      style={{
-                        overflowY: "auto",
-                        maxHeight: "calc(100vh - 376px )",
-                      }}
-                    // height:"245"
-                    >
-                      <table className="table">
-                        <colgroup>
-                          {data?.head_array &&
-                            data.head_array.map((_, index) => (
-                              <col key={index} />
-                            ))}
-                        </colgroup>
-                        <thead
-                          style={{
-                            position: "sticky",
-                            top: "0",
-                            width: "100%",
-                          }}
-                        >
-                          <tr className="fuelprice-tr">{renderTableHeader()}</tr>
-                        </thead>
-                        <tbody>{renderTableData()}</tbody>
-                      </table>
-                    </div> */}
+
                   </div>
                 ) : (
                   <img

@@ -1869,9 +1869,14 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
   height: 15px;
   background-color: #1c8b3359;
 }
+
 .Readonlyboxx {
   width: 15px;
   display: block;
   height: 15px;
   background-color: #dddddd;
+}
+
+.fuel-price-time-td {
+  min-width: 96px;
 }

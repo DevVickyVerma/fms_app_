@@ -189,20 +189,39 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (storedData) {
-      handleApplyFilters(JSON.parse(storedData));
+      let parsedData = JSON.parse(storedData);
+
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
+
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        handleApplyFilters(parsedData)
+      } else {
+        handleApplyFilters(parsedData)
+      }
+
+      // Call the API with the updated or original data
     } else if (localStorage.getItem("superiorRole") === "Client") {
       const storedClientIdData = localStorage.getItem("superiorId");
 
       if (storedClientIdData) {
-        // fetchCompanyList(storedClientIdData)
         const futurepriceLog = {
           client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
         };
-        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
         handleApplyFilters(futurepriceLog);
       }
     }
-  }, [dispatch, storedKeyName]); // Add any other dependencies needed here
+  }, [storedKeyName, dispatch]); // Add any other dependencies needed here
+
 
   const handleShowLive = () => {
     setShowLiveData((prevState) => !prevState); // Toggle the state
@@ -313,11 +332,11 @@ const Dashboard = (props) => {
       )}
 
       <div className="mb-2 ">
-      <div className="text-end " >
-        <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
-          Live Margin
-          {/* {ShowLiveData ? " Live Data" : " Live Data"} */}
-        </button>
+        <div className="text-end " >
+          <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
+            Live Margin
+            {/* {ShowLiveData ? " Live Data" : " Live Data"} */}
+          </button>
         </div>
 
         {ShowLiveData && (
@@ -392,7 +411,7 @@ const Dashboard = (props) => {
             />
           </ChartCard>
         </Row>
-      
+
       </div>
     </>
   );

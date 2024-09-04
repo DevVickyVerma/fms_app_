@@ -299,33 +299,6 @@ const ManageDsr = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   const clientId = localStorage.getItem("superiorId");
-  //   if (localStorage.getItem("dailyWorkFlowInput")) {
-  //     let parsedDataFromLocal = JSON.parse(
-  //       localStorage.getItem("dailyWorkFlowInput")
-  //     )
-  //       ? JSON.parse(localStorage.getItem("dailyWorkFlowInput"))
-  //       : "null";
-
-  //     formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "");
-  //     formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "");
-  //     formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "");
-  //     formik.setFieldValue("start_date", parsedDataFromLocal?.start_date || "");
-  //     setSiteId(parsedDataFromLocal?.site_id);
-  //     setDRSDate(parsedDataFromLocal?.start_date);
-  //     GetCompanyList(
-  //       parsedDataFromLocal?.client_id
-  //         ? parsedDataFromLocal?.client_id
-  //         : clientId
-  //     );
-  //     GetSiteList(
-  //       parsedDataFromLocal?.company_id ? parsedDataFromLocal?.company_id : null
-  //     );
-  //     GetDataWithClient(parsedDataFromLocal);
-  //   }
-  // }, []);
-
   const GetDataHttech = (data) => {
     if (localStorage.getItem("dailyWorkFlowInput")) {
       let parsedDataFromLocal = JSON.parse(
@@ -345,6 +318,8 @@ const ManageDsr = (props) => {
 
   const GetDataWithClient = async (values) => {
     // localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values));
+
+    if (!values?.site_id) return;
     try {
       const formData = new FormData();
 
@@ -544,29 +519,43 @@ const ManageDsr = (props) => {
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
+
+
   useEffect(() => {
     if (storedData) {
+      let parsedData = JSON.parse(storedData);
 
-      let parshedData = JSON.parse(storedData);
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
 
-      if (parshedData?.start_date && parshedData?.site_id) {
-        GetDataWithClient(parshedData)
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        GetDataWithClient(parsedData)
+      } else {
+        GetDataWithClient(parsedData)
       }
-      // handleApplyFilters(JSON.parse(storedData));
+
+      // Call the API with the updated or original data
     } else if (localStorage.getItem("superiorRole") === "Client") {
       const storedClientIdData = localStorage.getItem("superiorId");
 
       if (storedClientIdData) {
-        // fetchCompanyList(storedClientIdData)
         const futurepriceLog = {
           client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
         };
-        // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-        // handleApplyFilters(futurepriceLog);
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        handleApplyFilters(futurepriceLog);
       }
     }
+  }, [storedKeyName]); // Add any other dependencies needed here
 
-  }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
 
 
   const handleApplyFilters = (values) => {
@@ -663,7 +652,7 @@ const ManageDsr = (props) => {
                 storedKeyName={storedKeyName}
                 layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
                 lg="3"
-                showStationValidation={false}
+                showStationValidation={true}
                 showMonthInput={false}
                 showDateInput={true}
                 showStationInput={true}

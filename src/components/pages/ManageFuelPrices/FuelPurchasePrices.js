@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
+import NewFilterTab from "../Filtermodal/NewFilterTab";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -116,17 +117,26 @@ const ManageDsr = (props) => {
   }, []);
 
   const handleSubmit = async (values) => {
-    let clientIDCondition = "";
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      clientIDCondition = `client_id=${values.client_id}&`;
-    } else {
-      clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+
+
+    let { client_id, company_id, site_id, start_date } = values;
+
+    // Check if the role is Client, then set the client_id and client_name from local storage
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = localStorage.getItem("superiorId");
     }
 
+    const queryParams = new URLSearchParams();
+    if (client_id) queryParams.append('client_id', client_id);
+    if (company_id) queryParams.append('company_id', company_id);
+    if (site_id) queryParams.append('site_id', site_id);
+    if (start_date) queryParams.append('date', start_date);
+
+    const queryString = queryParams.toString();
+
     try {
-      const response = await getData(
-        `site/fuel/purchase-price?${clientIDCondition}&company_id=${values.company_id}&date=${values.start_date}&site_id=${values.site_id}`
-      );
+      const response = await getData(`site/fuel/purchase-price?${queryString}`);
+
 
       const { data } = response;
       if (data) {
@@ -598,6 +608,73 @@ const ManageDsr = (props) => {
   };
 
 
+
+  let storedKeyName = "localFilterModalData";
+  const storedData = localStorage.getItem(storedKeyName);
+
+
+
+  useEffect(() => {
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+
+      // Check if start_date exists in storedData
+      if (!parsedData.start_date) {
+        // If start_date does not exist, set it to the current date
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        parsedData.start_date = currentDate;
+
+        // Update the stored data with the new start_date
+        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        handleApplyFilters(parsedData);
+      } else {
+        handleApplyFilters(parsedData);
+      }
+
+      // Call the API with the updated or original data
+    } else if (localStorage.getItem("superiorRole") === "Client") {
+      const storedClientIdData = localStorage.getItem("superiorId");
+
+      if (storedClientIdData) {
+        const futurepriceLog = {
+          client_id: storedClientIdData,
+          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+        };
+
+        // Optionally store this data back to localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+        handleApplyFilters(futurepriceLog);
+      }
+    }
+  }, [storedKeyName]); // Add any other dependencies needed here
+
+
+
+
+
+
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const validationSchemaForCustomInput = Yup.object({
+    client_id: isNotClient
+      ? Yup.string().required("Client is required")
+      : Yup.mixed().notRequired(),
+    company_id: Yup.string().required("Company is required"),
+    start_date: Yup.date()
+      .required("Date is required")
+      .min(
+        new Date("2023-01-01"),
+        "Date cannot be before January 1, 2023"
+      ),
+  });
+
+
+  const handleApplyFilters = (values) => {
+    if (values?.start_date && values?.company_id && values?.site_id) {
+      handleSubmit(values)
+    }
+  }
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -637,7 +714,34 @@ const ManageDsr = (props) => {
           </div>
         </div>
 
-        <Row className="row-sm">
+        <Row>
+          <Col md={12} xl={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title"> Fuel Purchase Price </h3>
+              </Card.Header>
+
+              <NewFilterTab
+                getData={getData}
+                isLoading={isLoading}
+                isStatic={true}
+                onApplyFilters={handleApplyFilters}
+                validationSchema={validationSchemaForCustomInput}
+                storedKeyName={storedKeyName}
+                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+                lg="4"
+                showStationValidation={true}
+                showMonthInput={false}
+                showDateInput={true}
+                showStationInput={true}
+                ClearForm={handleClearForm}
+              />
+
+            </Card>
+          </Col>
+        </Row>
+
+        {/* <Row className="row-sm">
           <Col lg={12}>
             <Card>
               <Card.Header>
@@ -862,7 +966,9 @@ const ManageDsr = (props) => {
               </Card.Body>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
+
+
         <Row className="row-sm">
           <Col lg={12}>
             <Card>

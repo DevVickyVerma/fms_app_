@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { DialogActions, } from '@mui/material';
 import { Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import LoaderImg from '../../../Utils/Loader';
 import { handleError } from '../../../Utils/ToastUtils';
@@ -50,7 +49,7 @@ const NewFilterTab = ({
             company_id: "",
             company_name: "",
             start_month: "",
-            start_date: "",
+            start_date: new Date().toISOString().split('T')[0] || "",
             site_id: "",
             site_name: "",
             clients: [],
@@ -210,7 +209,7 @@ const NewFilterTab = ({
                                             formik={formik}
                                             name="client_id"
                                             label="Client"
-                                            options={formik.values.clients.map((item) => ({ id: item?.id, name: item?.full_name }))}
+                                            options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
                                             className="form-input"
                                             onChange={handleClientChange}
                                         />
@@ -225,7 +224,7 @@ const NewFilterTab = ({
                                             formik={formik}
                                             name="company_id"
                                             label="Company"
-                                            options={formik.values.companies.map((item) => ({ id: item?.id, name: item?.company_name }))}
+                                            options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
                                             className="form-input"
                                             onChange={handleCompanyChange}
                                         />
@@ -239,7 +238,7 @@ const NewFilterTab = ({
                                             formik={formik}
                                             name="site_id"
                                             label="Site"
-                                            options={formik.values.sites.map((item) => ({ id: item?.id, name: item?.site_name }))}
+                                            options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
                                             className="form-input"
                                             isRequired={showStationValidation}
                                             onChange={handleSiteChange}
