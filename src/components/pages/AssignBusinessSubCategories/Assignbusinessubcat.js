@@ -12,7 +12,6 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import DataTableExtensions from "react-data-table-component-extensions";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import { handleError } from "../../../Utils/ToastUtils";

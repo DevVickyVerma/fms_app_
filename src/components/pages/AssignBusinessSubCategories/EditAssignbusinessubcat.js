@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const EditOpeningBalance = ({ isLoading, postData, getData }) => {
-  const [data, setData] = useState();
   const [siteName, setSiteName] = useState("");
-
   const [AddCatSiteData, setCatSiteData] = useState([]);
   const [AddSubCatSiteData, setSubCatSiteData] = useState([]);
 
   const FetchCategoryList = async () => {
     try {
       const response = await getData(`common/category-list`);
-
       if (response && response.data) {
-
         setCatSiteData(response.data);
       } else {
         throw new Error("No data available in the response");
@@ -28,14 +24,14 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
       console.error("API error:", error);
     }
   };
-  const FetchSubCategoryList = async () => {
+  const FetchSubCategoryList = async (site_id) => {
     try {
       const response = await getData(
-        `/site-fuel/sub-categories-list?site_id=${id}`
+        `/site-fuel/sub-categories-list?site_id=${site_id}`
       );
 
       if (response && response.data) {
-        fetchOpeningBalanceList();
+        // fetchOpeningBalanceList();
         setSubCatSiteData(response.data);
       } else {
         throw new Error("No data available in the response");
@@ -46,8 +42,9 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
   };
 
   useEffect(() => {
-    FetchSubCategoryList();
+    // FetchSubCategoryList(id);
     FetchCategoryList();
+    fetchOpeningBalanceList();
   }, []);
 
   const navigate = useNavigate();
@@ -59,6 +56,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
       const response = await getData(`assignsubcategory/detail/${id}`);
       if (response && response.data) {
         setSiteName(response?.data?.data?.site_name);
+        FetchSubCategoryList(response?.data?.data?.site_id)
         formik.setFieldValue(
           "business_sub_category_id",
           response?.data?.data?.business_sub_category_id

@@ -4,14 +4,7 @@ import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 
 import Loaderimg from "../../../Utils/Loader";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 
@@ -33,20 +26,9 @@ import CreditCardBanking from "../DRSComponents/CreditCardBanking";
 import Summary from "../DRSComponents/Summary";
 import BunkeredSales from "../DRSComponents/BunkeredSales";
 import Swal from "sweetalert2";
-import { fetchData } from "../../../Redux/dataSlice";
 import { useMyContext } from "../../../Utils/MyContext";
-import CustomClient from "../../../Utils/CustomClient";
-import CustomCompany from "../../../Utils/CustomCompany";
-import CustomSite from "../../../Utils/CustomSite";
 import { handleError } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-
-
-
-
-
-// Function to get the date two months back from the current date
-
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -55,11 +37,7 @@ const ManageDsr = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const [UploadTabname, setUploadTabname] = useState();
   const [modalTitle, setModalTitle] = useState("");
   const [Uploadtitle, setUploadtitle] = useState();
@@ -75,19 +53,15 @@ const ManageDsr = (props) => {
   const [SiteId, setSiteId] = useState();
   const [DRSDate, setDRSDate] = useState();
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
-  const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
-  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const { timeLeft, setTimeLeft, isTimerRunning, setIsTimerRunning } =
     useMyContext();
   const [selectedItem, setSelectedItem] = useState(null);
-  const dispatch = useDispatch();
-  const storedToken = localStorage.getItem("token");
   const [successMessage, setSuccessMessage] = useState("");
   const [minDate, setMinDate] = useState();
+
+
   const getMinDate = () => {
     const today = new Date();
     today.setMonth(today.getMonth() - 2);
@@ -105,14 +79,6 @@ const ManageDsr = (props) => {
   }, [isAdmin]);
 
 
-
-  useEffect(() => {
-    if (storedToken) {
-      dispatch(fetchData());
-    }
-    console.clear();
-  }, [storedToken]);
-
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
@@ -124,85 +90,6 @@ const ManageDsr = (props) => {
     permissionsArray?.includes("drs-delete-data");
 
   const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
-
-
-
-
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/common/client-list");
-      const { data } = response;
-      if (data) {
-        setClientList(response.data);
-
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-    }
-  }, []);
 
   const clearTimerDataFromLocalStorage = () => {
     localStorage.removeItem("isTimerRunning");
@@ -223,8 +110,6 @@ const ManageDsr = (props) => {
         setTimeLeft(80);
         localStorage.setItem("isTimerRunning", true);
         localStorage.setItem("timeLeft", 80);
-
-        // setTimeout(clearTimerDataFromLocalStorage, 80000);
       } // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
@@ -260,12 +145,6 @@ const ManageDsr = (props) => {
               formData
             );
             if (responseForDelete?.api_response == "success") {
-              // const current = {
-              //   client_id: PropsClientId,
-              //   company_id: PropsCompanyId,
-              //   site_id: SiteId,
-              //   start_date: DRSDate,
-              // };
 
               GetDataWithClient(parshedData);
               Swal.fire({
@@ -420,37 +299,6 @@ const ManageDsr = (props) => {
       getDRSData(); // Assuming you have a function to fetch data called getDRSData()
     }
   };
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0"); // Subtract one day from the current date
-    return `${year}-${month}-${day}`;
-  };
-
-
-
-
-
-  const hadndleShowDate = () => {
-    const inputDateElement = document.querySelector('input[type="date"]');
-    inputDateElement.showPicker();
-  };
-
-  // const validationSchema = Yup.object({
-  //   company_id: Yup.string().required("Company is required"),
-  //   site_id: Yup.string().required("Site is required"),
-  //   start_date: Yup.date()
-  //     .required("Start Date is required")
-  //     .min(
-  //       new Date("2023-01-01"),
-  //       "Start Date cannot be before January 1, 2023"
-  //     )
-  //     .max(new Date(), "Start Date cannot be after the current date"),
-  // });
-
-
-
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -482,20 +330,14 @@ const ManageDsr = (props) => {
 
 
 
-  const handleFormReset = () => {
-    formik.resetForm(); // This will reset the form to its initial values
-    setSelectedSiteList([]);
-    setSelectedCompanyList([]);
-    setSelectedClientId("");
-    localStorage.removeItem("dailyWorkFlowInput");
-  };
-
-
   const handleSuccess = (message) => {
     setSuccessMessage(message);
     GetDataHttech();
     // Do any additional processing with the success message if needed
   };
+
+
+
   const handleSendEmail = async (event, values) => {
     // event.preventDefault();
 
@@ -559,7 +401,6 @@ const ManageDsr = (props) => {
 
 
   const handleApplyFilters = (values) => {
-    console.log(values, "submitted values");
 
     if (values?.start_date) {
       GetDataWithClient(values)
@@ -568,44 +409,11 @@ const ManageDsr = (props) => {
   }
 
   const handleClearForm = async (resetForm) => {
-
-    console.log("celared callled");
-
-
     setUploadList();
     setDataEnteryList();
     setUploadTabname();
     setgetDataBtn();
     setUploadtitle();
-
-
-    // setData(null)
-    // formik.resetForm()
-    // formik.setFieldValue("site_id", "")
-    // formik.setFieldValue("start_date", "")
-    // formik.setFieldValue("client_id", "")
-    // formik.setFieldValue("company_id", "")
-    // formik.setFieldValue("endDate", "")
-    // formik.setFieldValue("startDate", "")
-    // formik.resetForm()
-    // setSelectedCompanyList([]);
-    // setSelectedClientId("");
-    // setCompanyList([])
-    // setData(null)
-    // localStorage.removeItem("fuelSellingPrice")
-    // const clientId = localStorage.getItem("superiorId");
-
-    // Check if the role is Client, then set the client_id and client_name from local storage
-
-    // if (localStorage.getItem("superiorRole") !== "Client") {
-    //   fetchCommonListData();
-    //   formik.setFieldValue("client_id", "")
-    //   setCompanyList([])
-    // } else {
-    //   setSelectedClientId(clientId);
-    //   GetCompanyList(clientId);
-    //   formik.setFieldValue("client_id", clientId)
-    // }
   };
 
 
@@ -660,147 +468,6 @@ const ManageDsr = (props) => {
                 showDRSDelete={isDeletePermissionAvailable && DataEnteryList}
                 ClearForm={handleClearForm}
               />
-
-
-              {/* <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <Row>
-
-                    <CustomClient
-                      formik={formik}
-                      lg={3}
-                      md={4}
-                      ClientList={ClientList}
-                      setSelectedClientId={setSelectedClientId}
-                      setSiteList={setSiteList}
-                      setCompanyList={setCompanyList}
-                      GetCompanyList={GetCompanyList}
-                    />
-
-                    <CustomCompany
-                      formik={formik}
-                      lg={3}
-                      md={4}
-                      CompanyList={CompanyList}
-                      setSelectedCompanyId={setSelectedCompanyId}
-                      setSiteList={setSiteList}
-                      selectedClientId={selectedClientId}
-                      GetSiteList={GetSiteList}
-                    />
-
-                    <CustomSite
-                      formik={formik}
-                      lg={3}
-                      md={3}
-                      SiteList={SiteList}
-                      setSelectedSiteId={setSelectedSiteId}
-                      CompanyList={CompanyList}
-                      setSiteId={setSiteId}
-                    />
-
-                    <Col lg={3} md={3}>
-                      <div className="form-group">
-                        <label htmlFor="start_date" className="form-label mt-4">
-                          Date
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="date"
-                          // min={"2023-01-01"}
-                          min={!isAdmin ? minDate : undefined}
-                          max={getCurrentDate()}
-                          onClick={hadndleShowDate}
-                          className={`input101 ${formik.errors.start_date &&
-                            formik.touched.start_date
-                            ? "is-invalid"
-                            : ""
-                            }`}
-                          value={formik.values.start_date}
-                          id="start_date"
-                          name="start_date"
-                          onChange={(e) => {
-                            const selectedCompany = e.target.value;
-                            formik.setFieldValue("start_date", selectedCompany);
-                            setDRSDate(selectedCompany);
-                          }}
-                        ></input>
-                        {formik.errors.start_date &&
-                          formik.touched.start_date && (
-                            <div className="invalid-feedback">
-                              {formik.errors.start_date}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-
-                  </Row>
-
-
-
-
-                  <div className="text-end">
-
-
-                    {getDataBtn?.sendReportEmail && DataEnteryList ? (
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Send Email</Tooltip>}
-                      >
-                        <button
-                          to="#"
-                          className="btn btn-info me-2 rounded-11"
-                          onClick={() => handleSendEmail()}
-                        >
-                          Send Email
-                        </button>
-                      </OverlayTrigger>
-                    ) : (
-                      ""
-                    )}
-
-
-                    {isDeletePermissionAvailable && DataEnteryList ? (
-                      <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Delete</Tooltip>}
-                      >
-                        <Link
-                          to="#"
-                          className="btn btn-danger me-2 rounded-11"
-                          onClick={() => handleDelete()}
-                        >
-                          <i>
-                            <svg
-                              className="table-delete"
-                              xmlns="http://www.w3.org/2000/svg"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              width="16"
-                            >
-                              <path d="M0 0h24v24H0V0z" fill="none" />
-                              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                            </svg>
-                          </i>
-                        </Link>
-                      </OverlayTrigger>
-                    ) : (
-                      ""
-                    )}
-
-
-                    <Link
-                      type="button"
-                      className="btn btn-danger me-2"
-                      onClick={handleFormReset}
-                    >
-                      Reset
-                    </Link>
-                    <button className="btn btn-primary me-2" type="submit">
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </Card.Body> */}
             </Card>
           </Col>
         </Row>
@@ -856,6 +523,8 @@ const ManageDsr = (props) => {
                     ) : null}
                   </Row>
                 </Card.Body>
+
+
                 {showModal ? (
                   <div
                     style={{
