@@ -12,6 +12,27 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
+
+      // {
+      //   path: `/fuelprice`,
+      //   title: "Fuel Selling Prices",
+      //   type: "link",
+      //   permission: "fuel-price-update",
+      //   visibility: false,
+      // },
+
+
+      {
+        path: `/fuelprice`,
+        icon: "home",
+        type: "link",
+        active: false,
+
+        permission: "dashboard-view",
+        visibility: false,
+        title: "Fuel Selling Prices",
+      },
+   
       {
         title: "Manage Users",
         icon: "users",

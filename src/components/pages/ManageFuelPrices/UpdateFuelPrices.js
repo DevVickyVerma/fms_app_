@@ -1,20 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-    Breadcrumb,
-    Button,
-    Card,
-    Col,
-    OverlayTrigger,
-    Row,
-    Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-import { useFormik } from "formik";
-import CustomModal from "../../../data/Modal/MiddayModal";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useSelector } from "react-redux";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import { handleError } from "../../../Utils/ToastUtils";
@@ -24,73 +13,26 @@ import {
     AiOutlineArrowRight,
 } from "react-icons/ai";
 import { BsFuelPumpFill } from "react-icons/bs";
-import { v4 as uuidv4 } from "uuid";
+import MiddayFuelPrice from "./MiddayFuelPrice";
 
 const UpdateFuelPrices = (props) => {
-    const { apidata, getData, postData, isLoading } = props;
-
+    const { getData, isLoading } = props;
     const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
-    const [editable, setis_editable] = useState();
     const navigate = useNavigate();
-    const [selectedDrsDate, setSelectedDrsDate] = useState("");
-    const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-    const [headingData, setheadingData] = useState([]);
-    const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-        localStorage.getItem("superiorId")
-    );
-    const [selectedClientId, setSelectedClientId] = useState("");
-    const [selectedCompanyId, setSelectedCompanyId] = useState("");
-
-    const reduxData = useSelector(state => state?.data?.data?.permissions || []);
-    const [ClientList, setClientList] = useState([]);
-    const [CompanyList, setCompanyList] = useState([]);
-    const [isChecked, setIsChecked] = useState(false);
-
+    const reduxData = useSelector(state => state?.data?.data?.permissions || [])
     const iscompititorStatsPermissionAvailable = reduxData?.includes('competitor-stats');
-
-    console.log(iscompititorStatsPermissionAvailable, "redux  dataa");
-
-
-    const formik = useFormik({
-        initialValues: {
-            columns: [],
-            rows: [],
-        },
-        // validationSchema: validationSchema,
-        enableReinitialize: true,
-        onSubmit: (values) => {
-            console.log("Form Submitted:", values);
-        },
-    });
-    const { id: paramSite_id } = useParams();
-
-    console.log(paramSite_id, "site_idsite_id");
-
-    const UserPermissions = useSelector(
-        (state) => state?.data?.data?.permissions || []
+    const [isNotClient] = useState(
+        localStorage.getItem("superiorRole") !== "Client"
     );
-    const isFuelHistoryPermissionAvailable =
-        UserPermissions?.includes("fuel-price-history");
+    const { id: paramSite_id } = useParams();
+    const GetCompititor = async (filters) => {
+        let { client_id, start_date } = filters;
 
-    useEffect(() => {
-        setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    }, []);
-
-    const callFetchFilterData = async (filters) => {
-        let { client_id, company_id, site_id, client_name, start_date } = filters;
-
-        // Check if the role is Client, then set the client_id and client_name from local storage
         if (localStorage.getItem("superiorRole") === "Client") {
             client_id = localStorage.getItem("superiorId");
-            client_name = localStorage.getItem("First_name");
         }
 
-        // Update the filters object with new values
-        const updatedFilters = {
-            ...filters,
-            client_id,
-            client_name,
-        };
+
 
         if (client_id) {
             try {
@@ -105,16 +47,14 @@ const UpdateFuelPrices = (props) => {
                 if (response && response.data && response.data.data) {
                     setGetCompetitorsPrice(response?.data?.data);
                 }
-                // setData(response.data);
+
             } catch (error) {
                 handleError(error);
             }
         }
     };
 
-    const handleSubmit1 = async (values) => {
-        setSelectedCompanyId(values.company_id);
-        setSelectedDrsDate(values.start_date);
+    const SiteFilterSubmit = async (values) => {
 
         try {
             const formData = new FormData();
@@ -124,48 +64,22 @@ const UpdateFuelPrices = (props) => {
 
             // ...
 
-            setSelectedClientId(values?.client_id);
             let clientIDCondition = "";
             if (localStorage.getItem("superiorRole") !== "Client") {
                 clientIDCondition = `client_id=${values.client_id}&`;
-            } else {
-                clientIDCondition = `client_id=${clientIDLocalStorage}&`;
-                formik.setFieldValue("client_id", clientIDLocalStorage);
-                GetCompanyList(clientIDLocalStorage);
             }
             const response1 = await getData(
                 `site/fuel-price?${clientIDCondition}company_id=${values?.company_id}&drs_date=${values.start_date}`
             );
 
             const { data } = response1;
-
-            if (data) {
-                if (data.api_response === "success") {
-                    setheadingData(data.data?.head_array || []);
-                    setData(data.data || {});
-                    setis_editable(data.data?.btn_clickable || false);
-                    setIsChecked(data.data?.notify_operator || false);
-                } else {
-                    // Handle the error case
-                    // You can display an error message or take appropriate action
-                    console.error(data?.message);
-                }
-            } else {
-                // Handle the case where data is null
-                // You may want to set default values or handle it differently
-                setheadingData([]);
-                setData({});
-                setis_editable(false);
-                setIsChecked(false);
-            }
+            console.log(data, "data");
         } catch (error) {
             console.error("API error:", error);
         }
     };
 
-    const [isNotClient] = useState(
-        localStorage.getItem("superiorRole") !== "Client"
-    );
+
     const validationSchemaForCustomInput = Yup.object({
         client_id: isNotClient
             ? Yup.string().required("Client is required")
@@ -178,249 +92,50 @@ const UpdateFuelPrices = (props) => {
 
 
 
-    const handleClearForm = async (resetForm) => {
-        console.log("celared callled");
-        setData(null);
-    };
-
-
-    const [data, setData] = useState();
-
-
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
-
-    const handleModalClose = () => {
-        setModalOpen(false);
-    };
-
-
-
-    const handleDataFromChild = async (dataFromChild) => {
-        try {
-            // Assuming you have the 'values' object constructed from 'dataFromChild'
-            const values = {
-                start_date: selectedDrsDate,
-                client_id: selectedClientId,
-                company_id: selectedCompanyId,
-            };
-
-            await handleSubmit1(values);
-        } catch (error) {
-            console.error("Error handling data from child:", error);
-        }
-    };
-
-
-
-    const fetchCommonListData = async () => {
-        try {
-            const response = await getData("/common/client-list");
-
-            const { data } = response;
-            if (data) {
-                setClientList(response.data);
-
-                const clientId = localStorage.getItem("superiorId");
-                if (clientId) {
-                    setSelectedClientId(clientId);
-                    setSelectedCompanyList([]);
-
-                    if (response?.data) {
-                        const selectedClient = response?.data?.data?.find(
-                            (client) => client.id === clientId
-                        );
-                        if (selectedClient) {
-                            setSelectedCompanyList(selectedClient?.companies);
-                        }
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-    const GetCompanyList = async (values) => {
-        try {
-            if (values) {
-                const response = await getData(
-                    `common/company-list?client_id=${values}`
-                );
-
-                if (response) {
-                    setCompanyList(response?.data?.data);
-                } else {
-                    throw new Error("No data available in the response");
-                }
-            } else {
-                console.error("No site_id found ");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-
-
-    useEffect(() => {
-        const clientId = localStorage.getItem("superiorId");
-
-        if (localStorage.getItem("superiorRole") !== "Client") {
-            fetchCommonListData();
-        } else {
-            setSelectedClientId(clientId);
-            GetCompanyList(clientId);
-            formik.setFieldValue("client_id", clientId);
-        }
-    }, []);
-
-
-    const handleLinkClick = () => {
-        const futurepriceLog = {
-            client_id: formik?.values?.client_id,
-            company_id: formik?.values?.company_id,
-        };
-        localStorage.setItem("futurepriceLog", JSON.stringify(futurepriceLog));
-        navigate("/future-price-logs");
-    };
-
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
+    // LocalStorageData
     useEffect(() => {
-
         if (storedData) {
             let updatedStoredData = JSON.parse(storedData);
-
-            // updatedStoredData = JSON.parse(storedData);
             updatedStoredData.site_id = paramSite_id; // Update the site_id here
-
             localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
-            // localStorage.setItem(storedKeyName, updatedStoredData)
             handleApplyFilters(updatedStoredData);
-
-            // localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData))
         } else if (localStorage.getItem("superiorRole") === "Client") {
             const storedClientIdData = localStorage.getItem("superiorId");
 
             if (storedClientIdData) {
-                // fetchCompanyList(storedClientIdData)
                 const futurepriceLog = {
                     client_id: storedClientIdData,
                 };
-                // localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
                 handleApplyFilters(futurepriceLog);
             }
         }
-    }, [storedKeyName, paramSite_id]); // Add any other dependencies needed here
+    }, [storedKeyName, paramSite_id]);
 
     const handleApplyFilters = (values) => {
-
         navigate(`/update-fuel-price/${values?.site_id}`);
-
         if (values?.start_date) {
-            handleSubmit1(values);
+            SiteFilterSubmit(values);
             if (iscompititorStatsPermissionAvailable) {
-                callFetchFilterData(values);
+                GetCompititor(values);
             }
         }
     };
 
-    useEffect(() => {
-        async function fetchData() {
 
 
-            const data = {
-                columns: [
-                    "date",
-                    "time",
-                    "Unleaded",
-                    "Superunleaded",
-                    "Diesel",
-                    "SuperDiesel",
-                    "Adblue",
-                    "Other",
 
-                ],
-                rows: [
-                    {
-                        id: uuidv4(),
-                        date: "2024-09-02",
-                        time: "08:00",
-                        Unleaded: 1.459,
-                        Superunleaded: 1.86,
-                        Diesel: 1.50,
-                        SuperDiesel: 4.50,
-                        Adblue: 1.20,
-                        Other: 1.455,
-                        readonly: false,
-                        currentprice: true,
-                    },
-                    {
-                        id: uuidv4(),
-                        date: "2024-09-02",
-                        time: "10:00",
-                        Unleaded: 1.53,
-                        Superunleaded: 1.23,
-                        Diesel: 1.459,
-                        SuperDiesel: 1.25,
-                        Adblue: 1.50,
-                        Other: 1.26,
-                        currentprice: false,
-                        readonly: true,
-                    },
-                    {
-                        id: uuidv4(),
-                        date: "2024-09-02",
-                        time: "12:00",
-                        Unleaded: 4.50,
-                        Superunleaded: 400,
-                        Diesel: 1.20,
-                        SuperDiesel: 1.459,
-                        Adblue: 1.23,
-                        Other: 2.36,
-                        readonly: false,
-                        currentprice: false,
-                    },
 
-                ],
-            };
 
-            formik.setValues({
-                columns: data.columns,
-                rows: data.rows,
-            });
-            const dynamicValidationSchema = Yup.object().shape({
-                rows: Yup.array().of(
-                    Yup.object().shape(
-                        data.columns.reduce((schema, column) => {
-                            schema[column] = Yup.string().required(`${column} is required`);
-                            return schema;
-                        }, {})
-                    )
-                ),
-            });
-            // setValidationSchema(dynamicValidationSchema);
-        }
-        fetchData();
-    }, []);
+
 
     return (
         <>
             {isLoading ? <Loaderimg /> : null}
             <div className="overflow-container" >
-                {modalOpen && (
-                    <>
-                        <CustomModal
-                            open={modalOpen}
-                            onClose={handleModalClose}
-                            selectedItem={selectedItem}
-                            selectedDrsDate={selectedDrsDate}
-                            onDataFromChild={handleDataFromChild}
-                        />
-                    </>
-                )}
+
 
                 <div className="page-header ">
                     <div>
@@ -475,17 +190,20 @@ const UpdateFuelPrices = (props) => {
                                 showStationValidation={true}
                                 showMonthInput={false}
                                 showStationInput={true}
-                                ClearForm={handleClearForm}
+
                                 showResetBtn={false}
                             />
                         </Card>
                     </Col>
                 </Row>
-                <Row className="row-sm">
+
+                <MiddayFuelPrice />
+
+                {/* <Row className="row-sm">
                     <Col lg={12}>
                         <Card
                             style={{
-                                //  height: "calc(100vh - 180px)",
+                         
                                 overflowY: "auto",
                             }}
                         >
@@ -502,26 +220,11 @@ const UpdateFuelPrices = (props) => {
                                                 <span className="text-mute">
                                                     Current Price
                                                 </span>
-                                                {/* <span className="Readonlyboxx me-2 ms-2 "> </span>
-                                                <span className="text-mute">
-                                                    ReadOnly input
-                                                </span> */}
+                                           
                                             </span>
                                         </div>
 
-                                        {formik?.values?.client_id &&
-                                            formik?.values?.company_id &&
-                                            isFuelHistoryPermissionAvailable && (
-                                                <>
-                                                    <Button
-                                                        className="btn btn-primary btn-icon text-white"
-                                                        onClick={handleLinkClick}
-                                                    >
-                                                        <span></span>
-                                                        Go To Future Price Logs <ExitToAppIcon />
-                                                    </Button>
-                                                </>
-                                            )}
+                                   
                                     </div>
                                 </h3>
                             </Card.Header>
@@ -639,7 +342,7 @@ const UpdateFuelPrices = (props) => {
                             </Card.Footer>
                         </Card>
                     </Col>
-                </Row>
+                </Row> */}
 
                 {getCompetitorsPrice && (
                     <>
