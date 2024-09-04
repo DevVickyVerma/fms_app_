@@ -79,6 +79,7 @@ const UpdateFuelPrices = (props) => {
             const { data } = response1;
             console.log(data, "data");
         } catch (error) {
+            handleError(error)
             console.error("API error:", error);
         }
     };
