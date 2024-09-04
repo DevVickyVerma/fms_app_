@@ -25,6 +25,9 @@ const UpdateFuelPrices = (props) => {
         localStorage.getItem("superiorRole") !== "Client"
     );
     const { id: paramSite_id } = useParams();
+const [MiddayFuelPriceData,setMiddayFuelPriceData] = useState();
+
+
     const GetCompititor = async (filters) => {
         let { client_id, start_date } = filters;
 
@@ -63,21 +66,23 @@ const UpdateFuelPrices = (props) => {
             formData.append("company_id", values.company_id);
 
 
-            let { client_id, company_id, start_date } = values;
-            if (localStorage.getItem("superiorRole") === "Client") {
-                client_id = localStorage.getItem("superiorId");
-            }
+            let { start_date, site_id } = values;
+
 
             const queryParams = new URLSearchParams();
-            if (client_id) queryParams.append("client_id", client_id);
-            if (company_id) queryParams.append("company_id", company_id);
+            if (site_id) queryParams.append("site_id", site_id);
             if (start_date) queryParams.append("drs_date", start_date);
-
             const queryString = queryParams.toString();
-            const response1 = await getData(`site/fuel-price?${queryString}`);
+            const response1 = await getData(`site/fuel-price/mid-day?${queryString}`);
 
             const { data } = response1;
-            console.log(data, "data");
+
+
+            if (data?.data) {
+                setMiddayFuelPriceData(data)
+                console.log(data, "response1");
+            }
+
         } catch (error) {
             handleError(error)
             console.error("API error:", error);
@@ -202,7 +207,10 @@ const UpdateFuelPrices = (props) => {
                     </Col>
                 </Row>
 
-                <MiddayFuelPrice />
+                <MiddayFuelPrice
+                MiddayFuelPriceData={MiddayFuelPriceData}
+                
+                 />
 
                 {/* <Row className="row-sm">
                     <Col lg={12}>
