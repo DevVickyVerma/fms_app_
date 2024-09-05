@@ -129,28 +129,22 @@ const MiddayFuelPrice = ({ data, postData }) => {
     };
 
 
-    // const handleShowDate = (index) => {
-    //     console.log(index, "handleShowDate");
-    //     const inputDateElement = document.querySelector(`#${index}`);
-    //     if (inputDateElement && inputDateElement.showPicker) {
-    //         inputDateElement.showPicker();
-    //     }
-    // };
+
     const handleShowDate = (e, currentDate) => {
         const inputDateElement = e.target; // Get the clicked input element
         if (inputDateElement && inputDateElement.showPicker) {
-          inputDateElement.showPicker(); // Programmatically trigger the date picker
+            inputDateElement.showPicker(); // Programmatically trigger the date picker
         }
-      };
-      
-      const handleShowTime = (e, currentTime) => {
+    };
+
+    const handleShowTime = (e, currentTime) => {
         const inputTimeElement = e.target; // Get the clicked time input element
-   
+
         if (inputTimeElement && inputTimeElement.showPicker) {
-          inputTimeElement.showPicker(); // Programmatically trigger the time picker
+            inputTimeElement.showPicker(); // Programmatically trigger the time picker
         }
-      };
-      
+    };
+
     return (
         <Row className="row-sm">
             <Col lg={12}>
@@ -204,7 +198,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     name={row[column]}
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
                                                                     onClick={(e) => handleShowDate(e, formik.values.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
-  
+
                                                                     disabled={row.readonly}
                                                                     placeholder="Enter price"
                                                                 />
@@ -216,7 +210,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     value={formik.values.pricedata?.currentTime}
                                                                     placeholder="Enter price"
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
-                                                           
+
                                                                     disabled={row.readonly}
                                                                 />
                                                             ) : (
@@ -249,7 +243,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     type="date"
                                                                     disabled={!row[0].is_editable}
                                                                     onClick={(e) => handleShowDate(e, formik.values.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
-  
+
                                                                     className={`table-input ${!row[0].is_editable ? 'readonly' : ''}`}
                                                                     placeholder="Enter Date"
                                                                 />
@@ -336,7 +330,10 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                         ) : null}
 
 
-                                        <button type="submit" className="btn btn-primary">Submit</button>
+                                        {data?.btn_clickable && (
+                                            <button type="submit" className="btn btn-primary">Submit</button>
+                                        )}
+
                                     </div>
                                 </Card.Footer>
                             </Form >

@@ -195,7 +195,7 @@ const UpdateFuelPrices = (props) => {
                                 lg="4"
                                 showClientInput={false}
                                 showEntityInput={false}
-                                showDateInput={false}
+                                showDateInput={true}
                                 showStationValidation={true}
                                 showMonthInput={false}
                                 showStationInput={true}
