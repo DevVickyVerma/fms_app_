@@ -260,6 +260,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                         className={`table-input ${!item.is_editable ? 'readonly' : ''}`}
                                                                         disabled={!item.is_editable}
                                                                         placeholder="Enter price"
+                                                                        step="0.010"
                                                                     />
                                                                     <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
                                                                 </div>
@@ -308,6 +309,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                         formik.setFieldValue('update_tlm_price', e.target.checked ? 1 : 0);
                                                     }}
                                                     className='mx-1 form-check-input form-check-input-updated pointer'
+
                                                 />
                                                 <label htmlFor="update_tlm_price" className='p-0 m-0 pointer'>Update TLM Price</label>
                                             </div>
