@@ -107,14 +107,12 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
 const DashboardStatCard = ({ getData, isLoading }) => {
-  console.log(isLoading, "isLoading");
 
   const FetchmannegerList = async () => {
     try {
       const response = await getData(`/company/auto-report/list`);
 
       if (response && response.data) {
-        console.log(response.data, "response.data");
       } else {
         throw new Error("No data available in the response");
       }
@@ -182,18 +180,17 @@ const DashboardStatCard = ({ getData, isLoading }) => {
   }, []);
 
   const formattedDateTime = currentDateTime.toLocaleString();
-console.log(formattedDateTime, "formattedDateTime");
   return (
     <Card>
       <Card.Header className="card-header">
         <h4 className="card-title">
-        {/* Live Data{" "} */}
+          {/* Live Data{" "} */}
           <img
             src={require("../../assets/images/commonimages/LiveIMg.gif")}
             alt="Live Img"
             className="Liveimage"
-          />{" "}{" "} Last Updated On : (03-09-2024 11:15 PM) 
-    {/* ({formattedDateTime}) */}
+          />{" "}{" "} Last Updated On : (03-09-2024 11:15 PM)
+          {/* ({formattedDateTime}) */}
         </h4>
       </Card.Header>
       <Card.Body className="card-body pb-0">

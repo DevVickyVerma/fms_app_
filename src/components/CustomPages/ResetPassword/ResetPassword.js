@@ -53,7 +53,6 @@ export default function ResetPassword() {
 
 
       if (response.data.status_code === "200") {
-        console.log(response.data, "response.data.message");
         setIsLoading(false)
         SuccessAlert(response.data.message);
         window.location.href = `/login`;

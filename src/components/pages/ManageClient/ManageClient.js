@@ -439,14 +439,6 @@ const ManageClient = (props) => {
       : "",
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-
-
-  console.log(currentPage, "current page");
-  console.log(lastPage, "lastPage page");
 
 
   const dynamicClass = "dynamicClass"; /* your dynamic class */

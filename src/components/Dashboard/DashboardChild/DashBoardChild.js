@@ -137,7 +137,6 @@ const DashBoardChild = (props) => {
   });
 
   const handleApplyFilters = (values) => {
-    console.log(values, "submitted values");
     callFetchFilterData(values)
     callTableData(values)
   }
