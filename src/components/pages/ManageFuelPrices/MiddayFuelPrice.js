@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { useParams } from 'react-router-dom';
 const MiddayFuelPrice = ({ data, postData }) => {
     const { notify_operator, update_tlm_price } = data || {};
-    console.log(data, "ListingForm");
 
     const formik = useFormik({
         initialValues: {
@@ -17,7 +16,6 @@ const MiddayFuelPrice = ({ data, postData }) => {
         },
         enableReinitialize: true,
         onSubmit: (values) => {
-            console.log("Form Submitted:", values);
             // Your submit logic here
         },
     });
@@ -40,7 +38,6 @@ const MiddayFuelPrice = ({ data, postData }) => {
         validationSchema,
         onSubmit: (values) => {
             handleSubmit(values);
-            console.log('Form Values:', values);
             // Optionally, you can handle form submission here, such as sending data to an API
         }
     });
@@ -95,9 +92,6 @@ const MiddayFuelPrice = ({ data, postData }) => {
 
 
 
-    console.log(data?.listing, "columnIndex");
-
-
 
     // const handleSubmit = async (values) => {
     //     try {
@@ -129,7 +123,6 @@ const MiddayFuelPrice = ({ data, postData }) => {
         try {
             const formData = new FormData();
 
-            console.log(values, "handleSubmit");
             formData.append('site_id', prarmSiteID)
             if (formik?.values?.update_tlm_price == 1) {
                 formData.append('update_tlm_price', formik?.values?.update_tlm_price == 1 ? true : false);
@@ -153,7 +146,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
             });
 
 
-         
+
             const postDataUrl = "/site/fuel-price/update-siteprice";
             const navigatePath = `/fuelprice`;
 
@@ -190,17 +183,24 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                         <thead>
                                             <tr>
                                                 {formik.values?.head_array?.map((item) => (
-                                                    <th key={item.id}>{item.name}</th>
+                                                    <th key={item?.id}>{item?.name}</th>
                                                 ))}
                                             </tr>
                                         </thead>
 
                                         <tbody>
 
-                                            {formik.values?.rows?.map((row, rowIndex) => (
+                                            {formik?.values?.rows?.map((row, rowIndex) => (
+
+
                                                 <tr className="middayModal-tr" key={rowIndex}>
-                                                    {formik.values?.columns.map((column, colIndex) => (
+
+
+
+
+                                                    {formik?.values?.columns?.map((column, colIndex) => (
                                                         <td className="middayModal-td" key={colIndex}>
+
                                                             {column === "date" ? (
                                                                 <input
                                                                     type="date"
@@ -239,9 +239,10 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                             ))}
 
 
-                                            {lsitingformik?.values?.listing?.slice(0, 2)?.map((row, rowIndex) => (
+                                            {lsitingformik?.values?.listing?.map((row, rowIndex) => (
                                                 <>
 
+                                                    {console.log(row, "row", rowIndex, "rowIndex")}
 
                                                     <tr>
                                                         <th>
@@ -270,7 +271,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                             </div>
                                                         </th>
 
-                                                        {row.map((item, itemIndex) => (
+                                                        {row?.map((item, itemIndex) => (
                                                             <th key={item.id} className="">
                                                                 <div className="">
                                                                     <Field
