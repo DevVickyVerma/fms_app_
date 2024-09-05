@@ -207,10 +207,14 @@ const UpdateFuelPrices = (props) => {
                     </Col>
                 </Row>
 
-                <MiddayFuelPrice
-                    MiddayFuelPriceData={MiddayFuelPriceData}
+                {MiddayFuelPriceData?.data ? (
+                    <MiddayFuelPrice data={MiddayFuelPriceData?.data} />
+                ) : (
+                    <div>Loading...</div> // Optionally provide a fallback UI
+                )}
 
-                />
+
+
 
                 {/* <Row className="row-sm">
                     <Col lg={12}>

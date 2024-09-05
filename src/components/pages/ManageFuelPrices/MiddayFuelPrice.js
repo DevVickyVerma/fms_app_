@@ -3,9 +3,9 @@ import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import { Card, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
 import ListingForm from './ListingForm';
-const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
+const MiddayFuelPrice = ({ data }) => {
 
-    console.log(MiddayFuelPriceData?.data, "MiddayFuelPriceData");
+    console.log(data, "ListingForm");
 
     const formik = useFormik({
         initialValues: {
@@ -26,9 +26,9 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
 
     useEffect(() => {
 
-        if (MiddayFuelPriceData?.data) {
+        if (data) {
 
-            const data = MiddayFuelPriceData?.data
+        
 
             // Standardize column names
             const columns = data?.head_array?.map(item => standardizeName(item.name));
@@ -57,7 +57,7 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
 
 
 
-    }, []);
+    }, [data]);
 
     const handleChange = (e, rowIndex, column) => {
 
@@ -78,7 +78,7 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
             )
         )
     });
-
+console.log(data?.listing, "columnIndex");
     const listing = [
         [
             { id: 'Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09', name: 'Unleaded', date: '2024-10-12', time: '12:00', price: '100', is_editable: false, status: 'SAME' },
@@ -94,7 +94,7 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
         ]
     ];
     const lsitingformik = useFormik({
-        initialValues: { listing },
+        initialValues:  data?.listing ,
         validationSchema,
         onSubmit: (values) => {
             console.log('Form Values:', values);
