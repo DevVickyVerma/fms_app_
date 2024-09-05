@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { Field, FormikProvider, useFormik } from 'formik';
+import { Field, Formik, FormikProvider, useFormik } from 'formik';
 import { Card, Row, Col, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
+import ListingForm from './ListingForm';
 const MiddayFuelPrice = () => {
     const formik = useFormik({
         initialValues: {
@@ -168,6 +169,35 @@ const MiddayFuelPrice = () => {
     };
 
 
+    const listing = [
+        [
+
+            { id: 'Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09', name: 'Unleaded', date: '2024-10-12', time: '12:00', price: '100', is_editable: false, status: 'SAME' },
+            { id: 'OUNrS016Ym93czZsVzlMOHNkSE9hZz09', name: 'Super Unleaded', date: '2024-10-12', time: '12:00 AM', price: '200', is_editable: false, status: 'SAME' },
+            { id: 'MkJWd25aSTlDekVwcWg4azgrNVh3UT09', name: 'Diesel', date: '2024-10-12', time: '12:00 AM', price: '300', is_editable: false, status: 'SAME' },
+            { id: 'L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09', name: 'Super Diesel', date: '2024-10-12', time: '12:00 AM', price: '400', is_editable: false, status: 'SAME' }
+        ],
+        [
+
+            { id: 'Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09', name: 'Unleaded', date: '2024-09-04', time: '11:56', is_editable: true, price: '500', status: 'SAME' },
+            { id: 'OUNrS016Ym93czZsVzlMOHNkSE9hZz09', name: 'Super Unleaded', date: '2024-09-04', time: '11:56', is_editable: true, price: '600', status: 'SAME' },
+            { id: 'MkJWd25aSTlDekVwcWg4azgrNVh3UT09', name: 'Diesel', date: '2024-09-04', time: '11:56', is_editable: true, price: '700', status: 'SAME' },
+            { id: 'L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09', name: 'Super Diesel', date: '2024-09-04', time: '11:56', is_editable: true, price: '800', status: 'SAME' }
+        ]
+    ];
+
+    // Validation schema
+    const validationSchema = Yup.object({
+        listing: Yup.array().of(
+            Yup.array().of(
+                Yup.object({
+                    date: Yup.string().required('Date is required'),
+                    time: Yup.string().required('Time is required'),
+                    price: Yup.number().required('Price is required').positive('Price must be positive')
+                })
+            )
+        )
+    });
 
 
     return (
@@ -235,9 +265,12 @@ const MiddayFuelPrice = () => {
 
                                     </tr>
                                 ))}
+
+
                             </tbody>
                         </table>
 
+                        <ListingForm />
                     </Card.Body>
                 </Card>
             </Col>

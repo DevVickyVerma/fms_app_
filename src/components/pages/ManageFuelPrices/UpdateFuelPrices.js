@@ -25,7 +25,7 @@ const UpdateFuelPrices = (props) => {
         localStorage.getItem("superiorRole") !== "Client"
     );
     const { id: paramSite_id } = useParams();
-const [MiddayFuelPriceData,setMiddayFuelPriceData] = useState();
+    const [MiddayFuelPriceData, setMiddayFuelPriceData] = useState();
 
 
     const GetCompititor = async (filters) => {
@@ -208,9 +208,9 @@ const [MiddayFuelPriceData,setMiddayFuelPriceData] = useState();
                 </Row>
 
                 <MiddayFuelPrice
-                MiddayFuelPriceData={MiddayFuelPriceData}
-                
-                 />
+                    MiddayFuelPriceData={MiddayFuelPriceData}
+
+                />
 
                 {/* <Row className="row-sm">
                     <Col lg={12}>

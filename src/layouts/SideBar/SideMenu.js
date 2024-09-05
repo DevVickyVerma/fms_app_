@@ -13,15 +13,6 @@ export const MENUITEMS = [
         title: "Dashboard",
       },
 
-      // {
-      //   path: `/fuelprice`,
-      //   title: "Fuel Selling Prices",
-      //   type: "link",
-      //   permission: "fuel-price-update",
-      //   visibility: false,
-      // },
-
-
       {
         path: `/fuelprice`,
         icon: "home",
