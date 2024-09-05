@@ -189,7 +189,7 @@ const DashboardStatCard = ({ getData, isLoading }) => {
             src={require("../../assets/images/commonimages/LiveIMg.gif")}
             alt="Live Img"
             className="Liveimage"
-          />{" "}{" "} Last Updated On : (03-09-2024 11:15 PM)
+          />{" "}{" "} Last Updated On : (03-09-2024 11:15 AM)
           {/* ({formattedDateTime}) */}
         </h4>
       </Card.Header>

@@ -438,11 +438,11 @@ const FuelPrices = (props) => {
                           {data?.listing?.map((item) => (
                             <tr key={item.id}>
                               <td className=" align-middle">
-                                <div className='fuel-site-name fuel-price-conent'>
+                                <div className=' fuel-price-conent'>
                                   <div
                                     className={
                                       item?.link_clickable
-                                        ? "text-muted fs-15 fw-semibold  flex-grow-1 "
+                                        ? " fs-15 fw-semibold  flex-grow-1 fuel-site-name"
                                         : "text-muted fs-15 fw-semibold  flex-grow-1"
                                     }
                                     // onClick={item?.link_clickable && item?.count > 0 ? () => handleModalOpen(item) : null}
@@ -459,7 +459,7 @@ const FuelPrices = (props) => {
                                 </div>
                               </td>
                               <td className=" align-middle fuel-price-conent fuel-price-time-td">
-                                <span className="text-muted fs-15 fw-semibold text-center  ">
+                                <span className=" fs-15 fw-semibold text-center  ">
                                   {item?.time ? moment(item?.time, 'HH:mm').format('h:mm A') : ''}
                                 </span>
                               </td>

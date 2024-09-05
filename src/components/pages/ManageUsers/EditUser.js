@@ -297,7 +297,7 @@ const EditUsers = (props) => {
                             value={selectedCountryCode}
                             onChange={handleCountryCodeChange}
                             className="d-flex align-items-center disable-pre-number "
-                            style={{ borderRadius: "5px 0px 0px 5px", width: "100px" }}
+                            style={{ width: "100px", borderRadius: "0px" }}
                           >
                             {countryCodes.map((country, index) => (
                               <option key={index} value={country.code}>
@@ -317,7 +317,7 @@ const EditUsers = (props) => {
                             placeholder="Phone Number"
                             onChange={formik.handleChange}
                             value={formik.values.phone_number || ""}
-                            style={{ borderRadius: "0px 5px 5px 0px" }}
+                            style={{ borderRadius: "0px" }}
                           />
                         </div>
 

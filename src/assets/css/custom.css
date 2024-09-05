@@ -706,9 +706,17 @@ span.fairbank-title {
 }
 
 .fuel-site-name {
-  color: #7500ca !important;
   cursor: pointer;
   max-width: 139px;
+}
+
+.fuel-site-name:hover {
+  color: #7500ca !important;
+}
+
+
+.fuel-price-time-td {
+  min-width: 120px !important;
 }
 
 .fuel-site-time {
@@ -1630,7 +1638,7 @@ span.text-error {
 }
 
 .page-title {
-  color: #4663ac;
+  color: var(--primary-text-color);
 }
 
 .margin-div {

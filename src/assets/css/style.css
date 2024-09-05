@@ -101,6 +101,8 @@ License        :   Licensed under ThemeForest License
 :root {
   --primary-bg-color: #4663ac;
   --primary-bg-hover: #3d68d4;
+  --primary-text-color: #000000DE;
+  --primary-dark-text-color: #000000DE;
   --primary-bg-border: #2d8ba8e0;
   --dark-body: #292e4a;
   --dark-border: #30314e;
@@ -17309,7 +17311,7 @@ div.conv-form-wrapper div.options div.option.selected {
 }
 
 .breadcrumb .breadcrumb-item.active {
-  color: var(--primary-bg-color);
+  color: var(--primary-text-color);
 }
 
 .input-group.input-indec .form-control {
@@ -35424,7 +35426,8 @@ body.rtl {
   -webkit-transition: border-left-color 0.3s ease, background-color 0.3s ease;
   -o-transition: border-left-color 0.3s ease, background-color 0.3s ease;
   transition: border-left-color 0.3s ease, background-color 0.3s ease;
-  color: #0e2273;
+  /* color: #0e2273; */
+  color: #000000DE;
   /* border-radius: 0 60px 60px 0; */
   margin: 2px 0px;
 }
@@ -35475,9 +35478,6 @@ body.rtl {
   color: #b5c1d2;
 }
 
-.slide-menu a.active {
-  color: var(--primary-bg-color);
-}
 
 .slide-item.active,
 .slide-item:hover,
@@ -35485,6 +35485,13 @@ body.rtl {
   text-decoration: none;
   color: var(--primary-bg-color) !important;
 }
+
+
+
+.slide-menu a.active {
+  color: var(--primary-bg-color) !important;
+}
+
 
 .slide-menu li {
   position: relative;
@@ -35507,7 +35514,8 @@ body.rtl {
 }
 
 .side-menu .side-menu__icon {
-  color: #495584;
+  /* color: #495584; */
+  color: #000;
   font-size: 18px;
   text-align: center;
   vertical-align: middle;
@@ -35553,7 +35561,7 @@ body.rtl {
   align-items: center;
   padding: 8px 8px;
   font-size: 14px;
-  color: #76839a;
+  color: var(--primary-text-color);
 }
 
 .slide-item .icon {
@@ -43937,9 +43945,9 @@ iframe {
   background: #ffffff;
   height: 45px;
   padding: 0.375rem 0.75rem;
-  border-radius: 5px;
-  border: 1px solid #ecf0fa;
-  box-shadow: 1px 1px #e3e3e3;
+  border-radius: 0px;
+  border: 1px solid #d4d4d4;
+  /* box-shadow: 1px 1px #e3e3e3; */
 }
 
 .dark-mode .input101 {

@@ -44,45 +44,95 @@ const ListingForm = () => {
         <FormikProvider value={formik}>
             <Form>
                 {formik.values.listing.slice(0, 2).map((row, rowIndex) => (
-                    <div key={rowIndex} className="row mb-3">
-                        <div className="row mb-3">
-                            <div className="col-md-2">
-                                <div className="form-group">
-                                    <Field
-                                        name={`listing[${rowIndex}][0].date`}
-                                        type="date"
-                                        className="table-input"
-                                    />
-                                    <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
-                                </div>
-                                <div className="form-group">
-                                    <Field
-                                        name={`listing[${rowIndex}][0].time`}
-                                        type="time"
-                                        className="table-input"
-                                    />
-                                    <ErrorMessage name={`listing[${rowIndex}][0].time`} component="div" className="text-danger" />
-                                </div>
-                            </div>
+                    <>
+                        <div className="table-container table-responsive">
+                            <table className="table">
+
+                                <tbody>
+                                    <tr>
+                                        <th>
+
+                                            <div className="">
+                                                <Field
+                                                    name={`listing[${rowIndex}][0].date`}
+                                                    type="date"
+                                                    className="table-input"
+                                                />
+                                                <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
+                                            </div>
+                                        </th>
+
+                                        <th>
+
+                                            <div className="">
+                                                <Field
+                                                    name={`listing[${rowIndex}][0].time`}
+                                                    type="time"
+                                                    className="table-input"
+                                                />
+                                                <ErrorMessage name={`listing[${rowIndex}][0].time`} component="div" className="text-danger" />
+                                            </div>
+                                        </th>
+
+                                        {row.map((item, itemIndex) => (
+                                            <th key={item.id} className="">
+                                                <div className="">
+                                                    <Field
+                                                        name={`listing[${rowIndex}][${itemIndex}].price`}
+                                                        type="number"
+                                                        className="table-input"
+                                                        disabled={!item.is_editable}
+                                                    />
+                                                    <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
+                                                </div>
+                                            </th>
+                                        ))}
+                                    </tr>
+
+                                </tbody>
+                            </table>
                         </div>
-                        {row.map((item, itemIndex) => (
-                            <div key={item.id} className="col-md-2">
-                                <div className="form-group">
-                                    <Field
-                                        name={`listing[${rowIndex}][${itemIndex}].price`}
-                                        type="number"
-                                        className="table-input"
-                                        disabled={!item.is_editable}
-                                    />
-                                    <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
+
+                        {/* <div key={rowIndex} className=" mb-3 d">
+                            <div className="">
+                                <div className="">
+                                    <div className="form-group">
+                                        <Field
+                                            name={`listing[${rowIndex}][0].date`}
+                                            type="date"
+                                            className="table-input"
+                                        />
+                                        <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
+                                    </div>
+                                    <div className="form-group">
+                                        <Field
+                                            name={`listing[${rowIndex}][0].time`}
+                                            type="time"
+                                            className="table-input"
+                                        />
+                                        <ErrorMessage name={`listing[${rowIndex}][0].time`} component="div" className="text-danger" />
+                                    </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+                            {row.map((item, itemIndex) => (
+                                <div key={item.id} className="">
+                                    <div className="form-group">
+                                        <Field
+                                            name={`listing[${rowIndex}][${itemIndex}].price`}
+                                            type="number"
+                                            className="table-input"
+                                            disabled={!item.is_editable}
+                                        />
+                                        <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div> */}
+                    </>
                 ))}
                 <button type="submit" className="btn btn-primary">Submit</button>
-            </Form>
-        </FormikProvider>
+            </Form >
+        </FormikProvider >
     );
 };
 

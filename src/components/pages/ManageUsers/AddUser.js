@@ -276,7 +276,7 @@ const AddUsers = (props) => {
                               value={selectedCountryCode}
                               onChange={handleCountryCodeChange}
                               className="d-flex align-items-center disable-pre-number "
-                              style={{ borderRadius: "5px 0px 0px 5px", width: "100px" }}
+                              style={{ width: "100px", borderRadius: "0px" }}
                             >
                               {countryCodes.map((country, index) => (
                                 <option key={index} value={country.code}>
@@ -293,7 +293,7 @@ const AddUsers = (props) => {
                               id="phone_number"
                               name="phone_number"
                               placeholder="Phone Number"
-                              style={{ borderRadius: "0px 5px 5px 0px" }}
+                              style={{ borderRadius: "0px" }}
                             />
                           </div>
                           <ErrorMessage
