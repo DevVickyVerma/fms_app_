@@ -16,7 +16,7 @@ import { BsFuelPumpFill } from "react-icons/bs";
 import MiddayFuelPrice from "./MiddayFuelPrice";
 
 const UpdateFuelPrices = (props) => {
-    const { getData, isLoading } = props;
+    const { getData, isLoading,postData } = props;
     const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
     const navigate = useNavigate();
     const reduxData = useSelector(state => state?.data?.data?.permissions || [])
@@ -105,7 +105,6 @@ const UpdateFuelPrices = (props) => {
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
-    // LocalStorageData
     useEffect(() => {
         if (storedData) {
             let updatedStoredData = JSON.parse(storedData);
@@ -208,7 +207,7 @@ const UpdateFuelPrices = (props) => {
                 </Row>
 
                 {MiddayFuelPriceData?.data ? (
-                    <MiddayFuelPrice data={MiddayFuelPriceData?.data} />
+                    <MiddayFuelPrice data={MiddayFuelPriceData?.data} postData={postData} />
                 ) : (
                     <div>Loading...</div> // Optionally provide a fallback UI
                 )}

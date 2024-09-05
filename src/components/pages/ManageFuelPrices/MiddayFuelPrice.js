@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import { Card, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
-import ListingForm from './ListingForm';
-const MiddayFuelPrice = ({ data }) => {
-
+const MiddayFuelPrice = ({ data, postData }) => {
+    const { notify_operator, update_tlm_price } = data || {}; 
     console.log(data, "ListingForm");
 
     const formik = useFormik({
@@ -97,11 +96,62 @@ const MiddayFuelPrice = ({ data }) => {
         initialValues: { listing },
         validationSchema,
         onSubmit: (values) => {
+            handleSubmit(values);
             console.log('Form Values:', values);
             // Optionally, you can handle form submission here, such as sending data to an API
         }
     });
 
+
+    // const handleSubmit = async (values) => {
+    //     try {
+    //         // Create a new FormData instance
+    //         const formData = new FormData();
+
+    //         // Log the values to inspect them
+    //         console.log(values, "handleSubmit");
+
+    //         // Assuming values.formData is an object where keys are IDs and values contain price, time, and drs_date
+    //         Object.entries(values.formData)?.forEach(([id, data]) => {
+    //             formData.append(`prices[${id}]`, data.price);
+    //             formData.append(`times[${id}]`, data.time);
+    //             formData.append(`dates[${id}]`, data.drs_date);
+    //         });
+    //         const postDataUrl = "/addon/assignss";
+    //         const navigatePath = `/users`;
+
+    //         // Send the data to the API
+    //         await postData(postDataUrl, formData, navigatePath);
+    //     } catch (error) {
+    //         // Handle errors (e.g., show an error message)
+    //         console.log(error);
+    //     }
+    // };
+
+
+    const handleSubmit = async (values) => {
+        try {
+            const formData = new FormData();
+
+            console.log(values, "handleSubmit");
+            values?.listing.flat().forEach(item => {
+                if (item?.is_editable) {
+                    // Append each field to FormData
+                    formData.append(`fuels[${item.id}][price]`, item.price);
+                    formData.append(`fuels[${item.id}][time]`, item.time);
+                    formData.append(`fuels[${item.id}][date]`, item.date);
+                }
+            });
+
+
+            const postDataUrl = "/addon/assignss";
+            const navigatePath = `/users`;
+
+            await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+        } catch (error) {
+            console.log(error); // Set the submission state to false if an error occurs
+        }
+    };
 
     return (
         <Row className="row-sm">
@@ -232,10 +282,41 @@ const MiddayFuelPrice = ({ data }) => {
 
 
                                 <Card.Footer>
-                                    <div className='text-end'>
-                                        <button type="submit" className="btn btn-primary">Submit</button>
-                                    </div>
-                                </Card.Footer>
+
+
+<div className='text-end d-flex justify-content-end align-items-baseline gap-4'>
+
+    {update_tlm_price !== 1 && notify_operator ? (
+        <div className=' position-relative'>
+            <input
+                type="checkbox"
+                id="notifyOperator"
+                name="notifyOperator"
+                defaultChecked={notify_operator}
+                className='mx-1 form-check-input form-check-input-updated'
+            />
+            <label htmlFor="notifyOperator" className='me-3 m-0'>Notify Operator</label>
+        </div>
+    ) : null}
+
+
+    {update_tlm_price == 1 ? (
+        <div className=' position-relative'>
+            <input
+                type="checkbox"
+                id="notifyOperator"
+                name="notifyOperator"
+                defaultChecked={notify_operator}
+                className='mx-1 form-check-input form-check-input-updated'
+            />
+            <label htmlFor="notifyOperator" className='p-0 m-0'>Update TLM Price</label>
+        </div>
+    ) : null}
+
+
+    <button type="submit" className="btn btn-primary">Submit</button>
+</div>
+</Card.Footer>
                             </Form >
                         </FormikProvider >
                         {/* <ListingForm /> */}
