@@ -131,8 +131,8 @@ const MiddayFuelPrice = ({ data, postData }) => {
 
             console.log(values, "handleSubmit");
             formData.append('site_id', prarmSiteID)
-            if (formik?.values?.update_tlm_price) {
-                formData.append('update_tlm_price', formik?.values?.update_tlm_price);
+            if (formik?.values?.update_tlm_price == 1) {
+                formData.append('update_tlm_price', formik?.values?.update_tlm_price == 1 ? true : false);
             }
             if (formik?.values?.notify_operator) {
                 formData.append('notify_operator', formik?.values?.notify_operator);
@@ -141,21 +141,19 @@ const MiddayFuelPrice = ({ data, postData }) => {
 
             const flattenedData = values?.listing?.flat();
             const editableItems = flattenedData.filter(item => item?.is_editable);
-     
-       
+
+
             formData.append(`drs_date]`, editableItems[0]?.date);
             formData.append(`time`, editableItems[0]?.time);
 
             values?.listing.flat().forEach(item => {
                 if (item?.is_editable) {
                     formData.append(`fuels[${item.id}]`, item.price);
-
-
                 }
             });
 
 
-            const postDataUrl = "/site/fuel-price/update-sitepricses";
+            const postDataUrl = "/site/fuel-price/update-sitepricsesss";
             const navigatePath = `/fuelprice`;
 
             await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
