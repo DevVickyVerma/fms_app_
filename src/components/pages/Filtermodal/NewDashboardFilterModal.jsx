@@ -29,8 +29,7 @@ const NewDashboardFilterModal = ({
     onClose,
     isOpen,
 }) => {
-    const { data } = useSelector(state => state.data);
-    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+
     const reduxData = useSelector(state => state?.data?.data);
 
 

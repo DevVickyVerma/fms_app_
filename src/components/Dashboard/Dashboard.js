@@ -370,6 +370,7 @@ const Dashboard = (props) => {
           <DashboardStatCard
             isLoading={isLoading}
             getData={getData}
+            filters={filters}
             title="Total Sales"
             value="2323"
             percentageChange="3%"

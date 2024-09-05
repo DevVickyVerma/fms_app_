@@ -1,116 +1,12 @@
-// // DashboardStatCard.js
-// import React, { useEffect } from "react";
-// import { Card, Col, ProgressBar, Row } from "react-bootstrap";
 
-// const DashboardStatCard = ({ getData, isLoading }) => {
-//   console.log(isLoading, "isLoading");
-
-//   const FetchmannegerList = async () => {
-//     try {
-//       const response = await getData(`/company/auto-report/list`);
-
-//       if (response && response.data) {
-//         console.log(response.data, "response.data");
-//       } else {
-//         throw new Error("No data available in the response");
-//       }
-//     } catch (error) {
-//       console.error("API error:", error);
-//     }
-//   };
-
-//   //   useEffect(() => {
-//   //     FetchmannegerList();
-//   //   }, []);
-//   const request = [
-//     {
-//       id: 1,
-//       data: "ℓ 23,536",
-//       data1: " Gross Volume",
-//       color: "primary",
-//       icon: "fa-send-o",
-//     },
-//     {
-//       id: 2,
-//       data: "£ 45,789",
-//       data1: "Fuel Sales",
-//       color: "secondary",
-//       icon: "fa-bar-chart",
-//     },
-//     {
-//       id: 3,
-//       data: "£ 89,786",
-//       data1: "Gross profit",
-//       color: "success",
-//       icon: "fa-dollar",
-//     },
-//     {
-//       id: 4,
-//       data: " PPl 43,336",
-//       data1: "Gross Margin",
-//       color: "info",
-//       icon: "fa-cart-plus",
-//     },
-//     {
-//       id: 5,
-//       data: "£ 23,536",
-//       data1: "Shop Sales",
-//       color: "primary",
-//       icon: "fa-send-o",
-//     },
-//     {
-//       id: 5,
-//       data: "23,536",
-//       data1: "£ Shop Profit",
-//       color: "primary",
-//       icon: "fa-send-o",
-//     },
-//   ];
-//   return (
-//     <Card>
-//       <Card.Header className="card-header">
-//         <h4 className="card-title">Total Transactions</h4>
-//       </Card.Header>
-//       <Card.Body className="card-body pb-0">
-//         <Row>
-//           {request?.map((requests) => (
-//             <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
-//               <Card
-//                 className={`card bg-${requests?.color} img-card box-${requests?.color}-shadow`}
-//               >
-//                 <Card.Body className="">
-//                   <div className="d-flex">
-//                     <div className="text-white">
-//                       <h2 className="mb-0 number-font">{requests?.data}</h2>
-//                       <p className="text-white mb-0">{requests?.data1} </p>
-//                     </div>
-//                     <div className="ms-auto">
-//                       <i
-//                         className={`fa ${requests?.icon} text-white fs-30 me-2 mt-2`}
-//                       ></i>
-//                     </div>
-//                   </div>
-//                 </Card.Body>
-//               </Card>
-//             </Col>
-//           ))}
-//         </Row>
-//       </Card.Body>
-//     </Card>
-//   );
-// };
-
-// export default DashboardStatCard;
-
-// DashboardStatCard.js
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
-const DashboardStatCard = ({ getData, isLoading }) => {
+const DashboardStatCard = ({ getData, isLoading,filters }) => {
 
-  const FetchmannegerList = async () => {
+  const FetchmannegerList = async (filters) => {
     try {
-      const response = await getData(`/company/auto-report/list`);
+      const response = await getData(`/dashboard/get-live-margin?client_id=${filters?.client_id}&company_id=${filters.company_id}&site_id=${filters.site_id}`);
 
       if (response && response.data) {
       } else {
@@ -122,7 +18,10 @@ const DashboardStatCard = ({ getData, isLoading }) => {
   };
 
   // useEffect(() => {
-  //   FetchmannegerList();
+  //   if(filters){
+  //     FetchmannegerList(filters);
+  //   }
+ 
   // }, []);
 
   const request = [
