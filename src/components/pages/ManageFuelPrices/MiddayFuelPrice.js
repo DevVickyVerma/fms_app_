@@ -33,7 +33,7 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
             // Standardize column names
             const columns = data?.head_array?.map(item => standardizeName(item.name));
             const firstRow = data?.current[0] || [];
-            const rows = firstRow.reduce((acc, item) => {
+            const rows = firstRow?.reduce((acc, item) => {
                 const standardizedName = standardizeName(item.name);
                 acc.date = item.date;
                 acc.time = item.time;
@@ -94,7 +94,7 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
         ]
     ];
     const lsitingformik = useFormik({
-        initialValues: MiddayFuelPriceData?.data?.listingsting,
+        initialValues: { listing },
         validationSchema,
         onSubmit: (values) => {
             console.log('Form Values:', values);
@@ -121,65 +121,64 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
                         </h3>
                     </Card.Header>
                     <Card.Body>
-                        <table className="w-100">
-                            <thead>
-                                <tr>
-                                    {formik.values?.head_array?.map((item) => (
-                                        <th key={item.id}>{item.name}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {formik.values?.rows?.map((row, rowIndex) => (
-                                    <tr className="middayModal-tr" key={rowIndex}>
-                                        {formik.values?.columns.map((column, colIndex) => (
-                                            <td className="middayModal-td" key={colIndex}>
-                                                {column === "date" ? (
-                                                    <input
-                                                        type="date"
-                                                        className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
-                                                        value={formik.values.pricedata?.currentDate}
-                                                        name={row[column]}
-                                                        onChange={(e) => handleChange(e, rowIndex, column)}
-                                                        disabled={row.readonly}
-                                                    />
-                                                ) : column === "time" ? (
-                                                    <input
-                                                        type="text"
-                                                        className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
-                                                        name={`rows[${rowIndex}].${column}`}
-                                                        value={formik.values.pricedata?.currentTime}
 
-                                                        onChange={(e) => handleChange(e, rowIndex, column)}
-                                                        disabled={row.readonly}
-                                                    />
-                                                ) : (
-                                                    <input
-                                                        type="number"
-                                                        className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
-                                                        name={`rows[${rowIndex}].${column}`}
-                                                        value={row[column]}
-                                                        onChange={(e) => handleChange(e, rowIndex, column)}
-                                                        disabled={row.readonly}
-                                                    />
-                                                )}
-                                            </td>
-                                        ))}
-
-                                    </tr>
-                                ))}
-
-
-                            </tbody>
-                        </table>
                         <FormikProvider value={lsitingformik}>
                             <Form>
-                                {lsitingformik.values?.listing.slice(0, 2).map((row, rowIndex) => (
-                                    <>
-                                        <div className="table-container table-responsive">
-                                            <table className="table">
 
-                                                <tbody>
+                                <div className="table-container table-responsive">
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                {formik.values?.head_array?.map((item) => (
+                                                    <th key={item.id}>{item.name}</th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            {formik.values?.rows?.map((row, rowIndex) => (
+                                                <tr className="middayModal-tr" key={rowIndex}>
+                                                    {formik.values?.columns.map((column, colIndex) => (
+                                                        <td className="middayModal-td" key={colIndex}>
+                                                            {column === "date" ? (
+                                                                <input
+                                                                    type="date"
+                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
+                                                                    value={formik.values.pricedata?.currentDate}
+                                                                    name={row[column]}
+                                                                    onChange={(e) => handleChange(e, rowIndex, column)}
+                                                                    disabled={row.readonly}
+                                                                />
+                                                            ) : column === "time" ? (
+                                                                <input
+                                                                    type="text"
+                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
+                                                                    name={`rows[${rowIndex}].${column}`}
+                                                                    value={formik.values.pricedata?.currentTime}
+
+                                                                    onChange={(e) => handleChange(e, rowIndex, column)}
+                                                                    disabled={row.readonly}
+                                                                />
+                                                            ) : (
+                                                                <input
+                                                                    type="number"
+                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
+                                                                    name={`rows[${rowIndex}].${column}`}
+                                                                    value={row[column]}
+                                                                    onChange={(e) => handleChange(e, rowIndex, column)}
+                                                                    disabled={row.readonly}
+                                                                />
+                                                            )}
+                                                        </td>
+                                                    ))}
+
+                                                </tr>
+                                            ))}
+
+
+                                            {lsitingformik.values?.listing.slice(0, 2).map((row, rowIndex) => (
+                                                <>
                                                     <tr>
                                                         <th>
 
@@ -223,14 +222,20 @@ const MiddayFuelPrice = ({ MiddayFuelPriceData }) => {
                                                         ))}
                                                     </tr>
 
-                                                </tbody>
-                                            </table>
-                                        </div>
+
+                                                </>
+                                            ))}
+
+                                        </tbody>
+                                    </table>
+                                </div>
 
 
-                                    </>
-                                ))}
-                                <button type="submit" className="btn btn-primary">Submit</button>
+                                <Card.Footer>
+                                    <div className='text-end'>
+                                        <button type="submit" className="btn btn-primary">Submit</button>
+                                    </div>
+                                </Card.Footer>
                             </Form >
                         </FormikProvider >
                         {/* <ListingForm /> */}
