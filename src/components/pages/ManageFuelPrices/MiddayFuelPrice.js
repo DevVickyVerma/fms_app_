@@ -135,18 +135,19 @@ const MiddayFuelPrice = ({ data, postData }) => {
             formData.append('notify_operator', formik?.values?.notify_operator)
 
 
+
             values?.listing.flat().forEach(item => {
                 if (item?.is_editable) {
-                    // Append each field to FormData
-                    formData.append(`fuels[${item.id}][price]`, item.price);
-                    formData.append(`fuels[${item.id}][time]`, item.time);
-                    formData.append(`fuels[${item.id}][date]`, item.date);
+                    formData.append(`fuels[${item.id}]`, item.price);
+                    formData.append(`fuels[${values.id}]`, values.time);
+                    formData.append(`fuels[${values.id}]`, values.date);
+
                 }
             });
 
 
-            const postDataUrl = "/addon/assignsss";
-            const navigatePath = `/users`;
+            const postDataUrl = "/site/fuel-price/update-siteprice";
+            const navigatePath = `/fuelprice`;
 
             await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
         } catch (error) {
