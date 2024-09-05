@@ -28,7 +28,7 @@ const MiddayFuelPrice = ({ data }) => {
 
         if (data) {
 
-        
+
 
             // Standardize column names
             const columns = data?.head_array?.map(item => standardizeName(item.name));
@@ -78,7 +78,7 @@ const MiddayFuelPrice = ({ data }) => {
             )
         )
     });
-console.log(data?.listing, "columnIndex");
+    console.log(data?.listing, "columnIndex");
     const listing = [
         [
             { id: 'Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09', name: 'Unleaded', date: '2024-10-12', time: '12:00', price: '100', is_editable: false, status: 'SAME' },
@@ -94,7 +94,7 @@ console.log(data?.listing, "columnIndex");
         ]
     ];
     const lsitingformik = useFormik({
-        initialValues:  data?.listing ,
+        initialValues: { listing },
         validationSchema,
         onSubmit: (values) => {
             console.log('Form Values:', values);
@@ -177,7 +177,7 @@ console.log(data?.listing, "columnIndex");
                                             ))}
 
 
-                                            {lsitingformik.values?.listing.slice(0, 2).map((row, rowIndex) => (
+                                            {lsitingformik?.values?.listing?.slice(0, 2)?.map((row, rowIndex) => (
                                                 <>
                                                     <tr>
                                                         <th>
@@ -186,7 +186,8 @@ console.log(data?.listing, "columnIndex");
                                                                 <Field
                                                                     name={`listing[${rowIndex}][0].date`}
                                                                     type="date"
-                                                                    className="table-input"
+                                                                    disabled={!listing?.[rowIndex]?.[0]?.is_editable}
+                                                                    className={`table-input  ${listing?.[rowIndex]?.[0]?.is_editable ? "" : "readonly"}`}
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
                                                             </div>
@@ -198,22 +199,21 @@ console.log(data?.listing, "columnIndex");
                                                                 <Field
                                                                     name={`listing[${rowIndex}][0].time`}
                                                                     type="time"
-                                                                    className="table-input"
-
-
-
+                                                                    // className="table-input"
+                                                                    className={`table-input  ${listing?.[rowIndex]?.[0]?.is_editable ? "" : "readonly"}`}
+                                                                    disabled={!listing?.[rowIndex]?.[0]?.is_editable}
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].time`} component="div" className="text-danger" />
                                                             </div>
                                                         </th>
 
-                                                        {row.map((item, itemIndex) => (
+                                                        {row?.map((item, itemIndex) => (
                                                             <th key={item.id} className="">
                                                                 <div className="">
                                                                     <Field
                                                                         name={`listing[${rowIndex}][${itemIndex}].price`}
                                                                         type="number"
-                                                                        className="table-input"
+                                                                        className={`table-input  ${listing?.[rowIndex]?.[0]?.is_editable ? "" : "readonly"}`}
                                                                         disabled={!item.is_editable}
                                                                     />
                                                                     <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
