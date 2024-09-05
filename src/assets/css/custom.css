@@ -1888,3 +1888,8 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 .fuel-price-time-td {
   min-width: 96px;
 }
+
+.form-check-input-updated {
+  left: -32px;
+  top: -6px;
+}
