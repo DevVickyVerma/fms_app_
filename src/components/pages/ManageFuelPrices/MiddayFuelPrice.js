@@ -29,7 +29,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                 Yup.object({
                     date: Yup.string().required('Date is required'),
                     time: Yup.string().required('Time is required'),
-                    price: Yup.number().required('Price is required').positive('Price must be positive')
+                    price: Yup.number().required('Price is required')
                 })
             )
         )
@@ -44,7 +44,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
             // Optionally, you can handle form submission here, such as sending data to an API
         }
     });
-    
+
     const { id: prarmSiteID } = useParams()
     useEffect(() => {
 
@@ -145,7 +145,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
             });
 
 
-            const postDataUrl = "/addon/assignss";
+            const postDataUrl = "/addon/assignsss";
             const navigatePath = `/users`;
 
             await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
@@ -200,6 +200,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     name={row[column]}
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
                                                                     disabled={row.readonly}
+                                                                    placeholder="Enter price"
                                                                 />
                                                             ) : column === "time" ? (
                                                                 <input
@@ -207,7 +208,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
                                                                     name={`rows[${rowIndex}].${column}`}
                                                                     value={formik.values.pricedata?.currentTime}
-
+                                                                    placeholder="Enter price"
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
                                                                     disabled={row.readonly}
                                                                 />
@@ -219,6 +220,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     value={row[column]}
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
                                                                     disabled={row.readonly}
+                                                                    placeholder="Enter price"
                                                                 />
                                                             )}
                                                         </td>
@@ -232,7 +234,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                 <>
 
 
-                                                <tr>
+                                                    <tr>
                                                         <th>
                                                             <div className="">
                                                                 <Field
@@ -240,6 +242,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     type="date"
                                                                     disabled={!row[0].is_editable}
                                                                     className={`table-input ${!row[0].is_editable ? 'readonly' : ''}`}
+                                                                    placeholder="Enter Date"
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
                                                             </div>
@@ -252,6 +255,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     type="time"
                                                                     disabled={!row[0].is_editable}
                                                                     className={`table-input ${!row[0].is_editable ? 'readonly' : ''}`}
+                                                                    placeholder="Enter time"
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].time`} component="div" className="text-danger" />
                                                             </div>
@@ -265,6 +269,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                         type="number"
                                                                         className={`table-input ${!item.is_editable ? 'readonly' : ''}`}
                                                                         disabled={!item.is_editable}
+                                                                        placeholder="Enter price"
                                                                     />
                                                                     <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
                                                                 </div>
@@ -272,7 +277,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                         ))}
                                                     </tr>
 
-                                                
+
 
 
                                                 </>
@@ -286,45 +291,44 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                 <Card.Footer>
 
 
-<div className='text-end d-flex justify-content-end align-items-baseline gap-4'>
+                                    <div className='text-end d-flex justify-content-end align-items-baseline gap-4'>
 
-    {update_tlm_price !== 1 && notify_operator ? (
-        <div className=' position-relative pointer'>
-            <input
-                type="checkbox"
-                id="notify_operator"
-                name="notify_operator"
-                value={formik?.values?.notify_operator}
-                onChange={formik.handleChange}
-                className='mx-1 form-check-input form-check-input-updated pointer'
-            />
-            <label htmlFor="notify_operator" className='me-3 m-0 pointer'>Notify Operator</label>
-        </div>
-    ) : null}
+                                        {update_tlm_price !== 1 && notify_operator ? (
+                                            <div className=' position-relative pointer'>
+                                                <input
+                                                    type="checkbox"
+                                                    id="notify_operator"
+                                                    name="notify_operator"
+                                                    value={formik?.values?.notify_operator}
+                                                    onChange={formik.handleChange}
+                                                    className='mx-1 form-check-input form-check-input-updated pointer'
+                                                />
+                                                <label htmlFor="notify_operator" className='me-3 m-0 pointer'>Notify Operator</label>
+                                            </div>
+                                        ) : null}
 
-    {update_tlm_price == 1 ? (
-        <div className=' position-relative pointer'>
-            <input
-                type="checkbox"
-                id="update_tlm_price"
-                name="update_tlm_price"
-                checked={formik?.values?.update_tlm_price === 1}
-                onChange={(e) => {
-                    formik.setFieldValue('update_tlm_price', e.target.checked ? 1 : 0);
-                }}
-                className='mx-1 form-check-input form-check-input-updated pointer'
-            />
-            <label htmlFor="update_tlm_price" className='p-0 m-0 pointer'>Update TLM Price</label>
-        </div>
-    ) : null}
+                                        {update_tlm_price == 1 ? (
+                                            <div className=' position-relative pointer'>
+                                                <input
+                                                    type="checkbox"
+                                                    id="update_tlm_price"
+                                                    name="update_tlm_price"
+                                                    checked={formik?.values?.update_tlm_price === 1}
+                                                    onChange={(e) => {
+                                                        formik.setFieldValue('update_tlm_price', e.target.checked ? 1 : 0);
+                                                    }}
+                                                    className='mx-1 form-check-input form-check-input-updated pointer'
+                                                />
+                                                <label htmlFor="update_tlm_price" className='p-0 m-0 pointer'>Update TLM Price</label>
+                                            </div>
+                                        ) : null}
 
 
-    <button type="submit" className="btn btn-primary">Submit</button>
-</div>
-</Card.Footer>
+                                        <button type="submit" className="btn btn-primary">Submit</button>
+                                    </div>
+                                </Card.Footer>
                             </Form >
                         </FormikProvider >
-                        {/* <ListingForm /> */}
                     </Card.Body>
                 </Card>
             </Col>
