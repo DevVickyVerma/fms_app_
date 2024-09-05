@@ -581,6 +581,9 @@ const DepartmentShop = (props) => {
                               ""
                             }
                             readOnly={editable?.is_editable ? false : true}
+                          
+
+                            
                           />
                           {formik.errors.bunkeredSales?.[index]?.volume &&
                             formik.touched[
