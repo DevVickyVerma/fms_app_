@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import { Card, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
+import { useParams } from 'react-router-dom';
 const MiddayFuelPrice = ({ data, postData }) => {
-    const { notify_operator, update_tlm_price } = data || {}; 
+    const { notify_operator, update_tlm_price } = data || {};
     console.log(data, "ListingForm");
 
     const formik = useFormik({
@@ -22,7 +23,29 @@ const MiddayFuelPrice = ({ data, postData }) => {
     });
 
     const standardizeName = (name) => name?.toLowerCase().replace(/\s+/g, '_');
-
+    const validationSchema = Yup.object({
+        listing: Yup.array().of(
+            Yup.array().of(
+                Yup.object({
+                    date: Yup.string().required('Date is required'),
+                    time: Yup.string().required('Time is required'),
+                    price: Yup.number().required('Price is required').positive('Price must be positive')
+                })
+            )
+        )
+    });
+    const listing = [];
+    const lsitingformik = useFormik({
+        initialValues: { listing },
+        validationSchema,
+        onSubmit: (values) => {
+            handleSubmit(values);
+            console.log('Form Values:', values);
+            // Optionally, you can handle form submission here, such as sending data to an API
+        }
+    });
+    
+    const { id: prarmSiteID } = useParams()
     useEffect(() => {
 
         if (data) {
@@ -45,9 +68,14 @@ const MiddayFuelPrice = ({ data, postData }) => {
             formik.setValues({
                 columns: columns,
                 rows: [rows], // Make sure rows is an array with one object
-                update_tlm_price: false,
+                update_tlm_price: data?.update_tlm_price,
+                notify_operator: data?.notify_operator,
                 head_array: data?.head_array,
                 pricedata: data
+            });
+            lsitingformik.setValues({
+                listing: data?.listing,
+
             });
 
         }
@@ -66,41 +94,9 @@ const MiddayFuelPrice = ({ data, postData }) => {
     };
 
 
-    const validationSchema = Yup.object({
-        listing: Yup.array().of(
-            Yup.array().of(
-                Yup.object({
-                    date: Yup.string().required('Date is required'),
-                    time: Yup.string().required('Time is required'),
-                    price: Yup.number().required('Price is required').positive('Price must be positive')
-                })
-            )
-        )
-    });
+
     console.log(data?.listing, "columnIndex");
-    const listing = [
-        [
-            { id: 'Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09', name: 'Unleaded', date: '2024-10-12', time: '12:00', price: '100', is_editable: false, status: 'SAME' },
-            { id: 'OUNrS016Ym93czZsVzlMOHNkSE9hZz09', name: 'Super Unleaded', date: '2024-10-12', time: '12:00 AM', price: '200', is_editable: false, status: 'SAME' },
-            { id: 'MkJWd25aSTlDekVwcWg4azgrNVh3UT09', name: 'Diesel', date: '2024-10-12', time: '12:00 AM', price: '300', is_editable: false, status: 'SAME' },
-            { id: 'L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09', name: 'Super Diesel', date: '2024-10-12', time: '12:00 AM', price: '400', is_editable: false, status: 'SAME' }
-        ],
-        [
-            { id: 'Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09', name: 'Unleaded', date: '2024-09-04', time: '11:56', is_editable: true, price: '500', status: 'SAME' },
-            { id: 'OUNrS016Ym93czZsVzlMOHNkSE9hZz09', name: 'Super Unleaded', date: '2024-09-04', time: '11:56', is_editable: true, price: '600', status: 'SAME' },
-            { id: 'MkJWd25aSTlDekVwcWg4azgrNVh3UT09', name: 'Diesel', date: '2024-09-04', time: '11:56', is_editable: true, price: '700', status: 'SAME' },
-            { id: 'L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09', name: 'Super Diesel', date: '2024-09-04', time: '11:56', is_editable: true, price: '800', status: 'SAME' }
-        ]
-    ];
-    const lsitingformik = useFormik({
-        initialValues: { listing },
-        validationSchema,
-        onSubmit: (values) => {
-            handleSubmit(values);
-            console.log('Form Values:', values);
-            // Optionally, you can handle form submission here, such as sending data to an API
-        }
-    });
+
 
 
     // const handleSubmit = async (values) => {
@@ -134,6 +130,11 @@ const MiddayFuelPrice = ({ data, postData }) => {
             const formData = new FormData();
 
             console.log(values, "handleSubmit");
+            formData.append('site_id', prarmSiteID)
+            formData.append('update_tlm_price', formik?.values?.update_tlm_price == 1 ? true : false)
+            formData.append('notify_operator', formik?.values?.notify_operator)
+
+
             values?.listing.flat().forEach(item => {
                 if (item?.is_editable) {
                     // Append each field to FormData
@@ -161,7 +162,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                         <h3 className="card-title w-100">
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <div>
-                                    <span>Update Fuel Price (10-12-2024, 10:24 AM)</span>
+                                    <span>Update Fuel Price ({`${data?.currentDate}, ${data?.currentTime}`}) </span>
                                     <span className="d-flex pt-1 align-items-center" style={{ fontSize: "12px" }}>
                                         <span className="greenboxx me-2"></span>
                                         <span className="text-muted">Current Price</span>
@@ -229,41 +230,40 @@ const MiddayFuelPrice = ({ data, postData }) => {
 
                                             {lsitingformik?.values?.listing?.slice(0, 2)?.map((row, rowIndex) => (
                                                 <>
-                                                    <tr>
-                                                        <th>
 
+
+                                                <tr>
+                                                        <th>
                                                             <div className="">
                                                                 <Field
                                                                     name={`listing[${rowIndex}][0].date`}
                                                                     type="date"
-                                                                    disabled={!listing?.[rowIndex]?.[0]?.is_editable}
-                                                                    className={`table-input  ${listing?.[rowIndex]?.[0]?.is_editable ? "" : "readonly"}`}
+                                                                    disabled={!row[0].is_editable}
+                                                                    className={`table-input ${!row[0].is_editable ? 'readonly' : ''}`}
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
                                                             </div>
                                                         </th>
 
                                                         <th>
-
                                                             <div className="">
                                                                 <Field
                                                                     name={`listing[${rowIndex}][0].time`}
                                                                     type="time"
-                                                                    // className="table-input"
-                                                                    className={`table-input  ${listing?.[rowIndex]?.[0]?.is_editable ? "" : "readonly"}`}
-                                                                    disabled={!listing?.[rowIndex]?.[0]?.is_editable}
+                                                                    disabled={!row[0].is_editable}
+                                                                    className={`table-input ${!row[0].is_editable ? 'readonly' : ''}`}
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].time`} component="div" className="text-danger" />
                                                             </div>
                                                         </th>
 
-                                                        {row?.map((item, itemIndex) => (
+                                                        {row.map((item, itemIndex) => (
                                                             <th key={item.id} className="">
                                                                 <div className="">
                                                                     <Field
                                                                         name={`listing[${rowIndex}][${itemIndex}].price`}
                                                                         type="number"
-                                                                        className={`table-input  ${listing?.[rowIndex]?.[0]?.is_editable ? "" : "readonly"}`}
+                                                                        className={`table-input ${!item.is_editable ? 'readonly' : ''}`}
                                                                         disabled={!item.is_editable}
                                                                     />
                                                                     <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
@@ -271,6 +271,8 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                             </th>
                                                         ))}
                                                     </tr>
+
+                                                
 
 
                                                 </>
@@ -287,29 +289,32 @@ const MiddayFuelPrice = ({ data, postData }) => {
 <div className='text-end d-flex justify-content-end align-items-baseline gap-4'>
 
     {update_tlm_price !== 1 && notify_operator ? (
-        <div className=' position-relative'>
+        <div className=' position-relative pointer'>
             <input
                 type="checkbox"
-                id="notifyOperator"
-                name="notifyOperator"
-                defaultChecked={notify_operator}
-                className='mx-1 form-check-input form-check-input-updated'
+                id="notify_operator"
+                name="notify_operator"
+                value={formik?.values?.notify_operator}
+                onChange={formik.handleChange}
+                className='mx-1 form-check-input form-check-input-updated pointer'
             />
-            <label htmlFor="notifyOperator" className='me-3 m-0'>Notify Operator</label>
+            <label htmlFor="notify_operator" className='me-3 m-0 pointer'>Notify Operator</label>
         </div>
     ) : null}
 
-
     {update_tlm_price == 1 ? (
-        <div className=' position-relative'>
+        <div className=' position-relative pointer'>
             <input
                 type="checkbox"
-                id="notifyOperator"
-                name="notifyOperator"
-                defaultChecked={notify_operator}
-                className='mx-1 form-check-input form-check-input-updated'
+                id="update_tlm_price"
+                name="update_tlm_price"
+                checked={formik?.values?.update_tlm_price === 1}
+                onChange={(e) => {
+                    formik.setFieldValue('update_tlm_price', e.target.checked ? 1 : 0);
+                }}
+                className='mx-1 form-check-input form-check-input-updated pointer'
             />
-            <label htmlFor="notifyOperator" className='p-0 m-0'>Update TLM Price</label>
+            <label htmlFor="update_tlm_price" className='p-0 m-0 pointer'>Update TLM Price</label>
         </div>
     ) : null}
 
