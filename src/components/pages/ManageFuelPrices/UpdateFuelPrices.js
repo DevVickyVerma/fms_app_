@@ -148,7 +148,7 @@ const UpdateFuelPrices = (props) => {
 
                 <div className="page-header ">
                     <div>
-                        <h1 className="page-title"> Update Fuel Price</h1>
+                        <h1 className="page-title"> Fuel Selling Price</h1>
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
                                 className="breadcrumb-item"
@@ -170,7 +170,7 @@ const UpdateFuelPrices = (props) => {
                                 className="breadcrumb-item active breadcrumds"
                                 aria-current="page"
                             >
-                                Update Fuel Price
+                                Fuel Selling Price
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
@@ -182,7 +182,7 @@ const UpdateFuelPrices = (props) => {
                     <Col md={12} xl={12}>
                         <Card>
                             <Card.Header>
-                                <h3 className="card-title">Update Fuel Price </h3>
+                                <h3 className="card-title">Fuel Selling Price </h3>
                             </Card.Header>
                             <NewFilterTab
                                 getData={getData}

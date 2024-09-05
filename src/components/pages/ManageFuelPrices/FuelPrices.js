@@ -375,7 +375,7 @@ const FuelPrices = (props) => {
 
                   <div className=" d-flex w-100 justify-content-between align-items-center">
                     <span>
-                      Fuel Price (10-12-2024, 10:24 AM)
+                      Fuel Price  ( {data?.currentDate}, {data?.currentTime} )
                     </span>
 
                     {/* {formik?.values?.client_id && formik?.values?.company_id && isFuelHistoryPermissionAvailable && (<>

@@ -92,33 +92,6 @@ const MiddayFuelPrice = ({ data, postData }) => {
 
 
 
-
-    // const handleSubmit = async (values) => {
-    //     try {
-    //         // Create a new FormData instance
-    //         const formData = new FormData();
-
-    //         // Log the values to inspect them
-    //         console.log(values, "handleSubmit");
-
-    //         // Assuming values.formData is an object where keys are IDs and values contain price, time, and drs_date
-    //         Object.entries(values.formData)?.forEach(([id, data]) => {
-    //             formData.append(`prices[${id}]`, data.price);
-    //             formData.append(`times[${id}]`, data.time);
-    //             formData.append(`dates[${id}]`, data.drs_date);
-    //         });
-    //         const postDataUrl = "/addon/assignss";
-    //         const navigatePath = `/users`;
-
-    //         // Send the data to the API
-    //         await postData(postDataUrl, formData, navigatePath);
-    //     } catch (error) {
-    //         // Handle errors (e.g., show an error message)
-    //         console.log(error);
-    //     }
-    // };
-
-
     const handleSubmit = async (values) => {
         try {
             const formData = new FormData();
@@ -156,6 +129,14 @@ const MiddayFuelPrice = ({ data, postData }) => {
         }
     };
 
+
+    const handleShowDate = (index) => {
+        const inputDateElement = document.querySelector(`#${index}`);
+        if (inputDateElement && inputDateElement.showPicker) {
+            inputDateElement.showPicker();
+        }
+    };
+
     return (
         <Row className="row-sm">
             <Col lg={12}>
@@ -164,7 +145,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                         <h3 className="card-title w-100">
                             <div className="d-flex w-100 justify-content-between align-items-center">
                                 <div>
-                                    <span>Update Fuel Price ({`${data?.currentDate}, ${data?.currentTime}`}) </span>
+                                    <span>Fuel Selling Price ({`${data?.currentDate}, ${data?.currentTime}`}) </span>
                                     <span className="d-flex pt-1 align-items-center" style={{ fontSize: "12px" }}>
                                         <span className="greenboxx me-2"></span>
                                         <span className="text-muted">Current Price</span>
@@ -242,7 +223,6 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                             {lsitingformik?.values?.listing?.map((row, rowIndex) => (
                                                 <>
 
-                                                    {console.log(row, "row", rowIndex, "rowIndex")}
 
                                                     <tr>
                                                         <th>

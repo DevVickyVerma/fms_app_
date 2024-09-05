@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogActions } from '@mui/material';
 import { Card, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -150,7 +149,7 @@ const NewDashboardFilterModal = ({
                 fetchSiteList(companyId);
             }
             formik.setFieldValue('site_id', "");
-            const selectedCompany = formik.values.companies.find(company => company?.id === companyId);
+            const selectedCompany = formik?.values?.companies?.find(company => company?.id === companyId);
             formik.setFieldValue('company_name', selectedCompany?.company_name || "");
         } else {
             formik.setFieldValue('company_name', "");
@@ -163,11 +162,10 @@ const NewDashboardFilterModal = ({
     const handleSiteChange = (e) => {
         const selectedSiteId = e.target.value;
         formik.setFieldValue("site_id", selectedSiteId);
-        const selectedSiteData = formik?.values?.sites?.find(site => site.id === selectedSiteId);
+        const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
         formik.setFieldValue('site_name', selectedSiteData?.site_name || "");
     };
 
-    console.log(formik?.values, "formik vlauesss");
 
 
     return (
@@ -218,7 +216,7 @@ const NewDashboardFilterModal = ({
                                                         formik={formik}
                                                         name="client_id"
                                                         label="Client"
-                                                        options={formik.values.clients.map((item) => ({ id: item?.id, name: item?.full_name }))}
+                                                        options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
                                                         className="form-input"
                                                         onChange={handleClientChange}
                                                     />
@@ -233,7 +231,7 @@ const NewDashboardFilterModal = ({
                                                         formik={formik}
                                                         name="company_id"
                                                         label="Company"
-                                                        options={formik.values.companies.map((item) => ({ id: item?.id, name: item?.company_name }))}
+                                                        options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
                                                         className="form-input"
                                                         onChange={handleCompanyChange}
                                                     />
@@ -247,7 +245,7 @@ const NewDashboardFilterModal = ({
                                                         formik={formik}
                                                         name="site_id"
                                                         label="Site"
-                                                        options={formik.values.sites.map((item) => ({ id: item?.id, name: item?.site_name }))}
+                                                        options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
                                                         className="form-input"
                                                         isRequired={showStationValidation}
                                                         onChange={handleSiteChange}
