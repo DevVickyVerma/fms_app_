@@ -13,16 +13,16 @@ export const MENUITEMS = [
         title: "Dashboard",
       },
 
-      {
-        path: `/fuelprice`,
-        icon: "home",
-        type: "link",
-        active: false,
+      // {
+      //   path: `/fuelprice`,
+      //   icon: "home",
+      //   type: "link",
+      //   active: false,
 
-        permission: "dashboard-view",
-        visibility: false,
-        title: "Fuel Selling Prices",
-      },
+      //   permission: "dashboard-view",
+      //   visibility: false,
+      //   title: "Fuel Selling Prices",
+      // },
    
       {
         title: "Manage Users",

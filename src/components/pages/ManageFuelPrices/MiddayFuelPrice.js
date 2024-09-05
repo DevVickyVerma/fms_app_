@@ -143,7 +143,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
             const editableItems = flattenedData.filter(item => item?.is_editable);
 
 
-            formData.append(`drs_date]`, editableItems[0]?.date);
+            formData.append(`drs_date`, editableItems[0]?.date);
             formData.append(`time`, editableItems[0]?.time);
 
             values?.listing.flat().forEach(item => {
@@ -153,7 +153,8 @@ const MiddayFuelPrice = ({ data, postData }) => {
             });
 
 
-            const postDataUrl = "/site/fuel-price/update-sitepricsesss";
+         
+            const postDataUrl = "/site/fuel-price/update-siteprice";
             const navigatePath = `/fuelprice`;
 
             await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
