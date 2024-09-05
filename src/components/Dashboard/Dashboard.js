@@ -47,12 +47,15 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
+  const ReduxPermissions = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
   const [ShowLiveData, setShowLiveData] = useState(false);
   const [isNotClient] = useState(
     localStorage.getItem("superiorRole") !== "Client"
   );
+
+
 
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -131,16 +134,27 @@ const Dashboard = (props) => {
   };
 
   const FetchFilterData = async (filters) => {
-    let { client_id, company_id, site_id, client_name } = filters;
+    let { client_id, company_id, site_id, client_name, company_name } = filters;
+
     if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
+      client_id = ReduxPermissions?.superiorId;
+      client_name = ReduxPermissions?.full_name;
     }
+
+    if (ReduxPermissions?.company_id) {
+      company_id = ReduxPermissions?.company_id;
+      company_name = ReduxPermissions?.company_name;
+    }
+
     const updatedFilters = {
       ...filters,
       client_id,
       client_name,
+      company_id,
+      company_name
     };
+
+
     if (client_id) {
       try {
         const queryParams = new URLSearchParams();
