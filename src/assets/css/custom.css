@@ -339,6 +339,7 @@ tbody tr {
   .table th,
   .table td {
     min-width: 22.28% !important;
+    min-width: 139px !important;
   }
 
   .table thead th {
@@ -1815,6 +1816,10 @@ span.text-error {
     padding-left: 2px !important;
     padding-right: 2px !important;
   }
+
+  .input-time-small-screen {
+    min-width: 120px !important;
+  }
 }
 
 .c-stats-card {
@@ -1892,4 +1897,12 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 .form-check-input-updated {
   left: -32px;
   top: -6px;
+}
+
+.input-time-picker {
+  border-radius: 0px !important;
+}
+
+.input-time-small-screen div {
+  border-radius: 0px !important;
 }

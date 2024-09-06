@@ -194,6 +194,38 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
     }
   };
 
+
+
+  const handleFuelPriceLinkClick = (item) => {
+
+
+    console.log(getCompetitorsPrice, "getCompetitorsPrice", id);
+
+    let storedKeyName = "localFilterModalData";
+    const storedData = localStorage.getItem(storedKeyName);
+
+    if (storedData) {
+      let updatedStoredData = JSON.parse(storedData);
+      updatedStoredData.site_id = id; // Update the site_id here
+      updatedStoredData.site_name = getCompetitorsPrice?.siteName; // Update the site_id here
+
+      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+    } else {
+
+      let updatedStoredData = {
+        site_id: id,
+        site_name: getCompetitorsPrice?.siteName
+      };
+      // updatedStoredData.site_id = id; // Update the site_id here
+      // updatedStoredData.site_name = getCompetitorsPrice?.siteName; // Update the site_id here
+
+      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+    }
+    navigate(`/update-fuel-price/${id}`);
+  };
+
+
+
   return (
     <>
       {Compititorloading ? <Loaderimg /> : null}
@@ -482,11 +514,14 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                   Competitors Stats
                 </h4>
 
-                {isFuelPriceUpdatePermissionAvailable && (<>
-                  <Button className="btn btn-primary btn-icon text-white me-3" onClick={() => handleModalOpen()}>
+                {/* {isFuelPriceUpdatePermissionAvailable && (<>
+                  <Button className="btn btn-primary btn-icon text-white me-3"
+                    onClick={() => handleFuelPriceLinkClick()}
+                  // onClick={() => handleModalOpen()}
+                  >
                     Update Fuel Price
                   </Button>
-                </>)}
+                </>)} */}
               </div>
             </Card.Header>
             <Card.Body className="my-cardd card-body pb-0 overflow-auto">

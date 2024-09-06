@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
@@ -10,7 +10,6 @@ import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
 import { Row } from "react-bootstrap";
 import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
-import { initialState, reducer } from "../../Utils/CustomReducer";
 import NewDashboardFilterModal from "../pages/Filtermodal/NewDashboardFilterModal";
 import * as Yup from "yup";
 import DashboardStatCard from "./DashboardStatCard";
@@ -23,17 +22,14 @@ import ChartCard from "./ChartCard";
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [ClientID, setClientID] = useState();
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
-  const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
     client_id: "",
     company_id: "",
     site_id: "",
   });
-  const { pie_chart_values } = reducerState;
   const {
     searchdata,
     shouldNavigateToDetailsPage,
@@ -47,7 +43,7 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const ReduxPermissions = useSelector((state) => state?.data?.data);
+  const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
   const [ShowLiveData, setShowLiveData] = useState(false);
@@ -55,42 +51,40 @@ const Dashboard = (props) => {
     localStorage.getItem("superiorRole") !== "Client"
   );
 
-
-
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
       : Yup.mixed().notRequired(),
     company_id: Yup.string().required("Company is required"),
   });
-  useEffect(() => {
-    setClientID(localStorage.getItem("superiorId"));
-    if (tokenUpdated) {
-      window.location.reload();
-      localStorage.setItem("tokenupdate", "false"); // Update the value to string "false"
-      // Handle token update logic without page reload
-    }
-    if (loggedInFlag) {
-      setJustLoggedIn(true);
-      localStorage.removeItem("justLoggedIn"); // clear the flag
-    }
 
-    if (justLoggedIn) {
-      SuccessAlert("Login Successfully");
-      setJustLoggedIn(false);
-    }
-  }, [ClientID, dispatch, justLoggedIn, token]);
+  // useEffect(() => {
+  //   if (tokenUpdated) {
+  //     window.location.reload();
+  //     localStorage.setItem("tokenupdate", "false"); // Update the value to string "false"
+  //     // Handle token update logic without page reload
+  //   }
+  //   if (loggedInFlag) {
+  //     setJustLoggedIn(true);
+  //     localStorage.removeItem("justLoggedIn"); // clear the flag
+  //   }
 
-  useEffect(() => {
-    if (Client_login) {
-      if (tokenUpdated) {
-        window.location.reload();
-        localStorage.setItem("Client_login", "false"); // Update the value to string "false"
-        // Handle token update logic without page reload
-      }
-    }
-    //  console.clear();
-  }, [Client_login]);
+  //   if (justLoggedIn) {
+  //     SuccessAlert("Login Successfully");
+  //     setJustLoggedIn(false);
+  //   }
+  // }, [dispatch, justLoggedIn, token]);
+
+  // useEffect(() => {
+  //   if (Client_login) {
+  //     if (tokenUpdated) {
+  //       window.location.reload();
+  //       localStorage.setItem("Client_login", "false"); // Update the value to string "false"
+  //       // Handle token update logic without page reload
+  //     }
+  //   }
+  //   //  console.clear();
+  // }, [Client_login]);
 
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
@@ -103,33 +97,30 @@ const Dashboard = (props) => {
       "Dashboardsitestats",
       permissionsArray?.includes("dashboard-site-stats")
     );
-    if (UserPermissions?.company_id) {
-      localStorage.setItem("PresetCompanyID", UserPermissions?.company_id);
-      localStorage.setItem("PresetCompanyName", UserPermissions?.company_name);
+    if (ReduxFullData?.company_id) {
+      localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
+      localStorage.setItem("PresetCompanyName", ReduxFullData?.company_name);
     } else {
       localStorage.removeItem("PresetCompanyID");
     }
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
+    if (ReduxFullData) {
+      setPermissionsArray(ReduxFullData?.permissions);
     }
-    navigate(UserPermissions?.route);
+    navigate(ReduxFullData?.route);
     //  console.clear();
-  }, [UserPermissions, permissionsArray]);
+  }, [ReduxFullData, permissionsArray]);
 
 
 
 
   const handleApplyFilters = (values) => {
-
     if (!values?.start_date) {
       // If start_date does not exist, set it to the current date
       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
-
       // Update the stored data with the new start_date
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
-
     FetchFilterData(values);
   };
 
@@ -137,13 +128,13 @@ const Dashboard = (props) => {
     let { client_id, company_id, site_id, client_name, company_name } = filters;
 
     if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = ReduxPermissions?.superiorId;
-      client_name = ReduxPermissions?.full_name;
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
     }
 
-    if (ReduxPermissions?.company_id) {
-      company_id = ReduxPermissions?.company_id;
-      company_name = ReduxPermissions?.company_name;
+    if (ReduxFullData?.company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
     }
 
     const updatedFilters = {
@@ -166,32 +157,10 @@ const Dashboard = (props) => {
         const response = await getData(`dashboard/stats?${queryString}`);
         if (response && response.data && response.data.data) {
           setDashboardData(response?.data?.data);
-
           setFilters(updatedFilters);
           setCenterFilterModalOpen(false);
           setShouldNavigateToDetailsPage(true);
           const { data } = response;
-
-          if (data) {
-            reducerDispatch({
-              type: "UPDATE_DATA",
-              payload: {
-                d_line_chart_values: data?.data?.d_line_graph?.series,
-                d_line_chart_option: data?.data?.d_line_graph?.option?.labels,
-                stacked_line_bar_data: data?.data?.line_graph?.datasets,
-                stacked_line_bar_label: data?.data?.line_graph?.labels,
-                pie_chart_values: data?.data?.pi_graph,
-                gross_margin_value: data?.data?.gross_margin,
-                gross_volume: data?.data?.gross_volume,
-                gross_profit_value: data?.data?.gross_profit,
-                fuel_value: data?.data?.fuel_sales,
-                shop_sale: data?.data?.shop_sales,
-                shop_fees: data?.data?.shop_fees,
-                shop_margin: data?.data?.shop_profit,
-                dashboard_dates: data?.data?.dateString,
-              },
-            });
-          }
         }
         // setData(response.data);
       } catch (error) {
@@ -205,9 +174,6 @@ const Dashboard = (props) => {
     localStorage.removeItem(storedKeyName);
     setFilters(null);
     setDashboardData(null);
-    reducerDispatch({
-      type: "RESET_STATE",
-    });
   };
 
 
@@ -227,14 +193,14 @@ const Dashboard = (props) => {
       } else {
         handleApplyFilters(parsedData)
       }
-
       // Call the API with the updated or original data
     } else if (localStorage.getItem("superiorRole") === "Client") {
-      const storedClientIdData = localStorage.getItem("superiorId");
 
-      if (storedClientIdData) {
+      const storedClientIdData = localStorage.getItem("superiorId");
+      if (ReduxFullData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
+          client_name: ReduxFullData?.full_name,
           start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
         };
 
@@ -276,8 +242,8 @@ const Dashboard = (props) => {
         </div>
       )}
 
-      {!UserPermissions?.role == "Client" &&
-        !UserPermissions?.sms_balance < 3 ? (
+      {!ReduxFullData?.role == "Client" &&
+        !ReduxFullData?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -298,7 +264,7 @@ const Dashboard = (props) => {
             <span>Sms Balance : </span>
             <span style={{ marginLeft: "6px" }}>
               {" "}
-              {UserPermissions?.sms_balance}{" "}
+              {ReduxFullData?.sms_balance}{" "}
             </span>
           </div>
         </div>
@@ -313,7 +279,7 @@ const Dashboard = (props) => {
               Dashboard (
               {dashboardData?.dateString
                 ? dashboardData?.dateString
-                : UserPermissions?.dates}
+                : ReduxFullData?.dates}
               )
             </h2>
           </div>
@@ -328,8 +294,8 @@ const Dashboard = (props) => {
         />
       </div>
 
-      {!UserPermissions?.role == "Client" &&
-        !UserPermissions?.sms_balance < 3 ? (
+      {!ReduxFullData?.role == "Client" &&
+        !ReduxFullData?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -350,7 +316,7 @@ const Dashboard = (props) => {
             <span>Sms Balance : </span>
             <span style={{ marginLeft: "6px" }}>
               {" "}
-              {UserPermissions?.sms_balance}{" "}
+              {ReduxFullData?.sms_balance}{" "}
             </span>
           </div>
         </div>
@@ -384,7 +350,7 @@ const Dashboard = (props) => {
             Dashboard (
             {dashboardData?.dateString
               ? dashboardData?.dateString
-              : UserPermissions?.dates}
+              : ReduxFullData?.dates}
             )
           </h2>
         )}
@@ -396,11 +362,12 @@ const Dashboard = (props) => {
           FuelValue={dashboardData?.fuel_sales}
           shopsale={dashboardData?.shop_sales}
           shop_fees={dashboardData?.shop_fees}
-          searchdata={searchdata}
+          // searchdata={searchdata}
           shouldNavigateToDetailsPage={shouldNavigateToDetailsPage}
           setShouldNavigateToDetailsPage={setShouldNavigateToDetailsPage}
           dashboardData={dashboardData}
         />
+
         <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
             title="Total Transactions"

@@ -3,7 +3,10 @@ import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import { Card, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useParams } from 'react-router-dom';
-const MiddayFuelPrice = ({ data, postData }) => {
+import InputTime from '../Competitor/InputTime';
+
+
+const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
     const { notify_operator, update_tlm_price } = data || {};
 
     const formik = useFormik({
@@ -43,12 +46,10 @@ const MiddayFuelPrice = ({ data, postData }) => {
     });
 
     const { id: prarmSiteID } = useParams()
+
+
     useEffect(() => {
-
         if (data) {
-
-
-
             // Standardize column names
             const columns = data?.head_array?.map(item => standardizeName(item.name));
             const firstRow = data?.current[0] || [];
@@ -76,12 +77,8 @@ const MiddayFuelPrice = ({ data, postData }) => {
             });
 
         }
-
-
-
-
-
     }, [data]);
+
 
     const handleChange = (e, rowIndex, column) => {
         const { name, value } = e.target;
@@ -120,9 +117,10 @@ const MiddayFuelPrice = ({ data, postData }) => {
 
 
             const postDataUrl = "/site/fuel-price/update-siteprice";
-            const navigatePath = `/fuelprice`;
 
-            await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+            await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
+
+            handleFormSubmit()
         } catch (error) {
             console.log(error); // Set the submission state to false if an error occurs
         }
@@ -137,13 +135,13 @@ const MiddayFuelPrice = ({ data, postData }) => {
         }
     };
 
-    const handleShowTime = (e, currentTime) => {
-        const inputTimeElement = e.target; // Get the clicked time input element
 
-        if (inputTimeElement && inputTimeElement.showPicker) {
-            inputTimeElement.showPicker(); // Programmatically trigger the time picker
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();  // Prevent the form from submitting
         }
     };
+
 
     return (
         <Row className="row-sm">
@@ -165,7 +163,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
                     <Card.Body>
 
                         <FormikProvider value={lsitingformik}>
-                            <Form>
+                            <Form onKeyDown={handleKeyDown}>
 
                                 <div className="table-container table-responsive">
                                     <table className="table">
@@ -203,16 +201,17 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     placeholder="Enter price"
                                                                 />
                                                             ) : column === "time" ? (
-                                                                <input
-                                                                    type="text"
-                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
-                                                                    name={`rows[${rowIndex}].${column}`}
-                                                                    value={formik.values.pricedata?.currentTime}
-                                                                    placeholder="Enter price"
-                                                                    onChange={(e) => handleChange(e, rowIndex, column)}
 
-                                                                    disabled={row.readonly}
-                                                                />
+
+                                                                <>
+                                                                    <InputTime
+                                                                        label="Time"
+                                                                        value={formik?.values?.pricedata?.currentTime}
+                                                                        disabled={true}  // Disable if not editable
+                                                                        className={`${!row?.[0]?.is_editable ? 'readonly' : ''}`}
+                                                                    />
+
+                                                                </>
                                                             ) : (
                                                                 <input
                                                                     type="number"
@@ -236,7 +235,7 @@ const MiddayFuelPrice = ({ data, postData }) => {
 
 
                                                     <tr>
-                                                        <th>
+                                                        <td className='middayModal-td'>
                                                             <div className="">
                                                                 <Field
                                                                     name={`listing[${rowIndex}][0].date`}
@@ -249,24 +248,31 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
                                                             </div>
-                                                        </th>
+                                                        </td>
 
-                                                        <th>
-                                                            <div className="">
-                                                                <Field
-                                                                    name={`listing[${rowIndex}][0].time`}
-                                                                    type="time"
-                                                                    onClick={(e) => handleShowTime(e, formik.values.listing?.[rowIndex]?.[0]?.time)}  // Passing current time to the onClick handler
-                                                                    disabled={!row[0].is_editable}
-                                                                    className={`table-input ${!row[0].is_editable ? 'readonly' : ''}`}
-                                                                    placeholder="Enter time"
+                                                        <td className='middayModal-td '>
+
+
+                                                            <>
+                                                                <InputTime
+                                                                    label="Time"
+                                                                    value={lsitingformik?.values?.listing?.[rowIndex]?.[0]?.time}
+                                                                    onChange={(newTime) => {
+                                                                        if (row[0].is_editable) {
+                                                                            lsitingformik.setFieldValue(`listing[${rowIndex}][0].time`, newTime);
+                                                                        }
+                                                                    }}
+                                                                    disabled={!row[0].is_editable}  // Disable if not editable
+                                                                    className={`${!row[0].is_editable ? 'readonly' : ''}`}
                                                                 />
-                                                                <ErrorMessage name={`listing[${rowIndex}][0].time`} component="div" className="text-danger" />
-                                                            </div>
-                                                        </th>
+
+
+                                                            </>
+
+                                                        </td>
 
                                                         {row?.map((item, itemIndex) => (
-                                                            <th key={item.id} className="">
+                                                            <td key={item.id} className='middayModal-td'>
                                                                 <div className="">
                                                                     <Field
                                                                         name={`listing[${rowIndex}][${itemIndex}].price`}
@@ -278,13 +284,9 @@ const MiddayFuelPrice = ({ data, postData }) => {
                                                                     />
                                                                     <ErrorMessage name={`listing[${rowIndex}][${itemIndex}].price`} component="div" className="text-danger" />
                                                                 </div>
-                                                            </th>
+                                                            </td>
                                                         ))}
                                                     </tr>
-
-
-
-
                                                 </>
                                             ))}
 

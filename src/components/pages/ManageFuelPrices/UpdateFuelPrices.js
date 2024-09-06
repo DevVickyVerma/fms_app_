@@ -15,6 +15,8 @@ import {
 import { BsFuelPumpFill } from "react-icons/bs";
 import MiddayFuelPrice from "./MiddayFuelPrice";
 
+
+
 const UpdateFuelPrices = (props) => {
     const { getData, isLoading, postData } = props;
     const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -134,10 +136,23 @@ const UpdateFuelPrices = (props) => {
     };
 
 
+    const handleFormSubmit = (values) => {
+        if (storedData) {
+            let updatedStoredData = JSON.parse(storedData);
+            updatedStoredData.site_id = paramSite_id; // Update the site_id here
+            localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+            handleApplyFilters(updatedStoredData);
+        } else if (localStorage.getItem("superiorRole") === "Client") {
+            const storedClientIdData = localStorage.getItem("superiorId");
 
-
-
-
+            if (storedClientIdData) {
+                const futurepriceLog = {
+                    client_id: storedClientIdData,
+                };
+                handleApplyFilters(futurepriceLog);
+            }
+        }
+    };
 
 
     return (
@@ -199,7 +214,6 @@ const UpdateFuelPrices = (props) => {
                                 showStationValidation={true}
                                 showMonthInput={false}
                                 showStationInput={true}
-
                                 showResetBtn={false}
                             />
                         </Card>
@@ -207,7 +221,7 @@ const UpdateFuelPrices = (props) => {
                 </Row>
 
                 {MiddayFuelPriceData?.data ? (
-                    <MiddayFuelPrice data={MiddayFuelPriceData?.data} postData={postData} />
+                    <MiddayFuelPrice data={MiddayFuelPriceData?.data} postData={postData} handleFormSubmit={handleFormSubmit} />
                 ) : (
                     <div>Loading...</div> // Optionally provide a fallback UI
                 )}

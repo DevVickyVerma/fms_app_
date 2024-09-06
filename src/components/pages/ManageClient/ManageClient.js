@@ -199,8 +199,9 @@ const ManageClient = (props) => {
 
       if (response) {
         localStorage.removeItem(storedKeyName)
+        localStorage.setItem("superiorId", response?.data?.data?.superiorId);
+        localStorage.setItem("role", response?.data?.data?.role);
         localStorage.setItem("token", response.data.data.access_token);
-        navigate(UserPermissions?.route);
         const firstName = response.data.data.first_name ?? "";
         const lastName = response.data.data.last_name ?? "";
         const phoneNumber = response.data.data.phone_number ?? "";
@@ -215,10 +216,7 @@ const ManageClient = (props) => {
           localStorage.setItem("tokenupdate", "true");
           localStorage.setItem("Client_login", "true");
         }, 1000); // 2000 milliseconds (2 seconds)
-
-        localStorage.removeItem("passData");
-        localStorage.removeItem("mySearchData");
-        localStorage.removeItem("savedDataOfDashboard");
+        navigate(UserPermissions?.route);
         window.location.reload();
       } else {
         throw new Error("No data available in the response");
