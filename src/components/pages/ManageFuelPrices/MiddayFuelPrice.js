@@ -58,7 +58,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                 acc.date = item.date;
                 acc.time = item.time;
                 acc[standardizedName] = item.price;
-                acc.readonly = !item.is_editable;
+                acc.readonly = !item?.is_editable;
                 acc.currentprice = item.status === "SAME";
                 return acc;
             }, {});
@@ -126,8 +126,6 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
         }
     };
 
-
-
     const handleShowDate = (e, currentDate) => {
         const inputDateElement = e.target; // Get the clicked input element
         if (inputDateElement && inputDateElement.showPicker) {
@@ -191,13 +189,13 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                             {column === "date" ? (
                                                                 <input
                                                                     type="date"
-                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
-                                                                    value={formik.values.pricedata?.currentDate}
-                                                                    name={row[column]}
+                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly" : ""}`}
+                                                                    value={formik?.values?.pricedata?.currentDate}
+                                                                    name={row?.[column]}
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
-                                                                    onClick={(e) => handleShowDate(e, formik.values.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
+                                                                    onClick={(e) => handleShowDate(e, formik?.values?.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
 
-                                                                    disabled={row.readonly}
+                                                                    disabled={row?.readonly}
                                                                     placeholder="Enter price"
                                                                 />
                                                             ) : column === "time" ? (
@@ -215,11 +213,11 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                             ) : (
                                                                 <input
                                                                     type="number"
-                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row.readonly ? "readonly" : ""}`}
+                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly" : ""}`}
                                                                     name={`rows[${rowIndex}].${column}`}
                                                                     value={row[column]}
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
-                                                                    disabled={row.readonly}
+                                                                    disabled={row?.readonly}
                                                                     placeholder="Enter price"
                                                                 />
                                                             )}
@@ -240,10 +238,10 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                                 <Field
                                                                     name={`listing[${rowIndex}][0].date`}
                                                                     type="date"
-                                                                    disabled={!row[0].is_editable}
-                                                                    onClick={(e) => handleShowDate(e, formik.values.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
+                                                                    disabled={!row?.[0]?.is_editable}
+                                                                    onClick={(e) => handleShowDate(e, formik?.values?.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
 
-                                                                    className={`table-input ${!row[0].is_editable ? 'readonly' : ''}`}
+                                                                    className={`table-input ${!row?.[0]?.is_editable ? 'readonly' : ''}`}
                                                                     placeholder="Enter Date"
                                                                 />
                                                                 <ErrorMessage name={`listing[${rowIndex}][0].date`} component="div" className="text-danger" />
@@ -258,12 +256,12 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                                     label="Time"
                                                                     value={lsitingformik?.values?.listing?.[rowIndex]?.[0]?.time}
                                                                     onChange={(newTime) => {
-                                                                        if (row[0].is_editable) {
+                                                                        if (row?.[0]?.is_editable) {
                                                                             lsitingformik.setFieldValue(`listing[${rowIndex}][0].time`, newTime);
                                                                         }
                                                                     }}
-                                                                    disabled={!row[0].is_editable}  // Disable if not editable
-                                                                    className={`${!row[0].is_editable ? 'readonly' : ''}`}
+                                                                    disabled={!row?.[0]?.is_editable}  // Disable if not editable
+                                                                    className={`${!row?.[0]?.is_editable ? 'readonly' : ''}`}
                                                                 />
 
 
@@ -277,8 +275,8 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                                     <Field
                                                                         name={`listing[${rowIndex}][${itemIndex}].price`}
                                                                         type="number"
-                                                                        className={`table-input ${!item.is_editable ? 'readonly' : ''}`}
-                                                                        disabled={!item.is_editable}
+                                                                        className={`table-input ${!item?.is_editable ? 'readonly' : ''}`}
+                                                                        disabled={!item?.is_editable}
                                                                         placeholder="Enter price"
                                                                         step="0.010"
                                                                     />
