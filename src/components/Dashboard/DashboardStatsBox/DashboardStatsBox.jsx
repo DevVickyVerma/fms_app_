@@ -12,8 +12,8 @@ const DashboardStatsBox = (props) => {
     GrossMarginValue,
     FuelValue,
     shopsale,
-    searchdata,
-    dashboardData
+    dashboardData,
+    callStatsBoxParentFunc
   } = props;
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -32,26 +32,6 @@ const DashboardStatsBox = (props) => {
     permissionsArray?.includes("dashboard-details");
   const navigate = useNavigate();
 
-  // const handleNavigateClick = () => {
-  //   let ApplyFilterrequired = UserPermissions?.applyFilter;
-
-  //   // if (searchdata && Object.keys(searchdata).length > 0) {
-  //   //   // Set ApplyFilterrequired to false if searchdata has keys
-  //   //   ApplyFilterrequired = false;
-  //   // }
-
-  //   // if (ApplyFilterrequired && isDetailPermissionAvailable) {
-  //   //   navigate(`/dashboard-details`);
-  //   // }
-
-  //   if (isDetailPermissionAvailable) {
-  //     navigate(`/dashboard-details`);
-  //   }
-  //   // else if (!ApplyFilterrequired && isDetailPermissionAvailable) {
-  //   // } else if (!ApplyFilterrequired && !isDetailPermissionAvailable) {
-  //   // }
-  // };
-
   const handleNavigateClick = () => {
     let ApplyFilterrequired = UserPermissions?.applyFilter;
 
@@ -62,10 +42,26 @@ const DashboardStatsBox = (props) => {
 
     if (ApplyFilterrequired && isDetailPermissionAvailable) {
     } else if (!ApplyFilterrequired && isDetailPermissionAvailable) {
-      navigate(`/dashboard-details`);
+
+      let storedKeyName = "localFilterModalData";
+      const storedData = localStorage.getItem(storedKeyName);
+      if (storedData) {
+        let parsedData = JSON.parse(storedData);
+
+        console.log(parsedData, "parsedData");
+
+        if (parsedData?.company_id && parsedData?.client_id) {
+          navigate(`/dashboard-details`);
+        } else {
+          callStatsBoxParentFunc()
+        }
+
+      }
     } else if (!ApplyFilterrequired && !isDetailPermissionAvailable) {
     }
   };
+
+
 
 
   const formatNumber = (num) => {

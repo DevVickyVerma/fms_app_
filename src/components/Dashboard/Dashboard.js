@@ -4,11 +4,10 @@ import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardMultiLineChart from "./DashboardMultiLineChart";
-import { useMyContext } from "../../Utils/MyContext";
 import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
 import { Row } from "react-bootstrap";
-import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
+import { handleError } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
 import NewDashboardFilterModal from "../pages/Filtermodal/NewDashboardFilterModal";
 import * as Yup from "yup";
@@ -16,13 +15,9 @@ import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 
-
-
-
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
@@ -30,19 +25,9 @@ const Dashboard = (props) => {
     company_id: "",
     site_id: "",
   });
-  const {
-    searchdata,
-    shouldNavigateToDetailsPage,
-    setShouldNavigateToDetailsPage,
-  } = useMyContext();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const loggedInFlag = localStorage.getItem("justLoggedIn");
-  const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
-  const Client_login = localStorage.getItem("Client_login") === "true";
   const dispatch = useDispatch();
   const [permissionsArray, setPermissionsArray] = useState([]);
-  const UserPermissions = useSelector((state) => state?.data?.data);
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -58,33 +43,6 @@ const Dashboard = (props) => {
     company_id: Yup.string().required("Company is required"),
   });
 
-  // useEffect(() => {
-  //   if (tokenUpdated) {
-  //     window.location.reload();
-  //     localStorage.setItem("tokenupdate", "false"); // Update the value to string "false"
-  //     // Handle token update logic without page reload
-  //   }
-  //   if (loggedInFlag) {
-  //     setJustLoggedIn(true);
-  //     localStorage.removeItem("justLoggedIn"); // clear the flag
-  //   }
-
-  //   if (justLoggedIn) {
-  //     SuccessAlert("Login Successfully");
-  //     setJustLoggedIn(false);
-  //   }
-  // }, [dispatch, justLoggedIn, token]);
-
-  // useEffect(() => {
-  //   if (Client_login) {
-  //     if (tokenUpdated) {
-  //       window.location.reload();
-  //       localStorage.setItem("Client_login", "false"); // Update the value to string "false"
-  //       // Handle token update logic without page reload
-  //     }
-  //   }
-  //   //  console.clear();
-  // }, [Client_login]);
 
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
@@ -159,10 +117,7 @@ const Dashboard = (props) => {
           setDashboardData(response?.data?.data);
           setFilters(updatedFilters);
           setCenterFilterModalOpen(false);
-          setShouldNavigateToDetailsPage(true);
-          const { data } = response;
         }
-        // setData(response.data);
       } catch (error) {
         handleError(error);
       } finally {
@@ -201,6 +156,8 @@ const Dashboard = (props) => {
         const futurepriceLog = {
           client_id: storedClientIdData,
           client_name: ReduxFullData?.full_name,
+          company_id: ReduxFullData?.company_id,
+          company_name: ReduxFullData?.company_name,
           start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
         };
 
@@ -291,6 +248,7 @@ const Dashboard = (props) => {
           filters={filters}
           handleToggleSidebar1={handleToggleSidebar1}
           handleResetFilters={handleResetFilters}
+          showResetBtn={true}
         />
       </div>
 
@@ -328,7 +286,6 @@ const Dashboard = (props) => {
         <div className="text-end " >
           <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
             Live Margin
-            {/* {ShowLiveData ? " Live Data" : " Live Data"} */}
           </button>
         </div>
 
@@ -354,6 +311,7 @@ const Dashboard = (props) => {
             )
           </h2>
         )}
+
         <DashboardStatsBox
           GrossVolume={dashboardData?.gross_volume}
           shopmargin={dashboardData?.shop_profit}
@@ -362,10 +320,8 @@ const Dashboard = (props) => {
           FuelValue={dashboardData?.fuel_sales}
           shopsale={dashboardData?.shop_sales}
           shop_fees={dashboardData?.shop_fees}
-          // searchdata={searchdata}
-          shouldNavigateToDetailsPage={shouldNavigateToDetailsPage}
-          setShouldNavigateToDetailsPage={setShouldNavigateToDetailsPage}
           dashboardData={dashboardData}
+          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
         <Row style={{ marginBottom: '10px', marginTop: '20px' }}>

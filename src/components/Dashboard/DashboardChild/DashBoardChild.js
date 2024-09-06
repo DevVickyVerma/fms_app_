@@ -1,16 +1,14 @@
-import { useEffect, useReducer, useState } from "react";
-import { Breadcrumb, Button, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Breadcrumb, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import DashboardChildTable from "./DashboardChildTable";
-import { useMyContext } from "../../../Utils/MyContext";
 import Loaderimg from "../../../Utils/Loader";
-import SortIcon from "@mui/icons-material/Sort";
 import { useDispatch, useSelector } from "react-redux";
 import { handleError } from "../../../Utils/ToastUtils";
 import DashboardStatsBox from "../DashboardStatsBox/DashboardStatsBox";
-import { initialState, reducer } from "../../../Utils/CustomReducer";
 import NewDashboardFilterModal from "../../pages/Filtermodal/NewDashboardFilterModal";
 import * as Yup from 'yup';
+import FiltersComponent from "../DashboardHeader";
 
 
 
@@ -19,8 +17,6 @@ const DashBoardChild = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [tableData, setTableData] = useState();
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
-  const UserPermissions = useSelector((state) => state?.data?.data);
-  const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
 
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
@@ -29,32 +25,12 @@ const DashBoardChild = (props) => {
     site_id: '',
   });
 
-  const navigate = useNavigate();
   const ReduxFullData = useSelector((state) => state?.data?.data);
-  const {
-    searchdata,
-    setSearchdata,
-  } = useMyContext();
 
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
-
-
-  let myLocalSearchData = localStorage.getItem("mySearchData") ? JSON.parse(localStorage.getItem("mySearchData")) : "";
-
-
-  // useEffect(() => {
-  //   if (myLocalSearchData) {
-  //     handleFormSubmit(myLocalSearchData)
-  //   }
-  // }, [])
-
-
-  const superiorRole = localStorage.getItem("superiorRole");
-
-  const role = localStorage.getItem("role");
 
   const dispatch = useDispatch();
 
@@ -72,14 +48,13 @@ const DashBoardChild = (props) => {
     callTableData(values)
   }
 
-
   const callFetchFilterData = async (filters) => {
     let { client_id, company_id, site_id, client_name } = filters;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
+      client_name = ReduxFullData?.full_name;
     }
 
     // Update the filters object with new values
@@ -112,12 +87,11 @@ const DashBoardChild = (props) => {
 
 
   const callTableData = async (filters) => {
-    let { client_id, company_id, site_id, client_name } = filters;
+    let { client_id, company_id, site_id, } = filters;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
     }
 
     if (client_id) {
@@ -132,7 +106,6 @@ const DashBoardChild = (props) => {
         if (response && response.data && response.data.data) {
           setTableData(response?.data?.data?.sites);
         }
-        // setData(response.data);
       } catch (error) {
         handleError(error)
       } finally {
@@ -150,7 +123,6 @@ const DashBoardChild = (props) => {
       const storedClientIdData = localStorage.getItem("superiorId");
 
       if (storedClientIdData) {
-        // fetchCompanyList(storedClientIdData)
         const futurepriceLog = {
           client_id: storedClientIdData,
         };
@@ -209,49 +181,10 @@ const DashBoardChild = (props) => {
           </Breadcrumb>
         </div>
 
-
-        <div className=' d-flex gap-2 flex-wrap'>
-          {filters?.client_id || filters?.company_id || filters?.site_id ? (
-            <>
-              <div className="badges-container  d-flex flex-wrap align-items-center gap-2 px-4 py-sm-0 py-2 text-white" style={{ background: "#ddd" }}>
-                {filters?.client_id && (
-                  <div className="badge bg-blue-600  d-flex align-items-center gap-2 p-3 ">
-                    <span className="font-semibold">Client :</span> {filters?.client_name ? filters?.client_name : <>
-
-                    </>}
-                  </div>
-                )}
-
-                {filters?.company_id && filters?.company_name && (
-                  <div className="badge bg-green-600  d-flex align-items-center gap-2 p-3 ">
-                    <span className="font-semibold">Company : </span> {filters?.company_name}
-                  </div>
-                )}
-
-                {filters?.site_id && filters?.site_name && (
-                  <div className="badge bg-red-600  d-flex align-items-center gap-2 p-3 ">
-                    <span className="font-semibold">Site :</span> {filters?.site_name}
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="d-flex m-auto">
-                <span className="p-2 badge bg-red-600  p-3">
-                  *Please apply filter to see the stats
-                </span>
-              </div>
-            </>
-          )}
-
-          <Button onClick={() => handleToggleSidebar1()} type="button" className="btn btn-primary ">
-            Filter
-            <span className="">
-              <SortIcon />
-            </span>
-          </Button>
-        </div>
+        <FiltersComponent
+          filters={filters}
+          handleToggleSidebar1={handleToggleSidebar1}
+        />
       </div>
 
 
@@ -264,7 +197,6 @@ const DashBoardChild = (props) => {
           FuelValue={dashboardData?.fuel_sales}
           shopsale={dashboardData?.shop_sales}
           shop_fees={dashboardData?.shop_fees}
-          searchdata={searchdata}
         />
       </Row>
 

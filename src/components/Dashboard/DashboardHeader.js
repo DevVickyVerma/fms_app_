@@ -2,8 +2,11 @@ import React from 'react';
 import Button from 'react-bootstrap/Button'; // Adjust if you use a different UI library
 import SortIcon from '@mui/icons-material/Sort';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { useSelector } from 'react-redux';
 
-const FiltersComponent = ({ filters, handleToggleSidebar1, handleResetFilters }) => {
+const FiltersComponent = ({ filters, handleToggleSidebar1, handleResetFilters, showResetBtn = false }) => {
+  const ReduxFullData = useSelector((state) => state?.data?.data);
+
   return (
     <div className="d-flex gap-2 flex-wrap">
       {filters?.client_id || filters?.company_id || filters?.site_id ? (
@@ -13,7 +16,7 @@ const FiltersComponent = ({ filters, handleToggleSidebar1, handleResetFilters })
         >
           {filters?.client_id && (
             <div className="badge bg-blue-600 d-flex align-items-center gap-2 p-3">
-              <span className="font-semibold">Client :</span> {filters?.client_name || ''}
+              <span className="font-semibold">Client :</span> {filters?.client_name || ReduxFullData?.full_name || ''}
             </div>
           )}
 
@@ -44,11 +47,12 @@ const FiltersComponent = ({ filters, handleToggleSidebar1, handleResetFilters })
         </span>
       </Button>
 
-      {(filters?.client_id || filters?.company_id || filters?.site_id) && (
+      {(filters?.client_id || filters?.company_id || filters?.site_id) && showResetBtn && (
         <span onClick={handleResetFilters} className="btn btn-danger">
           <RestartAltIcon />
         </span>
       )}
+
     </div>
   );
 };
