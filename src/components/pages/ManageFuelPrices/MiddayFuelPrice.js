@@ -189,7 +189,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                             {column === "date" ? (
                                                                 <input
                                                                     type="date"
-                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly" : ""}`}
+                                                                    className={`table-input  ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly update-price-readonly" : ""}`}
                                                                     value={formik?.values?.pricedata?.currentDate}
                                                                     name={row?.[column]}
                                                                     onChange={(e) => handleChange(e, rowIndex, column)}
@@ -206,7 +206,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                                         label="Time"
                                                                         value={formik?.values?.pricedata?.currentTime}
                                                                         disabled={true}  // Disable if not editable
-                                                                        className={`${!row?.[0]?.is_editable ? 'readonly' : ''}`}
+                                                                        className={`${!row?.[0]?.is_editable ? 'fuel-readonly' : ''}`}
                                                                     />
 
                                                                 </>

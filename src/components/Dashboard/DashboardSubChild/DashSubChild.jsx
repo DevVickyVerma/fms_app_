@@ -38,6 +38,7 @@ import {
   AiOutlineArrowRight,
 } from "react-icons/ai";
 import { useMyContext } from "../../../Utils/MyContext";
+import { useSelector } from "react-redux";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -57,8 +58,6 @@ const DashSubChild = ({
     setDashSubChildShopSaleLoading,
     DashboardGradsLoading
   } = useMyContext();
-
-  console.log(DashboardGradsLoading, "DashboardGradsLoadingDashboardGradsLoading");
 
   const [showLoader, setShowLoader] = useState(true);
   const id = useParams();
@@ -100,8 +99,8 @@ const DashSubChild = ({
 
 
   const alertStatus = getSiteStats?.data?.cash_tracker?.alert_status;
-  const [getCompetitorsPrice, setGetCompetitorsPrice] =
-    useState(CompititorStats);
+  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(CompititorStats);
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const [Compititorloading, setCompititorloading] = useState(false);
   const [selected, setSelected] = useState();
   const [mySelectedDate, setMySelectedDate] = useState();
@@ -115,6 +114,8 @@ const DashSubChild = ({
       Authorization: `Bearer ${token}`,
     },
   });
+
+
   const FetchCompititorData = async (selectedValues) => {
     setCompititorloading(true);
     if (localStorage.getItem("Dashboardsitestats") === "true") {
@@ -143,8 +144,12 @@ const DashSubChild = ({
   };
 
   useEffect(() => {
-    FetchCompititorData();
+
+    userPermissions?.includes("dashboard-site-stats") &&
+      FetchCompititorData();
   }, [id]);
+
+
   if (Compititorloading) {
     return <LoaderImg />;
   }

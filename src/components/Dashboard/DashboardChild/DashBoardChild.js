@@ -17,7 +17,7 @@ const DashBoardChild = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [tableData, setTableData] = useState();
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
-
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
     client_id: '',
@@ -45,7 +45,9 @@ const DashBoardChild = (props) => {
 
   const handleApplyFilters = (values) => {
     callFetchFilterData(values)
-    callTableData(values)
+    userPermissions?.includes("dashboard-site-stats") && (
+      callTableData(values)
+    )
   }
 
   const callFetchFilterData = async (filters) => {

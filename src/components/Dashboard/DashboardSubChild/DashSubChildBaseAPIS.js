@@ -18,27 +18,39 @@ const DashSubChildBaseAPIS = (props) => {
     dashSubChildShopSaleLoading,
     setDashSubChildShopSaleLoading,
   } = useMyContext();
+
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const { id } = useParams();
-  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [getSiteStats, setGetSiteStats] = useState(null);
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
-  const [permissionsArray, setPermissionsArray] = useState([]);
   const [CompititorStats, setCompititorStats] = useState("");
 
 
 
 
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+
+
+
+
+
   const FetchTableData = async (filters) => {
-    let { client_id, company_id, site_id, client_name } = filters;
+    let { client_id, company_id, } = filters;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
     }
 
-    if (client_id) {
+    if (client_id && company_id) {
       try {
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append('client_id', client_id);
@@ -59,23 +71,21 @@ const DashSubChildBaseAPIS = (props) => {
         }
       } catch (error) {
         handleError(error)
-      } finally {
       }
     }
   };
 
 
   const FetchGetSiteDetailsApi = async (filters) => {
-    let { client_id, company_id, site_id, client_name } = filters;
+    let { client_id, company_id, } = filters;
 
     setDashboardSiteDetailsLoading(true);
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
     }
 
-    if (client_id) {
+    if (client_id && company_id) {
       try {
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append('client_id', client_id);
@@ -98,14 +108,7 @@ const DashSubChildBaseAPIS = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
 
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
   const [scrollY, setScrollY] = useState(0);
   const [callShopSaleApi, setCallShopSaleApi] = useState(false);
   const [callSiteFuelPerformanceApi, setCallSiteFuelPerformanceApi] =
@@ -114,13 +117,12 @@ const DashSubChildBaseAPIS = (props) => {
 
 
   const FetchShopSaleData = async (filters) => {
-    let { client_id, company_id, site_id, client_name } = filters;
+    let { client_id, company_id, } = filters;
 
     setDashSubChildShopSaleLoading(true);
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
     }
 
     if (client_id) {
@@ -176,13 +178,12 @@ const DashSubChildBaseAPIS = (props) => {
 
 
   useEffect(() => {
-    if (storedData) {
+    if (userPermissions?.includes("dashboard-site-stats") && storedData) {
       FetchTableData(JSON.parse(storedData));
       FetchGetSiteDetailsApi(JSON.parse(storedData));
     }
 
     window.scrollTo(0, 0);
-
   }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
 
 
@@ -210,27 +211,23 @@ const DashSubChildBaseAPIS = (props) => {
   useEffect(() => {
     if (callShopSaleApi) {
       // Call FetchCompititorData when alertShown becomes true
-      if (storedData) {
+      if (userPermissions?.includes("dashboard-site-stats") && storedData) {
         FetchShopSaleData(JSON.parse(storedData));
       }
     }
   }, [callShopSaleApi]);
+
   useEffect(() => {
     if (callSiteFuelPerformanceApi) {
       // Call FetchCompititorData when alertShown becomes true
-      if (storedData) {
+      if (userPermissions?.includes("dashboard-site-stats") && storedData) {
         FetchSiteFuelPerformanceData(JSON.parse(storedData));
       }
     }
   }, [callSiteFuelPerformanceApi]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
 
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
+
 
 
   return (

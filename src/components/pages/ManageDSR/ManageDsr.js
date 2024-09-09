@@ -29,6 +29,7 @@ import Swal from "sweetalert2";
 import { useMyContext } from "../../../Utils/MyContext";
 import { handleError } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
+import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -363,42 +364,45 @@ const ManageDsr = (props) => {
   const storedData = localStorage.getItem(storedKeyName);
 
 
+  // useEffect(() => {
+  //   if (storedData) {
+  //     let parsedData = JSON.parse(storedData);
+
+  //     // Check if start_date exists in storedData
+  //     if (!parsedData.start_date) {
+  //       // If start_date does not exist, set it to the current date
+  //       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+  //       parsedData.start_date = currentDate;
+
+  //       // Update the stored data with the new start_date
+  //       localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+  //       GetDataWithClient(parsedData)
+  //     } else {
+  //       GetDataWithClient(parsedData)
+  //     }
+
+  //     // Call the API with the updated or original data
+  //   } else if (localStorage.getItem("superiorRole") === "Client") {
+  //     const storedClientIdData = localStorage.getItem("superiorId");
+
+  //     if (storedClientIdData) {
+  //       const futurepriceLog = {
+  //         client_id: storedClientIdData,
+  //         start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+  //       };
+
+  //       // Optionally store this data back to localStorage
+  //       localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+  //       handleApplyFilters(futurepriceLog);
+  //     }
+  //   }
+  // }, [storedKeyName]); // Add any other dependencies needed here
+
+  const ReduxFullData = useSelector((state) => state?.data?.data);
   useEffect(() => {
-    if (storedData) {
-      let parsedData = JSON.parse(storedData);
-
-      // Check if start_date exists in storedData
-      if (!parsedData.start_date) {
-        // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-        parsedData.start_date = currentDate;
-
-        // Update the stored data with the new start_date
-        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
-        GetDataWithClient(parsedData)
-      } else {
-        GetDataWithClient(parsedData)
-      }
-
-      // Call the API with the updated or original data
-    } else if (localStorage.getItem("superiorRole") === "Client") {
-      const storedClientIdData = localStorage.getItem("superiorId");
-
-      if (storedClientIdData) {
-        const futurepriceLog = {
-          client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
-        };
-
-        // Optionally store this data back to localStorage
-        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-
-        handleApplyFilters(futurepriceLog);
-      }
-    }
-  }, [storedKeyName]); // Add any other dependencies needed here
-
-
+    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+  }, []);
 
   const handleApplyFilters = (values) => {
 
@@ -407,6 +411,10 @@ const ManageDsr = (props) => {
     }
 
   }
+
+
+
+
 
   const handleClearForm = async (resetForm) => {
     setUploadList();

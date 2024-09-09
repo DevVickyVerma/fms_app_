@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
+import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -71,7 +72,7 @@ const Dashboard = (props) => {
 
 
 
-  const handleApplyFilters = (values) => {
+  const handleApplyFilters = ((values) => {
     if (!values?.start_date) {
       // If start_date does not exist, set it to the current date
       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
@@ -80,7 +81,7 @@ const Dashboard = (props) => {
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
     FetchFilterData(values);
-  };
+  });
 
   const FetchFilterData = async (filters) => {
     let { client_id, company_id, site_id, client_name, company_name } = filters;
@@ -132,43 +133,46 @@ const Dashboard = (props) => {
   };
 
 
+  // useEffect(() => {
+  //   if (storedData) {
+  //     let parsedData = JSON.parse(storedData);
+  //     // Check if start_date exists in storedData
+  //     if (!parsedData.start_date) {
+  //       // If start_date does not exist, set it to the current date
+  //       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+  //       parsedData.start_date = currentDate;
+
+  //       // Update the stored data with the new start_date
+  //       localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+  //       handleApplyFilters(parsedData)
+  //     } else {
+  //       handleApplyFilters(parsedData)
+  //     }
+  //     // Call the API with the updated or original data
+  //   } else if (localStorage.getItem("superiorRole") === "Client") {
+
+  //     const storedClientIdData = localStorage.getItem("superiorId");
+  //     if (ReduxFullData) {
+  //       const futurepriceLog = {
+  //         client_id: storedClientIdData,
+  //         client_name: ReduxFullData?.full_name,
+  //         company_id: ReduxFullData?.company_id,
+  //         company_name: ReduxFullData?.company_name,
+  //         start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+  //       };
+
+  //       // Optionally store this data back to localStorage
+  //       localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
+
+  //       handleApplyFilters(futurepriceLog);
+  //     }
+  //   }
+  // }, [storedKeyName, dispatch]); // Add any other dependencies needed here
+
+
   useEffect(() => {
-    if (storedData) {
-      let parsedData = JSON.parse(storedData);
-
-      // Check if start_date exists in storedData
-      if (!parsedData.start_date) {
-        // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-        parsedData.start_date = currentDate;
-
-        // Update the stored data with the new start_date
-        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
-        handleApplyFilters(parsedData)
-      } else {
-        handleApplyFilters(parsedData)
-      }
-      // Call the API with the updated or original data
-    } else if (localStorage.getItem("superiorRole") === "Client") {
-
-      const storedClientIdData = localStorage.getItem("superiorId");
-      if (ReduxFullData) {
-        const futurepriceLog = {
-          client_id: storedClientIdData,
-          client_name: ReduxFullData?.full_name,
-          company_id: ReduxFullData?.company_id,
-          company_name: ReduxFullData?.company_name,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
-        };
-
-        // Optionally store this data back to localStorage
-        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-
-        handleApplyFilters(futurepriceLog);
-      }
-    }
-  }, [storedKeyName, dispatch]); // Add any other dependencies needed here
-
+    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+  }, []);
 
   const handleShowLive = () => {
     setShowLiveData((prevState) => !prevState); // Toggle the state

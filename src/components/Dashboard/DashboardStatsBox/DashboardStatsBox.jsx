@@ -92,7 +92,7 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      ℓ {GrossVolume?.gross_volume
+                      L {GrossVolume?.gross_volume
                         ? formatNumber(GrossVolume?.gross_volume)
                         : ""}
                     </h2>
@@ -104,7 +104,7 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      ℓ  {GrossVolume?.bunkered_volume
+                      L  {GrossVolume?.bunkered_volume
                         ? formatNumber(GrossVolume?.bunkered_volume)
                         : ""}
                     </h2>
@@ -125,7 +125,7 @@ const DashboardStatsBox = (props) => {
                           className="icon icon-pound-sign  "
                           style={{ color: "#000" }}
                         >
-                          ℓ
+                          L
                         </i>
                       </div>
                     </div>
@@ -381,7 +381,7 @@ const DashboardStatsBox = (props) => {
                           className="icon icon-pound-sign  "
                           style={{ color: "#000" }}
                         >
-                          ℓ
+                           L
                         </i>
                       </div>
                     </div>

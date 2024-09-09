@@ -6,7 +6,9 @@ import {
   Breadcrumb,
   Card,
   Col,
+  OverlayTrigger,
   Row,
+  Tooltip,
 } from "react-bootstrap";
 import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
@@ -100,7 +102,7 @@ const ManageSite = (props) => {
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
+          <div className="ms-2 mt-0  d-block">
             {row.work_flow === "Not Done" ? (
               <>
                 <h6
@@ -110,7 +112,15 @@ const ManageSite = (props) => {
                   className="mb-0 fs-14 fw-semibold badge bg-danger"
                   onClick={() => PerformAction(row)}
                 >
-                  {row.work_flow}
+
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>{`Go to ${row.site_name}'s Daily Work Flow`}</Tooltip>}
+                  >
+                    <span>
+                      {row.work_flow}
+                    </span>
+                  </OverlayTrigger>
                 </h6>
               </>
             ) : row.work_flow === "Done" ? (
