@@ -91,7 +91,7 @@ const Dashboard = (props) => {
       client_name = ReduxFullData?.full_name;
     }
 
-    if (ReduxFullData?.company_id) {
+    if (ReduxFullData?.company_id && !company_id) {
       company_id = ReduxFullData?.company_id;
       company_name = ReduxFullData?.company_name;
     }
@@ -119,9 +119,9 @@ const Dashboard = (props) => {
           setFilters(updatedFilters);
           setCenterFilterModalOpen(false);
         }
+        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
       } catch (error) {
         handleError(error);
-      } finally {
       }
     }
   };
