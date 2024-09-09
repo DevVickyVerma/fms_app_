@@ -201,7 +201,7 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
                                 stockAlertData?.[tankName]?.[selectedDateIndex]
                                   ?.capacity
                               }
-                              ℓ{" "}
+                              L{" "}
                               <span>
                                 <OverlayTrigger
                                   placement="top"
@@ -214,7 +214,7 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
                                           selectedDateIndex
                                         ]?.average_sale
                                       }
-                                      ℓ{" "}
+                                      L{" "}
                                     </Tooltip>
                                   }
                                 >
@@ -237,7 +237,7 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
                                 stockAlertData?.[tankName]?.[selectedDateIndex]
                                   ?.ullage
                               }
-                              ℓ |{" "}
+                              L |{" "}
                               {
                                 stockAlertData?.[tankName]?.[selectedDateIndex]
                                   ?.ullage_percentage
@@ -256,7 +256,7 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
                                 stockAlertData?.[tankName]?.[selectedDateIndex]
                                   ?.fuel_left
                               }
-                              ℓ
+                              L
                             </strong>
                             <span
                               className="mb-0 mx-2 fs-8  badge  "

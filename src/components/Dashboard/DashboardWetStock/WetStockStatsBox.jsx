@@ -410,7 +410,7 @@ const WetStockStatsBox = (props) => {
                                                                 <div>
                                                                     <h6>Wetstock Loss</h6>
                                                                     <h4 className="mb-2 number-font">
-                                                                        ℓ 9743
+                                                                        L 9743
                                                                         {/* {GrossVolume?.gross_volume} */}
                                                                     </h4>
                                                                 </div>
@@ -418,7 +418,7 @@ const WetStockStatsBox = (props) => {
                                                                 <div className="ms-3">
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
-                                                                        ℓ 233
+                                                                        L 233
                                                                         {/* {GrossVolume?.bunkered_volume} */}
                                                                     </h4>
                                                                 </div>
@@ -465,7 +465,7 @@ const WetStockStatsBox = (props) => {
                                                 <div className="col-auto">
                                                     <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
                                                         <i className="icon icon-pound-sign text-white mb-5 ">
-                                                            ℓ
+                                                            L
                                                         </i>
                                                     </div>
                                                 </div>
@@ -506,7 +506,7 @@ const WetStockStatsBox = (props) => {
                                                                 <div>
                                                                     <h6>Delivery Loss </h6>
                                                                     <h4 className="mb-2 number-font">
-                                                                        ℓ 5644
+                                                                        L 5644
                                                                         {/* {GrossVolume?.gross_volume} */}
                                                                     </h4>
                                                                 </div>
@@ -514,7 +514,7 @@ const WetStockStatsBox = (props) => {
                                                                 <div className="ms-3">
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
-                                                                        ℓ 76
+                                                                        L 76
                                                                         {/* {GrossVolume?.bunkered_volume} */}
                                                                     </h4>
                                                                 </div>
@@ -561,7 +561,7 @@ const WetStockStatsBox = (props) => {
                                                 <div className="col-auto">
                                                     <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
                                                         <i className="icon icon-pound-sign text-white mb-5 ">
-                                                            ℓ
+                                                            L
                                                         </i>
                                                     </div>
                                                 </div>
@@ -603,7 +603,7 @@ const WetStockStatsBox = (props) => {
                                                                 <div>
                                                                     <h6>Unknown Loss</h6>
                                                                     <h4 className="mb-2 number-font">
-                                                                        ℓ 5644
+                                                                        L 5644
                                                                         {/* {GrossVolume?.gross_volume} */}
                                                                     </h4>
                                                                 </div>
@@ -611,7 +611,7 @@ const WetStockStatsBox = (props) => {
                                                                 <div className="ms-3">
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
-                                                                        ℓ 76
+                                                                        L 76
                                                                         {/* {GrossVolume?.bunkered_volume} */}
                                                                     </h4>
                                                                 </div>
@@ -658,7 +658,7 @@ const WetStockStatsBox = (props) => {
                                                 <div className="col-auto">
                                                     <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
                                                         <i className="icon icon-pound-sign text-white mb-5 ">
-                                                            ℓ
+                                                            L
                                                         </i>
                                                     </div>
                                                 </div>

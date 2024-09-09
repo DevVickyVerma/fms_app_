@@ -53,7 +53,7 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    ℓ  {singleSiteFuelVolume?.gross_volume
+                    L  {singleSiteFuelVolume?.gross_volume
                       ? formatNumber(singleSiteFuelVolume?.gross_volume)
                       : ""}
                   </h2>
@@ -65,7 +65,7 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    ℓ {singleSiteFuelVolume?.bunkered_volume
+                    L {singleSiteFuelVolume?.bunkered_volume
                       ? formatNumber(singleSiteFuelVolume?.bunkered_volume)
                       : ""}
                   </h2>
@@ -86,7 +86,7 @@ const DashSubStatsBox = (props) => {
                         className="icon icon-pound-sign  "
                         style={{ color: "#000" }}
                       >
-                        ℓ
+                        L
                       </i>
                     </div>
                   </div>
@@ -341,7 +341,7 @@ const DashSubStatsBox = (props) => {
                         className="icon icon-pound-sign  "
                         style={{ color: "#000" }}
                       >
-                        ℓ
+                       L
                       </i>
                     </div>
                   </div>
