@@ -168,7 +168,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                         <thead>
                                             <tr>
                                                 {formik.values?.head_array?.map((item) => (
-                                                    <th key={item?.id}>{item?.name}</th>
+                                                    <th key={item?.id} className='middy-table-head'>{item?.name}</th>
                                                 ))}
                                             </tr>
                                         </thead>
@@ -184,44 +184,49 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
 
 
                                                     {formik?.values?.columns?.map((column, colIndex) => (
-                                                        <td className="middayModal-td" key={colIndex}>
 
-                                                            {column === "date" ? (
-                                                                <input
-                                                                    type="date"
-                                                                    className={`table-input  ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly update-price-readonly" : ""}`}
-                                                                    value={formik?.values?.pricedata?.currentDate}
-                                                                    name={row?.[column]}
-                                                                    onChange={(e) => handleChange(e, rowIndex, column)}
-                                                                    onClick={(e) => handleShowDate(e, formik?.values?.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
+                                                        <>
+                                                            <td className={`time-input-fuel-sell ${column === "time" ? "middayModal-time-td " : "middayModal-td "}`} key={colIndex}>
 
-                                                                    disabled={row?.readonly}
-                                                                    placeholder="Enter price"
-                                                                />
-                                                            ) : column === "time" ? (
+                                                                {column === "date" ? (
+                                                                    <input
+                                                                        type="date"
+                                                                        className={`table-input  ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly update-price-readonly" : ""}`}
+                                                                        value={formik?.values?.pricedata?.currentDate}
+                                                                        name={row?.[column]}
+                                                                        onChange={(e) => handleChange(e, rowIndex, column)}
+                                                                        onClick={(e) => handleShowDate(e, formik?.values?.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
 
-
-                                                                <>
-                                                                    <InputTime
-                                                                        label="Time"
-                                                                        value={formik?.values?.pricedata?.currentTime}
-                                                                        disabled={true}  // Disable if not editable
-                                                                        className={`${!row?.[0]?.is_editable ? 'fuel-readonly' : ''}`}
+                                                                        disabled={row?.readonly}
+                                                                        placeholder="Enter price"
                                                                     />
+                                                                ) : column === "time" ? (
 
-                                                                </>
-                                                            ) : (
-                                                                <input
-                                                                    type="number"
-                                                                    className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly" : ""}`}
-                                                                    name={`rows[${rowIndex}].${column}`}
-                                                                    value={row[column]}
-                                                                    onChange={(e) => handleChange(e, rowIndex, column)}
-                                                                    disabled={row?.readonly}
-                                                                    placeholder="Enter price"
-                                                                />
-                                                            )}
-                                                        </td>
+
+                                                                    <>
+                                                                        <InputTime
+                                                                            label="Time"
+                                                                            value={formik?.values?.pricedata?.currentTime}
+                                                                            disabled={true}  // Disable if not editable
+                                                                            className={`time-input-fuel-sell ${!row?.[0]?.is_editable ? 'fuel-readonly' : ''}`}
+                                                                        />
+
+                                                                    </>
+                                                                ) : (
+                                                                    <input
+                                                                        type="number"
+                                                                        className={`table-input ${row.currentprice ? "fuel-readonly" : ""} ${row?.readonly ? "readonly" : ""}`}
+                                                                        name={`rows[${rowIndex}].${column}`}
+                                                                        value={row[column]}
+                                                                        onChange={(e) => handleChange(e, rowIndex, column)}
+                                                                        disabled={row?.readonly}
+                                                                        placeholder="Enter price"
+                                                                    />
+                                                                )}
+                                                            </td>
+
+                                                        </>
+
                                                     ))}
 
                                                 </tr>
@@ -248,7 +253,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                             </div>
                                                         </td>
 
-                                                        <td className='middayModal-td '>
+                                                        <td className='middayModal-td time-input-fuel-sell'>
 
 
                                                             <>
@@ -261,7 +266,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                                                         }
                                                                     }}
                                                                     disabled={!row?.[0]?.is_editable}  // Disable if not editable
-                                                                    className={`${!row?.[0]?.is_editable ? 'readonly' : ''}`}
+                                                                    className={`time-input-fuel-sell ${!row?.[0]?.is_editable ? 'readonly' : ''}`}
                                                                 />
 
 

@@ -1848,6 +1848,10 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
   padding: 11px !important;
 }
 
+.middayModal-time-td .MuiInputBase-input {
+  padding: 11px !important;
+}
+
 .rdt_TableBody {
   min-height: 440px;
   overflow: auto;
@@ -1914,4 +1918,12 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 
 .input-time-small-screen div {
   border-radius: 0px !important;
+}
+
+.middy-table-head {
+  padding: 8px 11px !important;
+}
+
+.middayModal-time-td {
+  width: 175px;
 }

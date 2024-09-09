@@ -99,9 +99,15 @@ const ManageDsr = (props) => {
 
   const getDRSData = async () => {
     try {
+      let parshedData = JSON.parse(storedData);
+
+
       const formData = new FormData();
-      formData.append("site_id", SiteId);
-      formData.append("drs_date", DRSDate);
+      formData.append("site_id", parshedData?.site_id);
+      formData.append("drs_date", parshedData?.start_date);
+
+      // formData.append("site_id", SiteId);
+      // formData.append("drs_date", DRSDate);
 
       const postDataUrl = "/drs/get-data";
 
@@ -211,8 +217,8 @@ const ManageDsr = (props) => {
         formData.append("client_id", clientIDLocalStorage);
         setPropsClientId(clientIDLocalStorage);
       }
-      formData.append("company_id", values.company_id);
-      formData.append("site_id", values.site_id);
+      formData.append("company_id", values?.company_id);
+      formData.append("site_id", values?.site_id);
 
       try {
         setPropsSiteId(values.site_id);
