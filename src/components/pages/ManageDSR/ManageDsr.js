@@ -8,7 +8,7 @@ import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormModal } from "../../../data/Modal/UploadFile";
@@ -186,11 +186,11 @@ const ManageDsr = (props) => {
   };
 
   const GetDataHttech = (data) => {
-    if (localStorage.getItem("dailyWorkFlowInput")) {
+    if (localStorage.getItem("localFilterModalData")) {
       let parsedDataFromLocal = JSON.parse(
-        localStorage.getItem("dailyWorkFlowInput")
+        localStorage.getItem("localFilterModalData")
       )
-        ? JSON.parse(localStorage.getItem("dailyWorkFlowInput"))
+        ? JSON.parse(localStorage.getItem("localFilterModalData"))
         : "null";
 
       formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "");
@@ -210,6 +210,8 @@ const ManageDsr = (props) => {
       const formData = new FormData();
 
       formData.append("start_date", values.start_date);
+
+
       if (localStorage.getItem("superiorRole") !== "Client") {
         formData.append("client_id", values.client_id);
         setPropsClientId(values.client_id);
@@ -460,9 +462,6 @@ const ManageDsr = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
-
-
-
               <NewFilterTab
                 getData={getData}
                 isLoading={isLoading}

@@ -15,7 +15,6 @@ import { Slide, toast } from "react-toastify";
 
 export function FormModal(props) {
   const { showModal, setShowModal } = props;
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
@@ -28,7 +27,6 @@ export function FormModal(props) {
       position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
-      autoClose: 1000,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };
@@ -47,15 +45,25 @@ export function FormModal(props) {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    formData.append("site_id", props.PropsSiteId);
-    formData.append("company_id", props.PropsCompanyId);
-    formData.append("client_id", props.selectedClientId);
-    formData.append("type", props.PropsFile);
-    formData.append("file", values.image);
-    formData.append("end_point", props.PropsFile);
-    formData.append("drs_date", props.DRSDate);
 
     setIsLoading(true);
+
+    let storedKeyName = "localFilterModalData";
+    const storedData = localStorage.getItem(storedKeyName);
+
+    if (storedData) {
+
+
+      let parsedData = JSON.parse(storedData);
+      formData.append("site_id", parsedData?.site_id);
+      formData.append("client_id", parsedData?.client_id);
+      formData.append("company_id", parsedData?.company_id);
+      formData.append("drs_date", parsedData?.start_date);
+      formData.append("type", props.PropsFile);
+      formData.append("file", values.image);
+      formData.append("end_point", props.PropsFile);
+
+    }
 
     try {
       const baseUrl = process.env.REACT_APP_BASE_URL;
