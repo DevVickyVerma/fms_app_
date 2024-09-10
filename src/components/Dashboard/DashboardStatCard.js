@@ -2,13 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
-const DashboardStatCard = ({ getData, isLoading,filters }) => {
+const DashboardStatCard = ({ getData, isLoading, filters }) => {
+  const [data, setData] = useState();
 
   const FetchmannegerList = async (filters) => {
     try {
       const response = await getData(`/dashboard/get-live-margin?client_id=${filters?.client_id}&company_id=${filters.company_id}&site_id=${filters.site_id}`);
-
       if (response && response.data) {
+        setData(response?.data?.data)
       } else {
         throw new Error("No data available in the response");
       }
@@ -17,12 +18,12 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if(filters){
-  //     FetchmannegerList(filters);
-  //   }
- 
-  // }, []);
+  useEffect(() => {
+    if (filters?.site_id && filters?.client_id && filters.company_id) {
+      FetchmannegerList(filters);
+    }
+
+  }, []);
 
   const request = [
     {
@@ -88,7 +89,7 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
             src={require("../../assets/images/commonimages/LiveIMg.gif")}
             alt="Live Img"
             className="Liveimage"
-          />{" "}{" "} Last Updated On : (03-09-2024 11:15 AM)
+          />{" "}{" "} Last Updated On : ({data?.last_updated_at})
           {/* ({formattedDateTime}) */}
         </h4>
       </Card.Header>
@@ -101,8 +102,8 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
               <Card.Body>
                 <div className="d-flex">
                   <div className="text-white">
-                    <h2 className="mb-0 number-font">{request[0].data}</h2>
-                    <p className="text-white mb-0">{request[0].data1}</p>
+                    <h2 className="mb-0 number-font">L {data?.gross_volume}</h2>
+                    <p className="text-white mb-0">Gross Volume</p>
                   </div>
                   <div className="ms-auto">
                     <i
@@ -121,8 +122,8 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
               <Card.Body>
                 <div className="d-flex">
                   <div className="text-white">
-                    <h2 className="mb-0 number-font">{request[1].data}</h2>
-                    <p className="text-white mb-0">{request[1].data1}</p>
+                    <h2 className="mb-0 number-font"> £  {data?.fuel_sales}</h2>
+                    <p className="text-white mb-0">Fuel Sales</p>
                   </div>
                   <div className="ms-auto">
                     <i
@@ -141,8 +142,8 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
               <Card.Body>
                 <div className="d-flex">
                   <div className="text-white">
-                    <h2 className="mb-0 number-font">{request[2].data}</h2>
-                    <p className="text-white mb-0">{request[2].data1}</p>
+                    <h2 className="mb-0 number-font">£  {data?.gross_profit}</h2>
+                    <p className="text-white mb-0">Gross Profit</p>
                   </div>
                   <div className="ms-auto">
                     <i
@@ -161,8 +162,8 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
               <Card.Body>
                 <div className="d-flex">
                   <div className="text-white">
-                    <h2 className="mb-0 number-font">{request[3].data}</h2>
-                    <p className="text-white mb-0">{request[3].data1}</p>
+                    <h2 className="mb-0 number-font">   {data?.gross_margin} ppl</h2>
+                    <p className="text-white mb-0">Gross Margin</p>
                   </div>
                   <div className="ms-auto">
                     <i
@@ -181,8 +182,8 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
               <Card.Body>
                 <div className="d-flex">
                   <div className="text-white">
-                    <h2 className="mb-0 number-font">{request[4].data}</h2>
-                    <p className="text-white mb-0">{request[4].data1}</p>
+                    <h2 className="mb-0 number-font">£  {data?.shop_sales}</h2>
+                    <p className="text-white mb-0">Shop Sales</p>
                   </div>
                   <div className="ms-auto">
                     <i
@@ -201,8 +202,8 @@ const DashboardStatCard = ({ getData, isLoading,filters }) => {
               <Card.Body>
                 <div className="d-flex">
                   <div className="text-white">
-                    <h2 className="mb-0 number-font">{request[5].data}</h2>
-                    <p className="text-white mb-0">{request[5].data1}</p>
+                    <h2 className="mb-0 number-font">£  {data?.shop_profit}</h2>
+                    <p className="text-white mb-0">Shop Profit</p>
                   </div>
                   <div className="ms-auto">
                     <i

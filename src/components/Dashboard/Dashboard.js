@@ -286,26 +286,36 @@ const Dashboard = (props) => {
         ""
       )}
 
-      <div className="mb-2 ">
-        <div className="text-end " >
-          <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
-            Live Margin
-          </button>
-        </div>
 
-        {ShowLiveData && (
-          <DashboardStatCard
-            isLoading={isLoading}
-            getData={getData}
-            filters={filters}
-            title="Total Sales"
-            value="2323"
-            percentageChange="3%"
-            iconClass="icon icon-rocket text-white mb-5"
-            iconBgColor="bg-danger-gradient"
-            trendColor="text-primary"
-          />
+
+      <div className="mb-2 ">
+
+
+        {filters?.site_id && filters?.client_id && filters.company_id && (<>
+          <div className="text-end " >
+            <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
+              Live Margin
+            </button>
+          </div>
+
+
+          {ShowLiveData && (
+            <DashboardStatCard
+              isLoading={isLoading}
+              getData={getData}
+              filters={filters}
+              title="Total Sales"
+              value="2323"
+              percentageChange="3%"
+              iconClass="icon icon-rocket text-white mb-5"
+              iconBgColor="bg-danger-gradient"
+              trendColor="text-primary"
+            />
+          )}
+        </>
         )}
+
+
         {ShowLiveData && (
           <h2 className=" d-flex justify-content-start mb-4  page-title dashboard-page-title">
             Dashboard (
