@@ -48,7 +48,6 @@ const DashboardStatsBox = (props) => {
       if (storedData) {
         let parsedData = JSON.parse(storedData);
 
-        console.log(parsedData, "parsedData");
 
         if (parsedData?.company_id && parsedData?.client_id) {
           navigate(`/dashboard-details`);
