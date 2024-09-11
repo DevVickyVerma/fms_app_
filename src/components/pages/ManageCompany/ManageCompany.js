@@ -508,7 +508,7 @@ const ManageCompany = (props) => {
               <Link to="/addcompany" className="btn btn-primary ms-2">
                 <Box component="span" display={["none", "unset"]} m="{1}">
                   Add
-                </Box> Company <AddCircleOutlineIcon className=" ms-1" />
+                </Box> Company <i className="ph ph-plus ms-1 ph-plus-icon"></i>
               </Link>
             ) : null}
           </div>

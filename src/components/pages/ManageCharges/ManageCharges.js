@@ -358,7 +358,7 @@ const ManageCharges = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Charges <AddCircleOutlineIcon className=" ms-1" />
+                  Add Charges <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                 </Link>
               ) : null}
             </div>

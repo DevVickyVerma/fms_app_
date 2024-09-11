@@ -197,7 +197,7 @@ const Dashboard = (props) => {
       <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
         {!ShowLiveData && (
           <div className="">
-            <h2 className="page-title dashboard-page-title">
+            <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
               Dashboard (
               {dashboardData?.dateString
                 ? dashboardData?.dateString

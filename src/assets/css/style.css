@@ -16774,7 +16774,6 @@ div.conv-form-wrapper div.options div.option.selected {
     flex-wrap: wrap;
     margin-bottom: 0;
     list-style: none;
-    margin-top: 5px;
   }
 
   .responsive-logo .header-logo {
@@ -35068,9 +35067,7 @@ body.rtl {
   display: flex;
   z-index: 999 !important;
   border-bottom: 1px solid #eaedf1;
-  /* background: linear-gradient(to bottom right, var(--primary-bg-color) 0%, var(--primary06) 100%);
-  background: linear-gradient(to bottom right, var(--primary-bg-color) 0%, var(--primary06) 100%); */
-  background-color: var(--primary-bg-color);
+  background-color: #fff !important;
   transition: padding-left 0.3s ease;
   height: 62px;
   margin: 0;
@@ -35132,7 +35129,7 @@ body.rtl {
   position: relative;
   background: #fff;
   border-radius: 50%;
-  box-shadow: 0px 2px 3px rgba(4, 4, 7, 0.1);
+  box-shadow: 0px 2px 3px rgb(4 4 7 / 35%);
 }
 
 .app-sidebar__toggle:hover {
@@ -35991,7 +35988,7 @@ body.rtl {
   -o-transition: left 0.2s ease, width 0.2s ease;
   transition: left 0.2s ease, width 0.2s ease;
   height: 62px;
-  background: var(--primary-bg-color);
+  background-color: #fff;
 }
 
 .sidebar-mini.sidenav-toggled .app-sidebar__toggle {

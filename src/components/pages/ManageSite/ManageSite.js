@@ -677,7 +677,7 @@ const ManageSite = (props) => {
                 <Box component="span" display={["none", "unset"]}>
                   Add
                 </Box>{" "}
-                Site <AddCircleOutlineIcon className=" ms-1" />
+                Site <i className="ph ph-plus ms-1 ph-plus-icon"></i>
               </Link>
             ) : null}
           </div>

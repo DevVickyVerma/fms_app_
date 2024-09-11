@@ -11,6 +11,7 @@ import { MyProvider } from "../Utils/MyContext";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../Redux/dataSlice";
 import BlankDashboard from "./Dashboard/BlankDashboard";
+import 'phosphor-icons/src/css/icons.css'; // Import Phosphor Icons CSS
 
 const App = (props) => {
   const loadingBarRef = useRef();

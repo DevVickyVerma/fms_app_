@@ -326,7 +326,7 @@ const ManageSubBusinessTypes = (props) => {
                 />
                 {isAddPermissionAvailable ? (
                   <Link to="/addsub-business" className="btn btn-primary ms-2">
-                    Add Sub-Business Types <AddCircleOutlineIcon className=" ms-1" />
+                    Add Sub-Business Types <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                   </Link>
                 ) : null}
               </div>

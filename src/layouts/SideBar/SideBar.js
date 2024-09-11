@@ -260,7 +260,7 @@ const Sidebar = () => {
                               }}
                             >
                               <i
-                                className={`side-menu__icon fa fa-${menuItem.icon}`}
+                                className={`side-menu__icon ph-thin  ph-${menuItem.icon}`}
                                 aria-hidden="true"
                               ></i>
                               <span className="side-menu__label">
@@ -292,7 +292,7 @@ const Sidebar = () => {
                               style={{ cursor: "pointer" }}
                             >
                               <i
-                                className={`side-menu__icon fa fa-${menuItem.icon}`}
+                                className={`side-menu__icon ph ph-${menuItem.icon}`}
                               ></i>
                               <span className="side-menu__label">
                                 {menuItem.title}

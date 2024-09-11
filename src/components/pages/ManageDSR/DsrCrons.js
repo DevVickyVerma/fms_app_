@@ -359,7 +359,7 @@ const ManageEmail = (props) => {
                       className="btn btn-danger ms-2"
                       variant="danger"
                     >
-                      Reset <RestartAltIcon />
+                      Reset   <i className="ph ph-arrow-clockwise"></i>
                     </Button>
                   ) : (
                     ""

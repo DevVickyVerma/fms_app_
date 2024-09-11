@@ -43,13 +43,13 @@ const FiltersComponent = ({ filters, handleToggleSidebar1, handleResetFilters, s
       <Button onClick={handleToggleSidebar1} type="button" className="btn btn-primary">
         Filter
         <span>
-          <SortIcon />
+          <i className="ph ph-funnel ms-1"></i>
         </span>
       </Button>
 
       {(filters?.client_id || filters?.company_id || filters?.site_id) && showResetBtn && (
         <span onClick={handleResetFilters} className="btn btn-danger">
-          <RestartAltIcon />
+          <i className="ph ph-arrow-clockwise"></i>
         </span>
       )}
 

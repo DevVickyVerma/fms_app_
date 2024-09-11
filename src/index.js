@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
+import 'phosphor-icons/src/css/icons.css'; // Import Phosphor Icons CSS
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import { Provider } from "react-redux";

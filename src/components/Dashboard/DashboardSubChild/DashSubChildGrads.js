@@ -273,7 +273,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                           ResetForm();
                         }}
                       >
-                        <RestartAltIcon />
+                        <i className="ph ph-arrow-clockwise"></i>
                       </button>
                     </OverlayTrigger>
                   ) : (

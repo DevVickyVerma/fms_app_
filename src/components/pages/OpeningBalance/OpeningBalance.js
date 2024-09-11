@@ -373,7 +373,7 @@ const OpeningBalance = ({ isLoading, getData }) => {
                                     className="btn btn-primary ms-2"
                                     style={{ borderRadius: "4px" }}
                                 >
-                                    Add Opening Balance  <AddCircleOutlineIcon className=" ms-1" />
+                                    Add Opening Balance  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                                 </Link>
                             ) : (
                                 ""

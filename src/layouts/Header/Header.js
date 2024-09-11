@@ -202,7 +202,7 @@ const Header = (props) => {
             <div>
               <Navbar id="navbarSupportedContent-4">
 
-                <div className="d-flex order-lg-2">
+                <div className="d-flex order-lg-2 nav-header-box">
                   <Dropdown className=" d-md-flex profile-1 profile-drop-down">
                     <Dropdown.Toggle
                       className="nav-link profile profile-box leading-none d-flex px-1"
@@ -216,7 +216,7 @@ const Header = (props) => {
                           {headingusername ? headingusername : " Admin"}
                         </span>
                       </h5>
-                      <i className="fa fa-chevron-circle-down  ms-2"></i>
+                      <i className="ph ph-caret-circle-down ms-2"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu
                       className="dropdown-menu-end dropdown-menu-arrow"
@@ -232,30 +232,30 @@ const Header = (props) => {
                       <div className="dropdown-divider m-0"></div>
                       {localStorage.getItem("superiorRole") == "Client" ? (
                         <Dropdown.Item as={Link} to="/manage-sms">
-                          <i className="dropdown-icon fa fa-envelope-o"></i> MY SMS <span className="mybalance">{mybalance !== undefined ? mybalance : ""}</span>
+                          <i className="dropdown-icon ph ph-chat-text"></i> MY SMS <span className="mybalance">{mybalance !== undefined ? mybalance : ""}</span>
                         </Dropdown.Item>
                       ) : null}
                       {isProfileUpdatePermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/editprofile">
-                          <i className="dropdown-icon fe fe-user"></i> Edit
+                          <i className="dropdown-icon ph ph-user"></i> Edit
                           Profile
                         </Dropdown.Item>
                       ) : null}
                       {isUpdatePasswordPermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/editprofile">
-                          <i className="dropdown-icon fa fa-key"></i>Change
+                          <i className="dropdown-icon ph ph-password"></i>Change
                           Password
                         </Dropdown.Item>
                       ) : null}
                       {isSettingsPermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/settings">
-                          <i className="dropdown-icon fe fe-settings"></i>
+                          <i className="dropdown-icon ph ph-gear"></i>
                           Settings
                         </Dropdown.Item>
                       ) : null}
 
                       <Dropdown.Item onClick={logout}>
-                        <i className="dropdown-icon fe fe-alert-circle"></i>
+                        <i className="dropdown-icon ph ph-sign-out"></i>
                         Sign out
                       </Dropdown.Item>
                     </Dropdown.Menu>

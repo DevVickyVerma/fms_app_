@@ -48,7 +48,7 @@ const SearchBar = ({ onSearch, onReset, placeholder, hideReset }) => {
                     className="btn btn-danger  addclientbtn"
                     onClick={handleReset}
                 >
-                    <RestartAltIcon />
+                    <i className="ph ph-arrow-clockwise"></i>
                 </Link>
             )}
         </div>

@@ -357,9 +357,7 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/editclient/${row.id}`}>
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <ModeEditIcon />
-                          </i>
+                          <i className="ph ph-pencil me-2"></i>
                           Edit
                         </div>
                       </Link>
@@ -369,9 +367,8 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <DeleteIcon />
-                          </i>
+
+                          <i className="ph ph-trash me-2"></i>
                           Delete
                         </div>
                       </Link>
@@ -381,9 +378,10 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to="#" onClick={() => handleClientLogin(row)}>
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
+                          {/* <i className="setting-icon">
                             <VpnKeyIcon />
-                          </i>
+                          </i> */}
+                          <i className="ph ph-sign-in me-2"></i>
                           Client Login
                         </div>
                       </Link>
@@ -393,9 +391,7 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/assignclientaddon/${row.id}`}>
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <AssignmentIndIcon />
-                          </i>
+                          <i className="ph ph-user-circle-plus me-2"></i>
                           Assign Addon
                         </div>
                       </Link>
@@ -405,9 +401,7 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <AccountBalanceIcon />
-                          </i>
+                          <i className="ph ph-sliders me-2"></i>
                           Setup Payroll
                         </div>
                       </Link>
@@ -420,9 +414,7 @@ const ManageClient = (props) => {
                         to={`/assignreport/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            {""} <AssignmentIndIcon />
-                          </i>
+                          <i class="ph ph-files me-2"></i>
                           <span>Report Assign</span>
                         </div>
                       </Link>
@@ -465,46 +457,6 @@ const ManageClient = (props) => {
             </Breadcrumb>
           </div>
           <div className="ms-auto pageheader-btn d-flex">
-            {/* <Box component="span" display={["none", "flex"]} alignItems={"center"} className="Search-data">
-              {Object.entries(searchdata).map(([key, value]) => (
-                <div key={key} className="badge">
-                  <span className="badge-key">
-                    {key.charAt(0).toUpperCase() + key.slice(1)}:
-                  </span>
-                  <span className="badge-value">{value}</span>
-                </div>
-              ))}
-            </Box>
-            <Link
-              // className="btn btn-primary sbsbo"
-              onClick={() => {
-                handleToggleSidebar1();
-              }}
-            >
-              <CenterSearchmodal
-                title="Search"
-                visible={sidebarVisible1}
-                onClick={() => {
-                  handleToggleSidebar1();
-                }}
-                onClose={handleToggleSidebar1}
-                onSubmit={handleSubmit}
-                searchListstatus={SearchList}
-              />
-            </Link>
-
-            {Object.keys(searchdata).length > 0 ? (
-
-              <Link
-                className="btn btn-danger ms-2 addclientbtn hide-btn-responsive"
-                onClick={handleSearchReset}
-
-              >
-                Reset <RestartAltIcon />
-              </Link>
-            ) : (
-              ""
-            )} */}
 
 
             {isAddPermissionAvailable ? (
@@ -515,36 +467,13 @@ const ManageClient = (props) => {
                 <Box component="span" display={["none", "unset"]}>
                   Add
                 </Box>  Client {""}
-                <AddCircleOutlineIcon className=" ms-1" />
+                <i className="ph ph-plus ms-1 ph-plus-icon"></i>
               </Link>
             ) : null}
           </div>
         </div>
 
-        {/* <Box display={["flex", "none"]} justifyContent={"space-between"} alignItems={"center"} mb={"10px"}>
-          <span className="Search-data gap-1 d-flex flex-wrap">
-            {Object.entries(searchdata).map(([key, value]) => (
-              <div key={key} className="badge">
-                <span className="badge-key">
-                  {key.charAt(0).toUpperCase() + key.slice(1)}:
-                </span>
-                <span className="badge-value">{value}</span>
-              </div>
-            ))}
-          </span>
 
-          {Object.keys(searchdata).length > 0 ? (
-            <Link
-              className="btn btn-danger ms-2 addclientbtn"
-              onClick={handleSearchReset}
-              style={{ minWidth: "80px" }}
-            >
-              Reset <RestartAltIcon />
-            </Link>
-          ) : (
-            ""
-          )}
-        </Box> */}
 
         <Row className=" row-sm">
           <Col lg={12}>

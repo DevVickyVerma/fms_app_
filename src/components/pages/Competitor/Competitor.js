@@ -316,7 +316,7 @@ const Competitor = (props) => {
       {isLoading ? <Loaderimg /> : null}
 
       <>
-        <div className="page-header d-flex">
+        <div className="page-header d-flex flex-wrap">
           <div>
             <h1 className="page-title ">Manage Competitor</h1>
             <Breadcrumb className="breadcrumb breadcrumb-subheader">
@@ -337,19 +337,19 @@ const Competitor = (props) => {
             </Breadcrumb>
           </div>
 
-          <div className="ms-auto ">
+          <div className=" mt-2 mt-sm-0">
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
                   to="/addCompetitor"
-                  className="btn btn-primary ms-2"
+                  className="btn btn-primary "
                   style={{ borderRadius: "4px" }}
                 >
                   <Box component="span" display={["none", "unset"]} m="{1}">
                     Add
                   </Box>{" "}
                   Competitor
-                  <AddCircleOutlineIcon className=" ms-1" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                 </Link>
               ) : null}
             </div>

@@ -253,7 +253,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Hide Business Categories <AddCircleOutlineIcon className=" ms-1" />
+                  Hide Business Categories <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                 </Link>
               ) : (
                 ""

@@ -1937,5 +1937,12 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
   position: absolute;
   inset: 0px 0px auto auto;
   transform: initial;
+}
 
+.single-Competitor-heading {
+  height: 100%;
+}
+
+.nav-header-box {
+  box-shadow: 0px 2px 3px rgb(4 4 7 / 35%);
 }

@@ -446,7 +446,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
                                             className="btn btn-primary ms-2"
                                             style={{ borderRadius: "4px" }}
                                         >
-                                            Add items Group     <AddCircleOutlineIcon className=" ms-1" />
+                                            Add items Group     <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                                         </Link>
                                     ) : null}
                                 </div>

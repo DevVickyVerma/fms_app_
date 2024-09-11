@@ -4,7 +4,7 @@ export const MENUITEMS = [
       //dashboard
       {
         path: `/dashboard`,
-        icon: "home",
+        icon: "house",
         type: "link",
         active: false,
 
@@ -23,7 +23,7 @@ export const MENUITEMS = [
       //   visibility: false,
       //   title: "Fuel Selling Prices",
       // },
-   
+
       {
         title: "Manage Users",
         icon: "users",
@@ -59,7 +59,7 @@ export const MENUITEMS = [
       //client
       {
         title: "Manage Clients",
-        icon: "users",
+        icon: "users-three",
         type: "sub",
         active: false,
         permission: "client-list",
@@ -84,7 +84,7 @@ export const MENUITEMS = [
       //compitior
       {
         title: "Manage Competitor",
-        icon: "bar-chart",
+        icon: "flag",
         type: "sub",
         active: false,
         permission: "competitor-list",
@@ -142,7 +142,7 @@ export const MENUITEMS = [
 
       {
         title: "Manage Sage",
-        icon: "building",
+        icon: "coda-logo",
         type: "sub",
         active: false,
         permission: "nominalcode-list",
@@ -209,7 +209,7 @@ export const MENUITEMS = [
       //Sites
       {
         title: "Manage Sites",
-        icon: "university",
+        icon: "browsers",
         type: "sub",
         active: false,
         permission: "site-list",
@@ -274,7 +274,7 @@ export const MENUITEMS = [
       //Roles
       {
         title: "Manage Roles",
-        icon: "unlock-alt",
+        icon: "lock-key-open",
         type: "sub",
         active: false,
         permission: "role-list",
@@ -299,7 +299,7 @@ export const MENUITEMS = [
       //Addons
       {
         title: "Manage Addons",
-        icon: "unlock",
+        icon: "user-plus",
         type: "sub",
         active: false,
         permission: "addons-list",
@@ -325,7 +325,7 @@ export const MENUITEMS = [
       //Site Fuels
       {
         title: " Manage Site Fuels",
-        icon: "flask",
+        icon: "gas-pump",
         type: "sub",
         active: false,
         permission: "tank-list",
@@ -378,7 +378,7 @@ export const MENUITEMS = [
       //Tolerances
       {
         title: "Manage Tolerances",
-        icon: "handshake-o",
+        icon: "target",
         type: "sub",
         active: false,
         permission: "tolerance-list",
@@ -396,7 +396,7 @@ export const MENUITEMS = [
       //Commissions
       {
         title: "Manage Commissions",
-        icon: "tags",
+        icon: "currency-gbp",
         type: "sub",
         active: false,
         permission: "shop-item-commission-list",
@@ -427,8 +427,8 @@ export const MENUITEMS = [
       },
       //Business Types
       {
-        title: "Manage Business Types",
-        icon: "th-large",
+        title: " Business Types",
+        icon: "eject-simple",
         type: "sub",
         active: false,
         permission: "business-type-list",
@@ -436,7 +436,7 @@ export const MENUITEMS = [
         children: [
           {
             path: `/business`,
-            title: "Manage Business Types",
+            title: " Business Types",
             type: "link",
             permission: "business-type-list",
             visibility: false,
@@ -479,7 +479,7 @@ export const MENUITEMS = [
       //Shops
       {
         title: "Manage Shops",
-        icon: "shopping-cart",
+        icon: "shopping-bag",
         type: "sub",
         active: false,
         permission: "shop-list",
@@ -504,7 +504,7 @@ export const MENUITEMS = [
       //Cards
       {
         title: "Manage Cards",
-        icon: "credit-card-alt",
+        icon: "cards",
         type: "sub",
         active: false,
         permission: "card-list",
@@ -536,7 +536,7 @@ export const MENUITEMS = [
       //Deductions
       {
         title: "Manage Deductions",
-        icon: "percent",
+        icon: "trend-down",
         type: "sub",
         active: false,
         permission: "deduction-list",
@@ -561,7 +561,7 @@ export const MENUITEMS = [
       //Suppliers
       {
         title: "Manage Suppliers",
-        icon: "tint",
+        icon: "handshake",
         type: "sub",
         active: false,
         permission: "supplier-list",
@@ -587,7 +587,7 @@ export const MENUITEMS = [
       //Category
       {
         title: "Manage Category",
-        icon: "check-square",
+        icon: "user-list",
         type: "sub",
         active: false,
         permission: "business-category-list",
@@ -626,7 +626,7 @@ export const MENUITEMS = [
       //Reports
       {
         title: "Manage Reports",
-        icon: "pie-chart",
+        icon: "file-text",
         type: "sub",
         active: false,
         permission: "report-type-list",
@@ -644,7 +644,7 @@ export const MENUITEMS = [
       //Others
       {
         title: "Others",
-        icon: "tasks",
+        icon: "circuitry",
         type: "sub",
         active: false,
         permission: "Site PPL Rate",
@@ -668,7 +668,7 @@ export const MENUITEMS = [
       },
       //Department Items
       {
-        title: "Manage Department Items",
+        title: " Department Items",
         icon: "shopping-cart",
         type: "sub",
         active: false,
@@ -701,7 +701,7 @@ export const MENUITEMS = [
       //Logs
       {
         title: "Logs",
-        icon: "envelope-o",
+        icon: "notebook",
         type: "sub",
         active: false,
         permission: "email-logs",
@@ -754,7 +754,7 @@ export const MENUITEMS = [
       //Sms
       {
         title: "Manage SMS",
-        icon: "comments",
+        icon: "chat-text",
         type: "sub",
         active: false,
         permission: "sms-create",

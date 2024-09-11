@@ -290,7 +290,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Assign Business Sub Categories <AddCircleOutlineIcon className=" ms-1" />
+                  Assign Business Sub Categories <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                 </Link>
               ) : (
                 ""
