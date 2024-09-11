@@ -83,6 +83,7 @@ const NewFilterTab = ({
 
     useEffect(() => {
         if (showClientInput) fetchClientList();
+    console.clear()
     }, [showClientInput]);
 
     useEffect(() => {
@@ -206,7 +207,6 @@ const NewFilterTab = ({
 
 
 
-    console.log(formik.errors, "fomrik error");
 
     return (
         <>

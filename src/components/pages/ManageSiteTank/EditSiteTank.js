@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import React, { useEffect, useState } from "react"; // Import React
 import {
   Col,
   Row,
@@ -17,7 +16,6 @@ import { handleError } from "../../../Utils/ToastUtils";
 
 const EditSiteTank = (props) => {
   const { isLoading, getData, postData } = props;
-
 
   const { id } = useParams();
 
@@ -91,8 +89,7 @@ const EditSiteTank = (props) => {
     },
     validationSchema: Yup.object({
       tank_name: Yup.string().required("Site Tank Name is required"),
-
-      status: Yup.string().required(" Status is required"),
+      status: Yup.string().required("Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -100,159 +97,158 @@ const EditSiteTank = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      <>
-        <div>
-          <div className="page-header">
-            <div>
-              <h1 className="page-title">Edit Site Tank</h1>
+      <div>
+        <div className="page-header">
+          <div>
+            <h1 className="page-title">Edit Site Tank</h1>
 
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
-                >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item  breadcrumds"
-                  aria-current="page"
-                  linkAs={Link}
-                  linkProps={{ to: "/managesitetank" }}
-                >
-                  Manage Site Tank
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Edit Site Tank
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item breadcrumds"
+                aria-current="page"
+                linkAs={Link}
+                linkProps={{ to: "/managesitetank" }}
+              >
+                Manage Site Tank
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Edit Site Tank
+              </Breadcrumb.Item>
+            </Breadcrumb>
           </div>
+        </div>
 
-          <Row>
-            <Col lg={12} xl={12} md={12} sm={12}>
-              <Card>
-                <Card.Header>
-                  <Card.Title as="h3">Edit Site Tank</Card.Title>
-                </Card.Header>
+        <Row>
+          <Col lg={12} xl={12} md={12} sm={12}>
+            <Card>
+              <Card.Header>
+                <Card.Title as="h3">Edit Site Tank</Card.Title>
+              </Card.Header>
 
-                <div className="card-body">
-                  <form onSubmit={formik.handleSubmit}>
-                    <Row>
-                      <Col lg={6} md={6}>
-                        <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="tank_name"
-                          >
-                            Site Tank Name{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 ${formik.errors.tank_name &&
-                              formik.touched.tank_name
+              <div className="card-body">
+                <form onSubmit={formik.handleSubmit}>
+                  <Row>
+                    <Col lg={6} md={6}>
+                      <div className="form-group">
+                        <label
+                          className="form-label mt-4"
+                          htmlFor="tank_name"
+                        >
+                          Site Tank Name{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.tank_name && formik.touched.tank_name
                               ? "is-invalid"
                               : ""
-                              }`}
-                            id="tank_name"
-                            name="tank_name"
-                            placeholder="Site Tank Name"
-                            onChange={formik.handleChange}
-                            value={formik.values.tank_name || ""}
-                          />
-                          {formik.errors.tank_name &&
-                            formik.touched.tank_name && (
-                              <div className="invalid-feedback">
-                                {formik.errors.tank_name}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                      <Col lg={6} md={6}>
-                        <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="tank_code"
-                          >
-                            Site Tank Code<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            id="tank_code"
-                            tank_code="name"
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 readonly ${formik.errors.tank_code &&
-                              formik.touched.tank_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            placeholder="Site Tank Code"
-                            onChange={formik.handleChange}
-                            value={formik.values.tank_code || ""}
-                            readOnly
-                          />
-                          {formik.errors.tank_code &&
-                            formik.touched.tank_code && (
-                              <div className="invalid-feedback">
-                                {formik.errors.tank_code}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-
-                      <Col lg={6} md={6}>
-                        <div className="form-group">
-                          <label className=" form-label mt-4" htmlFor="status">
-                            Site Tank Status{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <select
-                            className={`input101 ${formik.errors.status && formik.touched.status
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="status"
-                            name="status"
-                            onChange={formik.handleChange}
-                            value={formik.values.status}
-                          >
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                          </select>
-                          {formik.errors.status && formik.touched.status && (
+                          }`}
+                          id="tank_name"
+                          name="tank_name"
+                          placeholder="Site Tank Name"
+                          onChange={formik.handleChange}
+                          value={formik.values.tank_name || ""}
+                        />
+                        {formik.errors.tank_name &&
+                          formik.touched.tank_name && (
                             <div className="invalid-feedback">
-                              {formik.errors.status}
+                              {formik.errors.tank_name}
                             </div>
                           )}
-                        </div>
-                      </Col>
-                    </Row>
-                    <div className="text-end">
-                      <Link
-                        type="submit"
-                        className="btn btn-danger me-2 "
-                        to={`/managesitetank/`}
-                      >
-                        Cancel
-                      </Link>
+                      </div>
+                    </Col>
+                    <Col lg={6} md={6}>
+                      <div className="form-group">
+                        <label
+                          className="form-label mt-4"
+                          htmlFor="tank_code"
+                        >
+                          Site Tank Code<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          id="tank_code"
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 readonly ${
+                            formik.errors.tank_code && formik.touched.tank_code
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          placeholder="Site Tank Code"
+                          onChange={formik.handleChange}
+                          value={formik.values.tank_code || ""}
+                          readOnly
+                        />
+                        {formik.errors.tank_code &&
+                          formik.touched.tank_code && (
+                            <div className="invalid-feedback">
+                              {formik.errors.tank_code}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
 
-                      <button type="submit" className="btn btn-primary">
-                        Submit
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      </>
+                    <Col lg={6} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="status">
+                          Site Tank Status{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`input101 ${
+                            formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="status"
+                          name="status"
+                          onChange={formik.handleChange}
+                          value={formik.values.status}
+                        >
+                          <option value="1">Active</option>
+                          <option value="0">Inactive</option>
+                        </select>
+                        {formik.errors.status && formik.touched.status && (
+                          <div className="invalid-feedback">
+                            {formik.errors.status}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="text-end">
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2"
+                      to={`/managesitetank/`}
+                    >
+                      Cancel
+                    </Link>
+
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     </>
   );
 };
+
 export default withApi(EditSiteTank);

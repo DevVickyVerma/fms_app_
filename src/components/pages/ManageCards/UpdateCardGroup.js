@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, FormGroup, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -89,45 +89,46 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
     }
     setLoadingFetchUpdateCard(false)
   };
-
+  const navigate = useNavigate();
   const handleSettingSubmit = async (values) => {
+
     try {
-      let index = 1;
-      // Create a new FormData object
-      const formData = new FormData();
+        const formData = new FormData();
 
-      for (const obj of values.AssignFormikCards) {
-        const { id, for_tenant, checked, name } = obj;
-        // const card_valueKey = `card_id`;
+        // Append checked cards to formData
+        values?.AssignFormikCards?.forEach((obj, index) => {
+            const { id, checked } = obj;
+            if (checked) {
+              formData.append(`card_id[${index + 1}]`, id); // Using index + 1 to start from 1
+            }
+        });
 
-        if (checked) {
-          formData.append(`card_id[${index}]`, id);
-          index++; // Increment index for the next iteration
+        // Append selected site IDs to formData
+        selected?.forEach((site, index) => {
+            formData.append(`site_id[${index}]`, site.value);
+        });
+
+        // Append company_id if storedData exists
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            formData.append("company_id", parsedData?.company_id || "");
         }
-      }
-      const selectedSiteIds = selected?.map((site) => site.value);
 
-      selectedSiteIds?.forEach((id, index) => {
-        formData.append(`site_id[${index}]`, id);
-      });
+        // Append other form values
+        formData.append("name", values?.card_name || "");
+        formData.append("group_id", paramId.id || "");
 
-      if (storedData) {
-        let parsedData = JSON.parse(storedData);
-        formData.append("company_id", parsedData?.company_id);
-      }
+        // Post data to the server
+        const postDataUrl = "/sage/card-group/update";
+        await postData(postDataUrl, formData);
 
-      formData.append("name", values?.card_name);
-      formData.append("group_id", paramId.id);
-
-      const postDataUrl = "/sage/card-group/update";
-      const navigatePath = "/card-group";
-
-      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-      // await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+        // Navigate to the desired path after successful submission
+        navigate("/card-group");
     } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
+        console.error("Error during submission:", error); // Improved error logging
     }
-  };
+};
+
 
   const cardDataColumn = [
     {

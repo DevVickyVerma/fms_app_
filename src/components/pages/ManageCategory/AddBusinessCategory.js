@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
+
 
 import {
   Col,
@@ -101,10 +103,10 @@ const AddBusinessCategory = (props) => {
   }, []);
   return <>
     {isLoading ? <Loaderimg /> : null}
-    <>
+  
       <div>
         <div className="page-header">
-          <div>
+        
             <h1 className="page-title">Add Business Category</h1>
 
             <Breadcrumb className="breadcrumb">
@@ -122,7 +124,7 @@ const AddBusinessCategory = (props) => {
                 Manage Business Category
               </Breadcrumb.Item>
             </Breadcrumb>
-          </div>
+        
         </div>
 
         <Row>
@@ -314,7 +316,7 @@ const AddBusinessCategory = (props) => {
           </Col>
         </Row>
       </div>
-    </>
+ 
   </>;
 };
 export default withApi(AddBusinessCategory);

@@ -1,6 +1,7 @@
 import { Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import LoaderImg from "../../../Utils/Loader";
 import { Dialog, DialogContent, DialogContentText } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

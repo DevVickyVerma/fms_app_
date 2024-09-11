@@ -1,5 +1,6 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import { Button, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Loaderimg from "../../Utils/Loader";

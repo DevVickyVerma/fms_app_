@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -15,14 +16,14 @@ export default function Login(props) {
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
 
-  useEffect(() => {
-    document.addEventListener("keydown", function (event) {
-      // Check CapsLock state without getModifierState
-      const isCapsLockActive = event.getModifierState("CapsLock");
-      setCapsLockActive(isCapsLockActive);
-    });
-    console.clear();
-  }, [localStorage.getItem("token")]);
+  // useEffect(() => {
+  //   document.addEventListener("keydown", function (event) {
+  //     // Check CapsLock state without getModifierState
+  //     const isCapsLockActive = event.getModifierState("CapsLock");
+  //     setCapsLockActive(isCapsLockActive);
+  //   });
+  //   console.clear();
+  // }, [localStorage.getItem("token")]);
 
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
@@ -32,11 +33,11 @@ export default function Login(props) {
   }
 
   const handleKeyPress = (event) => {
-    if (event.getModifierState("CapsLock")) {
-      setCapsLockActive(true);
-    } else {
-      setCapsLockActive(false);
-    }
+    // if (event.getModifierState("CapsLock")) {
+    //   setCapsLockActive(true);
+    // } else {
+    //   setCapsLockActive(false);
+    // }
   };
 
   const togglePasswordVisibility = () => {
@@ -96,7 +97,7 @@ export default function Login(props) {
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
       } else {
-        console.error(error);
+      
         navigate("/under-construction");
         ErrorAlert(error.message);
       }

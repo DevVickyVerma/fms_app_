@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -12,15 +11,12 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import Swal from "sweetalert2";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
-import { FlipVertical } from "@phosphor-icons/react";
 
 const ManageUser = (props) => {
   const { apidata, isLoading, getData, postData } = props;

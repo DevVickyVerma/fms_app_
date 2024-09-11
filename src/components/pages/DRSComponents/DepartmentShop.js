@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -95,7 +96,7 @@ const AddCards = (props) => {
 
   return <>
     {isLoading ? <Loaderimg /> : null}
-    <>
+
       <div>
         <div className="page-header">
           <div>
@@ -344,7 +345,7 @@ const AddCards = (props) => {
           </Col>
         </Row>
       </div>
-    </>
+  
   </>;
 };
 export default withApi(AddCards);

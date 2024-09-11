@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import {
   Chart as ChartJS,

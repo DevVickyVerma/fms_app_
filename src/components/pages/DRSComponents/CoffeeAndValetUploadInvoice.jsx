@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import { Col, Modal, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import LoaderImg from "../../../Utils/Loader";
@@ -11,11 +12,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 
 const CoffeeAndValetUploadInvoice = (props) => {
-    const { showModal, setShowModal, invoiceCallData, getData, detailApiData, isLoading, postData, apidata } = props;
-
+    const { showModal, setShowModal, invoiceCallData, getData, isLoading, postData, apidata } = props;
+    const navigate = useNavigate();
     const [customLoading, setCustomLoading] = useState(false);
     const handleCloseModal = () => {
         setShowModal(false);
@@ -97,35 +99,39 @@ const CoffeeAndValetUploadInvoice = (props) => {
             formik?.values?.uploadedFiles?.filter((_, index) => index !== indexToRemove)
         );
     };
-
     const uploadDocument = async (id) => {
-
-        setCustomLoading(true)
+        setCustomLoading(true); // Start loading state
+    
         const formData = new FormData();
-
+    
         formik?.values?.uploadedFiles?.forEach((file, index) => {
-            const convertedValue = file === null ? "" : file;
-            formData.append(`file[${index}]`, convertedValue);
+            // Ensure `file` is a valid File object
+            if (file) {
+                formData.append(`file[${index}]`, file);
+            }
         });
-
-        formData.append("site_id", invoiceCallData?.site_id);
-        formData.append("drs_date", invoiceCallData?.start_date);
-        formData.append("department_item_id", invoiceCallData?.selectedRow?.department_item_id);
-
+    
+        // Append other form data
+        formData.append("site_id", invoiceCallData?.site_id || "");
+        formData.append("drs_date", invoiceCallData?.start_date || "");
+        formData.append("department_item_id", invoiceCallData?.selectedRow?.department_item_id || "");
+    
         try {
             const postDataUrl = "/valet-coffee/upload-file";
-            const navigatePath = `/ clients`;
-
-            await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
-
-            FetchmannegerList()
-            formik.setFieldValue('uploadedFiles', []);
-
+            
+            await postData(postDataUrl, formData);
+    
+            FetchmannegerList(); // Refresh data
+    
+            formik.setFieldValue('uploadedFiles', []); // Clear formik field value
+    
+            // Navigate to the desired path after a successful upload
+            navigate(`/clients`);
         } catch (error) {
-            setCustomLoading(false)
-            handleError(error);
+            handleError(error); // Handle error appropriately
+        } finally {
+            setCustomLoading(false); // End loading state
         }
-        setCustomLoading(false)
     };
 
 

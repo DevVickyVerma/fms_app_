@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -6,12 +6,8 @@ import DataTable from "react-data-table-component";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
-import { useFormik } from "formik";
+import { ErrorMessage, useFormik } from "formik";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-
-
-
-
 
 const ManageComision = (props) => {
   const { isLoading, getData, postData } = props;
@@ -21,7 +17,6 @@ const ManageComision = (props) => {
 
   const handleSubmit1 = async (values) => {
     try {
-
       setsiteID(values.site_id);
 
       try {
@@ -35,13 +30,11 @@ const ManageComision = (props) => {
           setis_editable(data?.data);
 
           // Create an array of form values based on the response data
-          const formValues = data.data.items.map((item) => {
-            return {
-              id: item?.department_item_id,
-              commission: item?.commission,
-              name: item?.name,
-            };
-          });
+          const formValues = data.data.items.map((item) => ({
+            id: item?.department_item_id,
+            commission: item?.commission,
+            name: item?.name,
+          }));
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
@@ -56,14 +49,14 @@ const ManageComision = (props) => {
 
   const columns = [
     {
-      name: " CATEGORY NAME",
+      name: "CATEGORY NAME",
       selector: (row) => row.name,
       sortable: false,
       width: "40%",
       center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.name !== undefined ? `${row?.name}` : ""}
+          {row.name || ""}
         </span>
       ),
     },
@@ -73,8 +66,7 @@ const ManageComision = (props) => {
       sortable: false,
       width: "60%",
       center: true,
-
-      cell: (row, index) =>
+      cell: (row, index) => (
         row.fuel_name === "Total" ? (
           <h4 className="bottom-toal">{row?.commission}</h4>
         ) : (
@@ -83,20 +75,22 @@ const ManageComision = (props) => {
               type="number"
               id={`commission-${index}`}
               name={`data[${index}].commission`}
-              className=" table-input"
-              value={formik?.values?.data?.[index]?.commission}
+              className="table-input"
+              value={formik.values.data[index]?.commission || ''}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {/* Error handling code */}
+            <ErrorMessage
+              name={`data[${index}].commission`}
+              component="div"
+              className="invalid-feedback"
+            />
           </div>
-        ),
+        )
+      ),
     },
-
     // ... remaining columns
   ];
-
-
 
   const handleSubmit = async (values) => {
     try {
@@ -106,11 +100,7 @@ const ManageComision = (props) => {
       values?.data?.forEach((obj) => {
         const id = obj?.id;
         const grossValueKey = `commission[${id}]`;
-
         const grossValue = obj.commission;
-
-        // const action = obj.action;
-
         formData.append(grossValueKey, grossValue);
       });
 
@@ -118,7 +108,7 @@ const ManageComision = (props) => {
 
       const postDataUrl = "/shop-commission/update";
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData); // Handle success or error as needed
     } catch (error) {
       console.log(error);
     }
@@ -132,7 +122,6 @@ const ManageComision = (props) => {
     // validationSchema: validationSchema,
   });
 
-
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -141,7 +130,6 @@ const ManageComision = (props) => {
     company_id: Yup.string().required("Company is required"),
     site_id: Yup.string().required("Site is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -162,8 +150,6 @@ const ManageComision = (props) => {
       } else {
         handleApplyFilters(parsedData);
       }
-
-      // Call the API with the updated or original data
     } else if (localStorage.getItem("superiorRole") === "Client") {
       const storedClientIdData = localStorage.getItem("superiorId");
 
@@ -183,118 +169,105 @@ const ManageComision = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.site_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
-
-  const handleClearForm = async (resetForm) => {
-    setData(null)
   };
 
+  const handleClearForm = async (resetForm) => {
+    setData([]);
+  };
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
 
-      <>
-        <div className="page-header ">
-          <div>
-            <h1 className="page-title">Shop Commission</h1>
-            <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item
-                className="breadcrumb-item"
-                linkAs={Link}
-                linkProps={{ to: "/dashboard" }}
-              >
-                Dashboard
-              </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item active breadcrumds"
-                aria-current="page"
-              >
-                Shop Commission
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Shop Commission</h1>
+          <Breadcrumb className="breadcrumb">
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item active breadcrumds"
+              aria-current="page"
+            >
+              Shop Commission
+            </Breadcrumb.Item>
+          </Breadcrumb>
         </div>
+      </div>
 
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Filter Data</h3>
-              </Card.Header>
+      <Row>
+        <Col md={12} xl={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title">Filter Data</h3>
+            </Card.Header>
 
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                lg="4"
-                showStationValidation={true}
-                showMonthInput={false}
-                showDateInput={false}
-                showStationInput={true}
-                ClearForm={handleClearForm}
-              />
+            <NewFilterTab
+              getData={getData}
+              isLoading={isLoading}
+              isStatic={true}
+              onApplyFilters={handleApplyFilters}
+              validationSchema={validationSchemaForCustomInput}
+              storedKeyName={storedKeyName}
+              lg="4"
+              showStationValidation={true}
+              showMonthInput={false}
+              showDateInput={false}
+              showStationInput={true}
+              ClearForm={handleClearForm}
+            />
+          </Card>
+        </Col>
+      </Row>
 
-            </Card>
-          </Col>
-        </Row>
-
-        <Row className="row-sm">
-          <Col lg={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title">Shop Commission</h3>
-              </Card.Header>
-              <Card.Body>
-                {data?.length > 0 ? (
-                  <>
-                    <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                        />
-                      </div>
-                      <div className="d-flex justify-content-end mt-3">
-                        {editable ? (
-                          <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        ) : (
-                          <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        )}
-                      </div>
-                    </form>
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src={require("../../../assets/images/commonimages/no_data.png")}
-                      alt="MyChartImage"
-                      className="all-center-flex nodata-image"
+      <Row className="row-sm">
+        <Col lg={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title">Shop Commission</h3>
+            </Card.Header>
+            <Card.Body>
+              {data?.length > 0 ? (
+                <form onSubmit={formik.handleSubmit}>
+                  <div className="table-responsive deleted-table">
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      persistTableHead
+                      highlightOnHover
+                      searchable={false}
                     />
-                  </>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </>
+                  </div>
+                  <div className="d-flex justify-content-end mt-3">
+                    <button className="btn btn-primary" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <img
+                  src={require("../../../assets/images/commonimages/no_data.png")}
+                  alt="No Data"
+                  className="all-center-flex nodata-image"
+                />
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 };
+
 export default withApi(ManageComision);

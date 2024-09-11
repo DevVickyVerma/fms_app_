@@ -1,5 +1,6 @@
 
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+
+import { useEffect, useState,React } from "react";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
@@ -64,7 +65,7 @@ const Dashboard = (props) => {
       setPermissionsArray(ReduxFullData?.permissions);
     }
     navigate(ReduxFullData?.route);
-    //  console.clear();
+     console.clear();
   }, [ReduxFullData, permissionsArray]);
 
 

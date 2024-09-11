@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from 'react';
 import { Col, Modal, Row } from "react-bootstrap";
 import Loaderimg from "../../Utils/Loader";
 import { AiOutlineClose } from "react-icons/ai";
