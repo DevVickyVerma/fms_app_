@@ -244,7 +244,7 @@ const DashboardStatsBox = (props) => {
           <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card
               onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-6 img-card box-success-shadow`}
+              className={`card dash-card-default-height dash-plates-5 img-card box-success-shadow`}
             >
               <Card.Body className="statscard c-stats-card">
                 <div className="d-flex ">

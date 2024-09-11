@@ -304,9 +304,7 @@ const ManageCompany = (props) => {
                         onClick={() => handleEdit(row)}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <i className="fa fa-pencil" aria-hidden="true"></i> {" "}
-                          </i>
+                          <i className="ph ph-pencil me-2"></i>
                           Edit
                         </div>
                       </Link>

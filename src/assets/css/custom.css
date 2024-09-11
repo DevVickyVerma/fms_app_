@@ -345,7 +345,7 @@ tbody tr {
   }
 
   .table thead th {
-    min-width: 22.28% !important;
+    /* min-width: 22.28% !important; */
   }
 }
 
@@ -1588,27 +1588,34 @@ span.text-error {
 }
 
 .dash-plates-1 {
-  background-color: #4663ac !important;
+  /* background-color: #4663ac !important; */
+  background-color: #7e95e4 !important;
 }
 
 .dash-plates-2 {
   background-color: #3d83b2 !important;
+  background-color: #b99ae3 !important;
 }
 
 .dash-plates-3 {
   background-color: #5d78b3 !important;
+  background-color: #938ddf !important;
 }
 
 .dash-plates-4 {
   background-color: #7e6aaa !important;
+  background-color: #938ddf !important;
+  background-color: #7e95e4 !important;
 }
 
 .dash-plates-5 {
   background-color: #9a5b95 !important;
+  background-color: #df9deb !important;
 }
 
 .dash-plates-6 {
   background-color: #ac4d78 !important;
+  background-color: #938ddf !important;
 }
 
 .badge-div {
@@ -1940,7 +1947,7 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 }
 
 .single-Competitor-heading {
-  height: 100%;
+  min-height: calc(10px + 66px);
 }
 
 .nav-header-box {

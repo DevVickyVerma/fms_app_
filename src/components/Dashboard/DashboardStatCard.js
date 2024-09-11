@@ -95,8 +95,13 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                   className="Liveimage"
                 />{" "}{" "}
 
-                <span> Last Updated On </span>
-                <span> ({data?.last_updated_at}) </span>
+                <span> Last Updated On  {data?.last_updated}</span>
+                <span className="text-mute">
+                  {" "}
+                  <small>
+                    ({data?.last_updated_time})
+                  </small>
+                </span>
               </span>
               <span onClick={onClose} >
                 <button className="close-button">
@@ -107,20 +112,11 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
           </Modal.Header>
 
           <Card>
-            {/* <Card.Header className="card-header">
-              <h4 className="card-title">
-                <img
-                  src={require("../../assets/images/commonimages/LiveIMg.gif")}
-                  alt="Live Img"
-                  className="Liveimage"
-                />{" "}{" "} Last Updated On : ({data?.last_updated_at})
-              </h4>
-            </Card.Header> */}
             <Card.Body className="card-body pb-0">
               <Row>
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
-                    className={`card bg-${request[0].color} img-card box-${request[0].color}-shadow`}
+                    className={`card dash-plates-1 img-card box-${request[0].color}-shadow`}
                   >
                     <Card.Body>
                       <div className="d-flex">
@@ -129,9 +125,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Gross Volume</p>
                         </div>
                         <div className="ms-auto">
-                          <i
-                            className={`fa ${request[0].icon} text-white fs-30 me-2 mt-2`}
-                          ></i>
+                          <i className="ph ph-drop text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -140,7 +134,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
 
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
-                    className={`card bg-${request[1].color} img-card box-${request[1].color}-shadow`}
+                    className={`card  dash-plates-2 img-card box-${request[1].color}-shadow`}
                   >
                     <Card.Body>
                       <div className="d-flex">
@@ -149,9 +143,8 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Fuel Sales</p>
                         </div>
                         <div className="ms-auto">
-                          <i
-                            className={`fa ${request[1].icon} text-white fs-30 me-2 mt-2`}
-                          ></i>
+
+                          <i className="ph ph-tag text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -160,7 +153,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
 
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
-                    className={`card bg-${request[2].color} img-card box-${request[2].color}-shadow`}
+                    className={`card  dash-plates-3 img-card box-${request[2].color}-shadow`}
                   >
                     <Card.Body>
                       <div className="d-flex">
@@ -169,9 +162,8 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Gross Profit</p>
                         </div>
                         <div className="ms-auto">
-                          <i
-                            className={`fa ${request[2].icon} text-white fs-30 me-2 mt-2`}
-                          ></i>
+
+                          <i className="ph ph-currency-eur text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -180,7 +172,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
 
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
-                    className={`card bg-${request[3].color} img-card box-${request[3].color}-shadow`}
+                    className={`card  dash-plates-1 img-card box-${request[3].color}-shadow`}
                   >
                     <Card.Body>
                       <div className="d-flex">
@@ -189,9 +181,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Gross Margin</p>
                         </div>
                         <div className="ms-auto">
-                          <i
-                            className={`fa ${request[3].icon} text-white fs-30 me-2 mt-2`}
-                          ></i>
+                          <i className="ph ph-lightning text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -200,7 +190,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
 
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
-                    className={`card bg-${request[4].color} img-card box-${request[4].color}-shadow`}
+                    className={`card  dash-plates-2 img-card box-${request[4].color}-shadow`}
                   >
                     <Card.Body>
                       <div className="d-flex">
@@ -209,9 +199,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Shop Sales</p>
                         </div>
                         <div className="ms-auto">
-                          <i
-                            className={`fa ${request[4].icon} text-white fs-30 me-2 mt-2`}
-                          ></i>
+                          <i className="ph ph-tag text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -220,7 +208,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
 
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
-                    className={`card bg-${request[5].color} img-card box-${request[5].color}-shadow`}
+                    className={`card  dash-plates-3 img-card box-${request[5].color}-shadow`}
                   >
                     <Card.Body>
                       <div className="d-flex">
@@ -229,9 +217,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Shop Profit</p>
                         </div>
                         <div className="ms-auto">
-                          <i
-                            className={`fa ${request[5].icon} text-white fs-30 me-2 mt-2`}
-                          ></i>
+                          <i className="ph ph-currency-eur text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
