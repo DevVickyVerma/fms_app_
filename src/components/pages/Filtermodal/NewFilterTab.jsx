@@ -7,6 +7,10 @@ import LoaderImg from '../../../Utils/Loader';
 import { handleError } from '../../../Utils/ToastUtils';
 import FormikSelect from '../../Formik/FormikSelect';
 import FormikInput from '../../Formik/FormikInput';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
+
 
 const NewFilterTab = ({
     getData,
@@ -27,6 +31,7 @@ const NewFilterTab = ({
     showSendEmail = false,
     showDRSDelete = false,
     showResetBtn = true,
+    showDateRangeInput = false, // Add this prop
     validationSchema,
     storedKeyName,
     layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5',
@@ -52,6 +57,8 @@ const NewFilterTab = ({
             start_date: new Date().toISOString().split('T')[0] || "",
             site_id: "",
             site_name: "",
+            range_start_date: null, // Renamed start date field
+            range_end_date: null,   // Renamed end date field
             clients: [],
             companies: [],
             sites: [],
@@ -191,7 +198,15 @@ const NewFilterTab = ({
         ClearForm()
     }
 
+    const handleDateChange = (dates) => {
+        const [start, end] = dates;
+        formik.setFieldValue('range_start_date', start);
+        formik.setFieldValue('range_end_date', end);
+    };
 
+
+
+    console.log(formik.errors, "fomrik error");
 
     return (
         <>
@@ -252,6 +267,38 @@ const NewFilterTab = ({
                                         <FormikInput formik={formik} type="date" label="Date" name="start_date" />
                                     </Col>
                                 )}
+
+
+                                {showDateInput && showDateRangeInput && (
+                                    <Col lg={lg || 6}>
+                                        <label htmlFor="date-range">Date Range</label>
+                                        <DatePicker
+                                            id="date-range"
+                                            selected={formik.values.range_start_date ? new Date(formik.values.range_start_date) : null}
+                                            onChange={handleDateChange}
+                                            startDate={formik.values.range_start_date ? new Date(formik.values.range_start_date) : null}
+                                            endDate={formik.values.range_end_date ? new Date(formik.values.range_end_date) : null}
+                                            selectsRange
+                                            isClearable
+                                            placeholderText='Select Date Range'
+                                            dateFormat="yyyy-MM-dd"
+                                            className="input101 form-input"
+                                        />
+                                        {formik.errors.range_start_date && formik.touched.range_start_date && (
+                                            <div className="text-danger mt-1">
+                                                {formik.errors.range_start_date}
+                                            </div>
+                                        )}
+                                        {formik.errors.range_end_date && formik.touched.range_end_date && (
+                                            <div className="text-danger mt-1">
+                                                {formik.errors.range_end_date}
+                                            </div>
+                                        )}
+                                    </Col>
+                                )}
+
+
+
 
 
                             </Row>

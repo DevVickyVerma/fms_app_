@@ -1932,3 +1932,10 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
   max-width: 600px;
   margin: auto;
 }
+
+.profile-drop-down .dropdown-menu {
+  position: absolute;
+  inset: 0px 0px auto auto;
+  transform: initial;
+
+}
