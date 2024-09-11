@@ -23,7 +23,7 @@ const DashboardStatCard = ({ getData, isLoading, filters }) => {
       FetchmannegerList(filters);
     }
 
-  }, []);
+  }, [filters]);
 
   const request = [
     {

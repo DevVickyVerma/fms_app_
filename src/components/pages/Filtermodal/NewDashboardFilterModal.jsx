@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { Dialog, DialogActions } from '@mui/material';
-import { Card, Col, Row } from 'react-bootstrap';
+import { DialogActions } from '@mui/material';
+import { Card, Col, Modal, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import LoaderImg from '../../../Utils/Loader';
@@ -28,6 +28,7 @@ const NewDashboardFilterModal = ({
     layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5',
     onClose,
     isOpen,
+    visible
 }) => {
 
     const reduxData = useSelector(state => state?.data?.data);
@@ -172,105 +173,91 @@ const NewDashboardFilterModal = ({
             {isLoading && <LoaderImg />}
 
 
+            <Modal show={isOpen} onHide={onClose} centered className='dashboard-center-modal' >
 
-            <div>
-                <Dialog
-                    open={isOpen}
-                    onClose={onClose}
-                    aria-labelledby="responsive-dialog-title"
-                    className="ModalTitle"
-                >
-                    <span
+                <div >
+                    <Modal.Header
                         style={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "space-between",
+                            color: "#fff",
                         }}
-                        className="ModalTitle"
+                        className='p-0 m-0 d-flex justify-content-between align-items-center'
                     >
-                        <span>
-                            Filter
-                        </span>
-                        <span onClick={onClose} >
-                            <button className="close-button">
-                                <FontAwesomeIcon icon={faTimes} />
-                            </button>
-                        </span>
-                    </span>
 
-                    <>
-                        {isLoading ? <LoaderImg /> : null}
-                        <>
-                            <div
-                            // className={`${visible ? "visible" : ""}`}
+                        <span className="ModalTitle d-flex justify-content-between w-100  fw-normal"  >
+                            <span>
+                                Filter
+                            </span>
+                            <span onClick={onClose} >
+                                <button className="close-button">
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </button>
+                            </span>
+                        </span>
+                    </Modal.Header>
+
+                    <form onSubmit={formik.handleSubmit}>
+                        <Card.Body>
+                            <Row>
+
+
+                                {showClientInput && localStorage.getItem('superiorRole') !== 'Client' && (
+                                    <Col lg={6}>
+                                        <FormikSelect
+                                            formik={formik}
+                                            name="client_id"
+                                            label="Client"
+                                            options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
+                                            className="form-input"
+                                            onChange={handleClientChange}
+                                        />
+                                    </Col>
+                                )}
+
+
+                                {showEntityInput && (
+
+                                    <Col lg={6}>
+                                        <FormikSelect
+                                            formik={formik}
+                                            name="company_id"
+                                            label="Company"
+                                            options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
+                                            className="form-input"
+                                            onChange={handleCompanyChange}
+                                        />
+                                    </Col>
+                                )}
+
+
+                                {showStationInput && (
+                                    <Col lg={6}>
+                                        <FormikSelect
+                                            formik={formik}
+                                            name="site_id"
+                                            label="Site"
+                                            options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
+                                            className="form-input"
+                                            isRequired={showStationValidation}
+                                            onChange={handleSiteChange}
+                                        />
+                                    </Col>
+                                )}
+
+
+                            </Row>
+                        </Card.Body>
+                        <hr />
+                        <DialogActions>
+                            <button
+                                className="btn btn-primary me-2"
+                                type="submit"
                             >
-                                <form onSubmit={formik.handleSubmit}>
-                                    <Card.Body>
-                                        <Row>
-
-
-                                            {showClientInput && localStorage.getItem('superiorRole') !== 'Client' && (
-                                                <Col lg={6}>
-                                                    <FormikSelect
-                                                        formik={formik}
-                                                        name="client_id"
-                                                        label="Client"
-                                                        options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
-                                                        className="form-input"
-                                                        onChange={handleClientChange}
-                                                    />
-                                                </Col>
-                                            )}
-
-
-                                            {showEntityInput && (
-
-                                                <Col lg={6}>
-                                                    <FormikSelect
-                                                        formik={formik}
-                                                        name="company_id"
-                                                        label="Company"
-                                                        options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
-                                                        className="form-input"
-                                                        onChange={handleCompanyChange}
-                                                    />
-                                                </Col>
-                                            )}
-
-
-                                            {showStationInput && (
-                                                <Col lg={6}>
-                                                    <FormikSelect
-                                                        formik={formik}
-                                                        name="site_id"
-                                                        label="Site"
-                                                        options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
-                                                        className="form-input"
-                                                        isRequired={showStationValidation}
-                                                        onChange={handleSiteChange}
-                                                    />
-                                                </Col>
-                                            )}
-
-
-                                        </Row>
-                                    </Card.Body>
-                                    <hr />
-                                    <DialogActions>
-                                        <button
-                                            className="btn btn-primary me-2"
-                                            type="submit"
-                                        >
-                                            Submit
-                                        </button>
-                                    </DialogActions>
-                                </form>
-
-                            </div>
-                        </>
-                    </>
-                </Dialog>
-            </div >
+                                Submit
+                            </button>
+                        </DialogActions>
+                    </form>
+                </div>
+            </Modal>
         </>
     );
 };

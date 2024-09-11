@@ -1927,3 +1927,8 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 .middayModal-time-td {
   width: 175px;
 }
+
+.dashboard-center-modal .modal-content {
+  max-width: 600px;
+  margin: auto;
+}
