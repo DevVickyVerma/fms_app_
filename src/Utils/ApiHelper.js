@@ -98,32 +98,7 @@ const withApi = (WrappedComponent) => {
       } finally {
         manageLoadingState(false); // End loading
       }
-    };
-
-
-    // const getData = async (url, id, formData) => {
-    //   try {
-    //     setIsLoading(true);
-    //     const modifiedUrl = id ? `${url}/${id}` : url; // Append the ID to the URL if it exists
-    //     const response = await axiosInstance.get(modifiedUrl, {
-    //       params: formData,
-    //     });
-
-    //     if (response && response.data) {
-    //       const data = response.data;
-    //       setApiData(data);
-    //       setIsLoading(false);
-    //       return response; // Return the response 
-    //     } else {
-    //       throw new Error("Invalid response"); // Handle the case where the response or response.data is undefined
-    //     }
-    //   } catch (error) {
-    //     handleError(error);
-    //     setError(error);
-    //     setIsLoading(false);
-    //     throw error; // Throw the error to handle it in the calling function
-    //   }
-    // };
+    }
 
     const postData = async (url, body, navigatePath) => {
       try {
@@ -145,6 +120,7 @@ const withApi = (WrappedComponent) => {
         handleError(error);
         setError(error);
         setIsLoading(false);
+        throw error;        // Re-throw the error so the caller can handle it
       }
     };
 

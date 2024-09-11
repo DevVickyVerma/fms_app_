@@ -1,8 +1,10 @@
 
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Modal, Row } from "react-bootstrap";
 
-const DashboardStatCard = ({ getData, isLoading, filters }) => {
+const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => {
   const [data, setData] = useState();
 
   const FetchmannegerList = async (filters) => {
@@ -69,154 +71,176 @@ const DashboardStatCard = ({ getData, isLoading, filters }) => {
       icon: "fa-bar-chart",
     },
   ];
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
 
-  const formattedDateTime = currentDateTime.toLocaleString();
   return (
-    <Card>
-      <Card.Header className="card-header">
-        <h4 className="card-title">
-          {/* Live Data{" "} */}
-          <img
-            src={require("../../assets/images/commonimages/LiveIMg.gif")}
-            alt="Live Img"
-            className="Liveimage"
-          />{" "}{" "} Last Updated On : ({data?.last_updated_at})
-          {/* ({formattedDateTime}) */}
-        </h4>
-      </Card.Header>
-      <Card.Body className="card-body pb-0">
-        <Row>
-          <Col sm={12} md={6} lg={6} xl={4}>
-            <Card
-              className={`card bg-${request[0].color} img-card box-${request[0].color}-shadow`}
-            >
-              <Card.Body>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2 className="mb-0 number-font">L {data?.gross_volume}</h2>
-                    <p className="text-white mb-0">Gross Volume</p>
-                  </div>
-                  <div className="ms-auto">
-                    <i
-                      className={`fa ${request[0].icon} text-white fs-30 me-2 mt-2`}
-                    ></i>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
 
-          <Col sm={12} md={6} lg={6} xl={4}>
-            <Card
-              className={`card bg-${request[1].color} img-card box-${request[1].color}-shadow`}
-            >
-              <Card.Body>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2 className="mb-0 number-font"> £  {data?.fuel_sales}</h2>
-                    <p className="text-white mb-0">Fuel Sales</p>
-                  </div>
-                  <div className="ms-auto">
-                    <i
-                      className={`fa ${request[1].icon} text-white fs-30 me-2 mt-2`}
-                    ></i>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
+    <>
+      <Modal show={isOpen} onHide={onClose} centered className='' >
 
-          <Col sm={12} md={6} lg={6} xl={4}>
-            <Card
-              className={`card bg-${request[2].color} img-card box-${request[2].color}-shadow`}
-            >
-              <Card.Body>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2 className="mb-0 number-font">£  {data?.gross_profit}</h2>
-                    <p className="text-white mb-0">Gross Profit</p>
-                  </div>
-                  <div className="ms-auto">
-                    <i
-                      className={`fa ${request[2].icon} text-white fs-30 me-2 mt-2`}
-                    ></i>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
+        <div >
+          <Modal.Header
+            style={{
+              color: "#fff",
+            }}
+            className='p-0 m-0 d-flex justify-content-between align-items-center'
+          >
 
-          <Col sm={12} md={6} lg={6} xl={4}>
-            <Card
-              className={`card bg-${request[3].color} img-card box-${request[3].color}-shadow`}
-            >
-              <Card.Body>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2 className="mb-0 number-font">   {data?.gross_margin} ppl</h2>
-                    <p className="text-white mb-0">Gross Margin</p>
-                  </div>
-                  <div className="ms-auto">
-                    <i
-                      className={`fa ${request[3].icon} text-white fs-30 me-2 mt-2`}
-                    ></i>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
+            <span className="ModalTitle d-flex justify-content-between w-100  fw-normal"  >
+              <span>
+                <img
+                  src={require("../../assets/images/commonimages/LiveIMg.gif")}
+                  alt="Live Img"
+                  className="Liveimage"
+                />{" "}{" "} Last Updated On : ({data?.last_updated_at})
+              </span>
+              <span onClick={onClose} >
+                <button className="close-button">
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </span>
+            </span>
+          </Modal.Header>
 
-          <Col sm={12} md={6} lg={6} xl={4}>
-            <Card
-              className={`card bg-${request[4].color} img-card box-${request[4].color}-shadow`}
-            >
-              <Card.Body>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2 className="mb-0 number-font">£  {data?.shop_sales}</h2>
-                    <p className="text-white mb-0">Shop Sales</p>
-                  </div>
-                  <div className="ms-auto">
-                    <i
-                      className={`fa ${request[4].icon} text-white fs-30 me-2 mt-2`}
-                    ></i>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
+          <Card>
+            {/* <Card.Header className="card-header">
+              <h4 className="card-title">
+                <img
+                  src={require("../../assets/images/commonimages/LiveIMg.gif")}
+                  alt="Live Img"
+                  className="Liveimage"
+                />{" "}{" "} Last Updated On : ({data?.last_updated_at})
+              </h4>
+            </Card.Header> */}
+            <Card.Body className="card-body pb-0">
+              <Row>
+                <Col sm={12} md={6} lg={6} xl={4}>
+                  <Card
+                    className={`card bg-${request[0].color} img-card box-${request[0].color}-shadow`}
+                  >
+                    <Card.Body>
+                      <div className="d-flex">
+                        <div className="text-white">
+                          <h2 className="mb-0 number-font">L {data?.gross_volume}</h2>
+                          <p className="text-white mb-0">Gross Volume</p>
+                        </div>
+                        <div className="ms-auto">
+                          <i
+                            className={`fa ${request[0].icon} text-white fs-30 me-2 mt-2`}
+                          ></i>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
 
-          <Col sm={12} md={6} lg={6} xl={4}>
-            <Card
-              className={`card bg-${request[5].color} img-card box-${request[5].color}-shadow`}
-            >
-              <Card.Body>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2 className="mb-0 number-font">£  {data?.shop_profit}</h2>
-                    <p className="text-white mb-0">Shop Profit</p>
-                  </div>
-                  <div className="ms-auto">
-                    <i
-                      className={`fa ${request[5].icon} text-white fs-30 me-2 mt-2`}
-                    ></i>
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Card.Body>
-    </Card>
+                <Col sm={12} md={6} lg={6} xl={4}>
+                  <Card
+                    className={`card bg-${request[1].color} img-card box-${request[1].color}-shadow`}
+                  >
+                    <Card.Body>
+                      <div className="d-flex">
+                        <div className="text-white">
+                          <h2 className="mb-0 number-font"> £  {data?.fuel_sales}</h2>
+                          <p className="text-white mb-0">Fuel Sales</p>
+                        </div>
+                        <div className="ms-auto">
+                          <i
+                            className={`fa ${request[1].icon} text-white fs-30 me-2 mt-2`}
+                          ></i>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+
+                <Col sm={12} md={6} lg={6} xl={4}>
+                  <Card
+                    className={`card bg-${request[2].color} img-card box-${request[2].color}-shadow`}
+                  >
+                    <Card.Body>
+                      <div className="d-flex">
+                        <div className="text-white">
+                          <h2 className="mb-0 number-font">£  {data?.gross_profit}</h2>
+                          <p className="text-white mb-0">Gross Profit</p>
+                        </div>
+                        <div className="ms-auto">
+                          <i
+                            className={`fa ${request[2].icon} text-white fs-30 me-2 mt-2`}
+                          ></i>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+
+                <Col sm={12} md={6} lg={6} xl={4}>
+                  <Card
+                    className={`card bg-${request[3].color} img-card box-${request[3].color}-shadow`}
+                  >
+                    <Card.Body>
+                      <div className="d-flex">
+                        <div className="text-white">
+                          <h2 className="mb-0 number-font">   {data?.gross_margin} ppl</h2>
+                          <p className="text-white mb-0">Gross Margin</p>
+                        </div>
+                        <div className="ms-auto">
+                          <i
+                            className={`fa ${request[3].icon} text-white fs-30 me-2 mt-2`}
+                          ></i>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+
+                <Col sm={12} md={6} lg={6} xl={4}>
+                  <Card
+                    className={`card bg-${request[4].color} img-card box-${request[4].color}-shadow`}
+                  >
+                    <Card.Body>
+                      <div className="d-flex">
+                        <div className="text-white">
+                          <h2 className="mb-0 number-font">£  {data?.shop_sales}</h2>
+                          <p className="text-white mb-0">Shop Sales</p>
+                        </div>
+                        <div className="ms-auto">
+                          <i
+                            className={`fa ${request[4].icon} text-white fs-30 me-2 mt-2`}
+                          ></i>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+
+                <Col sm={12} md={6} lg={6} xl={4}>
+                  <Card
+                    className={`card bg-${request[5].color} img-card box-${request[5].color}-shadow`}
+                  >
+                    <Card.Body>
+                      <div className="d-flex">
+                        <div className="text-white">
+                          <h2 className="mb-0 number-font">£  {data?.shop_profit}</h2>
+                          <p className="text-white mb-0">Shop Profit</p>
+                        </div>
+                        <div className="ms-auto">
+                          <i
+                            className={`fa ${request[5].icon} text-white fs-30 me-2 mt-2`}
+                          ></i>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </div>
+      </Modal>
+    </>
+
   );
 };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
@@ -19,6 +19,7 @@ import MiddayFuelPrice from "./MiddayFuelPrice";
 
 const UpdateFuelPrices = (props) => {
     const { getData, isLoading, postData } = props;
+    const [showError, setShowError] = useState();
     const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
     const navigate = useNavigate();
     const reduxData = useSelector(state => state?.data?.data?.permissions || [])
@@ -153,11 +154,30 @@ const UpdateFuelPrices = (props) => {
             }
         }
     };
+    const myRef = useRef();  // This is valid inside functional components
+
+    useEffect(() => {
+        if (showError && myRef?.current) {
+            myRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [showError]);
 
 
     return (
         <>
             {isLoading ? <Loaderimg /> : null}
+
+
+            {showError && (<>
+                <div className=' ' ref={myRef} >
+                    <div className='p-2 my-2 d-flex justify-content-between w-100 px-3' style={{ background: "#e74c3c", color: "#fff" }}>
+                        <span>{showError}</span>
+                        <span onClick={() => setShowError(null)}><i className="fa fa-times fs-4 pointer" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+            </>)}
+
+
             <div className="overflow-container" >
 
 
@@ -221,7 +241,7 @@ const UpdateFuelPrices = (props) => {
                 </Row>
 
                 {MiddayFuelPriceData?.data ? (
-                    <MiddayFuelPrice data={MiddayFuelPriceData?.data} postData={postData} handleFormSubmit={handleFormSubmit} />
+                    <MiddayFuelPrice data={MiddayFuelPriceData?.data} postData={postData} handleFormSubmit={handleFormSubmit} showError={showError} setShowError={setShowError} />
                 ) : (
                     <div>Loading...</div> // Optionally provide a fallback UI
                 )}

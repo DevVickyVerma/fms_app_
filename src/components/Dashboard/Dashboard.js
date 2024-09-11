@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
@@ -27,11 +27,9 @@ const Dashboard = (props) => {
     site_id: "",
   });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
-  const storedData = localStorage.getItem(storedKeyName);
   const [ShowLiveData, setShowLiveData] = useState(false);
   const [isNotClient] = useState(
     localStorage.getItem("superiorRole") !== "Client"
@@ -132,50 +130,13 @@ const Dashboard = (props) => {
     setDashboardData(null);
   };
 
-
-  // useEffect(() => {
-  //   if (storedData) {
-  //     let parsedData = JSON.parse(storedData);
-  //     // Check if start_date exists in storedData
-  //     if (!parsedData.start_date) {
-  //       // If start_date does not exist, set it to the current date
-  //       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-  //       parsedData.start_date = currentDate;
-
-  //       // Update the stored data with the new start_date
-  //       localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
-  //       handleApplyFilters(parsedData)
-  //     } else {
-  //       handleApplyFilters(parsedData)
-  //     }
-  //     // Call the API with the updated or original data
-  //   } else if (localStorage.getItem("superiorRole") === "Client") {
-
-  //     const storedClientIdData = localStorage.getItem("superiorId");
-  //     if (ReduxFullData) {
-  //       const futurepriceLog = {
-  //         client_id: storedClientIdData,
-  //         client_name: ReduxFullData?.full_name,
-  //         company_id: ReduxFullData?.company_id,
-  //         company_name: ReduxFullData?.company_name,
-  //         start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
-  //       };
-
-  //       // Optionally store this data back to localStorage
-  //       localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-
-  //       handleApplyFilters(futurepriceLog);
-  //     }
-  //   }
-  // }, [storedKeyName, dispatch]); // Add any other dependencies needed here
-
-
   useEffect(() => {
     handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
   }, []);
 
   const handleShowLive = () => {
     setShowLiveData((prevState) => !prevState); // Toggle the state
+    // setLiveMarginModal((prevState) => !prevState);
   };
 
 
@@ -304,6 +265,8 @@ const Dashboard = (props) => {
               isLoading={isLoading}
               getData={getData}
               filters={filters}
+              isOpen={ShowLiveData}
+              onClose={() => setShowLiveData(false)}
               title="Total Sales"
               value="2323"
               percentageChange="3%"
@@ -325,6 +288,9 @@ const Dashboard = (props) => {
             )
           </h2>
         )}
+
+
+
 
         <DashboardStatsBox
           GrossVolume={dashboardData?.gross_volume}
