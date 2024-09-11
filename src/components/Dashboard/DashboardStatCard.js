@@ -93,7 +93,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                   src={require("../../assets/images/commonimages/LiveIMg.gif")}
                   alt="Live Img"
                   className="Liveimage"
-                />{" "}{" "} Last Updated On : ({data?.last_updated_at})
+                />{" "}{" "} Last Updated On  ({data?.last_updated_at})
               </span>
               <span onClick={onClose} >
                 <button className="close-button">
