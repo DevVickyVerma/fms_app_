@@ -8,22 +8,19 @@ import * as Yup from "yup";
 import { useSelector } from 'react-redux'
 import { handleFilterData } from '../../../Utils/commonFunctions/commonFunction'
 import { useFormik } from 'formik'
-import { ErrorAlert } from '../../../Utils/ToastUtils'
+import { ErrorAlert, handleError } from '../../../Utils/ToastUtils'
 import FormikInput from '../../Formik/FormikInput'
 
-const DailyDue = ({ isLoading, getData }) => {
+const DailyDue = ({ isLoading, getData, postData }) => {
     const [data, setData] = useState();
+    const [dateValidation, setDateValidation] = useState({ minDate: "", maxDate: "", drs_month: "" });
     const ReduxFullData = useSelector((state) => state?.data?.data);
     const { id: siteID } = useParams()
 
-
-    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     const validationSchemaForCustomInput = Yup.object({
         start_month: Yup.date()
             .required("Date is required")
     });
-
-    // Define the validation schema
 
     // Define the validation schema using Yup
     const validationSchema = Yup.object({
@@ -31,17 +28,12 @@ const DailyDue = ({ isLoading, getData }) => {
             Yup.object({
                 e_date: Yup.date().required('Date is required').nullable(),
                 invoice: Yup.number()
-                    .required('Invoice claim is required')
+                    .required('Invoice claim is required').min(0, 'Value must be zero or greater')
                     .typeError('Invoice claim must be a number'),
                 operator_pay: Yup.number()
-                    .required('Payment by Operator is required')
-                    .positive('Payment by Operator must be a positive number')
-                    .typeError('Payment by Operator must be a valid number'),
+                    .required('Payment by Operator is required').min(0, 'Value must be zero or greater'),
                 owner_pay: Yup.number()
-                    .required('Payment by Owner is required')
-                    .positive('Payment by Owner must be a positive number')
-                    .min(Yup.ref('operator_pay'), 'Payment by Owner must be greater than or equal to Payment by Operator')
-                    .typeError('Payment by Owner must be a valid number'),
+                    .required('Payment by Owner is required').min(0, 'Value must be zero or greater'),
                 detail: Yup.string().required('Detail is required'),
             })
         ),
@@ -56,22 +48,32 @@ const DailyDue = ({ isLoading, getData }) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-
-            console.log(values, "values submitterd");
-
-            // handlePostData(values);
+            handleSubmit(values)
         },
     });
 
 
 
 
-    const handleSubmit1 = async (values) => {
+    const fetchDailyDue = async (values) => {
         try {
-            const response = await getData(
-                `site/daily-due/list?site_id=${siteID}&drs_month=${values.start_date}`
-            );
+            // Extract year and month from start_date
+            const startDate = new Date(values?.start_date);
+            const year = startDate.getFullYear();
+            const month = (startDate.getMonth() + 1).toString().padStart(2, '0'); // Ensure month is 2 digits
+            const drs_month = `${year}-${month}`;
+            // Calculate start and end dates of the month
+            const startOfMonth = new Date(year, startDate.getMonth(), 1).toISOString().split('T')[0];
+            const endOfMonth = new Date(year, startDate.getMonth() + 1, 0).toISOString().split('T')[0];
 
+            setDateValidation({
+                minDate: startOfMonth,
+                maxDate: endOfMonth,
+                drs_month: drs_month,
+            })
+            const response = await getData(
+                `site/daily-due/list?site_id=${siteID}&drs_month=${drs_month}`
+            );
 
             if (response?.data?.data) {
                 console.log(response?.data?.data, "responseresponse");
@@ -79,6 +81,35 @@ const DailyDue = ({ isLoading, getData }) => {
             }
         } catch (error) {
             console.error("API error:", error);
+        }
+    };
+
+    const handleSubmit = async (values) => {
+        try {
+            const formData = new FormData();
+
+            formData.append('site_id', siteID)
+            formData.append('drs_month', dateValidation?.drs_month)
+
+
+            values?.dues?.forEach((item, index) => {
+                formData.append(`e_date[${index}]`, item?.e_date);
+                formData.append(`invoice[${index}]`, item?.invoice);
+                formData.append(`detail[${index}]`, item?.detail);
+                formData.append(`owner_pay[${index}]`, item?.owner_pay);
+                formData.append(`operator_pay[${index}]`, item?.operator_pay);
+                formData.append(`invoice[${index}]`, item?.invoice);
+            });
+
+
+            const postDataUrl = "/site/daily-due/update";
+
+            await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
+            handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+
+        } catch (error) {
+            handleError(error)
+            console.log(error); // Set the submission state to false if an error occurs
         }
     };
 
@@ -92,13 +123,34 @@ const DailyDue = ({ isLoading, getData }) => {
     const storedData = localStorage.getItem(storedKeyName);
 
     useEffect(() => {
+        const now = new Date();
+        const currentMonth = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`; // Formats as yyyy-MM
+
+
+        if (storedData) {
+            let parsedData = JSON.parse(storedData);
+
+            if (!parsedData.start_month) {
+
+                parsedData.start_month = currentMonth;
+
+                localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+                // handleApplyFilters(parsedData);
+            }
+        } else {
+            let parsedData = {
+                start_month: currentMonth
+            };
+            localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
+        }
+
         handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
-    }, []);
+    }, [storedData]);
 
 
     const handleApplyFilters = (values) => {
         if (values.start_month) {
-            handleSubmit1(values)
+            fetchDailyDue(values)
         }
     }
 
@@ -109,14 +161,14 @@ const DailyDue = ({ isLoading, getData }) => {
                 detail: "",
                 e_date: "",
                 id: formik?.values?.dues?.length + 1,
-                invoice: "",
-                operator_pay: "",
-                owner_pay: "",
+                invoice: "0.00",
+                operator_pay: "0.00",
+                owner_pay: "0.00",
             });
             formik.setFieldValue("dues", formik.values?.dues);
         } else {
             ErrorAlert(
-                "Please fill all fields correctly before adding a new non-bunkered sales row."
+                "Please fill all fields correctly before adding a new Daily Due row."
             );
         }
     };
@@ -124,20 +176,12 @@ const DailyDue = ({ isLoading, getData }) => {
 
 
     const handleRemoveClick = (index) => {
-        // Assuming your data structure has some property like 'id'
-        const clickedId = formik.values.dues[index].id;
-        removenonbunkeredSalesRow(index, clickedId);
+        // Create a new array with the item at the specified index removed
+        const updatedDues = formik?.values?.dues?.filter((_, i) => i !== index);
+        // Update Formik values
+        formik.setFieldValue('dues', updatedDues);
     };
 
-    const removenonbunkeredSalesRow = (index, clickedId) => {
-        if (!clickedId) {
-            const updatedRows = [...formik.values.dues];
-            updatedRows.splice(index, 1);
-            formik.setFieldValue("dues", updatedRows);
-        }
-
-        // clickedId && handleDelete(clickedId, index)
-    };
 
 
     const handleShowDate = (event) => {
@@ -146,8 +190,6 @@ const DailyDue = ({ isLoading, getData }) => {
         }
     };
 
-    console.log(formik?.values, "formik vlauesss");
-    console.log(formik?.errors, "formik errors");
 
 
     return (
@@ -207,12 +249,12 @@ const DailyDue = ({ isLoading, getData }) => {
                                 showMonthInput={true}
                                 showMonthValidation={true}
                                 ClearForm={handleClearForm}
+                                showResetBtn={false}
                             />
 
                         </Card>
                     </Col>
                 </Row>
-
 
                 <Row className=" row-sm">
                     <Col lg={12} md={12}>
@@ -252,8 +294,10 @@ const DailyDue = ({ isLoading, getData }) => {
                                                                     onBlur={formik.handleBlur}
                                                                     id={`dues[${index}].e_date`}
                                                                     onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={formik.errors.e_date && formik.touched.e_date ? 'input101 text-danger' : 'input101'}
-
+                                                                    className={`input101 ${formik.errors.e_date && formik.touched.e_date ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                    min={dateValidation?.minDate}
+                                                                    max={dateValidation?.maxDate}
+                                                                    disabled={!formik.values.is_editable}
                                                                 />
 
                                                                 {formik.touched.dues?.[index]?.e_date && formik.errors.dues?.[index]?.e_date && (
@@ -269,13 +313,18 @@ const DailyDue = ({ isLoading, getData }) => {
                                                                 <input
                                                                     type="number"
                                                                     name={`dues[${index}].invoice`}
-                                                                    value={formik.values.dues[index].invoice || ''} // Bind the input value to Formik
-                                                                    onChange={formik.handleChange}
+                                                                    value={formik.values.dues[index].invoice || '0'} // Bind the input value to Formik
+                                                                    // onChange={formik.handleChange}
                                                                     onBlur={formik.handleBlur}
                                                                     id={`dues[${index}].invoice`}
                                                                     placeholder='Enter Invoice Value'
+                                                                    onChange={(e) => formik.setFieldValue(
+                                                                        e.target.name,
+                                                                        e.target.value === '' ? 0 : parseFloat(e.target.value)
+                                                                    )}
                                                                     onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={formik.errors.invoice && formik.touched.invoice ? 'input101 text-danger' : 'input101'}
+                                                                    className={`input101 ${formik.errors.invoice && formik.touched.invoice ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                    disabled={!formik.values.is_editable}
                                                                 />
                                                                 {formik.touched.dues?.[index]?.invoice && formik.errors.dues?.[index]?.invoice && (
                                                                     <div className="text-danger">{formik.errors.dues[index].invoice}</div>
@@ -289,13 +338,14 @@ const DailyDue = ({ isLoading, getData }) => {
                                                                 <input
                                                                     type="number"
                                                                     name={`dues[${index}].operator_pay`}
-                                                                    value={formik.values.dues[index].operator_pay || ''} // Bind the input value to Formik
-                                                                    onChange={formik.handleChange}
+                                                                    value={formik.values.dues[index].operator_pay || '0'} // Bind the input value to Formik
+                                                                    onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
                                                                     onBlur={formik.handleBlur}
                                                                     id={`dues[${index}].operator_pay`}
                                                                     placeholder='Enter Payment By Operator Value'
                                                                     onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={formik.errors.operator_pay && formik.touched.operator_pay ? 'input101 text-danger' : 'input101'}
+                                                                    className={`input101 ${formik.errors.operator_pay && formik.touched.operator_pay ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                    disabled={!formik.values.is_editable}
                                                                 />
                                                                 {formik?.touched?.dues && formik.errors?.dues?.[index]?.operator_pay && (
                                                                     <div className="text-danger">
@@ -311,13 +361,14 @@ const DailyDue = ({ isLoading, getData }) => {
                                                                 <input
                                                                     type="number"
                                                                     name={`dues[${index}].owner_pay`}
-                                                                    value={formik.values.dues[index].owner_pay || ''} // Bind the input value to Formik
-                                                                    onChange={formik.handleChange}
+                                                                    value={formik.values.dues[index].owner_pay || '0'} // Bind the input value to Formik
+                                                                    onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
                                                                     onBlur={formik.handleBlur}
                                                                     id={`dues[${index}].owner_pay`}
                                                                     placeholder='Enter Payment By Owner Value'
                                                                     onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={formik.errors.owner_pay && formik.touched.owner_pay ? 'input101 text-danger' : 'input101'}
+                                                                    className={`input101 ${formik.errors.owner_pay && formik.touched.owner_pay ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                    disabled={!formik.values.is_editable}
                                                                 />
                                                                 {formik?.touched?.dues && formik.errors?.dues?.[index]?.owner_pay && (
                                                                     <div className="text-danger">
@@ -333,12 +384,13 @@ const DailyDue = ({ isLoading, getData }) => {
                                                                     type="text"
                                                                     name={`dues[${index}].detail`}
                                                                     value={formik.values.dues[index].detail || ''} // Bind the input value to Formik
-                                                                    onChange={formik.handleChange}
+                                                                    onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
                                                                     onBlur={formik.handleBlur}
                                                                     id={`dues[${index}].detail`}
                                                                     placeholder='Enter Detail Value'
                                                                     onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={formik.errors.detail && formik.touched.detail ? 'input101 text-danger' : 'input101'}
+                                                                    className={`input101 ${formik.errors.detail && formik.touched.detail ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                    disabled
                                                                 />
                                                                 {formik?.touched?.dues && formik.errors?.dues?.[index]?.detail && (
                                                                     <div className="text-danger">
@@ -348,7 +400,7 @@ const DailyDue = ({ isLoading, getData }) => {
                                                             </div>
                                                         </Col>
 
-                                                        <Col lg={1} md={1} className="text-end">
+                                                        <Col lg={2} className="text-end">
                                                             {formik?.values?.dues?.length > 1 && (<>
                                                                 <div
                                                                     className="text-end"
@@ -362,16 +414,33 @@ const DailyDue = ({ isLoading, getData }) => {
                                                                     </button>
                                                                 </div>
                                                             </>)}
-
                                                         </Col>
+
+
 
 
                                                     </Row >
                                                 </>
                                             ))}
 
-                                            <button type="submit">Submit</button>
+                                            <Card.Footer>
+                                                {formik?.values?.is_editable && (
+                                                    <div className="bunkered-action">
+                                                        <div className="text-end mt-3">
+                                                            <button
+                                                                className="btn btn-primary"
+                                                                type="submit"
+                                                            >
+                                                                Submit
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </Card.Footer>
+
                                         </form>
+
 
                                     </>
                                 ) : (

@@ -41,12 +41,11 @@ const NewFilterTab = ({
     ClearForm,
     lg,
 }) => {
-    const { data } = useSelector(state => state.data);
-    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
     const reduxData = useSelector(state => state?.data?.data);
 
-    const navigate = useNavigate();
 
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`; // Formats as yyyy-MM
 
     const formik = useFormik({
         initialValues: {
@@ -54,7 +53,7 @@ const NewFilterTab = ({
             client_name: "",
             company_id: "",
             company_name: "",
-            start_month: new Date().toISOString().split('T')[1] || "",
+            start_month: currentMonth, // Set default to current month
             start_date: new Date().toISOString().split('T')[0] || "",
             site_id: "",
             site_name: "",
@@ -225,8 +224,6 @@ const NewFilterTab = ({
                     <form onSubmit={formik.handleSubmit}>
                         <Card.Body>
                             <Row>
-
-
                                 {showClientInput && localStorage.getItem('superiorRole') !== 'Client' && (
                                     <Col lg={lg || 6}>
                                         <FormikSelect

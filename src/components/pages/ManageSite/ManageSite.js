@@ -6,9 +6,7 @@ import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "r
 import axios from "axios";
 import Swal from "sweetalert2";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
@@ -18,7 +16,6 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import GradeIcon from '@mui/icons-material/Grade';
-import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { handleError } from "../../../Utils/ToastUtils";
@@ -563,7 +560,7 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {/* {isDailyDuePermissionAvailable ? (
+                  {isDailyDuePermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
                       className=" p-0 m-0"
@@ -577,7 +574,7 @@ const ManageSite = (props) => {
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null} */}
+                  ) : null}
                   {isHidebusinessPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
