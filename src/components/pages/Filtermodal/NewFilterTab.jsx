@@ -9,6 +9,7 @@ import FormikSelect from '../../Formik/FormikSelect';
 import FormikInput from '../../Formik/FormikInput';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useMyContext } from '../../../Utils/MyContext';
 
 
 
@@ -80,11 +81,18 @@ const NewFilterTab = ({
 
 
 
+    const { contextClients,setcontextClients} =
+        useMyContext();
 
-    useEffect(() => {
-        if (showClientInput) fetchClientList();
-    console.clear()
-    }, [showClientInput]);
+
+
+        useEffect(() => {
+            if (showClientInput && contextClients?.length == 0) {
+                fetchClientList();
+            } else if (contextClients?.length > 0) {
+                formik.setFieldValue('clients', contextClients);
+            }
+        }, [showClientInput, contextClients]);
 
     useEffect(() => {
         const storedDataString = localStorage.getItem(storedKeyName);
@@ -114,6 +122,7 @@ const NewFilterTab = ({
         try {
             const response = await getData('/common/client-list');
             const clients = response?.data?.data;
+            setcontextClients(clients);
             formik.setFieldValue('clients', clients);
         } catch (error) {
             handleError(error);

@@ -1,10 +1,43 @@
-import React, { createContext, useContext, useState } from "react";
+import axios from "axios";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Create the context
 const MyContext = createContext();
 
 // Create the provider component
 const MyProvider = ({ children }) => {
+  const [contextClients, setcontextClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchClientList = async () => {
+      const token = localStorage.getItem("token");
+      const baseUrl = process.env.REACT_APP_BASE_URL;
+
+      if (!token) {
+        setError("Token not found in localStorage.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${baseUrl}/common/client-list`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setcontextClients(response?.data?.data); // Assuming the client list is in `response.data.data`
+      } catch (err) {
+        setError(err.response ? err.response.data.message : 'Error fetching clients');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClientList();
+  }, []);
   const [searchdata, setSearchdata] = useState({});
   const [getSiteDetailsLoading, setGetSiteDetailsLoading] = useState(false)
   const [shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage] = useState(false);
@@ -34,6 +67,7 @@ const MyProvider = ({ children }) => {
     DashboardSiteDetailsLoading, setDashboardSiteDetailsLoading,
     dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading,
     timeLeft, setTimeLeft,
+    contextClients, setcontextClients,
     isTimerRunning, setIsTimerRunning,
   };
 

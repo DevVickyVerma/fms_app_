@@ -8,6 +8,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import LoaderImg from '../../../Utils/Loader';
 import { handleError } from '../../../Utils/ToastUtils';
 import FormikSelect from '../../Formik/FormikSelect';
+import { useMyContext } from '../../../Utils/MyContext';
 
 const NewDashboardFilterModal = ({
     getData,
@@ -33,6 +34,9 @@ const NewDashboardFilterModal = ({
 
     const reduxData = useSelector(state => state?.data?.data);
 
+
+    const { contextClients,setcontextClients } =
+        useMyContext();
 
 
     const formik = useFormik({
@@ -63,9 +67,20 @@ const NewDashboardFilterModal = ({
         validateOnBlur: true,
     });
 
+    // useEffect(() => {
+    //     if (showClientInput) fetchClientList();
+    // }, [showClientInput]);
+
+
     useEffect(() => {
-        if (showClientInput) fetchClientList();
-    }, [showClientInput]);
+        if (showClientInput && contextClients?.length == 0) {
+            fetchClientList();
+        } else if (contextClients?.length > 0) {
+            formik.setFieldValue('clients', contextClients);
+        }
+    }, [showClientInput, contextClients]);
+
+
 
     useEffect(() => {
         const storedDataString = localStorage.getItem(storedKeyName);
@@ -95,6 +110,7 @@ const NewDashboardFilterModal = ({
         try {
             const response = await getData('/common/client-list');
             const clients = response?.data?.data;
+            setcontextClients(clients);
             formik.setFieldValue('clients', clients);
         } catch (error) {
             handleError(error);
@@ -165,7 +181,6 @@ const NewDashboardFilterModal = ({
         const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
         formik.setFieldValue('site_name', selectedSiteData?.site_name || "");
     };
-
 
 
     return (
