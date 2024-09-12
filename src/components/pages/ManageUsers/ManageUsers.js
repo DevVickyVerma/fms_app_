@@ -304,8 +304,8 @@ const ManageUser = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header d-flex">
-          <div>
+        <div className="page-header d-flex flex-wrap">
+          <div className="mb-2 mb-sm-0">
             <h1 className="page-title">Manage Users</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -324,12 +324,12 @@ const ManageUser = (props) => {
             </Breadcrumb>
           </div>
 
-          <div className="ms-auto pageheader-btn">
+          <div className="">
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
                   to="/addusers"
-                  className="btn btn-primary ms-2"
+                  className="btn btn-primary "
                   style={{ borderRadius: "4px" }}
                 >
                   Add Users

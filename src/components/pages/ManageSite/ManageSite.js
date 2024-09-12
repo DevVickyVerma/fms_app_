@@ -658,10 +658,10 @@ const ManageSite = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header d-flex manageSite-header">
-          <div>
-            <h1 className="page-title dashboard-page-title">Manage Site</h1>
 
+        <div className="page-header d-flex flex-wrap">
+          <div className="mb-2 mb-sm-0">
+            <h1 className="page-title">Manage Sites</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -674,31 +674,27 @@ const ManageSite = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Site
+                Manage Sites
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div
-            className="ms-auto pageheader-btn"
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              // gap: "10px",
-            }}
-          >
 
-
-            {isAddPermissionAvailable ? (
-              <Link to="/addsite" className="btn btn-primary">
-                <Box component="span" display={["none", "unset"]}>
-                  Add
-                </Box>{" "}
-                Site <i className="ph ph-plus ms-1 ph-plus-icon"></i>
-              </Link>
-            ) : null}
+          <div className="">
+            <div className="input-group">
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addsite"
+                  className="btn btn-primary "
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Site
+                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                </Link>
+              ) : null}
+            </div>
           </div>
         </div>
+
 
 
 

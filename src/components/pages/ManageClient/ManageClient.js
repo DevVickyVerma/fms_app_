@@ -386,9 +386,10 @@ const ManageClient = (props) => {
       {isLoading ? <Loaderimg /> : null}
 
       <>
-        <div className="page-header d-flex">
-          <div>
-            <h1 className="page-title dashboard-page-title">Manage Client</h1>
+
+        <div className="page-header d-flex flex-wrap">
+          <div className="mb-2 mb-sm-0">
+            <h1 className="page-title">Manage Client</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -405,22 +406,23 @@ const ManageClient = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className="ms-auto pageheader-btn d-flex">
 
-
-            {isAddPermissionAvailable ? (
-              <Link
-                to="/addclient"
-                className="btn btn-primary ms-2 "
-              >
-                <Box component="span" display={["none", "unset"]}>
-                  Add
-                </Box>  Client {""}
-                <i className="ph ph-plus ms-1 ph-plus-icon"></i>
-              </Link>
-            ) : null}
+          <div className="">
+            <div className="input-group">
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addclient"
+                  className="btn btn-primary "
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Client
+                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                </Link>
+              ) : null}
+            </div>
           </div>
         </div>
+
 
 
 

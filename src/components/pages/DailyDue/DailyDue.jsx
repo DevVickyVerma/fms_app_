@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import { Breadcrumb, Card, Col, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
@@ -9,10 +9,8 @@ import { useSelector } from 'react-redux'
 import { handleFilterData } from '../../../Utils/commonFunctions/commonFunction'
 import { useFormik } from 'formik'
 import { ErrorAlert, handleError } from '../../../Utils/ToastUtils'
-import FormikInput from '../../Formik/FormikInput'
 
 const DailyDue = ({ isLoading, getData, postData }) => {
-    const [data, setData] = useState();
     const [dateValidation, setDateValidation] = useState({ minDate: "", maxDate: "", drs_month: "" });
     const ReduxFullData = useSelector((state) => state?.data?.data);
     const { id: siteID } = useParams()
@@ -111,11 +109,6 @@ const DailyDue = ({ isLoading, getData, postData }) => {
             handleError(error)
             console.log(error); // Set the submission state to false if an error occurs
         }
-    };
-
-
-    const handleClearForm = async (resetForm) => {
-        setData(null)
     };
 
 
@@ -248,7 +241,6 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                 showEntityInput={false}
                                 showMonthInput={true}
                                 showMonthValidation={true}
-                                ClearForm={handleClearForm}
                                 showResetBtn={false}
                             />
 

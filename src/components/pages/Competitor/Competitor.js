@@ -9,7 +9,6 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
@@ -316,10 +315,11 @@ const Competitor = (props) => {
       {isLoading ? <Loaderimg /> : null}
 
       <>
+
         <div className="page-header d-flex flex-wrap">
-          <div>
-            <h1 className="page-title ">Manage Competitor</h1>
-            <Breadcrumb className="breadcrumb breadcrumb-subheader">
+          <div className="mb-2 mb-sm-0">
+            <h1 className="page-title">Manage Competitors</h1>
+            <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
                 linkAs={Link}
@@ -327,17 +327,16 @@ const Competitor = (props) => {
               >
                 Dashboard
               </Breadcrumb.Item>
-
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Competitor
+                Manage Competitors
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
 
-          <div className=" mt-2 mt-sm-0">
+          <div className="">
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
@@ -345,16 +344,16 @@ const Competitor = (props) => {
                   className="btn btn-primary "
                   style={{ borderRadius: "4px" }}
                 >
-                  <Box component="span" display={["none", "unset"]} m="{1}">
-                    Add
-                  </Box>{" "}
-                  Competitor
+                  Add Competitor
                   <i className="ph ph-plus ms-1 ph-plus-icon"></i>
                 </Link>
               ) : null}
             </div>
           </div>
         </div>
+
+
+
 
         {/* here I will start Body of competitor */}
         <Row>

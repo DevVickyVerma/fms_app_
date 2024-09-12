@@ -481,10 +481,9 @@ const ManageCompany = (props) => {
         />
 
         <div className="page-header d-flex flex-wrap">
-          <div>
-            <h1 className="page-title ">Manage Companies</h1>
-
-            <Breadcrumb className="breadcrumb breadcrumb-subheader">
+          <div className="mb-2 mb-sm-0">
+            <h1 className="page-title">Manage Companies</h1>
+            <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
                 linkAs={Link}
@@ -500,19 +499,24 @@ const ManageCompany = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className=" ">
-            {isAddPermissionAvailable && (
-              <Link
-                to="/addcompany"
-                className="btn btn-primary"
-              >
-                <span className="d-none d-sm-inline me-1">Add</span>
-                Company
-                <i className="ph ph-plus ms-1 ph-plus-icon"></i>
-              </Link>
-            )}
+
+          <div className="">
+            <div className="input-group">
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addcompany"
+                  className="btn btn-primary "
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Company
+                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                </Link>
+              ) : null}
+            </div>
           </div>
         </div>
+
+
         <Row className=" row-sm ">
           <Col lg={12}>
             <Card>

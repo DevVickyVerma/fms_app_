@@ -25,7 +25,7 @@ const SearchBar = ({ onSearch, onReset, placeholder, hideReset }) => {
     };
 
     return (
-        <div className="search-component d-flex gap-2 align-items-center ">
+        <div className="search-component d-flex gap-2  ">
             <input
                 type="text"
                 className="search-input w-40 form-control"
@@ -36,22 +36,22 @@ const SearchBar = ({ onSearch, onReset, placeholder, hideReset }) => {
             />
 
 
-            <span>
+            <span className=''>
                 <Link
-                    className="btn btn-primary  addclientbtn"
+                    className="btn btn-primary  addclientbtn all-center-flex"
                     onClick={handleSearch}
                 >
-                    <i class="ph ph-magnifying-glass d-flex"></i>
+                    <i class="ph ph-magnifying-glass d-flex ph-search-icons"></i>
                 </Link>
             </span>
 
             {hideReset && (
-                <span>
+                <span >
                     <Link
-                        className="btn btn-danger  addclientbtn"
+                        className="btn btn-danger  addclientbtn all-center-flex"
                         onClick={handleReset}
                     >
-                        <i className="ph ph-arrow-clockwise"></i>
+                        <i className="ph ph-arrow-clockwise ph-search-icons"></i>
                     </Link>
                 </span>
             )}
