@@ -1,12 +1,11 @@
-.custom-spinner {
+/* .custom-spinner {
   width: 8px;
   height: 60px;
   border-radius: 4px;
   display: block;
   margin: 20px auto;
   position: relative;
-  background: #4663ac;
-  /* Color for the main spinner bar */
+  background: #ddd;
   box-sizing: border-box;
   animation: animloader 0.3s 0.3s linear infinite alternate;
 }
@@ -27,15 +26,15 @@
 
 .custom-spinner::before {
   left: -20px;
-  background: #ac4d78;
-  /* Color for the left bar */
+  background: #ddd;
   animation-delay: 0s;
 }
 
+
+
 .custom-spinner::after {
   left: 20px;
-  background: #5d78b3;
-  /* Color for the right bar */
+  background: #ddd;
 }
 
 @keyframes animloader {
@@ -52,4 +51,39 @@
   .custom-img-login {
     display: none !important;
   }
+} */
+
+
+/* HTML: <div class="loader"></div> */
+.custom-spinner {
+  width: 48px;
+  height: 48px;
+  background: #FFF;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
 }
+.custom-spinner::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  width: 12px;
+  height: 12px;
+  color: #4663ac;
+  background: currentColor;
+  border-radius: 50%;
+  box-shadow: 25px 2px, 10px 22px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 

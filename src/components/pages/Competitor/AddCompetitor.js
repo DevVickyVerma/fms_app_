@@ -1,8 +1,7 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -98,18 +97,7 @@ const AddCompetitor = (props) => {
 
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
+          setSelectedClientId(clientId);}
       }
     } catch (error) {
       console.error("API error:", error);

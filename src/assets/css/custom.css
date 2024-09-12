@@ -100,6 +100,10 @@ h3.SidebarSearch-title {
   text-align: center;
 }
 
+
+
+
+
 .readonly {
   background-color: #dddddd !important;
   cursor: default;
@@ -999,17 +1003,7 @@ span.ModalTitle-2fa {
   animation: animloader 1s linear infinite alternate;
 }
 
-.primary-loader {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: block;
-  margin: 15px auto;
-  position: relative;
-  color: #4663ac;
-  box-sizing: border-box;
-  animation: animloader 1s linear infinite alternate;
-}
+
 
 @keyframes animloader {
   0% {
