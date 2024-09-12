@@ -211,6 +211,11 @@ const ManageSite = (props) => {
     permissionsArray?.includes("skipdate-list");
   const isHidebusinessPermissionAvailable =
     permissionsArray?.includes("hide-category-list");
+  const isDailyDuePermissionAvailable =
+    permissionsArray?.includes("dailydue-list");
+
+
+
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
     isDeletePermissionAvailable ||
@@ -558,6 +563,21 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
+                  {/* {isDailyDuePermissionAvailable ? (
+                    <Dropdown.Item
+                      //  className="dropdown-item"
+                      className=" p-0 m-0"
+                    >
+                      <Link to={`/daily-due/${row?.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <SettingsIcon />
+                          </i>
+                          Daily Dues
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null} */}
                   {isHidebusinessPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"

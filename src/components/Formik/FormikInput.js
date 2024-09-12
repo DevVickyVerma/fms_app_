@@ -95,6 +95,26 @@ const FormikInput = ({
                         onKeyUp={(e) => e.preventDefault()}
                     />
                 );
+            case 'month':
+                return (
+                    <input
+                        name={name}
+                        type={type}
+                        id={name}
+                        readOnly={readOnly}
+                        placeholder={dynamicPlaceholder}
+                        autoComplete="off"
+                        className={inputClassName}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        onClick={() => handleShowDate(name)}
+                        value={formik.values[name]}
+                        min={dynamicPlaceholder === 'date' ? '2024-06-25' : ''}
+                        max={dynamicPlaceholder === 'date' ? '2024-06-27' : ''}
+                        onKeyDown={(e) => e.preventDefault()}
+                        onKeyUp={(e) => e.preventDefault()}
+                    />
+                );
             case 'datetime-local':
                 return (
                     <input

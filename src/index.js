@@ -40,6 +40,7 @@ import FuturePriceLogs from "./components/pages/Emaillogs/FuturePriceLogs";
 import DashboardWetStock from "./components/Dashboard/DashboardWetStock/DashboardWetStock";
 import DummyPage from "./components/pages/DummyPage/DummyPage";
 import UpdateFuelPrices from "./components/pages/ManageFuelPrices/UpdateFuelPrices";
+import DailyDue from "./components/pages/DailyDue/DailyDue";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -732,6 +733,7 @@ const Root = () => {
   const Wrappedmanagesms = withApi(managesms);
   const WrappedShopRevenueCommission = withApi(ShopRevenueCommission);
   const WrappedDashboardWetStock = withApi(DashboardWetStock);
+  const WrappedDailyDue = withApi(DailyDue);
 
   return (
     <Fragment>
@@ -764,6 +766,7 @@ const Root = () => {
                     path={`/editusers/:id`}
                     element={<WrappeAddEditUser />}
                   />
+                  <Route path={`/daily-due/:id`} element={<WrappedDailyDue />} />
 
                   <Route path={`addusers`} element={<WrappedAddUser />} />
 

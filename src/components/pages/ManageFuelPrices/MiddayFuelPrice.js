@@ -35,6 +35,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
             )
         )
     });
+
     const listing = [];
     const lsitingformik = useFormik({
         initialValues: { listing },
@@ -365,7 +366,6 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
 
                                             {data?.btn_clickable && (
                                                 <button type="submit" className="btn btn-primary"
-                                                    disabled={showError}
                                                 >Submit</button>
                                             )}
 

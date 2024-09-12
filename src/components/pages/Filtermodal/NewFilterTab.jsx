@@ -54,7 +54,7 @@ const NewFilterTab = ({
             client_name: "",
             company_id: "",
             company_name: "",
-            start_month: "",
+            start_month: new Date().toISOString().split('T')[1] || "",
             start_date: new Date().toISOString().split('T')[0] || "",
             site_id: "",
             site_name: "",
@@ -81,18 +81,18 @@ const NewFilterTab = ({
 
 
 
-    const { contextClients,setcontextClients} =
+    const { contextClients, setcontextClients } =
         useMyContext();
 
 
 
-        useEffect(() => {
-            if (showClientInput && contextClients?.length == 0) {
-                fetchClientList();
-            } else if (contextClients?.length > 0) {
-                formik.setFieldValue('clients', contextClients);
-            }
-        }, [showClientInput, contextClients]);
+    useEffect(() => {
+        if (showClientInput && contextClients?.length == 0) {
+            fetchClientList();
+        } else if (contextClients?.length > 0) {
+            formik.setFieldValue('clients', contextClients);
+        }
+    }, [showClientInput, contextClients]);
 
     useEffect(() => {
         const storedDataString = localStorage.getItem(storedKeyName);
@@ -101,11 +101,11 @@ const NewFilterTab = ({
             const parsedData = JSON.parse(storedDataString);
             formik.setValues(parsedData);
 
-            if (parsedData?.client_id) {
+            if (parsedData?.client_id && showClientInput) {
                 fetchCompanyList(parsedData?.client_id);
             }
 
-            if (parsedData?.company_id) {
+            if (parsedData?.company_id && showClientInput) {
                 fetchSiteList(parsedData?.company_id);
             }
         }
@@ -276,6 +276,14 @@ const NewFilterTab = ({
                                         <FormikInput formik={formik} type="date" label="Date" name="start_date" />
                                     </Col>
                                 )}
+
+                                {
+                                    showMonthInput && (
+                                        <Col lg={lg || 6}>
+                                            <FormikInput formik={formik} type="month" label="Month" name="start_month" />
+                                        </Col>
+                                    )
+                                }
 
 
                                 {showDateInput && showDateRangeInput && (

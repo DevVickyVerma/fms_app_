@@ -95,13 +95,13 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                   className="Liveimage"
                 />{" "}{" "}
 
-                <span> Last Updated On  {data?.last_updated}</span>
-                <span className="text-mute">
-                  {" "}
-                  <small>
+                <small>
+                  <span> Last Updated On  {data?.last_updated}</span>
+                  <span className="text-mute">
+                    {" "}
                     ({data?.last_updated_time})
-                  </small>
-                </span>
+                  </span>
+                </small>
               </span>
               <span onClick={onClose} >
                 <button className="close-button">
