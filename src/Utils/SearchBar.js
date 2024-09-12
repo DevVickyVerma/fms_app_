@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import SearchIcon from '@mui/icons-material/Search';
 
 
 const SearchBar = ({ onSearch, onReset, placeholder, hideReset }) => {
@@ -36,20 +34,26 @@ const SearchBar = ({ onSearch, onReset, placeholder, hideReset }) => {
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
             />
-            <Link
-                className="btn btn-primary  addclientbtn"
-                onClick={handleSearch}
-            >
-                <SearchIcon />
-            </Link>
+
+
+            <span>
+                <Link
+                    className="btn btn-primary  addclientbtn"
+                    onClick={handleSearch}
+                >
+                    <i class="ph ph-magnifying-glass d-flex"></i>
+                </Link>
+            </span>
 
             {hideReset && (
-                <Link
-                    className="btn btn-danger  addclientbtn"
-                    onClick={handleReset}
-                >
-                    <i className="ph ph-arrow-clockwise"></i>
-                </Link>
+                <span>
+                    <Link
+                        className="btn btn-danger  addclientbtn"
+                        onClick={handleReset}
+                    >
+                        <i className="ph ph-arrow-clockwise"></i>
+                    </Link>
+                </span>
             )}
         </div>
     );

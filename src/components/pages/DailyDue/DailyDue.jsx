@@ -381,16 +381,16 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                                             <div className="form-group mt-4">
                                                                 <label htmlFor={`dues[${index}].detail`}>Detail<span class="text-danger">*</span></label>
                                                                 <input
-                                                                    type="text"
+                                                                    type='text'
                                                                     name={`dues[${index}].detail`}
                                                                     value={formik.values.dues[index].detail || ''} // Bind the input value to Formik
-                                                                    onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
+                                                                    onChange={formik.handleChange}
                                                                     onBlur={formik.handleBlur}
                                                                     id={`dues[${index}].detail`}
                                                                     placeholder='Enter Detail Value'
                                                                     onClick={handleShowDate} // Directly pass handleShowDate
                                                                     className={`input101 ${formik.errors.detail && formik.touched.detail ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
-                                                                    disabled
+                                                                    disabled={!formik.values.is_editable}
                                                                 />
                                                                 {formik?.touched?.dues && formik.errors?.dues?.[index]?.detail && (
                                                                     <div className="text-danger">

@@ -449,18 +449,6 @@ tbody tr {
   /* Customize the border style as per your requirement */
 }
 
-/* input.table-input.readonly.total-input {
-  width: 20%;
-}
-input.table-input.readonly.total-input-FuelSales {
-  width: 54%;
-}
-input.table-input.readonly.total-input-department {
-  width: 42%;
-}
-input.table-input.readonly.total-input-card {
-  width: 53%;
-} */
 .label-color {
   display: flex;
   justify-content: end;
@@ -578,16 +566,6 @@ input.table-input.readonly.total-input-card {
   font-size: 16px;
   /* Other styles */
 }
-
-/* .rdt_Table {
-  position: relative;
-  width: 100%;
-  border-radius: inherit;
-  overflow-x: auto;
-  overflow-y: hidden;
-  min-height: 405px;
-  overflow: hidden;
-} */
 
 [data-role="table"] {
   /* Your custom styles here */
@@ -1582,33 +1560,26 @@ span.text-error {
 }
 
 .dash-plates-1 {
-  /* background-color: #4663ac !important; */
   background-color: #7e95e4 !important;
 }
 
 .dash-plates-2 {
-  background-color: #3d83b2 !important;
-  background-color: #b99ae3 !important;
+  background-color: #8595cf !important;
 }
 
 .dash-plates-3 {
-  background-color: #5d78b3 !important;
   background-color: #938ddf !important;
 }
 
 .dash-plates-4 {
-  background-color: #7e6aaa !important;
-  background-color: #938ddf !important;
   background-color: #7e95e4 !important;
 }
 
 .dash-plates-5 {
-  background-color: #9a5b95 !important;
-  background-color: #df9deb !important;
+  background-color: #9a96c7 !important;
 }
 
 .dash-plates-6 {
-  background-color: #ac4d78 !important;
   background-color: #938ddf !important;
 }
 
@@ -1946,4 +1917,9 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 
 .nav-header-box {
   box-shadow: 0px 2px 3px rgb(4 4 7 / 35%);
+}
+
+.ph-plus-icon {
+  position: relative;
+  top: 1px;
 }

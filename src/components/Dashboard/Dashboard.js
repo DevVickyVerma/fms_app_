@@ -255,6 +255,11 @@ const Dashboard = (props) => {
         {filters?.site_id && filters?.client_id && filters.company_id && (<>
           <div className="text-end " >
             <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
+              {/* <img
+                src={require("../../assets/images/commonimages/red-dot.gif")}
+                alt="Live Img"
+                className="Liveimage"
+              />{" "}{" "} */}
               Live Margin
             </button>
           </div>

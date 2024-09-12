@@ -144,7 +144,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                         </div>
                         <div className="ms-auto">
 
-                          <i className="ph ph-tag text-white fs-30"></i>
+                          <i className="ph ph-shopping-bag text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -163,7 +163,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                         </div>
                         <div className="ms-auto">
 
-                          <i className="ph ph-currency-eur text-white fs-30"></i>
+                          <i className="ph ph-currency-gbp text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -199,7 +199,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Shop Sales</p>
                         </div>
                         <div className="ms-auto">
-                          <i className="ph ph-tag text-white fs-30"></i>
+                          <i className="ph ph-shopping-bag text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>
@@ -217,7 +217,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
                           <p className="text-white mb-0">Shop Profit</p>
                         </div>
                         <div className="ms-auto">
-                          <i className="ph ph-currency-eur text-white fs-30"></i>
+                          <i className="ph ph-currency-gbp text-white fs-30"></i>
                         </div>
                       </div>
                     </Card.Body>

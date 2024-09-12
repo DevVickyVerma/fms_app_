@@ -5,7 +5,6 @@ import DataTable from "react-data-table-component";
 import { Breadcrumb, Card, Col, Dropdown, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -481,7 +480,7 @@ const ManageCompany = (props) => {
           shortUrl={UploadModalURLPath}
         />
 
-        <div className="page-header d-flex">
+        <div className="page-header d-flex flex-wrap">
           <div>
             <h1 className="page-title ">Manage Companies</h1>
 
@@ -501,14 +500,17 @@ const ManageCompany = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className="ms-auto ">
-            {isAddPermissionAvailable ? (
-              <Link to="/addcompany" className="btn btn-primary ms-2">
-                <Box component="span" display={["none", "unset"]} m="{1}">
-                  Add
-                </Box> Company <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+          <div className=" ">
+            {isAddPermissionAvailable && (
+              <Link
+                to="/addcompany"
+                className="btn btn-primary"
+              >
+                <span className="d-none d-sm-inline me-1">Add</span>
+                Company
+                <i className="ph ph-plus ms-1 ph-plus-icon"></i>
               </Link>
-            ) : null}
+            )}
           </div>
         </div>
         <Row className=" row-sm ">
