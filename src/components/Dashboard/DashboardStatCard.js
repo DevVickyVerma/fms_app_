@@ -161,19 +161,38 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
           <Card>
             <Card.Body className="card-body pb-0">
               <Row>
+                {formik?.values?.sites?.length > 0 && (<>
+                  <Col lg={12}>
+                    <div className={`form-group`}>
+                      <label htmlFor="site_id" className='mb-2'>
+                        Site <span className="text-danger">*</span>
+                      </label>
+                      <select
+                        id="site_id"
+                        name="site_id"
+                        onChange={(e) => {
+                          formik.handleChange(e);
+                          handleSiteChange(e); // If you have additional logic to handle
+                        }}
+                        onBlur={formik.handleBlur}
+                        value={formik?.values?.site_id}
+                        className="input101 form-input"
+                      >
+                        {formik?.values?.sites?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.site_name}
+                          </option>
+                        ))}
+                      </select>
+                      {formik.touched.site_id && formik.errors.site_id && (
+                        <div className="text-danger mt-1">{formik.errors.site_id}</div>
+                      )}
+                    </div>
+                  </Col>
+                </>)}
 
 
 
-                <Col lg={12}>
-                  <FormikSelect
-                    formik={formik}
-                    name="site_id"
-                    label="Site"
-                    options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
-                    className="form-input"
-                    onChange={handleSiteChange}
-                  />
-                </Col>
 
 
                 <Col sm={12} md={6} lg={6} xl={4}>
