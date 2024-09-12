@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import LoaderImg from '../../../Utils/Loader';
 import { handleError } from '../../../Utils/ToastUtils';
@@ -100,11 +100,11 @@ const NewFilterTab = ({
             const parsedData = JSON.parse(storedDataString);
             formik.setValues(parsedData);
 
-            if (parsedData?.client_id && showClientInput) {
+            if (parsedData?.client_id) {
                 fetchCompanyList(parsedData?.client_id);
             }
 
-            if (parsedData?.company_id && showClientInput) {
+            if (parsedData?.company_id) {
                 fetchSiteList(parsedData?.company_id);
             }
         }

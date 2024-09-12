@@ -1,9 +1,8 @@
 
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Modal, Row } from "react-bootstrap";
-import FormikSelect from "../Formik/FormikSelect";
 import { useFormik } from "formik";
 
 const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFilters }) => {
