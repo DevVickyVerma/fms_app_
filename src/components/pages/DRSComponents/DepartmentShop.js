@@ -7,24 +7,11 @@ import { handleError } from "../../../Utils/ToastUtils";
 
 const DepartmentShop = (props) => {
   const {
-    company_id,
-    client_id,
     site_id,
     start_date,
-    sendDataToParent,
   } = props;
 
-  const handleButtonClick = () => {
-    const allPropsData = {
-      company_id,
-      client_id,
-      site_id,
-      start_date,
-    };
 
-    // Call the callback function with the object containing all the props
-    sendDataToParent(allPropsData);
-  };
 
   const [data, setData] = useState([]);
 
@@ -65,7 +52,7 @@ const DepartmentShop = (props) => {
     };
 
     fetchData();
-  }, [site_id, client_id]);
+  }, [site_id, start_date]);
 
   const _renderFunction = () => {
     return Object.keys(data)?.map((item, index) => {

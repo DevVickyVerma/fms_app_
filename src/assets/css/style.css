@@ -1700,7 +1700,7 @@ button.btn-close:focus {
   padding: 0.375rem 0.75rem;
   font-size: 0.9375rem;
   line-height: 1.84615385;
-  border-radius: 5px;
+  border-radius: 2px !important;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -5665,7 +5665,7 @@ a.card-tabs-item.active {
   background-color: #fff;
   border: 1px solid transparent;
   background-clip: border-box;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .card>hr {

@@ -4,15 +4,9 @@ import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "react-bootstrap";
 import Swal from "sweetalert2";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/system";
 import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
@@ -23,9 +17,7 @@ const ManageClient = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const [searchdata, setSearchdata] = useState({});
-  const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [SearchList, setSearchList] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,7 +53,7 @@ const ManageClient = (props) => {
   };
   const DeleteClient = async (formData) => {
     try {
-      const response = await postData("client/delete", formData);
+      await postData("client/delete", formData);
       // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
@@ -71,47 +63,9 @@ const ManageClient = (props) => {
     }
   };
 
-  const handleSearchReset = () => {
-    handleFetchData();
-    setSearchdata({});
-    setSearchList(true);
-  };
-  const handleToggleSidebar1 = () => {
-    setSidebarVisible1(!sidebarVisible1);
-  };
-  const handleSubmit = (formData) => {
-    const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(
-        ([key, value]) => value !== null && value !== ""
-      )
-    );
 
-    if (Object.values(filteredFormData).length > 0) {
-      setSearchdata(filteredFormData);
 
-      const SearchList = async (row) => {
-        try {
-          const params = new URLSearchParams(formData).toString();
-          const response = await getData(`/client/list?${params}`);
 
-          if (response && response.data && response.data.data) {
-            setData(response.data.data.clients);
-            setCurrentPage(response.data.data?.currentPage || 1);
-            setLastPage(response.data.data?.lastPage || 1);
-          } else {
-            throw new Error("No data available in the response");
-          }
-        } catch (error) {
-          console.error("API error:", error);
-          // Handle the error here, such as displaying an error message or performing other actions
-        }
-      };
-
-      SearchList();
-    }
-
-    handleToggleSidebar1();
-  };
 
   useEffect(() => {
     handleFetchData();
@@ -151,7 +105,7 @@ const ManageClient = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("/client/update-status", formData);
+      await postData("/client/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
@@ -162,27 +116,22 @@ const ManageClient = (props) => {
   };
 
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
 
-  const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
-  const isLoginPermissionAvailable = permissionsArray?.includes(
+
+  const isEditPermissionAvailable = UserPermissions?.permissions?.includes("client-edit");
+  const isLoginPermissionAvailable = UserPermissions?.permissions?.includes(
     "client-account-access"
   );
   const isAddonPermissionAvailable =
-    permissionsArray?.includes("addons-assign");
-  const isAddPermissionAvailable = permissionsArray?.includes("client-create");
+    UserPermissions?.permissions?.includes("addons-assign");
+  const isAddPermissionAvailable = UserPermissions?.permissions?.includes("client-create");
   const isDeletePermissionAvailable =
-    permissionsArray?.includes("client-delete");
+    UserPermissions?.permissions?.includes("client-delete");
   const isReportsPermissionAvailable =
-    permissionsArray?.includes("report-assign");
+    UserPermissions?.permissions?.includes("report-assign");
 
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
@@ -397,7 +346,7 @@ const ManageClient = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {permissionsArray?.includes("payroll-setup") ? (
+                  {UserPermissions?.permissions?.includes("payroll-setup") ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>
@@ -462,7 +411,7 @@ const ManageClient = (props) => {
             {isAddPermissionAvailable ? (
               <Link
                 to="/addclient"
-                className="btn btn-primary ms-2 addclientbtn"
+                className="btn btn-primary ms-2 "
               >
                 <Box component="span" display={["none", "unset"]}>
                   Add
