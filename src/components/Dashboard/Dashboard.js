@@ -1,5 +1,5 @@
 
-import { useEffect, useState,React } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
@@ -16,7 +16,6 @@ import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
-import { useMyContext } from "../../Utils/MyContext";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -141,10 +140,8 @@ const Dashboard = (props) => {
     // setLiveMarginModal((prevState) => !prevState);
   };
 
-  const { clients } =
-  useMyContext();
 
-console.log(clients, "clinetList");
+
 
   return (
     <>
