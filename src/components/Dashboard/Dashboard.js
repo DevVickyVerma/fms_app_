@@ -141,6 +141,12 @@ const Dashboard = (props) => {
   };
 
 
+  const handlelivemaringclosemodal = () => {
+    setShowLiveData(false); // Toggle the state
+    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+  };
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -270,8 +276,10 @@ const Dashboard = (props) => {
               isLoading={isLoading}
               getData={getData}
               filters={filters}
+              setFilters={setFilters}
               isOpen={ShowLiveData}
-              onClose={() => setShowLiveData(false)}
+              // onClose={() => setShowLiveData(false)}
+              onClose={() => handlelivemaringclosemodal()}
               title="Total Sales"
               value="2323"
               percentageChange="3%"

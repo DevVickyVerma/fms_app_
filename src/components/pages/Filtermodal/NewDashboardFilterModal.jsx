@@ -35,7 +35,7 @@ const NewDashboardFilterModal = ({
     const reduxData = useSelector(state => state?.data?.data);
 
 
-    const { contextClients,setcontextClients } =
+    const { contextClients, setcontextClients } =
         useMyContext();
 
 
@@ -67,9 +67,6 @@ const NewDashboardFilterModal = ({
         validateOnBlur: true,
     });
 
-    // useEffect(() => {
-    //     if (showClientInput) fetchClientList();
-    // }, [showClientInput]);
 
 
     useEffect(() => {

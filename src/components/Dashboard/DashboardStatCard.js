@@ -3,8 +3,10 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Modal, Row } from "react-bootstrap";
+import FormikSelect from "../Formik/FormikSelect";
+import { useFormik } from "formik";
 
-const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => {
+const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFilters }) => {
   const [data, setData] = useState();
 
   const FetchmannegerList = async (filters) => {
@@ -24,8 +26,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
     if (filters?.site_id && filters?.client_id && filters.company_id) {
       FetchmannegerList(filters);
     }
-
-  }, [filters]);
+  }, [filters?.site_id]);
 
   const request = [
     {
@@ -74,12 +75,58 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
 
 
 
+  const storedKeyName = 'localFilterModalData'
+
+
+  useEffect(() => {
+
+    const storedData = localStorage.getItem(storedKeyName);
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+      formik.setValues(parsedData)
+      setFilters(parsedData)
+      // handleApplyFilters(parsedData);
+    }
+  }, [])
+
+  const formik = useFormik({
+    initialValues: {
+      client_id: "",
+      client_name: "",
+      company_id: "",
+      company_name: "",
+      start_month: "",
+      site_id: "",
+      site_name: "",
+      clients: [],
+      companies: [],
+      sites: [],
+    },
+    onSubmit: (values) => {
+    },
+  });
+
+  const handleSiteChange = (e) => {
+    const selectedSiteId = e.target.value;
+    formik.setFieldValue("site_id", selectedSiteId);
+    const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
+    formik.setFieldValue('site_name', selectedSiteData?.site_name || "");
+  };
+
+
+  useEffect(() => {
+    setFilters(formik?.values)
+    localStorage.setItem(storedKeyName, JSON.stringify(formik?.values));
+  }, [formik?.values?.site_id])
+
+
+
+
   return (
 
     <>
       <Modal show={isOpen} onHide={onClose} centered className='' >
-
-        <div >
+        <div>
           <Modal.Header
             style={{
               color: "#fff",
@@ -114,6 +161,21 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose }) => 
           <Card>
             <Card.Body className="card-body pb-0">
               <Row>
+
+
+
+                <Col lg={12}>
+                  <FormikSelect
+                    formik={formik}
+                    name="site_id"
+                    label="Site"
+                    options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
+                    className="form-input"
+                    onChange={handleSiteChange}
+                  />
+                </Col>
+
+
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
                     className={`card dash-plates-1 img-card box-${request[0].color}-shadow`}
