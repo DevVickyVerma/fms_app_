@@ -15,6 +15,42 @@ const ManageComision = (props) => {
   const [editable, setis_editable] = useState();
   const [data, setData] = useState([]);
 
+
+  const handleSubmit = async (values) => {
+    try {
+      // Create a new FormData object
+      const formData = new FormData();
+
+      values?.data?.forEach((obj) => {
+        const id = obj?.id;
+        const grossValueKey = `commission[${id}]`;
+        const grossValue = obj.commission;
+        formData.append(grossValueKey, grossValue);
+      });
+
+      formData.append("site_id", SelectedsiteID);
+
+      const postDataUrl = "/shop-commission/update";
+
+      await postData(postDataUrl, formData); // Handle success or error as needed
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
+  const formik = useFormik({
+    initialValues: {
+      data: data?.length > 0 ? data : [], // Ensure initial values are an array
+    },
+    onSubmit: handleSubmit,
+    // validationSchema: validationSchema,
+  });
+
+
+
   const handleSubmit1 = async (values) => {
     try {
       setsiteID(values.site_id);
@@ -80,11 +116,14 @@ const ManageComision = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            <ErrorMessage
-              name={`data[${index}].commission`}
-              component="div"
-              className="invalid-feedback"
-            />
+            {/* {formik.values?.data?.[index] && (
+              <ErrorMessage
+                name={`data[${index}].commission`}
+                component="div"
+                className="invalid-feedback"
+              />
+            )} */}
+
           </div>
         )
       ),
@@ -92,35 +131,11 @@ const ManageComision = (props) => {
     // ... remaining columns
   ];
 
-  const handleSubmit = async (values) => {
-    try {
-      // Create a new FormData object
-      const formData = new FormData();
 
-      values?.data?.forEach((obj) => {
-        const id = obj?.id;
-        const grossValueKey = `commission[${id}]`;
-        const grossValue = obj.commission;
-        formData.append(grossValueKey, grossValue);
-      });
 
-      formData.append("site_id", SelectedsiteID);
 
-      const postDataUrl = "/shop-commission/update";
 
-      await postData(postDataUrl, formData); // Handle success or error as needed
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const formik = useFormik({
-    initialValues: {
-      data: data,
-    },
-    onSubmit: handleSubmit,
-    // validationSchema: validationSchema,
-  });
 
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const validationSchemaForCustomInput = Yup.object({
