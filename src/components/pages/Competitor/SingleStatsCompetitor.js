@@ -197,33 +197,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
 
 
 
-  const handleFuelPriceLinkClick = (item) => {
 
-
-    console.log(getCompetitorsPrice, "getCompetitorsPrice", id);
-
-    let storedKeyName = "localFilterModalData";
-    const storedData = localStorage.getItem(storedKeyName);
-
-    if (storedData) {
-      let updatedStoredData = JSON.parse(storedData);
-      updatedStoredData.site_id = id; // Update the site_id here
-      updatedStoredData.site_name = getCompetitorsPrice?.siteName; // Update the site_id here
-
-      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
-    } else {
-
-      let updatedStoredData = {
-        site_id: id,
-        site_name: getCompetitorsPrice?.siteName
-      };
-      // updatedStoredData.site_id = id; // Update the site_id here
-      // updatedStoredData.site_name = getCompetitorsPrice?.siteName; // Update the site_id here
-
-      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
-    }
-    navigate(`/update-fuel-price/${id}`);
-  };
 
 
 

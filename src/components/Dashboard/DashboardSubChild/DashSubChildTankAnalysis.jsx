@@ -41,7 +41,6 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
   const handleDateButtonClick = (dateIndex) => {
     setSelectedDateIndex(dateIndex);
   };
-
   return (
     <div>
       <Row>
@@ -100,11 +99,11 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
 
             <Card.Body>
               <Row>
-                {Object?.keys(stockAlertData)?.map((tankName) => (
+                {Object?.keys(stockAlertData)?.map((tankName,index) => (
                   <>
                     <Col lg={3} xl={3} md={6} sm={12}>
                       <div
-                        key={tankName}
+                        key={index}
                         className="m-4"
                         style={{
                           boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",

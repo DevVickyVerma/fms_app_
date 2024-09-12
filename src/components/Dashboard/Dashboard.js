@@ -16,7 +16,6 @@ import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
-import { useMyContext } from "../../Utils/MyContext";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
