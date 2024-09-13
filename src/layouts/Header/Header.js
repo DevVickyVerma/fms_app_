@@ -62,9 +62,7 @@ const Header = (props) => {
     "profile-update-profile"
   );
 
-  const isUpdatePasswordPermissionAvailable = UserPermissions?.includes(
-    "profile-update-password"
-  );
+
 
   const isSettingsPermissionAvailable =
     UserPermissions?.includes("config-setting");
@@ -161,12 +159,7 @@ const Header = (props) => {
                           Profile
                         </Dropdown.Item>
                       ) : null}
-                      {/* {isUpdatePasswordPermissionAvailable ? (
-                        <Dropdown.Item as={Link} to="/editprofile">
-                          <i className="dropdown-icon ph ph-password"></i>Change
-                          Password
-                        </Dropdown.Item>
-                      ) : null} */}
+                    
                       {isSettingsPermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/settings">
                           <i className="dropdown-icon ph ph-gear"></i>

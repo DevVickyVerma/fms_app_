@@ -52,7 +52,7 @@ const DashBoardChild = (props) => {
   }
 
   const callFetchFilterData = async (filters) => {
-    let { client_id, company_id, site_id, client_name, company_name } = filters;
+    let { client_id, company_id, site_id, client_name,  } = filters;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
@@ -63,7 +63,7 @@ const DashBoardChild = (props) => {
 
     if (ReduxFullData?.company_id && !company_id) {
       company_id = ReduxFullData?.company_id;
-      company_name = ReduxFullData?.company_name;
+  
     }
 
     // Update the filters object with new values
@@ -96,7 +96,7 @@ const DashBoardChild = (props) => {
 
 
   const callTableData = async (filters) => {
-    let { client_id, company_id, site_id, company_name } = filters;
+    let { client_id, company_id, site_id,  } = filters;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
@@ -105,7 +105,7 @@ const DashBoardChild = (props) => {
 
     if (ReduxFullData?.company_id && !company_id) {
       company_id = ReduxFullData?.company_id;
-      company_name = ReduxFullData?.company_name;
+
     }
 
     if (client_id) {
@@ -144,15 +144,13 @@ const DashBoardChild = (props) => {
         handleApplyFilters(futurepriceLog);
       }
     }
-
+console.clear()
   }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
 
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-
-
       {centerFilterModalOpen && (
         <div className=''>
           <NewDashboardFilterModal

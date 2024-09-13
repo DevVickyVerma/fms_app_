@@ -199,10 +199,20 @@ const ManageSite = (props) => {
 
 
   const anyPermissionAvailable =
-    isEditPermissionAvailable ||
-    isDeletePermissionAvailable ||
-    isManagerPermissionAvailable ||
-    issitesettingPermissionAvailable;
+    permissionsArray?.includes("site-edit") ||
+    permissionsArray?.includes("site-delete") ||
+    permissionsArray?.includes("site-assign-manager") ||
+    permissionsArray?.includes("site-setting") ||
+    permissionsArray?.includes("bankmanager-list") ||
+    permissionsArray?.includes("opening-list") ||
+    permissionsArray?.includes("bunkering-list") ||
+    permissionsArray?.includes("assign-business-sub-category-list") ||
+    permissionsArray?.includes("site-create") ||
+    permissionsArray?.includes("site-detail") ||
+    permissionsArray?.includes("skipdate-list") ||
+    permissionsArray?.includes("hide-category-list") ||
+    permissionsArray?.includes("dailydue-list");
+
 
   const columns = [
     {

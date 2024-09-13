@@ -43,23 +43,9 @@ export default function EditProfile() {
     }
   }, [UserPermissions]);
 
-  useEffect(() => {
-    document.addEventListener("keydown", function (event) {
-      if (event.getModifierState("CapsLock")) {
-        setCapsLockActive(true);
-      } else {
-        setCapsLockActive(false);
-      }
-    });
-  }, [localStorage.getItem("token")]);
+ 
 
-  const handleKeyPress = (event) => {
-    if (event.getModifierState("CapsLock")) {
-      setCapsLockActive(true);
-    } else {
-      setCapsLockActive(false);
-    }
-  };
+
 
   const togglePasswordVisibilityForNew = () => {
     setPasswordVisibleForNew(!passwordVisibleForNew);
@@ -564,7 +550,7 @@ export default function EditProfile() {
                                   ? "is-invalid"
                                   : ""
                                   }`}
-                                onKeyPress={handleKeyPress}
+                              
                                 name="password_confirmation"
                                 placeholder="Confirm Password"
                               />

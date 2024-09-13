@@ -658,71 +658,76 @@ const DashSubChild = ({
       >
         <Col lg={12} md={12}>
           <>
-            <Card.Header className="card-header">
-              <div className="Tank-Details d-flex">
-                <h4 className="card-title">Tank Analysis</h4>
-                <div className="Tank-Details-icon">
-                  <OverlayTrigger
-                    placement="right"
-                    className="Tank-Detailss"
-                    overlay={
-                      <Tooltip style={{ width: "200px" }}>
-                        <div>
-                          {colors.map((color, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                padding: "3px 10px",
-                                color: "#fff",
-                              }}
-                            >
+            <Card>
+              <Card.Header className="card-header">
+                <div className="Tank-Details d-flex">
+                  <h4 className="card-title">Tank Analysis</h4>
+                  <div className="Tank-Details-icon">
+                    <OverlayTrigger
+                      placement="right"
+                      className="Tank-Detailss"
+                      overlay={
+                        <Tooltip style={{ width: "200px" }}>
+                          <div>
+                            {colors.map((color, index) => (
                               <div
+                                key={index}
                                 style={{
-                                  width: "20px", // Set the width for the color circle
-                                  height: "20px",
-                                  borderRadius: "50%",
-                                  backgroundColor: color.color,
-                                }}
-                              ></div>
-                              <span
-                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  padding: "3px 10px",
                                   color: "#fff",
-                                  marginLeft: "8px",
                                 }}
                               >
-                                {color.name}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      </Tooltip>
-                    }
-                  >
-                    <img
-                      alt=""
-                      src={require("../../../assets/images/dashboard/dashboardTankImage.png")}
-                    />
-                  </OverlayTrigger>
+                                <div
+                                  style={{
+                                    width: "20px", // Set the width for the color circle
+                                    height: "20px",
+                                    borderRadius: "50%",
+                                    backgroundColor: color.color,
+                                  }}
+                                ></div>
+                                <span
+                                  style={{
+                                    color: "#fff",
+                                    marginLeft: "8px",
+                                  }}
+                                >
+                                  {color.name}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </Tooltip>
+                      }
+                    >
+                      <img
+                        alt=""
+                        src={require("../../../assets/images/dashboard/dashboardTankImage.png")}
+                      />
+                    </OverlayTrigger>
+                  </div>
                 </div>
-              </div>
-            </Card.Header>
-            <Card.Body className="card-body p-0 m-0">
-              <div id="chart">
-                <DashSubChildTankAnalysis
-                  getSiteStats={getSiteStats}
-                  setGetSiteStats={setGetSiteStats}
-                />
-              </div>
-            </Card.Body>
+              </Card.Header>
+              <Card.Body className="card-body p-0 m-0">
+                <div id="chart">
+                  <DashSubChildTankAnalysis
+                    getSiteStats={getSiteStats}
+                    setGetSiteStats={setGetSiteStats}
+                  />
+                </div>
+              </Card.Body>
+            </Card>
           </>
         </Col>
       </Row>
       <Col xl={12} className="p-0">
         <Card>
           <Card.Header>
-            Competitor Stats
+            <div className="Tank-Details d-flex">
+              <h4 className="card-title">Competitor Stats</h4>
+              
+            </div>
           </Card.Header>
           <Card.Body className="p-6">
             <div className="panel panel-primary">
@@ -976,7 +981,7 @@ const DashSubChild = ({
           </Card.Body>
         </Card>
       </Col>
-      <Row></Row>
+    
 
       <Row
         style={{
