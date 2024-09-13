@@ -12,13 +12,13 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import ReCAPTCHA from "react-google-recaptcha";
 import { getLocalStorageData, setLocalStorageData } from "../../../Utils/cryptoUtils";
+import CountdownTimer from "./CountdownTimer";
 export default function Login(props) {
   const [isLoading, setLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
-  const [Showcaptcha, setShowcaptcha] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState(""); // Step 1: Add state for ReCAPTCHA token
-
+  const [showCaptcha, setshowCaptcha] = useState(false);
+  const [showTime, setshowTime] = useState(false);
 
 
   if (localStorage.getItem("myKey") === null) {
@@ -88,7 +88,8 @@ export default function Login(props) {
 
         if (data?.data?.show_captcha) {
           setLocalStorageData('checking', true);
-          setShowcaptcha(data?.data?.show_captcha)
+          setshowTime(true)
+          setshowCaptcha(data?.data?.show_captcha)
         }
         ErrorAlert(data.message);
         setLoading(false);
@@ -127,6 +128,7 @@ export default function Login(props) {
       const result = await response.json();
 
       if (result.status_code == 200) {
+        setshowCaptcha(false)
         setIsTokenVerified(true)
         localStorage.removeItem("checking")
         SuccessAlert(result?.message)
@@ -150,14 +152,24 @@ export default function Login(props) {
     const storedFlag = getLocalStorageData('checking');
 
     if (storedFlag) {
-      setShowcaptcha(true)
+
+      setshowTime(true)
+      setshowCaptcha(true)
     }
 
   }, [])
 
 
+  const handleCountdownComplete = () => {
+    setshowTime(false)
+  };
 
 
+
+
+  console.log(showTime, "showTimeT");
+  console.log(showCaptcha, "showTimeC");
+  console.log(isTokenVerified, "showTimeTo");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -353,7 +365,7 @@ export default function Login(props) {
                               </div>
                             </div>
 
-                            {Showcaptcha && <ReCAPTCHA
+                            {showCaptcha && <ReCAPTCHA
                               sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
                               onChange={onRecaptchaChange} // Step 2: Capture token on change
                             />}
@@ -374,11 +386,19 @@ export default function Login(props) {
                             <div className="container-login100-form-btn">
                               <button
                                 type="submit"
-                                className="w-100 btn btn-primary "
-                                disabled={Showcaptcha ? !isTokenVerified : false}
+                                className="w-100 btn btn-primary d-flex justify-content-center  "
+                                disabled={showTime}
+
+
                               >
-                                Login
+                                <span className="ml-2">Login</span>  {" "}
+
+                                { showTime && (
+                                  <CountdownTimer initialTime={300} onCountdownComplete={handleCountdownComplete} />
+                                )}
                               </button>
+
+
                               <ToastContainer />
                             </div>
                           </Form>

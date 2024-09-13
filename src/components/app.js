@@ -139,7 +139,7 @@ const App = (props) => {
     ? process.env.REACT_APP_BASE_URL
     : "default_value"; // Replace "default_value" with the fallback URL or value you prefer
 
-  if (Url !== "default_value") {
+  if (!Url !== "default_value") {
     // Prevent right-click context menu
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
