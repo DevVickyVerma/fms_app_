@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { json, Link } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -88,6 +88,7 @@ export default function Login(props) {
 
         if (data?.data?.show_captcha) {
           setLocalStorageData('checking', true);
+          setLocalStorageData('timer', true);
           setshowTime(true)
           setshowCaptcha(data?.data?.show_captcha)
         }
@@ -150,10 +151,15 @@ export default function Login(props) {
   useEffect(() => {
 
     const storedFlag = getLocalStorageData('checking');
+    const test = getLocalStorageData('timer');
+
+
+    if (test) {
+      setshowTime(true)
+    }
+
 
     if (storedFlag) {
-
-      setshowTime(true)
       setshowCaptcha(true)
     }
 
@@ -170,6 +176,8 @@ export default function Login(props) {
   console.log(showTime, "showTimeT");
   console.log(showCaptcha, "showTimeC");
   console.log(isTokenVerified, "showTimeTo");
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -393,8 +401,8 @@ export default function Login(props) {
                               >
                                 <span className="ml-2">Login</span>  {" "}
 
-                                { showTime && (
-                                  <CountdownTimer initialTime={300} onCountdownComplete={handleCountdownComplete} />
+                                {showTime && (
+                                  <CountdownTimer initialTime={30} onCountdownComplete={handleCountdownComplete} />
                                 )}
                               </button>
 
