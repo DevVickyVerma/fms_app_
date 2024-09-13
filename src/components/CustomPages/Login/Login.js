@@ -122,11 +122,11 @@ export default function Login(props) {
       });
 
       const result = await response.json();
-      console.log(result, "result");
+   
       if (result.status_code == 200) {
         setIsTokenVerified(true)
         SuccessAlert(result?.message)
-        console.log(result, "result");
+      
       } else {
         ErrorAlert(result?.message)
       }
@@ -134,7 +134,6 @@ export default function Login(props) {
 
     } catch (error) {
 
-      console.log(error?.message, "error?.message");
       console.error('Error validating reCAPTCHA token:', error);
       return false;
     } finally {
