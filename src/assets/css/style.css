@@ -8152,7 +8152,7 @@ ul.dropdown-menu li.dropdown ul.dropdown-menu .dropdown-plus-title {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #eaedf1;
-  border-radius: 7px;
+  border-radius: 2px;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 

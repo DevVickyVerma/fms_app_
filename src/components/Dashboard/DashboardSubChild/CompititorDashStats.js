@@ -417,7 +417,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
       >
         <Col lg={12} md={12} className="">
           <Card className="">
-            <Card.Header className=" my-cardd card-header ">
+            <Card.Header >
               <h4 className="card-title">
                 {" "}
                 {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
