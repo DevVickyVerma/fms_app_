@@ -59,6 +59,11 @@ const CustomModal = ({
     }
   };
 
+  let stateData = JSON.parse(localStorage.getItem("localFilterModalData"));
+
+
+
+
   return (
     <>
       {loading ? <Loaderimg /> : null}
@@ -78,7 +83,8 @@ const CustomModal = ({
           className="ModalTitle"
         >
           <div className="ModalTitle-date">
-            {siteName ? siteName : "Site Name"}( {month ? month : ""} Monthly
+            {stateData ? stateData?.site_name : "Site Name"}
+            ( {month ? month : ""} Monthly
             Details)
           </div>
           <span onClick={onClose}>
