@@ -21,7 +21,6 @@ import { BsFuelPumpFill } from "react-icons/bs";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { handleError } from "../../../Utils/ToastUtils";
-
 import { Box, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { ErrorMessage, Field, Formik } from "formik";
@@ -42,6 +41,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
   const navigate = useNavigate();
 
   const FetchCompititorData = async (selectedValues) => {
@@ -83,10 +83,13 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
       console.error("API error:", error);
     } // Set the submission state to false after the API call is completed
   };
+
   useEffect(() => {
     FetchCompititorData();
     handleClientStats();
   }, []);
+
+
   if (Compititorloading) {
     return <Loaderimg />;
   }
@@ -425,7 +428,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
               <table className="w-100 mb-6">
                 <tbody>
                   <tr>
-                    <th>
+                    <th className="font-500">
                       <span className="single-Competitor-heading cardd  d-flex justify-content-between w-99">
                         <span>
                           Competitors Name <AiFillCaretDown />
@@ -437,8 +440,8 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                         </span>
                       </span>
                     </th>
-                    {Object.keys(data).map((fuelType) => (
-                      <th key={fuelType}>
+                    {Object?.keys(data)?.map((fuelType) => (
+                      <th key={fuelType} className="font-500">
                         <span className="single-Competitor-heading cardd block w-99 ">
                           <BsFuelPumpFill /> {fuelType}
                         </span>

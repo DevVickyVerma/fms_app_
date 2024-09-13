@@ -295,7 +295,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                                                             }
                                                                         }}
                                                                         disabled={!row?.[0]?.is_editable}  // Disable if not editable
-                                                                        className={`time-input-fuel-sell ${!row?.[0]?.is_editable ? 'readonly' : ''}`}
+                                                                        className={`time-input-fuel-sell ${!row?.[0]?.is_editable ? 'readonly' : ''}   ${row?.[0]?.is_editable ? "c-timeinput-default" : ""} `}
                                                                     />
 
 

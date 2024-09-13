@@ -1,22 +1,16 @@
+/* eslint-disable eqeqeq */
 import { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
-import SingleAuthModal from "../../data/Modal/SingleAuthModal";
 import { SuccessAlert } from "../../Utils/ToastUtils";
 
 const Header = (props) => {
-  const { isLoading, getData } = props;
+  const { getData } = props;
   const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
     useState(null);
-
-  const [username, setUsername] = useState();
-  const [headingusername, setHeadingUsername] = useState();
-  const [usernotification, setnotification] = useState();
-  const [ShowTruw, setShowTruw] = useState(false);
 
   const logout = async (row) => {
     localStorage.clear();
@@ -41,9 +35,8 @@ const Header = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const reduxData = useSelector((state) => state?.data?.data);
 
   const [twoFactorKey, setTwoFactorKey] = useState(
     localStorage.getItem("two_factor")
@@ -63,24 +56,17 @@ const Header = (props) => {
     };
   }, [twoFactorKey]);
 
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-      setUsername(UserPermissions.full_name);
-      setHeadingUsername(UserPermissions.first_name);
-    }
-  }, [UserPermissions]);
 
-  const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
+  const isProfileUpdatePermissionAvailable = UserPermissions?.includes(
     "profile-update-profile"
   );
-  const isUpdatePasswordPermissionAvailable = permissionsArray?.includes(
+
+  const isUpdatePasswordPermissionAvailable = UserPermissions?.includes(
     "profile-update-password"
   );
-  const isSettingsPermissionAvailable =
-    permissionsArray?.includes("config-setting");
 
-  // const isTwoFactorPermissionAvailable = localStorage.getItem("two_factor");
+  const isSettingsPermissionAvailable =
+    UserPermissions?.includes("config-setting");
 
   useEffect(() => {
     const isTwoFactorAvailable = JSON.parse(localStorage.getItem("two_factor"));
@@ -90,77 +76,9 @@ const Header = (props) => {
   const openCloseSidebar = () => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
-  const stringValue = String(UserPermissions?.notifications);
-  const mybalance = String(UserPermissions?.smsCredit);
+  const mybalance = String(reduxData?.smsCredit);
 
-  const handleIconClick = async (row) => {
-    try {
-      setIsDropdownOpen(!isDropdownOpen);
-      const response = await getData("/notifications");
 
-      if (response.data.api_response === "success") {
-        setnotification(response?.data?.data);
-        // SuccessAlert(response.data.message);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-      // Handle the error here, such as displaying an error message or performing other actions
-    }
-  };
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const closeDropdown = () => {
-    setIsDropdownOpen(false);
-  };
-  const navigate = useNavigate();
-  const handleViewAllNotificationsClick = () => {
-    navigate("/notifications");
-    closeDropdown();
-  };
-
-  const handleToggleSidebar1 = () => {
-    setShowTruw(true);
-    // setSidebarVisible1(!sidebarVisible1);
-  };
-  const [ukDate, setUkDate] = useState("");
-  const [ukTime, setUkTime] = useState("");
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const currentDateTime = new Date();
-      const dateOptions = {
-        timeZone: "Europe/London",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      };
-      const timeOptions = {
-        timeZone: "Europe/London",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      };
-
-      const formattedDate = currentDateTime.toLocaleString(
-        "en-GB",
-        dateOptions
-      );
-      const formattedTime = currentDateTime.toLocaleString(
-        "en-GB",
-        timeOptions
-      );
-
-      setUkDate(formattedDate);
-      setUkTime(formattedTime);
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
   return (
     <Navbar expand="md" className="app-header header sticky">
       <Container fluid className="main-container">
@@ -213,7 +131,7 @@ const Header = (props) => {
                           {`Welcome,  ${" "}`}&nbsp;
                         </span>
                         <span className="header-welcome-text-title">
-                          {headingusername ? headingusername : " Admin"}
+                          {reduxData?.first_name ? reduxData?.first_name : " Admin"}
                         </span>
                       </h5>
                       <i className="ph ph-caret-circle-down ms-2"></i>
@@ -225,7 +143,7 @@ const Header = (props) => {
                       <div className="drop-heading">
                         <div className="text-center">
                           <h5 className="text-dark mb-0">
-                            {username ? username : "Admin"} <br />{" "}
+                            {reduxData?.full_name ? reduxData?.full_name : "Admin"} <br />{" "}
                           </h5>
                         </div>
                       </div>

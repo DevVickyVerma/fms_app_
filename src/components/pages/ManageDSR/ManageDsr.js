@@ -238,7 +238,6 @@ const ManageDsr = (props) => {
           setUploadTabname();
           setgetDataBtn(response1?.data?.data);
           setUploadtitle(response1?.data?.data);
-          // setUploadTabname();
         }
       } catch (error) {
         console.error("API error:", error);
@@ -288,14 +287,8 @@ const ManageDsr = (props) => {
     }
 
     if (timeLeft === 1) {
-      const current = {
-        client_id: PropsClientId,
-        company_id: PropsCompanyId,
-        site_id: SiteId,
-        start_date: DRSDate,
-      };
-
-      GetDataWithClient(current);
+      let parshedData = JSON.parse(storedData);
+      GetDataWithClient(parshedData);
     }
 
     return () => clearInterval(timer);

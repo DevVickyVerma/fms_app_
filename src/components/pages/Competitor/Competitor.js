@@ -13,7 +13,6 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import NewFilterTab from "../Filtermodal/NewFilterTab";

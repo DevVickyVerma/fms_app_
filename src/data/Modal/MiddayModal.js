@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
 import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
 import InputTime from "../../components/pages/Competitor/InputTime";
 

@@ -560,7 +560,7 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {/* {isDailyDuePermissionAvailable ? (
+                  {isDailyDuePermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
                       className=" p-0 m-0"
@@ -574,7 +574,7 @@ const ManageSite = (props) => {
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null} */}
+                  ) : null}
                   {isHidebusinessPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"

@@ -381,13 +381,7 @@ const FuelPrices = (props) => {
                         : ""}
                     </span>
 
-                    {/* {formik?.values?.client_id && formik?.values?.company_id && isFuelHistoryPermissionAvailable && (<>
-                      <Button className="btn btn-primary btn-icon text-white" onClick={handleLinkClick}>
-                        <span>
-                        </span>
-                        Go To Future Price Logs <ExitToAppIcon />
-                      </Button>
-                    </>)} */}
+
 
 
                   </div>

@@ -762,7 +762,7 @@ const DashSubChild = ({
                               <table className="w-100 mb-6">
                                 <tbody>
                                   <tr>
-                                    <th>
+                                    <th className="font-500">
                                       <span className="single-Competitor-heading cardd  d-flex justify-content-between w-99">
                                         <span>
                                           Competitors Name <AiFillCaretDown />
@@ -777,8 +777,8 @@ const DashSubChild = ({
                                         </span>
                                       </span>
                                     </th>
-                                    {Object.keys(data).map((fuelType) => (
-                                      <th key={fuelType}>
+                                    {Object?.keys(data)?.map((fuelType) => (
+                                      <th key={fuelType} className="font-500">
                                         <span className="single-Competitor-heading cardd block w-99 ">
                                           <BsFuelPumpFill /> {fuelType}
                                         </span>

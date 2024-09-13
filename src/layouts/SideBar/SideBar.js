@@ -1,9 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useState, useEffect } from "react";
 import { MENUITEMS } from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../Utils/Loader";
+
+
+
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
 

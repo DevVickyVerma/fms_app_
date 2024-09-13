@@ -1120,9 +1120,9 @@ span.ModalTitle-2fa {
 .single-Competitor-heading {
   background: #aeb1bd;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-right: 10px;
-  font-weight: 700;
+  /* font-weight: 700; */
   color: black;
   margin: 5px;
   gap: 10px;
@@ -1173,10 +1173,10 @@ span.ModalTitle-2fa {
 
 .cardd {
   background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+  box-shadow: 0 8px 9px 0 rgb(72 78 153 / 22%);
   backdrop-filter: blur(16.5px);
   -webkit-backdrop-filter: blur(16.5px);
-  /* border-radius: 30px; */
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
@@ -1927,4 +1927,12 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 .ph-search-icons {
   position: relative;
   top: -1px;
+}
+
+.c-timeinput-default input {
+  color: #000 !important;
+}
+
+.font-500 {
+  font-weight: 500;
 }

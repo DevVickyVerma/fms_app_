@@ -580,7 +580,7 @@ const Root = () => {
       data: dataReducer,
     },
   });
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token] = useState(localStorage.getItem("token"));
   const WrappedDashboard = withApi(Dashboard);
   const Wrappedcanvaseditor = withApi(canvaseditor);
   const WrappedManageBusinessSubTypes = withApi(ManageBusinessSubTypes);
