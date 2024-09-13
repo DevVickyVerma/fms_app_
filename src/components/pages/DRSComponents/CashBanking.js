@@ -157,7 +157,7 @@ const CashBanking = (props) => {
         formik.resetForm();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       // Set the submission state to false if an error occurs
     }
   };

@@ -240,7 +240,7 @@ const SiteSettings = (props) => {
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       handleError(error);
-      console.log(error); // Set the submission state to false if an error occurs
+      console.error(error); // Set the submission state to false if an error occurs
     }
   };
 

@@ -92,7 +92,7 @@ const ManageBusinessTypes = (props) => {
         FetchTableData();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

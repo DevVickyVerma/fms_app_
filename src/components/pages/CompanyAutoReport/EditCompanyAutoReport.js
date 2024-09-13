@@ -109,7 +109,7 @@ const AddCompany = (props) => {
       const navigatePath = `/companyautoreport/${data?.company_id}`;
       await postData(postDataUrl, formData, navigatePath);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

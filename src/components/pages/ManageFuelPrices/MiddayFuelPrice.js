@@ -122,7 +122,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
             handleFormSubmit()
         } catch (error) {
             handleError(error)
-            console.log(error); // Set the submission state to false if an error occurs
+            console.error(error); // Set the submission state to false if an error occurs
         }
     };
 

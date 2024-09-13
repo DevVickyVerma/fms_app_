@@ -34,7 +34,7 @@ const ManageComision = (props) => {
 
       await postData(postDataUrl, formData); // Handle success or error as needed
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -675,7 +675,7 @@ const ManageSiteTank = (props) => {
         handleSubmit1(userclient);
       }
     } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
+      console.error(error); // Set the submission state to false if an error occurs
     }
   };
 

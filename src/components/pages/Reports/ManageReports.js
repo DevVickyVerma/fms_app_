@@ -134,7 +134,7 @@ const ManageReports = (props) => {
         console.error("Error occurred while fetching data:", error);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       // Set the submission state to false if an error occurs
     }
   };

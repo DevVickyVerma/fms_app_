@@ -73,7 +73,7 @@ const AddCompany = (props) => {
       const navigatePath = `/autodayend/${formik.values?.site_id}`;
       await postData(postDataUrl, formData, navigatePath);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
