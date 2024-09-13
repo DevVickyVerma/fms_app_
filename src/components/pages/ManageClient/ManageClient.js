@@ -315,7 +315,6 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
-
                           <i className="ph ph-trash me-2"></i>
                           Delete
                         </div>

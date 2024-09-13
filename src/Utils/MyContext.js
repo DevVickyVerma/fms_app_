@@ -38,6 +38,8 @@ const MyProvider = ({ children }) => {
 
     fetchClientList();
   }, []);
+
+
   const [searchdata, setSearchdata] = useState({});
   const [getSiteDetailsLoading, setGetSiteDetailsLoading] = useState(false)
   const [shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage] = useState(false);

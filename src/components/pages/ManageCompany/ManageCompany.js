@@ -313,9 +313,7 @@ const ManageCompany = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <i className="fa fa-trash" aria-hidden="true"></i> {" "}
-                          </i>
+                          <i className="ph ph-trash me-2"></i>
                           Delete
                         </div>
                       </Link>
@@ -329,9 +327,7 @@ const ManageCompany = (props) => {
                     >
                       <Link to={`/companyautoreport/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                          <i className="setting-icon">
-                            {""} <i className="fa fa-magic" aria-hidden="true"></i> {" "}
-                          </i>
+                          <i className="ph ph-files me-2"></i>
                           Company Auto Report
                         </div>
                       </Link>
@@ -341,13 +337,10 @@ const ManageCompany = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link
                         className="settingicon"
-                        // onClick={() => handleSage(row.id)}
                         to={`/company/sage-fuels/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            {""} <i className="fa fa-flask" aria-hidden="true"></i> {" "}
-                          </i>
+                          <i className="ph ph-gas-pump me-2"></i>
                           <span>Manage Sage Fuel</span>
                         </div>
                       </Link>
@@ -357,13 +350,10 @@ const ManageCompany = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link
                         className="settingicon"
-                        // onClick={() => handleSage(row.id)}
                         to={`/company/sage-items/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            {""} <i className="fa fa-shopping-cart" aria-hidden="true"></i>  {""}
-                          </i> {""}
+                          <i className="ph ph-coda-logo me-2"></i>
                           <span>Manage Sage Items</span>
                         </div>
                       </Link>
@@ -373,13 +363,10 @@ const ManageCompany = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link
                         className="settingicon"
-                        // onClick={() => handleSage(row.id)}
                         to={`/company/sage-other-codes/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            {""} <i className="fa fa-code" aria-hidden="true"></i> {" "}
-                          </i>
+                          <i className="ph ph-code me-2"></i>
                           <span>Sage Other Code</span>
                         </div>
                       </Link>
@@ -390,12 +377,9 @@ const ManageCompany = (props) => {
                       <Link
                         className="settingicon"
                         onClick={() => handleUploadSageSale(row.id)}
-                      // to={`/company/sage-other-codes/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <i className="fa fa-upload" aria-hidden="true"></i>
-                          </i> {" "} {" "}
+                          <i className="ph ph-upload me-2"></i>
                           <span>Upload Sage Sales</span>
                         </div>
                       </Link>
@@ -407,12 +391,9 @@ const ManageCompany = (props) => {
                       <Link
                         className="settingicon"
                         onClick={() => handleUploadBankReferenceSale(row.id)}
-                      // to={`/company/sage-other-codes/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <i className="fa fa-upload" aria-hidden="true"></i>
-                          </i> {" "} {" "}
+                          <i className="ph ph-vault me-2"></i>
                           <span>Upload Bank Reference</span>
                         </div>
                       </Link>
@@ -424,12 +405,9 @@ const ManageCompany = (props) => {
                       <Link
                         className="settingicon"
                         onClick={() => handleUploadBankReimbursementsSale(row.id)}
-                      // to={`/company/sage-other-codes/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <i className="fa fa-upload" aria-hidden="true"></i>
-                          </i> {" "} {" "}
+                          <i className="ph ph-hand-coins me-2"></i>
                           <span>Upload Bank Reimbursements</span>
                         </div>
                       </Link>

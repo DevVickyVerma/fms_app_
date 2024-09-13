@@ -35,8 +35,11 @@ const NewDashboardFilterModal = ({
     const reduxData = useSelector(state => state?.data?.data);
 
 
-    const { contextClients, setcontextClients } =
-        useMyContext();
+    const { contextClients, setcontextClients } = useMyContext();
+
+
+    console.log(contextClients, "contextClients");
+
 
 
     const formik = useFormik({
@@ -67,15 +70,14 @@ const NewDashboardFilterModal = ({
         validateOnBlur: true,
     });
 
-
-
     useEffect(() => {
-        if (showClientInput && contextClients?.length == 0) {
+        if (showClientInput && contextClients?.length === 0) {
             fetchClientList();
         } else if (contextClients?.length > 0) {
-            formik.setFieldValue('clients', contextClients);
+            formik.setFieldValue('clients', contextClients || []);
         }
-    }, [showClientInput, contextClients]);
+    }, [showClientInput, contextClients, formik?.values?.clients]);
+
 
 
 

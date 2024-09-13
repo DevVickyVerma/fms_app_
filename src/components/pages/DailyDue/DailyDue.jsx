@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { handleFilterData } from '../../../Utils/commonFunctions/commonFunction'
 import { useFormik } from 'formik'
 import { ErrorAlert, handleError } from '../../../Utils/ToastUtils'
+import FormikInput from '../../Formik/FormikInput';
 
 const DailyDue = ({ isLoading, getData, postData }) => {
     const [dateValidation, setDateValidation] = useState({ minDate: "", maxDate: "", drs_month: "" });
@@ -35,6 +36,10 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                 detail: Yup.string().required('Detail is required'),
             })
         ),
+        owner_balance_carry: Yup.number()
+            .required('Balance Carry Forward From Owner').min(0, 'Value must be zero or greater'),
+        operator_balance_carry: Yup.number()
+            .required('Balance Carry Forward From Operator').min(0, 'Value must be zero or greater'),
     });
 
 
@@ -42,7 +47,9 @@ const DailyDue = ({ isLoading, getData, postData }) => {
         initialValues: {
             site_name: "",
             dues: [],
-            is_editable: ""
+            is_editable: "",
+            operator_balance_carry: "",
+            owner_balance_carry: ""
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -74,7 +81,6 @@ const DailyDue = ({ isLoading, getData, postData }) => {
             );
 
             if (response?.data?.data) {
-                console.log(response?.data?.data, "responseresponse");
                 formik.setValues(response?.data?.data);
             }
         } catch (error) {
@@ -88,6 +94,8 @@ const DailyDue = ({ isLoading, getData, postData }) => {
 
             formData.append('site_id', siteID)
             formData.append('drs_month', dateValidation?.drs_month)
+            formData.append('operator_balance_carry', values?.operator_balance_carry)
+            formData.append('owner_balance_carry', values?.owner_balance_carry)
 
 
             values?.dues?.forEach((item, index) => {
@@ -271,148 +279,155 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                     <>
 
                                         <form onSubmit={formik.handleSubmit} >
-                                            {formik.values.dues.map((item, index) => (
-                                                < >
 
-                                                    <Row >
-                                                        <Col lg={2}>
-                                                            <div className="form-group mt-4">
-                                                                <label htmlFor={`dues[${index}].e_date`}>Date<span class="text-danger">*</span></label>
-                                                                <input
-                                                                    type="date"
-                                                                    name={`dues[${index}].e_date`}
-                                                                    value={formik.values.dues[index].e_date || ''} // Bind the input value to Formik
-                                                                    onChange={formik.handleChange}
-                                                                    onBlur={formik.handleBlur}
-                                                                    id={`dues[${index}].e_date`}
-                                                                    onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={`input101 ${formik.errors.e_date && formik.touched.e_date ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
-                                                                    min={dateValidation?.minDate}
-                                                                    max={dateValidation?.maxDate}
-                                                                    disabled={!formik.values.is_editable}
-                                                                />
+                                            <Row >
+                                                <Col lg={6}>
+                                                    <FormikInput formik={formik} type="number" label="Balance Carry Forward From Operator(£)" name="operator_balance_carry" />
+                                                </Col>
+                                                <Col lg={6}>
+                                                    <FormikInput formik={formik} type="number" label="Balance Carry Forward From Owner(£)" name="owner_balance_carry" />
+                                                </Col>
+                                            </Row>
 
-                                                                {formik.touched.dues?.[index]?.e_date && formik.errors.dues?.[index]?.e_date && (
-                                                                    <div className="text-danger">{formik.errors.dues[index].e_date}</div>
+                                            {formik?.values?.dues?.map((item, index) => (
+                                                <Row key={item?.id || index}>
+                                                    <Col lg={2}>
+                                                        <div className="form-group mt-4">
+                                                            <label htmlFor={`dues[${index}].e_date`}>Date<span className="text-danger">*</span></label>
+                                                            <input
+                                                                type="date"
+                                                                name={`dues[${index}].e_date`}
+                                                                value={formik?.values?.dues?.[index]?.e_date || ''} // Bind the input value to Formik
+                                                                onChange={formik.handleChange}
+                                                                onBlur={formik.handleBlur}
+                                                                id={`dues[${index}].e_date`}
+                                                                onClick={handleShowDate} // Directly pass handleShowDate
+                                                                className={`input101 ${formik.errors.e_date && formik.touched?.e_date ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                min={dateValidation?.minDate}
+                                                                max={dateValidation?.maxDate}
+                                                                disabled={!formik.values.is_editable}
+                                                            />
+
+                                                            {formik.touched?.dues?.[index]?.e_date && formik.errors.dues?.[index]?.e_date && (
+                                                                <div className="text-danger">{formik.errors.dues[index].e_date}</div>
+                                                            )}
+                                                        </div>
+                                                    </Col>
+
+
+                                                    <Col lg={2}>
+                                                        <div className="form-group mt-4">
+                                                            <label htmlFor={`dues[${index}].invoice`}>Invoice Claim<span className="text-danger">*</span></label>
+                                                            <input
+                                                                type="number"
+                                                                name={`dues[${index}].invoice`}
+                                                                value={formik.values.dues[index].invoice || '0'} // Bind the input value to Formik
+                                                                // onChange={formik.handleChange}
+                                                                onBlur={formik.handleBlur}
+                                                                id={`dues[${index}].invoice`}
+                                                                placeholder='Enter Invoice Value'
+                                                                onChange={(e) => formik.setFieldValue(
+                                                                    e.target.name,
+                                                                    e.target.value === '' ? 0 : parseFloat(e.target.value)
                                                                 )}
-                                                            </div>
-                                                        </Col>
+                                                                onClick={handleShowDate} // Directly pass handleShowDate
+                                                                className={`input101 ${formik.errors.invoice && formik.touched?.invoice ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                disabled={!formik.values.is_editable}
+                                                            />
+                                                            {formik.touched?.dues?.[index]?.invoice && formik.errors.dues?.[index]?.invoice && (
+                                                                <div className="text-danger">{formik.errors.dues[index].invoice}</div>
+                                                            )}
+                                                        </div>
+                                                    </Col>
 
-
-                                                        <Col lg={2}>
-                                                            <div className="form-group mt-4">
-                                                                <label htmlFor={`dues[${index}].invoice`}>Invoice Claim<span class="text-danger">*</span></label>
-                                                                <input
-                                                                    type="number"
-                                                                    name={`dues[${index}].invoice`}
-                                                                    value={formik.values.dues[index].invoice || '0'} // Bind the input value to Formik
-                                                                    // onChange={formik.handleChange}
-                                                                    onBlur={formik.handleBlur}
-                                                                    id={`dues[${index}].invoice`}
-                                                                    placeholder='Enter Invoice Value'
-                                                                    onChange={(e) => formik.setFieldValue(
-                                                                        e.target.name,
-                                                                        e.target.value === '' ? 0 : parseFloat(e.target.value)
-                                                                    )}
-                                                                    onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={`input101 ${formik.errors.invoice && formik.touched.invoice ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
-                                                                    disabled={!formik.values.is_editable}
-                                                                />
-                                                                {formik.touched.dues?.[index]?.invoice && formik.errors.dues?.[index]?.invoice && (
-                                                                    <div className="text-danger">{formik.errors.dues[index].invoice}</div>
-                                                                )}
-                                                            </div>
-                                                        </Col>
-
-                                                        <Col lg={2}>
-                                                            <div className="form-group mt-4">
-                                                                <label htmlFor={`dues[${index}].operator_pay`}>Payment By Operator<span class="text-danger">*</span></label>
-                                                                <input
-                                                                    type="number"
-                                                                    name={`dues[${index}].operator_pay`}
-                                                                    value={formik.values.dues[index].operator_pay || '0'} // Bind the input value to Formik
-                                                                    onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
-                                                                    onBlur={formik.handleBlur}
-                                                                    id={`dues[${index}].operator_pay`}
-                                                                    placeholder='Enter Payment By Operator Value'
-                                                                    onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={`input101 ${formik.errors.operator_pay && formik.touched.operator_pay ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
-                                                                    disabled={!formik.values.is_editable}
-                                                                />
-                                                                {formik?.touched?.dues && formik.errors?.dues?.[index]?.operator_pay && (
-                                                                    <div className="text-danger">
-                                                                        {formik.errors.dues[index].operator_pay}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </Col>
-
-                                                        <Col lg={2}>
-                                                            <div className="form-group mt-4">
-                                                                <label htmlFor={`dues[${index}].owner_pay`}>Payment By Owner<span class="text-danger">*</span></label>
-                                                                <input
-                                                                    type="number"
-                                                                    name={`dues[${index}].owner_pay`}
-                                                                    value={formik.values.dues[index].owner_pay || '0'} // Bind the input value to Formik
-                                                                    onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
-                                                                    onBlur={formik.handleBlur}
-                                                                    id={`dues[${index}].owner_pay`}
-                                                                    placeholder='Enter Payment By Owner Value'
-                                                                    onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={`input101 ${formik.errors.owner_pay && formik.touched.owner_pay ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
-                                                                    disabled={!formik.values.is_editable}
-                                                                />
-                                                                {formik?.touched?.dues && formik.errors?.dues?.[index]?.owner_pay && (
-                                                                    <div className="text-danger">
-                                                                        {formik.errors.dues[index].owner_pay}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </Col>
-                                                        <Col lg={2}>
-                                                            <div className="form-group mt-4">
-                                                                <label htmlFor={`dues[${index}].detail`}>Detail<span class="text-danger">*</span></label>
-                                                                <input
-                                                                    type='text'
-                                                                    name={`dues[${index}].detail`}
-                                                                    value={formik.values.dues[index].detail || ''} // Bind the input value to Formik
-                                                                    onChange={formik.handleChange}
-                                                                    onBlur={formik.handleBlur}
-                                                                    id={`dues[${index}].detail`}
-                                                                    placeholder='Enter Detail Value'
-                                                                    onClick={handleShowDate} // Directly pass handleShowDate
-                                                                    className={`input101 ${formik.errors.detail && formik.touched.detail ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
-                                                                    disabled={!formik.values.is_editable}
-                                                                />
-                                                                {formik?.touched?.dues && formik.errors?.dues?.[index]?.detail && (
-                                                                    <div className="text-danger">
-                                                                        {formik.errors.dues[index].detail}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </Col>
-
-                                                        <Col lg={2} className="text-end">
-                                                            {formik?.values?.dues?.length > 1 && (<>
-                                                                <div
-                                                                    className="text-end"
-                                                                    style={{ marginTop: "36px" }}
-                                                                >
-                                                                    <button
-                                                                        className="btn btn-danger"
-                                                                        onClick={() => handleRemoveClick(index)}
-                                                                    >
-                                                                        <i className="ph ph-minus"></i>
-                                                                    </button>
+                                                    <Col lg={2}>
+                                                        <div className="form-group mt-4">
+                                                            <label htmlFor={`dues[${index}].operator_pay`}>Payment By Operator<span className="text-danger">*</span></label>
+                                                            <input
+                                                                type="number"
+                                                                name={`dues[${index}].operator_pay`}
+                                                                value={formik.values.dues[index].operator_pay || '0'} // Bind the input value to Formik
+                                                                onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
+                                                                onBlur={formik.handleBlur}
+                                                                id={`dues[${index}].operator_pay`}
+                                                                placeholder='Enter Payment By Operator Value'
+                                                                onClick={handleShowDate} // Directly pass handleShowDate
+                                                                className={`input101 ${formik.errors.operator_pay && formik.touched?.operator_pay ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                disabled={!formik.values.is_editable}
+                                                            />
+                                                            {formik?.touched?.dues && formik.errors?.dues?.[index]?.operator_pay && (
+                                                                <div className="text-danger">
+                                                                    {formik.errors.dues[index].operator_pay}
                                                                 </div>
-                                                            </>)}
-                                                        </Col>
+                                                            )}
+                                                        </div>
+                                                    </Col>
+
+                                                    <Col lg={2}>
+                                                        <div className="form-group mt-4">
+                                                            <label htmlFor={`dues[${index}].owner_pay`}>Payment By Owner<span className="text-danger">*</span></label>
+                                                            <input
+                                                                type="number"
+                                                                name={`dues[${index}].owner_pay`}
+                                                                value={formik.values.dues[index].owner_pay || '0'} // Bind the input value to Formik
+                                                                onChange={(e) => formik.setFieldValue(e.target.name, e.target.value === '' ? 0 : parseFloat(e.target.value))}
+                                                                onBlur={formik.handleBlur}
+                                                                id={`dues[${index}].owner_pay`}
+                                                                placeholder='Enter Payment By Owner Value'
+                                                                onClick={handleShowDate} // Directly pass handleShowDate
+                                                                className={`input101 ${formik.errors.owner_pay && formik.touched?.owner_pay ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                disabled={!formik.values.is_editable}
+                                                            />
+                                                            {formik?.touched?.dues && formik.errors?.dues?.[index]?.owner_pay && (
+                                                                <div className="text-danger">
+                                                                    {formik.errors.dues[index].owner_pay}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </Col>
+                                                    <Col lg={2}>
+                                                        <div className="form-group mt-4">
+                                                            <label htmlFor={`dues[${index}].detail`}>Detail<span className="text-danger">*</span></label>
+                                                            <input
+                                                                type='text'
+                                                                name={`dues[${index}].detail`}
+                                                                value={formik.values.dues[index].detail || ''} // Bind the input value to Formik
+                                                                onChange={formik.handleChange}
+                                                                onBlur={formik.handleBlur}
+                                                                id={`dues[${index}].detail`}
+                                                                placeholder='Enter Detail Value'
+                                                                onClick={handleShowDate} // Directly pass handleShowDate
+                                                                className={`input101 ${formik.errors.detail && formik.touched?.detail ? 'text-danger' : ''} ${formik.values.is_editable ? '' : 'readonly'}`}
+                                                                disabled={!formik.values.is_editable}
+                                                            />
+                                                            {formik?.touched?.dues && formik.errors?.dues?.[index]?.detail && (
+                                                                <div className="text-danger">
+                                                                    {formik.errors.dues[index].detail}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </Col>
+
+                                                    <Col lg={2} className="text-end">
+                                                        {formik?.values?.dues?.length > 1 && (<>
+                                                            <div
+                                                                className="text-end"
+                                                                style={{ marginTop: "40px" }}
+                                                            >
+                                                                <button
+                                                                    className="btn btn-danger"
+                                                                    onClick={() => handleRemoveClick(index)}
+                                                                >
+                                                                    <i className="ph ph-minus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </>)}
+                                                    </Col>
 
 
 
 
-                                                    </Row >
-                                                </>
+                                                </Row >
                                             ))}
 
                                             <Card.Footer>

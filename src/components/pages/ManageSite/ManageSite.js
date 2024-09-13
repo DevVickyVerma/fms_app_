@@ -16,7 +16,6 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import GradeIcon from '@mui/icons-material/Grade';
-import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { handleError } from "../../../Utils/ToastUtils";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -386,13 +385,10 @@ const ManageSite = (props) => {
                   {isEditPermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
-                    // className="dropdown-item"
                     >
                       <Link to={`/editsite/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <ModeEditIcon />
-                          </i>
+                          <i className="ph ph-pencil me-2"></i>
                           Edit
                         </div>
                       </Link>
@@ -406,9 +402,7 @@ const ManageSite = (props) => {
                     >
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <DeleteIcon />
-                          </i>
+                          <i className="ph ph-trash me-2"></i>
                           Delete
                         </div>
                       </Link>
@@ -417,13 +411,10 @@ const ManageSite = (props) => {
                   {permissionsArray?.includes("site-card-opening-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
-                    // className="dropdown-item"
                     >
                       <Link to={`/site-card-opening/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <AddBusinessIcon />
-                          </i>
+                          <i className="ph ph-folder-open me-2"></i>
                           Card Opening
                         </div>
                       </Link>
@@ -432,13 +423,10 @@ const ManageSite = (props) => {
                   {permissionsArray?.includes("site-fuel-grade-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
-                    // className="dropdown-item"
                     >
                       <Link to={`/set-fuel-grades/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <GradeIcon />
-                          </i>
+                          <i className="ph ph-gas-pump me-2"></i>
                           Set Fuel Grades
                         </div>
                       </Link>
@@ -451,24 +439,17 @@ const ManageSite = (props) => {
                     >
                       <Link to={`/site-setting/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <SettingsIcon />
-                          </i>
+                          <i className="ph ph-gear me-2"></i>
                           Settings
                         </div>
                       </Link>
                     </Dropdown.Item>
                   ) : null}
                   {permissionsArray?.includes("auto-report-list") ? (
-                    <Dropdown.Item
-                      className=" p-0 m-0"
-                    // className="dropdown-item"
-                    >
+                    <Dropdown.Item className=" p-0 m-0" >
                       <Link to={`/autodayend/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                          <i className="setting-icon">
-                            <AssignmentTurnedInIcon />
-                          </i>
+                          <i className="ph ph-files me-2"></i>
                           Site Auto Report
                         </div>
                       </Link>
@@ -477,13 +458,10 @@ const ManageSite = (props) => {
                   {isManagerPermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
-                    // className="dropdown-item"
                     >
                       <Link to={`/assignmanger/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                          <i className="setting-icon">
-                            <AssignmentTurnedInIcon />
-                          </i>
+                          <i className="ph ph-user-plus me-2"></i>
                           Assign Manager
                         </div>
                       </Link>
@@ -495,96 +473,67 @@ const ManageSite = (props) => {
                     >
                       <Link to={`/skipdates/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <DateRangeIcon />
-                          </i>
+                          <i className="ph ph-calendar-check me-2"></i>
                           Skip Date
                         </div>
                       </Link>
                     </Dropdown.Item>
                   ) : null}
                   {isBankManagerPermissionAvailable ? (
-                    <Dropdown.Item className=" p-0 m-0"
-                    //  className="dropdown-item"
-                    >
+                    <Dropdown.Item className=" p-0 m-0" >
                       <Link to={`/managebank/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <AccountBalanceIcon />
-                          </i>
+                          <i className="ph ph-person me-2"></i>
                           Bank Manager
                         </div>
                       </Link>
                     </Dropdown.Item>
                   ) : null}
                   {isOpeningBalancePermissionAvailable ? (
-                    <Dropdown.Item className=" p-0 m-0"
-                    //  className="dropdown-item"
-                    >
+                    <Dropdown.Item className=" p-0 m-0" >
                       <Link to={`/opening-balance/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <AccountBalanceWalletIcon />
-                          </i>
+                          <i className="ph ph-wallet me-2"></i>
                           Opening Balance
                         </div>
                       </Link>
                     </Dropdown.Item>
                   ) : null}
                   {isBunkeringBalancePermissionAvailable ? (
-                    <Dropdown.Item className=" p-0 m-0"
-                    //  className="dropdown-item"
-                    >
+                    <Dropdown.Item className=" p-0 m-0">
                       <Link to={`/bunkering-balance/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <AccountBalanceWalletIcon />
-                          </i>
+                          <i className="ph ph-wallet me-2"></i>
                           Bunkering Balance
                         </div>
                       </Link>
                     </Dropdown.Item>
                   ) : null}
                   {isAssignbusinessPermissionAvailable ? (
-                    <Dropdown.Item
-                      //  className="dropdown-item"
-                      className=" p-0 m-0"
-                    >
+                    <Dropdown.Item className=" p-0 m-0">
                       <Link to={`/assign-business-sub-categories/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <SettingsIcon />
-                          </i>
+                          <i className="ph ph-hourglass-high me-2"></i>
                           Assign Business Sub Categories
                         </div>
                       </Link>
                     </Dropdown.Item>
                   ) : null}
                   {isDailyDuePermissionAvailable ? (
-                    <Dropdown.Item
-                      //  className="dropdown-item"
-                      className=" p-0 m-0"
-                    >
+                    <Dropdown.Item className=" p-0 m-0">
                       <Link to={`/daily-due/${row?.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <SettingsIcon />
-                          </i>
+                          <i className="ph ph-computer-tower me-2"></i>
                           Daily Dues
                         </div>
                       </Link>
                     </Dropdown.Item>
                   ) : null}
                   {isHidebusinessPermissionAvailable ? (
-                    <Dropdown.Item
-                      //  className="dropdown-item"
-                      className=" p-0 m-0"
-                    >
+                    <Dropdown.Item className=" p-0 m-0"  >
                       <Link to={`/hide-business-categories/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <SettingsIcon />
-                          </i>
+                          <i className="ph ph-eye-closed me-2"></i>
                           Hide Business Categories
                         </div>
                       </Link>
@@ -609,47 +558,6 @@ const ManageSite = (props) => {
     console.clear();
   }, [currentPage, searchTerm]);
 
-
-
-  const handleSubmit = (formData) => {
-    const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(
-        ([key, value]) => value !== null && value !== ""
-      )
-    );
-
-    if (Object.values(filteredFormData).length > 0) {
-      setSearchdata(filteredFormData);
-
-      const SearchList = async (row) => {
-        try {
-
-          let apiUrl = `/site/list?page=${currentPage}`;
-          if (searchTerm) {
-            apiUrl += `&keyword=${searchTerm}`;
-          }
-
-
-          const response = await getData(apiUrl);
-
-          if (response && response.data && response.data.data) {
-            setCurrentPage(response?.data?.data?.currentPage || 1);
-            setLastPage(response?.data?.data?.lastPage || 1);
-            setData(response.data.data.sites);
-          } else {
-            throw new Error("No data available in the response");
-          }
-        } catch (error) {
-          console.error("API error:", error);
-          // Handle the error here, such as displaying an error message or performing other actions
-        }
-      };
-
-      SearchList();
-    }
-
-    handleToggleSidebar1();
-  };
 
 
 
