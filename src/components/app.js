@@ -135,9 +135,34 @@ const App = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
+  const Url = (process.env.REACT_APP_BASE_URL === "https://apis-l.credentia.uk/v1" || process.env.REACT_APP_BASE_URL === "https://apis-l.credentiauk.com/v1")
+  ? process.env.REACT_APP_BASE_URL
+  : "default_value"; // Replace "default_value" with the fallback URL or value you prefer
 
+
+  if (!Url== "default_value" ) {
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+      }
+    });
+
+    const devtools = /./;
+    devtools.toString = () => {
+      // This is executed when Developer Tools are open
+      console.log('Developer Tools are open!');
+    };
+  }
+
+
+  console.log(Url, "Url");
 
   return (
+
     <MyProvider>
       <Fragment>
 
