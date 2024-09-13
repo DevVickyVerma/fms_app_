@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { handleError } from "../../../Utils/ToastUtils";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
@@ -295,29 +293,8 @@ const ManageCharges = (props) => {
     },
   ];
 
-  const handleBlur = () => {
-    FetchTableData()
-  };
 
 
-
-
-  const handleResetSearch = async () => {
-    try {
-      const response = await getData(`charge/list?page=${currentPage}&search_keywords=${''}`);
-      if (response && response.data && response.data.data) {
-        setSearchQuery("")
-        setData(response.data.data.charges);
-        setCurrentPage(response?.data?.data?.currentPage || 1);
-        setLastPage(response?.data?.data?.lastPage || 1);
-
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  }
 
 
 

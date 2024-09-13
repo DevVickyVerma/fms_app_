@@ -78,7 +78,7 @@ const DashboardChildTable = (props) => {
       <div key={index}>
         {isSitePermissionAvailable ? (
           <div onClick={() => handleSaveSingleSiteData(item)} key={index}>
-            <Link
+            <div
               Link
               onClick={() => handleFuelPriceLinkClick(item)}
               // to={`/dashboard-details/${item?.id}`}
@@ -403,7 +403,7 @@ const DashboardChildTable = (props) => {
                   </div>
                 </td>
               </tr>
-            </Link>
+            </div>
           </div>
         ) : (
           <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }} >
@@ -676,7 +676,7 @@ const DashboardChildTable = (props) => {
                         width: "100%",
                       }}
                     >
-                      <tr className="fuelprice-tr">{renderTableHeader()}</tr>
+                      <>{renderTableHeader()}</>
                     </thead>
                     <tbody>{renderTableData()}</tbody>
                   </table>

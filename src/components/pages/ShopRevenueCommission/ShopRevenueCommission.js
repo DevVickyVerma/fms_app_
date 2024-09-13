@@ -730,169 +730,163 @@ const SageDeduction = (props) => {
             {data && formik2.values.headsvalue?.length > 0 ? (
               <Row>
                 {formik2.values.headsvalue.map((item, index) => (
-                  <>
-                    <React.Fragment key={index}>
-                      <Col lg={3} md={3}>
-                        <div
-                          className="form-group"
-                          controlId={`headsvalue[${index}].commission_type`}
+                  <React.Fragment key={index}>
+                    <Col lg={3} md={3}>
+                      <div
+                        className="form-group"
+                        controlId={`headsvalue[${index}].commission_type`}
+                      >
+                        <Form.Label>
+                          {" "}
+                          Commission Type:
+                          <span className="text-danger">*</span>
+                        </Form.Label>
+                        <select
+                          className={`input101 ${formik.errors.company_id &&
+                            formik.touched.company_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          id={`headsvalue[${index}].commission_type`}
+                          name={`headsvalue[${index}].commission_type`}
+                          onChange={formik2.handleChange}
+                          value={item?.commission_type || ""}
                         >
-                          <Form.Label>
-                            {" "}
-                            Commission Type:
-                            <span className="text-danger">*</span>
-                          </Form.Label>
-                          <select
-                            className={`input101 ${formik.errors.company_id &&
-                              formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id={`headsvalue[${index}].commission_type`}
-                            name={`headsvalue[${index}].commission_type`}
-                            onChange={formik2.handleChange}
-                            value={item?.commission_type || ""}
-                          >
-                            <option value="">Commission Type</option>
-                            <option value="0">Daily</option>
-                            <option value="1">weekly</option>
-                          </select>
-                          {formik2.errors.headsvalue?.[index]
-                            ?.commission_type &&
-                            formik2.touched[
-                            `headsvalue[${index}].commission_type`
-                            ] && (
-                              <div className="invalid-feedback">
-                                {
-                                  formik2.errors.headsvalue[index]
-                                    .commission_type
-                                }
-                              </div>
-                            )}
-                        </div>
-                      </Col>
+                          <option value="">Commission Type</option>
+                          <option value="0">Daily</option>
+                          <option value="1">weekly</option>
+                        </select>
+                        {formik2.errors.headsvalue?.[index]
+                          ?.commission_type &&
+                          formik2.touched[
+                          `headsvalue[${index}].commission_type`
+                          ] && (
+                            <div className="invalid-feedback">
+                              {
+                                formik2.errors.headsvalue[index]
+                                  .commission_type
+                              }
+                            </div>
+                          )}
+                      </div>
+                    </Col>
 
-                      <Col lg={2} md={2}>
-                        <Form.Group
-                          controlId={`headsvalue[${index}].commission`}
-                        >
-                          <Form.Label>
-                            {" "}
-                            Commission:<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="number"
-                            className={`input101 ${formik2.errors.headsvalue?.[index]?.commission &&
-                              formik2.touched[`headsvalue[${index}].commission`]
-                              ? "is-invalid"
+                    <Col lg={2} md={2}>
+                      <Form.Group
+                        controlId={`headsvalue[${index}].commission`}
+                      >
+                        <Form.Label>
+                          {" "}
+                          Commission:<span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          className={`input101 ${formik2.errors.headsvalue?.[index]?.commission &&
+                            formik2.touched[`headsvalue[${index}].commission`]
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          name={`headsvalue[${index}].commission`}
+                          onChange={formik2.handleChange}
+                          placeholder="Commission"
+                          value={
+                            item?.commission !== undefined
+                              ? item.commission
                               : ""
-                              }`}
-                            name={`headsvalue[${index}].commission`}
-                            onChange={formik2.handleChange}
-                            placeholder="Commission"
-                            value={
-                              item?.commission !== undefined
-                                ? item.commission
-                                : ""
-                            }
-                          />
-                          {formik2.errors.headsvalue?.[index]?.commission &&
-                            formik2.touched[
-                            `headsvalue[${index}].commission`
-                            ] && (
-                              <div className="invalid-feedback">
-                                {formik2.errors.headsvalue[index].commission}
-                              </div>
-                            )}
-                        </Form.Group>
-                      </Col>
-                      <Col lg={3} md={3}>
-                        <Form.Group
-                          controlId={`headsvalue[${index}].start_value`}
-                        >
-                          <Form.Label>
-                            {" "}
-                            Start Value:<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="number"
-                            className={`input101 ${formik2.errors.headsvalue?.[index]?.start_value &&
-                              formik2.touched[
-                              `headsvalue[${index}].start_value`
-                              ]
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            name={`headsvalue[${index}].start_value`}
-                            onChange={formik2.handleChange}
-                            placeholder="Start Value"
-                            value={
-                              item?.start_value !== undefined
-                                ? item.start_value
-                                : ""
-                            }
-                          />
-                          {formik2.errors.headsvalue?.[index]?.start_value &&
+                          }
+                        />
+                        {formik2.errors.headsvalue?.[index]?.commission &&
+                          formik2.touched[
+                          `headsvalue[${index}].commission`
+                          ] && (
+                            <div className="invalid-feedback">
+                              {formik2.errors.headsvalue[index].commission}
+                            </div>
+                          )}
+                      </Form.Group>
+                    </Col>
+                    <Col lg={3} md={3}>
+                      <Form.Group
+                        controlId={`headsvalue[${index}].start_value`}
+                      >
+                        <Form.Label>
+                          {" "}
+                          Start Value:<span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          className={`input101 ${formik2.errors.headsvalue?.[index]?.start_value &&
                             formik2.touched[
                             `headsvalue[${index}].start_value`
-                            ] && (
-                              <div className="invalid-feedback">
-                                {formik2.errors.headsvalue[index].start_value}
-                              </div>
-                            )}
-                        </Form.Group>
-                      </Col>
-                      <Col lg={3} md={3}>
-                        <Form.Group
-                          controlId={`headsvalue[${index}].end_value`}
-                        >
-                          <Form.Label>
-                            {" "}
-                            End Value:<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="number"
-                            className={`input101 ${formik2.errors.headsvalue?.[index]?.end_value &&
-                              formik2.touched[`headsvalue[${index}].end_value`]
-                              ? "is-invalid"
+                            ]
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          name={`headsvalue[${index}].start_value`}
+                          onChange={formik2.handleChange}
+                          placeholder="Start Value"
+                          value={
+                            item?.start_value !== undefined
+                              ? item.start_value
                               : ""
-                              }`}
-                            name={`headsvalue[${index}].end_value`}
-                            onChange={formik2.handleChange}
-                            placeholder="End Value"
-                            value={
-                              item?.end_value !== undefined
-                                ? item.end_value
-                                : ""
-                            }
-                          />
-                          {formik2.errors.headsvalue?.[index]?.end_value &&
-                            formik2.touched[
-                            `headsvalue[${index}].end_value`
-                            ] && (
-                              <div className="invalid-feedback">
-                                {formik2.errors.headsvalue[index].end_value}
-                              </div>
-                            )}
-                        </Form.Group>
-                      </Col>
+                          }
+                        />
+                        {formik2.errors.headsvalue?.[index]?.start_value &&
+                          formik2.touched[
+                          `headsvalue[${index}].start_value`
+                          ] && (
+                            <div className="invalid-feedback">
+                              {formik2.errors.headsvalue[index].start_value}
+                            </div>
+                          )}
+                      </Form.Group>
+                    </Col>
+                    <Col lg={3} md={3}>
+                      <Form.Group
+                        controlId={`headsvalue[${index}].end_value`}
+                      >
+                        <Form.Label>
+                          {" "}
+                          End Value:<span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="number"
+                          className={`input101 ${formik2.errors.headsvalue?.[index]?.end_value &&
+                            formik2.touched[`headsvalue[${index}].end_value`]
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          name={`headsvalue[${index}].end_value`}
+                          onChange={formik2.handleChange}
+                          placeholder="End Value"
+                          value={
+                            item?.end_value !== undefined
+                              ? item.end_value
+                              : ""
+                          }
+                        />
+                        {formik2.errors.headsvalue?.[index]?.end_value &&
+                          formik2.touched[
+                          `headsvalue[${index}].end_value`
+                          ] && (
+                            <div className="invalid-feedback">
+                              {formik2.errors.headsvalue[index].end_value}
+                            </div>
+                          )}
+                      </Form.Group>
+                    </Col>
 
-                      <Col lg={1} md={1} className="text-end">
-                        <div className="text-end" style={{ marginTop: "36px" }}>
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => handleRemoveClick(index)}
-                          >
-                            <RemoveCircleIcon />
-                          </button>
-                        </div>
-                      </Col>
-                    </React.Fragment>
-                    {/* {index !== formik2.values.headsvalue.length - 1 &&
-                    data?.data.length > 0 ? (
-                      <hr className="mt-4"></hr>
-                    ) : null} */}
-                  </>
+                    <Col lg={1} md={1} className="text-end">
+                      <div className="text-end" style={{ marginTop: "36px" }}>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleRemoveClick(index)}
+                        >
+                          <RemoveCircleIcon />
+                        </button>
+                      </div>
+                    </Col>
+                  </React.Fragment>
                 ))}
               </Row>
             ) : (

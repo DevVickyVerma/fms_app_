@@ -52,6 +52,7 @@ export default function Login(props) {
   });
 
   const handleSubmit = async (values) => {
+
     setLoading(true);
     const finalValues = {
       ...values, // include form values
@@ -372,24 +373,42 @@ export default function Login(props) {
                               </div>
                             </div>
 
-                            {showCaptcha && < ReCAPTCHA
-                              sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
-                              onChange={onRecaptchaChange} // Step 2: Capture token on change
-                            />}
+                            {showCaptcha &&
+
+                              <ReCAPTCHA
+                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
+                                onChange={onRecaptchaChange} // Step 2: Capture token on change
+                              />
+
+                            }
 
 
                             <ErrorMessage name="recaptcha" component="div" className="invalid-feedback" />
 
-                            <div className="text-end pt-1">
-                              <p className="mb-0">
-                                <Link
-                                  to={`/custompages/forgotPassword/`}
-                                  className="text-primary ms-1"
-                                >
-                                  Forgot Password?
-                                </Link>
-                              </p>
-                            </div>
+
+
+                            <>
+
+                              {(!showTime && !showCaptcha) && (
+                                <>
+                                  <div className="text-end pt-1">
+                                    <p className="mb-0">
+                                      <Link
+                                        to={`/custompages/forgotPassword/`}
+                                        className="text-primary ms-1"
+                                      >
+                                        Forgot Password?
+                                      </Link>
+                                    </p>
+                                  </div>
+                                </>
+                              )}
+
+
+                            </>
+
+
+
                             <div className="container-login100-form-btn">
                               <button
                                 type="submit"
