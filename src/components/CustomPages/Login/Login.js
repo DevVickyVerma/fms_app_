@@ -11,6 +11,7 @@ import { BsCapslock } from "react-icons/bs";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import ReCAPTCHA from "react-google-recaptcha";
+import { getLocalStorageData, setLocalStorageData } from "../../../Utils/cryptoUtils";
 export default function Login(props) {
   const [isLoading, setLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
@@ -84,7 +85,11 @@ export default function Login(props) {
         SuccessAlert(data?.message);
         setLoading(false);
       } else {
-        setShowcaptcha(data?.data?.show_captcha)
+
+        if (data?.data?.show_captcha) {
+          setLocalStorageData('checking', true);
+          setShowcaptcha(data?.data?.show_captcha)
+        }
         ErrorAlert(data.message);
         setLoading(false);
       }
@@ -96,12 +101,10 @@ export default function Login(props) {
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
       } else {
-
         navigate("/under-construction");
         ErrorAlert(error.message);
       }
     }
-
     setLoading(false);
   };
   const [isTokenVerified, setIsTokenVerified] = useState(false);
@@ -122,11 +125,11 @@ export default function Login(props) {
       });
 
       const result = await response.json();
-   
+
       if (result.status_code == 200) {
         setIsTokenVerified(true)
+        localStorage.removeItem("checking")
         SuccessAlert(result?.message)
-      
       } else {
         ErrorAlert(result?.message)
       }
@@ -139,12 +142,20 @@ export default function Login(props) {
     } finally {
       setLoading(false);
     }
-
-
-
-
-
   };
+
+
+  useEffect(() => {
+
+    const storedFlag = getLocalStorageData('checking');
+
+    if (storedFlag) {
+      setShowcaptcha(true)
+    }
+
+  }, [])
+
+
 
 
   return (
@@ -154,8 +165,6 @@ export default function Login(props) {
         <div className="login-img overflow-hidden" >
 
           <Row>
-
-
             <Col lg={12} md={12} sm={12} className="c-login-left-card">
               <div className="page" >
                 <div className="container-login100 d-flex justify-content-center">
