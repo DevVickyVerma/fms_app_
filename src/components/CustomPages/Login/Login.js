@@ -402,7 +402,7 @@ export default function Login(props) {
                                 <span className="ml-2">Login</span>  {" "}
 
                                 {showTime && (
-                                  <CountdownTimer initialTime={30} onCountdownComplete={handleCountdownComplete} />
+                                  <CountdownTimer initialTime={300} onCountdownComplete={handleCountdownComplete} />
                                 )}
                               </button>
 
