@@ -18,6 +18,7 @@ export default function Login(props) {
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [showCaptcha, setshowCaptcha] = useState(false);
+  const [showStillCaptcha, setshowStillCaptcha] = useState(false);
   const [showTime, setshowTime] = useState(false);
   const [isTokenVerified, setIsTokenVerified] = useState(false);
   const [captchatoken, setcaptchatoken] = useState("");
@@ -94,6 +95,7 @@ export default function Login(props) {
         if (data?.data?.show_captcha) {
           setLocalStorageData('checking', data?.data?.show_captcha);
           setshowCaptcha(data?.data?.show_captcha)
+          setshowStillCaptcha(true)
         }
 
         if (data?.data?.show_timer) {
@@ -134,6 +136,7 @@ export default function Login(props) {
 
       if (result.status_code == 200) {
         setshowCaptcha(false)
+        // setshowStillCaptcha(false)
         setIsTokenVerified(true)
         localStorage.removeItem("checking")
         SuccessAlert(result?.message)
@@ -373,13 +376,12 @@ export default function Login(props) {
                               </div>
                             </div>
 
-                            {showCaptcha &&
+                            {(showCaptcha || showStillCaptcha) &&
 
                               <ReCAPTCHA
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
                                 onChange={onRecaptchaChange} // Step 2: Capture token on change
                               />
-
                             }
 
 
@@ -414,8 +416,6 @@ export default function Login(props) {
                                 type="submit"
                                 className="w-100 btn btn-primary d-flex justify-content-center  "
                                 disabled={showTime || showCaptcha}
-
-
                               >
                                 <span className="ml-2">Login</span>  {" "}
 
