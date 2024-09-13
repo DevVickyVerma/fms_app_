@@ -45,6 +45,10 @@ const CashBanking = (props) => {
     sendDataToParent(allPropsData);
   };
 
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const CashBankingPermission = UserPermissions?.includes("drs-add-cash-banking")
+
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -101,15 +105,7 @@ const CashBanking = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
 
   const validationSchema = Yup.object({
     reference: Yup.string().required("Refrence is required"),
@@ -373,15 +369,19 @@ const CashBanking = (props) => {
                       </Col>
                     </Row>
                     <div className="text-end">
-                      {Editdata ? (
-                        <button type="submit" className="btn btn-primary">
-                          Update
-                        </button>
-                      ) : (
-                        <button type="submit" className="btn btn-primary">
-                          Add
-                        </button>
-                      )}
+
+                      {CashBankingPermission && (<>
+                        {Editdata ? (
+                          <button type="submit" className="btn btn-primary">
+                            Update
+                          </button>
+                        ) : (
+                          <button type="submit" className="btn btn-primary">
+                            Add
+                          </button>
+                        )}
+                      </>)}
+
                     </div>
                   </form>
                 </Card.Body>

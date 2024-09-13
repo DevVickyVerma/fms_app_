@@ -33,6 +33,9 @@ const BankDeposit = (props) => {
   } = props;
   const [Editdata, setEditData] = useState(false);
   const [bankAmount, setBankAmount] = useState();
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const CashBankDepositPermission = UserPermissions?.includes("drs-add-bank-deposit")
+
   const [checkStateForBankDeposit, setCheckStateForBankDeposit] =
     useState(true);
   const [data, setData] = useState();
@@ -104,15 +107,7 @@ const BankDeposit = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
 
   const validationSchema = Yup.object().shape({
     amount: Yup.string()
@@ -342,10 +337,7 @@ const BankDeposit = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
   const [isDragging, setIsDragging] = useState(false);
@@ -460,15 +452,19 @@ const BankDeposit = (props) => {
                         </div>
                       </Col>
                       <div className="text-end">
-                        {Editdata ? (
-                          <button type="submit" className="btn btn-primary">
-                            Update
-                          </button>
-                        ) : (
-                          <button type="submit" className="btn btn-primary">
-                            Add
-                          </button>
-                        )}
+
+                        {CashBankDepositPermission && (<>
+                          {Editdata ? (
+                            <button type="submit" className="btn btn-primary">
+                              Update
+                            </button>
+                          ) : (
+                            <button type="submit" className="btn btn-primary">
+                              Add
+                            </button>
+                          )}
+                        </>)}
+
                       </div>
                     </Row>
                   </form>

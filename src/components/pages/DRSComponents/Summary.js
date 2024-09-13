@@ -6,6 +6,7 @@ import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { useDispatch, useSelector } from "react-redux";
 
 const DepartmentShop = (props) => {
   const {
@@ -32,9 +33,14 @@ const DepartmentShop = (props) => {
   const [bankingdata, setbankingData] = useState([]);
   const [summarydata, setsummarydata] = useState([]);
   const [summaryRemarks, setSummaryRemarks] = useState(null);
-
   const [isLoading, setIsLoading] = useState(true);
 
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const dayEndPermission = UserPermissions?.includes("drs-day-end")
+
+  useEffect(() => {
+    console.clear();
+  }, [UserPermissions])
 
 
   useEffect(() => {
@@ -74,7 +80,7 @@ const DepartmentShop = (props) => {
   }, [site_id, start_date]);
 
   const _renderFunction = () => {
-    return Object.keys(data).map((item, index) => {
+    return Object.keys(data)?.map((item, index) => {
       const displayName = item
         .replace(/_/g, " ")
         .split(" ")
@@ -229,7 +235,7 @@ const DepartmentShop = (props) => {
                           id="description"
                         />
                       </div>
-                      {summarydata?.dayend === true ? (
+                      {summarydata?.dayend === true && dayEndPermission ? (
                         <div className="text-end">
                           <button
                             className="btn btn-primary mt-2"

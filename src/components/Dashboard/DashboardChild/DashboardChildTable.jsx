@@ -17,6 +17,7 @@ const DashboardChildTable = (props) => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
     }
+    console.clear()
   }, [UserPermissions]);
 
   const isSitePermissionAvailable = permissionsArray?.includes("dashboard-site-detail");
@@ -74,7 +75,7 @@ const DashboardChildTable = (props) => {
 
   const renderTableData = () => {
     return data?.map((item, index) => (
-      <>
+      <div key={index}>
         {isSitePermissionAvailable ? (
           <div onClick={() => handleSaveSingleSiteData(item)} key={index}>
             <Link
@@ -643,7 +644,7 @@ const DashboardChildTable = (props) => {
             </td>
           </tr>
         )}
-      </>
+      </div>
     ));
   };
 
