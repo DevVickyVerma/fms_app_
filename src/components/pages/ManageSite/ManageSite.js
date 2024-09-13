@@ -1,24 +1,15 @@
 import { Suspense, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import GradeIcon from '@mui/icons-material/Grade';
-import DateRangeIcon from "@mui/icons-material/DateRange";
 import { handleError } from "../../../Utils/ToastUtils";
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
 
@@ -28,9 +19,7 @@ const ManageSite = (props) => {
 
   const [data, setData] = useState();
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [sidebardata, setSideData] = useState();
-  const [searchdata, setSearchdata] = useState({});
   const [sidebardataobject, setSideDataobject] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -75,9 +64,6 @@ const ManageSite = (props) => {
     }
   };
 
-  const handleToggleSidebar1 = () => {
-    setSidebarVisible1(!sidebarVisible1);
-  };
 
   const handleCloseSidebar = () => {
     setSidebarVisible(true);
@@ -173,7 +159,7 @@ const ManageSite = (props) => {
     }
   };
 
-
+  const navigate = useNavigate()
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -385,13 +371,15 @@ const ManageSite = (props) => {
                   {isEditPermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
+
+                      onClick={() => navigate(`/editsite/${row.id}`)}
                     >
-                      <Link to={`/editsite/${row.id}`}>
+                      <div >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-pencil me-2"></i>
                           Edit
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
 
@@ -400,36 +388,37 @@ const ManageSite = (props) => {
                       className=" p-0 m-0"
                     // className="dropdown-item"
                     >
-                      <Link to="#" onClick={() => handleDelete(row.id)}>
+                      <div to="#" onClick={() => handleDelete(row.id)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-trash me-2"></i>
                           Delete
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {permissionsArray?.includes("site-card-opening-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     >
-                      <Link to={`/site-card-opening/${row.id}`}>
+                      <div
+                        onClick={() => navigate(`/site-card-opening/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-folder-open me-2"></i>
                           Card Opening
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {permissionsArray?.includes("site-fuel-grade-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     >
-                      <Link to={`/set-fuel-grades/${row.id}`}>
+                      <div onClick={() => navigate(`/set-fuel-grades/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-gas-pump me-2"></i>
                           Set Fuel Grades
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
 
@@ -437,106 +426,106 @@ const ManageSite = (props) => {
                     <Dropdown.Item
                       className=" p-0 m-0"
                     >
-                      <Link to={`/site-setting/${row.id}`}>
+                      <div onClick={() => navigate(`/site-setting/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-gear me-2"></i>
                           Settings
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {permissionsArray?.includes("auto-report-list") ? (
                     <Dropdown.Item className=" p-0 m-0" >
-                      <Link to={`/autodayend/${row.id}`}>
+                      <div onClick={() => navigate(`/autodayend/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
                           <i className="ph ph-files me-2"></i>
                           Site Auto Report
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isManagerPermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     >
-                      <Link to={`/assignmanger/${row.id}`}>
+                      <div onClick={() => navigate(`/assignmanger/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
                           <i className="ph ph-user-plus me-2"></i>
                           Assign Manager
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isSkipDatePermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     >
-                      <Link to={`/skipdates/${row.id}`}>
+                      <div onClick={() => navigate(`/skipdates/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-calendar-check me-2"></i>
                           Skip Date
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isBankManagerPermissionAvailable ? (
                     <Dropdown.Item className=" p-0 m-0" >
-                      <Link to={`/managebank/${row.id}`}>
+                      <div onClick={() => navigate(`/managebank/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-person me-2"></i>
                           Bank Manager
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isOpeningBalancePermissionAvailable ? (
                     <Dropdown.Item className=" p-0 m-0" >
-                      <Link to={`/opening-balance/${row.id}`}>
+                      <div onClick={() => navigate(`/opening-balance/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-wallet me-2"></i>
                           Opening Balance
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isBunkeringBalancePermissionAvailable ? (
                     <Dropdown.Item className=" p-0 m-0">
-                      <Link to={`/bunkering-balance/${row.id}`}>
+                      <div onClick={() => navigate(`/bunkering-balance/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-wallet me-2"></i>
                           Bunkering Balance
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isAssignbusinessPermissionAvailable ? (
                     <Dropdown.Item className=" p-0 m-0">
-                      <Link to={`/assign-business-sub-categories/${row.id}`}>
+                      <div onClick={() => navigate(`/assign-business-sub-categories/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-hourglass-high me-2"></i>
                           Assign Business Sub Categories
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isDailyDuePermissionAvailable ? (
                     <Dropdown.Item className=" p-0 m-0">
-                      <Link to={`/daily-due/${row?.id}`}>
+                      <div onClick={() => navigate(`/daily-due/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-computer-tower me-2"></i>
                           Daily Dues
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
                   {isHidebusinessPermissionAvailable ? (
                     <Dropdown.Item className=" p-0 m-0"  >
-                      <Link to={`/hide-business-categories/${row.id}`}>
+                      <div onClick={() => navigate(`/hide-business-categories/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="ph ph-eye-closed me-2"></i>
                           Hide Business Categories
                         </div>
-                      </Link>
+                      </div>
                     </Dropdown.Item>
                   ) : null}
 

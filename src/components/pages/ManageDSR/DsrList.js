@@ -316,8 +316,6 @@ const ManageEmail = (props) => {
                         striped={true}
                         persistTableHead
                         highlightOnHover
-
-                      // onChangePage={(newPage) => setCurrentPage(newPage)}
                       />
                     </div>
                   </>
@@ -346,3 +344,7 @@ const ManageEmail = (props) => {
   );
 };
 export default withApi(ManageEmail);
+
+WorkflowExceptionFilter.defaultProps = {
+  onSubmit: () => { }, // Provide a default no-op function if `onSubmit` is not always required
+};
