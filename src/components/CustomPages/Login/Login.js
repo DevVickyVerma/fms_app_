@@ -92,9 +92,12 @@ export default function Login(props) {
 
         if (data?.data?.show_captcha) {
           setLocalStorageData('checking', data?.data?.show_captcha);
+          setshowCaptcha(data?.data?.show_captcha)
+        }
+
+        if (data?.data?.show_timer) {
           setLocalStorageData('timer', data?.data?.show_timer);
           setshowTime(data?.data?.show_timer)
-          setshowCaptcha(data?.data?.show_captcha)
         }
         ErrorAlert(data.message);
         setLoading(false);
@@ -136,10 +139,7 @@ export default function Login(props) {
       } else {
         ErrorAlert(result?.message)
       }
-
-
     } catch (error) {
-
       console.error('Error validating reCAPTCHA token:', error);
       return false;
     } finally {
@@ -166,14 +166,15 @@ export default function Login(props) {
 
   const handleCountdownComplete = () => {
     setshowTime(false)
+    localStorage.removeItem("timer");
   };
 
 
 
 
-  console.log(showTime, "showTimeT");
-  console.log(showCaptcha, "showTimeC");
-  console.log(isTokenVerified, "showTimeTo");
+  // console.log(showTime, "showTimeT");
+  // console.log(showCaptcha, "showTimeC");
+  // console.log(isTokenVerified, "showTimeTo");
 
 
   return (
@@ -371,7 +372,7 @@ export default function Login(props) {
                               </div>
                             </div>
 
-                            {showCaptcha && showTime && isTokenVerified && < ReCAPTCHA
+                            {showCaptcha && < ReCAPTCHA
                               sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
                               onChange={onRecaptchaChange} // Step 2: Capture token on change
                             />}
@@ -402,6 +403,8 @@ export default function Login(props) {
                                 {showTime && (
                                   <CountdownTimer initialTime={30} onCountdownComplete={handleCountdownComplete} />
                                 )}
+
+
                               </button>
                               <ToastContainer />
                             </div>
