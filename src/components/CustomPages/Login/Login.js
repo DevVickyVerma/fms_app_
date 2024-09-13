@@ -19,7 +19,8 @@ export default function Login(props) {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [showCaptcha, setshowCaptcha] = useState(false);
   const [showTime, setshowTime] = useState(false);
-
+  const [isTokenVerified, setIsTokenVerified] = useState(false);
+  const [captchatoken, setcaptchatoken] = useState("");
 
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
@@ -52,7 +53,10 @@ export default function Login(props) {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-
+    const finalValues = {
+      ...values, // include form values
+      ...(captchatoken && { captcha_token: captchatoken }), // add captcha_token if it exists
+    };
 
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
@@ -60,7 +64,7 @@ export default function Login(props) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(finalValues),
       });
 
       const data = await response.json();
@@ -87,9 +91,9 @@ export default function Login(props) {
       } else {
 
         if (data?.data?.show_captcha) {
-          setLocalStorageData('checking', true);
-          setLocalStorageData('timer', true);
-          setshowTime(true)
+          setLocalStorageData('checking', data?.data?.show_captcha);
+          setLocalStorageData('timer', data?.data?.show_timer);
+          setshowTime(data?.data?.show_timer)
           setshowCaptcha(data?.data?.show_captcha)
         }
         ErrorAlert(data.message);
@@ -109,14 +113,10 @@ export default function Login(props) {
     }
     setLoading(false);
   };
-  const [isTokenVerified, setIsTokenVerified] = useState(false);
+
   const onRecaptchaChange = async (token) => {
-
-
-
+    setcaptchatoken(token);
     setLoading(true);
-
-
     const formData = new FormData();
     formData.append("token", token);
 
@@ -152,8 +152,6 @@ export default function Login(props) {
 
     const storedFlag = getLocalStorageData('checking');
     const test = getLocalStorageData('timer');
-
-
     if (test) {
       setshowTime(true)
     }
@@ -373,7 +371,7 @@ export default function Login(props) {
                               </div>
                             </div>
 
-                            {showCaptcha && <ReCAPTCHA
+                            {showCaptcha && showTime && isTokenVerified && < ReCAPTCHA
                               sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
                               onChange={onRecaptchaChange} // Step 2: Capture token on change
                             />}

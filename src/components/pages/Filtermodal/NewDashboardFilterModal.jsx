@@ -36,12 +36,6 @@ const NewDashboardFilterModal = ({
 
 
     const { contextClients, setcontextClients } = useMyContext();
-
-
-    console.log(contextClients, "contextClients");
-
-
-
     const formik = useFormik({
         initialValues: {
             client_id: "",

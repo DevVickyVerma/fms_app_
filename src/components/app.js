@@ -135,63 +135,63 @@ const App = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
-  const Url = (process.env.REACT_APP_BASE_URL === "https://apis-l.credentia.uk/v1" || process.env.REACT_APP_BASE_URL === "https://apis-l.credentiauk.com/v1")
-    ? process.env.REACT_APP_BASE_URL
-    : "default_value"; // Replace "default_value" with the fallback URL or value you prefer
+  // const Url = (process.env.REACT_APP_BASE_URL === "https://apis-l.credentia.uk/v1" || process.env.REACT_APP_BASE_URL === "https://apis-l.credentiauk.com/v1")
+  //   ? process.env.REACT_APP_BASE_URL
+  //   : "default_value"; // Replace "default_value" with the fallback URL or value you prefer
 
-  if (Url !== "default_value") {
-    // Prevent right-click context menu
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-    });
+  // if (Url !== "default_value") {
+  //   // Prevent right-click context menu
+  //   document.addEventListener('contextmenu', (e) => {
+  //     e.preventDefault();
+  //   });
 
-    // Prevent certain keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U') || (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-        e.preventDefault();
-      }
-    });
+  //   // Prevent certain keyboard shortcuts
+  //   document.addEventListener('keydown', (e) => {
+  //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U') || (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+  //       e.preventDefault();
+  //     }
+  //   });
 
-    // Detect and handle developer tools opening
-    const detectDevTools = () => {
-      const threshold = 160; // Adjust threshold as needed
-      let devToolsOpen = false;
+  //   // Detect and handle developer tools opening
+  //   const detectDevTools = () => {
+  //     const threshold = 160; // Adjust threshold as needed
+  //     let devToolsOpen = false;
 
-      const checkDevTools = () => {
-        if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
-          if (!devToolsOpen) {
-            devToolsOpen = true;
+  //     const checkDevTools = () => {
+  //       if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+  //         if (!devToolsOpen) {
+  //           devToolsOpen = true;
 
-            debugger; // Trigger debugger
-          }
-        } else {
-          devToolsOpen = false;
-        }
-      };
+  //           debugger; // Trigger debugger
+  //         }
+  //       } else {
+  //         devToolsOpen = false;
+  //       }
+  //     };
 
-      // Periodically check for developer tools
-      setInterval(checkDevTools, 100);
+  //     // Periodically check for developer tools
+  //     setInterval(checkDevTools, 100);
 
-      // Detect developer tools via user interactions
-      const detectUserInteractions = () => {
-        const handleInteraction = () => {
-          // Handle or log user interactions if dev tools are detected
-          if (devToolsOpen) {
+  //     // Detect developer tools via user interactions
+  //     const detectUserInteractions = () => {
+  //       const handleInteraction = () => {
+  //         // Handle or log user interactions if dev tools are detected
+  //         if (devToolsOpen) {
 
-            debugger; // Trigger debugger
-          }
-        };
+  //           debugger; // Trigger debugger
+  //         }
+  //       };
 
-        document.addEventListener('click', handleInteraction);
-        document.addEventListener('scroll', handleInteraction);
-      };
+  //       document.addEventListener('click', handleInteraction);
+  //       document.addEventListener('scroll', handleInteraction);
+  //     };
 
-      detectUserInteractions();
-    };
+  //     detectUserInteractions();
+  //   };
 
-    detectDevTools();
+  //   detectDevTools();
 
-  }
+  // }
 
 
 
