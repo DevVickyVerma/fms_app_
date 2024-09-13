@@ -153,13 +153,10 @@ const App = (props) => {
 
     const devtools = /./;
     devtools.toString = () => {
-      // This is executed when Developer Tools are open
-      console.log('Developer Tools are open!');
+
     };
   }
 
-
-  console.log(Url, "Url");
 
   return (
 
