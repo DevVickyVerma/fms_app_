@@ -395,18 +395,16 @@ export default function Login(props) {
                               <button
                                 type="submit"
                                 className="w-100 btn btn-primary d-flex justify-content-center  "
-                                disabled={showTime}
+                                disabled={showTime || showCaptcha}
 
 
                               >
                                 <span className="ml-2">Login</span>  {" "}
 
                                 {showTime && (
-                                  <CountdownTimer initialTime={300} onCountdownComplete={handleCountdownComplete} />
+                                  <CountdownTimer initialTime={30} onCountdownComplete={handleCountdownComplete} />
                                 )}
                               </button>
-
-
                               <ToastContainer />
                             </div>
                           </Form>
