@@ -1,9 +1,9 @@
 
-import { useEffect, useState, React } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
@@ -16,6 +16,7 @@ import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import { fetchData } from "../../Redux/dataSlice";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -35,6 +36,11 @@ const Dashboard = (props) => {
   const [isNotClient] = useState(
     localStorage.getItem("superiorRole") !== "Client"
   );
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchData())
+  }, [])
 
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient

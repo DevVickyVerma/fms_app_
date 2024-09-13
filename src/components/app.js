@@ -133,6 +133,8 @@ const App = (props) => {
     };
   }, []);
 
+
+
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   // const Url = (process.env.REACT_APP_BASE_URL === "https://apis-l.credentia.uk/v1" || process.env.REACT_APP_BASE_URL === "https://apis-l.credentiauk.com/v1")

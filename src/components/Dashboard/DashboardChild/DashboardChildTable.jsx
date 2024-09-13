@@ -75,13 +75,11 @@ const DashboardChildTable = (props) => {
 
   const renderTableData = () => {
     return data?.map((item, index) => (
-      <div key={index}>
+      <React.Fragment key={index}>
         {isSitePermissionAvailable ? (
-          <div onClick={() => handleSaveSingleSiteData(item)} key={index}>
+          <div onClick={() => handleSaveSingleSiteData(item)}>
             <div
-              Link
               onClick={() => handleFuelPriceLinkClick(item)}
-              // to={`/dashboard-details/${item?.id}`}
               style={{ padding: "0px", color: "black" }}
             >
               <tr
@@ -644,7 +642,7 @@ const DashboardChildTable = (props) => {
             </td>
           </tr>
         )}
-      </div>
+      </React.Fragment>
     ));
   };
 

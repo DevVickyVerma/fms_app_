@@ -1,11 +1,9 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-import { useFormik } from "formik";
 import { Collapse, Table } from "antd";
 import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
@@ -40,12 +38,6 @@ const CompetitorFuelPrices = (props) => {
     setSelectedDrsDate(values.start_date);
 
     try {
-      // const formData = new FormData();
-      // formData.append("start_date", values.start_date);
-      // formData.append("client_id", values.client_id);
-      // formData.append("company_id", values.company_id);
-
-
       let { client_id, company_id, start_date } = values;
       if (localStorage.getItem("superiorRole") === "Client") {
         client_id = localStorage.getItem("superiorId");
