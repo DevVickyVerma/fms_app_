@@ -10,20 +10,14 @@ import Loaderimg from "../../../Utils/Loader";
 import { BsCapslock } from "react-icons/bs";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
-
+import ReCAPTCHA from "react-google-recaptcha";
 export default function Login(props) {
   const [isLoading, setLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
+  const [recaptchaToken, setRecaptchaToken] = useState(""); // Step 1: Add state for ReCAPTCHA token
 
-  // useEffect(() => {
-  //   document.addEventListener("keydown", function (event) {
-  //     // Check CapsLock state without getModifierState
-  //     const isCapsLockActive = event.getModifierState("CapsLock");
-  //     setCapsLockActive(isCapsLockActive);
-  //   });
-  //   console.clear();
-  // }, [localStorage.getItem("token")]);
+
 
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
@@ -97,13 +91,17 @@ export default function Login(props) {
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
       } else {
-      
+
         navigate("/under-construction");
         ErrorAlert(error.message);
       }
     }
 
     setLoading(false);
+  };
+  const onRecaptchaChange = (token) => {
+    console.log(token, "token");
+    setRecaptchaToken(token);
   };
 
   return (
@@ -313,7 +311,10 @@ export default function Login(props) {
                                   />
                                 </div>
                               </div>
-
+                              <ReCAPTCHA
+                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
+                                onChange={onRecaptchaChange} // Step 2: Capture token on change
+                              />
                               <div className="text-end pt-1">
                                 <p className="mb-0">
                                   <Link
