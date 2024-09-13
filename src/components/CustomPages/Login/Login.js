@@ -146,7 +146,6 @@ export default function Login(props) {
 
   };
 
-  console.log(isTokenVerified, "isTokenVerified");
 
   return (
     <>
