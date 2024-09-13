@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
 const CompetitorSingleGraph = ({
@@ -81,32 +81,33 @@ const CompetitorSingleGraph = ({
   };
 
   const options = {
-    // responsive: true,
+    responsive: true,
+    maintainAspectRatio: false,
     interaction: {
-      mode: "index",
+      mode: 'index',
       intersect: false,
     },
     stacked: false,
     scales: {
       y: {
-        type: "linear",
+        type: 'linear',
         display: true,
-        position: "left",
-        min: 0, // Set the minimum value to 0 for the left y-axis (y)
+        position: 'left',
+        min: 0,
         max: 3,
         ticks: {
-          stepSize: 0.100, // Set the step size to 0.2
+          stepSize: 0.1,
         },
       },
     },
   };
 
+
   const handleChange = (event) => {
     setSelectedFuelIndex(event.target.value); // Update the selected index
   };
-  // if (!filteredData) {
-  //   return "filter is not applied yet";
-  // }
+
+
   return (
     <>
       <div
@@ -121,7 +122,7 @@ const CompetitorSingleGraph = ({
 
       <>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ display: "flex", width: "200px", margin: "10px 0" }}>
+          <div style={{ display: "flex", width: "200px", }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Fuel Type</InputLabel>
               <Select
@@ -141,7 +142,7 @@ const CompetitorSingleGraph = ({
           </div>
         </div>
         <div>
-          <Line data={data} options={options} />
+          <Line data={data} options={options} height={500} />
         </div>
       </>
     </>

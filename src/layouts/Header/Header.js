@@ -143,7 +143,7 @@ const Header = (props) => {
                       style={{ margin: 0 }}
                     >
                       <div className="drop-heading">
-                        <div className="text-center">
+                        <div className="">
                           <h5 className="text-dark mb-0">
                             {reduxData?.full_name ? reduxData?.full_name : "Admin"} <br />{" "}
                           </h5>
@@ -161,12 +161,12 @@ const Header = (props) => {
                           Profile
                         </Dropdown.Item>
                       ) : null}
-                      {isUpdatePasswordPermissionAvailable ? (
+                      {/* {isUpdatePasswordPermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/editprofile">
                           <i className="dropdown-icon ph ph-password"></i>Change
                           Password
                         </Dropdown.Item>
-                      ) : null}
+                      ) : null} */}
                       {isSettingsPermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/settings">
                           <i className="dropdown-icon ph ph-gear"></i>

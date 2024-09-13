@@ -1,6 +1,5 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
 import { useEffect, useState } from 'react';
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import {
@@ -561,7 +560,7 @@ const DashSubChild = ({
               </Box>
             </Box>
           </Box>
-          <Box display={"flex"} gap={"25px"} flexWrap={"wrap"}>
+          <Box display={"flex"} gap={"25px"} flexWrap={"wrap"} justifyContent={["center", "flex-start"]}>
             {" "}
             {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
               (LastDeliveryState, index) => (
@@ -658,7 +657,7 @@ const DashSubChild = ({
         }}
       >
         <Col lg={12} md={12}>
-          <Card>
+          <>
             <Card.Header className="card-header">
               <div className="Tank-Details d-flex">
                 <h4 className="card-title">Tank Analysis</h4>
@@ -709,7 +708,7 @@ const DashSubChild = ({
                 </div>
               </div>
             </Card.Header>
-            <Card.Body className="card-body pb-0">
+            <Card.Body className="card-body p-0 m-0">
               <div id="chart">
                 <DashSubChildTankAnalysis
                   getSiteStats={getSiteStats}
@@ -717,17 +716,17 @@ const DashSubChild = ({
                 />
               </div>
             </Card.Body>
-          </Card>
+          </>
         </Col>
       </Row>
-      <Col xl={12}>
+      <Col xl={12} className="p-0">
         <Card>
           <Card.Header>
             Competitor Stats
           </Card.Header>
           <Card.Body className="p-6">
             <div className="panel panel-primary">
-              <div className=" tab-menu-heading border">
+              <div className=" ">
                 <div className="tabs-menu1 tabstyle2">
                   <Tabs
                     as="li"
@@ -955,8 +954,8 @@ const DashSubChild = ({
                         }}
                       >
                         <Col lg={12} md={12}>
-                          <Card>
-                            <Card.Body className="card-body pb-0">
+                          <>
+                            <Card.Body className="card-body b-0">
                               <div id="chart">
                                 <CompetitorSingleGraph
                                   getCompetitorsPrice={getCompetitorsPrice}
@@ -966,7 +965,7 @@ const DashSubChild = ({
                                 />
                               </div>
                             </Card.Body>
-                          </Card>
+                          </>
                         </Col>
                       </Row>
                     </Tab>
