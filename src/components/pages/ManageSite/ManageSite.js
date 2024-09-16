@@ -94,6 +94,7 @@ const ManageSite = (props) => {
         });
         const DeleteRole = async () => {
           try {
+            // eslint-disable-next-line no-unused-vars
             const response = await axiosInstance.post("/site/delete", formData);
             Swal.fire({
               title: "Deleted!",
@@ -125,6 +126,7 @@ const ManageSite = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("/site/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {

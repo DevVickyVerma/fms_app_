@@ -1,21 +1,19 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from '../../../Utils/useToggleStatus';
 
 const ManageSuppliers = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -40,54 +38,27 @@ const ManageSuppliers = (props) => {
   const isDeletePermissionAvailable = UserPermissions?.includes("supplier-delete");
 
 
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
 
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "/supplier/delete",
-              formData
-            );
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'supplier/delete', formData, handleSuccess);
   };
 
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append('id', row.id.toString());
+
+    formData.append('status', (row?.supplier_status == 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/supplier/update-status', formData, handleSuccess);
+  };
+
+  const handleSuccess = () => {
+    FetchTableData()
+  }
 
 
 
@@ -96,27 +67,6 @@ const ManageSuppliers = (props) => {
     console.clear();
   }, [currentPage, searchTerm]);
 
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.supplier_status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData("/supplier/update-status", formData);
-
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
 
   const FetchTableData = async (pageNumber) => {
     try {
@@ -203,7 +153,7 @@ const ManageSuppliers = (props) => {
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            {row.supplier_status === 1 ? (
+            {row.supplier_status == 1 ? (
               <button
                 className="btn btn-success btn-sm"
                 onClick={
@@ -212,7 +162,7 @@ const ManageSuppliers = (props) => {
               >
                 Active
               </button>
-            ) : row.supplier_status === 0 ? (
+            ) : row.supplier_status == 0 ? (
               <button
                 className="btn btn-danger btn-sm"
                 onClick={

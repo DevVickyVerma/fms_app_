@@ -14,7 +14,7 @@ import useToggleStatus from "../../CommonComponent/useToggleStatus";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 
 const ManageSiteTank = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();

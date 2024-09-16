@@ -181,9 +181,7 @@ export default function AddSite(props) {
     const selectedType = e.target.value;
 
     formik.setFieldValue("business_type", selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
-      (type) => type.name === selectedType
-    );
+
   };
 
   // Helper function to format the date as "YYYY-MM-DD"

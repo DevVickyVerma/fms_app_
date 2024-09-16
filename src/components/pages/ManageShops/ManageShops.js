@@ -10,7 +10,6 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
@@ -104,6 +103,7 @@ const ManageShops = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("/shop/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // Import React
+import { useEffect } from "react"; // Import React
 import {
   Col,
   Row,
@@ -7,11 +7,9 @@ import {
 } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 import { handleError } from "../../../Utils/ToastUtils";
 
 const EditSiteTank = (props) => {
@@ -42,13 +40,7 @@ const EditSiteTank = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const handleSubmit = async (values) => {
     try {
@@ -68,18 +60,6 @@ const EditSiteTank = (props) => {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
-
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
 
   const formik = useFormik({
     initialValues: {
@@ -150,11 +130,10 @@ const EditSiteTank = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.tank_name && formik.touched.tank_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.tank_name && formik.touched.tank_name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="tank_name"
                           name="tank_name"
                           placeholder="Site Tank Name"
@@ -181,11 +160,10 @@ const EditSiteTank = (props) => {
                           id="tank_code"
                           type="text"
                           autoComplete="off"
-                          className={`input101 readonly ${
-                            formik.errors.tank_code && formik.touched.tank_code
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 readonly ${formik.errors.tank_code && formik.touched.tank_code
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           placeholder="Site Tank Code"
                           onChange={formik.handleChange}
                           value={formik.values.tank_code || ""}
@@ -207,11 +185,10 @@ const EditSiteTank = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.status && formik.touched.status
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.status && formik.touched.status
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="status"
                           name="status"
                           onChange={formik.handleChange}

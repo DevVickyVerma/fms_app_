@@ -1,6 +1,7 @@
-import React from "react";
-import { useEffect, useState } from 'react';
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-useless-escape */
 
+import { useEffect, useState } from 'react';
 import {
   Col,
   Row,
@@ -9,7 +10,6 @@ import {
 } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -19,8 +19,6 @@ const Editsuppliers = (props) => {
   const { isLoading, getData, postData } = props;
   const reader = new FileReader();
   const [previewImage, setPreviewImage] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -39,8 +37,6 @@ const Editsuppliers = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-
-        setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -49,13 +45,6 @@ const Editsuppliers = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const handleSubmit = async (values) => {
     try {
@@ -89,7 +78,6 @@ const Editsuppliers = (props) => {
 
   const handleDrop = (event, setFieldValue) => {
     event.preventDefault();
-    setIsDragging(false);
     const file = event.dataTransfer.files[0];
     setFieldValue("image", file);
 

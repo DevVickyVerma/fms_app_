@@ -1,32 +1,16 @@
-import React, { useEffect, useState } from "react";
-
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  Breadcrumb,
-} from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage, useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 
 const AddSitePump = (props) => {
-  const { id } = useParams();
-  const { apidata, isLoading, error, getData, postData } = props;
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+  const { isLoading, getData, postData } = props;
   const [selectedFuelList, setSelectedFuelList] = useState([]);
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
@@ -39,6 +23,10 @@ const AddSitePump = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+
+
+
   const handleFuelChange = async (id) => {
     try {
       const response = await axiosInstance.get(`/site/fuel/list?site_id=${id}`);
@@ -76,17 +64,7 @@ const AddSitePump = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
 
   const formik = useFormik({
     initialValues: {
@@ -111,15 +89,7 @@ const AddSitePump = (props) => {
           message:
             "Tank Code must not contain special characters",
           excludeEmptyString: true,
-        })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message:
-              "Site Tank Code must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        ),
+        }),
 
       status: Yup.string().required(
         "Site Tank Status is required"
@@ -142,14 +112,12 @@ const AddSitePump = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -340,13 +308,11 @@ const AddSitePump = (props) => {
                               const selectcompany = e.target.value;
                               if (selectcompany) {
                                 GetSiteList(selectcompany);
-                                setSelectedCompanyId(selectcompany);
                                 formik.setFieldValue("site_id", "");
                                 formik.setFieldValue("company_id", selectcompany);
                               } else {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
-
                                 setSiteList([]);
                               }
                             }}
@@ -354,7 +320,6 @@ const AddSitePump = (props) => {
                             <option value="">Select a Company</option>
                             {selectedClientId && CompanyList.length > 0 ? (
                               <>
-                                setSelectedCompanyId([])
                                 {CompanyList.map((company) => (
                                   <option key={company.id} value={company.id}>
                                     {company.company_name}
@@ -392,7 +357,6 @@ const AddSitePump = (props) => {
                               const selectedsite_id = e.target.value;
                               handleFuelChange(selectedsite_id)
                               formik.setFieldValue("site_id", selectedsite_id);
-                              setSelectedSiteId(selectedsite_id);
                             }}
                           >
                             <option value="">Select a Site</option>

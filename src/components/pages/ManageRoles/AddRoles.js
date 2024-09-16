@@ -1,35 +1,14 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import { Breadcrumb, Card, Row } from "react-bootstrap";
 
-import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { handleError } from "../../../Utils/ToastUtils";
 
-const ErrorAlert = (message) => {
-  toast.error(message, {
-    position: toast.POSITION.TOP_RIGHT,
-    hideProgressBar: true,
-    transition: Slide,
-    autoClose: 1000,
-    theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-  });
-};
-const SuccessAlert = (message) => {
-  toast.success(message, {
-    autoClose: 1000,
-    position: toast.POSITION.TOP_RIGHT,
-    hideProgressBar: true,
-    transition: Slide,
-    autoClose: 1000,
-    theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-  });
-};
 
 const initialValues = {
   name: "",
@@ -43,13 +22,6 @@ const validationSchema = Yup.object().shape({
       message: "Role Name must not contain special characters",
       excludeEmptyString: true,
     })
-    .matches(
-      /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-      {
-        message: "Role Name must not have consecutive spaces",
-        excludeEmptyString: true,
-      }
-    )
     .min(3, "The Role name must be at least 3 characters."),
   permissions: Yup.array()
     .required("At least one role is required")
@@ -60,10 +32,6 @@ const AddRoles = (props) => {
   const { isLoading, getData, postData } = props;
   const [permissions, setPermissions] = useState([]);
 
-  const [userpermissions, setUserPermissions] = useState([]);
-
-
-
   useEffect(() => {
     FetchTableData();
     console.clear();
@@ -73,7 +41,6 @@ const AddRoles = (props) => {
       const response = await getData("/permission-list");
 
       if (response && response.data && response.data) {
-        setUserPermissions(response.data.data);
         setPermissions(response.data);
       } else {
         throw new Error("No data available in the response");

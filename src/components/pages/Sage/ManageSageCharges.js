@@ -1,43 +1,30 @@
 import React, { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Form, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import Loaderimg from "../../../Utils/Loader";
-
 import { useSelector } from "react-redux";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
+
+
+
 const SageCharges = (props) => {
   const { getData, isLoading, postData, apidata } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
 
   const [selectedClientId, setSelectedClientId] = useState("");
 
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [DepartmentList, setDepartmentList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
-
   const [data, setData] = useState();
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isUpdatePermissionAvailable = userPermissions?.includes("chargehead-list");
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  const navigate = useNavigate();
-
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
   useEffect(() => {
     const clientId = localStorage.getItem("superiorId");
 
@@ -115,7 +102,6 @@ const SageCharges = (props) => {
 
     onSubmit: headsvalueonsubmit,
   });
-  const isUpdatePermissionAvailable = permissionsArray?.includes("chargehead-list");
 
   const formik = useFormik({
     initialValues: {
@@ -212,14 +198,12 @@ const SageCharges = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -306,6 +290,7 @@ const SageCharges = (props) => {
   };
   const DeleteClient = async (formData, index) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("sage/charge/head-delete", formData);
       // Console log the response
       if (apidata.api_response === "success") {
@@ -387,7 +372,6 @@ const SageCharges = (props) => {
       formData.append("charge_id", formik.values.department_id);
 
       const postDataUrl = "/sage/charge/head-update";
-      const navigatePath = `/clients`;
 
       await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
 
@@ -398,31 +382,7 @@ const SageCharges = (props) => {
   };
 
 
-  const handleClearForm = async (resetForm) => {
-    formik2.resetForm()
-    formik.resetForm()
-    formik.setFieldValue("site_id", "")
-    formik.setFieldValue("start_date", "")
-    formik.setFieldValue("client_id", "")
-    formik.setFieldValue("company_id", "")
-    formik.setFieldValue("endDate", "")
-    formik.setFieldValue("startDate", "")
 
-    // setSelectedCompanyList([]);
-    setSelectedClientId("");
-    localStorage.removeItem("manageSageCharges")
-    setData(null)
-
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-    } else {
-      formik.setFieldValue("client_id", clientId);
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-    }
-  };
 
 
   return (
@@ -489,7 +449,7 @@ const SageCharges = (props) => {
                                 GetCompanyList(selectedType);
                                 formik.setFieldValue("client_id", selectedType);
                                 setSelectedClientId(selectedType);
-                                setSiteList([]);
+
                                 setDepartmentList([]);
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
@@ -500,7 +460,7 @@ const SageCharges = (props) => {
                                 formik.setFieldValue("department_id", "");
 
                                 setDepartmentList([]);
-                                setSiteList([]);
+
                                 setCompanyList([]);
                               }
                             }}
@@ -553,7 +513,7 @@ const SageCharges = (props) => {
                               formik.setFieldValue("department_id", "");
 
                               setDepartmentList([]);
-                              setSiteList([]);
+
                             }
                           }}
                         >
@@ -609,7 +569,7 @@ const SageCharges = (props) => {
                                 selectedType
                               );
 
-                              setSiteList([]);
+
 
                               formik.setFieldValue("site_id", "");
                             } else {
@@ -618,7 +578,7 @@ const SageCharges = (props) => {
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("department_id", "");
 
-                              setSiteList([]);
+
                               setCompanyList([]);
                               setDepartmentList([]);
                             }

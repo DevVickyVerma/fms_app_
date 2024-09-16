@@ -157,6 +157,13 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
     };
 
 
+    const handleShowDatee = (event) => {
+        if (event.target && event.target.showPicker) {
+            event.target.showPicker(); // Trigger date picker directly from the event
+        }
+    };
+
+
     return (
         <>
 
@@ -225,7 +232,6 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                                                             name={row?.[column]}
                                                                             onChange={(e) => handleChange(e, rowIndex, column)}
                                                                             onClick={(e) => handleShowDate(e, formik?.values?.pricedata?.currentDate)}  // Passing currentDate to the onClick handler
-
                                                                             disabled={row?.readonly}
                                                                             placeholder="Enter price"
                                                                         />
@@ -297,8 +303,6 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                                                         disabled={!row?.[0]?.is_editable}  // Disable if not editable
                                                                         className={`time-input-fuel-sell ${!row?.[0]?.is_editable ? 'readonly' : ''}   ${row?.[0]?.is_editable ? "c-timeinput-default" : ""} `}
                                                                     />
-
-
                                                                 </>
 
                                                             </td>

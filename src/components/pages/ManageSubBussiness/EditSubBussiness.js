@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
@@ -11,11 +10,6 @@ import { ErrorAlert, SuccessAlert, handleError } from "../../../Utils/ToastUtils
 
 export default function AddSite() {
   const navigate = useNavigate();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
   const [dropdownValue, setDropdownValue] = useState([]);
 
   const { id } = useParams();
@@ -37,7 +31,6 @@ export default function AddSite() {
       try {
         const response = await axiosInstance.get(`/business/sub-type/${id}`);
         if (response) {
-          setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
         }
       } catch (error) {
@@ -136,15 +129,7 @@ export default function AddSite() {
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "Slug must not contain special characters",
           excludeEmptyString: true,
-        })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message: "Slug must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        ),
-
+        }),
       status: Yup.string().required("Client is required"),
     }),
     onSubmit: handleSubmit,

@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
@@ -18,23 +17,16 @@ import { useSelector } from "react-redux";
 import CustomPagination from "../../../Utils/CustomPagination";
 
 const ManageSiteTank = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
+  const { apidata, getData, postData, isLoading } =
     props;
   const [data, setData] = useState();
   const [mybalance, setbalance] = useState();
   const [BuyMoree, setBuyMore] = useState();
-  const [count, setCount] = useState(0);
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [Tabvalue, setTabvalue] = useState("");
   const [selectedClientIdOnSubmit, setSelectedClientIdOnSubmit] = useState("");
   const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
   const [activeTab, setActiveTab] = useState("tab5"); // 'tab5' is the default active tab
-  const [downloadedInvoice, setDownloadedInvoice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [currentPage, setCurrentPage] = useState(1);
@@ -125,7 +117,7 @@ const ManageSiteTank = (props) => {
       const invoiceData = await fetchInvoiceData(row);
 
       // Save the invoice data to state
-      setDownloadedInvoice(invoiceData);
+      // setDownloadedInvoice(invoiceData);
       // Pass the logo URL when calling generateAndDownloadPDF
       generateAndDownloadPDF(
         invoiceData,
@@ -163,11 +155,6 @@ const ManageSiteTank = (props) => {
     // Add a line under the header
     pdf.line(10, 20, 200, 20);
     const lineHeight = 6;
-    // Display "Invoice To" and "Invoice From" in parallel
-    // pdf.setFont('helvetica', 'bold');
-    // pdf.text(' To:', 20, 35 + lineHeight);
-    // pdf.text(' From:', 120, 35 + lineHeight);
-    // Increased line height for better readability
     // Display recipient and sender details with bold labels
     pdf.setFont("helvetica", "bold");
     pdf.text("Name:", 20, 30);
@@ -549,10 +536,7 @@ const ManageSiteTank = (props) => {
       : "",
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
 
   const formik = useFormik({
     initialValues: {
@@ -578,14 +562,13 @@ const ManageSiteTank = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
+
             }
           }
         }
@@ -624,8 +607,7 @@ const ManageSiteTank = (props) => {
     setData();
     setbalance();
     setTabvalue("");
-    setSelectedSiteList([]);
-    setSelectedCompanyList([]);
+
     setSelectedClientId("");
 
     const clientId = localStorage.getItem("superiorId");
@@ -662,6 +644,7 @@ const ManageSiteTank = (props) => {
       formData.append("client_id", selectedClientId);
 
       const postDataUrl = "sms/update-credit";
+      // eslint-disable-next-line no-unused-vars
       const response = await postData(postDataUrl, formData);
 
       if (apidata.api_response === "success") {
@@ -769,7 +752,7 @@ const ManageSiteTank = (props) => {
                                     selectedType
                                   );
                                   setSelectedClientId(selectedType);
-                                  setSiteList([]);
+
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
                                 } else {
@@ -778,8 +761,7 @@ const ManageSiteTank = (props) => {
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
 
-                                  setSiteList([]);
-                                  setCompanyList([]);
+
                                 }
                               }}
                             >

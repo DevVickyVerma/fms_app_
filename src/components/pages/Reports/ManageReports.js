@@ -1,44 +1,29 @@
-import React, { useEffect, useState } from "react";
-
-import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import { MultiSelect } from "react-multi-select-component";
-import { Breadcrumb, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
-
+import { Breadcrumb, Card, Col, FormGroup, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
-
-import { useSelector } from "react-redux";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
-
 import { Slide, toast } from "react-toastify";
 import Switch from "react-switch";
 
 const ManageReports = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
+  const { apidata, isLoading, getData, } = props;
   const [ReportList, setReportList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [ShowButton, setShowButton] = useState(false);
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-
   const [ReportDownloadUrl, setReportDownloadUrl] = useState();
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
-  const [ReportCode, setReportCode] = useState("");
-
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
+
+
+
   const handleToggleChange = (checked) => {
     setToggleValue(checked);
     setShowButton(false);
@@ -54,11 +39,7 @@ const ManageReports = (props) => {
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
-
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
+  }, []);
 
   const FetchReportList = async (id) => {
     try {
@@ -79,7 +60,6 @@ const ManageReports = (props) => {
 
       formData.append("report", formValues.report);
 
-      formData.append("report", formValues.report);
       if (localStorage.getItem("superiorRole") !== "Client") {
         formData.append("client_id", formValues.client_id);
       } else {
@@ -196,14 +176,12 @@ const ManageReports = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -264,6 +242,9 @@ const ManageReports = (props) => {
       FetchReportList(clientId);
     }
   }, []);
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -380,7 +361,6 @@ const ManageReports = (props) => {
                             const selectcompany = e.target.value;
                             if (selectcompany) {
                               GetSiteList(selectcompany);
-                              setSelectedCompanyId(selectcompany);
                               formik.setFieldValue("site_id", "");
                               formik.setFieldValue("company_id", selectcompany);
                               setSelected([])
@@ -396,7 +376,6 @@ const ManageReports = (props) => {
                           <option value="">Select a Company</option>
                           {selectedClientId && CompanyList.length > 0 ? (
                             <>
-                              setSelectedCompanyId([])
                               {CompanyList.map((company) => (
                                 <option key={company.id} value={company.id}>
                                   {company.company_name}
@@ -448,7 +427,6 @@ const ManageReports = (props) => {
                           name="report"
                           onChange={(e) => {
                             const selectedreport = e.target.value;
-                            setReportCode(e.target.value);
                             formik.setFieldValue("report", selectedreport);
                             setShowButton(false);
                           }}

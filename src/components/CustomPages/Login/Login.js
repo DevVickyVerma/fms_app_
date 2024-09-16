@@ -20,6 +20,7 @@ export default function Login(props) {
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [showCaptcha, setshowCaptcha] = useState(false);
+  const [showCaptchaBtn, setshowCaptchaBtn] = useState(false);
   const [showStillCaptcha, setshowStillCaptcha] = useState(false);
   const [showTime, setshowTime] = useState(false);
   const [captchatoken, setcaptchatoken] = useState("");
@@ -38,6 +39,9 @@ export default function Login(props) {
       setCapsLockActive(true);
     } else {
       setCapsLockActive(false);
+    }
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent form submission on Enter key
     }
   };
 
@@ -126,7 +130,7 @@ export default function Login(props) {
 
 
 
-  const onRecaptchaChange = async (token) => {
+  const onRecaptchaChange = async (token, resetForm) => {
     setcaptchatoken(token);
     setLoading(true);
     const formData = new FormData();
@@ -141,15 +145,20 @@ export default function Login(props) {
       const result = await response.json();
 
 
+
+
       if (result?.api_response == "success") {
         setshowCaptcha(false);
         localStorage.removeItem('capCheck');
-        SuccessAlert(result?.message); // Assuming SuccessAlert is defined elsewhere
+        setshowCaptchaBtn(false)
       } else {
         ErrorAlert(result?.message); // Assuming ErrorAlert is defined elsewhere
         if (recaptchaRef.current) {
           recaptchaRef.current.reset();
         }
+        // Reset form on error
+        resetForm();
+        setshowCaptchaBtn(true)
       }
     } catch (error) {
       console.error('Error validating reCAPTCHA token:', error);
@@ -188,6 +197,8 @@ export default function Login(props) {
   };
 
 
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -203,11 +214,11 @@ export default function Login(props) {
                       <Formik
                         initialValues={{ email: "", password: "", }}
                         validationSchema={LoginSchema}
-                        onSubmit={(values) => {
-                          handleSubmit(values);
+                        onSubmit={(values, { resetForm }) => {
+                          handleSubmit(values, resetForm);
                         }}
                       >
-                        {({ errors, touched }) => (
+                        {({ errors, touched, resetForm }) => (
                           <Form className="login100-form validate-form">
                             <span className="login100-form-title">
                               <img
@@ -387,7 +398,8 @@ export default function Login(props) {
 
                               <ReCAPTCHA
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
-                                onChange={onRecaptchaChange} // Step 2: Capture token on change
+                                // onChange={onRecaptchaChange} // Step 2: Capture token on change
+                                onChange={(token) => onRecaptchaChange(token, resetForm)} // Pass resetForm to onRecaptchaChange
                                 ref={recaptchaRef} // Assign the ref to ReCAPTCHA
 
                               />
@@ -424,7 +436,7 @@ export default function Login(props) {
                               <button
                                 type="submit"
                                 className="w-100 btn btn-primary d-flex justify-content-center  "
-                                disabled={showTime || showCaptcha}
+                                disabled={showTime || showCaptcha || showCaptchaBtn}
                               >
                                 <span className="ml-2">Login</span>  {" "}
 

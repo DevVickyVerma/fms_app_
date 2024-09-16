@@ -9,7 +9,6 @@ import {
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -79,15 +78,7 @@ const EditShops = (props) => {
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "Shop Name must not contain special characters",
           excludeEmptyString: true,
-        })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message: "Shop Name must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        ),
-
+        }),
       status: Yup.string().required("Shop Status is required"),
     }),
     onSubmit: handleSubmit,

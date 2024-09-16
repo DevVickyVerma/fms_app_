@@ -117,7 +117,8 @@
     ],
     "rules": {
       "eqeqeq": "off",
-      "react-hooks/exhaustive-deps": "off"
+      "react-hooks/exhaustive-deps": "off",
+      "no-useless-escape": "off"
     }
   },
   "resolutions": {

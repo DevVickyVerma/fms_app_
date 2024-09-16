@@ -81,13 +81,6 @@ const EditRoles = (props) => {
           message: "Role Name must not contain special characters",
           excludeEmptyString: true,
         })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message: "Role Name must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        )
         .min(3, "The Role name must be at least 3 characters."),
 
       permissions: Yup.array()

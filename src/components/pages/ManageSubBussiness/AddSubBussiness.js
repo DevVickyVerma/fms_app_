@@ -1,23 +1,20 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const AddSubBussiness = (props) => {
   const { isLoading, getData, postData } = props;
   const [dropdownValue, setDropdownValue] = useState([]);
-  const navigate = useNavigate();
 
 
- 
+
 
   const handleSubmit1 = async (values) => {
     try {
@@ -54,7 +51,7 @@ const AddSubBussiness = (props) => {
       console.error("API error:", error);
     }
   };
- 
+
 
 
 
@@ -97,7 +94,6 @@ const AddSubBussiness = (props) => {
                 initialValues={{
                   business_name: "",
                   slug: "",
-
                   status: "1",
                   business_type_id: "",
                 }}
@@ -114,14 +110,7 @@ const AddSubBussiness = (props) => {
                     .matches(/^[a-zA-Z0-9_\- ]+$/, {
                       message: "Slug must not contain special characters",
                       excludeEmptyString: true,
-                    })
-                    .matches(
-                      /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-                      {
-                        message: "Slug must not have consecutive spaces",
-                        excludeEmptyString: true,
-                      }
-                    ),
+                    }),
 
                   status: Yup.string().required("status is required"),
                 })}

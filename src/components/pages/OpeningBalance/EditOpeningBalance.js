@@ -9,7 +9,6 @@ import * as Yup from 'yup';
 import { handleError } from '../../../Utils/ToastUtils';
 
 const EditOpeningBalance = ({ isLoading, postData, getData }) => {
-    const [data, setData] = useState();
     const [siteName, setSiteName] = useState("");
 
     useEffect(() => {
@@ -22,7 +21,6 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
         try {
             const response = await getData(`site/opening-balance/detail/${id}`);
             if (response && response.data) {
-                setData(response?.data?.data);
                 setSiteName(response?.data?.data?.site_name)
                 formik.setValues(response?.data?.data)
             } else {

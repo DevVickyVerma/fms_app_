@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -10,9 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
-import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
 const ManageUser = (props) => {
@@ -69,15 +66,6 @@ const ManageUser = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
 
   const columns = [
     {
@@ -156,10 +144,6 @@ const ManageUser = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   return (
     <>

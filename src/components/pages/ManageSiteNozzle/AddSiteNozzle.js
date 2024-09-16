@@ -1,5 +1,4 @@
 
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
@@ -7,28 +6,19 @@ import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 
 const AddSiteNozzle = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+  const { isLoading, getData, postData } = props;
   const [selectedFuelList, setSelectedFuelList] = useState([]);
-  const [selectedPumpList, setSelectedPumpList] = useState([]);
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  const navigate = useNavigate();
+  const [selectedClientId, setSelectedClientId] = useState("");
+
+
 
   const handleSubmit1 = async (values) => {
     try {
@@ -58,17 +48,6 @@ const AddSiteNozzle = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -79,11 +58,6 @@ const AddSiteNozzle = (props) => {
   });
 
 
-
-  useEffect(() => {
-    setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    console.clear();
-  }, []);
 
   const handleFuelChange = async (id) => {
     try {
@@ -127,15 +101,7 @@ const AddSiteNozzle = (props) => {
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "code must not contain special characters",
           excludeEmptyString: true,
-        })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message:
-              "Site Nozzle Code must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        ),
+        }),
 
       status: Yup.string().required(
         "Site Nozzle Status is required"
@@ -158,14 +124,13 @@ const AddSiteNozzle = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
+
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -346,7 +311,6 @@ const AddSiteNozzle = (props) => {
                               const selectcompany = e.target.value;
                               if (selectcompany) {
                                 GetSiteList(selectcompany);
-                                setSelectedCompanyId(selectcompany);
                                 formik.setFieldValue("site_id", "");
                                 formik.setFieldValue("company_id", selectcompany);
                               } else {
@@ -398,7 +362,6 @@ const AddSiteNozzle = (props) => {
                               const selectedsite_id = e.target.value;
                               handleFuelChange(selectedsite_id)
                               formik.setFieldValue("site_id", selectedsite_id);
-                              setSelectedSiteId(selectedsite_id);
                             }}
                           >
                             <option value="">Select a Site</option>

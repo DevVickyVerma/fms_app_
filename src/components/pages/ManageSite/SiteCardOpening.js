@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
@@ -6,7 +6,7 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { handleError } from "../../../Utils/ToastUtils";
 
-import { Card, Col, OverlayTrigger, Row, Breadcrumb } from "react-bootstrap";
+import { Card, Col, Row, Breadcrumb } from "react-bootstrap";
 
 const SiteCardOpening = (props) => {
   const { getData, postData, isLoading } = props;

@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -18,18 +11,13 @@ import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
 const AddShops = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
+  const { isLoading, getData, postData } = props;
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const navigate = useNavigate();
 
   const handleSubmit1 = async (values) => {
@@ -97,22 +85,11 @@ const AddShops = (props) => {
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "code must not contain special characters",
           excludeEmptyString: true,
-        })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message:
-              "Charge Code must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        ),
-
+        }),
       status: Yup.string().required(" Status is required"),
-
       company_id: Yup.string().required("Company is required"),
       site_id: Yup.string().required("Site is required"),
     }),
-
     onSubmit: (values) => {
       handleSubmit1(values);
     },
@@ -129,14 +106,12 @@ const AddShops = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -320,7 +295,6 @@ const AddShops = (props) => {
                               const selectcompany = e.target.value;
                               if (selectcompany) {
                                 GetSiteList(selectcompany);
-                                setSelectedCompanyId(selectcompany);
                                 formik.setFieldValue("site_id", "");
                                 formik.setFieldValue("company_id", selectcompany);
                               } else {
@@ -371,7 +345,6 @@ const AddShops = (props) => {
                             onChange={(e) => {
                               const selectedsite_id = e.target.value;
                               formik.setFieldValue("site_id", selectedsite_id);
-                              setSelectedSiteId(selectedsite_id);
                             }}
                           >
                             <option value="">Select a Site</option>

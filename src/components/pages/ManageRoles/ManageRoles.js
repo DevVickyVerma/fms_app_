@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -11,24 +10,26 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
-
-
-
+import useCustomDelete from '../../../Utils/useCustomDelete';
 
 const ManageRoles = (props) => {
-  const { getData, isLoading, } = props;
+  const { getData, isLoading, postData } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isEditPermissionAvailable = userPermissions?.includes("role-edit");
+  const isAddPermissionAvailable = userPermissions?.includes("role-create");
+  const isDeletePermissionAvailable = userPermissions?.includes("role-delete");
+
+
 
 
   const handlePageChange = (newPage) => {
@@ -43,49 +44,24 @@ const ManageRoles = (props) => {
     setSearchTerm('');
   };
 
+
+  const { customDelete } = useCustomDelete();
+
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("role_id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post("/role/delete", formData);
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append('role_id', id);
+    customDelete(postData, 'role/delete', formData, handleSuccess);
   };
+
+
+
+
+  const handleSuccess = () => {
+    FetchTableData()
+  }
+
+
+
 
   useEffect(() => {
     FetchTableData();
@@ -117,21 +93,6 @@ const ManageRoles = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("role-status-update");
-  const isEditPermissionAvailable = permissionsArray?.includes("role-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("role-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("role-delete");
 
   const columns = [
     {
@@ -232,10 +193,7 @@ const ManageRoles = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
 
   return (
     <>

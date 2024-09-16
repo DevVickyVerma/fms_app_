@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import {
@@ -141,7 +140,6 @@ const EditUsers = (props) => {
       console.error(error); // Set the submission state to false if an error occurs
     }
   };
-  const phoneRegExp = /^=+-[0-9]{10}$/;
   const formik = useFormik({
     initialValues: {
       first_name: "",
@@ -161,9 +159,6 @@ const EditUsers = (props) => {
       last_name: Yup.string()
 
         .required("Last Name is required"),
-      // phone_number: Yup.string()
-      //   .matches(phoneRegExp, "Phone number is not valid")
-      //   .required("Phone Number is required"),
       phone_number: Yup.string()
         .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
         .required("Phone Number is required"),
