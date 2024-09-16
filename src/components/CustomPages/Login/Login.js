@@ -140,7 +140,8 @@ export default function Login(props) {
 
       const result = await response.json();
 
-      if (result.status_code === 200) {
+
+      if (result?.api_response == "success") {
         setshowCaptcha(false);
         localStorage.removeItem('capCheck');
         SuccessAlert(result?.message); // Assuming SuccessAlert is defined elsewhere
