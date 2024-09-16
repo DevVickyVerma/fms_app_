@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -23,6 +23,8 @@ export default function Login(props) {
   const [showStillCaptcha, setshowStillCaptcha] = useState(false);
   const [showTime, setshowTime] = useState(false);
   const [captchatoken, setcaptchatoken] = useState("");
+  const recaptchaRef = useRef(); // Create a ref for ReCAPTCHA
+
 
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
@@ -121,32 +123,39 @@ export default function Login(props) {
     setLoading(false);
   };
 
+
+
+
   const onRecaptchaChange = async (token) => {
     setcaptchatoken(token);
     setLoading(true);
     const formData = new FormData();
-    formData.append("token", token);
+    formData.append('token', token);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/validate-captcha`, {
-        method: "POST",
+        method: 'POST',
         body: formData, // No need to set Content-Type manually
       });
 
       const result = await response.json();
 
-      if (result.status_code == 200) {
-        setshowCaptcha(false)
-        // setshowStillCaptcha(false)
-        // setIsTokenVerified(true)
-        localStorage.removeItem("capCheck")
-        SuccessAlert(result?.message)
+      if (result.status_code === 200) {
+        setshowCaptcha(false);
+        localStorage.removeItem('capCheck');
+        SuccessAlert(result?.message); // Assuming SuccessAlert is defined elsewhere
       } else {
-        ErrorAlert(result?.message)
+        ErrorAlert(result?.message); // Assuming ErrorAlert is defined elsewhere
+        if (recaptchaRef.current) {
+          recaptchaRef.current.reset();
+        }
       }
     } catch (error) {
       console.error('Error validating reCAPTCHA token:', error);
-      return false;
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+      }
+      ErrorAlert('An error occurred. Please try again.'); // Provide a user-friendly message
     } finally {
       setLoading(false);
     }
@@ -378,6 +387,8 @@ export default function Login(props) {
                               <ReCAPTCHA
                                 sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
                                 onChange={onRecaptchaChange} // Step 2: Capture token on change
+                                ref={recaptchaRef} // Assign the ref to ReCAPTCHA
+
                               />
                             }
 
