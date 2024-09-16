@@ -167,7 +167,6 @@ export default function Login(props) {
       setshowStillCaptcha(true);
     }
 
-    console.log(storedFlag, "storedFlagstoredFlag");
 
 
   }, [])
