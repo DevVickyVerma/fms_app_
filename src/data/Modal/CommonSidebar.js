@@ -21,7 +21,7 @@ const CommonSidebar = (props) => {
       <div className="card">
         <div className="card-header text-center SidebarSearchheader">
           <h3 className="SidebarSearch-title m-0">{title}</h3>
-          <button className="close-button" onClick={props.onClose}>
+          <button className="close-button" onClick={onClose}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
         </div>

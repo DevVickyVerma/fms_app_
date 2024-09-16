@@ -15,13 +15,11 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
 const DepartmentItems = (props) => {
   const { getData, isLoading, postData, apidata } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
 
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [DepartmentList, setDepartmentList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
 
 
   const [data, setData] = useState();
@@ -110,14 +108,12 @@ const DepartmentItems = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -142,7 +138,6 @@ const DepartmentItems = (props) => {
   const isUpdatePermissionAvailable =
     permissionsArray?.includes("itemhead-update");
 
-  const isButtonDisabled = formik.values.client_id && formik.values.company_id;
 
   const GetCompanyList = async (values) => {
     try {
@@ -282,6 +277,7 @@ const DepartmentItems = (props) => {
   };
   const DeleteClient = async (formData, index) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("sage/item/head-delete", formData);
       // Console log the response
       if (apidata.api_response === "success") {
@@ -362,7 +358,6 @@ const DepartmentItems = (props) => {
       formData.append("item_id", formik.values.department_id);
 
       const postDataUrl = "/sage/item/head-update";
-      const navigatePath = `/clients`;
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
@@ -436,7 +431,7 @@ const DepartmentItems = (props) => {
                                 GetCompanyList(selectedType);
                                 formik.setFieldValue("client_id", selectedType);
                                 setSelectedClientId(selectedType);
-                                setSiteList([]);
+
                                 setDepartmentList([]);
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
@@ -446,7 +441,7 @@ const DepartmentItems = (props) => {
                                 formik.setFieldValue("department_id", "");
 
                                 setDepartmentList([]);
-                                setSiteList([]);
+
                                 setCompanyList([]);
                               }
                             }}
@@ -499,7 +494,7 @@ const DepartmentItems = (props) => {
                               formik.setFieldValue("department_id", "");
 
                               setDepartmentList([]);
-                              setSiteList([]);
+
                             }
                           }}
                         >
@@ -552,7 +547,7 @@ const DepartmentItems = (props) => {
                                 selectedType
                               );
 
-                              setSiteList([]);
+
 
                               formik.setFieldValue("site_id", "");
                             } else {
@@ -560,7 +555,7 @@ const DepartmentItems = (props) => {
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("department_id", "");
 
-                              setSiteList([]);
+
                               setCompanyList([]);
                               setDepartmentList([]);
                             }

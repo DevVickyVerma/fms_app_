@@ -98,15 +98,13 @@ const Competitormodal = ({
     setIsLoading(true);
     const formData = new FormData();
 
-    values.listing.forEach((listingItem, listingIndex) => {
+    values?.listing?.forEach((listingItem, listingIndex) => {
       listingItem.fuels.forEach((fuel, fuelIndex) => {
-        const siteId = values.siteId;
-        const priceId = fuel.id;
+        const priceId = fuel?.id;
 
         const fieldKey = `fuels[${priceId}]`;
-        const timeKey = `time[${siteId}][${priceId}]`;
-        const fieldValue = fuel.price.toString();
-        const fieldTime = fuel.time || "00:00";
+        const fieldValue = fuel?.price.toString();
+        const fieldTime = fuel?.time || "00:00";
 
         if (
           fieldValue !== "" &&

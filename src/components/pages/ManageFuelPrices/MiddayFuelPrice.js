@@ -178,7 +178,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                             <h3 className="card-title w-100">
                                 <div className="d-flex w-100 justify-content-between align-items-center">
                                     <div>
-                                        <span>Fuel Selling Price ({`${data?.currentDate}, ${data?.currentTime}`}) </span>
+                                        <span>Fuel Selling Price ({`${data?.currentDate} ${data?.currentTime}`}) </span>
                                         <span className="d-flex pt-1 align-items-center" style={{ fontSize: "12px" }}>
                                             <span className="greenboxx me-2"></span>
                                             <span className="text-muted">Current Price</span>

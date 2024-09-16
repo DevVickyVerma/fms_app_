@@ -1,6 +1,5 @@
-import React from "react";
 import { useEffect, useState } from 'react';
-import { json, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,6 +12,9 @@ import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import ReCAPTCHA from "react-google-recaptcha";
 import { getLocalStorageData, setLocalStorageData } from "../../../Utils/cryptoUtils";
 import CountdownTimer from "./CountdownTimer";
+
+
+
 export default function Login(props) {
   const [isLoading, setLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
@@ -20,7 +22,6 @@ export default function Login(props) {
   const [showCaptcha, setshowCaptcha] = useState(false);
   const [showStillCaptcha, setshowStillCaptcha] = useState(false);
   const [showTime, setshowTime] = useState(false);
-  const [isTokenVerified, setIsTokenVerified] = useState(false);
   const [captchatoken, setcaptchatoken] = useState("");
 
   if (localStorage.getItem("myKey") === null) {
@@ -31,11 +32,11 @@ export default function Login(props) {
   }
 
   const handleKeyPress = (event) => {
-    // if (event.getModifierState("CapsLock")) {
-    //   setCapsLockActive(true);
-    // } else {
-    //   setCapsLockActive(false);
-    // }
+    if (event.getModifierState("CapsLock")) {
+      setCapsLockActive(true);
+    } else {
+      setCapsLockActive(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -91,10 +92,10 @@ export default function Login(props) {
         SuccessAlert(data?.message);
         setLoading(false);
       } else {
-
         if (data?.data?.show_captcha) {
-          setLocalStorageData('checking', data?.data?.show_captcha);
+          setLocalStorageData('capCheck', data?.data?.show_captcha);
           setshowCaptcha(data?.data?.show_captcha)
+          setshowStillCaptcha(data?.data?.show_captcha)
           setshowStillCaptcha(true)
         }
 
@@ -137,8 +138,8 @@ export default function Login(props) {
       if (result.status_code == 200) {
         setshowCaptcha(false)
         // setshowStillCaptcha(false)
-        setIsTokenVerified(true)
-        localStorage.removeItem("checking")
+        // setIsTokenVerified(true)
+        localStorage.removeItem("capCheck")
         SuccessAlert(result?.message)
       } else {
         ErrorAlert(result?.message)
@@ -154,7 +155,7 @@ export default function Login(props) {
 
   useEffect(() => {
 
-    const storedFlag = getLocalStorageData('checking');
+    const storedFlag = getLocalStorageData('capCheck');
     const test = getLocalStorageData('timer');
     if (test) {
       setshowTime(true)
@@ -162,8 +163,12 @@ export default function Login(props) {
 
 
     if (storedFlag) {
-      setshowCaptcha(true)
+      setshowCaptcha(true);
+      setshowStillCaptcha(true);
     }
+
+    console.log(storedFlag, "storedFlagstoredFlag");
+
 
   }, [])
 
@@ -172,13 +177,6 @@ export default function Login(props) {
     setshowTime(false)
     localStorage.removeItem("timer");
   };
-
-
-
-
-  // console.log(showTime, "showTimeT");
-  // console.log(showCaptcha, "showTimeC");
-  // console.log(isTokenVerified, "showTimeTo");
 
 
   return (

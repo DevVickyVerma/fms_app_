@@ -149,7 +149,6 @@ const Dashboard = (props) => {
 
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
-    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
   };
 
 
@@ -264,14 +263,9 @@ const Dashboard = (props) => {
       <div className="mb-2 ">
 
 
-        {filters?.site_id && filters?.client_id && filters.company_id && (<>
+        {filters?.client_id && filters.company_id && (<>
           <div className="text-end " >
             <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
-              {/* <img
-                src={require("../../assets/images/commonimages/red-dot.gif")}
-                alt="Live Img"
-                className="Liveimage"
-              />{" "}{" "} */}
               Live Margin
             </button>
           </div>
@@ -281,8 +275,7 @@ const Dashboard = (props) => {
             <DashboardStatCard
               isLoading={isLoading}
               getData={getData}
-              filters={filters}
-              setFilters={setFilters}
+              parentFilters={filters}
               isOpen={ShowLiveData}
               // onClose={() => setShowLiveData(false)}
               onClose={() => handlelivemaringclosemodal()}

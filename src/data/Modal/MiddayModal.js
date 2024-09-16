@@ -19,10 +19,7 @@ const CustomModal = ({
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [Showerrormessage, setShowerrormessage] = useState("");
-  const [notificationTypes, setNotificationTypes] = useState({
-    mobileSMS: false,
-    email: false,
-  });
+
 
 
   useEffect(() => {
@@ -165,8 +162,8 @@ const CustomModal = ({
 
       formData.append("drs_date", selectedDrsDate);
       formData.append("site_id", selectedItem?.id);
-      formData.append("send_sms", notificationTypes?.mobileSMS);
-      formData.append("notify_operator", notificationTypes?.email);
+      formData.append("send_sms", false);
+      formData.append("notify_operator", false);
       if (
         values?.update_tlm_price
       ) {

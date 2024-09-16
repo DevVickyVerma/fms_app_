@@ -311,10 +311,6 @@ const NewFilterTab = ({
                                     </Col>
                                 )}
 
-
-
-
-
                             </Row>
                         </Card.Body>
                         <Card.Footer>

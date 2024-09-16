@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Col, Row, Card, Breadcrumb, Accordion } from "react-bootstrap";
 
@@ -15,7 +14,6 @@ const SiteSettings = (props) => {
   const {
     getData,
     postData,
-
     isLoading,
   } = props;
   const UserPermissions = useSelector(
@@ -26,7 +24,6 @@ const SiteSettings = (props) => {
   const [DeductionData, setDeductionData] = useState([]);
   const [BussinesModelData, setBussinesModelData] = useState([]);
   const [CardsModelData, setCardsModelData] = useState([]);
-  const [editable, setis_editable] = useState();
   const [fuelData, setFuelData] = useState([]);
   const [DrsData, setDrsData] = useState([]);
   const [SiteItems, setSiteItems] = useState([]);
@@ -63,7 +60,6 @@ const SiteSettings = (props) => {
         setCashDayData(data?.data ? data.data.cash_days : []);
         setAssignCashCards(data?.data ? data.data.cashCards : []);
         setSiteValet(data?.data ? data.data.valetitems : []);
-        setis_editable(data?.data ? data.data : {});
         setSiteName(response?.data?.data);
         formik.setFieldValue(
           "AssignFormikbussiness",
@@ -112,7 +108,7 @@ const SiteSettings = (props) => {
       const fuel_models_valueKey = "fuels";
 
       for (let i = 0; i < values.FormikFuelData.length; i++) {
-        const { id, fuel_name, checked } = values.FormikFuelData[i];
+        const { id, checked } = values?.FormikFuelData[i];
 
         if (checked) {
           selectedFuelIds.push({ [fuel_models_valueKey + "[" + i + "]"]: id });
@@ -127,7 +123,7 @@ const SiteSettings = (props) => {
       const Drs_models_valueKey = "drs_card_id";
 
       for (let i = 0; i < values.FormikDRSData.length; i++) {
-        const { id, fuel_name, checked } = values.FormikDRSData[i];
+        const { id, checked } = values.FormikDRSData[i];
 
         if (checked) {
           selectedDrsIds.push({ [Drs_models_valueKey + "[" + i + "]"]: id });
@@ -161,7 +157,7 @@ const SiteSettings = (props) => {
       const reports_models_valueKey = "reports";
 
       for (let i = 0; i < values.FormikreportsData.length; i++) {
-        const { id, fuel_name, checked } = values.FormikreportsData[i];
+        const { id, checked } = values.FormikreportsData[i];
 
         if (checked) {
           selectedReportsIds.push({
@@ -177,7 +173,7 @@ const SiteSettings = (props) => {
       });
 
       for (const obj of values.AssignFormikCards) {
-        const { id, for_tenant, checked, card_name } = obj;
+        const { id, for_tenant, checked, } = obj;
         const card_valueKey = `cards[${id}]`;
         if (checked) {
           formData.append(card_valueKey, for_tenant);
@@ -185,7 +181,7 @@ const SiteSettings = (props) => {
       }
 
       for (const obj of values.FormikChargesData) {
-        const { id, charge_name, charge_value, checked, admin, operator } = obj;
+        const { id, charge_value, checked, admin, operator } = obj;
         const charge_admin_valueKey = `charge_admin[${id}]`;
         const charge_operator_valueKey = `charge_operator[${id}]`;
         const charge_amount_valueKey = `charge_amount[${id}]`;
@@ -201,7 +197,6 @@ const SiteSettings = (props) => {
       for (const obj of values.FormikDeductionData) {
         const {
           id,
-          deduction_name,
           deduction_value,
           checked,
           admin,
@@ -221,7 +216,7 @@ const SiteSettings = (props) => {
       }
 
       for (const obj of values.Formiksite_items) {
-        const { id, dept_name, price, checked, is_admin } = obj;
+        const { id, price, checked, is_admin } = obj;
         const deductions_admin_valueKey = `department_item_admin[${id}]`;
 
         const department_items = `department_items[${id}]`;
@@ -258,7 +253,6 @@ const SiteSettings = (props) => {
   });
 
   const handleRadioBussinessmodel = (row, index) => {
-    const clickedModel = row.business_model_types[index];
 
     const updatedModels = BussinesModelData.map((item) => {
       if (item.id === row.id) {
@@ -280,7 +274,6 @@ const SiteSettings = (props) => {
   };
 
   const [selectAllCheckedReports, setSelectAllCheckedReports] = useState(false);
-  const [selectAllCldoReports, setSelectAllCldoReports] = useState(false);
 
   const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
     useState(false);
@@ -1045,16 +1038,6 @@ const SiteSettings = (props) => {
       ),
     },
   ];
-  const handleSelectAllCldoReports = () => {
-    const updatedRowData = CldoReportsReportsData.map((row) => ({
-      ...row,
-      checked: !selectAllCldoReports,
-    }));
-    formik.setFieldValue("FormikCldoReports", updatedRowData);
-    setSelectAllCldoReports(!selectAllCldoReports);
-
-    formik.setFieldValue("FormikCldoReports", updatedRowData);
-  };
 
   const cldosubmit = async (event) => {
     event.preventDefault();

@@ -21,11 +21,8 @@ const WorkflowExceptionFilter = (props) => {
     onformSubmit,
   } = props;
 
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
@@ -75,14 +72,12 @@ const WorkflowExceptionFilter = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -267,7 +262,6 @@ const WorkflowExceptionFilter = (props) => {
                         GetSiteList(selectcompany);
                         formik.setFieldValue("company_id", selectcompany);
                         formik.setFieldValue("site_id", "");
-                        setSelectedCompanyId(selectcompany);
 
                         const selectedCompanyData =
                           CompanyList?.find(
@@ -330,7 +324,6 @@ const WorkflowExceptionFilter = (props) => {
                       const selectedsite_id = e.target.value;
 
                       formik.setFieldValue("site_id", selectedsite_id);
-                      setSelectedSiteId(selectedsite_id);
 
                       const selectedSiteData =
                         SiteList.find(

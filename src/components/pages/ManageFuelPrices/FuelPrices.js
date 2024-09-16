@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,6 +28,7 @@ const FuelPrices = (props) => {
     mobileSMS: false,
     email: false,
   });
+
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions || [],
   );
@@ -301,7 +301,7 @@ const FuelPrices = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      <div className="overflow-container" style={containerStyles}>
+      <div className="overflow-container" >
 
         {modalOpen && (<>
           <CustomModal
@@ -351,7 +351,6 @@ const FuelPrices = (props) => {
                 onApplyFilters={handleApplyFilters}
                 validationSchema={validationSchemaForCustomInput}
                 storedKeyName={storedKeyName}
-                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
                 lg="4"
                 showStationValidation={false}
                 showMonthInput={false}

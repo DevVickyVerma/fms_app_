@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import Loaderimg from "../../../Utils/Loader";
-
 import { useSelector } from "react-redux";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -18,20 +15,15 @@ import Swal from "sweetalert2";
 
 const SageBanking = (props) => {
   const { getData, isLoading, postData, apidata } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const [selectedClientId, setSelectedClientId] = useState("");
-
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [DepartmentList, setDepartmentList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
 
   const [data, setData] = useState();
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
+  const isUpdatePermissionAvailable = userPermissions?.includes("bankinghead-update");
 
 
   useEffect(() => {
@@ -47,12 +39,6 @@ const SageBanking = (props) => {
   }, []);
 
 
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
 
   const formik = useFormik({
     initialValues: {
@@ -128,14 +114,12 @@ const SageBanking = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -147,8 +131,6 @@ const SageBanking = (props) => {
 
 
 
-  const isUpdatePermissionAvailable =
-    permissionsArray?.includes("bankinghead-update");
 
 
   const GetCompanyList = async (values) => {
@@ -290,6 +272,7 @@ const SageBanking = (props) => {
   };
   const DeleteClient = async (formData, index) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("sage/banking/head-delete", formData);
       // Console log the response
       if (apidata.api_response === "success") {
@@ -435,7 +418,6 @@ const SageBanking = (props) => {
                                 GetCompanyList(selectedType);
                                 formik.setFieldValue("client_id", selectedType);
                                 setSelectedClientId(selectedType);
-                                setSiteList([]);
                                 setDepartmentList([]);
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
@@ -445,7 +427,6 @@ const SageBanking = (props) => {
                                 formik.setFieldValue("department_id", "");
 
                                 setDepartmentList([]);
-                                setSiteList([]);
                                 setCompanyList([]);
                               }
                             }}
@@ -498,7 +479,7 @@ const SageBanking = (props) => {
                               formik.setFieldValue("department_id", "");
 
                               setDepartmentList([]);
-                              setSiteList([]);
+
                             }
                           }}
                         >
@@ -551,7 +532,7 @@ const SageBanking = (props) => {
                                 selectedType
                               );
 
-                              setSiteList([]);
+
 
                               formik.setFieldValue("site_id", "");
                             } else {
@@ -559,7 +540,7 @@ const SageBanking = (props) => {
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("department_id", "");
 
-                              setSiteList([]);
+
                               setCompanyList([]);
                               setDepartmentList([]);
                             }

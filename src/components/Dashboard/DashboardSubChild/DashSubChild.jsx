@@ -721,12 +721,13 @@ const DashSubChild = ({
           </>
         </Col>
       </Row>
+
       <Col xl={12} className="p-0">
         <Card>
           <Card.Header>
             <div className="Tank-Details d-flex">
               <h4 className="card-title">Competitor Stats</h4>
-              
+
             </div>
           </Card.Header>
           <Card.Body className="p-6">
@@ -981,7 +982,7 @@ const DashSubChild = ({
           </Card.Body>
         </Card>
       </Col>
-    
+
 
       <Row
         style={{

@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { Card, Col, Modal, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 
-const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFilters }) => {
+const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters }) => {
   const [data, setData] = useState();
+  const [filters, setFilters] = useState();
 
   const FetchmannegerList = async (filters) => {
     try {
@@ -25,6 +26,10 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
     if (filters?.site_id && filters?.client_id && filters.company_id) {
       FetchmannegerList(filters);
     }
+
+    // if (parentFilters) {
+    //   setFilters(parentFilters)
+    // }
   }, [filters?.site_id]);
 
   const request = [
@@ -76,7 +81,6 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
 
   const storedKeyName = 'localFilterModalData'
 
-
   useEffect(() => {
 
     const storedData = localStorage.getItem(storedKeyName);
@@ -115,7 +119,6 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
 
   useEffect(() => {
     setFilters(formik?.values)
-    localStorage.setItem(storedKeyName, JSON.stringify(formik?.values));
   }, [formik?.values?.site_id])
 
 
@@ -145,7 +148,9 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
                   <span> Last Updated On  {data?.last_updated}</span>
                   <span className="text-mute">
                     {" "}
-                    ({data?.last_updated_time})
+                    {data?.last_updated_time && <>
+                      ({data?.last_updated_time})
+                    </>}
                   </span>
                 </small>
               </span>
@@ -157,7 +162,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
             </span>
           </Modal.Header>
 
-          <Card>
+          <>
             <Card.Body className="card-body pb-0">
               <Row>
                 {formik?.values?.sites?.length > 0 && (<>
@@ -177,6 +182,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
                         value={formik?.values?.site_id}
                         className="input101 form-input"
                       >
+                        <option key={""} >Please Select Site</option>
                         {formik?.values?.sites?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.site_name}
@@ -201,7 +207,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">L {data?.gross_volume}</h2>
+                          <h2 className="mb-0 number-font"><span className="l-sign">ℓ</span>  {data?.gross_volume}</h2>
                           <p className="text-white mb-0">Gross Volume</p>
                         </div>
                         <div className="ms-auto">
@@ -305,7 +311,7 @@ const DashboardStatCard = ({ getData, isLoading, filters, isOpen, onClose, setFi
                 </Col>
               </Row>
             </Card.Body>
-          </Card>
+          </>
         </div>
       </Modal>
     </>

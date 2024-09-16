@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 
 const SiteSettings = (props) => {
   const { isLoading, getData, postData } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
@@ -138,9 +137,6 @@ const SiteSettings = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "cards-status-update"
-  );
   const isEditPermissionAvailable =
     permissionsArray?.includes("tolerance-update");
 
@@ -155,14 +151,12 @@ const SiteSettings = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }

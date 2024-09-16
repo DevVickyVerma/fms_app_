@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
@@ -7,7 +6,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
 import { handleError } from "../../../Utils/ToastUtils";
 
@@ -15,14 +13,10 @@ import { handleError } from "../../../Utils/ToastUtils";
 
 const UploadCompetitor = (props) => {
   const { getData, isLoading, postData } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
   const [data, setData] = useState();
-
-  const [isdataLoading, setIsLoading] = useState(false);
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -77,14 +71,12 @@ const UploadCompetitor = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -183,11 +175,6 @@ const UploadCompetitor = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-
 
   const isButtonDisabled = formik?.values?.client_id && formik?.values?.company_id;
   const isShowButtonDisabled =
@@ -255,7 +242,7 @@ const UploadCompetitor = (props) => {
 
   return (
     <>
-      {isdataLoading || isLoading ? <Loaderimg /> : null}
+      {isLoading ? <Loaderimg /> : null}
       <>
         <div className="page-header ">
           <div>
@@ -323,7 +310,7 @@ const UploadCompetitor = (props) => {
                                 GetCompanyList(selectedType);
                                 formik.setFieldValue("client_id", selectedType);
                                 setSelectedClientId(selectedType);
-                                setSiteList([]);
+
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
                               } else {
@@ -331,7 +318,7 @@ const UploadCompetitor = (props) => {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
 
-                                setSiteList([]);
+
                                 setCompanyList([]);
                               }
                             }}
@@ -382,7 +369,7 @@ const UploadCompetitor = (props) => {
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("site_id", "");
 
-                              setSiteList([]);
+
                             }
                           }}
                         >

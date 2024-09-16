@@ -130,7 +130,7 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex align-items-center h-100 ">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold ">
-                        L  {item.fuel_volume?.gross_volume
+                        <span className="l-sign">ℓ</span>  {item.fuel_volume?.gross_volume
                           ? formatNumber(item.fuel_volume?.gross_volume)
                           : ""}
                       </h6>
@@ -441,7 +441,7 @@ const DashboardChildTable = (props) => {
               <div className="d-flex align-items-center h-100 ">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold ">
-                    L{item.fuel_volume?.gross_volume}
+                    <span className="l-sign">ℓ</span>{item.fuel_volume?.gross_volume}
                   </h6>
 
                   <p

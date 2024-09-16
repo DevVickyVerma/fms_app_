@@ -1,22 +1,10 @@
-import React from "react";
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import DatePicker from "react-multi-date-picker";
 import { AiOutlineClose } from "react-icons/ai";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  Modal,
-  OverlayTrigger,
-  Pagination,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, Form, Modal, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
@@ -28,16 +16,13 @@ import {
   DialogContent,
 } from "@mui/material";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import CustomPagination from '../../../Utils/CustomPagination';
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [hasMorePage, setHasMorePages] = useState("");
   const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
   const [siteName, setSiteName] = useState("");
 
   const handleDelete = (id) => {
@@ -97,14 +82,8 @@ const ManageRoles = (props) => {
 
       if (response && response.data) {
         setData(response.data.data.skipDates);
-        setCount(response.data.data.count);
-        setCurrentPage(response.data.data.currentPage);
-        setHasMorePages(response.data.data.hasMorePages);
-
-        setLastPage(response.data.data.lastPage);
-        setPerPage(response.data.data.perPage);
-        setTotal(response.data.data.total);
-
+        setCurrentPage(response.data.data?.currentPage || 1);
+        setLastPage(response.data.data?.lastPage || 1);
         setSiteName(response?.data?.data?.site_name)
       } else {
         throw new Error("No data available in the response");
@@ -154,7 +133,7 @@ const ManageRoles = (props) => {
       name: "Skip Date",
       selector: (row) => [row.skip_date],
       sortable: false,
-      width: "35%",
+      width: "30%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -171,7 +150,7 @@ const ManageRoles = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "35%",
+      width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -215,15 +194,10 @@ const ManageRoles = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
 
   const [showModal, setShowModal] = useState(false);
   const [selectedDates, setSelectedDates] = useState([]);
-  const [formattedDates, setFormattedDates] = useState([]);
 
   const openModal = () => {
     setShowModal(true);
@@ -253,7 +227,6 @@ const ManageRoles = (props) => {
       return formatDate(date);
     });
 
-    setFormattedDates(formatted);
 
     if (formatted.length > 0) {
       try {
@@ -268,6 +241,9 @@ const ManageRoles = (props) => {
 
         const response = await postData(`site/skip-date/add`, formData);
 
+        if (response) { }
+
+
         // Console log the response
         if (apidata.api_response === "success") {
           handleCloseModal();
@@ -280,39 +256,6 @@ const ManageRoles = (props) => {
       ErrorAlert("Please select atleast one date");
     }
   };
-
-  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
-  const pages = [];
-
-  // Calculate the range of pages to display
-  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
-  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
-
-  // Handle cases where the range is near the beginning or end
-  if (endPage - startPage + 1 < maxPagesToShow) {
-    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
-  }
-
-  // Render the pagination items
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(
-      <Pagination.Item
-        key={i}
-        active={i === currentPage}
-        onClick={() => handlePageChange(i)}
-      >
-        {i}
-      </Pagination.Item>
-    );
-  }
-
-  if (startPage > 1) {
-    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
-  }
-
-  if (endPage < lastPage) {
-    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
-  }
 
   return (
     <>
@@ -394,30 +337,12 @@ const ManageRoles = (props) => {
                   </>
                 )}
               </Card.Body>
-              {data?.length > 0 ? (
-                <>
-                  <Card.Footer>
-                    <div style={{ float: "right" }}>
-                      <Pagination>
-                        <Pagination.First onClick={() => handlePageChange(1)} />
-                        <Pagination.Prev
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        />
-                        {pages}
-                        <Pagination.Next
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === lastPage}
-                        />
-                        <Pagination.Last
-                          onClick={() => handlePageChange(lastPage)}
-                        />
-                      </Pagination>
-                    </div>
-                  </Card.Footer>
-                </>
-              ) : (
-                <></>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
               )}
             </Card>
           </Col>

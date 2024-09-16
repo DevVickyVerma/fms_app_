@@ -92,7 +92,7 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      L {GrossVolume?.gross_volume
+                      <span className="l-sign">ℓ</span> {GrossVolume?.gross_volume
                         ? formatNumber(GrossVolume?.gross_volume)
                         : ""}
                     </h2>
@@ -104,7 +104,7 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      L  {GrossVolume?.bunkered_volume
+                      <span className="l-sign">ℓ</span>  {GrossVolume?.bunkered_volume
                         ? formatNumber(GrossVolume?.bunkered_volume)
                         : ""}
                     </h2>
@@ -125,7 +125,7 @@ const DashboardStatsBox = (props) => {
                           className="icon icon-pound-sign  "
                           style={{ color: "#000" }}
                         >
-                          L
+                          <span className="l-sign">ℓ</span>
                         </i>
                       </div>
                     </div>
@@ -365,27 +365,6 @@ const DashboardStatsBox = (props) => {
                       </span>
                     </p>
                   </div>
-
-                  {/* <div className="ms-auto">
-                    <div
-                      className="counter-icon  brround  ms-auto"
-
-                      style={{ background: "#fff", color: "#ddd" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign  "
-                          style={{ color: "#000" }}
-                        >
-                           L
-                        </i>
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
                 <p className="margin-div">
                   <span

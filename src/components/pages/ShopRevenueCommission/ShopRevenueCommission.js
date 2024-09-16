@@ -18,10 +18,7 @@ import Swal from "sweetalert2";
 
 const SageDeduction = (props) => {
   const { getData, isLoading, postData, apidata } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-
   const [selectedClientId, setSelectedClientId] = useState("");
-
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [DepartmentList, setDepartmentList] = useState([]);
@@ -95,7 +92,6 @@ const SageDeduction = (props) => {
     formik.setFieldValue("endDate", "")
     formik.setFieldValue("startDate", "")
     formik.resetForm()
-    setSelectedCompanyList([]);
     setSelectedClientId("");
     setCompanyList([])
     setData(null)
@@ -175,14 +171,12 @@ const SageDeduction = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
             );
             if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -320,10 +314,12 @@ const SageDeduction = (props) => {
   };
   const DeleteClient = async (formData, index) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData(
         "shop-revenue-commission/delete",
         formData
       );
+
       // Console log the response
       if (apidata.api_response === "success") {
         const updatedRows = [...formik2.values.headsvalue];
