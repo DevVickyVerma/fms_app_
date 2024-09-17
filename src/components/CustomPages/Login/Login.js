@@ -103,6 +103,10 @@ export default function Login(props) {
           setshowCaptcha(data?.data?.show_captcha)
           setshowStillCaptcha(data?.data?.show_captcha)
           setshowStillCaptcha(true)
+
+          if (recaptchaRef.current) {
+            recaptchaRef.current.reset();
+          }
         }
 
         if (data?.data?.show_timer) {

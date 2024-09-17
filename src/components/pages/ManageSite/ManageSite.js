@@ -195,8 +195,7 @@ const ManageSite = (props) => {
     permissionsArray?.includes("skipdate-list");
   const isHidebusinessPermissionAvailable =
     permissionsArray?.includes("hide-category-list");
-  const isDailyDuePermissionAvailable =
-    permissionsArray?.includes("dailydue-list");
+  const isDailyDuePermissionAvailable = permissionsArray?.includes("dailydue-list");
 
 
 

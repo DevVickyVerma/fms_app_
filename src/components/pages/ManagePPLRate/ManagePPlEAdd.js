@@ -7,7 +7,6 @@ import {
   Card,
   Breadcrumb,
 } from "react-bootstrap";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -62,17 +61,7 @@ const AddSitePump = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
 
 
   const formik = useFormik({
@@ -343,4 +332,6 @@ const AddSitePump = (props) => {
     </>
   );
 };
+
+
 export default withApi(AddSitePump);

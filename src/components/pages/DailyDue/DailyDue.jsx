@@ -61,9 +61,10 @@ const DailyDue = ({ isLoading, getData, postData }) => {
 
 
     const fetchDailyDue = async (values) => {
+
         try {
             // Extract year and month from start_date
-            const startDate = new Date(values?.start_date);
+            const startDate = new Date(values?.start_month);
             const year = startDate.getFullYear();
             const month = (startDate.getMonth() + 1).toString().padStart(2, '0'); // Ensure month is 2 digits
             const drs_month = `${year}-${month}`;
@@ -168,9 +169,7 @@ const DailyDue = ({ isLoading, getData, postData }) => {
             });
             formik.setFieldValue("dues", formik.values?.dues);
         } else {
-            ErrorAlert(
-                "Please fill all fields correctly before adding a new Daily Due row."
-            );
+            ErrorAlert("Please fill all fields correctly before adding a new Daily Due row.");
         }
     };
 
