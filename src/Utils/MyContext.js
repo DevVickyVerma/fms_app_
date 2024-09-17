@@ -28,7 +28,7 @@ const MyProvider = ({ children }) => {
           },
         });
 
-        setcontextClients(response?.data?.data); // Assuming the client list is in `response.data.data`
+        setcontextClients(response?.data?.data || []); // Assuming the client list is in `response.data.data`
       } catch (err) {
         setError(err.response ? err.response.data.message : 'Error fetching clients');
       } finally {

@@ -9,6 +9,7 @@ import LoaderImg from '../../../Utils/Loader';
 import { handleError } from '../../../Utils/ToastUtils';
 import FormikSelect from '../../Formik/FormikSelect';
 import { useMyContext } from '../../../Utils/MyContext';
+import FormikInput from '../../Formik/FormikInput';
 
 const NewDashboardFilterModal = ({
     getData,
@@ -18,6 +19,8 @@ const NewDashboardFilterModal = ({
     isStatic = true,
     smallScreen = false,
     showEntityInput = true,
+    showEntityValidation = true,
+    showClientValidation = true,
     showStationInput = true,
     showStationValidation = true,
     showMonthValidation = true,
@@ -214,6 +217,7 @@ const NewDashboardFilterModal = ({
                                             formik={formik}
                                             name="client_id"
                                             label="Client"
+                                            isRequired={showClientValidation}
                                             options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
                                             className="form-input"
                                             onChange={handleClientChange}
@@ -231,6 +235,7 @@ const NewDashboardFilterModal = ({
                                             label="Company"
                                             options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
                                             className="form-input"
+                                            isRequired={showEntityValidation}
                                             onChange={handleCompanyChange}
                                         />
                                     </Col>
@@ -250,6 +255,25 @@ const NewDashboardFilterModal = ({
                                         />
                                     </Col>
                                 )}
+
+
+
+                                {showDateInput && (
+                                    <Col lg={6}>
+                                        <FormikInput formik={formik} type="date" label="Date" name="start_date" isRequired={showDateValidation} />
+                                    </Col>
+                                )}
+
+                                {
+                                    showMonthInput && (
+                                        <Col lg={6}>
+                                            <FormikInput formik={formik} type="month" label="Month" name="start_month" />
+                                        </Col>
+                                    )
+                                }
+
+
+
 
 
                             </Row>

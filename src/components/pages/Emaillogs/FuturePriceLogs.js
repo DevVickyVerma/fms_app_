@@ -72,10 +72,10 @@ const FuturePriceLogs = (props) => {
 
                 const DeleteClient = async (formData) => {
                     try {
+                        // eslint-disable-next-line no-unused-vars
                         const response = await postData("fuel-price/history/cancel", formData);
 
 
-                        console.log(response, "response");
 
                         if (apidata.api_response === "success") {
                             handleFetchListing();
@@ -200,7 +200,6 @@ const FuturePriceLogs = (props) => {
 
 
     const handleErrorModal = (row) => {
-        console.log(row, "row");
         setShowModal(true)
         setSelectedRow(row)
     }

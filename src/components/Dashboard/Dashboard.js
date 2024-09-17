@@ -33,9 +33,7 @@ const Dashboard = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
-  const [isNotClient] = useState(
-    localStorage.getItem("superiorRole") !== "Client"
-  );
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const dispatch = useDispatch()
 
   useEffect(() => {

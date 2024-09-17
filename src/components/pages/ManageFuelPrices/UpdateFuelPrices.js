@@ -83,7 +83,6 @@ const UpdateFuelPrices = (props) => {
 
             if (data?.data) {
                 setMiddayFuelPriceData(data)
-                console.log(data, "response1");
             }
 
         } catch (error) {

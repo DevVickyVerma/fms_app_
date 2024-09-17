@@ -2,48 +2,36 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
-import SortIcon from "@mui/icons-material/Sort";
-import { Breadcrumb, Button, Card, Col, Row } from "react-bootstrap";
-
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import WorkflowExceptionFilter from "../../../data/Modal/DsrFilterModal";
-import { Box } from "@mui/material";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CustomPagination from "../../../Utils/CustomPagination";
+import FiltersComponent from "../../Dashboard/DashboardHeader";
+import NewDashboardFilterModal from "../Filtermodal/NewDashboardFilterModal";
+import { useSelector } from "react-redux";
+import { handleError } from "../../../Utils/ToastUtils";
+import * as Yup from "yup";
 
 
 const ManageEmail = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [formValues, setFormValues] = useState(null);
+  const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
+  const ReduxFullData = useSelector((state) => state?.data?.data);
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
 
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-
-  useEffect(() => {
-    if (formValues === null) {
-      FetchTableData(currentPage);
-    }
-    // console.clear();
-  }, [currentPage, formValues]);
-
-  const FetchTableData = async (pageNumber) => {
-    try {
-      const response = await getData(`/drs/exception?page=${currentPage}`);
-      setData(response?.data?.data?.exceptions);
-      setCurrentPage(response?.data?.data?.currentPage || 1);
-      setLastPage(response?.data?.data?.lastPage || 1);
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
 
   const columns = [
     {
@@ -110,55 +98,148 @@ const ManageEmail = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Function to open the modal
-  const openModal = () => {
-    setIsModalVisible(true);
-  };
+  const validationSchemaForCustomInput = Yup.object({});
 
-  // Function to close the modal
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
+  let storedKeyName = "localFilterModalData";
 
-  const handleFetchSiteData = async (values) => {
-    try {
-      const response = await getData(
-        `/drs/exception?site_id=${values?.site_id}&drs_date=${values?.start_date}&page=${currentPage}`
-      );
-      setData(response?.data?.data?.exceptions);
-      setCurrentPage(response?.data?.data?.currentPage || 1);
-      setLastPage(response?.data?.data?.lastPage || 1);
+  const handleApplyFilters = ((values) => {
+    if (!values?.start_date) {
+      // If start_date does not exist, set it to the current date
+      const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+      values.start_date = currentDate;
+      // Update the stored data with the new start_date
+      localStorage.setItem(storedKeyName, JSON.stringify(values));
+    }
 
-    } catch (error) {
-      console.error("API error:", error);
+    FetchFilterData(values);
+  });
+
+  const FetchFilterData = async (filters) => {
+    if (filters) {
+      let { client_id, company_id, client_name, company_name, start_date, site_id } = filters;
+
+      if (localStorage.getItem("superiorRole") === "Client") {
+        client_id = ReduxFullData?.superiorId;
+        client_name = ReduxFullData?.full_name;
+      }
+
+      if (ReduxFullData?.company_id && !company_id) {
+        company_id = ReduxFullData?.company_id;
+        company_name = ReduxFullData?.company_name;
+      }
+
+      const updatedFilters = {
+        ...filters,
+        client_id,
+        client_name,
+        company_id,
+        site_id,
+        start_date,
+        company_name
+      };
+      try {
+        const queryParams = new URLSearchParams();
+        if (site_id) queryParams.append("site_id", site_id);
+        if (start_date) queryParams.append("drs_date", start_date);
+        queryParams.append("page", currentPage);
+
+        const queryString = queryParams.toString();
+        const response = await getData(`drs/exception?${queryString}`);
+        if (response && response.data && response.data.data) {
+          setFilters(updatedFilters);
+          setCenterFilterModalOpen(false);
+          setData(response?.data?.data?.exceptions);
+          setCurrentPage(response?.data?.data?.currentPage || 1);
+          setLastPage(response?.data?.data?.lastPage || 1);
+        }
+        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
+      } catch (error) {
+        handleError(error);
+      }
+    } else {
+      try {
+        const queryParams = new URLSearchParams();
+        queryParams.append("page", currentPage);
+
+        const queryString = queryParams.toString();
+        const response = await getData(`drs/exception?${queryString}`);
+        if (response && response.data && response.data.data) {
+          setFilters();
+          setCenterFilterModalOpen(false);
+          setData(response?.data?.data?.exceptions);
+          setCurrentPage(response?.data?.data?.currentPage || 1);
+          setLastPage(response?.data?.data?.lastPage || 1);
+        }
+      } catch (error) {
+        handleError(error);
+      }
     }
   };
-  const handleFormSubmit = (values) => {
-    closeModal();
-    handleFetchSiteData(values);
-    setFormValues(values);
+
+  const handleToggleSidebar1 = () => {
+    setCenterFilterModalOpen(!centerFilterModalOpen);
   };
-  const superiorRole = localStorage.getItem("superiorRole");
-  const role = localStorage.getItem("role");
-  const ResetForm = () => {
-    FetchTableData(currentPage);
-    setFormValues();
+
+
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    setData(null);
+    FetchFilterData()
   };
+
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(storedKeyName);
+
+    if (storedData) {
+      let parsedData = JSON.parse(storedData);
+      if (parsedData.start_date || parsedData.site_id) { }
+      FetchFilterData(parsedData)
+    } else {
+      FetchFilterData()
+    }
+  }, [currentPage])
+
+
+
+
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      <>
-        <div className="page-header ">
-          <div>
-            <h1 className="page-title"> Workflow Exception</h1>
 
+      {centerFilterModalOpen && (
+        <div className="">
+          <NewDashboardFilterModal
+            isOpen={centerFilterModalOpen}
+            onClose={() => setCenterFilterModalOpen(false)}
+            getData={getData}
+            isLoading={isLoading}
+            isStatic={true}
+            onApplyFilters={handleApplyFilters}
+            validationSchema={validationSchemaForCustomInput}
+            storedKeyName={storedKeyName}
+            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+            showStationValidation={false}
+            showMonthInput={false}
+            showDateInput={true}
+            showClientValidation={false}
+            showEntityValidation={false}
+            showDateValidation={false}
+          />
+        </div>
+      )}
+
+
+      <>
+        <div className="page-header d-flex flex-wrap">
+          <div className="mb-2 mb-sm-0">
+            <h1 className="page-title">Workflow Exception</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -176,124 +257,19 @@ const ManageEmail = (props) => {
             </Breadcrumb>
           </div>
 
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            minHeight={"90px"}
-            className="center-filter-modal-responsive"
-          >
-            {localStorage.getItem("superiorRole") === "Client" &&
-              localStorage.getItem("role") === "Operator" ? (
-              ""
-            ) : (
-              <Box
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"baseline"}
-                my={"20px"}
-                gap={"5px"}
-                mx={"10px"}
-                flexDirection={"inherit"}
-                className="filter-responsive"
-              >
-                <span
-                  className="Search-data"
-                  style={{
-                    marginTop: "10px",
-                    marginBottom: "10px",
-                    display: "flex",
-                    gap: "5px",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  {Object.entries(formValues || {}).some(
-                    ([key, value]) =>
-                      [
-                        "client_name",
-                        "Drs Date",
-                        "company_name",
-                        "site_name",
-                        "start_date",
-                      ].includes(key) &&
-                      value != null &&
-                      value !== ""
-                  ) ? (
-                    Object.entries(formValues || {}).map(([key, value]) => {
-                      if (
-                        [
-                          "client_name",
-                          "start_date",
-                          "company_name",
-                          "site_name",
-                          "fromdate",
-                        ].includes(key) &&
-                        value != null &&
-                        value !== ""
-                      ) {
-                        const formattedKey = key
-                          .toLowerCase()
-                          .split("_")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ");
-
-                        return (
-                          <div key={key} className="badge">
-                            <span className="badge-key">{formattedKey}:</span>
-                            <span className="badge-value">{value}</span>
-                          </div>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })
-                  ) : superiorRole === "Client" && role !== "Client" ? (
-                    <div className="badge">
-                      <span className="badge-key">Company Name:</span>
-                      <span className="badge-value">
-                        {localStorage.getItem("PresetCompanyName")}
-                      </span>
-                    </div>
-                  ) : null}
-                </span>
-                <Box display={"flex"} ml={"4px"} alignSelf={"center"}>
-                  <button className="btn btn-primary ml-2" onClick={openModal}>
-                    Filter
-                    <span className="ms-2">
-                      <SortIcon />
-                    </span>
-                  </button>
-
-                  <WorkflowExceptionFilter
-                    title="Filter Workflow Exception"
-                    visible={isModalVisible}
-                    onClose={closeModal}
-                    onformSubmit={handleFormSubmit}
-                    searchListstatus={false}
-                  />
-
-                  {Object.keys(formValues || {}).length > 0 ? (
-                    <Button
-                      onClick={() => {
-                        ResetForm();
-                      }}
-                      className="btn btn-danger ms-2"
-                      variant="danger"
-                    >
-                      Reset   <i className="ph ph-arrow-clockwise"></i>
-                    </Button>
-                  ) : (
-                    ""
-                  )}
-                </Box>
-              </Box>
-            )}
-          </Box>
+          <div className="">
+            <div className="input-group">
+              <FiltersComponent
+                filters={filters}
+                handleToggleSidebar1={handleToggleSidebar1}
+                handleResetFilters={handleResetFilters}
+                showResetBtn={true}
+                showStartDate={true}
+              />
+            </div>
+          </div>
         </div>
+
 
         <Row className=" row-sm">
           <Col lg={12}>

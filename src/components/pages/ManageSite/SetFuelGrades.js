@@ -131,7 +131,6 @@ const SetFuelGrades = (props) => {
         const formData = new FormData();
 
 
-        console.log(values, "valuesvalues");
 
         values?.fuels?.forEach((grade) => {
             formData.append(`grade[${grade?.id}]`, grade?.grade);

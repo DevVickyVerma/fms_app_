@@ -80,15 +80,14 @@ const NewFilterTab = ({
 
 
 
-    const { contextClients, setcontextClients } =
-        useMyContext();
+    const { contextClients, setcontextClients } = useMyContext();
 
 
 
     useEffect(() => {
         if (showClientInput && contextClients?.length == 0) {
             fetchClientList();
-        } else if (contextClients?.length > 0) {
+        } else if (contextClients?.length > 0 || contextClients !== null) {
             formik.setFieldValue('clients', contextClients);
         }
     }, [showClientInput, contextClients]);
@@ -120,9 +119,12 @@ const NewFilterTab = ({
     const fetchClientList = async () => {
         try {
             const response = await getData('/common/client-list');
-            const clients = response?.data?.data;
-            setcontextClients(clients);
-            formik.setFieldValue('clients', clients);
+
+            if (response?.data?.data) {
+                formik.setFieldValue('clients', response?.data?.data);
+                setcontextClients(response?.data?.data || []);
+            }
+
         } catch (error) {
             handleError(error);
         }
@@ -283,7 +285,7 @@ const NewFilterTab = ({
                                 }
 
 
-                                {showDateInput && showDateRangeInput && (
+                                {showDateRangeInput && (
                                     <Col lg={lg || 6}>
                                         <label htmlFor="date-range">Date Range</label>
                                         <DatePicker
