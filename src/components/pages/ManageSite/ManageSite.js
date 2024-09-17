@@ -3,19 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from "../../../Utils/useToggleStatus";
 
 
 const ManageSite = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
 
   const [data, setData] = useState();
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -23,11 +22,30 @@ const ManageSite = (props) => {
   const [sidebardataobject, setSideDataobject] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-
   const [searchTerm, setSearchTerm] = useState('');
 
 
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
 
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'site/delete', formData, handleSuccess);
+  };
+
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append('id', row.id.toString());
+    formData.append('site_status', (row.site_status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/site/update-status', formData, handleSuccess);
+  };
+
+
+  const handleSuccess = () => {
+    FetchTableData();
+  }
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -68,75 +86,6 @@ const ManageSite = (props) => {
   const handleCloseSidebar = () => {
     setSidebarVisible(true);
   };
-
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            // eslint-disable-next-line no-unused-vars
-            const response = await axiosInstance.post("/site/delete", formData);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
-  };
-
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.site_status === 1 ? 0 : 1;
-    formData.append("site_status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await postData("/site/update-status", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
 
 
   const FetchTableData = async () => {
