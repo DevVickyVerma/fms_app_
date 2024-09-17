@@ -25,6 +25,7 @@ export default function Login(props) {
   const [showTime, setshowTime] = useState(false);
   const [captchatoken, setcaptchatoken] = useState("");
   const recaptchaRef = useRef(); // Create a ref for ReCAPTCHA
+  const [backendTimer, setBackendTimer] = useState(localStorage.getItem("dynamicTime"));
 
 
   if (localStorage.getItem("myKey") === null) {
@@ -33,6 +34,9 @@ export default function Login(props) {
       window.location.reload();
     }
   }
+
+
+
 
   const handleKeyPress = (event) => {
     if (event.getModifierState("CapsLock")) {
@@ -59,7 +63,7 @@ export default function Login(props) {
     // recaptcha: Yup.string().required("Please complete the CAPTCHA"),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, resetForm) => {
 
     setLoading(true);
     const finalValues = {
@@ -107,11 +111,16 @@ export default function Login(props) {
           if (recaptchaRef.current) {
             recaptchaRef.current.reset();
           }
+          resetForm()
         }
 
         if (data?.data?.show_timer) {
           setLocalStorageData('timer', data?.data?.show_timer);
           setshowTime(data?.data?.show_timer)
+        }
+        if (data?.data?.timer) {
+          localStorage.setItem('dynamicTime', data?.data?.timer);
+          setBackendTimer(data?.data?.timer)
         }
         ErrorAlert(data.message);
         setLoading(false);
@@ -199,8 +208,6 @@ export default function Login(props) {
     setshowTime(false)
     localStorage.removeItem("timer");
   };
-
-
 
 
   return (
@@ -445,7 +452,7 @@ export default function Login(props) {
                                 <span className="ml-2">Login</span>  {" "}
 
                                 {showTime && (
-                                  <CountdownTimer initialTime={300} onCountdownComplete={handleCountdownComplete} />
+                                  <CountdownTimer initialTime={backendTimer || 300} onCountdownComplete={handleCountdownComplete} />
                                 )}
 
 
