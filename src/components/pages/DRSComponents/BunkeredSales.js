@@ -1356,7 +1356,7 @@ const DepartmentShop = (props) => {
                             ""
                           )}
                           {(editable?.is_editable && editable?.is_addable) ? (
-                            <div className="bunkered-action">
+                            <div className="bunkered-action d-flex ">
 
                               {formik3?.values?.bunkered_creditcardsales?.length > 1 && (<>
                                 <button
