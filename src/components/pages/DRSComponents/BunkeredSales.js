@@ -705,6 +705,8 @@ const DepartmentShop = (props) => {
           <Card>
             <Card.Header>
               <h3 className="card-title"> BUNKERED SALES:</h3>
+
+
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit}>
@@ -1203,11 +1205,11 @@ const DepartmentShop = (props) => {
                               formik3.touched[`bunkered_creditcardsales[${index}].koisk_value`]
                               ? "is-invalid"
                               : ""
-                              }`}
+                              } ${!item?.edit_koisk_value && 'readonly'}`}
                             name={`bunkered_creditcardsales[${index}].koisk_value`}
                             onChange={formik3.handleChange}
                             value={item?.koisk_value || ""}
-                            readOnly={editable?.is_editable ? false : true}
+                            readOnly={!item?.edit_koisk_value}
                           />
                           {formik3.errors.bunkered_creditcardsales?.[index]?.koisk_value &&
                             formik3.touched[
@@ -1234,11 +1236,11 @@ const DepartmentShop = (props) => {
                               ]
                               ? "is-invalid"
                               : ""
-                              }`}
+                              } ${!item?.edit_opt_value && 'readonly'}`}
                             name={`bunkered_creditcardsales[${index}].opt_value`}
                             onChange={formik3.handleChange}
                             value={item?.opt_value || ""}
-                            readOnly={editable?.is_editable ? false : true}
+                            readOnly={!item?.edit_opt_value}
                           />
                           {formik3.errors.bunkered_creditcardsales?.[index]?.opt_value &&
                             formik3.touched[
@@ -1265,11 +1267,11 @@ const DepartmentShop = (props) => {
                               ]
                               ? "is-invalid"
                               : ""
-                              }`}
+                              } ${!item?.edit_account_value && 'readonly'}`}
                             name={`bunkered_creditcardsales[${index}].account_value`}
                             onChange={formik3.handleChange}
                             value={item?.account_value || ""}
-                            readOnly={editable?.is_editable ? false : true}
+                            readOnly={!item?.edit_account_value}
                           />
                           {formik3.errors.bunkered_creditcardsales?.[index]
                             ?.account_value &&
@@ -1300,11 +1302,11 @@ const DepartmentShop = (props) => {
                               ]
                               ? "is-invalid"
                               : ""
-                              }`}
+                              }  ${!item?.edit_no_of_transactions && 'readonly'}`}
                             name={`bunkered_creditcardsales[${index}].no_of_transactions`}
                             onChange={formik3.handleChange}
                             value={item?.no_of_transactions || ""}
-                            readOnly={editable?.is_editable ? false : true}
+                            readOnly={!item?.edit_no_of_transactions}
                           />
                           {formik3.errors.bunkered_creditcardsales?.[index]
                             ?.no_of_transactions &&
