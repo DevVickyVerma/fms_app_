@@ -697,7 +697,7 @@ const DepartmentShop = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title"> BUNKERED SALES:</h3>
+              <h3 className="card-title"> BUNKERED SALES</h3>
 
 
             </Card.Header>
@@ -711,7 +711,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkered_Sales[${index}].fuel_id`}
                         >
-                          <Form.Label>FUEL:</Form.Label>
+                          <Form.Label>FUEL</Form.Label>
                           <Form.Control
                             type="text"
                             className={`input101 ${formik.errors.bunkered_Sales?.[index]?.fuel_id &&
@@ -736,7 +736,7 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group controlId={`bunkered_Sales[${index}].card_id`}>
-                          <Form.Label>CARD NAME:</Form.Label>
+                          <Form.Label>CARD NAME</Form.Label>
                           <Form.Control
                             as="select"
                             className={`input101 ${formik.errors.bunkered_Sales?.[index]?.card_id &&
@@ -771,10 +771,10 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkered_Sales[${index}].volume`}
                         >
-                          <Form.Label>VOLUME:</Form.Label>
+                          <Form.Label>VOLUME</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik.errors.bunkered_Sales?.[index]?.volume &&
                               formik.touched[`bunkered_Sales[${index}].volume`]
                               ? "is-invalid"
@@ -803,10 +803,10 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group controlId={`bunkered_Sales[${index}].value`}>
-                          <Form.Label>VALUE:</Form.Label>
+                          <Form.Label>VALUE</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik.errors.bunkered_Sales?.[index]?.value &&
                               formik.touched[`bunkered_Sales[${index}].value`]
                               ? "is-invalid"
@@ -833,10 +833,10 @@ const DepartmentShop = (props) => {
                       {editable?.is_adjustable && (<>
                         <Col lg={2} md={2}>
                           <Form.Group controlId={`bunkered_Sales[${index}].adj_value`}>
-                            <Form.Label>ADJUSTMENT VALUE:</Form.Label>
+                            <Form.Label>ADJUSTMENT VALUE</Form.Label>
                             <Form.Control
                               type="number"
-                              placeholder="enter number"
+                              placeholder="Value"
                               className={`input101 ${formik.errors.bunkered_Sales?.[index]?.adj_value &&
                                 formik.touched[`bunkered_Sales[${index}].adj_value`]
                                 ? "is-invalid"
@@ -907,7 +907,7 @@ const DepartmentShop = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title"> NON BUNKERED SALES:</h3>
+              <h3 className="card-title"> NON BUNKERED SALES</h3>
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik2.handleSubmit}>
@@ -919,7 +919,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].fuel_id`}
                         >
-                          <Form.Label>FUEL:</Form.Label>
+                          <Form.Label>FUEL</Form.Label>
                           <Form.Control
                             as="select"
                             className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
@@ -960,7 +960,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].card_id`}
                         >
-                          <Form.Label>CARD NAME:</Form.Label>
+                          <Form.Label>CARD NAME</Form.Label>
                           <Form.Control
                             as="select"
                             className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
@@ -1001,10 +1001,10 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].volume`}
                         >
-                          <Form.Label>VOLUME:</Form.Label>
+                          <Form.Label>VOLUME</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
                               ?.volume &&
                               formik2.touched[
@@ -1036,10 +1036,10 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].value`}
                         >
-                          <Form.Label>VALUE:</Form.Label>
+                          <Form.Label>VALUE</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
                               ?.value &&
                               formik2.touched[
@@ -1071,10 +1071,10 @@ const DepartmentShop = (props) => {
                       {editable?.is_adjustable && (<>
                         <Col lg={2} md={2}>
                           <Form.Group controlId={`non_bunkered_sales[${index}].adj_value`}>
-                            <Form.Label>ADJUSTMENT VALUE:</Form.Label>
+                            <Form.Label>ADJUSTMENT VALUE</Form.Label>
                             <Form.Control
                               type="number"
-                              placeholder="enter number"
+                              placeholder="Value"
                               className={`input101 ${formik2.errors.non_bunkered_sales?.[index]?.adj_value &&
                                 formik2.touched[`non_bunkered_sales[${index}].adj_value`]
                                 ? "is-invalid"
@@ -1144,7 +1144,7 @@ const DepartmentShop = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title"> BUNKERED CREDIT CARD SALES:</h3>
+              <h3 className="card-title"> BUNKERED CREDIT CARD SALES</h3>
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik3.handleSubmit}>
@@ -1156,7 +1156,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkered_creditcardsales[${index}].card_id`}
                         >
-                          <Form.Label>CARD NAME:</Form.Label>
+                          <Form.Label>CARD NAME</Form.Label>
                           <Form.Control
                             as="select"
                             className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]?.card_id &&
@@ -1193,7 +1193,7 @@ const DepartmentShop = (props) => {
                           <Form.Label>KOISK </Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]?.koisk_value &&
                               formik3.touched[`bunkered_creditcardsales[${index}].koisk_value`]
                               ? "is-invalid"
@@ -1221,7 +1221,7 @@ const DepartmentShop = (props) => {
                           <Form.Label>OPT </Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]
                               ?.opt_value &&
                               formik3.touched[
@@ -1249,10 +1249,10 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkered_creditcardsales[${index}].account_value`}
                         >
-                          <Form.Label> ACCOUNT VALUE:</Form.Label>
+                          <Form.Label> ACCOUNT VALUE</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]
                               ?.account_value &&
                               formik3.touched[
@@ -1284,10 +1284,10 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkered_creditcardsales[${index}].no_of_transactions`}
                         >
-                          <Form.Label> TRANSACTIONS :</Form.Label>
+                          <Form.Label> TRANSACTIONS </Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="enter number"
+                            placeholder="Value"
                             className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]
                               ?.no_of_transactions &&
                               formik3.touched[
@@ -1320,10 +1320,10 @@ const DepartmentShop = (props) => {
                       {editable?.is_adjustable && (<>
                         <Col lg={2} md={2}>
                           <Form.Group controlId={`bunkered_creditcardsales[${index}].adj_value`}>
-                            <Form.Label>ADJUSTMENT VALUE:</Form.Label>
+                            <Form.Label>ADJUSTMENT VALUE</Form.Label>
                             <Form.Control
                               type="number"
-                              placeholder="enter number"
+                              placeholder="Value"
                               className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]?.adj_value &&
                                 formik3.touched[`bunkered_creditcardsales[${index}].adj_value`]
                                 ? "is-invalid"
