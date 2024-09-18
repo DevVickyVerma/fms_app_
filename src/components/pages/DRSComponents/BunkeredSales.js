@@ -389,20 +389,60 @@ const DepartmentShop = (props) => {
     onSubmit: creditcardonSubmit,
   });
 
+  // const pushnonbunkeredSalesRow = () => {
+  //   if (formik2.isValid) {
+  //     formik2.values.non_bunkered_sales.push({
+  //       fuel: null,
+  //       volume: "",
+  //       value: "",
+  //     });
+  //     formik2.setFieldValue(
+  //       "non_bunkered_sales",
+  //       formik2.values.non_bunkered_sales
+  //     );
+  //   } else {
+  //     ErrorAlert(
+  //       "Please fill all fields correctly before adding a new non-bunkered sales row."
+  //     );
+  //   }
+  // };
+
+
   const pushnonbunkeredSalesRow = () => {
     if (formik2.isValid) {
-      formik2.values.non_bunkered_sales.push({
-        fuel: null,
+      // Manually add a new row with the specific fields and default values
+      const newRow = {
+        id: "", // You can initialize this with a value or leave it blank
+        fuel_name: "",
+        fuel_id: "",
+        card_id: "",
+        card_name: "",
+        opening_stock: null,
         volume: "",
         value: "",
-      });
-      formik2.setFieldValue(
-        "non_bunkered_sales",
-        formik2.values.non_bunkered_sales
-      );
+        adj_value: "",
+        closing_stock: null,
+        update_opening_stock: false,
+        update_volume: false,
+        update_value: false,
+        update_closing_stock: false,
+
+        // Manually adding the required fields with true
+        edit_card_name: true,
+        edit_volume: true,
+        edit_value: true,
+        edit_closing_stock: true,
+        edit_adj_value: true
+      };
+
+      // Push the new row into formik2 values
+      formik2.values?.non_bunkered_sales?.push(newRow);
+
+      // Update the formik2 state
+      formik2.setFieldValue("non_bunkered_sales", formik2?.values?.non_bunkered_sales);
     } else {
       ErrorAlert(
-        "Please fill all fields correctly before adding a new non-bunkered sales row."
+        "Please fill all fields correctly before adding a new bunkered sales row."
       );
     }
   };
@@ -997,7 +1037,7 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={1} md={1}>
+                      <Col lg={2} md={2}>
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].volume`}
                         >
@@ -1032,7 +1072,7 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={1} md={1}>
+                      <Col lg={2} md={2}>
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].value`}
                         >
