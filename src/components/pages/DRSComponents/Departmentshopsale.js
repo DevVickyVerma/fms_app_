@@ -58,50 +58,18 @@ const Departmentshopsale = (props) => {
         );
 
         const { data } = response;
+
+
         if (data) {
-          setData(data?.data?.listing ? data.data.listing : []);
-          setis_editable(data?.data ? data.data : {});
+          setData(data?.data?.listing);
+          setis_editable(data?.data);
 
-          //   {
-          //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-          //     "site_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-          //     "department_item_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-          //     "category_name": "Tobacco",
-          //     "gross_value": "38.37000",
-          //     "disc_value": "0.00000",
-          //     "nett_value": "31.97000",
-          //     "vat": null,
-          //     "ex_vat_value": null,
-          //     "department_sale_date": "2023-06-11",
-          //     "created_date": "2023-06-12",
-          //     "updated_date": "2023-06-13",
-          //     "update_gross_value": false,
-          //     "update_nett_value": false,
-          //     "update_disc_value": false
-          // }
 
-          // Create an array of form values based on the response data
-          const formValues = data?.data?.listing
-            ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                gross_value: item.gross_value,
-                disc_value: item.disc_value,
-                nett_value: item.nett_value,
-                adjust: item.adjust,
-                sale: item.sale,
-                price: item.price,
-                value: item.value,
-                com_rate: item.com_rate,
-                commission: item.commission,
-                // value_per: item.value_per ,
-                // Add other properties as needed
-              };
-            })
-            : [];
+          if (data?.data?.listing) {
+            // formik.setValues(data?.data?.listing)
+            formik.setFieldValue("data", data?.data?.listing);
+          }
 
-          // Set the formik values using setFieldValue
-          formik.setFieldValue("data", formValues);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -129,6 +97,7 @@ const Departmentshopsale = (props) => {
         gross_value,
         disc_value,
         nett_value,
+        adj_value,
         adjust,
         sale,
         price,
@@ -140,10 +109,15 @@ const Departmentshopsale = (props) => {
       const gross_valueKey = `gross_value[${id}]`;
       const discountKey = `disc_value[${id}]`;
       const nettValueKey = `nett_value[${id}]`;
+      const adjValueKey = `adj_value[${id}]`;
 
-      formData.append(gross_valueKey, gross_value);
-      formData.append(discountKey, disc_value);
-      formData.append(nettValueKey, nett_value);
+
+      if (id) {
+        formData.append(gross_valueKey, gross_value);
+        formData.append(discountKey, disc_value);
+        formData.append(nettValueKey, nett_value);
+        formData.append(adjValueKey, adj_value);
+      }
     }
 
     formData.append("site_id", site_id);
@@ -171,7 +145,7 @@ const Departmentshopsale = (props) => {
         ErrorAlert(responseData.message);
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      handleError(error)
       // Handle request error
     } finally {
       setIsLoading(false);
@@ -183,7 +157,7 @@ const Departmentshopsale = (props) => {
       name: "ITEM NAME",
       selector: (row) => row.category_name,
       sortable: false,
-      width: "25%",
+      width: editable?.is_adjustable ? "20%" : "25%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -195,7 +169,7 @@ const Departmentshopsale = (props) => {
       name: "	GROSS VALUE",
       selector: (row) => row.gross_value,
       sortable: false,
-      width: "25%",
+      width: editable?.is_adjustable ? "20%" : "25%",
       center: true,
 
       cell: (row, index) =>
@@ -214,17 +188,11 @@ const Departmentshopsale = (props) => {
               type="number"
               id={`gross_value-${index}`}
               name={`data[${index}].gross_value`}
-              className={
-                row.update_gross_value
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
-              }
               value={formik.values.data[index]?.gross_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input ${row.update_gross_value ? 'UpdateValueInput' : ''} ${!row?.edit_gross_value ? 'readonly' : ''}`}
+              readOnly={!row?.edit_gross_value}
             />
             {/* Error handling code */}
           </div>
@@ -234,7 +202,7 @@ const Departmentshopsale = (props) => {
       name: "	DISC VALUE ",
       selector: (row) => row.disc_value,
       sortable: false,
-      width: "25%",
+      width: editable?.is_adjustable ? "20%" : "25%",
       center: true,
 
       cell: (row, index) =>
@@ -253,17 +221,11 @@ const Departmentshopsale = (props) => {
               type="number"
               id={`disc_value-${index}`}
               name={`data[${index}].disc_value`}
-              className={
-                row.update_disc_value
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
-              }
               value={formik.values.data[index]?.disc_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input ${row.update_disc_value ? 'UpdateValueInput' : ''} ${!row?.edit_disc_value ? 'readonly' : ''}`}
+              readOnly={!row?.edit_disc_value}
             />
           </div>
         ),
@@ -272,7 +234,7 @@ const Departmentshopsale = (props) => {
       name: "	NETT VALUE",
       selector: (row) => row.nett_value,
       sortable: false,
-      width: "25%",
+      width: editable?.is_adjustable ? "20%" : "25%",
       center: true,
 
       cell: (row, index) =>
@@ -291,28 +253,53 @@ const Departmentshopsale = (props) => {
               type="number"
               id={`nett_value-${index}`}
               name={`data[${index}].nett_value`}
-              className={
-                row.update_nett_value
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
-              }
               value={formik.values.data[index]?.nett_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input ${row.update_nett_value ? 'UpdateValueInput' : ''} ${!row?.edit_nett_value ? 'readonly' : ''}`}
+              readOnly={!row?.edit_nett_value}
             />
-            {/* Error handling code */}
           </div>
         ),
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
+
+  // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
+  if (editable?.is_adjustable) {
+    columns?.push({
+      name: "ADJUSTMENT VALUE",
+      selector: (row) => row.adj_value,
+      sortable: false,
+      width: "20%",
+      center: true,
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row?.adj_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`adj_value-${index}`}
+              name={`data[${index}].adj_value`}
+              className={`table-input ${!row?.edit_adj_value ? 'readonly' : ''}`}
+              value={formik.values?.data?.[index]?.adj_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={!row?.edit_adj_value}
+            />
+          </div>
+        ),
+    });
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -320,6 +307,8 @@ const Departmentshopsale = (props) => {
     },
     onSubmit: handleSubmit,
   });
+
+
 
   return (
     <>
@@ -348,18 +337,12 @@ const Departmentshopsale = (props) => {
                           searchable={false}
                         />
                       </div>
-                      {data.length > 0 ? (
+
+                      {data?.length > 0 ? (
                         <div className="d-flex justify-content-end mt-3">
-                          {editable?.is_editable ? (
+
+                          {editable?.is_editable && (
                             <button className="btn btn-primary" type="submit">
-                              Submit
-                            </button>
-                          ) : (
-                            <button
-                              className="btn btn-primary"
-                              type="submit"
-                              disabled
-                            >
                               Submit
                             </button>
                           )}

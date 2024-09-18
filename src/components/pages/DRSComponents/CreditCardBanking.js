@@ -1,8 +1,6 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
@@ -56,25 +54,37 @@ const CreditCardBanking = (props) => {
         );
 
         const { data } = response;
+        // if (data) {
+        //   setData(data.data.listing);
+        //   setis_editable(data.data);
+
+
+        //   // Create an array of form values based on the response data
+        //   const formValues = data.data.listing.map((item) => {
+        //     return {
+        //       id: item.id,
+        //       card_name: item.card_name,
+        //       koisk_value: item.koisk_value,
+        //       opt_value: item.opt_value,
+        //       account_value: item.account_value,
+        //       no_of_transactions: item.no_of_transactions,
+        //     };
+        //   });
+
+        //   // Set the formik values using setFieldValue
+        //   formik.setFieldValue("data", formValues);
+        // }
+
         if (data) {
-          setData(data.data.listing);
-          setis_editable(data.data);
+          setData(data?.data?.listing);
+          setis_editable(data?.data);
 
 
-          // Create an array of form values based on the response data
-          const formValues = data.data.listing.map((item) => {
-            return {
-              id: item.id,
-              card_name: item.card_name,
-              koisk_value: item.koisk_value,
-              opt_value: item.opt_value,
-              account_value: item.account_value,
-              no_of_transactions: item.no_of_transactions,
-            };
-          });
+          if (data?.data?.listing) {
+            // formik.setValues(data?.data?.listing)
+            formik.setFieldValue("data", data?.data?.listing);
+          }
 
-          // Set the formik values using setFieldValue
-          formik.setFieldValue("data", formValues);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -96,23 +106,28 @@ const CreditCardBanking = (props) => {
     const formData = new FormData();
 
     values.data.forEach((obj) => {
-      const id = obj.id;
+      const id = obj?.id;
       const grossValueKey = `opt_value[${id}]`;
       const account_valueKey = `account_value[${id}]`;
       const nettValueKey = `no_of_transactions[${id}]`;
       const koisk_value = `koisk_value[${id}]`;
+      const adj_valueKey = `adj_value[${id}]`;
       // const actionKey = `action[${id}]`;
 
       const grossValue = obj.opt_value;
       const account_value = obj.account_value;
       const nettValue = obj.no_of_transactions;
+      const adj_value = obj.adj_value;
       const salesValue = obj.koisk_value;
       // const action = obj.action;
 
-      formData.append(grossValueKey, grossValue);
-      formData.append(account_valueKey, account_value);
-      formData.append(nettValueKey, nettValue);
-      formData.append(koisk_value, salesValue);
+      if (id) {
+        formData.append(grossValueKey, grossValue);
+        formData.append(account_valueKey, account_value);
+        formData.append(nettValueKey, nettValue);
+        formData.append(adj_valueKey, adj_value);
+        formData.append(koisk_value, salesValue);
+      }
     });
 
     formData.append("site_id", site_id);
@@ -169,7 +184,7 @@ const CreditCardBanking = (props) => {
       name: "KOISK VALUE",
       selector: (row) => row.koisk_value,
       sortable: false,
-      width: "20%",
+      width: editable?.is_adjustable ? "16%" : "20%",
       center: true,
 
       cell: (row, index) =>
@@ -188,13 +203,11 @@ const CreditCardBanking = (props) => {
               type="number"
               id={`koisk_value-${index}`}
               name={`data[${index}].koisk_value`}
-              className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
               value={formik.values.data[index]?.koisk_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input ${row?.update_koisk_value ? 'UpdateValueInput' : ''} ${!row?.edit_koisk_value ? 'readonly' : ''}`}
+              readOnly={!row?.edit_koisk_value}
             />
             {/* Error handling code */}
           </div>
@@ -205,7 +218,7 @@ const CreditCardBanking = (props) => {
 
       selector: (row) => row.opt_value,
       sortable: false,
-      width: "20%",
+      width: editable?.is_adjustable ? "16%" : "20%",
       center: true,
 
       cell: (row, index) =>
@@ -224,13 +237,12 @@ const CreditCardBanking = (props) => {
               type="number"
               id={`opt_value-${index}`}
               name={`data[${index}].opt_value`}
-              className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
+
               value={formik.values.data[index]?.opt_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input ${row?.update_opt_value ? 'UpdateValueInput' : ''} ${!row?.edit_opt_value ? 'readonly' : ''}`}
+              readOnly={!row?.edit_opt_value}
             />
             {/* Error handling code */}
           </div>
@@ -240,7 +252,7 @@ const CreditCardBanking = (props) => {
       name: "ACCOUNT VALUE	",
       selector: (row) => row.account_value,
       sortable: false,
-      width: "20%",
+      width: editable?.is_adjustable ? "16%" : "20%",
       center: true,
 
       cell: (row, index) =>
@@ -259,13 +271,12 @@ const CreditCardBanking = (props) => {
               type="number"
               id={`account_value-${index}`}
               name={`data[${index}].account_value`}
-              className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
+
               value={formik.values.data[index]?.account_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input ${row.update_account_value ? 'UpdateValueInput' : ''} ${!row?.edit_account_value ? 'readonly' : ''}`}
+              readOnly={!row?.edit_account_value}
             />
             {/* Error handling code */}
           </div>
@@ -275,7 +286,7 @@ const CreditCardBanking = (props) => {
       name: "NO. OF TRANSACTIONS",
       selector: (row) => row.no_of_transactions,
       sortable: false,
-      width: "20%",
+      width: editable?.is_adjustable ? "16%" : "20%",
       center: true,
 
       cell: (row, index) =>
@@ -294,13 +305,11 @@ const CreditCardBanking = (props) => {
               type="number"
               id={`no_of_transactions-${index}`}
               name={`data[${index}].no_of_transactions`}
-              className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
               value={formik.values.data[index]?.no_of_transactions}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input ${row.update_no_of_transactions ? 'UpdateValueInput' : ''} ${!row?.update_no_of_transactions ? 'readonly' : ''}`}
+              readOnly={!row?.update_no_of_transactions}
             />
             {/* Error handling code */}
           </div>
@@ -310,10 +319,41 @@ const CreditCardBanking = (props) => {
     // ... remaining columns
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
+  // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
+  if (editable?.is_adjustable) {
+    columns?.push({
+      name: "ADJUSTMENT VALUE",
+      selector: (row) => row.adj_value,
+      sortable: false,
+      width: "16%",
+      center: true,
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row?.adj_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`adj_value-${index}`}
+              name={`data[${index}].adj_value`}
+              className={`table-input ${!row?.edit_adj_value ? 'readonly' : ''}`}
+              value={formik.values?.data?.[index]?.adj_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={!row?.edit_adj_value}
+            />
+          </div>
+        ),
+    });
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -357,16 +397,8 @@ const CreditCardBanking = (props) => {
                         />
                       </div>
                       <div className="d-flex justify-content-end mt-3">
-                        {editable?.is_editable ? (
+                        {editable?.is_editable && (
                           <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        ) : (
-                          <button
-                            className="btn btn-primary"
-                            type="submit"
-                            disabled
-                          >
                             Submit
                           </button>
                         )}

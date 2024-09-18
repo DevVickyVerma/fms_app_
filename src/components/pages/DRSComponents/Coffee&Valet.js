@@ -64,32 +64,45 @@ const CoffeeValet = (props) => {
       );
 
       const { data } = response;
-      if (data) {
-        setData(data?.data?.listing ? data.data.listing : []);
-        setis_editable(data?.data ? data.data : {});
+      // if (data) {
+      //   setData(data?.data?.listing ? data.data.listing : []);
+      //   setis_editable(data?.data ? data.data : {});
 
-        const formValues = data?.data?.listing
-          ? data.data.listing.map((item) => {
-            return {
-              id: item.id,
-              opening: item.opening,
-              closing: item.closing,
-              tests: item.tests,
-              adjust: item.adjust,
-              sale: item.sale,
-              price: item.price,
-              value: item.value,
-              com_rate: item.com_rate,
-              commission: item.commission,
-              file: item.file,
-              // value_per: item.value_per ,
-              // Add other properties as needed
-            };
-          })
-          : [];
+      //   const formValues = data?.data?.listing
+      //     ? data.data.listing.map((item) => {
+      //       return {
+      //         id: item.id,
+      //         opening: item.opening,
+      //         closing: item.closing,
+      //         tests: item.tests,
+      //         adjust: item.adjust,
+      //         sale: item.sale,
+      //         price: item.price,
+      //         value: item.value,
+      //         com_rate: item.com_rate,
+      //         commission: item.commission,
+      //         file: item.file,
+      //         // value_per: item.value_per ,
+      //         // Add other properties as needed
+      //       };
+      //     })
+      //     : [];
+
+      //   // Set the formik values using setFieldValue
+      //   formik.setFieldValue("data", formValues);
+      // }
+
+      if (data) {
+        setData(data?.data?.listing);
+        setis_editable(data?.data);
+
+
+        if (data?.data?.listing) {
+          // formik.setValues(data?.data?.listing)
+          formik.setFieldValue("data", data?.data?.listing);
+        }
 
         // Set the formik values using setFieldValue
-        formik.setFieldValue("data", formValues);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -120,6 +133,7 @@ const CoffeeValet = (props) => {
         commission,
         value_per,
         com_rate,
+        adj_value,
       } = obj;
       const openingKey = `opening[${id}]`;
       const discountKey = `closing[${id}]`;
@@ -129,8 +143,13 @@ const CoffeeValet = (props) => {
       const bookStockKey = `price[${id}]`;
       const valueKey = `value[${id}]`;
       const valueLtKey = `commission[${id}]`;
+      const adj_valueKey = `adj_value[${id}]`;
       //   const valuePerKey = `value_per[${id}]`;
       const com_rateKey = `com_rate[${id}]`;
+
+
+
+
       if (!processedIds.includes(id) && id !== undefined) {
         formData.append(`valet_sale_id[${index}]`, id);
         processedIds.push(id); // Add ID to the processedIds array
@@ -162,6 +181,9 @@ const CoffeeValet = (props) => {
       }
       if (com_rateKey && com_rate !== undefined) {
         formData.append(com_rateKey, com_rate);
+      }
+      if (adj_valueKey && adj_value !== undefined) {
+        formData.append(adj_valueKey, adj_value);
       }
     }
 
@@ -276,7 +298,7 @@ const CoffeeValet = (props) => {
       name: "ITEM CATEGORY",
       selector: (row) => row.item_category,
       sortable: false,
-      width: "14%",
+      width: editable?.is_adjustable ? "7%" : "14%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -306,16 +328,11 @@ const CoffeeValet = (props) => {
               type="number"
               id={`opening-${index}`}
               name={`data[${index}].opening`}
-              className={
-                editable?.is_opening_editable
-                  ? "table-input "
-                  : "table-input readonly "
-              }
               value={formik.values.data[index]?.opening}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_opening_editable ? false : true}
-            // readOnly
+              className={`table-input  ${!row?.edit_opening ? 'readonly' : ''}`}
+              readOnly={!row?.edit_opening}
             />
             {/* Error handling code */}
           </div>
@@ -345,16 +362,14 @@ const CoffeeValet = (props) => {
               min={formik?.values?.data?.[index]?.opening}
               id={`closing-${index}`}
               name={`data[${index}].closing`}
-              className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
               value={formik.values.data[index]?.closing}
               onChange={formik.handleChange}
               onBlur={(e) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              readOnly={editable?.is_editable ? false : true}
+              className={`table-input  ${!row?.edit_closing ? 'readonly' : ''}`}
+              readOnly={!row?.edit_closing}
             />
             {/* Error handling code */}
           </div>
@@ -382,18 +397,14 @@ const CoffeeValet = (props) => {
               type="number"
               id={`tests-${index}`}
               name={`data[${index}].tests`}
-              className={
-                editable?.is_tests_editable
-                  ? "table-input "
-                  : "table-input readonly "
-              }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               onBlur={(e) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              readOnly={editable?.is_tests_editable ? false : true}
+              className={`table-input  ${!row?.edit_tests ? 'readonly' : ''}`}
+              readOnly={!row?.edit_tests}
             />
             {/* Error handling code */}
           </div>
@@ -421,16 +432,14 @@ const CoffeeValet = (props) => {
               type="number"
               id={`adjust-${index}`}
               name={`data[${index}].adjust`}
-              className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
               value={formik.values.data[index]?.adjust}
               onChange={formik.handleChange}
               onBlur={(e) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              readOnly={editable?.is_adjust_editable ? false : true}
+              className={`table-input  ${!row?.edit_adjust ? 'readonly' : ''}`}
+              readOnly={!row?.edit_adjust}
             />
             {/* Error handling code */}
           </div>
@@ -692,10 +701,43 @@ const CoffeeValet = (props) => {
       : []),
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
+
+  // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
+  if (editable?.is_adjustable) {
+    columns?.push({
+      name: "ADJUSTMENT VALUE",
+      selector: (row) => row.adj_value,
+      sortable: false,
+      width: "7",
+      center: true,
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row?.adj_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`adj_value-${index}`}
+              name={`data[${index}].adj_value`}
+              className={`table-input ${!row?.edit_adj_value ? 'readonly' : ''}`}
+              value={formik.values?.data?.[index]?.adj_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={!row?.edit_adj_value}
+            />
+          </div>
+        ),
+    });
+  }
+
 
   const formik = useFormik({
     initialValues: {
@@ -837,6 +879,8 @@ const CoffeeValet = (props) => {
                             Submit
                           </button>
                         )}
+
+
                       </div>
                       {editable?.is_show_message ? (
                         <span className="text-error">

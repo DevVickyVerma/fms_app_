@@ -39,31 +39,48 @@ const ShopSales = (props) => {
       );
 
       const { data } = response;
-      if (data) {
-        setData(data?.data ? data.data.charges : []);
-        setDeductionData(data?.data ? data.data.deductions : []);
-        setis_editable(data?.data ? data.data : {});
+      // if (data) {
+      //   setData(data?.data ? data.data.charges : []);
+      //   setDeductionData(data?.data ? data.data.deductions : []);
+      //   setis_editable(data?.data ? data.data : {});
 
-        // Create an array of form values based on the response data
-        const formValues = data?.data?.charges
-          ? data.data.charges.map((item) => ({
-            id: item.id,
-            charge_value: item.charge_value,
-          }))
-          : [];
+      //   // Create an array of form values based on the response data
+      //   const formValues = data?.data?.charges
+      //     ? data.data.charges.map((item) => ({
+      //       id: item.id,
+      //       charge_value: item.charge_value,
+      //     }))
+      //     : [];
+
+      //   // Set the formik values using setFieldValue
+      //   formik.setFieldValue("data", formValues);
+
+      //   const deductionFormValues = data?.data?.deductions
+      //     ? data.data.deductions.map((item) => ({
+      //       id: item.id,
+      //       deduction_value: item.deduction_value,
+      //     }))
+      //     : [];
+
+      //   // Set the formik values for deductions using setFieldValue
+      //   formik.setFieldValue("deductions", deductionFormValues);
+      // }
+
+      if (data) {
+        setData(data?.data?.charges);
+        setDeductionData(data?.data?.deductions);
+        setis_editable(data?.data);
+
+
+        if (data?.data?.charges) {
+          formik.setFieldValue("data", data?.data?.charges);
+        }
+
+        if (data?.data?.deductions) {
+          formik.setFieldValue("deductions", data?.data?.deductions);
+        }
 
         // Set the formik values using setFieldValue
-        formik.setFieldValue("data", formValues);
-
-        const deductionFormValues = data?.data?.deductions
-          ? data.data.deductions.map((item) => ({
-            id: item.id,
-            deduction_value: item.deduction_value,
-          }))
-          : [];
-
-        // Set the formik values for deductions using setFieldValue
-        formik.setFieldValue("deductions", deductionFormValues);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -84,21 +101,28 @@ const ShopSales = (props) => {
     const formData = new FormData();
 
     for (const obj of values.data) {
-      const { id, charge_value } = obj;
+      const { id, charge_value, charge_adj_value } = obj;
       const charge_valueKey = `charge[${id}]`;
+      const charge_adj_valueKey = `charge_adj_value[${id}]`;
 
       formData.append(charge_valueKey, charge_value);
+      formData.append(charge_adj_valueKey, charge_adj_value);
     }
 
-    for (const deductionObj of values.deductions) {
-      const { id, deduction_value } = deductionObj;
+    for (const deductionObj of values?.deductions) {
+      const { id, deduction_value, deduction_adj_value } = deductionObj;
       const deductionValueKey = `deduction[${id}]`;
+      const deductionAdjValueKey = `deduction_adj_value[${id}]`;
 
       formData.append(deductionValueKey, deduction_value);
+      formData.append(deductionAdjValueKey, deduction_adj_value);
     }
 
     formData.append("site_id", site_id);
     formData.append("drs_date", start_date);
+
+
+    console.log(values, "valuesvalues");
 
     try {
       setIsLoading(true);
@@ -125,6 +149,7 @@ const ShopSales = (props) => {
         // Handle specific error cases if needed
       }
     } catch (error) {
+      handleError(error)
       console.log("Request Error:", error);
       // Handle request error
     } finally {
@@ -194,7 +219,7 @@ const ShopSales = (props) => {
   const chargesColumns = [
     {
       name: "CHARGE GROUPS",
-      width: "40%",
+
       selector: (row) => row.charge_name,
       sortable: false,
       cell: (row, index) => (
@@ -209,7 +234,7 @@ const ShopSales = (props) => {
       name: "SALES AMOUNT",
       selector: (row) => row.charge_value,
       sortable: false,
-      width: "40%",
+      width: editable?.is_adjustable ? "30%" : "40%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -296,7 +321,7 @@ const ShopSales = (props) => {
       selector: (row) => row.deduction_name,
       sortable: false,
       center: false,
-      width: "40%",
+      width: editable?.is_adjustable ? "30%" : "40%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -309,7 +334,7 @@ const ShopSales = (props) => {
       name: "SALES AMOUNT",
       selector: (row) => row.deduction_value,
       sortable: false,
-      width: "40%",
+      width: editable?.is_adjustable ? "30%" : "40%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -387,6 +412,83 @@ const ShopSales = (props) => {
       : {},
   ];
 
+
+  // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
+  if (editable?.is_adjustable) {
+    chargesColumns?.push({
+      name: "ADJUSTMENT VALUE",
+      selector: (row) => row.charge_adj_value,
+      sortable: false,
+      width: "16%",
+      center: true,
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row?.charge_adj_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`charge_adj_value-${index}`}
+              name={`data[${index}].charge_adj_value`}
+              className={`table-input ${!row?.edit_charge_adj_value ? 'readonly' : ''}`}
+              value={formik.values?.data?.[index]?.charge_adj_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={!row?.edit_charge_adj_value}
+            />
+          </div>
+        ),
+    });
+  }
+  // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
+  if (editable?.is_adjustable) {
+    deductionsColumns?.push({
+      name: "ADJUSTMENT VALUE",
+      selector: (row) => row.deduction_adj_value,
+      sortable: false,
+      width: "16%",
+      center: true,
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row?.deduction_adj_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`deduction_adj_value-${index}`}
+              name={`deductions[${index}].deduction_adj_value`}
+              className={`table-input ${!row?.edit_deduction_adj_value ? 'readonly' : ''}`}
+              value={formik.values?.deductions?.[index]?.deduction_adj_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={!row?.edit_deduction_adj_value}
+            />
+          </div>
+        ),
+    });
+  }
+
+
+  console.log(formik?.values, "formik valuesss");
+
+
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -434,16 +536,8 @@ const ShopSales = (props) => {
                         </Row>
                       </div>
                       <div className="d-flex justify-content-end mt-3">
-                        {editable?.is_editable ? (
+                        {editable?.is_editable && (
                           <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        ) : (
-                          <button
-                            className="btn btn-primary"
-                            type="submit"
-                            disabled
-                          >
                             Submit
                           </button>
                         )}

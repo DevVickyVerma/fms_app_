@@ -63,7 +63,6 @@ const DepartmentShop = (props) => {
       fuel_id: 0,
       card: "",
     },
-
     // Add more dummy data items as needed
   ];
   const DieselData = [
@@ -129,15 +128,31 @@ const DepartmentShop = (props) => {
         setListingData(data?.data?.listing ? data.data : []);
         if (data?.data?.listing) {
           setis_editable(response?.data?.data);
+
+
+          if (data?.data?.bunkeredSales) {
+            formik.setFieldValue("bunkeredSales", data?.data?.bunkeredSales?.length > 0 ? data?.data?.bunkeredSales : dummyData);
+          }
+          if (data?.data?.non_bunkered_sales) {
+            formik2.setFieldValue("nonbunkeredsalesvalue", data?.data?.non_bunkered_sales?.length > 0 ? data?.data?.non_bunkered_sales : dummyData);
+          }
+
+          if (data?.data?.bunkered_creditcardsales) {
+            formik.setFieldValue("creditcardvalue", data?.data?.bunkered_creditcardsales?.length > 0 ? data?.data?.bunkered_creditcardsales : dummyData);
+          }
+
+
+
+
+
+
           const bunkeredSalesValues = data?.data?.listing?.bunkered_Sales.map(
             (sale) => ({
               diesel: sale.fuel_name,
               volume: sale.volume || "",
               value: sale.value || "",
               card: sale.card_id,
-
               fuel_id: sale.fuel_id || "",
-
               id: sale.id || "",
             })
           );
@@ -581,9 +596,9 @@ const DepartmentShop = (props) => {
                               ""
                             }
                             readOnly={editable?.is_editable ? false : true}
-                          
 
-                            
+
+
                           />
                           {formik.errors.bunkeredSales?.[index]?.volume &&
                             formik.touched[
