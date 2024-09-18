@@ -184,7 +184,7 @@ const CompanySageFuels = ({ getData }) => {
         ErrorAlert(responseData.message);
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);

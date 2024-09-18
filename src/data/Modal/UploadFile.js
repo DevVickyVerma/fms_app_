@@ -102,7 +102,7 @@ export function FormModal(props) {
         handleClose();
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);

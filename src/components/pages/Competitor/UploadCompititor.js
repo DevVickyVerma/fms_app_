@@ -162,7 +162,7 @@ const UploadCompetitor = (props) => {
         ErrorToast(errorData.message);
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
       // Handle request error
     } finally {
       // Set isLoading back to false after the request is completed

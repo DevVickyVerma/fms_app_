@@ -544,10 +544,7 @@ const SageDeduction = (props) => {
 
                               formik.setFieldValue("site_id", "");
                             } else {
-                              console.log(
-                                selectedType,
-                                "selectedType no values"
-                              );
+                           
                               formik.setFieldValue("client_id", "");
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("department_id", "");

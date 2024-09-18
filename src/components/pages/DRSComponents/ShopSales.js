@@ -122,7 +122,6 @@ const ShopSales = (props) => {
     formData.append("drs_date", start_date);
 
 
-    console.log(values, "valuesvalues");
 
     try {
       setIsLoading(true);
@@ -150,7 +149,7 @@ const ShopSales = (props) => {
       }
     } catch (error) {
       handleError(error)
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);
@@ -202,7 +201,7 @@ const ShopSales = (props) => {
         ErrorAlert(responseData.message);
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -482,8 +481,6 @@ const ShopSales = (props) => {
     });
   }
 
-
-  console.log(formik?.values, "formik valuesss");
 
 
 

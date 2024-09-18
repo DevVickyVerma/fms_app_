@@ -91,7 +91,7 @@ const UploadSageSales = (props) => {
                 setShowErrorMessage(responseData.message)
             }
         } catch (error) {
-            console.log("Request Error:", error);
+            console.error("Request Error:", error);
 
             // Handle request error
         } finally {

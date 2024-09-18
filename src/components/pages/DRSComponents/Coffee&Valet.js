@@ -215,7 +215,7 @@ const CoffeeValet = (props) => {
         // Handle specific error cases if needed
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);
@@ -266,7 +266,7 @@ const CoffeeValet = (props) => {
         // Handle specific error cases if needed
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);
@@ -818,7 +818,7 @@ const CoffeeValet = (props) => {
         formik.setFieldValue(`data[${index}].commission`, commission),
       ]);
     } else {
-      console.log("Invalid or missing numeric values");
+      console.error("Invalid or missing numeric values");
     }
   };
 

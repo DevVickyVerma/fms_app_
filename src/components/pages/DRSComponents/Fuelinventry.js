@@ -238,8 +238,6 @@ const FuelInventry = (props) => {
       formik.setFieldValue(`data[${index}].due_sales`, duesales);
 
       calculateTotalValues(index, duesales);
-    } else {
-      console.log("Invalid or missing numeric values");
     }
   }
 
@@ -303,8 +301,6 @@ const FuelInventry = (props) => {
       formik.setFieldValue(`data[${index}].due_sales`, duesales);
 
       calculateTotalValues(index, duesales);
-    } else {
-      console.log("Invalid or missing numeric values");
     }
   }
 

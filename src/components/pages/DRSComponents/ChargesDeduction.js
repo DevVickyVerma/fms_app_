@@ -148,7 +148,7 @@ const ShopSales = (props) => {
         // Handle specific error cases if needed
       }
     } catch (error) {
-      console.log("Request Error:", error);
+      console.error("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);
