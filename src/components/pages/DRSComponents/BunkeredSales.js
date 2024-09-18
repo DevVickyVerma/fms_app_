@@ -912,8 +912,8 @@ const DepartmentShop = (props) => {
             <Card.Body>
               <Form onSubmit={formik2.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
-                <Row>
-                  {formik2.values.non_bunkered_sales.map((item, index) => (
+                {formik2.values.non_bunkered_sales.map((item, index) => (
+                  <Row>
                     <React.Fragment key={index}>
                       <Col lg={3} md={3}>
                         <Form.Group
@@ -1133,8 +1133,8 @@ const DepartmentShop = (props) => {
                         )}
                       </Col>
                     </React.Fragment>
-                  ))}
-                </Row>
+                  </Row>
+                ))}
               </Form>
             </Card.Body>
           </Card>
@@ -1149,8 +1149,8 @@ const DepartmentShop = (props) => {
             <Card.Body>
               <Form onSubmit={formik3.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
-                <Row>
-                  {formik3.values?.bunkered_creditcardsales?.map((item, index) => (
+                {formik3.values?.bunkered_creditcardsales?.map((item, index) => (
+                  <Row>
                     <React.Fragment key={index}>
                       <Col lg={2} md={2}>
                         <Form.Group
@@ -1389,8 +1389,8 @@ const DepartmentShop = (props) => {
                         </>
                       </Col>
                     </React.Fragment>
-                  ))}
-                </Row>
+                  </Row>
+                ))}
                 {editable?.is_editable ? (
                   <div className="bunkered-action">
                     <div className="text-end mt-3">
