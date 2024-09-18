@@ -33,13 +33,13 @@ const Dashboard = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchData())
   }, [])
 
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -55,10 +55,7 @@ const Dashboard = (props) => {
 
 
   useEffect(() => {
-    localStorage.setItem(
-      "Dashboardsitestats",
-      permissionsArray?.includes("dashboard-site-stats")
-    );
+    localStorage.setItem("Dashboardsitestats", permissionsArray?.includes("dashboard-site-stats"));
     if (ReduxFullData?.company_id) {
       localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
       localStorage.setItem("PresetCompanyName", ReduxFullData?.company_name);

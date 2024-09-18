@@ -1,15 +1,11 @@
-import React from "react";
 import { useEffect, useState } from 'react';
-
+import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Breadcrumb, Button, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { useFormik } from "formik";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { handleError } from "../../../Utils/ToastUtils";
@@ -20,33 +16,19 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CustomPagination from "../../../Utils/CustomPagination";
+import NewFilterTab from "../Filtermodal/NewFilterTab";
 
 const FuturePriceLogs = (props) => {
     const { isLoading, getData, postData, apidata } = props;
     const [data, setData] = useState();
-    const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-    const [selectedSiteList, setSelectedSiteList] = useState([]);
+    const ReduxFullData = useSelector((state) => state?.data?.data);
     const [showModal, setShowModal] = useState(false);
     const [SelectedRow, setSelectedRow] = useState(false);
-    const [myFormData, setMyFormData] = useState({
-        client_id: "",
-        company_id: "",
-        site_id: "",
-        start_date: "",
-    });
-    const [selectedClientId, setSelectedClientId] = useState("");
-    const [selectedCompanyId, setSelectedCompanyId] = useState("");
-    const [selectedSiteId, setSelectedSiteId] = useState("");
-    const [ClientList, setClientList] = useState([]);
-    const [CompanyList, setCompanyList] = useState([]);
-    const [SiteList, setSiteList] = useState([]);
-    const [handleListingCondition, setHandleListingCondition] = useState(false);
-    const UserPermissions = useSelector(
-        (state) => state?.data?.data?.permissions || [],
-    );
+    const UserPermissions = useSelector((state) => state?.data?.data?.permissions || [],);
     const isFuelPriceCancelPermissionAvailable = UserPermissions?.includes('fuel-price-cancel');
     const isFuelPricePermissionAvailable = UserPermissions?.includes('fuel-price-update');
 
+    let storedKeyName = "localFilterModalData";
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
@@ -75,10 +57,16 @@ const FuturePriceLogs = (props) => {
                         // eslint-disable-next-line no-unused-vars
                         const response = await postData("fuel-price/history/cancel", formData);
 
-
-
                         if (apidata.api_response === "success") {
-                            handleFetchListing();
+
+                            const storedData = localStorage.getItem(storedKeyName);
+
+                            if (storedData) {
+                                let parsedData = JSON.parse(storedData);
+                                handleSubmit1(parsedData)
+                            } else {
+                                handleSubmit1()
+                            }
                         }
                     } catch (error) {
                         handleError(error);
@@ -90,113 +78,6 @@ const FuturePriceLogs = (props) => {
     };
 
 
-    const handleFetchListing = async () => {
-
-
-        const formattedStartDate = moment(formik?.values?.startDate).format('DD-MM-YYYY');
-        const formattedEndDate = moment(formik?.values?.endDate).format('DD-MM-YYYY');
-
-        let customDateRange = '';
-        if (formik?.values?.startDate && formik?.values?.endDate) {
-            customDateRange += `${formattedStartDate}/${formattedEndDate}`;
-        }
-
-
-        // Function to build query parameters
-        const buildQueryParams = (params) => {
-            return Object.entries(params)
-                .filter(([key, value]) => value !== undefined && value !== null && value !== '') // filter out undefined, null, and empty values
-                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-                .join('&');
-        };
-
-        const params = {
-            client_id: formik.values?.client_id,
-            company_id: formik.values?.company_id,
-            site_id: formik.values?.site_id,
-            daterange: customDateRange,
-            page: currentPage,
-        };
-
-        const queryString = buildQueryParams(params);
-
-
-        try {
-            const response = await getData(
-                `/fuel-price/history?${queryString}`
-            );
-
-            if (response && response.data && response.data.data) {
-                const responseData = response.data.data;
-                setData(responseData.history);
-                setCurrentPage(response?.data?.data?.currentPage || 1);
-                setLastPage(response?.data?.data?.lastPage || 1);
-                setHandleListingCondition(false)
-            } else {
-                setHandleListingCondition(false)
-                throw new Error("No data available in the response");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-
-        setHandleListingCondition(false)
-    };
-    const handleSubmit1 = async (values) => {
-        setMyFormData({
-            client_id: values.client_id,
-            company_id: values.company_id,
-            site_id: values.site_id,
-            start_date: values.start_date,
-        });
-
-
-        const formattedStartDate = moment(values?.startDate).format('DD-MM-YYYY');
-        const formattedEndDate = moment(values?.endDate).format('DD-MM-YYYY');
-
-        // Construct custom date range string
-
-        let customDateRange = '';
-        if (values?.startDate && values?.endDate) {
-            customDateRange += `${formattedStartDate}/${formattedEndDate}`;
-        }
-
-
-
-        // Function to build query parameters
-        const buildQueryParams = (params) => {
-            return Object.entries(params)
-                .filter(([key, value]) => value !== undefined && value !== null && value !== '') // filter out undefined, null, and empty values
-                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-                .join('&');
-        };
-
-        const params = {
-            client_id: values?.client_id,
-            company_id: values?.company_id,
-            site_id: values?.site_id,
-            daterange: customDateRange,
-            page: currentPage,
-        };
-
-        const queryString = buildQueryParams(params);
-
-        try {
-            const response = await getData(
-                `/fuel-price/history?${queryString}`
-            );
-
-            if (response && response.data && response.data.data) {
-                setData(response?.data?.data?.history);
-                setCurrentPage(response?.data?.data?.currentPage || 1);
-                setLastPage(response?.data?.data?.lastPage || 1);
-            } else {
-                throw new Error("No data available in the response");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
 
 
     const handleErrorModal = (row) => {
@@ -205,28 +86,9 @@ const FuturePriceLogs = (props) => {
     }
 
 
-    useEffect(() => {
-        handleFetchListing();
-        console.clear();
-    }, [currentPage]);
 
 
-    useEffect(() => {
-        const futurepriceLog = JSON.parse(localStorage.getItem('futurepriceLog'));
-        if (futurepriceLog) {
-            formik.setFieldValue('client_id', futurepriceLog.client_id);
-            formik.setFieldValue('company_id', futurepriceLog.company_id);
-            formik.setFieldValue('site_id', futurepriceLog.site_id);
 
-            if (futurepriceLog?.startDate && futurepriceLog?.endDate) {
-                formik.setFieldValue('startDate', new Date(futurepriceLog?.startDate));
-                formik.setFieldValue('endDate', new Date(futurepriceLog?.endDate));
-            }
-            GetCompanyList(futurepriceLog.client_id);
-            GetSiteList(futurepriceLog.company_id)
-            handleSubmit1(futurepriceLog);
-        }
-    }, []);
 
 
     const columns = [
@@ -395,163 +257,125 @@ const FuturePriceLogs = (props) => {
     ];
 
 
-    const formik = useFormik({
-        initialValues: {
-            client_id: "",
-            company_id: "",
-            site_id: "",
-            startDate: null,
-            endDate: null,
-        },
-        onSubmit: (values) => {
-            localStorage.setItem('futurepriceLog', JSON.stringify(values));
-            handleSubmit1(values);
-        },
-    });
 
-    const fetchCommonListData = async () => {
-        try {
-            const response = await getData("/common/client-list");
 
-            const { data } = response;
-            if (data) {
-                setClientList(response.data);
-
-                const clientId = localStorage.getItem("superiorId");
-                if (clientId) {
-                    setSelectedClientId(clientId);
-                    setSelectedCompanyList([]);
-
-                    if (response?.data) {
-                        const selectedClient = response?.data?.data?.find(
-                            (client) => client.id === clientId
-                        );
-                        if (selectedClient) {
-                            setSelectedCompanyList(selectedClient?.companies);
-                        }
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-    const GetCompanyList = async (values) => {
-        try {
-            if (values) {
-                const response = await getData(
-                    `common/company-list?client_id=${values}`
-                );
-
-                if (response) {
-
-                    setCompanyList(response?.data?.data);
-                } else {
-                    throw new Error("No data available in the response");
-                }
-            } else {
-                console.error("No site_id found ");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-    const GetSiteList = async (values) => {
-        try {
-            if (values) {
-                const response = await getData(`common/site-list?company_id=${values}`);
-
-                if (response) {
-
-                    setSiteList(response?.data?.data);
-                } else {
-                    throw new Error("No data available in the response");
-                }
-            } else {
-                console.error("No site_id found ");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-    useEffect(() => {
-        const clientId = localStorage.getItem("superiorId");
-
-        if (localStorage.getItem("superiorRole") !== "Client") {
-            fetchCommonListData()
-        } else {
-            setSelectedClientId(clientId);
-            GetCompanyList(clientId)
-        }
-    }, []);
-    const hadndleShowDate = () => {
-        const inputDateElement = document.querySelector('input[type="date"]');
-        inputDateElement.showPicker();
-    };
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
-    const initialValues = {
-        client_id: "",
-        company_id: "",
-        site_id: "",
-        start_date: "",
-    };
-
-
 
 
     const handleClearForm = async (resetForm) => {
-        setMyFormData(initialValues);
-        formik.setFieldValue("site_id", "")
-        formik.setFieldValue("start_date", "")
-        formik.setFieldValue("client_id", "")
-        formik.setFieldValue("company_id", "")
-        formik.setFieldValue("endDate", "")
-        formik.setFieldValue("startDate", "")
-        formik.resetForm()
-        setSelectedSiteList([]);
-        setSelectedCompanyList([]);
-        setSelectedClientId("");
-        setHandleListingCondition(true)
-
-        localStorage.removeItem("futurepriceLog")
-
-        let empty = {
-            "client_id": "",
-            "company_id": "",
-            "site_id": "",
-            "startDate": "",
-            "endDate": ""
-        }
-
-        handleSubmit1(empty)
-        const clientId = localStorage.getItem("superiorId");
-
-        if (localStorage.getItem("superiorRole") !== "Client") {
-            fetchCommonListData();
-        } else {
-            formik.setFieldValue("client_id", clientId);
-            setSelectedClientId(clientId);
-            GetCompanyList(clientId);
-        }
-
-    };
-
-
-
-
-    const handleDateChange = (dates) => {
-        formik.setFieldValue('startDate', dates[0]);
-        formik.setFieldValue('endDate', dates[1]);
+        localStorage.removeItem(storedKeyName);
+        setData(null)
+        handleSubmit1()
     };
 
     const handleLinkClick = () => {
         navigate('/fuelprice');
+    };
+
+
+
+    useEffect(() => {
+        const storedData = localStorage.getItem(storedKeyName);
+
+        if (storedData) {
+            let parsedData = JSON.parse(storedData);
+            handleSubmit1(parsedData)
+        } else {
+            handleSubmit1()
+        }
+    }, [currentPage])
+
+    const handleApplyFilters = (values) => {
+        if (values?.start_date && values?.company_id) {
+            handleSubmit1(values)
+        }
+    }
+
+    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    const validationSchemaForCustomInput = Yup.object({
+        client_id: isNotClient
+            ? Yup.string().required("Client is required")
+            : Yup.mixed().notRequired(),
+        company_id: Yup.string().required("Company is required"),
+        start_date: Yup.date()
+            .required("Date is required")
+            .min(
+                new Date("2023-01-01"),
+                "Date cannot be before January 1, 2023"
+            ),
+    });
+
+
+    const handleSubmit1 = async (filters) => {
+        if (filters) {
+            let { client_id, company_id, client_name, company_name, start_date, site_id } = filters;
+
+            if (localStorage.getItem("superiorRole") === "Client") {
+                client_id = ReduxFullData?.superiorId;
+                client_name = ReduxFullData?.full_name;
+            }
+
+            if (ReduxFullData?.company_id && !company_id) {
+                company_id = ReduxFullData?.company_id;
+                company_name = ReduxFullData?.company_name;
+            }
+
+            const updatedFilters = {
+                ...filters,
+                client_id,
+                client_name,
+                company_id,
+                site_id,
+                start_date,
+                company_name
+            };
+            const formattedStartDate = moment(filters?.range_start_date).format('DD-MM-YYYY');
+            const formattedEndDate = moment(filters?.range_end_date).format('DD-MM-YYYY');
+            // Construct custom date range string
+
+            let customDateRange = '';
+            if (filters?.range_start_date && filters?.range_end_date) {
+                customDateRange += `${formattedStartDate}/${formattedEndDate}`;
+            }
+
+            try {
+                const queryParams = new URLSearchParams();
+                if (client_id) queryParams.append("client_id", client_id);
+                if (company_id) queryParams.append("company_id", company_id);
+                if (site_id) queryParams.append("site_id", site_id);
+                if (customDateRange) queryParams.append("daterange", customDateRange);
+                queryParams.append("page", currentPage);
+
+                const queryString = queryParams.toString();
+                const response = await getData(`fuel-price/history?${queryString}`);
+                if (response && response.data && response.data.data) {
+                    setData(response?.data?.data?.history);
+                    setCurrentPage(response?.data?.data?.currentPage || 1);
+                    setLastPage(response?.data?.data?.lastPage || 1);
+                }
+                localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
+            } catch (error) {
+                handleError(error);
+            }
+        } else {
+            try {
+                const queryParams = new URLSearchParams();
+                queryParams.append("page", currentPage);
+
+                const queryString = queryParams.toString();
+                const response = await getData(`fuel-price/history?${queryString}`);
+                if (response && response.data && response.data.data) {
+                    setData(response?.data?.data?.history);
+                    setCurrentPage(response?.data?.data?.currentPage || 1);
+                    setLastPage(response?.data?.data?.lastPage || 1);
+                }
+            } catch (error) {
+                handleError(error);
+            }
+        }
     };
 
     return (
@@ -586,214 +410,30 @@ const FuturePriceLogs = (props) => {
                     </div>
                 </div>
 
+
                 <Row>
                     <Col md={12} xl={12}>
                         <Card>
-                            <Card.Body>
-                                <form onSubmit={formik.handleSubmit}>
-                                    <Card.Body>
-                                        <Row>
-                                            {localStorage.getItem("superiorRole") !== "Client" && (
-                                                <Col lg={3} md={3}>
-                                                    <div className="form-group">
-                                                        <label
-                                                            htmlFor="client_id"
-                                                            className="form-label mt-4"
-                                                        >
-                                                            Client
-                                                        </label>
-                                                        <select
-                                                            className={`input101 ${formik.errors.client_id &&
-                                                                formik.touched.client_id
-                                                                ? "is-invalid"
-                                                                : ""
-                                                                }`}
-                                                            id="client_id"
-                                                            name="client_id"
-                                                            value={formik.values.client_id}
-                                                            onChange={(e) => {
-                                                                const selectedType = e.target.value;
+                            <Card.Header>
+                                <h3 className="card-title"> Future price logs </h3>
+                            </Card.Header>
 
+                            <NewFilterTab
+                                getData={getData}
+                                isLoading={isLoading}
+                                isStatic={true}
+                                onApplyFilters={handleApplyFilters}
+                                validationSchema={validationSchemaForCustomInput}
+                                storedKeyName={storedKeyName}
+                                lg="3"
+                                showStationValidation={false}
+                                showMonthInput={false}
+                                showDateInput={false}
+                                showStationInput={true}
+                                ClearForm={handleClearForm}
+                                showDateRangeInput={true}
+                            />
 
-                                                                if (selectedType) {
-                                                                    GetCompanyList(selectedType);
-                                                                    formik.setFieldValue("client_id", selectedType);
-                                                                    setSelectedClientId(selectedType);
-                                                                    setSiteList([]);
-                                                                    formik.setFieldValue("company_id", "");
-                                                                    formik.setFieldValue("site_id", "");
-                                                                } else {
-                                                                    formik.setFieldValue("client_id", "");
-                                                                    formik.setFieldValue("company_id", "");
-                                                                    formik.setFieldValue("site_id", "");
-
-                                                                    setSiteList([]);
-                                                                    setCompanyList([]);
-                                                                }
-                                                            }}
-                                                        >
-                                                            <option value="">Select a Client</option>
-                                                            {ClientList.data && ClientList.data.length > 0 ? (
-                                                                ClientList.data.map((item) => (
-                                                                    <option key={item.id} value={item.id}>
-                                                                        {item.client_name}
-                                                                    </option>
-                                                                ))
-                                                            ) : (
-                                                                <option disabled>No Client</option>
-                                                            )}
-                                                        </select>
-
-                                                        {formik.errors.client_id &&
-                                                            formik.touched.client_id && (
-                                                                <div className="invalid-feedback">
-                                                                    {formik.errors.client_id}
-                                                                </div>
-                                                            )}
-                                                    </div>
-                                                </Col>
-                                            )}
-
-                                            <Col lg={3} md={3}>
-                                                <div className="form-group">
-                                                    <label htmlFor="company_id" className="form-label mt-4">
-                                                        Company
-
-                                                    </label>
-                                                    <select
-                                                        className={`input101 ${formik.errors.company_id &&
-                                                            formik.touched.company_id
-                                                            ? "is-invalid"
-                                                            : ""
-                                                            }`}
-                                                        id="company_id"
-                                                        name="company_id"
-                                                        value={formik.values.company_id}
-                                                        onChange={(e) => {
-                                                            const selectcompany = e.target.value;
-
-                                                            if (selectcompany) {
-                                                                GetSiteList(selectcompany);
-                                                                formik.setFieldValue("company_id", selectcompany);
-                                                                formik.setFieldValue("site_id", "");
-                                                                setSelectedCompanyId(selectcompany);
-                                                            } else {
-                                                                formik.setFieldValue("company_id", "");
-                                                                formik.setFieldValue("site_id", "");
-
-                                                                setSiteList([]);
-                                                            }
-                                                        }}
-                                                    >
-                                                        <option value="">Select a Company</option>
-                                                        {selectedClientId && CompanyList.length > 0 ? (
-                                                            <>
-                                                                setSelectedCompanyId([])
-                                                                {CompanyList.map((company) => (
-                                                                    <option key={company.id} value={company.id}>
-                                                                        {company.company_name}
-                                                                    </option>
-                                                                ))}
-                                                            </>
-                                                        ) : (
-                                                            <option disabled>No Company</option>
-                                                        )}
-                                                    </select>
-                                                    {formik.errors.company_id &&
-                                                        formik.touched.company_id && (
-                                                            <div className="invalid-feedback">
-                                                                {formik.errors.company_id}
-                                                            </div>
-                                                        )}
-                                                </div>
-                                            </Col>
-
-                                            <Col lg={3} md={3}>
-                                                <div className="form-group">
-                                                    <label htmlFor="site_id" className="form-label mt-4">
-                                                        Site Name
-
-                                                    </label>
-                                                    <select
-                                                        className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                                                            ? "is-invalid"
-                                                            : ""
-                                                            }`}
-                                                        id="site_id"
-                                                        name="site_id"
-                                                        value={formik.values.site_id}
-                                                        onChange={(e) => {
-                                                            const selectedsite_id = e.target.value;
-
-                                                            formik.setFieldValue("site_id", selectedsite_id);
-                                                            setSelectedSiteId(selectedsite_id);
-                                                        }}
-                                                    >
-                                                        <option value="">Select a Site</option>
-                                                        {CompanyList && SiteList.length > 0 ? (
-                                                            SiteList.map((site) => (
-                                                                <option key={site.id} value={site.id}>
-                                                                    {site.site_name}
-                                                                </option>
-                                                            ))
-                                                        ) : (
-                                                            <option disabled>No Site</option>
-                                                        )}
-                                                    </select>
-                                                    {formik.errors.site_id && formik.touched.site_id && (
-                                                        <div className="invalid-feedback">
-                                                            {formik.errors.site_id}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </Col>
-
-                                            <Col lg={3} md={6}>
-                                                <div className="form-group">
-                                                    <label
-                                                        htmlFor="start_date"
-                                                        className="form-label mt-4"
-                                                    >
-                                                        Select Date Range
-                                                    </label>
-                                                    <DatePicker
-                                                        selected={formik.values.startDate}
-                                                        startDate={formik.values.startDate}
-                                                        endDate={formik.values.endDate}
-                                                        onChange={handleDateChange}
-                                                        selectsRange
-                                                        dateFormat="yyyy-MM-dd"
-                                                        isClearable
-                                                        placeholderText="Select Date Range"
-                                                        autoComplete="off"
-                                                        className='input101 '
-                                                    />
-                                                    {formik.errors.start_date &&
-                                                        formik.touched.start_date && (
-                                                            <div className="invalid-feedback">
-                                                                {formik.errors.start_date}
-                                                            </div>
-                                                        )}
-                                                </div>
-                                            </Col>
-
-                                        </Row>
-                                    </Card.Body>
-                                    <Card.Footer className="text-end">
-                                        <button
-                                            className="btn btn-danger me-2"
-                                            type="button" // Set the type to "button" to prevent form submission
-                                            onClick={() => handleClearForm()} // Call a function to clear the form
-                                        >
-                                            Clear
-                                        </button>
-                                        <button className="btn btn-primary me-2" type="submit">
-                                            Submit
-                                        </button>
-
-                                    </Card.Footer>
-                                </form>
-                            </Card.Body>
                         </Card>
                     </Col>
                 </Row>
@@ -802,7 +442,6 @@ const FuturePriceLogs = (props) => {
                     <Col lg={12}>
                         <Card>
                             <Card.Header>
-                                {/* <h3 className="card-title"> </h3> */}
                                 <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
                                     <span>
                                         Future Price Logs

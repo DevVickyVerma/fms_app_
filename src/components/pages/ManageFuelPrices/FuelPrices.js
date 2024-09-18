@@ -110,7 +110,6 @@ const FuelPrices = (props) => {
 
 
   const handleClearForm = async (resetForm) => {
-
     setData(null)
   };
 

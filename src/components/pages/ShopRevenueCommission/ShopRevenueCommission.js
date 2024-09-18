@@ -63,12 +63,13 @@ const SageDeduction = (props) => {
     }),
 
     onSubmit: (values) => {
-      localStorage.setItem('localShopRevenueCommission', JSON.stringify(values));
+      localStorage.setItem('localFilterModalData', JSON.stringify(values));
       handleSubmit(values);
     },
   });
+
   useEffect(() => {
-    const localShopRevenueCommission = JSON.parse(localStorage.getItem('localShopRevenueCommission'));
+    const localShopRevenueCommission = JSON.parse(localStorage.getItem('localFilterModalData'));
     if (localShopRevenueCommission) {
       formik.setFieldValue('client_id', localShopRevenueCommission?.client_id);
       formik.setFieldValue('company_id', localShopRevenueCommission?.company_id);
@@ -95,7 +96,7 @@ const SageDeduction = (props) => {
     setSelectedClientId("");
     setCompanyList([])
     setData(null)
-    localStorage.removeItem("localShopRevenueCommission")
+    localStorage.removeItem("localFilterModalData")
     const clientId = localStorage.getItem("superiorId");
     if (localStorage.getItem("superiorRole") !== "Client") {
       fetchCommonListData();

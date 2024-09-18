@@ -1,5 +1,4 @@
 import { Card, Col, Modal, Row } from "react-bootstrap";
-import PropTypes from "prop-types";
 import { AiOutlineClose } from "react-icons/ai";
 
 const DepartmentCardGroupCenterModal = (props) => {
@@ -37,7 +36,7 @@ const DepartmentCardGroupCenterModal = (props) => {
             <Modal.Body className="Disable2FA-modal">
                 <Row>
                     <Col lg={12} xl={12} md={12} sm={12}>
-                        <Card>
+                        <>
                             <Card.Body>
                                 <Row>
                                     {detailApiData?.names.length > 0 ? <>
@@ -66,7 +65,7 @@ const DepartmentCardGroupCenterModal = (props) => {
                                 </Row>
 
                             </Card.Body>
-                        </Card>
+                        </>
                     </Col>
                 </Row>
             </Modal.Body >

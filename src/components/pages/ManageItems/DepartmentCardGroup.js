@@ -2,44 +2,54 @@ import { useEffect, useState } from 'react';
 import Loaderimg from '../../../Utils/Loader'
 import withApi from '../../../Utils/ApiHelper'
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { useFormik } from 'formik'
 import * as Yup from "yup";
-import CustomCompany from '../../../Utils/CustomCompany'
-import CustomClient from '../../../Utils/CustomClient'
 import DataTable from 'react-data-table-component'
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from 'react-redux'
 import { AiOutlineEye } from "react-icons/ai";
 import DepartmentCardGroupCenterModal from './DepartmentCardGroupCenterModal'
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { handleError } from '../../../Utils/ToastUtils'
-import Swal from 'sweetalert2'
+import NewFilterTab from '../Filtermodal/NewFilterTab';
+import { handleFilterData } from '../../../Utils/commonFunctions/commonFunction';
+import useCustomDelete from '../../../Utils/useCustomDelete';
 
 const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
-    const [selectedClientId, setSelectedClientId] = useState("");
-    const [selectedCompanyId, setSelectedCompanyId] = useState("");
-    const [selectedSiteId, setSelectedSiteId] = useState("");
-    const [ClientList, setClientList] = useState([]);
-    const [CompanyList, setCompanyList] = useState([]);
-    const [SiteList, setSiteList] = useState([]);
-    const [selectedCompanyList, setSelectedCompanyList] = useState([]);
     const [data, setData] = useState();
-    const [permissionsArray, setPermissionsArray] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showAddButton, setShowAddButton] = useState(false);
     const [detailApiData, setDetailApiData] = useState()
-    const UserPermissions = useSelector((state) => state?.data?.data);
-    const isEditPermissionAvailable = permissionsArray?.includes("department-item-group");
-    const isAddPermissionAvailable = permissionsArray?.includes("department-item-group");
-    const isDeletePermissionAvailable = permissionsArray?.includes("department-item-group-delete");
-    const navigate = useNavigate();
+    const ReduxFullData = useSelector((state) => state?.data?.data);
+    const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+    const isEditPermissionAvailable = UserPermissions?.includes("department-item-group");
+    const isAddPermissionAvailable = UserPermissions?.includes("department-item-group");
+    const isDeletePermissionAvailable = UserPermissions?.includes("department-item-group-delete");
 
-    useEffect(() => {
-        if (UserPermissions) {
-            setPermissionsArray(UserPermissions.permissions);
-        }
-    }, [UserPermissions])
+
+    const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+    const validationSchemaForCustomInput = Yup.object({
+        client_id: isNotClient
+            ? Yup.string().required("Client is required")
+            : Yup.mixed().notRequired(),
+        company_id: Yup.string().required("Company is required"),
+    });
+
+
+    const { customDelete } = useCustomDelete();
+
+    const handleDelete = (id) => {
+        const formData = new FormData();
+        formData.append('id', id);
+        customDelete(postData, 'department-item/group/delete', formData, handleSuccess);
+    };
+
+
+
+
+
+    const handleSuccess = () => {
+        handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+    }
+
 
     const formik = useFormik({
         initialValues: {
@@ -51,49 +61,15 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
         }),
 
         onSubmit: (values) => {
-            localStorage.setItem('localDepartmentItemGroup', JSON.stringify(values));
             handleSubmit1(values);
         },
     });
 
 
-    useEffect(() => {
-        const localDepartmentItemGroup = JSON.parse(localStorage.getItem('localDepartmentItemGroup'));
-        if (localDepartmentItemGroup) {
-            formik.setFieldValue('client_id', localDepartmentItemGroup.client_id);
-            formik.setFieldValue('company_id', localDepartmentItemGroup.company_id);
-            formik.setFieldValue('start_date', localDepartmentItemGroup.start_date);
 
-
-            GetCompanyList(localDepartmentItemGroup.client_id);
-            GetSiteList(localDepartmentItemGroup.company_id)
-            handleSubmit1(localDepartmentItemGroup);
-        }
-    }, []);
 
     const handleClearForm = async (resetForm) => {
-        formik.setFieldValue("site_id", "")
-        formik.setFieldValue("start_date", "")
-        formik.setFieldValue("client_id", "")
-        formik.setFieldValue("company_id", "")
-        formik.setFieldValue("endDate", "")
-        formik.setFieldValue("startDate", "")
-        formik.resetForm()
-        setSelectedCompanyList([]);
-        setSelectedClientId("");
-        setCompanyList([])
         setData(null)
-        localStorage.removeItem("localDepartmentItemGroup")
-        const clientId = localStorage.getItem("superiorId");
-        if (localStorage.getItem("superiorRole") !== "Client") {
-            fetchCommonListData();
-            formik.setFieldValue("client_id", "")
-            setCompanyList([])
-        } else {
-            setSelectedClientId(clientId);
-            GetCompanyList(clientId);
-            formik.setFieldValue("client_id", clientId)
-        }
     };
 
     const handleSubmit1 = async (values) => {
@@ -109,89 +85,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
     };
 
 
-    useEffect(() => {
-        const clientId = localStorage.getItem("superiorId");
 
-        if (localStorage.getItem("superiorRole") !== "Client") {
-            fetchCommonListData()
-        } else {
-            setSelectedClientId(clientId);
-            GetCompanyList(clientId)
-        }
-    }, []);
-
-    const fetchCommonListData = async () => {
-        try {
-            const response = await getData("/common/client-list");
-
-            const { data } = response;
-            if (data) {
-                setClientList(response.data);
-
-                const clientId = localStorage.getItem("superiorId");
-                if (clientId) {
-                    setSelectedClientId(clientId);
-                    setSelectedCompanyList([]);
-
-                    if (response?.data) {
-                        const selectedClient = response?.data?.data?.find(
-                            (client) => client.id === clientId
-                        );
-                        if (selectedClient) {
-                            setSelectedCompanyList(selectedClient?.companies);
-                        }
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-    const GetCompanyList = async (values) => {
-        try {
-            if (values) {
-                const response = await getData(
-                    `common/company-list?client_id=${values}`
-                );
-
-                if (response) {
-
-                    setCompanyList(response?.data?.data);
-                } else {
-                    throw new Error("No data available in the response");
-                }
-            } else {
-                console.error("No site_id found ");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-
-    const GetSiteList = async (values) => {
-        try {
-            if (values) {
-                const response = await getData(`common/site-list?company_id=${values}`);
-
-                if (response) {
-
-                    setSiteList(response?.data?.data);
-                } else {
-                    throw new Error("No data available in the response");
-                }
-            } else {
-                console.error("No site_id found ");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        }
-    };
-
-    const toggleActive = (row) => {
-        navigate(`${row.id}`)
-    };
 
     const fetchUpdateCardDetail = async (rowId) => {
         try {
@@ -206,37 +100,8 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
             console.error("API error:", error);
         }
     };
-    const anyPermissionAvailable =
-        isEditPermissionAvailable ||
-        isDeletePermissionAvailable;
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You will not be able to recover this item!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "Cancel",
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const formData = new FormData();
-                formData.append("id", id);
-                DeleteClient(formData);
-            }
-        });
-    };
-    const DeleteClient = async (formData) => {
-        try {
-            const response = await postData("department-item/group/delete", formData);
-            // Console log the response
-            if (apidata.api_response === "success") {
-                handleSubmit1(formik.values);
-            }
-        } catch (error) {
-            handleError(error);
-        }
-    };
+
+
     const columns = [
         {
             name: "Sr. No.",
@@ -332,11 +197,20 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
             ),
         },
     ]
-    const tableDatas = {
-        columns,
-        data,
-    };
-    localStorage.setItem("cardsCompanyId", selectedCompanyId)
+
+    let storedKeyName = "localFilterModalData";
+
+    useEffect(() => {
+        handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+    }, []);
+
+
+    const handleApplyFilters = (values) => {
+        if (values?.start_date && values?.company_id) {
+            handleSubmit1(values)
+        }
+    }
+
 
     return (
         <>
@@ -370,65 +244,34 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
                 detailApiData={detailApiData}
             />
 
+            <Row>
+                <Col md={12} xl={12}>
+                    <Card>
+                        <Card.Header>
+                            <h3 className="card-title"> Fuel Price </h3>
+                        </Card.Header>
+
+                        <NewFilterTab
+                            getData={getData}
+                            isLoading={isLoading}
+                            isStatic={true}
+                            onApplyFilters={handleApplyFilters}
+                            validationSchema={validationSchemaForCustomInput}
+                            storedKeyName={storedKeyName}
+                            lg="4"
+                            showStationValidation={false}
+                            showMonthInput={false}
+                            showDateInput={false}
+                            showStationInput={false}
+                            ClearForm={handleClearForm}
+                        />
+
+                    </Card>
+                </Col>
+            </Row>
 
 
-            <>
-                <Row>
-                    <Col md={12} xl={12}>
-                        <Card>
-                            <form onSubmit={formik.handleSubmit}>
-                                <Card.Header>
-                                    <h3 className="card-title">
-                                        Item Group
-                                    </h3>
-                                </Card.Header>
-                                <Card.Body>
-                                    <Row>
 
-                                        <CustomClient
-                                            formik={formik}
-                                            lg={4}
-                                            md={4}
-                                            ClientList={ClientList}
-                                            setSelectedClientId={setSelectedClientId}
-                                            setSiteList={setSiteList}
-                                            setCompanyList={setCompanyList}
-                                            GetCompanyList={GetCompanyList}
-                                        />
-
-                                        <CustomCompany
-                                            formik={formik}
-                                            lg={4}
-                                            md={4}
-                                            CompanyList={CompanyList}
-                                            setSelectedCompanyId={setSelectedCompanyId}
-                                            setSiteList={setSiteList}
-                                            selectedClientId={selectedClientId}
-                                            GetSiteList={GetSiteList}
-                                        />
-
-
-                                    </Row>
-                                </Card.Body>
-
-                                <Card.Footer className="text-end">
-                                    <button
-                                        className="btn btn-danger me-2"
-                                        type="button" // Set the type to "button" to prevent form submission
-                                        onClick={() => handleClearForm()} // Call a function to clear the form
-                                    >
-                                        Clear
-                                    </button>
-                                    <button className="btn btn-primary m-2 " type="submit">
-                                        Submit
-                                    </button>
-                                </Card.Footer>
-                            </form>
-
-                        </Card>
-                    </Col>
-                </Row>
-            </>
 
             <Row className=" row-sm">
                 <Col lg={12}>
