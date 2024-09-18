@@ -44,6 +44,11 @@ const DepartmentShop = (props) => {
   const [editable, setis_editable] = useState();
 
 
+  const generateRandomId = () => {
+    return Math.random().toString(36).substr(2, 9); // Generates a random string of length 9
+  };
+
+
   const SALESdummyData = [
     {
       card: "",
@@ -58,21 +63,51 @@ const DepartmentShop = (props) => {
 
   const dummyData = [
     {
-      volume: 0,
-      value: 0,
-      fuel_id: 0,
-      card: "",
+      id: "", // You can initialize this with a value or leave it blank
+      fuel_name: "",
+      fuel_id: "",
+      card_id: "",
+      card_name: "",
+      opening_stock: null,
+      volume: "",
+      value: "",
+      adj_value: "",
+      closing_stock: null,
+      update_opening_stock: false,
+      update_volume: false,
+      update_value: false,
+      update_closing_stock: false,
+      // Manually adding the required fields with true
+      edit_card_name: true,
+      edit_volume: true,
+      edit_value: true,
+      edit_closing_stock: true,
+      edit_adj_value: true
     },
     // Add more dummy data items as needed
   ];
   const DieselData = [
     {
-      diesel: "Diesel",
-      volume: 0,
-      value: 0,
-      card: "",
-      id: 0,
-      fuel_id: DieselID,
+      id: "", // You can initialize this with a value or leave it blank
+      fuel_name: "",
+      fuel_id: "",
+      card_id: "",
+      card_name: "",
+      opening_stock: null,
+      volume: "",
+      value: "",
+      adj_value: "",
+      closing_stock: null,
+      update_opening_stock: false,
+      update_volume: false,
+      update_value: false,
+      update_closing_stock: false,
+      // Manually adding the required fields with true
+      edit_card_name: true,
+      edit_volume: true,
+      edit_value: true,
+      edit_closing_stock: true,
+      edit_adj_value: true
     },
   ];
 
@@ -129,17 +164,60 @@ const DepartmentShop = (props) => {
         if (data?.data?.listing) {
           setis_editable(response?.data?.data);
 
+          console.log(response?.data?.data);
 
-          if (data?.data?.bunkeredSales) {
-            formik.setFieldValue("bunkeredSales", data?.data?.bunkeredSales?.length > 0 ? data?.data?.bunkeredSales : dummyData);
-          }
-          if (data?.data?.non_bunkered_sales) {
-            formik2.setFieldValue("nonbunkeredsalesvalue", data?.data?.non_bunkered_sales?.length > 0 ? data?.data?.non_bunkered_sales : dummyData);
+          // if (response?.data?.data?.listing?.bunkered_Sales) {
+          //   formik.setFieldValue("bunkered_Sales", response?.data?.data?.listing?.bunkered_Sales?.length > 0 ? response?.data?.data?.listing?.bunkered_Sales : DieselData);
+          // }
+
+          // if (response?.data?.data?.listing?.non_bunkered_sales) {
+          //   formik2.setFieldValue("non_bunkered_sales", response?.data?.data?.listing?.non_bunkered_sales?.length > 0 ? response?.data?.data?.listing?.non_bunkered_sales : dummyData);
+          // }
+
+          // if (response?.data?.data?.listing?.bunkered_creditcardsales) {
+          //   formik3.setFieldValue("bunkered_creditcardsales", response?.data?.data?.listing?.bunkered_creditcardsales?.length > 0 ? response?.data?.data?.listing?.bunkered_creditcardsales : SALESdummyData);
+          // }
+
+
+          if (response?.data?.data?.listing?.bunkered_Sales) {
+            // Set bunkered_Sales normally
+            let salesData = response?.data?.data?.listing?.bunkered_Sales;
+
+            // Check if is_addable is true and add DieselData if necessary
+            if (response?.data?.data?.is_addable) {
+              salesData = salesData.length > 0 ? salesData : DieselData;
+            }
+
+            formik.setFieldValue("bunkered_Sales", salesData);
           }
 
-          if (data?.data?.bunkered_creditcardsales) {
-            formik.setFieldValue("creditcardvalue", data?.data?.bunkered_creditcardsales?.length > 0 ? data?.data?.bunkered_creditcardsales : dummyData);
+          // Handle non_bunkered_sales
+          if (response?.data?.data?.listing?.non_bunkered_sales) {
+            let nonBunkeredSalesData = response?.data?.data?.listing?.non_bunkered_sales;
+
+            // Add dummyData only if is_addable is true
+            if (response?.data?.data?.is_addable) {
+              nonBunkeredSalesData = nonBunkeredSalesData.length > 0 ? nonBunkeredSalesData : dummyData;
+            }
+
+            formik2.setFieldValue("non_bunkered_sales", nonBunkeredSalesData);
           }
+
+          // Handle bunkered_creditcardsales
+          if (response?.data?.data?.listing?.bunkered_creditcardsales) {
+            let bunkeredCreditCardSalesData = response?.data?.data?.listing?.bunkered_creditcardsales;
+
+            // Add SALESdummyData only if is_addable is true
+            if (response?.data?.data?.is_addable) {
+              bunkeredCreditCardSalesData = bunkeredCreditCardSalesData.length > 0 ? bunkeredCreditCardSalesData : SALESdummyData;
+            }
+
+            formik3.setFieldValue("bunkered_creditcardsales", bunkeredCreditCardSalesData);
+          }
+
+
+
+
 
 
 
@@ -148,19 +226,20 @@ const DepartmentShop = (props) => {
 
           const bunkeredSalesValues = data?.data?.listing?.bunkered_Sales.map(
             (sale) => ({
-              diesel: sale.fuel_name,
+              fuel_name: sale.fuel_name,
               volume: sale.volume || "",
               value: sale.value || "",
               card: sale.card_id,
               fuel_id: sale.fuel_id || "",
               id: sale.id || "",
+              adj_value: sale.adj_value || "",
             })
           );
 
           const valuesToSetDieselData =
             bunkeredSalesValues.length > 0 ? bunkeredSalesValues : DieselData;
 
-          formik.setFieldValue("bunkeredSales", valuesToSetDieselData);
+          // formik.setFieldValue("bunkered_Sales", valuesToSetDieselData);
 
           const nonbunkeredsalesValues =
             data?.data?.listing?.non_bunkered_sales?.map((sale) => ({
@@ -178,7 +257,7 @@ const DepartmentShop = (props) => {
               ? nonbunkeredsalesValues
               : dummyData;
 
-          formik2.setFieldValue("nonbunkeredsalesvalue", non_bunkered_values);
+          // formik2.setFieldValue("non_bunkered_sales", non_bunkered_values);
 
           const creditcardvalues =
             data?.data?.listing?.bunkered_creditcardsales?.map((sale) => ({
@@ -194,7 +273,7 @@ const DepartmentShop = (props) => {
           const valuesToSet =
             creditcardvalues.length > 0 ? creditcardvalues : SALESdummyData;
 
-          formik3.setFieldValue("creditcardvalue", valuesToSet);
+          // formik3.setFieldValue("bunkered_creditcardsales", valuesToSet);
         }
       }
     } catch (error) {
@@ -206,18 +285,18 @@ const DepartmentShop = (props) => {
   };
 
   const initialValues = {
-    bunkeredSales: [
+    bunkered_Sales: [
       {
         volume: "",
         value: "",
         card: "",
-        diesel: "Diesel",
+        fuel_name: "Diesel",
       },
     ],
   };
 
   const nonbunkeredsales = {
-    nonbunkeredsalesvalue: [
+    non_bunkered_sales: [
       {
         fuel: "",
         volume: "",
@@ -227,7 +306,7 @@ const DepartmentShop = (props) => {
     ],
   };
   const creditcard = {
-    creditcardvalue: [
+    bunkered_creditcardsales: [
       {
         card: "",
         koisk: "",
@@ -241,7 +320,7 @@ const DepartmentShop = (props) => {
 
 
   const nonbunkeredsalesValidationSchema = Yup.object().shape({
-    nonbunkeredsalesvalue: Yup.array().of(
+    non_bunkered_sales: Yup.array().of(
       Yup.object().shape({
         fuel: Yup.string().required("Please select a fuel"),
         volume: Yup.number()
@@ -256,7 +335,7 @@ const DepartmentShop = (props) => {
     ),
   });
   const creditcardValidationSchema = Yup.object().shape({
-    creditcardvalue: Yup.array().of(
+    bunkered_creditcardsales: Yup.array().of(
       Yup.object().shape({
         card: Yup.string().required("Please select a fuel"),
         koisk: Yup.number()
@@ -295,32 +374,32 @@ const DepartmentShop = (props) => {
   };
 
   const formik = useFormik({
-    initialValues,
+    initialValues: {},
     // validationSchema,
     onSubmit: onSubmit,
   });
 
   const formik2 = useFormik({
     initialValues: nonbunkeredsales,
-    validationSchema: nonbunkeredsalesValidationSchema,
+    // validationSchema: nonbunkeredsalesValidationSchema,
     onSubmit: nonbunkeredsalesonSubmit,
   });
   const formik3 = useFormik({
     initialValues: creditcard,
-    validationSchema: creditcardValidationSchema,
+    // validationSchema: creditcardValidationSchema,
     onSubmit: creditcardonSubmit,
   });
 
   const pushnonbunkeredSalesRow = () => {
     if (formik2.isValid) {
-      formik2.values.nonbunkeredsalesvalue.push({
+      formik2.values.non_bunkered_sales.push({
         fuel: null,
         volume: "",
         value: "",
       });
       formik2.setFieldValue(
-        "nonbunkeredsalesvalue",
-        formik2.values.nonbunkeredsalesvalue
+        "non_bunkered_sales",
+        formik2.values.non_bunkered_sales
       );
     } else {
       ErrorAlert(
@@ -329,149 +408,259 @@ const DepartmentShop = (props) => {
     }
   };
 
+
   const pushbunkeredSalesRow = () => {
     if (formik.isValid) {
-      formik.values.bunkeredSales.push({
+      // Manually add a new row with the specific fields and default values
+      const newRow = {
+        id: "", // You can initialize this with a value or leave it blank
+        fuel_name: "",
+        fuel_id: "",
+        card_id: "",
+        card_name: "",
+        opening_stock: null,
         volume: "",
         value: "",
-        card: "",
-      });
-      formik.setFieldValue("bunkeredSales", formik.values.bunkeredSales);
+        adj_value: "",
+        closing_stock: null,
+        update_opening_stock: false,
+        update_volume: false,
+        update_value: false,
+        update_closing_stock: false,
+
+        // Manually adding the required fields with true
+        edit_card_name: true,
+        edit_volume: true,
+        edit_value: true,
+        edit_closing_stock: true,
+        edit_adj_value: true
+      };
+
+      // Push the new row into formik values
+      formik.values.bunkered_Sales.push(newRow);
+
+      // Update the formik state
+      formik.setFieldValue("bunkered_Sales", formik.values.bunkered_Sales);
     } else {
       ErrorAlert(
         "Please fill all fields correctly before adding a new bunkered sales row."
       );
     }
   };
+
+
+
+
+
   const pushnoncreditcardRow = () => {
     if (formik3.isValid) {
-      formik3.values.creditcardvalue.push({
-        card: "",
-        koisk: "",
-        optvalue: "",
-        accountvalue: "",
-        transactionsvalue: "",
-      });
+      // Generate a random ID for the new row
+      const generateRandomId = () => {
+        return Math.random().toString(36).substr(2, 9); // Generates a random string of length 9
+      };
 
-      // Update the creditcardvalue array in the formik values
-      formik3.setFieldValue("creditcardvalue", formik3.values.creditcardvalue);
+      // Manually add a new row with the specific fields and default values
+      const newRow = {
+        id: generateRandomId(), // Use the random ID generator here
+        card_id: "",
+        card_name: "",
+        koisk_value: "",
+        opt_value: "",
+        account_value: "",
+        no_of_transactions: "",
+        adj_value: "",
+
+        // Update fields defaulting to false
+        update_koisk_value: false,
+        update_opt_value: false,
+        update_account_value: false,
+        update_no_of_transactions: false,
+
+        // Editable fields manually set to true
+        edit_koisk_value: true,
+        edit_opt_value: true,
+        edit_account_value: true,
+        edit_no_of_transactions: true,
+        edit_card_name: true,
+        edit_adj_value: true
+      };
+
+      // Push the new row into formik3 values
+      formik3.values?.bunkered_creditcardsales?.push(newRow);
+
+      // Update the formik3 state
+      formik3.setFieldValue("bunkered_creditcardsales", formik3.values.bunkered_creditcardsales);
     } else {
       ErrorAlert(
-        "Please fill all fields correctly before adding a new credit card  sales row."
+        "Please fill all fields correctly before adding a new bunkered sales row."
       );
     }
   };
 
+  // const pushnoncreditcardRow = () => {
+  //   if (formik3.isValid) {
+  //     formik3.values.bunkered_creditcardsales.push({
+  //       card: "",
+  //       koisk: "",
+  //       optvalue: "",
+  //       accountvalue: "",
+  //       transactionsvalue: "",
+  //     });
+
+  //     // Update the bunkered_creditcardsales array in the formik values
+  //     formik3.setFieldValue("bunkered_creditcardsales", formik3.values.bunkered_creditcardsales);
+  //   } else {
+  //     ErrorAlert(
+  //       "Please fill all fields correctly before adding a new credit card  sales row."
+  //     );
+  //   }
+  // };
+
   const removecreditcardRow = (index) => {
-    const updatedRows = [...formik3.values.creditcardvalue];
+    const updatedRows = [...formik3.values.bunkered_creditcardsales];
     updatedRows.splice(index, 1);
-    formik3.setFieldValue("creditcardvalue", updatedRows);
+    formik3.setFieldValue("bunkered_creditcardsales", updatedRows);
   };
 
   const removebunkeredSalesRow = (index) => {
-    const updatedRows = [...formik.values.bunkeredSales];
+    const updatedRows = [...formik.values.bunkered_Sales];
     updatedRows.splice(index, 1);
-    formik.setFieldValue("bunkeredSales", updatedRows);
+    formik.setFieldValue("bunkered_Sales", updatedRows);
   };
 
   const removenonbunkeredSalesRow = (index) => {
-    const updatedRows = [...formik2.values.nonbunkeredsalesvalue];
+    const updatedRows = [...formik2.values.non_bunkered_sales];
     updatedRows.splice(index, 1);
-    formik2.setFieldValue("nonbunkeredsalesvalue", updatedRows);
+    formik2.setFieldValue("non_bunkered_sales", updatedRows);
   };
 
   const combinedOnSubmit = async () => {
+
+
+
     try {
       const token = localStorage.getItem("token");
       const baseURL = process.env.REACT_APP_BASE_URL; // Replace with your actual base URL
 
       const formData = new FormData();
 
-      // Append data from formik.values.bunkeredSales
-      for (const obj of formik.values?.bunkeredSales) {
-        const { id, fuel_id, volume, value, card } = obj;
+      // Append data from formik.values.bunkered_Sales
+      for (const obj of formik.values?.bunkered_Sales) {
+        const { id, fuel_id, volume, value, card, card_id, adj_value } = obj;
+
+
+        console.log(obj, "obj");
+
 
         formData.append(`bunkered_sale_id[0]`, id ? id : 0);
-        formData.append(`bunkered_sale_fuel_id[${id ? id : 0}]`, DieselID);
+        formData.append(`bunkered_sale_card_id[${id ? id : 0}]`, card_id);
+        formData.append(`bunkered_sale_fuel_id[${id ? id : 0}]`, fuel_id);
         formData.append(`bunkered_sale_volume[${id ? id : 0}]`, volume);
         formData.append(`bunkered_sale_value[${id ? id : 0}]`, value);
-
-        formData.append(`bunkered_sale_card_id[${id ? id : 0}]`, card);
+        formData.append(`bunkered_sale_adj_value[${id ? id : 0}]`, adj_value);
       }
 
-      // Append data from formik3.values.creditcardvalue
-      for (const obj of formik3.values?.creditcardvalue) {
-        const { id, card, koisk, optvalue, accountvalue, transactionsvalue } =
-          obj;
-        if (id !== null && id !== "") {
-          formData.append(`bunkered_credit_card_sales_id[]`, id ? id : 0);
-        }
 
-        if (card !== null && card !== "") {
-          formData.append(
-            `bunkered_credit_card_sales_card_id[${id ? id : 0}]`,
-            card
-          );
-        }
 
-        if (koisk !== null && koisk !== "") {
-          formData.append(
-            `bunkered_credit_card_sales_koisk_value[${id ? id : 0}]`,
-            koisk
-          );
-        }
+      // Append data from formik.values.bunkered_Sales
+      for (const obj of formik2.values?.non_bunkered_sales) {
+        const { id, fuel_id, volume, value, card, card_id, adj_value } = obj;
 
-        if (optvalue !== null && optvalue !== "") {
-          formData.append(
-            `bunkered_credit_card_sales_opt_value[${id ? id : 0}]`,
-            optvalue
-          );
-        }
-
-        if (accountvalue !== null && accountvalue !== "") {
-          formData.append(
-            `bunkered_credit_card_sales_account_value[${id ? id : 0}]`,
-            accountvalue
-          );
-        }
-
-        if (transactionsvalue !== null && transactionsvalue !== "") {
-          formData.append(
-            `bunkered_credit_card_sales_no_of_transactions[${id ? id : 0}]`,
-            transactionsvalue
-          );
-        }
+        formData.append(`nonbunkered_id[0]`, id ? id : 0);
+        formData.append(`nonbunkered_card_id[${id ? id : 0}]`, card_id);
+        formData.append(`nonbunkered_fuel_id[${id ? id : 0}]`, fuel_id);
+        formData.append(`nonbunkered_volume[${id ? id : 0}]`, volume);
+        formData.append(`nonbunkered_value[${id ? id : 0}]`, value);
+        formData.append(`nonbunkered_adj_value[${id ? id : 0}]`, adj_value);
       }
 
-      // Append data from formik2.values.nonbunkeredsalesvalue
-      for (const obj of formik2.values?.nonbunkeredsalesvalue) {
-        const { id, fuel, volume, value, card } = obj;
 
-        // Assuming you have the variables id, fuel, volume, and value with their respective values
+      for (const obj of formik3.values?.bunkered_creditcardsales) {
+        const { id, koisk_value, opt_value, account_value, card, card_id, adj_value, no_of_transactions } = obj;
 
-        if (id !== null && id !== "") {
-          formData.append(`nonbunkered_id[0]`, id ? id : 0);
-        }
-
-        if (fuel !== null && fuel !== "") {
-          formData.append(`nonbunkered_fuel_id[${id ? id : 0}]`, fuel);
-        }
-        if (card !== null && card !== "") {
-          formData.append(`nonbunkered_card_id[${id ? id : 0}]`, card);
-        }
-
-        if (volume !== null && volume !== "") {
-          formData.append(`nonbunkered_volume[${id ? id : 0}]`, volume);
-        }
-
-        if (value !== null && value !== "") {
-          formData.append(`nonbunkered_value[${id ? id : 0}]`, value);
-        }
+        formData.append(`bunkered_credit_card_sales_id[0]`, id ? id : 0);
+        formData.append(`bunkered_credit_card_sales_card_id[${id ? id : 0}]`, card_id);
+        formData.append(`bunkered_credit_card_sales_koisk_value[${id ? id : 0}]`, koisk_value);
+        formData.append(`bunkered_credit_card_sales_opt_value[${id ? id : 0}]`, opt_value);
+        formData.append(`bunkered_credit_card_sales_account_value[${id ? id : 0}]`, account_value);
+        formData.append(`bunkered_credit_card_sales_no_of_transactions[${id ? id : 0}]`, no_of_transactions);
+        formData.append(`bunkered_credit_card_sales_adj_value[${id ? id : 0}]`, adj_value);
       }
+
+      // Append data from formik3.values.bunkered_creditcardsales
+      // for (const obj of formik3.values?.bunkered_creditcardsales) {
+      //   const { id, card, koisk, optvalue, accountvalue, transactionsvalue } =
+      //     obj;
+      //   if (id !== null && id !== "") {
+      //     formData.append(`bunkered_credit_card_sales_id[]`, id ? id : 0);
+      //   }
+
+      //   if (card !== null && card !== "") {
+      //     formData.append(
+      //       `bunkered_credit_card_sales_card_id[${id ? id : 0}]`,
+      //       card
+      //     );
+      //   }
+
+      //   if (koisk !== null && koisk !== "") {
+      //     formData.append(
+      //       `bunkered_credit_card_sales_koisk_value[${id ? id : 0}]`,
+      //       koisk
+      //     );
+      //   }
+
+      //   if (optvalue !== null && optvalue !== "") {
+      //     formData.append(
+      //       `bunkered_credit_card_sales_opt_value[${id ? id : 0}]`,
+      //       optvalue
+      //     );
+      //   }
+
+      //   if (accountvalue !== null && accountvalue !== "") {
+      //     formData.append(
+      //       `bunkered_credit_card_sales_account_value[${id ? id : 0}]`,
+      //       accountvalue
+      //     );
+      //   }
+
+      //   if (transactionsvalue !== null && transactionsvalue !== "") {
+      //     formData.append(
+      //       `bunkered_credit_card_sales_no_of_transactions[${id ? id : 0}]`,
+      //       transactionsvalue
+      //     );
+      //   }
+      // }
+
+      // Append data from formik2.values.non_bunkered_sales
+      // for (const obj of formik2.values?.non_bunkered_sales) {
+      //   const { id, fuel, volume, value, card } = obj;
+
+      //   // Assuming you have the variables id, fuel, volume, and value with their respective values
+
+      //   if (id !== null && id !== "") {
+      //     formData.append(`nonbunkered_id[0]`, id ? id : 0);
+      //   }
+
+      //   if (fuel !== null && fuel !== "") {
+      //     formData.append(`nonbunkered_fuel_id[${id ? id : 0}]`, fuel);
+      //   }
+      //   if (card !== null && card !== "") {
+      //     formData.append(`nonbunkered_card_id[${id ? id : 0}]`, card);
+      //   }
+
+      //   if (volume !== null && volume !== "") {
+      //     formData.append(`nonbunkered_volume[${id ? id : 0}]`, volume);
+      //   }
+
+      //   if (value !== null && value !== "") {
+      //     formData.append(`nonbunkered_value[${id ? id : 0}]`, value);
+      //   }
+      // }
       formData.append("site_id", site_id);
       formData.append("drs_date", start_date);
 
       setIsLoading(true);
+
       const response = await fetch(`${baseURL}/bunkered-sale/update`, {
         method: "POST",
         headers: {
@@ -502,6 +691,12 @@ const DepartmentShop = (props) => {
 
   // Call the submitData function when the combinedOnSubmit function is invoked
 
+
+
+  // console.log(formik?.values, "formik valuesss");
+  console.log(formik2?.values, "formik 2 valuesss");
+  console.log(formik3?.values, "formik  3 valuesss");
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -515,52 +710,52 @@ const DepartmentShop = (props) => {
               <Form onSubmit={formik.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
                 <Row>
-                  {formik.values.bunkeredSales.map((delivery, index) => (
+                  {formik?.values?.bunkered_Sales?.map((delivery, index) => (
                     <React.Fragment key={index}>
-                      <Col lg={3} md={3}>
+                      <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`bunkeredSales[${index}].diesel`}
+                          controlId={`bunkered_Sales[${index}].fuel_id`}
                         >
                           <Form.Label>FUEL:</Form.Label>
                           <Form.Control
                             type="text"
-                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.diesel &&
-                              formik.touched[`bunkeredSales[${index}].diesel`]
+                            className={`input101 ${formik.errors.bunkered_Sales?.[index]?.fuel_id &&
+                              formik.touched[`bunkered_Sales[${index}].fuel_id`]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`bunkeredSales[${index}].diesel`}
+                            name={`bunkered_Sales[${index}].fuel_id`}
                             onChange={formik.handleChange}
-                            value={
-                              formik?.values?.bunkeredSales?.[index]?.diesel ||
-                              "Diesel"
-                            }
+                            value={formik?.values?.bunkered_Sales?.[index]?.fuel_name || "Diesel"}
                             readOnly
                           />
-                          {formik.errors.bunkeredSales?.[index]?.diesel &&
+                          {formik.errors.bunkered_Sales?.[index]?.fuel_id &&
                             formik.touched[
-                            `bunkeredSales[${index}].diesel`
+                            `bunkered_Sales[${index}].fuel_id`
                             ] && (
                               <div className="invalid-feedback">
-                                {formik.errors.bunkeredSales[index].diesel}
+                                {formik.errors.bunkered_Sales[index].fuel_id}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
-                        <Form.Group controlId={`bunkeredSales[${index}].card`}>
+                        <Form.Group controlId={`bunkered_Sales[${index}].card_id`}>
                           <Form.Label>CARD NAME:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.card &&
-                              formik.touched[`bunkeredSales[${index}].card`]
+                            className={`input101 ${formik.errors.bunkered_Sales?.[index]?.card_id &&
+                              formik.touched[`bunkered_Sales[${index}].card_id`]
                               ? "is-invalid"
                               : ""
-                              }`}
-                            name={`bunkeredSales[${index}].card`}
+                              }
+                            
+                              ${!delivery?.edit_card_name ? 'readonly' : ""}`
+                            }
+                            name={`bunkered_Sales[${index}].card_id`}
                             onChange={formik.handleChange}
-                            value={delivery?.card || ""}
-                            disabled={!editable?.is_editable}
+                            value={delivery?.card_id || ""}
+                            disabled={!delivery?.edit_card_name}
                           >
                             <option value="">Select a card</option>
                             {data?.cardsList?.map((card) => (
@@ -569,90 +764,129 @@ const DepartmentShop = (props) => {
                               </option>
                             ))}
                           </Form.Control>
-                          {formik.errors.bunkeredSales?.[index]?.card &&
-                            formik.touched[`bunkeredSales[${index}].card`] && (
+                          {formik.errors.bunkered_Sales?.[index]?.card_id &&
+                            formik.touched[`bunkered_Sales[${index}].card_id`] && (
                               <div className="invalid-feedback">
-                                {formik.errors.bunkeredSales[index].card}
+                                {formik.errors.bunkered_Sales[index].card_id}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`bunkeredSales[${index}].volume`}
+                          controlId={`bunkered_Sales[${index}].volume`}
                         >
                           <Form.Label>VOLUME:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.volume &&
-                              formik.touched[`bunkeredSales[${index}].volume`]
+                            placeholder="enter number"
+                            className={`input101 ${formik.errors.bunkered_Sales?.[index]?.volume &&
+                              formik.touched[`bunkered_Sales[${index}].volume`]
                               ? "is-invalid"
                               : ""
-                              }`}
-                            name={`bunkeredSales[${index}].volume`}
+                              }  ${!delivery?.edit_volume ? 'readonly' : ""}`}
+                            name={`bunkered_Sales[${index}].volume`}
                             onChange={formik.handleChange}
                             value={
-                              formik?.values?.bunkeredSales?.[index]?.volume ||
+                              formik?.values?.bunkered_Sales?.[index]?.volume ||
                               ""
                             }
-                            readOnly={editable?.is_editable ? false : true}
+                            readOnly={!delivery?.edit_volume}
 
 
 
                           />
-                          {formik.errors.bunkeredSales?.[index]?.volume &&
+                          {formik.errors.bunkered_Sales?.[index]?.volume &&
                             formik.touched[
-                            `bunkeredSales[${index}].volume`
+                            `bunkered_Sales[${index}].volume`
                             ] && (
                               <div className="invalid-feedback">
-                                {formik.errors.bunkeredSales[index].volume}
+                                {formik.errors.bunkered_Sales[index].volume}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
-                        <Form.Group controlId={`bunkeredSales[${index}].value`}>
+                        <Form.Group controlId={`bunkered_Sales[${index}].value`}>
                           <Form.Label>VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.value &&
-                              formik.touched[`bunkeredSales[${index}].value`]
+                            placeholder="enter number"
+                            className={`input101 ${formik.errors.bunkered_Sales?.[index]?.value &&
+                              formik.touched[`bunkered_Sales[${index}].value`]
                               ? "is-invalid"
                               : ""
-                              }`}
-                            name={`bunkeredSales[${index}].value`}
+                              }  ${!delivery?.edit_value ? 'readonly' : ""}`}
+                            name={`bunkered_Sales[${index}].value`}
                             onChange={formik.handleChange}
                             value={
-                              formik?.values?.bunkeredSales?.[index]?.value ||
+                              formik?.values?.bunkered_Sales?.[index]?.value ||
                               ""
                             }
-                            readOnly={editable?.is_editable ? false : true}
+                            readOnly={!delivery?.edit_value}
                           />
-                          {formik.errors.bunkeredSales?.[index]?.value &&
-                            formik.touched[`bunkeredSales[${index}].value`] && (
+                          {formik.errors.bunkered_Sales?.[index]?.value &&
+                            formik.touched[`bunkered_Sales[${index}].value`] && (
                               <div className="invalid-feedback">
-                                {formik.errors.bunkeredSales[index].value}
+                                {formik.errors.bunkered_Sales[index].value}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
 
+
+                      {editable?.is_adjustable && (<>
+                        <Col lg={2} md={2}>
+                          <Form.Group controlId={`bunkered_Sales[${index}].adj_value`}>
+                            <Form.Label>ADJUSTMENT VALUE:</Form.Label>
+                            <Form.Control
+                              type="number"
+                              placeholder="enter number"
+                              className={`input101 ${formik.errors.bunkered_Sales?.[index]?.adj_value &&
+                                formik.touched[`bunkered_Sales[${index}].adj_value`]
+                                ? "is-invalid"
+                                : ""
+                                }  ${!delivery?.edit_adj_value ? 'readonly' : ""}`}
+                              name={`bunkered_Sales[${index}].adj_value`}
+                              onChange={formik.handleChange}
+                              value={
+                                formik?.values?.bunkered_Sales?.[index]?.adj_value ||
+                                ""
+                              }
+                              readOnly={!delivery?.edit_adj_value}
+                            />
+                            {formik.errors.bunkered_Sales?.[index]?.adj_value &&
+                              formik.touched[`bunkered_Sales[${index}].adj_value`] && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.bunkered_Sales[index].adj_value}
+                                </div>
+                              )}
+                          </Form.Group>
+                        </Col>
+                      </>)}
+
+
+
                       <Col lg={2} md={2}>
-                        {editable?.is_editable ? (
+                        {(editable?.is_editable && editable?.is_addable) ? (
                           <Form.Label>ACTION</Form.Label>
                         ) : (
                           ""
                         )}
-                        {editable?.is_editable ? (
+                        {(editable?.is_editable && editable?.is_addable) ? (
                           <div className="bunkered-action">
-                            <button
-                              className="btn btn-primary me-2"
-                              onClick={() => removebunkeredSalesRow(index)}
-                            >
-                              <RemoveCircleIcon />
-                            </button>
+
+                            {formik?.values?.bunkered_Sales?.length > 1 && (<>
+                              <button
+                                className="btn btn-primary me-2"
+                                onClick={() => removebunkeredSalesRow(index)}
+                              >
+                                <RemoveCircleIcon />
+                              </button>
+                            </>)}
+
                             {index ===
-                              formik.values.bunkeredSales.length - 1 && (
+                              formik.values.bunkered_Sales.length - 1 && (
                                 <button
                                   className="btn btn-primary me-2"
                                   type="button"
@@ -684,26 +918,26 @@ const DepartmentShop = (props) => {
               <Form onSubmit={formik2.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
                 <Row>
-                  {formik2.values.nonbunkeredsalesvalue.map((item, index) => (
+                  {formik2.values.non_bunkered_sales.map((item, index) => (
                     <React.Fragment key={index}>
                       <Col lg={3} md={3}>
                         <Form.Group
-                          controlId={`nonbunkeredsalesvalue[${index}].fuel`}
+                          controlId={`non_bunkered_sales[${index}].fuel_id`}
                         >
                           <Form.Label>FUEL:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
-                              ?.fuel &&
+                            className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
+                              ?.fuel_id &&
                               formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].fuel`
+                              `non_bunkered_sales[${index}].fuel_id`
                               ]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`nonbunkeredsalesvalue[${index}].fuel`}
+                            name={`non_bunkered_sales[${index}].fuel_id`}
                             onChange={formik2.handleChange}
-                            value={item?.fuel || ""}
+                            value={item?.fuel_id || ""}
                             disabled={!editable?.is_editable}
                           >
                             <option value="">Select a Fuel</option>
@@ -713,15 +947,15 @@ const DepartmentShop = (props) => {
                               </option>
                             ))}
                           </Form.Control>
-                          {formik2.errors.nonbunkeredsalesvalue?.[index]
-                            ?.fuel &&
+                          {formik2.errors.non_bunkered_sales?.[index]
+                            ?.fuel_id &&
                             formik2.touched[
-                            `nonbunkeredsalesvalue[${index}].fuel`
+                            `non_bunkered_sales[${index}].fuel_id`
                             ] && (
                               <div className="invalid-feedback">
                                 {
-                                  formik2.errors.nonbunkeredsalesvalue[index]
-                                    .fuel
+                                  formik2.errors.non_bunkered_sales[index]
+                                    .fuel_id
                                 }
                               </div>
                             )}
@@ -729,22 +963,22 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`nonbunkeredsalesvalue[${index}].card`}
+                          controlId={`non_bunkered_sales[${index}].card_id`}
                         >
                           <Form.Label>CARD NAME:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
-                              ?.card &&
+                            className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
+                              ?.card_id &&
                               formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].card`
+                              `non_bunkered_sales[${index}].card_id`
                               ]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`nonbunkeredsalesvalue[${index}].card`}
+                            name={`non_bunkered_sales[${index}].card_id`}
                             onChange={formik2.handleChange}
-                            value={item?.card || ""}
+                            value={item?.card_id || ""}
                             disabled={!editable?.is_editable}
                           >
                             <option value="">Select a card</option>
@@ -754,15 +988,15 @@ const DepartmentShop = (props) => {
                               </option>
                             ))}
                           </Form.Control>
-                          {formik2.errors.nonbunkeredsalesvalue?.[index]
-                            ?.card &&
+                          {formik2.errors.non_bunkered_sales?.[index]
+                            ?.card_id &&
                             formik2.touched[
-                            `nonbunkeredsalesvalue[${index}].card`
+                            `non_bunkered_sales[${index}].card_id`
                             ] && (
                               <div className="invalid-feedback">
                                 {
-                                  formik2.errors.nonbunkeredsalesvalue[index]
-                                    .card
+                                  formik2.errors.non_bunkered_sales[index]
+                                    .card_id
                                 }
                               </div>
                             )}
@@ -770,32 +1004,33 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`nonbunkeredsalesvalue[${index}].volume`}
+                          controlId={`non_bunkered_sales[${index}].volume`}
                         >
                           <Form.Label>VOLUME:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
+                            placeholder="enter number"
+                            className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
                               ?.volume &&
                               formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].volume`
+                              `non_bunkered_sales[${index}].volume`
                               ]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`nonbunkeredsalesvalue[${index}].volume`}
+                            name={`non_bunkered_sales[${index}].volume`}
                             onChange={formik2.handleChange}
                             value={item?.volume || ""}
                             readOnly={editable?.is_editable ? false : true}
                           />
-                          {formik2.errors.nonbunkeredsalesvalue?.[index]
+                          {formik2.errors.non_bunkered_sales?.[index]
                             ?.volume &&
                             formik2.touched[
-                            `nonbunkeredsalesvalue[${index}].volume`
+                            `non_bunkered_sales[${index}].volume`
                             ] && (
                               <div className="invalid-feedback">
                                 {
-                                  formik2.errors.nonbunkeredsalesvalue[index]
+                                  formik2.errors.non_bunkered_sales[index]
                                     .volume
                                 }
                               </div>
@@ -804,32 +1039,33 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`nonbunkeredsalesvalue[${index}].value`}
+                          controlId={`non_bunkered_sales[${index}].value`}
                         >
                           <Form.Label>VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
+                            placeholder="enter number"
+                            className={`input101 ${formik2.errors.non_bunkered_sales?.[index]
                               ?.value &&
                               formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].value`
+                              `non_bunkered_sales[${index}].value`
                               ]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`nonbunkeredsalesvalue[${index}].value`}
+                            name={`non_bunkered_sales[${index}].value`}
                             onChange={formik2.handleChange}
                             value={item?.value || ""}
                             readOnly={editable?.is_editable ? false : true}
                           />
-                          {formik2.errors.nonbunkeredsalesvalue?.[index]
+                          {formik2.errors.non_bunkered_sales?.[index]
                             ?.value &&
                             formik2.touched[
-                            `nonbunkeredsalesvalue[${index}].value`
+                            `non_bunkered_sales[${index}].value`
                             ] && (
                               <div className="invalid-feedback">
                                 {
-                                  formik2.errors.nonbunkeredsalesvalue[index]
+                                  formik2.errors.non_bunkered_sales[index]
                                     .value
                                 }
                               </div>
@@ -837,22 +1073,56 @@ const DepartmentShop = (props) => {
                         </Form.Group>
                       </Col>
 
+                      {editable?.is_adjustable && (<>
+                        <Col lg={2} md={2}>
+                          <Form.Group controlId={`non_bunkered_sales[${index}].adj_value`}>
+                            <Form.Label>ADJUSTMENT VALUE:</Form.Label>
+                            <Form.Control
+                              type="number"
+                              placeholder="enter number"
+                              className={`input101 ${formik2.errors.non_bunkered_sales?.[index]?.adj_value &&
+                                formik2.touched[`non_bunkered_sales[${index}].adj_value`]
+                                ? "is-invalid"
+                                : ""
+                                }  ${!item?.edit_adj_value ? 'readonly' : ""}`}
+                              name={`non_bunkered_sales[${index}].adj_value`}
+                              onChange={formik2.handleChange}
+                              value={
+                                formik2?.values?.non_bunkered_sales?.[index]?.adj_value ||
+                                ""
+                              }
+                              readOnly={!item?.edit_adj_value}
+                            />
+                            {formik2.errors.non_bunkered_sales?.[index]?.adj_value &&
+                              formik2.touched[`non_bunkered_sales[${index}].adj_value`] && (
+                                <div className="invalid-feedback">
+                                  {formik2.errors.non_bunkered_sales[index].adj_value}
+                                </div>
+                              )}
+                          </Form.Group>
+                        </Col>
+                      </>)}
+
                       <Col lg={2} md={2}>
-                        {editable?.is_editable ? (
+                        {(editable?.is_editable && editable?.is_addable) ? (
                           <Form.Label>ACTION</Form.Label>
                         ) : (
                           ""
                         )}
-                        {editable?.is_editable ? (
+                        {(editable?.is_editable && editable?.is_addable) ? (
                           <div className="bunkered-action">
-                            <button
-                              className="btn btn-primary me-2"
-                              onClick={() => removenonbunkeredSalesRow(index)}
-                            >
-                              <RemoveCircleIcon />
-                            </button>
+
+                            {formik2?.values?.non_bunkered_sales?.length > 1 && (<>
+                              <button
+                                className="btn btn-primary me-2"
+                                onClick={() => removenonbunkeredSalesRow(index)}
+                              >
+                                <RemoveCircleIcon />
+                              </button>
+                            </>)}
+
                             {index ===
-                              formik2.values.nonbunkeredsalesvalue.length -
+                              formik2.values.non_bunkered_sales.length -
                               1 && (
                                 <button
                                   className="btn btn-primary me-2"
@@ -885,24 +1155,24 @@ const DepartmentShop = (props) => {
               <Form onSubmit={formik3.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
                 <Row>
-                  {formik3.values.creditcardvalue.map((item, index) => (
+                  {formik3.values?.bunkered_creditcardsales?.map((item, index) => (
                     <React.Fragment key={index}>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`creditcardvalue[${index}].card`}
+                          controlId={`bunkered_creditcardsales[${index}].card_id`}
                         >
                           <Form.Label>CARD NAME:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${formik3.errors.creditcardvalue?.[index]?.card &&
-                              formik3.touched[`creditcardvalue[${index}].card`]
+                            className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]?.card_id &&
+                              formik3.touched[`bunkered_creditcardsales[${index}].card_id`]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`creditcardvalue[${index}].card`}
+                            name={`bunkered_creditcardsales[${index}].card_id`}
                             onChange={formik3.handleChange}
-                            value={item?.card || ""}
-                            disabled={!editable?.is_editable}
+                            value={item?.card_id || ""}
+                            disabled={!item?.edit_card_name}
                           >
                             <option value="">Select a card</option>
                             {data?.cardsList?.map((card) => (
@@ -911,102 +1181,105 @@ const DepartmentShop = (props) => {
                               </option>
                             ))}
                           </Form.Control>
-                          {formik3.errors.creditcardvalue?.[index]?.card &&
+                          {formik3.errors.bunkered_creditcardsales?.[index]?.card_id &&
                             formik3.touched[
-                            `creditcardvalue[${index}].card`
+                            `bunkered_creditcardsales[${index}].card_id`
                             ] && (
                               <div className="invalid-feedback">
-                                {formik3.errors.creditcardvalue[index].card}
+                                {formik3.errors.bunkered_creditcardsales[index].card_id}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`creditcardvalue[${index}].koisk`}
+                          controlId={`bunkered_creditcardsales[${index}].koisk_value`}
                         >
                           <Form.Label>KOISK VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik3.errors.creditcardvalue?.[index]?.koisk &&
-                              formik3.touched[`creditcardvalue[${index}].koisk`]
+                            placeholder="enter number"
+                            className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]?.koisk_value &&
+                              formik3.touched[`bunkered_creditcardsales[${index}].koisk_value`]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`creditcardvalue[${index}].koisk`}
+                            name={`bunkered_creditcardsales[${index}].koisk_value`}
                             onChange={formik3.handleChange}
-                            value={item?.koisk || ""}
+                            value={item?.koisk_value || ""}
                             readOnly={editable?.is_editable ? false : true}
                           />
-                          {formik3.errors.creditcardvalue?.[index]?.koisk &&
+                          {formik3.errors.bunkered_creditcardsales?.[index]?.koisk_value &&
                             formik3.touched[
-                            `creditcardvalue[${index}].koisk`
+                            `bunkered_creditcardsales[${index}].koisk_value`
                             ] && (
                               <div className="invalid-feedback">
-                                {formik3.errors.creditcardvalue[index].koisk}
+                                {formik3.errors.bunkered_creditcardsales[index].koisk_value}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`creditcardvalue[${index}].optvalue`}
+                          controlId={`bunkered_creditcardsales[${index}].opt_value`}
                         >
                           <Form.Label>OPT VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik3.errors.creditcardvalue?.[index]
-                              ?.optvalue &&
+                            placeholder="enter number"
+                            className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]
+                              ?.opt_value &&
                               formik3.touched[
-                              `creditcardvalue[${index}].optvalue`
+                              `bunkered_creditcardsales[${index}].opt_value`
                               ]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`creditcardvalue[${index}].optvalue`}
+                            name={`bunkered_creditcardsales[${index}].opt_value`}
                             onChange={formik3.handleChange}
-                            value={item?.optvalue || ""}
+                            value={item?.opt_value || ""}
                             readOnly={editable?.is_editable ? false : true}
                           />
-                          {formik3.errors.creditcardvalue?.[index]?.optvalue &&
+                          {formik3.errors.bunkered_creditcardsales?.[index]?.opt_value &&
                             formik3.touched[
-                            `creditcardvalue[${index}].optvalue`
+                            `bunkered_creditcardsales[${index}].opt_value`
                             ] && (
                               <div className="invalid-feedback">
-                                {formik3.errors.creditcardvalue[index].optvalue}
+                                {formik3.errors.bunkered_creditcardsales[index].opt_value}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`creditcardvalue[${index}].accountvalue`}
+                          controlId={`bunkered_creditcardsales[${index}].account_value`}
                         >
                           <Form.Label> ACCOUNT VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik3.errors.creditcardvalue?.[index]
-                              ?.accountvalue &&
+                            placeholder="enter number"
+                            className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]
+                              ?.account_value &&
                               formik3.touched[
-                              `creditcardvalue[${index}].accountvalue`
+                              `bunkered_creditcardsales[${index}].account_value`
                               ]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`creditcardvalue[${index}].accountvalue`}
+                            name={`bunkered_creditcardsales[${index}].account_value`}
                             onChange={formik3.handleChange}
-                            value={item?.accountvalue || ""}
+                            value={item?.account_value || ""}
                             readOnly={editable?.is_editable ? false : true}
                           />
-                          {formik3.errors.creditcardvalue?.[index]
-                            ?.accountvalue &&
+                          {formik3.errors.bunkered_creditcardsales?.[index]
+                            ?.account_value &&
                             formik3.touched[
-                            `creditcardvalue[${index}].accountvalue`
+                            `bunkered_creditcardsales[${index}].account_value`
                             ] && (
                               <div className="invalid-feedback">
                                 {
-                                  formik3.errors.creditcardvalue[index]
-                                    .accountvalue
+                                  formik3.errors.bunkered_creditcardsales[index]
+                                    .account_value
                                 }
                               </div>
                             )}
@@ -1014,69 +1287,106 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`creditcardvalue[${index}].transactionsvalue`}
+                          controlId={`bunkered_creditcardsales[${index}].no_of_transactions`}
                         >
                           <Form.Label> NO. OF TRANSACTIONS :</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${formik3.errors.creditcardvalue?.[index]
-                              ?.transactionsvalue &&
+                            placeholder="enter number"
+                            className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]
+                              ?.no_of_transactions &&
                               formik3.touched[
-                              `creditcardvalue[${index}].transactionsvalue`
+                              `bunkered_creditcardsales[${index}].no_of_transactions`
                               ]
                               ? "is-invalid"
                               : ""
                               }`}
-                            name={`creditcardvalue[${index}].transactionsvalue`}
+                            name={`bunkered_creditcardsales[${index}].no_of_transactions`}
                             onChange={formik3.handleChange}
-                            value={item?.transactionsvalue || ""}
+                            value={item?.no_of_transactions || ""}
                             readOnly={editable?.is_editable ? false : true}
                           />
-                          {formik3.errors.creditcardvalue?.[index]
-                            ?.transactionsvalue &&
+                          {formik3.errors.bunkered_creditcardsales?.[index]
+                            ?.no_of_transactions &&
                             formik3.touched[
-                            `creditcardvalue[${index}].transactionsvalue`
+                            `bunkered_creditcardsales[${index}].no_of_transactions`
                             ] && (
                               <div className="invalid-feedback">
                                 {
-                                  formik3.errors.creditcardvalue[index]
-                                    .transactionsvalue
+                                  formik3.errors.bunkered_creditcardsales[index]
+                                    .no_of_transactions
                                 }
                               </div>
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={2} md={2}>
+
+
+                      {editable?.is_adjustable && (<>
+                        <Col lg={2} md={2}>
+                          <Form.Group controlId={`bunkered_creditcardsales[${index}].adj_value`}>
+                            <Form.Label>ADJUSTMENT VALUE:</Form.Label>
+                            <Form.Control
+                              type="number"
+                              placeholder="enter number"
+                              className={`input101 ${formik3.errors.bunkered_creditcardsales?.[index]?.adj_value &&
+                                formik3.touched[`bunkered_creditcardsales[${index}].adj_value`]
+                                ? "is-invalid"
+                                : ""
+                                }  ${!item?.edit_adj_value ? 'readonly' : ""}`}
+                              name={`bunkered_creditcardsales[${index}].adj_value`}
+                              onChange={formik3.handleChange}
+                              value={
+                                formik3?.values?.bunkered_creditcardsales?.[index]?.adj_value ||
+                                ""
+                              }
+                              readOnly={!item?.edit_adj_value}
+                            />
+                            {formik3.errors.bunkered_creditcardsales?.[index]?.adj_value &&
+                              formik3.touched[`bunkered_creditcardsales[${index}].adj_value`] && (
+                                <div className="invalid-feedback">
+                                  {formik3.errors.bunkered_creditcardsales[index].adj_value}
+                                </div>
+                              )}
+                          </Form.Group>
+                        </Col>
+                      </>)}
+
+
+                      <Col lg={1} md={1}>
                         <>
-                          {editable?.is_editable ? (
+                          {(editable?.is_editable && editable?.is_addable) ? (
                             <Form.Label>ACTION</Form.Label>
                           ) : (
                             ""
                           )}
-                          {editable?.is_editable ? (
+                          {(editable?.is_editable && editable?.is_addable) ? (
                             <div className="bunkered-action">
-                              <button
-                                className="btn btn-primary me-2"
-                                onClick={() =>
-                                  editable?.is_editable
-                                    ? removecreditcardRow(index)
-                                    : null
-                                }
-                                type="button"
-                              >
-                                <RemoveCircleIcon />
-                              </button>
 
-                              {index ===
-                                formik3.values.creditcardvalue.length - 1 && (
-                                  <button
-                                    className="btn btn-primary me-2"
-                                    type="button"
-                                    onClick={pushnoncreditcardRow}
-                                  >
-                                    <AddBoxIcon />
-                                  </button>
-                                )}
+                              {formik3?.values?.bunkered_creditcardsales?.length > 1 && (<>
+                                <button
+                                  className="btn btn-primary me-2"
+                                  onClick={() =>
+                                    editable?.is_editable
+                                      ? removecreditcardRow(index)
+                                      : null
+                                  }
+                                  type="button"
+                                >
+                                  <RemoveCircleIcon />
+                                </button>
+                              </>)}
+
+
+                              {index === formik3.values.bunkered_creditcardsales.length - 1 && (
+                                <button
+                                  className="btn btn-primary me-2"
+                                  type="button"
+                                  onClick={pushnoncreditcardRow}
+                                >
+                                  <AddBoxIcon />
+                                </button>
+                              )}
                             </div>
                           ) : (
                             ""
