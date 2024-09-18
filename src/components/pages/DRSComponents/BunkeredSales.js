@@ -915,7 +915,7 @@ const DepartmentShop = (props) => {
                 {formik2.values.non_bunkered_sales.map((item, index) => (
                   <Row>
                     <React.Fragment key={index}>
-                      <Col lg={3} md={3}>
+                      <Col lg={2} md={2}>
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].fuel_id`}
                         >
