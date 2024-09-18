@@ -997,7 +997,7 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={2} md={2}>
+                      <Col lg={1} md={1}>
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].volume`}
                         >
@@ -1032,7 +1032,7 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={2} md={2}>
+                      <Col lg={1} md={1}>
                         <Form.Group
                           controlId={`non_bunkered_sales[${index}].value`}
                         >
@@ -1186,11 +1186,11 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={2} md={2}>
+                      <Col lg={1} md={1}>
                         <Form.Group
                           controlId={`bunkered_creditcardsales[${index}].koisk_value`}
                         >
-                          <Form.Label>KOISK VALUE:</Form.Label>
+                          <Form.Label>KOISK </Form.Label>
                           <Form.Control
                             type="number"
                             placeholder="enter number"
@@ -1214,11 +1214,11 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={2} md={2}>
+                      <Col lg={1} md={1}>
                         <Form.Group
                           controlId={`bunkered_creditcardsales[${index}].opt_value`}
                         >
-                          <Form.Label>OPT VALUE:</Form.Label>
+                          <Form.Label>OPT </Form.Label>
                           <Form.Control
                             type="number"
                             placeholder="enter number"
@@ -1284,7 +1284,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkered_creditcardsales[${index}].no_of_transactions`}
                         >
-                          <Form.Label> NO. OF TRANSACTIONS :</Form.Label>
+                          <Form.Label> TRANSACTIONS :</Form.Label>
                           <Form.Control
                             type="number"
                             placeholder="enter number"
