@@ -164,7 +164,6 @@ const DepartmentShop = (props) => {
         if (data?.data?.listing) {
           setis_editable(response?.data?.data);
 
-          console.log(response?.data?.data);
 
           // if (response?.data?.data?.listing?.bunkered_Sales) {
           //   formik.setFieldValue("bunkered_Sales", response?.data?.data?.listing?.bunkered_Sales?.length > 0 ? response?.data?.data?.listing?.bunkered_Sales : DieselData);
@@ -549,8 +548,6 @@ const DepartmentShop = (props) => {
         const { id, fuel_id, volume, value, card, card_id, adj_value } = obj;
 
 
-        console.log(obj, "obj");
-
 
         formData.append(`bunkered_sale_id[0]`, id ? id : 0);
         formData.append(`bunkered_sale_card_id[${id ? id : 0}]`, card_id);
@@ -692,10 +689,6 @@ const DepartmentShop = (props) => {
   // Call the submitData function when the combinedOnSubmit function is invoked
 
 
-
-  // console.log(formik?.values, "formik valuesss");
-  console.log(formik2?.values, "formik 2 valuesss");
-  console.log(formik3?.values, "formik  3 valuesss");
 
   return (
     <>
