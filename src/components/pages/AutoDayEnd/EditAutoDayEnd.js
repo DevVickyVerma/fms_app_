@@ -27,6 +27,7 @@ const AddCompany = (props) => {
         formik.setValues({
           client_id: response.data?.data?.report_name,
           subject: response.data?.data?.subject,
+          hit_type: response.data?.data?.hit_type,
           ccemails: response.data?.data?.cc_emails,
           to_emails: response.data?.data?.to_emails,
           site_id: response.data?.data?.site_id,
@@ -51,6 +52,7 @@ const AddCompany = (props) => {
       formData.append("id", id);
       // formData.append("report_id", formik.values.client_id);
       formData.append("subject", formik.values.subject);
+      formData.append("hit_type", formik.values.hit_type);
       formData.append("include_date", isChecked ? 1 : 0);
 
       if (
@@ -76,7 +78,6 @@ const AddCompany = (props) => {
       console.error(error);
     }
   };
-
   const validationSchema = Yup.object({
     client_id: Yup.string().required("Report is required"),
     subject: Yup.string().required("Subject is required"),
@@ -94,6 +95,7 @@ const AddCompany = (props) => {
       client_id: "",
       subject: "",
       site_id: "",
+      hit_type: "1",
       ccemails: [],
       to_emails: [],
     },
@@ -132,6 +134,10 @@ const AddCompany = (props) => {
       </span>
     </div>
   );
+
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -186,6 +192,39 @@ const AddCompany = (props) => {
                         {formik.errors.client_id}
                       </div>
                     )}
+                  </div>
+                </Col>
+                <Col lg={4} md={6}>
+                  <div className="form-group">
+                    <label
+                      htmlFor="hit_type"
+                      className=" form-label mt-4"
+                    >
+                      Hit Type<span className="text-danger">*</span>
+                    </label>
+                    <select
+                      as="select"
+                      className={`input101 ${formik.errors.hit_type &&
+                        formik.touched.hit_type
+                        ? "is-invalid"
+                        : ""
+                        }`}
+                      id="hit_type"
+                      name="hit_type"
+                      onChange={formik.handleChange}
+                      value={formik?.values.hit_type}
+                    >
+                      <option value=""> Select Hit Type</option>
+                      <option value='1'> Automated</option>
+                      <option value='0'> Manual</option>
+
+                    </select>
+                    {formik.errors.hit_type &&
+                      formik.touched.hit_type && (
+                        <div className="invalid-feedback">
+                          {formik.errors.hit_type}
+                        </div>
+                      )}
                   </div>
                 </Col>
                 <Col lg={4} md={6}>
