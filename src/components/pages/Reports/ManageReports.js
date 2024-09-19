@@ -18,7 +18,7 @@ const ManageReports = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [ShowButton, setShowButton] = useState(false);
-  const [ReportDownloadUrl, setReportDownloadUrl] = useState();
+  const [ReportName, setReportName] = useState("");
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
 
@@ -58,9 +58,9 @@ const ManageReports = (props) => {
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-  
 
-  const downloadExcelFile = async (commonParams,report) => {
+
+  const downloadExcelFile = async (commonParams, report) => {
     try {
       const token = localStorage.getItem("token"); // Get the token from storage
       const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -80,8 +80,7 @@ const ManageReports = (props) => {
       // Create a link and trigger a download
       const link = document.createElement('a');
       link.href = url;
-      const capitalizedReport = capitalizeFirstLetter(report);
-      link.setAttribute('download', `${capitalizedReport}-Report.xlsx`); // Set filename
+      link.setAttribute('download', `${formik?.values?.reportName}-Report.xlsx`); // Set filename
 
       document.body.appendChild(link);
       link.click();
@@ -141,10 +140,10 @@ const ManageReports = (props) => {
       try {
         const response = await getData(commonParams);
         if (response?.data) {
-          downloadExcelFile(commonParams,formValues?.report)
-     
+          downloadExcelFile(commonParams, formValues?.report)
 
-    
+
+
         }
       } catch (error) {
         console.error("Error occurred while fetching data:", error);
@@ -156,6 +155,7 @@ const ManageReports = (props) => {
   };
 
   function handleReportClick(item) {
+    console.log(item, "handleReportClick");
   }
 
   const getCurrentDate = () => {
@@ -184,6 +184,7 @@ const ManageReports = (props) => {
   const formik = useFormik({
     initialValues: {
       report: "1",
+      reportName: " ",
       client_id: "",
       company_id: "",
       sites: [],
@@ -462,8 +463,22 @@ const ManageReports = (props) => {
                           id="report"
                           name="report"
                           onChange={(e) => {
-                            const selectedreport = e.target.value;
-                            formik.setFieldValue("report", selectedreport);
+                            const selectedReportCode = e.target.value;
+
+                            // Find the selected report name based on the selected report code
+                            const selectedReport = ReportList.data?.reports.find(
+                              (item) => item.report_code === selectedReportCode
+                            );
+
+
+                            let selectedReportName = selectedReport?.report_name || "";
+                            selectedReportName = selectedReportName.replace(/\s/g, "");
+
+                     
+
+                            // Store both report_code and report_name in Formik state
+                            formik.setFieldValue("report", selectedReportCode);
+                            formik.setFieldValue("reportName", selectedReportName); // Assuming 'reportName' is part of formik initialValues
                             setShowButton(false);
                           }}
                         >
