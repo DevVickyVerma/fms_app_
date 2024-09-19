@@ -8201,7 +8201,7 @@ ul.dropdown-menu li.dropdown ul.dropdown-menu .dropdown-plus-title {
 }
 
 select.form-control:not([size]):not([multiple]) {
-  height: 2.375rem;
+  /* height: 2.375rem; */
 }
 
 select.form-control:focus::-ms-value {

@@ -4,14 +4,10 @@ import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const DepartmentShop = (props) => {
   const {
-    apidata,
-    error,
     company_id,
     client_id,
     site_id,
@@ -143,6 +139,8 @@ const DepartmentShop = (props) => {
       setIsLoading(false);
     }
   };
+
+
   const fetchListing = async () => {
     const token = localStorage.getItem("token");
 
@@ -163,20 +161,6 @@ const DepartmentShop = (props) => {
         setListingData(data?.data?.listing ? data.data : []);
         if (data?.data?.listing) {
           setis_editable(response?.data?.data);
-
-
-          // if (response?.data?.data?.listing?.bunkered_Sales) {
-          //   formik.setFieldValue("bunkered_Sales", response?.data?.data?.listing?.bunkered_Sales?.length > 0 ? response?.data?.data?.listing?.bunkered_Sales : DieselData);
-          // }
-
-          // if (response?.data?.data?.listing?.non_bunkered_sales) {
-          //   formik2.setFieldValue("non_bunkered_sales", response?.data?.data?.listing?.non_bunkered_sales?.length > 0 ? response?.data?.data?.listing?.non_bunkered_sales : dummyData);
-          // }
-
-          // if (response?.data?.data?.listing?.bunkered_creditcardsales) {
-          //   formik3.setFieldValue("bunkered_creditcardsales", response?.data?.data?.listing?.bunkered_creditcardsales?.length > 0 ? response?.data?.data?.listing?.bunkered_creditcardsales : SALESdummyData);
-          // }
-
 
           if (response?.data?.data?.listing?.bunkered_Sales) {
             // Set bunkered_Sales normally
@@ -213,66 +197,6 @@ const DepartmentShop = (props) => {
 
             formik3.setFieldValue("bunkered_creditcardsales", bunkeredCreditCardSalesData);
           }
-
-
-
-
-
-
-
-
-
-
-          const bunkeredSalesValues = data?.data?.listing?.bunkered_Sales.map(
-            (sale) => ({
-              fuel_name: sale.fuel_name,
-              volume: sale.volume || "",
-              value: sale.value || "",
-              card: sale.card_id,
-              fuel_id: sale.fuel_id || "",
-              id: sale.id || "",
-              adj_value: sale.adj_value || "",
-            })
-          );
-
-          const valuesToSetDieselData =
-            bunkeredSalesValues.length > 0 ? bunkeredSalesValues : DieselData;
-
-          // formik.setFieldValue("bunkered_Sales", valuesToSetDieselData);
-
-          const nonbunkeredsalesValues =
-            data?.data?.listing?.non_bunkered_sales?.map((sale) => ({
-              fuel: sale.fuel_id,
-              volume: sale.volume || "",
-              value: sale.value || "",
-              id: sale.id || "",
-              card: sale.card_id,
-              fuel_name: sale.fuel_name || "",
-            }));
-
-          // Check if nonbunkeredsalesValues has any values; otherwise, use dummyData
-          const non_bunkered_values =
-            nonbunkeredsalesValues.length > 0
-              ? nonbunkeredsalesValues
-              : dummyData;
-
-          // formik2.setFieldValue("non_bunkered_sales", non_bunkered_values);
-
-          const creditcardvalues =
-            data?.data?.listing?.bunkered_creditcardsales?.map((sale) => ({
-              card: sale.card_id,
-              koisk: sale.koisk_value || "",
-              optvalue: sale.opt_value || "",
-              accountvalue: sale.account_value || "",
-              transactionsvalue: sale.no_of_transactions || "",
-              id: sale.id || "",
-            }));
-
-          // Check if creditcardvalues has any values; otherwise, use dummyData
-          const valuesToSet =
-            creditcardvalues.length > 0 ? creditcardvalues : SALESdummyData;
-
-          // formik3.setFieldValue("bunkered_creditcardsales", valuesToSet);
         }
       }
     } catch (error) {
@@ -281,17 +205,6 @@ const DepartmentShop = (props) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const initialValues = {
-    bunkered_Sales: [
-      {
-        volume: "",
-        value: "",
-        card: "",
-        fuel_name: "Diesel",
-      },
-    ],
   };
 
   const nonbunkeredsales = {
@@ -372,9 +285,35 @@ const DepartmentShop = (props) => {
     pushnoncreditcardRow();
   };
 
+
+  const validationSchema = Yup.object().shape({
+    bunkered_Sales: Yup.array().of(
+      Yup.object().shape({
+        fuel_id: Yup.string().required("Fuel is required"),
+        card_id: Yup.string().required("Card is required"),
+        volume: Yup.number()
+          .required("Volume is required")
+          .positive("Volume must be greater than 0")
+          .typeError("Volume must be a number"),
+        value: Yup.number()
+          .required("Value is required")
+          .positive("Value must be greater than 0")
+          .typeError("Value must be a number"),
+        adj_value: Yup.number().nullable().when("edit_adj_value", {
+          is: true,
+          then: Yup.number()
+            .required("Adjustment Value is required")
+            .positive("Adjustment Value must be greater than 0")
+            .typeError("Adjustment Value must be a number"),
+        }),
+      })
+    ),
+  });
+
+
   const formik = useFormik({
     initialValues: {},
-    // validationSchema,
+    // validationSchema: validationSchema,
     onSubmit: onSubmit,
   });
 
@@ -388,25 +327,6 @@ const DepartmentShop = (props) => {
     // validationSchema: creditcardValidationSchema,
     onSubmit: creditcardonSubmit,
   });
-
-  // const pushnonbunkeredSalesRow = () => {
-  //   if (formik2.isValid) {
-  //     formik2.values.non_bunkered_sales.push({
-  //       fuel: null,
-  //       volume: "",
-  //       value: "",
-  //     });
-  //     formik2.setFieldValue(
-  //       "non_bunkered_sales",
-  //       formik2.values.non_bunkered_sales
-  //     );
-  //   } else {
-  //     ErrorAlert(
-  //       "Please fill all fields correctly before adding a new non-bunkered sales row."
-  //     );
-  //   }
-  // };
-
 
   const pushnonbunkeredSalesRow = () => {
     if (formik2.isValid) {
@@ -536,47 +456,41 @@ const DepartmentShop = (props) => {
     }
   };
 
-  // const pushnoncreditcardRow = () => {
-  //   if (formik3.isValid) {
-  //     formik3.values.bunkered_creditcardsales.push({
-  //       card: "",
-  //       koisk: "",
-  //       optvalue: "",
-  //       accountvalue: "",
-  //       transactionsvalue: "",
-  //     });
-
-  //     // Update the bunkered_creditcardsales array in the formik values
-  //     formik3.setFieldValue("bunkered_creditcardsales", formik3.values.bunkered_creditcardsales);
-  //   } else {
-  //     ErrorAlert(
-  //       "Please fill all fields correctly before adding a new credit card  sales row."
-  //     );
-  //   }
-  // };
-
   const removecreditcardRow = (index) => {
-    const updatedRows = [...formik3.values.bunkered_creditcardsales];
-    updatedRows.splice(index, 1);
+    const updatedRows = formik3?.values?.bunkered_creditcardsales?.filter(
+      (item, i) => i !== index
+    );
     formik3.setFieldValue("bunkered_creditcardsales", updatedRows);
   };
 
   const removebunkeredSalesRow = (index) => {
-    const updatedRows = [...formik.values.bunkered_Sales];
-    updatedRows.splice(index, 1);
-    formik.setFieldValue("bunkered_Sales", updatedRows);
+    try {
+      const updatedRows = formik?.values?.bunkered_Sales?.filter(
+        (item, i) => i !== index
+      );
+      if (updatedRows) {
+        formik.setFieldValue("bunkered_Sales", updatedRows);
+      }
+    } catch (error) {
+      console.error("Error removing bunkered sales row:", error);
+    }
   };
 
   const removenonbunkeredSalesRow = (index) => {
-    const updatedRows = [...formik2.values.non_bunkered_sales];
-    updatedRows.splice(index, 1);
-    formik2.setFieldValue("non_bunkered_sales", updatedRows);
+    try {
+      const updatedRows = formik2?.values?.non_bunkered_sales?.filter(
+        (item, i) => i !== index
+      );
+      if (updatedRows) {
+        formik2.setFieldValue("non_bunkered_sales", updatedRows);
+      }
+    } catch (error) {
+      console.error("Error removing non-bunkered sales row:", error);
+    }
   };
 
+
   const combinedOnSubmit = async () => {
-
-
-
     try {
       const token = localStorage.getItem("token");
       const baseURL = process.env.REACT_APP_BASE_URL; // Replace with your actual base URL
@@ -587,8 +501,6 @@ const DepartmentShop = (props) => {
       for (const obj of formik.values?.bunkered_Sales) {
         const { id, fuel_id, volume, value, card, card_id, adj_value } = obj;
 
-
-
         formData.append(`bunkered_sale_id[0]`, id ? id : 0);
         formData.append(`bunkered_sale_card_id[${id ? id : 0}]`, card_id);
         formData.append(`bunkered_sale_fuel_id[${id ? id : 0}]`, fuel_id);
@@ -596,8 +508,6 @@ const DepartmentShop = (props) => {
         formData.append(`bunkered_sale_value[${id ? id : 0}]`, value);
         formData.append(`bunkered_sale_adj_value[${id ? id : 0}]`, adj_value);
       }
-
-
 
       // Append data from formik.values.bunkered_Sales
       for (const obj of formik2.values?.non_bunkered_sales) {
@@ -624,75 +534,6 @@ const DepartmentShop = (props) => {
         formData.append(`bunkered_credit_card_sales_adj_value[${id ? id : 0}]`, adj_value);
       }
 
-      // Append data from formik3.values.bunkered_creditcardsales
-      // for (const obj of formik3.values?.bunkered_creditcardsales) {
-      //   const { id, card, koisk, optvalue, accountvalue, transactionsvalue } =
-      //     obj;
-      //   if (id !== null && id !== "") {
-      //     formData.append(`bunkered_credit_card_sales_id[]`, id ? id : 0);
-      //   }
-
-      //   if (card !== null && card !== "") {
-      //     formData.append(
-      //       `bunkered_credit_card_sales_card_id[${id ? id : 0}]`,
-      //       card
-      //     );
-      //   }
-
-      //   if (koisk !== null && koisk !== "") {
-      //     formData.append(
-      //       `bunkered_credit_card_sales_koisk_value[${id ? id : 0}]`,
-      //       koisk
-      //     );
-      //   }
-
-      //   if (optvalue !== null && optvalue !== "") {
-      //     formData.append(
-      //       `bunkered_credit_card_sales_opt_value[${id ? id : 0}]`,
-      //       optvalue
-      //     );
-      //   }
-
-      //   if (accountvalue !== null && accountvalue !== "") {
-      //     formData.append(
-      //       `bunkered_credit_card_sales_account_value[${id ? id : 0}]`,
-      //       accountvalue
-      //     );
-      //   }
-
-      //   if (transactionsvalue !== null && transactionsvalue !== "") {
-      //     formData.append(
-      //       `bunkered_credit_card_sales_no_of_transactions[${id ? id : 0}]`,
-      //       transactionsvalue
-      //     );
-      //   }
-      // }
-
-      // Append data from formik2.values.non_bunkered_sales
-      // for (const obj of formik2.values?.non_bunkered_sales) {
-      //   const { id, fuel, volume, value, card } = obj;
-
-      //   // Assuming you have the variables id, fuel, volume, and value with their respective values
-
-      //   if (id !== null && id !== "") {
-      //     formData.append(`nonbunkered_id[0]`, id ? id : 0);
-      //   }
-
-      //   if (fuel !== null && fuel !== "") {
-      //     formData.append(`nonbunkered_fuel_id[${id ? id : 0}]`, fuel);
-      //   }
-      //   if (card !== null && card !== "") {
-      //     formData.append(`nonbunkered_card_id[${id ? id : 0}]`, card);
-      //   }
-
-      //   if (volume !== null && volume !== "") {
-      //     formData.append(`nonbunkered_volume[${id ? id : 0}]`, volume);
-      //   }
-
-      //   if (value !== null && value !== "") {
-      //     formData.append(`nonbunkered_value[${id ? id : 0}]`, value);
-      //   }
-      // }
       formData.append("site_id", site_id);
       formData.append("drs_date", start_date);
 
@@ -729,17 +570,35 @@ const DepartmentShop = (props) => {
   // Call the submitData function when the combinedOnSubmit function is invoked
 
 
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <Row className="row-sm">
         <Col lg={12}>
           <Card>
-            <Card.Header>
-              <h3 className="card-title"> BUNKERED SALES</h3>
 
 
+            <Card.Header className=' w-100 d-flex justify-content-between'>
+              <h3 className="card-title">BUNKERED SALES </h3>
+
+              <span className="text-end">
+
+                {(editable?.is_editable && editable?.is_addable) ? (
+                  <>
+                    {formik?.values?.bunkered_Sales?.length > 0 && formik?.values?.bunkered_Sales?.length < 5 && (
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={pushbunkeredSalesRow}
+                      >
+                        <i className="ph ph-plus"></i>
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  ""
+                )}
+              </span>
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit}>
@@ -902,39 +761,31 @@ const DepartmentShop = (props) => {
 
 
 
-                      <Col lg={2} md={2}>
-                        {(editable?.is_editable && editable?.is_addable) ? (
-                          <Form.Label>ACTION</Form.Label>
-                        ) : (
-                          ""
-                        )}
+                      <Col lg={2} md={2} className="text-end">
                         {(editable?.is_editable && editable?.is_addable) ? (
                           <div className="bunkered-action">
 
                             {formik?.values?.bunkered_Sales?.length > 1 && (<>
-                              <button
-                                className="btn btn-primary me-2"
-                                onClick={() => removebunkeredSalesRow(index)}
+                              <div
+                                className="text-end"
+                                style={{ marginTop: "40px" }}
                               >
-                                <RemoveCircleIcon />
-                              </button>
-                            </>)}
-
-                            {index ===
-                              formik.values.bunkered_Sales.length - 1 && (
                                 <button
-                                  className="btn btn-primary me-2"
                                   type="button"
-                                  onClick={pushbunkeredSalesRow}
+                                  className="btn btn-danger"
+                                  onClick={() => removebunkeredSalesRow(index)}
                                 >
-                                  <AddBoxIcon />
+                                  <i className="ph ph-minus"></i>
                                 </button>
-                              )}
+                              </div>
+                            </>)}
                           </div>
                         ) : (
                           ""
                         )}
                       </Col>
+
+
                     </React.Fragment>
                   ))}
                 </Row>
@@ -946,9 +797,29 @@ const DepartmentShop = (props) => {
       <Row className="row-sm">
         <Col lg={12}>
           <Card>
-            <Card.Header>
-              <h3 className="card-title"> NON BUNKERED SALES</h3>
+
+            <Card.Header className=' w-100 d-flex justify-content-between'>
+              <h3 className="card-title">NON BUNKERED SALES </h3>
+
+              <span className="text-end">
+                {(editable?.is_editable && editable?.is_addable) ? (
+                  <>
+                    {formik2?.values?.non_bunkered_sales?.length < 5 && (
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={pushnonbunkeredSalesRow}
+                      >
+                        <i className="ph ph-plus"></i>
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  ""
+                )}
+              </span>
             </Card.Header>
+
             <Card.Body>
               <Form onSubmit={formik2.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
@@ -1138,36 +1009,28 @@ const DepartmentShop = (props) => {
                         </Col>
                       </>)}
 
-                      <Col lg={2} md={2}>
-                        {(editable?.is_editable && editable?.is_addable) ? (
-                          <Form.Label>ACTION</Form.Label>
-                        ) : (
-                          ""
-                        )}
+
+
+                      <Col lg={2} md={2} className="text-end">
                         {(editable?.is_editable && editable?.is_addable) ? (
                           <div className="bunkered-action">
 
                             {formik2?.values?.non_bunkered_sales?.length > 1 && (<>
-                              <button
-                                className="btn btn-primary me-2"
-                                onClick={() => removenonbunkeredSalesRow(index)}
+                              <div
+                                className="text-end"
+                                style={{ marginTop: "40px" }}
                               >
-                                <RemoveCircleIcon />
-                              </button>
-                            </>)}
-
-                            {index ===
-                              formik2.values.non_bunkered_sales.length -
-                              1 && (
                                 <button
-                                  className="btn btn-primary me-2"
                                   type="button"
-                                  onClick={pushnonbunkeredSalesRow}
+                                  className="btn btn-danger"
+                                  onClick={() => removenonbunkeredSalesRow(index)}
                                 >
-                                  <AddBoxIcon />
+                                  <i className="ph ph-minus"></i>
                                 </button>
-                              )}
+                              </div>
+                            </>)}
                           </div>
+
                         ) : (
                           ""
                         )}
@@ -1183,8 +1046,25 @@ const DepartmentShop = (props) => {
       <Row className="row-sm">
         <Col lg={12}>
           <Card>
-            <Card.Header>
-              <h3 className="card-title"> BUNKERED CREDIT CARD SALES</h3>
+            <Card.Header className=' w-100 d-flex justify-content-between'>
+              <h3 className="card-title">BUNKERED CREDIT CARD SALES </h3>
+              <span className="text-end">
+                {(editable?.is_editable && editable?.is_addable) ? (
+                  <>
+                    {formik3?.values?.bunkered_creditcardsales?.length < 5 && (
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={pushnoncreditcardRow}
+                      >
+                        <i className="ph ph-plus"></i>
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  ""
+                )}
+              </span>
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik3.handleSubmit}>
@@ -1388,45 +1268,31 @@ const DepartmentShop = (props) => {
                       </>)}
 
 
-                      <Col lg={1} md={1}>
-                        <>
-                          {(editable?.is_editable && editable?.is_addable) ? (
-                            <Form.Label>ACTION</Form.Label>
-                          ) : (
-                            ""
-                          )}
-                          {(editable?.is_editable && editable?.is_addable) ? (
-                            <div className="bunkered-action d-flex ">
 
-                              {formik3?.values?.bunkered_creditcardsales?.length > 1 && (<>
+
+                      <Col lg={2} md={2} className="text-end">
+                        {(editable?.is_editable && editable?.is_addable) ? (
+                          <div className="bunkered-action">
+
+                            {formik3?.values?.bunkered_creditcardsales?.length > 1 && (<>
+                              <div
+                                className="text-end"
+                                style={{ marginTop: "40px" }}
+                              >
                                 <button
-                                  className="btn btn-primary me-2"
-                                  onClick={() =>
-                                    editable?.is_editable
-                                      ? removecreditcardRow(index)
-                                      : null
-                                  }
                                   type="button"
+                                  className="btn btn-danger"
+                                  onClick={() => removecreditcardRow(index)}
                                 >
-                                  <RemoveCircleIcon />
+                                  <i className="ph ph-minus"></i>
                                 </button>
-                              </>)}
+                              </div>
+                            </>)}
+                          </div>
 
-
-                              {index === formik3.values.bunkered_creditcardsales.length - 1 && (
-                                <button
-                                  className="btn btn-primary me-2"
-                                  type="button"
-                                  onClick={pushnoncreditcardRow}
-                                >
-                                  <AddBoxIcon />
-                                </button>
-                              )}
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </>
+                        ) : (
+                          ""
+                        )}
                       </Col>
                     </React.Fragment>
                   </Row>
