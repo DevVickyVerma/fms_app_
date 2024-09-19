@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Form } from "react-bootstrap";
-import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
@@ -34,7 +33,6 @@ const DepartmentShop = (props) => {
   }, []);
 
   const [data, setData] = useState([]);
-  const [Listingdata, setListingData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editable, setis_editable] = useState();
 
@@ -145,7 +143,6 @@ const DepartmentShop = (props) => {
 
       const { data } = response;
       if (data) {
-        setListingData(data?.data?.listing ? data.data : []);
         if (data?.data?.listing) {
           setis_editable(response?.data?.data);
 

@@ -11,7 +11,7 @@ import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
 
 const ManageEmail = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
