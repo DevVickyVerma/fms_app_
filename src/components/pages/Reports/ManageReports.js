@@ -55,9 +55,12 @@ const ManageReports = (props) => {
   };
 
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  
 
-
-  const downloadExcelFile = async (commonParams) => {
+  const downloadExcelFile = async (commonParams,report) => {
     try {
       const token = localStorage.getItem("token"); // Get the token from storage
       const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -69,7 +72,6 @@ const ManageReports = (props) => {
           // Add Authorization headers if required
         },
       });
-      console.log(response, "downloadExcelFile");
       const blob = await response.blob();
 
       // Create a temporary URL for the Blob
@@ -78,7 +80,8 @@ const ManageReports = (props) => {
       // Create a link and trigger a download
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'file.xlsx'); // Set filename
+      const capitalizedReport = capitalizeFirstLetter(report);
+      link.setAttribute('download', `${capitalizedReport}-Report.xlsx`); // Set filename
 
       document.body.appendChild(link);
       link.click();
@@ -138,16 +141,10 @@ const ManageReports = (props) => {
       try {
         const response = await getData(commonParams);
         if (response?.data) {
-          downloadExcelFile(commonParams)
-          window.open(
-            process.env.REACT_APP_BASE_URL + commonParams,
-            "_blank",
-            "noopener noreferrer"
-          );
+          downloadExcelFile(commonParams,formValues?.report)
+     
 
-
-          setReportDownloadUrl(commonParams);
-          setShowButton(true);
+    
         }
       } catch (error) {
         console.error("Error occurred while fetching data:", error);
@@ -290,7 +287,7 @@ const ManageReports = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Report</h1>
+            <h1 className="page-title">Reports</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -303,7 +300,7 @@ const ManageReports = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Report
+                Manage Reports
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -313,7 +310,7 @@ const ManageReports = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Report</h3>
+                <h3 className="card-title">Manage Reports</h3>
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
