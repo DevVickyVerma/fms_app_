@@ -1,10 +1,8 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -123,6 +121,7 @@ const ManageRoles = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("/site/auto-report/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {

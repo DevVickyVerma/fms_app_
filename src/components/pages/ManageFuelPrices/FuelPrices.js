@@ -173,6 +173,7 @@ const FuelPrices = (props) => {
       formData.append("client_id", selectedClientId);
       formData.append("company_id", selectedCompanyId);
       // setSelectedClientId()
+      // eslint-disable-next-line no-unused-vars
       const response = await postData(
         "/site/fuel-price/update-midday",
         formData

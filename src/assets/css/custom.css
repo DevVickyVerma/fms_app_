@@ -38,11 +38,11 @@ span.text-danger.danger-title {
   height: 45px;
   /* font-size: 12px !important; */
   text-decoration: none;
-  color: #ffffff;
-  background: #4663ac;
+  color: #000;
+  background: #ffff;
   padding: 30.5px 10px;
   border-radius: 0px;
-  box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
+  /* box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21); */
   display: flex;
   justify-content: space-between;
 }
@@ -585,8 +585,8 @@ span.ModalTitle {
   align-items: center;
   padding: 8px 15px;
   margin-bottom: 0px;
-  color: #fff;
-  background: #4663ac;
+  color: #000;
+  background: #fff;
 }
 
 .profile-box {
@@ -1936,4 +1936,28 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 
 .font-500 {
   font-weight: 500;
+}
+
+.rmsc {
+  height: 43px;
+}
+
+.matrix-multi>.dropdown-container {
+  height: 43px;
+  border-radius: 0px !important;
+  border: 1px solid #d4d4d4
+}
+
+.rmsc .dropdown-container:focus-within {
+  box-shadow: 1px solid #d4d4d4 !important;
+  border: 1px solid #d4d4d4 !important;
+}
+
+.share-report-body {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.modal-ph-x {
+  font-size: 20px;
 }

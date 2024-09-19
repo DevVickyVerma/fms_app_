@@ -55930,7 +55930,7 @@ svg.table-Details {
   right: 0%;
   top: 0;
   bottom: 0;
-  width: 50%;
+  width: 40%;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transition: -webkit-transform 0.3s ease-in-out;
@@ -55977,7 +55977,7 @@ h3.Sidebar-title {
   color: #fff;
   height: 70px;
   text-decoration: none;
-  color: #ffffff;
+  color: #000;
   background: linear-gradient(to bottom right,
       var(--primary-bg-color) 0%,
       var(--primary06) 100%);
@@ -55991,19 +55991,18 @@ h3.Sidebar-title {
 }
 
 button.close-button {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   text-decoration: none;
-  color: #ffffff;
-  background: linear-gradient(to bottom right,
+  color: #000;
+  /* background: linear-gradient(to bottom right,
       #2D8BA8d6 0%,
       var(--primary06) 100%);
   background: linear-gradient(to bottom right,
       #2D8BA800 0%,
-      var(--primary06) 100%);
+      var(--primary06) 100%); */
   border-radius: 0 0px 0px 0;
-  box-shadow: 0 7px 12px 0 rgb(245 245 245 / 65%);
-  /* background: #fff; */
+  /* box-shadow: 0 7px 12px 0 rgb(245 245 245 / 65%); */
 }
 
 li.li-row {
