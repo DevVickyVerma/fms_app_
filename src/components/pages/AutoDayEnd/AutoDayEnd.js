@@ -183,7 +183,7 @@ const ManageRoles = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "12%",
+      width: "20%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -225,7 +225,7 @@ const ManageRoles = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "30%",
+      width: "10%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -276,11 +276,6 @@ const ManageRoles = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -316,7 +311,7 @@ const ManageRoles = (props) => {
               {isAddPermissionAvailable ? (
                 <Link
                   to={`/addautodayend/${siteName}/${id}`}
-                  className="btn btn-primary ms-2"
+                  className="btn btn-primary "
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site Auto Report
