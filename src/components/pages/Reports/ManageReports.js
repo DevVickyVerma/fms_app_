@@ -54,6 +54,44 @@ const ManageReports = (props) => {
     }
   };
 
+
+
+
+  const downloadExcelFile = async (commonParams) => {
+    try {
+      const token = localStorage.getItem("token"); // Get the token from storage
+      const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${token}`, // Attach token in headers
+          // Add Authorization headers if required
+        },
+      });
+      console.log(response, "downloadExcelFile");
+      const blob = await response.blob();
+
+      // Create a temporary URL for the Blob
+      const url = window.URL.createObjectURL(new Blob([blob]));
+
+      // Create a link and trigger a download
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'file.xlsx'); // Set filename
+
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up by removing the link element
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading the file:', error);
+    }
+  };
+
+
+
   const handleSubmit1 = async (formValues) => {
     try {
       const formData = new FormData();
@@ -99,14 +137,15 @@ const ManageReports = (props) => {
 
       try {
         const response = await getData(commonParams);
+        if (response?.data) {
+          downloadExcelFile(commonParams)
+          window.open(
+            process.env.REACT_APP_BASE_URL + commonParams,
+            "_blank",
+            "noopener noreferrer"
+          );
 
-        if (response.status === 200) {
-          setShowButton(true);
-          // Console log the response
-          setReportDownloadUrl(commonParams);
-        }
 
-        if (apidata && apidata.api_response === "success") {
           setReportDownloadUrl(commonParams);
           setShowButton(true);
         }
@@ -616,7 +655,7 @@ const ManageReports = (props) => {
                     <button type="submit" className="btn btn-primary mx-2">
                       Generate Report
                     </button>
-                    {ShowButton ? (
+                    {/* {ShowButton ? (
                       <button
                         onClick={() => {
                           window.open(
@@ -628,11 +667,11 @@ const ManageReports = (props) => {
                         className="btn btn-danger me-2"
                         type="button"
                       >
-                        Download Report
+                      Download-report
                       </button>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </Card.Footer>
                 </form>
               </Card.Body>
