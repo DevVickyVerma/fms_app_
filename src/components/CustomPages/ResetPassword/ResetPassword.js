@@ -68,9 +68,15 @@ export default function ResetPassword() {
   };
 
   const ResetPasswordSchema = Yup.object().shape({
+    // password: Yup.string()
+    //   .required("New password is required")
+    //   .min(8, "Password must be at least 8 characters long"),
     password: Yup.string()
-      .required("New password is required")
-      .min(8, "Password must be at least 8 characters long"),
+      .required("New Password is required")
+      .min(8, "Password must be at least 8 characters long")
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/\d/, "Password must contain at least one numeric digit")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character"),
     password_confirmation: Yup.string()
       .required("Confirm password is required")
       .oneOf([Yup.ref("password"), null], "Passwords must match"),
