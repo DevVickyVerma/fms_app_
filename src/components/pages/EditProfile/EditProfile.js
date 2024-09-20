@@ -9,6 +9,7 @@ import {
   FormGroup,
   Breadcrumb,
   Modal,
+  OverlayTrigger,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
@@ -21,6 +22,7 @@ import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import { AiOutlineClose } from "react-icons/ai";
 import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { confirmPasswordTooltip, passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
 export default function EditProfile() {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
@@ -360,6 +362,7 @@ export default function EditProfile() {
                             htmlFor="first_name"
                           >
                             Current Password
+
                             <span className="text-danger">*</span>
                           </label>
 
@@ -450,6 +453,9 @@ export default function EditProfile() {
                             htmlFor="first_name"
                           >
                             New Password
+                            <OverlayTrigger placement="right" overlay={passwordTooltip}>
+                              <i className="ph ph-info pointer"></i>
+                            </OverlayTrigger>
                             <span className="text-danger">*</span>
                           </label>
                           <div>
@@ -532,7 +538,10 @@ export default function EditProfile() {
                         </FormGroup>
                         <FormGroup>
                           <Form.Label className="form-label">
-                            Confirm Password
+                            Confirm Password<OverlayTrigger placement="right" overlay={confirmPasswordTooltip}>
+                              <i className="ph ph-info pointer "></i>
+                            </OverlayTrigger>
+                            <span className="text-danger">*</span>
                           </Form.Label>
 
                           <div>

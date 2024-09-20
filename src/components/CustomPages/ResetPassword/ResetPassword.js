@@ -1,13 +1,16 @@
 import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
+import { Col, FormGroup, OverlayTrigger, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import LoaderImg from "../../../Utils/Loader";
+import { confirmPasswordTooltip, passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { BsCapslock } from "react-icons/bs";
 
 export default function ResetPassword() {
   const { token } = useParams();
@@ -16,6 +19,9 @@ export default function ResetPassword() {
   const [userId, setUserId] = useState({});
   const [isTokenValid, setIsTokenValid] = useState(false);
 
+  const [capsLockActive, setCapsLockActive] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(true);
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
 
@@ -82,6 +88,15 @@ export default function ResetPassword() {
       .oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+  const togglePasswordConfirmVisibility = () => {
+    setPasswordConfirmVisible(!passwordConfirmVisible);
+  };
+
+
+
   return (
 
     <>
@@ -130,47 +145,172 @@ export default function ResetPassword() {
                                 {" "}
                                 Reset Password
                               </span>
-                              <div className="wrap-input100 validate-input">
-                                <Field
-                                  className={`input100 ${errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
-                                    }`}
-                                  type="password"
-                                  name="password"
-                                  placeholder="New password"
-                                />
-                                <span className="focus-input100"></span>
-                                <span className="symbol-input100">
-                                  <i className="zmdi zmdi-lock" aria-hidden="true"></i>
-                                </span>
-                                <ErrorMessage
-                                  name="password"
-                                  component="div"
-                                  className="invalid-feedback"
-                                />
-                              </div>
-                              <div className="wrap-input100 validate-input">
-                                <Field
-                                  className={`input100 ${errors.password_confirmation &&
-                                    touched.password_confirmation
-                                    ? "is-invalid"
-                                    : ""
-                                    }`}
-                                  type="password"
-                                  name="password_confirmation"
-                                  placeholder="Confirm password"
-                                />
-                                <span className="focus-input100"></span>
-                                <span className="symbol-input100">
-                                  <i className="zmdi zmdi-lock" aria-hidden="true"></i>
-                                </span>
-                                <ErrorMessage
-                                  name="password_confirmation"
-                                  component="div"
-                                  className="invalid-feedback"
-                                />
-                              </div>
+
+
+                              <FormGroup>
+                                <label
+                                  htmlFor="password "
+                                  className=" form-label mt-4"
+                                >
+                                  New Password
+                                  <OverlayTrigger placement="right" overlay={passwordTooltip}>
+                                    <i className="ph ph-info pointer"></i>
+                                  </OverlayTrigger>
+                                  <span className="text-danger">*</span>
+                                </label>
+
+                                <div>
+                                  <div
+                                    className="wrap-input100 validate-input"
+                                    style={{ display: "flex" }}
+                                  >
+                                    <Field
+                                      className={`input100 ${errors.password && touched.password
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
+                                      // type="password"
+                                      type={passwordVisible ? "password" : "text"}
+                                      name="password"
+                                      placeholder="Password"
+                                    // onKeyPress={handleKeyPress}
+                                    />
+                                    <span className="focus-input100"></span>
+
+                                    <span className="symbol-input100">
+                                      <i
+                                        className="zmdi zmdi-lock"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+
+                                    {!capsLockActive ? (
+                                      <>
+                                        <span
+                                          onClick={togglePasswordVisibility}
+                                          style={{
+                                            cursor: "pointer",
+                                            zIndex: "11",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            borderTopRightRadius: "4px",
+                                            borderBottomRightRadius: "4px",
+                                            marginLeft: "-31px",
+                                            color: "rgb(28 97 218 / 67%)",
+                                          }}
+                                        >
+                                          {" "}
+                                          {passwordVisible ? (
+                                            <AiFillEyeInvisible size={18} />
+                                          ) : (
+                                            <AiFillEye size={18} />
+                                          )}
+                                        </span>
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </div>
+
+                                  <div
+                                    style={{ color: "#f82649", marginTop: "-0.25rem" }}
+                                  >
+                                    <ErrorMessage
+                                      name="password"
+                                      // component="div"
+                                      className="invalid-feedback"
+                                      style={{ flexDirection: "row", color: "red" }}
+                                    />
+                                  </div>
+                                </div>
+                              </FormGroup>
+
+
+                              <FormGroup>
+                                <label
+                                  htmlFor="password_confirmation "
+                                  className=" form-label mt-4"
+                                >
+                                  Confirm Password
+                                  <OverlayTrigger placement="right" overlay={confirmPasswordTooltip}>
+                                    <i className="ph ph-info pointer"></i>
+                                  </OverlayTrigger>
+                                  <span className="text-danger">*</span>
+                                </label>
+
+                                <div>
+                                  <div
+                                    className="wrap-input100 validate-input"
+                                    style={{ display: "flex" }}
+                                  >
+                                    <Field
+                                      className={`input100 ${errors.password_confirmation && touched.password_confirmation
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
+                                      // type="password"
+                                      type={passwordConfirmVisible ? "password" : "text"}
+                                      name="password_confirmation"
+                                      placeholder=" Confirm Password"
+                                    // onKeyPress={handleKeyPress}
+                                    />
+                                    <span className="focus-input100"></span>
+
+                                    <span className="symbol-input100">
+                                      <i
+                                        className="zmdi zmdi-lock"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </span>
+
+                                    {!capsLockActive ? (
+                                      <>
+                                        <span
+                                          onClick={togglePasswordConfirmVisibility}
+                                          style={{
+                                            cursor: "pointer",
+                                            zIndex: "11",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            borderTopRightRadius: "4px",
+                                            borderBottomRightRadius: "4px",
+                                            marginLeft: "-31px",
+                                            color: "rgb(28 97 218 / 67%)",
+                                          }}
+                                        >
+                                          {" "}
+                                          {passwordConfirmVisible ? (
+                                            <AiFillEyeInvisible size={18} />
+                                          ) : (
+                                            <AiFillEye size={18} />
+                                          )}
+                                        </span>
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </div>
+
+                                  <div
+                                    style={{ color: "#f82649", marginTop: "-0.25rem" }}
+                                  >
+                                    <ErrorMessage
+                                      name="password_confirmation"
+                                      // component="div"
+                                      className="invalid-feedback"
+                                      style={{ flexDirection: "row", color: "red" }}
+                                    />
+                                  </div>
+                                </div>
+                              </FormGroup>
+
+
+
+
+
+
                               <div className="text-end pt-1">
                                 <p className="mb-0">
                                   <Link to={`/login`} className="text-primary ms-1">

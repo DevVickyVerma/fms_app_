@@ -7,6 +7,7 @@ import {
   Form,
   FormGroup,
   Breadcrumb,
+  OverlayTrigger,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
@@ -18,6 +19,7 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { ReactMultiEmail } from "react-multi-email";
 import { handleError } from "../../../Utils/ToastUtils";
+import { passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
 
 const AddClient = (props) => {
   const { isLoading, postData } = props;
@@ -275,7 +277,11 @@ const AddClient = (props) => {
                               htmlFor="password "
                               className=" form-label mt-4"
                             >
-                              Password<span className="text-danger">*</span>
+                              Password
+                              <OverlayTrigger placement="right" overlay={passwordTooltip}>
+                                <i className="ph ph-info pointer me-1"></i>
+                              </OverlayTrigger>
+                              <span className="text-danger">*</span>
                             </label>
                             <Field
                               type="password"

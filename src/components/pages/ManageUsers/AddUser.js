@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
+import { Col, Row, Card, Form, FormGroup, Breadcrumb, OverlayTrigger } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
 import { handleError } from "../../../Utils/ToastUtils";
+import { passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
 
 
 
@@ -340,7 +341,14 @@ const AddUsers = (props) => {
                             htmlFor="password "
                             className=" form-label mt-4"
                           >
-                            Password<span className="text-danger">*</span>
+                            Password
+
+                            <OverlayTrigger placement="right" overlay={passwordTooltip}>
+                              <i className="ph ph-info pointer"></i>
+                            </OverlayTrigger>
+                            <span className="text-danger">*</span>
+
+
                           </label>
                           <Field
                             type="password"

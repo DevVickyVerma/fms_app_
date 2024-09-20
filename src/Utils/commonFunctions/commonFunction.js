@@ -1,3 +1,5 @@
+import { Tooltip } from "react-bootstrap";
+
 // filterDataUtils.js
 export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyName = 'localFilterModalData',) {
 
@@ -32,3 +34,19 @@ export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyNam
 }
 
 
+export const passwordTooltip = (
+    <Tooltip id="password-tooltip">
+        Your password must be at least 8 characters long and include:
+        <ul>
+            <li>At least one uppercase letter (A-Z)</li>
+            <li>At least one number (0-9)</li>
+            <li>At least one special character (e.g., !@#$%^&*)</li>
+        </ul>
+    </Tooltip>
+);
+
+export const confirmPasswordTooltip = (
+    <Tooltip id="confirm-password-tooltip">
+        password must exactly match the password you entered above.
+    </Tooltip>
+);
