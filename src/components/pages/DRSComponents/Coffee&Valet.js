@@ -9,10 +9,6 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const CoffeeValet = (props) => {
   const {
-<<<<<<< HEAD
- 
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
     company_id,
     client_id,
     site_id,
@@ -99,10 +95,6 @@ const CoffeeValet = (props) => {
         price,
         value,
         commission,
-<<<<<<< HEAD
-  
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
         com_rate,
         adj_value,
       } = obj;
@@ -193,13 +185,8 @@ const CoffeeValet = (props) => {
     }
   };
 
-<<<<<<< HEAD
-
-
-=======
   if (editable?.is_file || editable?.is_upload_file) {
   }
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
 
 
   const handleInvoiceModal = (row) => {

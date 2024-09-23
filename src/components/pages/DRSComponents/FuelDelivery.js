@@ -8,10 +8,6 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const FuelDelivery = (props) => {
   const {
-<<<<<<< HEAD
-
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
     company_id,
     client_id,
     site_id,
@@ -474,10 +470,6 @@ const FuelDelivery = (props) => {
     // ... remaining columns
   ];
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
   const formik = useFormik({
     initialValues: {
       data: data,

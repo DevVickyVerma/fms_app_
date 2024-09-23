@@ -46,29 +46,6 @@ const CashBanking = (props) => {
   const CashBankingPermission = UserPermissions?.includes("drs-add-cash-banking")
 
 
-<<<<<<< HEAD
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
-        DeleteClient(formData);
-      }
-    });
-  };
-  const DeleteClient = async (formData) => {
-    try {
-    await postData("drs/cash-banking/delete", formData);
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
 
 
   const { customDelete } = useCustomDelete();
@@ -296,10 +273,6 @@ const CashBanking = (props) => {
     },
   ];
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {

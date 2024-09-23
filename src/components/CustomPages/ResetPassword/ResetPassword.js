@@ -15,13 +15,8 @@ export default function ResetPassword() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState({});
-<<<<<<< HEAD
 
   const [capsLockActive] = useState(false);
-=======
-  // eslint-disable-next-line no-unused-vars
-  const [capsLockActive, setCapsLockActive] = useState(false);
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(true);
   const SuccessAlert = (message) => toast.success(message);
@@ -31,10 +26,7 @@ export default function ResetPassword() {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/verify-token/${token}`)
       .then((response) => {
-<<<<<<< HEAD
       
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
         setUserId(response?.data?.data?.id);
       })
       .catch((error) => {
@@ -44,10 +36,7 @@ export default function ResetPassword() {
         }, 1000);
 
         ErrorAlert(error?.message);
-<<<<<<< HEAD
    
-=======
->>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
       });
   }, [token]);
 
