@@ -16,7 +16,6 @@ const DashSubChildBaseAPIS = (props) => {
     setDashboardShopSaleData,
     setDashboardGradsLoading,
     setDashboardSiteDetailsLoading,
-    dashSubChildShopSaleLoading,
     setDashSubChildShopSaleLoading,
   } = useMyContext();
 
@@ -25,7 +24,7 @@ const DashSubChildBaseAPIS = (props) => {
   const [getSiteStats, setGetSiteStats] = useState(null);
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
-  const [CompititorStats, setCompititorStats] = useState("");
+  const [CompititorStats,] = useState("");
 
 
 
@@ -110,6 +109,7 @@ const DashSubChildBaseAPIS = (props) => {
   };
 
 
+  // eslint-disable-next-line no-unused-vars
   const [scrollY, setScrollY] = useState(0);
   const [callShopSaleApi, setCallShopSaleApi] = useState(false);
   const [callSiteFuelPerformanceApi, setCallSiteFuelPerformanceApi] =

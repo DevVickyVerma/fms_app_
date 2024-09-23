@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Col,
@@ -25,8 +25,10 @@ import { subMonths, startOfMonth } from "date-fns";
 import SortIcon from "@mui/icons-material/Sort";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useMyContext } from "../../../Utils/MyContext";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { SuccessAlert } from "../../../Utils/ToastUtils";
+
+
+
 const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const { getGradsSiteDetails, setGradsGetSiteDetails, DashboardGradsLoading } =
     useMyContext();
@@ -100,24 +102,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
         try {
           // Attempt to parse JSON data from local storage
-          const searchdata = await JSON.parse(
-            localStorage.getItem("mySearchData")
-          );
-          const superiorRole = localStorage.getItem("superiorRole");
-          const role = localStorage.getItem("role");
-          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-          let companyId = ""; // Define companyId outside the conditionals
 
-          if (superiorRole === "Client" && role !== "Client") {
-            // Set companyId based on conditions
-            companyId =
-              searchdata?.company_id !== undefined
-                ? searchdata.company_id
-                : localStoragecompanyId;
-          } else {
-            companyId =
-              searchdata?.company_id !== undefined ? searchdata.company_id : "";
-          }
 
           // Use async/await to fetch data
           const response3 = await getData(
@@ -184,26 +169,6 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
         try {
-          // Attempt to parse JSON data from local storage
-          const searchdata = await JSON.parse(
-            localStorage.getItem("mySearchData")
-          );
-          const superiorRole = localStorage.getItem("superiorRole");
-          const role = localStorage.getItem("role");
-          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-          let companyId = ""; // Define companyId outside the conditionals
-
-          if (superiorRole === "Client" && role !== "Client") {
-            // Set companyId based on conditions
-            companyId =
-              searchdata?.company_id !== undefined
-                ? searchdata.company_id
-                : localStoragecompanyId;
-          } else {
-            companyId =
-              searchdata?.company_id !== undefined ? searchdata.company_id : "";
-          }
-
           // Use async/await to fetch data
           const response3 = await getData(
             localStorage.getItem("superiorRole") !== "Client"

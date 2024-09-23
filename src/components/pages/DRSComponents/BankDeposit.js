@@ -1,21 +1,18 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { BsDownload } from "react-icons/bs";
 
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import Swal from "sweetalert2";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from '../../../Utils/useCustomDelete';
 
 const BankDeposit = (props) => {
   const {
@@ -36,7 +33,7 @@ const BankDeposit = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const CashBankDepositPermission = UserPermissions?.includes("drs-add-bank-deposit")
 
-  const [checkStateForBankDeposit, setCheckStateForBankDeposit] =
+  const [checkStateForBankDeposit] =
     useState(true);
   const [data, setData] = useState();
   const handleButtonClick = () => {
@@ -50,34 +47,25 @@ const BankDeposit = (props) => {
     sendDataToParent(allPropsData);
   };
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
-        DeleteClient(formData);
-      }
-    });
-  };
-  const DeleteClient = async (formData) => {
-    try {
-      const response = await postData("drs/bank-deposite/delete", formData);
 
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
+
+
+
+  const { customDelete } = useCustomDelete();
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'drs/bank-deposite/delete', formData, handleSuccess);
   };
+
+
+
+
+  const handleSuccess = () => {
+    FetchTableData()
+  }
+
+
 
 
   useEffect(() => {
@@ -96,9 +84,7 @@ const BankDeposit = (props) => {
         setData(
           response?.data?.data?.listing ? response?.data.data.listing : []
         );
-        // setData(data?.data?.listing ? data.data.listing : []);
         setis_editable(response?.data?.data);
-        setSearchvalue(response.data.data.cards);
       } else {
         throw new Error("No data available in the response");
       }
@@ -118,7 +104,6 @@ const BankDeposit = (props) => {
     reason: Yup.string().required("Reason is required"),
   });
   const handleSubmit = async (values, setSubmitting) => {
-    const token = localStorage.getItem("token");
 
     try {
       const formData = new FormData();
@@ -137,6 +122,7 @@ const BankDeposit = (props) => {
         ? "/drs/bank-deposite/update"
         : "/drs/bank-deposite/add";
 
+      // eslint-disable-next-line no-unused-vars
       const response = await postData(postDataUrl, formData);
 
       if (apidata.api_response === "success") {
@@ -182,9 +168,6 @@ const BankDeposit = (props) => {
     formik.setFieldTouched("image", true);
   };
 
-  const previewImage = formik.values.image
-    ? URL.createObjectURL(formik.values.image)
-    : null;
 
   const columns = [
     {
@@ -337,11 +320,6 @@ const BankDeposit = (props) => {
     },
   ];
 
-
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
-  const [isDragging, setIsDragging] = useState(false);
-  // const [previewImage, setPreviewImage] = useState(null);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {

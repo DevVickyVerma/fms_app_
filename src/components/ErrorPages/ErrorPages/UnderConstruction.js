@@ -1,8 +1,6 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import axios from "axios";
 import { handleError } from "../../../Utils/ToastUtils";
 import { useNavigate } from "react-router-dom";
 const UnderConstruction = (props) => {
@@ -11,13 +9,6 @@ const UnderConstruction = (props) => {
   const [isLoading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
 
   const GetDetails = async () => {

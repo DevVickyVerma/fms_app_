@@ -9,7 +9,10 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const CoffeeValet = (props) => {
   const {
+<<<<<<< HEAD
  
+=======
+>>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
     company_id,
     client_id,
     site_id,
@@ -96,7 +99,10 @@ const CoffeeValet = (props) => {
         price,
         value,
         commission,
+<<<<<<< HEAD
   
+=======
+>>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
         com_rate,
         adj_value,
       } = obj;
@@ -187,8 +193,13 @@ const CoffeeValet = (props) => {
     }
   };
 
+<<<<<<< HEAD
 
 
+=======
+  if (editable?.is_file || editable?.is_upload_file) {
+  }
+>>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
 
 
   const handleInvoiceModal = (row) => {
@@ -555,9 +566,6 @@ const CoffeeValet = (props) => {
             if (row.item_category === "Total") {
               return null;
             }
-
-            const hasFile = row.file && row.file.trim() !== ""; // Check if row.file has a non-empty value
-            const is_uploadfile = editable?.is_upload_file; // Check if row.file has a non-empty value
             return (
               <div>
                 {/* {is_uploadfile && ( */}
@@ -569,43 +577,7 @@ const CoffeeValet = (props) => {
                     ></i>
                   </div>
                 </>
-                {/* // )} */}
 
-                {/* {is_uploadfile && (
-                  <label
-                    htmlFor={`file-${index}`}
-                    className="file-upload-icon"
-                  >
-                    <i
-                      className="fa fa-upload btn btn-sm btn-primary"
-                      aria-hidden="true"
-                    ></i>
-                    <input
-                      type="file"
-                      id={`file-${index}`}
-                      name={`data[${index}].file`}
-                      className="table-input visually-hidden"
-                      onChange={(e) => handleFileChange(e, index, row)}
-                      title="Choose a file to upload"
-                    />
-                  </label>
-                )} */}
-
-                {/* {hasFile && (
-                  <a
-                    href={row.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="View image"
-                  >
-                    <span>
-                      <i
-                        className="fa fa-file-image-o btn btn-sm btn-info ms-2"
-                        aria-hidden="true"
-                      ></i>
-                    </span>
-                  </a>
-                )} */}
               </div>
             );
           },

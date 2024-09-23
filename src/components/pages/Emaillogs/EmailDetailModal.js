@@ -28,10 +28,6 @@ const EmailDetailModal = (props) => {
     fontWeight: "bold",
   };
 
-  const oddSpanStyle = {
-    ...spanStyle,
-    color: "#007bff",
-  };
   const boldTitleStyle = {
     fontWeight: "bold",
     marginRight: "5px", // Add some spacing between the title and the value

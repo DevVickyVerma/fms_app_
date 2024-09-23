@@ -23,7 +23,7 @@ const CompiMiddayModal = ({
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [Showerrormessage, setShowerrormessage] = useState("");
-    const [notificationTypes, setNotificationTypes] = useState({
+    const [notificationTypes,] = useState({
         mobileSMS: false,
         email: false,
     });

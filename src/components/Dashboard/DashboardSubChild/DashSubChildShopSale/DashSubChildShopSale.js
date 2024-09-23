@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { AiFillEye } from "react-icons/ai";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Loaderimg from "../../../../Utils/Loader";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import SortIcon from "@mui/icons-material/Sort";
@@ -23,7 +23,6 @@ import * as Yup from "yup";
 import { DateRangePicker } from "react-date-range";
 import withApi from "../../../../Utils/ApiHelper";
 import { useMyContext } from "../../../../Utils/MyContext";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
 import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
 
@@ -31,7 +30,6 @@ const DashSubChildShopSale = ({
   getData,
   getSiteStats,
 }) => {
-  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [showCalenderModal, setShowCalenderModal] = useState(false);
   const [shopPerformanceData, setShopPerformanceData] = useState();
@@ -42,12 +40,11 @@ const DashSubChildShopSale = ({
   const [ModalButtonName, setModalButtonName] = useState(false);
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
-  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
 
   const {
     dashboardShopSaleData,
     setDashboardShopSaleData,
-    dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading
+    dashSubChildShopSaleLoading,
   } = useMyContext();
 
 
@@ -287,12 +284,11 @@ const DashSubChildShopSale = ({
     const storedData = localStorage.getItem("localFilterModalData");
     const parshedData = JSON.parse(storedData);
 
-    let { client_id, company_id, site_id, client_name } = parshedData;
+    let { client_id, company_id, } = parshedData;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
     }
 
     try {
@@ -335,36 +331,15 @@ const DashSubChildShopSale = ({
     const storedData = localStorage.getItem("localFilterModalData");
     const parshedData = JSON.parse(storedData);
 
-    let { client_id, company_id, site_id, client_name } = parshedData;
+    let { client_id, company_id, } = parshedData;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
-      client_name = localStorage.getItem("First_name");
     }
     try {
       if (parshedData) {
         try {
-          // Attempt to parse JSON data from local storage
-          const searchdata = await JSON.parse(
-            localStorage.getItem("mySearchData")
-          );
-          const superiorRole = localStorage.getItem("superiorRole");
-          const role = localStorage.getItem("role");
-          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-          let companyId = ""; // Define companyId outside the conditionals
-
-          if (superiorRole === "Client" && role !== "Client") {
-            // Set companyId based on conditions
-            companyId =
-              searchdata?.company_id !== undefined
-                ? searchdata.company_id
-                : localStoragecompanyId;
-          } else {
-            companyId =
-              searchdata?.company_id !== undefined ? searchdata.company_id : "";
-          }
-
           // Use async/await to fetch data
           const response3 = await getData(
             localStorage.getItem("superiorRole") !== "Client"

@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Col, Modal, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import LoaderImg from "../../../Utils/Loader";
@@ -18,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 const CoffeeAndValetUploadInvoice = (props) => {
     const { showModal, setShowModal, invoiceCallData, getData, isLoading, postData, apidata } = props;
     const navigate = useNavigate();
-    const [customLoading, setCustomLoading] = useState(false);
     const handleCloseModal = () => {
         setShowModal(false);
     };
@@ -77,6 +75,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
     };
     const Deletehidecategory = async (formData) => {
         try {
+            // eslint-disable-next-line no-unused-vars
             const response = await postData("/valet-coffee/delete-file", formData);
             // Console log the response
             if (apidata.api_response === "success") {
@@ -100,37 +99,35 @@ const CoffeeAndValetUploadInvoice = (props) => {
         );
     };
     const uploadDocument = async (id) => {
-        setCustomLoading(true); // Start loading state
-    
+
         const formData = new FormData();
-    
+
         formik?.values?.uploadedFiles?.forEach((file, index) => {
             // Ensure `file` is a valid File object
             if (file) {
                 formData.append(`file[${index}]`, file);
             }
         });
-    
+
         // Append other form data
         formData.append("site_id", invoiceCallData?.site_id || "");
         formData.append("drs_date", invoiceCallData?.start_date || "");
         formData.append("department_item_id", invoiceCallData?.selectedRow?.department_item_id || "");
-    
+
         try {
             const postDataUrl = "/valet-coffee/upload-file";
-            
+
             await postData(postDataUrl, formData);
-    
+
             FetchmannegerList(); // Refresh data
-    
+
             formik.setFieldValue('uploadedFiles', []); // Clear formik field value
-    
+
             // Navigate to the desired path after a successful upload
             navigate(`/clients`);
         } catch (error) {
             handleError(error); // Handle error appropriately
         } finally {
-            setCustomLoading(false); // End loading state
         }
     };
 

@@ -3,17 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "react-bootstrap";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from "../../../Utils/useToggleStatus";
 
 
 const ManageClient = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
 
@@ -33,34 +33,29 @@ const ManageClient = (props) => {
     setCurrentPage(newPage);
   };
 
+
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
+
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
-        DeleteClient(formData);
-      }
-    });
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'client/delete', formData, handleSuccess);
   };
-  const DeleteClient = async (formData) => {
-    try {
-      await postData("client/delete", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        handleFetchData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
+
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append('id', row.id.toString());
+    formData.append('status', (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/client/update-status', formData, handleSuccess);
   };
+
+
+  const handleSuccess = () => {
+    handleFetchData()
+  }
+
 
 
 
@@ -89,28 +84,6 @@ const ManageClient = (props) => {
       }
     } catch (error) {
       console.error("API error:", error);
-    }
-  };
-
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      await postData("/client/update-status", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        handleFetchData();
-      }
-    } catch (error) {
-      handleError(error);
     }
   };
 

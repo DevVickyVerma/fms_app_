@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -240,10 +239,7 @@ const ManageAddon = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
 
   return (
     <>

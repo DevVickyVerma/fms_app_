@@ -7,7 +7,7 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 
 const DashboardChildTable = (props) => {
-  const { isLoading, getData, searchdata, data, setData } = props;
+  const { isLoading, data } = props;
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
 

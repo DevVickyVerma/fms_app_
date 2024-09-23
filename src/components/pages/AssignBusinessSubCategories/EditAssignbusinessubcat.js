@@ -1,9 +1,8 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { handleError } from "../../../Utils/ToastUtils";
@@ -43,13 +42,9 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
   };
 
   useEffect(() => {
-    // FetchSubCategoryList(id);
     FetchCategoryList();
     fetchOpeningBalanceList();
   }, []);
-
-  const navigate = useNavigate();
-  // const ErrorAlert = (message) => toast.error(message);
   const { id } = useParams();
 
   const fetchOpeningBalanceList = async () => {

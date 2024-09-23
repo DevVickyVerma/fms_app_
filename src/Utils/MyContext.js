@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 

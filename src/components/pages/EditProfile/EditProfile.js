@@ -27,8 +27,10 @@ export default function EditProfile() {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [UserPermissionstwo_factor, setUserPermissionstwo_factor] =
     useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisibleForCurrent, setPasswordVisibleForCurrent] =
     useState(true);

@@ -4,13 +4,12 @@ import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from '../../../Utils/useCustomDelete';
 
 const CashBanking = (props) => {
   const {
@@ -27,7 +26,7 @@ const CashBanking = (props) => {
     start_date,
   } = props;
   const [data, setData] = useState();
-  const [checkState, setCheckState] = useState(true);
+  const [checkState,] = useState(true);
   const [Editdata, setEditData] = useState(false);
   const [editable, setis_editable] = useState();
 
@@ -47,6 +46,7 @@ const CashBanking = (props) => {
   const CashBankingPermission = UserPermissions?.includes("drs-add-cash-banking")
 
 
+<<<<<<< HEAD
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -67,14 +67,25 @@ const CashBanking = (props) => {
   const DeleteClient = async (formData) => {
     try {
     await postData("drs/cash-banking/delete", formData);
+=======
+>>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
 
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
+
+  const { customDelete } = useCustomDelete();
+
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'drs/cash-banking/delete', formData, handleSuccess);
   };
+
+
+  const handleSuccess = () => {
+    FetchTableData()
+  }
+
+
+
 
 
 
@@ -142,6 +153,7 @@ const CashBanking = (props) => {
         ? "/drs/cash-banking/update"
         : "/drs/cash-banking/add";
 
+      // eslint-disable-next-line no-unused-vars
       const response = await postData(postDataUrl, formData);
 
       if (apidata.api_response === "success") {
@@ -284,7 +296,10 @@ const CashBanking = (props) => {
     },
   ];
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {

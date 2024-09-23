@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";  // its very impotent to import this auto chart
 
@@ -85,40 +86,6 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
       },
     },
   };
-  // const options = {
-  //   responsive: true,
-  //   interaction: {
-  //     mode: "index",
-  //     intersect: false,
-  //   },
-  //   scales: {
-  //     y: {
-  //       type: "linear",
-  //       display: true,
-  //       position: "left",
-  //       min: 0, // Set the minimum value to 0 for the left y-axis (y)
-  //     },
-  //     y1: {
-  //       type: "linear",
-  //       display: true,
-  //       position: "right",
-  //       grid: {
-  //         drawOnChartArea: false,
-  //       },
-  //       min: 0, // Set the minimum value to 0 for the left y-axis (y)
-  //     },
-  //   },
-  //   plugins: {
-  //     legend: {
-  //       position: "top", // Adjust the legend position as needed
-  //     },
-  //   },
-  //   elements: {
-  //     bar: {
-  //       order: "stacked", // Ensure proper stacking of bars
-  //     },
-  //   },
-  // };
 
   return (
     <div>

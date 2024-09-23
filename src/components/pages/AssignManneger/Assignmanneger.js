@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -185,11 +184,6 @@ const ManageRoles = (props) => {
       ),
     },
   ];
-
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   return (
     <>

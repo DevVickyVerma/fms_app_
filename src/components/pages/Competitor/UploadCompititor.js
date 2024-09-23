@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
-import { Breadcrumb, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Slide, toast } from "react-toastify";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 
 const UploadCompetitor = (props) => {
   const { getData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [ClientList, setClientList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
 
@@ -116,7 +113,6 @@ const UploadCompetitor = (props) => {
       position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
-      autoClose: 1000,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };

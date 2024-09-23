@@ -13,6 +13,11 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 const AddAddon = (props) => {
   const { isLoading, } = props;
   const [permissions, setPermissions] = useState([]);
+<<<<<<< HEAD
+=======
+  // eslint-disable-next-line no-unused-vars
+  const [userpermissions, setUserPermissions] = useState([]);
+>>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
 
 
 
@@ -68,8 +73,11 @@ const AddAddon = (props) => {
     }
   };
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 4ac3e596442186a9370a598fc6d43318d9cff7d9
   const formik = useFormik({
     initialValues: {
       name: "",

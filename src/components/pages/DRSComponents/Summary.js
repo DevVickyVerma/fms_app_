@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
@@ -6,7 +5,7 @@ import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const DepartmentShop = (props) => {
   const {

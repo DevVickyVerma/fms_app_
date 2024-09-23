@@ -1,11 +1,9 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import DataTableExtensions from "react-data-table-component-extensions";
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -34,8 +32,6 @@ const ManageBank = ({ isLoading, getData }) => {
     );
     const { id } = useParams();
 
-    const navigate = useNavigate();
-    // const ErrorAlert = (message) => toast.error(message);
 
 
     const handleDelete = (id) => {
@@ -271,10 +267,6 @@ const ManageBank = ({ isLoading, getData }) => {
     ];
 
 
-    const tableDatas = {
-        columns,
-        data,
-    };
 
     return (
         <>
