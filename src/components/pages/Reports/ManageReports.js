@@ -19,7 +19,6 @@ const ManageReports = (props) => {
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  const [ShowButton, setShowButton] = useState(false);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
@@ -35,7 +34,7 @@ const ManageReports = (props) => {
 
   const handleToggleChange = (checked) => {
     setToggleValue(checked);
-    setShowButton(false);
+
   };
   const ErrorToast = (message) => {
     toast.error(message, {
@@ -515,7 +514,7 @@ const ManageReports = (props) => {
                           // Store both report_code and report_name in Formik state
                           formik.setFieldValue("report", selectedReportCode);
                           formik.setFieldValue("reportName", selectedReportName); // Assuming 'reportName' is part of formik initialValues
-                          setShowButton(false);
+
                         }}
                       >
                         <option value="">Select a Report</option>
@@ -571,7 +570,7 @@ const ManageReports = (props) => {
                                 "start_date",
                                 selectedstart_date
                               );
-                              setShowButton(false);
+
                             }}
                             value={formik.values.start_date}
                           ></input>
@@ -610,7 +609,7 @@ const ManageReports = (props) => {
                                 "end_date",
                                 selectedend_date_date
                               );
-                              setShowButton(false);
+
                             }}
                             value={formik.values.end_date}
                           ></input>
@@ -652,7 +651,7 @@ const ManageReports = (props) => {
                               "reportmonth",
                               selectedmonth
                             );
-                            setShowButton(false);
+
                           }}
                           value={formik.values.reportmonth}
                         >

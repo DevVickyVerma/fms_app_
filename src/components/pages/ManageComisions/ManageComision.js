@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -6,13 +6,12 @@ import DataTable from "react-data-table-component";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
-import { ErrorMessage, useFormik } from "formik";
+import { useFormik } from "formik";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 
 const ManageComision = (props) => {
   const { isLoading, getData, postData } = props;
   const [SelectedsiteID, setsiteID] = useState();
-  const [editable, setis_editable] = useState();
   const [data, setData] = useState([]);
 
 
@@ -63,7 +62,6 @@ const ManageComision = (props) => {
         const { data } = response2;
         if (data) {
           setData(data?.data?.items);
-          setis_editable(data?.data);
 
           // Create an array of form values based on the response data
           const formValues = data.data.items.map((item) => ({

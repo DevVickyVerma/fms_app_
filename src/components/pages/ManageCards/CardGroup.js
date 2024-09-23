@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
@@ -67,32 +66,6 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
   const isAddPermissionAvailable = UserPermissions?.includes("cardgroup-update");
   const isDeletePermissionAvailable = UserPermissions?.includes("cardgroup-delete");
 
-
-  // const isEditPermissionAvailable =
-  //   permissionsArray?.includes("cardgroup-update");
-  // const isAddPermissionAvailable =
-  //   permissionsArray?.includes("cardgroup-update");
-  // const isDeletePermissionAvailable = permissionsArray?.includes("cardgroup-delete");
-  const anyPermissionAvailable =
-    isEditPermissionAvailable ||
-    isDeletePermissionAvailable;
-  // const handleDelete = (id) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You will not be able to recover this item!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonText: "Yes, delete it!",
-  //     cancelButtonText: "Cancel",
-  //     reverseButtons: true,
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       const formData = new FormData();
-  //       formData.append("id", id);
-  //       DeleteClient(formData);
-  //     }
-  //   });
-  // };
 
 
   const columns = [

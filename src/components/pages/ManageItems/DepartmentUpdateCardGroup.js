@@ -65,7 +65,7 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
             const formData = new FormData();
 
             for (const obj of values.AssignFormikCards) {
-                const { id, for_tenant, checked, name } = obj;
+                const { id, checked, } = obj;
                 // const card_valueKey = `card_id`;
 
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
@@ -14,9 +13,7 @@ import { useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
 
 const AddCompany = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
+  const { isLoading, getData, postData } = props;
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [ReportsData, setReportsData] = useState([]);
@@ -39,10 +36,6 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     FetchmannegerList();
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
   }, [UserPermissions]);
 
   const ReportsColumn = [

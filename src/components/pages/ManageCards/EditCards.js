@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
@@ -13,12 +12,7 @@ import { handleError } from "../../../Utils/ToastUtils";
 const EditCards = (props) => {
   const { isLoading, getData, postData } = props;
   const reader = new FileReader();
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-
   const [previewImage, setPreviewImage] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
 
   const { id } = useParams();
 
@@ -36,7 +30,6 @@ const EditCards = (props) => {
 
   const handleDrop = (event, setFieldValue) => {
     event.preventDefault();
-    setIsDragging(false);
     const file = event.dataTransfer.files[0];
     setFieldValue("image", file);
 

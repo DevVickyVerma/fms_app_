@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import {
   Col,
@@ -12,7 +11,6 @@ import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 import { handleError } from "../../../Utils/ToastUtils";
 
 const EditSitePump = (props) => {
@@ -62,17 +60,7 @@ const EditSitePump = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
 
   const formik = useFormik({
     initialValues: {

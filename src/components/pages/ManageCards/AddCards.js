@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
@@ -10,7 +9,7 @@ import { useSelector } from "react-redux";
 
 
 const AddCards = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, postData } = props;
 
   const [previewImage, setPreviewImage] = useState(null);
 
@@ -36,7 +35,6 @@ const AddCards = (props) => {
   const navigate = useNavigate();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
@@ -82,7 +80,6 @@ const AddCards = (props) => {
 
   const handleDrop = (event, setFieldValue) => {
     event.preventDefault();
-    setIsDragging(false);
     const file = event.dataTransfer.files[0];
     setFieldValue("image", file);
 
@@ -97,255 +94,255 @@ const AddCards = (props) => {
   return <>
     {isLoading ? <Loaderimg /> : null}
 
-      <div>
-        <div className="page-header">
-          <div>
-            <h1 className="page-title">Add Cards</h1>
+    <div>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Add Cards</h1>
 
-            <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item
-                className="breadcrumb-item"
-                linkAs={Link}
-                linkProps={{ to: "/dashboard" }}
-              >
-                Dashboard
-              </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item active breadcrumds"
-                aria-current="page"
-              >
-                Manage Cards
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
+          <Breadcrumb className="breadcrumb">
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item active breadcrumds"
+              aria-current="page"
+            >
+              Manage Cards
+            </Breadcrumb.Item>
+          </Breadcrumb>
         </div>
-
-        <Row>
-          <Col lg={12} xl={12} md={12} sm={12}>
-            <Card>
-              <Card.Header>
-                <Card.Title as="h3">Add Cards</Card.Title>
-              </Card.Header>
-              <Formik
-                initialValues={{
-                  card_name: "",
-                  card_code: "",
-                  card_status: "1",
-                  is_bunkering: "0",
-                  image: null,
-                }}
-                validationSchema={Yup.object({
-                  card_name: Yup.string()
-                    .required(" Card Name is required"),
-
-                  card_code: Yup.string()
-                    .required("Card Code is required")
-                    .matches(/^[a-zA-Z0-9_\- ]+$/, {
-                      message:
-                        "Card Code must not contain special characters",
-                      excludeEmptyString: true,
-                    })
-                    .matches(
-                      /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-                      {
-                        message: "Card Code must not have consecutive spaces",
-                        excludeEmptyString: true,
-                      }
-                    ),
-
-                  card_status: Yup.string().required(
-                    "Card Status is required"
-                  ),
-                })}
-                onSubmit={(values) => {
-                  handleSubmit1(values);
-                }}
-              >
-                {({ handleSubmit, errors, touched, setFieldValue }) => (
-                  <Form onSubmit={handleSubmit}>
-                    <Card.Body>
-                      <Row>
-                        <Col lg={6} md={12}>
-                          <FormGroup>
-                            <label
-                              className=" form-label mt-4"
-                              htmlFor="card_name"
-                            >
-                              Card Name
-                              <span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              type="text"
-                              autoComplete="off"
-                              // className="form-control"
-                              className={`input101 ${errors.card_name && touched.card_name
-                                ? "is-invalid"
-                                : ""
-                                }`}
-                              id="card_name"
-                              name="card_name"
-                              placeholder="Card Name"
-                            />
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="card_name"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg={6} md={12}>
-                          <FormGroup>
-                            <label
-                              className=" form-label mt-4"
-                              htmlFor="card_code"
-                            >
-                              Card Code
-                              <span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              type="text"
-                              autoComplete="off"
-                              className={`input101 ${errors.card_code && touched.card_code
-                                ? "is-invalid"
-                                : ""
-                                }`}
-                              id="card_code"
-                              name="card_code"
-                              placeholder="Card Code"
-                            />
-                            <ErrorMessage
-                              name="card_code"
-                              component="div"
-                              className="invalid-feedback"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg={6} md={12}>
-                          <FormGroup>
-                            <label
-                              className=" form-label mt-4"
-                              htmlFor="card_status"
-                            >
-                              Card Status
-                              <span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              as="select"
-                              className={`input101 ${errors.card_status && touched.card_status
-                                ? "is-invalid"
-                                : ""
-                                }`}
-                              id="card_status"
-                              name="card_status"
-                            >
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
-                            </Field>
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="card_status"
-                            />
-                          </FormGroup>
-                        </Col>
-                        {/* IS Bunkering Section Start */}
-                        <Col lg={6} md={12}>
-                          <FormGroup>
-                            <label
-                              className=" form-label mt-4"
-                              htmlFor="is_bunkering"
-                            >
-                              Bunkering Status
-                            </label>
-                            <Field
-                              as="select"
-                              className={`input101 ${errors.is_bunkering && touched.is_bunkering
-                                ? "is-invalid"
-                                : ""
-                                }`}
-                              id="is_bunkering"
-                              name="is_bunkering"
-                            >
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
-                            </Field>
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="is_bunkering"
-                            />
-                          </FormGroup>
-                        </Col>
-                        {/* IS Bunkering Section End */}
-                        <Col lg={6} md={12}>
-                          <div className="form-group">
-                            <label
-                              className=" form-label mt-4"
-                              htmlFor="image"
-                            >
-                              Card Logo
-                            </label>
-                            <div
-                              className={`dropzone ${errors.image && touched.image
-                                ? "is-invalid"
-                                : ""
-                                }`}
-                              onDrop={(event) =>
-                                handleDrop(event, setFieldValue)
-                              }
-                              onDragOver={(event) => event.preventDefault()}
-                            >
-                              <input
-                                type="file"
-                                id="image"
-                                name="image"
-                                onChange={(event) =>
-                                  handleImageChange(event, setFieldValue)
-                                }
-                                className="form-control"
-                              />
-                              <p style={{ margin: "6px", color: "#4d5875" }}>
-                                Drag and drop your Card Logo here, or click to
-                                browse
-                              </p>
-                            </div>
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="image"
-                            />
-                          </div>
-                          {previewImage && (
-                            <div>
-                              <p>Preview:</p>
-                              <img src={previewImage} alt="Preview" />
-                            </div>
-                          )}
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                    <Card.Footer className="text-end">
-                      <Link
-                        type="submit"
-                        className="btn btn-danger me-2 "
-                        to={`/manageCards/`}
-                      >
-                        Cancel
-                      </Link>
-                      <button className="btn btn-primary me-2" type="submit">
-                        Add
-                      </button>
-                    </Card.Footer>
-                  </Form>
-                )}
-              </Formik>
-            </Card>
-          </Col>
-        </Row>
       </div>
-  
+
+      <Row>
+        <Col lg={12} xl={12} md={12} sm={12}>
+          <Card>
+            <Card.Header>
+              <Card.Title as="h3">Add Cards</Card.Title>
+            </Card.Header>
+            <Formik
+              initialValues={{
+                card_name: "",
+                card_code: "",
+                card_status: "1",
+                is_bunkering: "0",
+                image: null,
+              }}
+              validationSchema={Yup.object({
+                card_name: Yup.string()
+                  .required(" Card Name is required"),
+
+                card_code: Yup.string()
+                  .required("Card Code is required")
+                  .matches(/^[a-zA-Z0-9_\- ]+$/, {
+                    message:
+                      "Card Code must not contain special characters",
+                    excludeEmptyString: true,
+                  })
+                  .matches(
+                    /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+                    {
+                      message: "Card Code must not have consecutive spaces",
+                      excludeEmptyString: true,
+                    }
+                  ),
+
+                card_status: Yup.string().required(
+                  "Card Status is required"
+                ),
+              })}
+              onSubmit={(values) => {
+                handleSubmit1(values);
+              }}
+            >
+              {({ handleSubmit, errors, touched, setFieldValue }) => (
+                <Form onSubmit={handleSubmit}>
+                  <Card.Body>
+                    <Row>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="card_name"
+                          >
+                            Card Name
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            type="text"
+                            autoComplete="off"
+                            // className="form-control"
+                            className={`input101 ${errors.card_name && touched.card_name
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="card_name"
+                            name="card_name"
+                            placeholder="Card Name"
+                          />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="card_name"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="card_code"
+                          >
+                            Card Code
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${errors.card_code && touched.card_code
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="card_code"
+                            name="card_code"
+                            placeholder="Card Code"
+                          />
+                          <ErrorMessage
+                            name="card_code"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="card_status"
+                          >
+                            Card Status
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${errors.card_status && touched.card_status
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="card_status"
+                            name="card_status"
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="card_status"
+                          />
+                        </FormGroup>
+                      </Col>
+                      {/* IS Bunkering Section Start */}
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="is_bunkering"
+                          >
+                            Bunkering Status
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${errors.is_bunkering && touched.is_bunkering
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="is_bunkering"
+                            name="is_bunkering"
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="is_bunkering"
+                          />
+                        </FormGroup>
+                      </Col>
+                      {/* IS Bunkering Section End */}
+                      <Col lg={6} md={12}>
+                        <div className="form-group">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="image"
+                          >
+                            Card Logo
+                          </label>
+                          <div
+                            className={`dropzone ${errors.image && touched.image
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            onDrop={(event) =>
+                              handleDrop(event, setFieldValue)
+                            }
+                            onDragOver={(event) => event.preventDefault()}
+                          >
+                            <input
+                              type="file"
+                              id="image"
+                              name="image"
+                              onChange={(event) =>
+                                handleImageChange(event, setFieldValue)
+                              }
+                              className="form-control"
+                            />
+                            <p style={{ margin: "6px", color: "#4d5875" }}>
+                              Drag and drop your Card Logo here, or click to
+                              browse
+                            </p>
+                          </div>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="image"
+                          />
+                        </div>
+                        {previewImage && (
+                          <div>
+                            <p>Preview:</p>
+                            <img src={previewImage} alt="Preview" />
+                          </div>
+                        )}
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer className="text-end">
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/manageCards/`}
+                    >
+                      Cancel
+                    </Link>
+                    <button className="btn btn-primary me-2" type="submit">
+                      Add
+                    </button>
+                  </Card.Footer>
+                </Form>
+              )}
+            </Formik>
+          </Card>
+        </Col>
+      </Row>
+    </div>
+
   </>;
 };
 export default withApi(AddCards);

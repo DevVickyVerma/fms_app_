@@ -14,8 +14,6 @@ const CompanySageFuels = (props) => {
     const [data, setData] = useState([]);
     const [taxCodes, setTaxCodes] = useState([]);
     const [typesData, setTypesData] = useState([]);
-
-    const [editable, setis_editable] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = async () => {
@@ -38,7 +36,6 @@ const CompanySageFuels = (props) => {
                 setData(data.data.fuels);
                 setTaxCodes(data.data.taxCodes);
                 setTypesData(data.data.types);
-                setis_editable(data.data);
 
                 // Create an array of form values based on the response data
                 const formValues = data.data.fuels.map((item) => {
@@ -342,10 +339,6 @@ const CompanySageFuels = (props) => {
         // ... remaining columns
     ];
 
-    const tableDatas = {
-        columns,
-        data,
-    };
 
     const formik = useFormik({
         initialValues: {

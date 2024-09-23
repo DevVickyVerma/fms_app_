@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -45,7 +44,6 @@ const initialValues = {
 const TreeForm = (props) => {
   const { isLoading, getData, postData } = props;
   const [tree1, setCompanyList] = useState([]);
-  const [tree2, setCompanyList2] = useState([]);
   const [data, setData] = useState([]);
   const { id } = useParams();
   useEffect(() => {
@@ -62,7 +60,6 @@ const TreeForm = (props) => {
 
       if (response) {
         setCompanyList(response?.data?.data);
-        setCompanyList2(response?.data?.data);
         setData(response?.data?.data);
         formik.setFieldValue("tree1", response?.data?.data?.companies);
         formik.setFieldValue("tree2", response?.data?.data?.roles);

@@ -1,8 +1,6 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -138,11 +136,6 @@ const CompanySageOtherCodes = () => {
         formik.setFieldValue('data', updatedData);
     };
 
-    const tableDatas = {
-        columns,
-        data,
-    };
-
     const handleSubmit1 = async (values) => {
         const token = localStorage.getItem("token");
 
@@ -152,8 +145,6 @@ const CompanySageOtherCodes = () => {
 
         for (const obj of values.data) {
             const {
-                id,
-                name,
                 slug,
                 nominal_code,
             } = obj;

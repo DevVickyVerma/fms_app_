@@ -1,8 +1,5 @@
-import React from "react";
-import { useEffect, useState } from 'react';
-
+import { useEffect } from 'react';
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
@@ -12,11 +9,6 @@ import { handleError } from "../../../Utils/ToastUtils";
 
 const EditBussiness = (props) => {
   const { isLoading, getData, postData } = props;
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-
   const { id } = useParams();
 
   useEffect(() => {

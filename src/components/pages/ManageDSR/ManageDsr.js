@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
-
 import withApi from "../../../Utils/ApiHelper";
-
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -32,7 +28,7 @@ import NewFilterTab from "../Filtermodal/NewFilterTab";
 import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
 
 const ManageDsr = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
 
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -51,33 +47,13 @@ const ManageDsr = (props) => {
   const [PropsType, setPropsType] = useState();
   const [PropsDate, setPropsDate] = useState();
   const [getDataBtn, setgetDataBtn] = useState();
-  const [SiteId, setSiteId] = useState();
-  const [DRSDate, setDRSDate] = useState();
+  const [DRSDate,] = useState();
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
+  const [selectedClientId,] = useState("");
   const { timeLeft, setTimeLeft, isTimerRunning, setIsTimerRunning } =
     useMyContext();
   const [selectedItem, setSelectedItem] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [minDate, setMinDate] = useState();
 
-
-  const getMinDate = () => {
-    const today = new Date();
-    today.setMonth(today.getMonth() - 2);
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-  const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true if the user is an admin
-
-  useEffect(() => {
-    if (!isAdmin) {
-      setMinDate(getMinDate());
-    }
-  }, [isAdmin]);
 
 
   useEffect(() => {
@@ -134,9 +110,6 @@ const ManageDsr = (props) => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-
         let parshedData = JSON.parse(storedData);
 
 
@@ -290,10 +263,8 @@ const ManageDsr = (props) => {
       let parshedData = JSON.parse(storedData);
       GetDataWithClient(parshedData);
     }
-
-    return () => clearInterval(timer);
-
     console.clear();
+    return () => clearInterval(timer);
   }, [isTimerRunning, timeLeft]);
 
   const handleButtonClick = () => {
@@ -333,7 +304,6 @@ const ManageDsr = (props) => {
 
 
   const handleSuccess = (message) => {
-    setSuccessMessage(message);
     GetDataHttech();
     // Do any additional processing with the success message if needed
   };
@@ -363,42 +333,6 @@ const ManageDsr = (props) => {
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
-
-
-  // useEffect(() => {
-  //   if (storedData) {
-  //     let parsedData = JSON.parse(storedData);
-
-  //     // Check if start_date exists in storedData
-  //     if (!parsedData.start_date) {
-  //       // If start_date does not exist, set it to the current date
-  //       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-  //       parsedData.start_date = currentDate;
-
-  //       // Update the stored data with the new start_date
-  //       localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
-  //       GetDataWithClient(parsedData)
-  //     } else {
-  //       GetDataWithClient(parsedData)
-  //     }
-
-  //     // Call the API with the updated or original data
-  //   } else if (localStorage.getItem("superiorRole") === "Client") {
-  //     const storedClientIdData = localStorage.getItem("superiorId");
-
-  //     if (storedClientIdData) {
-  //       const futurepriceLog = {
-  //         client_id: storedClientIdData,
-  //         start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
-  //       };
-
-  //       // Optionally store this data back to localStorage
-  //       localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-
-  //       handleApplyFilters(futurepriceLog);
-  //     }
-  //   }
-  // }, [storedKeyName]); // Add any other dependencies needed here
 
   const ReduxFullData = useSelector((state) => state?.data?.data);
   useEffect(() => {

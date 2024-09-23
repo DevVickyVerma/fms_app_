@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
@@ -15,7 +14,6 @@ const EditBussiness = (props) => {
   const { isLoading, getData, postData } = props;
 
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [dropdownValue, setDropdownValue] = useState([]);
 
 
   useEffect(() => {

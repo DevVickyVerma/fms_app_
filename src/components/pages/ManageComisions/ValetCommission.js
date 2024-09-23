@@ -143,7 +143,6 @@ const ManageDsr = (props) => {
       formData.append("date", SelectedDate);
 
       const postDataUrl = "/valet-commission/update";
-      const navigatePath = "/business";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {

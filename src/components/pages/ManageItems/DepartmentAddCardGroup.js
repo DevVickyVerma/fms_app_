@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
@@ -10,7 +9,6 @@ import * as Yup from "yup";
 
 const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
     const [cardData, setCardData] = useState();
-    const companyId = localStorage.getItem("cardsCompanyId");
 
     const paramId = useParams();
 
@@ -63,7 +61,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
             const formData = new FormData();
 
             for (const obj of values.AssignFormikCards) {
-                const { id, for_tenant, checked, name } = obj;
+                const { id, checked, } = obj;
                 // const card_valueKey = `card_id`;
 
 

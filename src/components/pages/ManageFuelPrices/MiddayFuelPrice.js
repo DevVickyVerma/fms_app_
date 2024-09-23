@@ -157,27 +157,10 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
     };
 
 
-    const handleShowDatee = (event) => {
-        if (event.target && event.target.showPicker) {
-            event.target.showPicker(); // Trigger date picker directly from the event
-        }
-    };
 
 
     return (
         <>
-
-            {/* {showError && (<>
-                <div className=' ' >
-                    <div className='p-2 my-2 d-flex justify-content-between w-100 px-3' style={{ background: "#e74c3c", color: "#fff" }}>
-                        <span>{showError}</span>
-                        <span onClick={() => setShowError(null)}><i className="fa fa-times fs-4 pointer" aria-hidden="true"></i></span>
-                    </div>
-                </div>
-            </>)} */}
-
-
-
             <Row className="row-sm">
                 <Col lg={12}>
                     <Card style={{ overflowY: "auto" }}>

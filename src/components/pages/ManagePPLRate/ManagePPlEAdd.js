@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 
 import {
@@ -12,7 +12,6 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
@@ -20,9 +19,7 @@ import CustomSite from "../../../Utils/CustomSite";
 const AddSitePump = (props) => {
   const { isLoading, getData, postData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
+  const [clientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");

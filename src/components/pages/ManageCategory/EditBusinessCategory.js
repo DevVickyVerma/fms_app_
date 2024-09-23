@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
@@ -14,7 +13,6 @@ import { handleError } from "../../../Utils/ToastUtils";
 const EditBussiness = (props) => {
   const { isLoading, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [dropdownValue, setDropdownValue] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -33,8 +31,6 @@ const EditBussiness = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-
-        setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }

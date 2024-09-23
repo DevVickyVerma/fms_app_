@@ -15,7 +15,6 @@ import CustomPagination from "../../../Utils/CustomPagination";
 
 const ManageCharges = (props) => {
   const { apidata, isLoading, getData, postData } = props;
-  const [searchQuery, setSearchQuery] = useState('');
   const [data, setData] = useState();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -77,6 +76,7 @@ const ManageCharges = (props) => {
         });
         const DeleteRole = async () => {
           try {
+            // eslint-disable-next-line no-unused-vars
             const response = await axiosInstance.post(
               "charge/delete",
               formData
@@ -112,6 +112,7 @@ const ManageCharges = (props) => {
 
   const ToggleStatus = async (formData, currentPage) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("charge/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {

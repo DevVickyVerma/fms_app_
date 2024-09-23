@@ -1,9 +1,7 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -12,14 +10,14 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from '../../../Utils/useCustomDelete';
+import useToggleStatus from '../../../Utils/useToggleStatus';
 
 const ManageBusinessTypes = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
 
   const [data, setData] = useState();
 
@@ -29,7 +27,6 @@ const ManageBusinessTypes = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
-        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -38,34 +35,29 @@ const ManageBusinessTypes = (props) => {
     }
   };
 
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
+
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
-        DeleteClient(formData);
-      }
-    });
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'business/delete-type', formData, handleSuccess);
   };
-  const DeleteClient = async (formData) => {
-    try {
-      const response = await postData("business/delete-type", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
+
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append('id', row.id.toString());
+    formData.append('status', (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/business/update-type-status', formData, handleSuccess);
   };
+
+
+  const handleSuccess = () => {
+    FetchTableData()
+  }
+
+
 
 
 
@@ -74,36 +66,6 @@ const ManageBusinessTypes = (props) => {
     console.clear();
   }, []);
 
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData("business/update-type-status", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const permissionsToCheck = [
-    "business-type-list",
-    "business-type-create",
-    "business-type-edit",
-    "business-type--detail",
-    "business-type--delete",
-  ];
-  let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -113,10 +75,6 @@ const ManageBusinessTypes = (props) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "business-status-update"
-  );
   const isEditPermissionAvailable =
     permissionsArray?.includes("business-type-edit");
   const isAddPermissionAvailable = permissionsArray?.includes(
@@ -125,11 +83,6 @@ const ManageBusinessTypes = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes(
     "business-type-delete"
   );
-  const isDetailsPermissionAvailable = permissionsArray?.includes(
-    "business-type--detail"
-  );
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("business-assign");
 
   const columns = [
     {
@@ -264,23 +217,6 @@ const ManageBusinessTypes = (props) => {
       ),
     },
   ];
-
-  const tableDatas = {
-    columns,
-    data,
-  };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) =>
-      item.business_name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   return (
     <>

@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import UploadSageSales from "./UploadSageSales";
 import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
@@ -99,6 +98,7 @@ const ManageCompany = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("/company/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {

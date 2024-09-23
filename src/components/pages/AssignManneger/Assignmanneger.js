@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect, useState } from 'react';
-
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -63,10 +62,6 @@ const ManageRoles = (props) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "site-assign-manager"
-  );
   const isEditPermissionAvailable = permissionsArray?.includes(
     "site-assign-manager"
   );
@@ -76,8 +71,6 @@ const ManageRoles = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes(
     "site-assign-manager"
   );
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("role-details");
 
   const columns = [
     {

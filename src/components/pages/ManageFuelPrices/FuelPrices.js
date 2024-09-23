@@ -5,34 +5,23 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import CustomModal from "../../../data/Modal/MiddayModal";
-import { useSelector } from "react-redux";
 import moment from "moment";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 
 
 const FuelPrices = (props) => {
-  const { apidata, getData, postData, isLoading } =
-    props;
-
-  const [editable, setis_editable] = useState();
+  const { apidata, getData, postData, isLoading } = props;
   const navigate = useNavigate()
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
-  const [headingData, setheadingData] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
-  const [notificationTypes, setNotificationTypes] = useState({
+  const [notificationTypes] = useState({
     mobileSMS: false,
     email: false,
   });
-
-  const UserPermissions = useSelector(
-    (state) => state?.data?.data?.permissions || [],
-  );
-  const isFuelHistoryPermissionAvailable = UserPermissions?.includes('fuel-price-history');
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
@@ -70,10 +59,7 @@ const FuelPrices = (props) => {
 
       if (data) {
         if (data.api_response === "success") {
-          setheadingData(data.data?.head_array || []);
           setData(data.data || {});
-          setis_editable(data.data?.btn_clickable || false);
-          setIsChecked(data.data?.notify_operator || false);
         } else {
           // Handle the error case
           // You can display an error message or take appropriate action
@@ -82,10 +68,7 @@ const FuelPrices = (props) => {
       } else {
         // Handle the case where data is null
         // You may want to set default values or handle it differently
-        setheadingData([]);
         setData({});
-        setis_editable(false);
-        setIsChecked(false);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -119,8 +102,7 @@ const FuelPrices = (props) => {
   const [data, setData] = useState();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedItemDate, setSelectedItemDate] = useState();
+  const [selectedItem,] = useState(null);
 
 
   const handleModalClose = () => {
@@ -166,7 +148,6 @@ const FuelPrices = (props) => {
       // const isMobileSelected = selected.some(option => option.value === "mobile-sms");
       // const isEmailSelected = selected.some(option => option.value === "email");
 
-      setSelectedItemDate(selectedDrsDate);
       formData.append("send_sms", notificationTypes?.mobileSMS);
       formData.append("notify_operator", notificationTypes?.email);
       formData.append("drs_date", selectedDrsDate);
@@ -209,23 +190,6 @@ const FuelPrices = (props) => {
       console.error("Error handling data from child:", error);
     }
   };
-
-  const headerHeight = 135;
-
-  const containerStyles = {
-    // overflowY: "scroll", // or 'auto'
-    // overflowX: "hidden", // or 'auto'
-    // maxHeight: "100vh", // Set a maximum height for the container
-    // maxHeight: `calc(100vh - ${headerHeight}px)`,
-    // border: "1px solid #ccc",
-    // backgroundColor: "#f5f5f5",
-    // padding: "10px",
-  };
-
-
-
-
-
 
 
   const handleFuelPriceLinkClick = (item) => {

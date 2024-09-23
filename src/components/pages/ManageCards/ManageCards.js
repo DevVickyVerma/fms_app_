@@ -115,6 +115,7 @@ const ManageCards = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("card/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {

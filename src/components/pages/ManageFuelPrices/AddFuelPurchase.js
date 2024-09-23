@@ -1,85 +1,34 @@
-import React, { useEffect, useState } from "react";
-
-import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-
 import Loaderimg from "../../../Utils/Loader";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
-
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  InputLabel,
-} from "@material-ui/core";
-
-import { Button } from "bootstrap";
-
+import { Breadcrumb, Card, Col, FormGroup, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
-
 import { useSelector } from "react-redux";
-
 import * as Yup from "yup";
-import { Dropdown } from "react-bootstrap";
-
 import { useFormik } from "formik";
 import { MultiSelect } from "react-multi-select-component";
+
+
 const ManageDsr = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-
-  const [AddSiteData1, setAddSiteData1] = useState([]);
-
-  const [selectedClientId1, setSelectedClientId1] = useState("");
   const [selectedFuelName, setselectedFuelName] = useState("");
-  const [selectedCompanyList1, setSelectedCompanyList1] = useState([]);
-  const [selectedSiteList1, setSelectedSiteList1] = useState([]);
-
-  const [editable, setis_editable] = useState(true);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
-
-  const [selectedItems1, setSelectedItems1] = useState([]);
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
 
-  const handleItemClick1 = (event) => {
-    setSelectedItems1(event.target.value);
-
-    const selectedSiteNames = event.target.value;
-    const filteredSites = SiteList.filter((item) =>
-      selectedSiteNames.includes(item.site_name)
-    );
-
-    formik2.setFieldValue("sites", filteredSites);
-  };
 
   const [SumTotal, setTotal] = useState();
   useEffect(() => {
-    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     handleFetchName();
   }, [UserPermissions]);
-
-
-
 
   const fetchCommonListData = async () => {
     try {
@@ -225,9 +174,6 @@ const ManageDsr = (props) => {
       formData.append("total", values.total);
       formData.append("date", values.start_date1);
       formData.append("fuel_id", values.fuel_name);
-      // values.sites.forEach((site, index) => {
-      //   formData.append(`site_id[${index}]`, site.id);
-      // });
       const selectedSiteIds = selected?.map((site) => site.value);
 
       selectedSiteIds?.forEach((id, index) => {
@@ -285,6 +231,8 @@ const ManageDsr = (props) => {
     label: site.site_name,
     value: site.id,
   }));
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

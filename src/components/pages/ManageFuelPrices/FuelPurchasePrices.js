@@ -12,6 +12,8 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
+
+
 const ManageDsr = (props) => {
   const { isLoading, getData, postData } = props;
   const [SiteList, setSiteList] = useState([]);
@@ -521,14 +523,6 @@ const ManageDsr = (props) => {
   const handleClearForm = async (resetForm) => {
     setData(null)
   };
-
-  const handleSuccess = () => {
-    if (storedData) {
-      let parsedData = JSON.parse(storedData);
-      handleApplyFilters(parsedData);
-    }
-  }
-
 
   const handleApplyFilters = (values) => {
     if (values?.start_date && values?.company_id && values?.site_id) {

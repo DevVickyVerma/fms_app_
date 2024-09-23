@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
@@ -18,7 +17,7 @@ const AddCompany = (props) => {
 
   const navigate = useNavigate();
   const [dropdownValue, setDropdownValue] = useState([]);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+  const [clientIDLocalStorage,] = useState(
     localStorage.getItem("superiorId")
   );
 

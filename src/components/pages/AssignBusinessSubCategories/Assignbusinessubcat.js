@@ -10,12 +10,11 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
-import Swal from "sweetalert2";
 import { handleError } from "../../../Utils/ToastUtils";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
   const [data, setData] = useState();
@@ -48,38 +47,16 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
   const isEditPermissionAvailable = permissionsArray?.includes("assign-business-sub-category-edit");
   const { id } = useParams();
 
-  const navigate = useNavigate();
-  // const ErrorAlert = (message) => toast.error(message);
-
+  const { customDelete } = useCustomDelete();
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'assignsubcategory/delete', formData, handleSuccess);
+  };
 
-        Deleteassignsubcategory(formData);
-      }
-    });
-  };
-  const Deleteassignsubcategory = async (formData) => {
-    try {
-      const response = await postData("/assignsubcategory/delete", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        fetchOpeningBalanceList()
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
+  const handleSuccess = () => {
+    fetchOpeningBalanceList()
+  }
 
 
 

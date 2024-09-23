@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, FormGroup, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,8 +10,6 @@ import { MultiSelect } from "react-multi-select-component";
 
 const AddCardGroup = ({ isLoading, getData, postData }) => {
   const [cardData, setCardData] = useState();
-
-  const paramId = useParams();
   const [selected, setSelected] = useState([]);
   const [SiteList, setSiteList] = useState([]);
 
@@ -54,11 +52,6 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
     label: site.site_name,
     value: site.id,
   }));
-  // useEffect(() => {
-  //   fetchUpdateCardDetail();
-  //   GetSiteList();
-  //   console.clear();
-  // }, []);
 
   const initialValues = {
     cardData: cardData || "",
@@ -99,8 +92,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
       const formData = new FormData();
 
       for (const obj of values.AssignFormikCards) {
-        const { id, for_tenant, checked, name } = obj;
-        // const card_valueKey = `card_id`;
+        const { id, checked } = obj;
 
         if (checked) {
           formData.append(`card_id[${index}]`, id);

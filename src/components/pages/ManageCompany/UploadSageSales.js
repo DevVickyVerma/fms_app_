@@ -1,20 +1,18 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react'
+import { useState } from 'react';
 import { Card, Col, Modal, Row } from 'react-bootstrap';
 import { AiOutlineClose } from "react-icons/ai";
 import * as Yup from "yup";
 import Loaderimg from '../../../Utils/Loader';
 import { Slide, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
 import withApi from '../../../Utils/ApiHelper';
 
 const UploadSageSales = (props) => {
 
-    const { showUploadSageSalesModal, setShowUploadSageSalesModal, companyId, postData, title, shortUrl } = props;
+    const { showUploadSageSalesModal, setShowUploadSageSalesModal, companyId, title, shortUrl } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState("")
-    const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const handleCloseModal = () => {
         formik.setFieldValue("image", "")
@@ -27,7 +25,6 @@ const UploadSageSales = (props) => {
             position: toast.POSITION.TOP_RIGHT,
             hideProgressBar: true,
             transition: Slide,
-            autoClose: 1000,
             theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
         });
     };

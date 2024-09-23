@@ -1,8 +1,6 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
@@ -129,10 +127,6 @@ const CompanySageFuels = ({ getData }) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   const formik = useFormik({
     initialValues: {
