@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -8,14 +7,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import withApi from "../../../Utils/ApiHelper";
-import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const AddAddon = (props) => {
   const { isLoading, } = props;
   const [permissions, setPermissions] = useState([]);
-  const [userpermissions, setUserPermissions] = useState([]);
 
 
 
@@ -32,7 +29,6 @@ const AddAddon = (props) => {
     axiosInstance
       .get("/permission-list")
       .then((response) => {
-        setUserPermissions(response.data.data);
         setPermissions(response.data);
       })
 
@@ -72,17 +68,7 @@ const AddAddon = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
 
   const formik = useFormik({
     initialValues: {

@@ -1,8 +1,6 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
@@ -11,8 +9,7 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const CoffeeValet = (props) => {
   const {
-    apidata,
-    error,
+ 
     company_id,
     client_id,
     site_id,
@@ -64,33 +61,6 @@ const CoffeeValet = (props) => {
       );
 
       const { data } = response;
-      // if (data) {
-      //   setData(data?.data?.listing ? data.data.listing : []);
-      //   setis_editable(data?.data ? data.data : {});
-
-      //   const formValues = data?.data?.listing
-      //     ? data.data.listing.map((item) => {
-      //       return {
-      //         id: item.id,
-      //         opening: item.opening,
-      //         closing: item.closing,
-      //         tests: item.tests,
-      //         adjust: item.adjust,
-      //         sale: item.sale,
-      //         price: item.price,
-      //         value: item.value,
-      //         com_rate: item.com_rate,
-      //         commission: item.commission,
-      //         file: item.file,
-      //         // value_per: item.value_per ,
-      //         // Add other properties as needed
-      //       };
-      //     })
-      //     : [];
-
-      //   // Set the formik values using setFieldValue
-      //   formik.setFieldValue("data", formValues);
-      // }
 
       if (data) {
         setData(data?.data?.listing);
@@ -98,11 +68,8 @@ const CoffeeValet = (props) => {
 
 
         if (data?.data?.listing) {
-          // formik.setValues(data?.data?.listing)
           formik.setFieldValue("data", data?.data?.listing);
         }
-
-        // Set the formik values using setFieldValue
       }
     } catch (error) {
       console.error("API error:", error);
@@ -114,8 +81,6 @@ const CoffeeValet = (props) => {
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
-
-    // Create a new FormData object
     const formData = new FormData();
 
     const processedIds = [];
@@ -131,7 +96,7 @@ const CoffeeValet = (props) => {
         price,
         value,
         commission,
-        value_per,
+  
         com_rate,
         adj_value,
       } = obj;
@@ -221,60 +186,9 @@ const CoffeeValet = (props) => {
       setIsLoading(false);
     }
   };
-  const handleFileChange = async (event, rowIndex, row) => {
 
-    const file = event.target.files[0]; // Get the selected file
-    // Do whatever you need to with the file, such as storing it in state or dispatching an action
 
-    const token = localStorage.getItem("token");
 
-    // Create a new FormData object
-    const formData = new FormData();
-    formData.append("site_id", site_id);
-    formData.append("drs_date", start_date);
-    formData.append("department_item_id", row.department_item_id);
-    formData.append("file", file);
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/valet-coffee/upload-file`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      const responseData = await response.json(); // Read the response once
-
-      if (response.ok) {
-        SuccessAlert(responseData.message);
-        const updatedData = [...data]; // Create a copy of the existing data
-        updatedData[rowIndex] = {
-          ...updatedData[rowIndex],
-          file: responseData?.data?.file,
-        }; // Update the specific item with the new file information
-
-        setData(updatedData); // Update the state with the concatenated data
-
-      } else {
-        ErrorAlert(responseData.message);
-
-        // Handle specific error cases if needed
-      }
-    } catch (error) {
-      console.error("Request Error:", error);
-      // Handle request error
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (editable?.is_file || editable?.is_upload_file) {
-  }
 
 
   const handleInvoiceModal = (row) => {
@@ -292,8 +206,7 @@ const CoffeeValet = (props) => {
   }
 
   const columns = [
-    // ... existing columns
-
+ 
     {
       name: "ITEM CATEGORY",
       selector: (row) => row.item_category,
@@ -791,7 +704,7 @@ const CoffeeValet = (props) => {
     const priceAmount = Number(formik?.values?.data?.[index]?.price);
     const comrate = Number(formik?.values?.data?.[index]?.com_rate);
     const formiktests = Number(formik?.values?.data?.[index]?.tests);
-    const formikadjust = Number(formik?.values?.data?.[index]?.adjust);
+  const formikadjust = Number(formik?.values?.data?.[index]?.adjust);
 
     if (
       !isNaN(closingAmount) &&

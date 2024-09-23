@@ -1,8 +1,6 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
@@ -10,8 +8,7 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const FuelDelivery = (props) => {
   const {
-    apidata,
-    error,
+
     company_id,
     client_id,
     site_id,
@@ -474,17 +471,12 @@ const FuelDelivery = (props) => {
     // ... remaining columns
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   const formik = useFormik({
     initialValues: {
       data: data,
     },
     onSubmit: handleSubmit,
-    // validationSchema: validationSchema,
   });
 
   return (

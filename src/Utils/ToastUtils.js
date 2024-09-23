@@ -1,5 +1,5 @@
 // toastUtils.js
-import { Bounce, Slide, toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 const SuccessAlert = (message) => {
     toast.success(message, {
         autoClose: 2000,

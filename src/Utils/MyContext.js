@@ -7,8 +7,8 @@ const MyContext = createContext();
 // Create the provider component
 const MyProvider = ({ children }) => {
   const [contextClients, setcontextClients] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [setLoading] = useState(true);
+  const [ setError] = useState(null);
 
   useEffect(() => {
     const fetchClientList = async () => {

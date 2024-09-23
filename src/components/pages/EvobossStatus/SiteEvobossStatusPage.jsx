@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DataTable from "react-data-table-component";
 
 const SiteEvobossStatusPage = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, } = props;
   const [rowData, setRowData] = useState(null);
 
   useEffect(() => {

@@ -1,10 +1,8 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
@@ -68,7 +66,7 @@ const CashBanking = (props) => {
   };
   const DeleteClient = async (formData) => {
     try {
-      const response = await postData("drs/cash-banking/delete", formData);
+    await postData("drs/cash-banking/delete", formData);
 
       if (apidata.api_response === "success") {
         FetchTableData();
@@ -286,10 +284,7 @@ const CashBanking = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {

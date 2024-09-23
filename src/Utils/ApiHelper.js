@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bounce, Slide, toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 const withApi = (WrappedComponent) => {
   const WithApi = (props) => {
