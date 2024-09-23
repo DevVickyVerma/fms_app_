@@ -146,9 +146,6 @@ const ManageSiteTank = (props) => {
 
     pdf.text("INVOICE", xCoordinate, 15);
 
-
-
-
     // Set back to regular font for the rest of the content
     pdf.setFont("helvetica", "normal");
 
@@ -756,12 +753,9 @@ const ManageSiteTank = (props) => {
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
                                 } else {
-
                                   formik.setFieldValue("client_id", "");
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
-
-
                                 }
                               }}
                             >
@@ -788,15 +782,15 @@ const ManageSiteTank = (props) => {
                       </Row>
                     </Card.Body>
                     <Card.Footer className="text-end">
-                      <button className="btn btn-primary me-2" type="submit">
-                        Submit
-                      </button>
                       <button
                         className="btn btn-danger me-2"
                         type="button" // Set the type to "button" to prevent form submission
                         onClick={() => handleClearForm()} // Call a function to clear the form
                       >
-                        Clear
+                        Reset
+                      </button>
+                      <button className="btn btn-primary me-2" type="submit">
+                        Submit
                       </button>
                     </Card.Footer>
                   </form>
