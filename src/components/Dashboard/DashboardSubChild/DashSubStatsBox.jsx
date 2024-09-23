@@ -1,7 +1,6 @@
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 
 const DashSubStatsBox = (props) => {
-  const { isLoading } = props;
   const singleSiteStoredData = localStorage.getItem("singleSiteData");
   const singleSiteParsedData = JSON.parse(singleSiteStoredData);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
@@ -14,9 +14,6 @@ import DataTable from "react-data-table-component";
 
 const AddCompany = (props) => {
   const { isLoading, getData, postData } = props;
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  const [selectedSiteList1, setSelectedSiteList1] = useState([]);
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [ReportsData, setReportsData] = useState([]);
@@ -39,10 +36,6 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     FetchmannegerList();
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
   }, [UserPermissions]);
 
   const ReportsColumn = [

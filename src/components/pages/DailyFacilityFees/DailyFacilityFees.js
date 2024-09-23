@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -149,12 +148,11 @@ const SiteSettings = (props) => {
       });
 
       const postDataUrl = "/daily-facility-fees/update";
-      const navigatePath = "/business";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
       handleError(error)
- // Set the submission state to false if an error occurs
+      // Set the submission state to false if an error occurs
     }
   };
 
@@ -216,12 +214,6 @@ const SiteSettings = (props) => {
     setData(null)
   };
 
-  const handleSuccess = () => {
-    if (storedData) {
-      let parsedData = JSON.parse(storedData);
-      handleApplyFilters(parsedData);
-    }
-  }
 
   return (
     <>

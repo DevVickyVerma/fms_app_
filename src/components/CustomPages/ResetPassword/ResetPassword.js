@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { Col, FormGroup, OverlayTrigger, Row } from "react-bootstrap";
@@ -10,15 +9,13 @@ import axios from "axios";
 import LoaderImg from "../../../Utils/Loader";
 import { confirmPasswordTooltip, passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { BsCapslock } from "react-icons/bs";
 
 export default function ResetPassword() {
   const { token } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState({});
-  const [isTokenValid, setIsTokenValid] = useState(false);
-
+  // eslint-disable-next-line no-unused-vars
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(true);
@@ -29,7 +26,6 @@ export default function ResetPassword() {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/verify-token/${token}`)
       .then((response) => {
-        setIsTokenValid(true);
         setUserId(response?.data?.data?.id);
       })
       .catch((error) => {
@@ -39,7 +35,6 @@ export default function ResetPassword() {
         }, 1000);
 
         ErrorAlert(error?.message);
-        setIsTokenValid(false);
       });
   }, [token]);
 

@@ -10,7 +10,7 @@ import { handleError } from "../../../Utils/ToastUtils";
 
 const EditOpeningBalance = ({ isLoading, postData, getData }) => {
 
-  const [siteName, setSiteName] = useState("");
+  const [siteName] = useState("");
 
   const [AddCatSiteData, setCatSiteData] = useState([]);
 

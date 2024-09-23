@@ -1,6 +1,5 @@
 
-import React, { useEffect } from "react";
-import ReactApexChart from "react-apexcharts";
+import { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
 const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {

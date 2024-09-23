@@ -1,8 +1,7 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
@@ -17,7 +16,6 @@ const AddCompany = (props) => {
   const [dropdownValue, setDropdownValue] = useState([]);
   const [dropdowSite, setdropdowSite] = useState([]);
   const { id } = useParams();
-  const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
   const FetchReportList = async (storedItemId) => {

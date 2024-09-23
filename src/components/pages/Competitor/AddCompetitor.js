@@ -13,14 +13,16 @@ import { handleError } from "../../../Utils/ToastUtils";
 
 const AddCompetitor = (props) => {
   const { isLoading, getData, postData } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [SupplierData, setSupplierData] = useState({});
   const [selectedClientId, setSelectedClientId] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [selectedSiteId, setSelectedSiteId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([])
+  // eslint-disable-next-line no-unused-vars
   const [SiteId, setSiteId] = useState();
 
 
@@ -97,7 +99,8 @@ const AddCompetitor = (props) => {
 
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
-          setSelectedClientId(clientId);}
+          setSelectedClientId(clientId);
+        }
       }
     } catch (error) {
       console.error("API error:", error);

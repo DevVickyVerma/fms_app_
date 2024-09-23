@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -12,67 +11,40 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from "../../../Utils/useToggleStatus";
 
 const ManageRoles = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const [siteName, setSiteName] = useState("");
 
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
+
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "company/auto-report/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchmannegerList();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'company/auto-report/delete', formData, handleSuccess);
   };
+
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append('id', row.id.toString());
+    formData.append('status', (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/company/auto-report/update-status', formData, handleSuccess);
+  };
+
+
+  const handleSuccess = () => {
+    FetchmannegerList()
+  }
+
 
   const { id } = useParams();
   const FetchmannegerList = async () => {
@@ -111,28 +83,6 @@ const ManageRoles = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes(
     "company-auto-report-delete"
   );
-
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData("/company/auto-report/update-status", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchmannegerList();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
 
 
 
@@ -277,15 +227,8 @@ const ManageRoles = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
-  const handleLinkClick = (id) => {
-    // Set the item ID in localStorage
-    localStorage.setItem('selectedItemId', id);
-  };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

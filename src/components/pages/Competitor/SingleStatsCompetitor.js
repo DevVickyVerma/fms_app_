@@ -1,6 +1,5 @@
-import React from "react";
 import { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import axios from "axios";
@@ -19,7 +18,6 @@ import * as Yup from "yup";
 import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
 import CompiMiddayModal from "./CompiMiddayModal";
-import { useSelector } from "react-redux";
 
 const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -29,15 +27,9 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [mySelectedDate, setMySelectedDate] = useState(new Date()?.toISOString()?.split('T')[0]);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem,] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
 
-
-
-  const UserPermissions = useSelector(
-    (state) => state?.data?.data?.permissions || [],
-  );
-  const isFuelPriceUpdatePermissionAvailable = UserPermissions?.includes('fuel-price-update');
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -166,16 +158,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const formattedMinDate = minDate.toISOString().split("T")[0]; // Format min date
 
 
-  const handleModalOpen = (item) => {
 
-    let items = {
-      "id": id,
-      "site_name": getCompetitorsPrice?.siteName,
-    }
-
-    setSelectedItem(items); // Set the selected item
-    setModalOpen(true);
-  };
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -183,11 +166,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const handleDataFromChild = async (dataFromChild) => {
     try {
       // Assuming you have the 'values' object constructed from 'dataFromChild'
-      const values = {
-        start_date: selectedDrsDate,
-        // client_id: selectedClientId,
-        // company_id: selectedCompanyId,
-      };
+
 
       // await handleSubmit1(values);
     } catch (error) {

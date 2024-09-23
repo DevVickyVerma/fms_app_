@@ -8,8 +8,6 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const CreditCardBanking = (props) => {
   const {
-    apidata,
-    error,
     company_id,
     client_id,
     site_id,

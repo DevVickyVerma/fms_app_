@@ -71,26 +71,15 @@ const DashboardOverallStatsPieChart = ({ data }) => {
     }
   };
 
-  const series = [44, 55, 41, 17, 15]; // Data series for the donut chart
-
 
   return (
     <div id="charttt"
 
-      className=" d-flex justify-content-around align-items-center flex-column h-100"
-    // style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}
-    >
-
-      {/* <ReactApexChart options={options} series={consoleValues} type="pie"
-        width={"100%"}
-      // height={"100%"}
-      /> */}
+      className=" d-flex justify-content-around align-items-center flex-column h-100">
       <ReactApexChart options={optionss} series={consoleValues} type="donut"
-        width={"100%"}
-      // height={"100%"}
-      />
+        width={"100%"} />
       <div className="d-flex chart-items mt-7">
-        {labels.map((label, index) => {
+        {labels?.map((label, index) => {
           const formattedLabel = label
             .replace(/_/g, " ")
             .split(" ")

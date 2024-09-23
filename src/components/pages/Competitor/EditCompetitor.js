@@ -1,8 +1,7 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -10,14 +9,9 @@ import Loaderimg from "../../../Utils/Loader";
 import { handleError } from "../../../Utils/ToastUtils";
 
 const AddCompetitor = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [CompetitorData, setCompetitorData] = useState([]);
-  const [selectedClientId, setSelectedClientId] = useState("");
+  const { isLoading, getData, postData } = props;
 
   const [SupplierData, setSupplierData] = useState({});
-
-  const navigate = useNavigate();
 
   const { id } = useParams();
   const GetDetails = async () => {

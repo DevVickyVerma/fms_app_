@@ -1,18 +1,15 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from '../../../Utils/useCustomDelete';
 
 const CashBanking = (props) => {
   const {
@@ -29,7 +26,7 @@ const CashBanking = (props) => {
     start_date,
   } = props;
   const [data, setData] = useState();
-  const [checkState, setCheckState] = useState(true);
+  const [checkState,] = useState(true);
   const [Editdata, setEditData] = useState(false);
   const [editable, setis_editable] = useState();
 
@@ -49,34 +46,23 @@ const CashBanking = (props) => {
   const CashBankingPermission = UserPermissions?.includes("drs-add-cash-banking")
 
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
-        DeleteClient(formData);
-      }
-    });
-  };
-  const DeleteClient = async (formData) => {
-    try {
-      const response = await postData("drs/cash-banking/delete", formData);
 
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
+
+  const { customDelete } = useCustomDelete();
+
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'drs/cash-banking/delete', formData, handleSuccess);
   };
+
+
+  const handleSuccess = () => {
+    FetchTableData()
+  }
+
+
+
 
 
 
@@ -144,6 +130,7 @@ const CashBanking = (props) => {
         ? "/drs/cash-banking/update"
         : "/drs/cash-banking/add";
 
+      // eslint-disable-next-line no-unused-vars
       const response = await postData(postDataUrl, formData);
 
       if (apidata.api_response === "success") {
@@ -286,10 +273,6 @@ const CashBanking = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {

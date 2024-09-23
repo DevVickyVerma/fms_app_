@@ -14,6 +14,7 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 const EditAddon = (props) => {
   const { isLoading, getData, } = props;
   const [AddonpermissionsList, setPermissions] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [userpermissions, setUserPermissions] = useState([]);
   const [edituserDetails, setEdituserDetails] = useState("");
 

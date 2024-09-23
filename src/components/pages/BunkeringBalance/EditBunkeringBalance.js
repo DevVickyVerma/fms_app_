@@ -1,22 +1,19 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
 import { Breadcrumb, Card, Col, Row } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { handleError } from '../../../Utils/ToastUtils';
 
 const EditOpeningBalance = ({ isLoading, postData, getData }) => {
-    const [data, setData] = useState();
     const [siteName, setSiteName] = useState("");
 
     useEffect(() => {
         fetchOpeningBalanceList();
     }, [])
 
-    const navigate = useNavigate();
     const { id } = useParams()
 
 
@@ -43,7 +40,6 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
         try {
             const response = await getData(`site/bunkering-balance/detail/${id}`);
             if (response && response.data) {
-                setData(response?.data?.data);
                 setSiteName(response?.data?.data?.site_name)
                 formik.setValues(response?.data?.data)
             } else {

@@ -1,8 +1,6 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
@@ -10,10 +8,6 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const Departmentshopsale = (props) => {
   const {
-    apidata,
-    error,
-    getData,
-    postData,
     company_id,
     client_id,
     site_id,
@@ -98,13 +92,6 @@ const Departmentshopsale = (props) => {
         disc_value,
         nett_value,
         adj_value,
-        adjust,
-        sale,
-        price,
-        value,
-        commission,
-        value_per,
-        com_rate,
       } = obj;
       const gross_valueKey = `gross_value[${id}]`;
       const discountKey = `disc_value[${id}]`;

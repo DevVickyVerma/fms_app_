@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
@@ -9,10 +8,6 @@ import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils
 
 const ShopSales = (props) => {
   const {
-    apidata,
-    error,
-    getData,
-    postData,
     company_id,
     client_id,
     site_id,
@@ -34,7 +29,6 @@ const ShopSales = (props) => {
 
   const [data, setData] = useState([]);
   const [DeductionData, setDeductionData] = useState([]);
-  const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,7 +55,6 @@ const ShopSales = (props) => {
           setData(data?.data ? data.data.charges : []);
 
           setDeductionData(data?.data ? data.data.deductions : []);
-          setis_editable(data?.data ? data.data : {});
 
           // Create an array of form values based on the response data
           const formValues = data?.data?.charges
@@ -267,11 +260,6 @@ const ShopSales = (props) => {
       event.preventDefault();
     }
   });
-  const tableDatas = {
-    chargesColumns,
-    deductionsColumns,
-    data,
-  };
 
   return (
     <>

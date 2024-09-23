@@ -29,7 +29,7 @@ const App = (props) => {
     simulateLoadingAndNavigate();
     // console.clear();
   }, [location.pathname]);
-  const [autoLogout, setAutoLogout] = useState(
+  const [autoLogout] = useState(
     localStorage.getItem("auto_logout")
   );
 
@@ -44,6 +44,7 @@ const App = (props) => {
   }, []);
 
   const [isInactive, setIsInactive] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [logoutTime, setLogoutTime] = useState(autoLogout * 60000); // Initialize logoutTime with the initial value
 
   let inactivityTimeout;
@@ -61,13 +62,13 @@ const App = (props) => {
 
     inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
 
+    console.clear();
     return () => {
       window.removeEventListener("mousemove", handleUserActivity);
       window.removeEventListener("keydown", handleUserActivity);
       window.removeEventListener("scroll", handleUserActivity);
       clearTimeout(inactivityTimeout);
     };
-    console.clear();
   }, [logoutTime]);
 
   const handleConfirm = () => {
@@ -99,13 +100,9 @@ const App = (props) => {
     }
     // console.clear();
   }, [isInactive, autoLogout, logoutTime]);
-
-  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
-
   useEffect(() => {
     const handleNetworkChange = () => {
       const newIsOnline = window.navigator.onLine;
-      setIsOnline(newIsOnline);
 
       if (newIsOnline) {
         // Display an online SweetAlert
