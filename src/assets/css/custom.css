@@ -452,7 +452,7 @@ tbody tr {
 
 .label-color {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .heading-input {
@@ -1475,10 +1475,7 @@ li.Ul-parentsiteList-childlist {
   background-position: center;
   background-size: contain;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  -webkit-appearance: none;
   appearance: none;
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
 }
 
 span.tree-label {
@@ -1495,7 +1492,7 @@ li.ms-2.disabled-checkbox {
   width: 18px;
   height: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-left: 12px;
 }
 
