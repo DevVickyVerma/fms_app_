@@ -38,12 +38,40 @@ const DepartmentShop = (props) => {
 
 
   const SALESdummyData = [
+    // {
+    //   card: "",
+    //   koisk: 0,
+    //   optvalue: 0,
+    //   accountvalue: 0,
+    //   transactionsvalue: 0,
+    // },
+
     {
-      card: "",
+      id: "", // You can initialize this with a value or leave it blank
+      fuel_name: "",
       koisk: 0,
       optvalue: 0,
       accountvalue: 0,
       transactionsvalue: 0,
+      fuel_id: "",
+      card_id: "",
+      card_name: "",
+      opening_stock: null,
+      volume: "",
+      value: "",
+      adj_value: "",
+      closing_stock: null,
+      update_opening_stock: false,
+      update_volume: false,
+      update_value: false,
+      update_closing_stock: false,
+      // Manually adding the required fields with true
+      edit_card_name: true,
+      edit_koisk_value: true,
+      edit_opt_value: true,
+      edit_account_value: true,
+      edit_no_of_transactions: true,
+      edit_adj_value: true,
     },
     // Add more dummy data items as needed
   ];
@@ -94,7 +122,8 @@ const DepartmentShop = (props) => {
       edit_volume: true,
       edit_value: true,
       edit_closing_stock: true,
-      edit_adj_value: true
+      edit_adj_value: true,
+      edit_fuel_name: true
     },
   ];
 
@@ -543,7 +572,7 @@ const DepartmentShop = (props) => {
                           <Form.Group
                             controlId={`bunkered_Sales[${index}].fuel_id`}
                           >
-                            <Form.Label>FUEL</Form.Label>
+                            <Form.Label>FUEL </Form.Label>
 
                             <Form.Control
                               as="select"
