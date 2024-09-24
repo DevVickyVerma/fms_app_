@@ -152,8 +152,8 @@ const ManageReports = (props) => {
       // Now 'selectedSiteIdParams' contains the query parameter string for selected site IDs
 
       const commonParams = toggleValue
-        ? `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
-        : `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
+        ? `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+        : `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
 
       try {
         const response = await getData(commonParams);
