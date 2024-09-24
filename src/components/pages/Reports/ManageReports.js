@@ -50,6 +50,7 @@ const ManageReports = (props) => {
   }, []);
 
   const FetchReportList = async (id) => {
+    setReportList([])
     try {
       const response = await getData(`client/reportlist?client_id=${id}`);
 
@@ -286,6 +287,7 @@ const ManageReports = (props) => {
 
 
 
+
   return <>
     {isLoading ? <Loaderimg /> : null}
     <>
@@ -372,20 +374,24 @@ const ManageReports = (props) => {
                           value={formik.values.client_id}
                           onChange={(e) => {
                             const selectedType = e.target.value;
-
-                            FetchReportList(selectedType);
+                            setReportList([])
                             if (selectedType) {
+                              FetchReportList(selectedType);
                               GetCompanyList(selectedType);
                               formik.setFieldValue("client_id", selectedType);
                               setSelectedClientId(selectedType);
                               setSiteList([]);
                               setSelected([])
                               formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("report", "");
+                              formik.setFieldValue("reportName", "");
                               formik.setFieldValue("site_id", "");
                             } else {
                               formik.setFieldValue("client_id", "");
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("report", "");
+                              formik.setFieldValue("reportName", "");
                               setSelected([])
                               setSiteList([]);
                               setCompanyList([]);
