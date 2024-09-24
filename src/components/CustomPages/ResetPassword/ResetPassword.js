@@ -26,7 +26,7 @@ export default function ResetPassword() {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/verify-token/${token}`)
       .then((response) => {
-      
+
         setUserId(response?.data?.data?.id);
       })
       .catch((error) => {
@@ -36,7 +36,7 @@ export default function ResetPassword() {
         }, 1000);
 
         ErrorAlert(error?.message);
-   
+
       });
   }, [token]);
 
@@ -102,18 +102,6 @@ export default function ResetPassword() {
         {isLoading ? <LoaderImg /> : null}
 
         <Row>
-          {/* <Col lg={7} sm={0} className="c-login-left-card">
-            <div className="page">
-
-              <div className=" d-flex align-items-center justify-content-center">
-                <img
-                  src={require("../../../assets/images/login.png")}
-                  alt="MyChartImage"
-                  className="c-login-img"
-                />
-              </div>
-            </div>
-          </Col> */}
 
 
           <Col lg={12} sm={12} className="c-login-left-card">
@@ -336,106 +324,7 @@ export default function ResetPassword() {
             </div>
           </Col>
         </Row>
-
-
       </div>
-
-
-
-      {/* <div className="login-img">
-        <div className="page">
-          <div className="">
-            <div className="col col-login mx-auto">
-              <div className="text-center login-logo">
-                <img
-                  src={require("../../../assets/images/brand/logo.png")}
-                  className="header-brand-img"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div className="container-login100">
-              <div className="wrap-login100 p-0">
-                <Card.Body>
-                  <Formik
-                    initialValues={{ password: "", password_confirmation: "" }}
-                    validationSchema={ResetPasswordSchema}
-                    onSubmit={(values) => {
-                      handleSubmit(values);
-                    }}
-                  >
-                    {({ errors, touched }) => (
-                      <Form className="login100-form validate-form">
-                        <span className="login100-form-title">
-                          {" "}
-                          Reset Password
-                        </span>
-                        <div className="wrap-input100 validate-input">
-                          <Field
-                            className={`input100 ${errors.password && touched.password
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            type="password"
-                            name="password"
-                            placeholder="New password"
-                          />
-                          <span className="focus-input100"></span>
-                          <span className="symbol-input100">
-                            <i className="zmdi zmdi-lock" aria-hidden="true"></i>
-                          </span>
-                          <ErrorMessage
-                            name="password"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
-                        <div className="wrap-input100 validate-input">
-                          <Field
-                            className={`input100 ${errors.password_confirmation &&
-                              touched.password_confirmation
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            type="password"
-                            name="password_confirmation"
-                            placeholder="Confirm password"
-                          />
-                          <span className="focus-input100"></span>
-                          <span className="symbol-input100">
-                            <i className="zmdi zmdi-lock" aria-hidden="true"></i>
-                          </span>
-                          <ErrorMessage
-                            name="password_confirmation"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
-                        <div className="text-end pt-1">
-                          <p className="mb-0">
-                            <Link to={`/login`} className="text-primary ms-1">
-                              Back to Login
-                            </Link>
-                          </p>
-                        </div>
-                        <div className="container-login100-form-btn">
-                          <button
-                            type="submit"
-                            className="login100-form-btn btn-primary"
-                          >
-                            Reset Password
-                          </button>
-                          <ToastContainer />
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </Card.Body>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </>
 
   );
