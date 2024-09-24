@@ -78,14 +78,27 @@ const ManageReports = (props) => {
         },
       });
       const blob = await response.blob();
+      const contentType = response.headers.get('Content-Type');
+      let fileExtension = 'xlsxs'; // Default to xlsx
 
+      if (contentType) {
+        if (contentType.includes('application/pdf')) {
+          fileExtension = 'pdf';
+        } else if (contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+          fileExtension = 'xlsx';
+        } else if (contentType.includes('text/csv')) {
+          fileExtension = 'csv';
+        } else {
+          console.warn('Unsupported file type:', contentType);
+        }
+      }
       // Create a temporary URL for the Blob
       const url = window.URL.createObjectURL(new Blob([blob]));
 
       // Create a link and trigger a download
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `${formik?.values?.reportName}-Report.xlsx`); // Set filename
+      link.setAttribute('download', `${formik?.values?.reportName}.${fileExtension}`); // Set filename
 
       document.body.appendChild(link);
       link.click();
@@ -146,9 +159,6 @@ const ManageReports = (props) => {
         const response = await getData(commonParams);
         if (response?.data) {
           downloadExcelFile(commonParams, formValues?.report)
-
-
-
         }
       } catch (error) {
         console.error("Error occurred while fetching data:", error);
