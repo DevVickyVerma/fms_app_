@@ -192,8 +192,8 @@ const ManageReports = (props) => {
   const [selected, setSelected] = useState([]);
 
   const options = SiteList?.map((site) => ({
-    label: site.site_name,
-    value: site.id,
+    label: site?.site_name,
+    value: site?.id,
   }));
 
   const formik = useFormik({
