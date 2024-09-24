@@ -77,332 +77,337 @@ const DashboardChildTable = (props) => {
     return data?.map((item, index) => (
       <React.Fragment key={index}>
         {isSitePermissionAvailable ? (
-          <div onClick={() => handleSaveSingleSiteData(item)}>
-            <div
-              onClick={() => handleFuelPriceLinkClick(item)}
-              style={{ padding: "0px", color: "black" }}
-            >
-              <tr
-                className="fuelprice-tr"
-                key={item.id}
-                style={{ padding: "0px" }}
+
+          <>
+
+            {/* <div onClick={() => handleSaveSingleSiteData(item)}>
+              <div
+                onClick={() => handleFuelPriceLinkClick(item)}
+                style={{ padding: "0px", color: "black" }}
               >
-                <td className="dashboard-child-tdata">
-                  <div className="d-flex align-items-center justify-center h-100">
-                    <div>
-                      <img
-                        src={item.image}
-                        alt={item.image}
-                        className="mr-2"
-                        style={{
-                          width: "30px",
-                          height: "30px",
-                          minWidth: "30px",
-                        }}
-                      />
-                    </div>
-                    {isSitePermissionAvailable ? (
-                      <div onClick={() => handleSaveSingleSiteData(item)}>
-                        <Link to={`/dashboard-details/${item?.id}`}>
-                          <div className="d-flex">
-                            <div className="ms-2 mt-0 mt-sm-2 d-block">
-                              <h6 className="mb-0 fs-15 fw-semibold">
-                                {item?.name}
-                              </h6>
-                            </div>
+              </div>
+            </div> */}
+            <tr
+              className={`fuelprice-tr p-0 pointer`}
+              key={item.id}
+              onClick={() => handleFuelPriceLinkClick(item)}
+            >
+              <td className="dashboard-child-tdata">
+                <div className="d-flex align-items-center justify-center h-100">
+                  <div>
+                    <img
+                      src={item.image}
+                      alt={item.image}
+                      className="mr-2"
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        minWidth: "30px",
+                      }}
+                    />
+                  </div>
+                  {isSitePermissionAvailable ? (
+                    <div onClick={() => handleSaveSingleSiteData(item)}>
+                      <Link to={`/dashboard-details/${item?.id}`}>
+                        <div className="d-flex">
+                          <div className="ms-2 mt-0 mt-sm-2 d-block">
+                            <h6 className="mb-0 fs-15 fw-semibold">
+                              {item?.name}
+                            </h6>
                           </div>
-                        </Link>
-                      </div>
-                    ) : (
-                      <div className="d-flex">
-                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                          <h6 className="mb-0 fs-15 fw-semibold">
-                            {item?.name}
-                          </h6>
                         </div>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="d-flex">
+                      <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-15 fw-semibold">
+                          {item?.name}
+                        </h6>
                       </div>
-                    )}
-                  </div>
-                </td>
-
-
-                <td className="dashboard-child-tdata">
-                  <div className="d-flex align-items-center h-100 ">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                      <h6 className="mb-0 fs-14 fw-semibold ">
-                        <span className="l-sign">ℓ</span>  {item.fuel_volume?.gross_volume
-                          ? formatNumber(item.fuel_volume?.gross_volume)
-                          : ""}
-                      </h6>
-
-                      <p
-                        className={`me-1 ${item.fuel_volume?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                          }`}
-                        data-tip={`${item?.fuel_volume?.percentage}%`}
-                      >
-                        {item?.fuel_volume?.status === "up" ? (
-                          <>
-                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                            <span className="text-success">
-                              {item?.fuel_volume?.percentage}%
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span className="text-danger">
-                              {item?.fuel_volume?.percentage}%
-                            </span>
-                          </>
-                        )}
-                      </p>
                     </div>
+                  )}
+                </div>
+              </td>
+
+
+              <td className="dashboard-child-tdata">
+                <div className="d-flex align-items-center h-100 ">
+                  <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <h6 className="mb-0 fs-14 fw-semibold ">
+                      <span className="l-sign">ℓ</span>  {item.fuel_volume?.gross_volume
+                        ? formatNumber(item.fuel_volume?.gross_volume)
+                        : ""}
+                    </h6>
+
+                    <p
+                      className={`me-1 ${item.fuel_volume?.status === "up"
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
+                      data-tip={`${item?.fuel_volume?.percentage}%`}
+                    >
+                      {item?.fuel_volume?.status === "up" ? (
+                        <>
+                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                          <span className="text-success">
+                            {item?.fuel_volume?.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                          <span className="text-danger">
+                            {item?.fuel_volume?.percentage}%
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
-                </td>
+                </div>
+              </td>
 
-                <td className="dashboard-child-tdata">
+              <td className="dashboard-child-tdata">
 
-                  <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                      <h6 className="mb-0 fs-14 fw-semibold">
-                        £ {item?.fuel_sales?.gross_value
-                          ? formatNumber(item?.fuel_sales?.gross_value)
-                          : ""}
-                      </h6>
-                      <p
-                        className={`me-1 ${item?.fuel_sales?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                          }`}
-                        data-tip={`${item?.fuel_sales?.percentage}%`}
-                      >
-                        {item?.fuel_sales?.status === "up" ? (
-                          <>
-                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                            <span className="text-success">
-                              {item?.fuel_sales?.percentage}%
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span className="text-danger">
-                              {item?.fuel_sales?.percentage}%
-                            </span>
-                          </>
-                        )}
-                      </p>
-                    </div>
+                <div className="d-flex">
+                  <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <h6 className="mb-0 fs-14 fw-semibold">
+                      £ {item?.fuel_sales?.gross_value
+                        ? formatNumber(item?.fuel_sales?.gross_value)
+                        : ""}
+                    </h6>
+                    <p
+                      className={`me-1 ${item?.fuel_sales?.status === "up"
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
+                      data-tip={`${item?.fuel_sales?.percentage}%`}
+                    >
+                      {item?.fuel_sales?.status === "up" ? (
+                        <>
+                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                          <span className="text-success">
+                            {item?.fuel_sales?.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                          <span className="text-danger">
+                            {item?.fuel_sales?.percentage}%
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
-                </td>
+                </div>
+              </td>
 
-                <td className="dashboard-child-tdata">
+              <td className="dashboard-child-tdata">
 
-                  <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                      <h6 className="mb-0 fs-14 fw-semibold">
-                        £ {item?.gross_profit?.gross_profit
-                          ? formatNumber(item?.gross_profit?.gross_profit)
-                          : ""}
-                      </h6>
-                      <p
-                        className={`me-1 ${item?.gross_profit?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                          }`}
-                        data-tip={`${item?.gross_profit?.percentage}%`}
-                      >
-                        {item?.gross_profit?.status === "up" ? (
-                          <>
-                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                            <span className="text-success">
-                              {item?.gross_profit?.percentage}%
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span className="text-danger">
-                              {item?.gross_profit?.percentage}%
-                            </span>
-                          </>
-                        )}
-                      </p>
-                    </div>
+                <div className="d-flex">
+                  <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <h6 className="mb-0 fs-14 fw-semibold">
+                      £ {item?.gross_profit?.gross_profit
+                        ? formatNumber(item?.gross_profit?.gross_profit)
+                        : ""}
+                    </h6>
+                    <p
+                      className={`me-1 ${item?.gross_profit?.status === "up"
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
+                      data-tip={`${item?.gross_profit?.percentage}%`}
+                    >
+                      {item?.gross_profit?.status === "up" ? (
+                        <>
+                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                          <span className="text-success">
+                            {item?.gross_profit?.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                          <span className="text-danger">
+                            {item?.gross_profit?.percentage}%
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
-                </td>
+                </div>
+              </td>
 
-                <td className="dashboard-child-tdata">
+              <td className="dashboard-child-tdata">
 
-                  <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                      <h6 className="mb-0 fs-14 fw-semibold">
-                        {item?.gross_margin?.gross_margin
-                          ? formatNumber(item?.gross_margin?.gross_margin)
-                          : ""}
+                <div className="d-flex">
+                  <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <h6 className="mb-0 fs-14 fw-semibold">
+                      {item?.gross_margin?.gross_margin
+                        ? formatNumber(item?.gross_margin?.gross_margin)
+                        : ""}
 
-                        ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={
-                              <Tooltip>{`${item?.gross_margin?.ppl_msg}%`}</Tooltip>
-                            }
-                          >
-                            <i
-                              className="fa fa-info-circle"
-                              aria-hidden="true"
-                            ></i>
-                          </OverlayTrigger>
-                        ) : (
-                          ""
-                        )}
-                      </h6>
-                      <p
-                        className={`me-1 ${item?.gross_margin?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                          }`}
-                        data-tip={`${item?.gross_margin?.percentage}%`}
-                      >
-                        {item?.gross_margin?.status === "up" ? (
-                          <>
-                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                            <span className="text-success">
-                              {item?.gross_margin?.percentage}%
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span className="text-danger">
-                              {item?.gross_margin?.percentage}%
-                            </span>
-                          </>
-                        )}
-                      </p>
-                    </div>
+                      ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip>{`${item?.gross_margin?.ppl_msg}%`}</Tooltip>
+                          }
+                        >
+                          <i
+                            className="fa fa-info-circle"
+                            aria-hidden="true"
+                          ></i>
+                        </OverlayTrigger>
+                      ) : (
+                        ""
+                      )}
+                    </h6>
+                    <p
+                      className={`me-1 ${item?.gross_margin?.status === "up"
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
+                      data-tip={`${item?.gross_margin?.percentage}%`}
+                    >
+                      {item?.gross_margin?.status === "up" ? (
+                        <>
+                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                          <span className="text-success">
+                            {item?.gross_margin?.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                          <span className="text-danger">
+                            {item?.gross_margin?.percentage}%
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
-                </td>
+                </div>
+              </td>
 
-                <td className="dashboard-child-tdata">
+              <td className="dashboard-child-tdata">
 
-                  <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                      <h6 className="mb-0 fs-14 fw-semibold">
-                        £
-                        {/* {item?.shop_sales?.shop_sales} */}
-                        {item?.shop_sales?.shop_sales
-                          ? formatNumber(item?.shop_sales?.shop_sales)
-                          : ""}
+                <div className="d-flex">
+                  <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <h6 className="mb-0 fs-14 fw-semibold">
+                      £
+                      {/* {item?.shop_sales?.shop_sales} */}
+                      {item?.shop_sales?.shop_sales
+                        ? formatNumber(item?.shop_sales?.shop_sales)
+                        : ""}
 
-                      </h6>
-                      <p
-                        className={`me-1 ${item?.shop_sales?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                          }`}
-                        data-tip={`${item?.shop_sales?.percentage}%`}
-                      >
-                        {item?.shop_sales?.status === "up" ? (
-                          <>
-                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                            <span className="text-success">
-                              {item?.shop_sales?.percentage}%
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span className="text-danger">
-                              {item?.shop_sales?.percentage}%
-                            </span>
-                          </>
-                        )}
-                      </p>
-                    </div>
+                    </h6>
+                    <p
+                      className={`me-1 ${item?.shop_sales?.status === "up"
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
+                      data-tip={`${item?.shop_sales?.percentage}%`}
+                    >
+                      {item?.shop_sales?.status === "up" ? (
+                        <>
+                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                          <span className="text-success">
+                            {item?.shop_sales?.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                          <span className="text-danger">
+                            {item?.shop_sales?.percentage}%
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
-                </td>
-                <td className="dashboard-child-tdata">
+                </div>
+              </td>
+              <td className="dashboard-child-tdata">
 
-                  <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                      <h6 className="mb-0 fs-14 fw-semibold">
-                        £
-                        {item?.shop_fees?.shop_fee
-                          ? formatNumber(item?.shop_fees?.shop_fee)
-                          : ""}
+                <div className="d-flex">
+                  <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <h6 className="mb-0 fs-14 fw-semibold">
+                      £
+                      {item?.shop_fees?.shop_fee
+                        ? formatNumber(item?.shop_fees?.shop_fee)
+                        : ""}
 
-                        {/* {item?.shop_fees?.shop_fees || "0.00"} */}
-                      </h6>
-                      <p
-                        className={`me-1 ${item?.shop_fees?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                          }`}
-                        data-tip={`${item?.shop_fees?.percentage}%`}
-                      >
-                        {item?.shop_fees?.status === "up" ? (
-                          <>
-                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                            <span className="text-success">
-                              {item?.shop_fees?.percentage}%
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span className="text-danger">
-                              {item?.shop_fees?.percentage}%
-                            </span>
-                          </>
-                        )}
-                      </p>
-                    </div>
+                      {/* {item?.shop_fees?.shop_fees || "0.00"} */}
+                    </h6>
+                    <p
+                      className={`me-1 ${item?.shop_fees?.status === "up"
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
+                      data-tip={`${item?.shop_fees?.percentage}%`}
+                    >
+                      {item?.shop_fees?.status === "up" ? (
+                        <>
+                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                          <span className="text-success">
+                            {item?.shop_fees?.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                          <span className="text-danger">
+                            {item?.shop_fees?.percentage}%
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
-                </td>
-                <td className="dashboard-child-tdata">
+                </div>
+              </td>
+              <td className="dashboard-child-tdata">
 
-                  <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                      <h6 className="mb-0 fs-14 fw-semibold">
-                        £
-                        {item?.shop_profit?.shop_profit
-                          ? formatNumber(item?.shop_profit?.shop_profit)
-                          : ""}
+                <div className="d-flex">
+                  <div className="ms-2 mt-0 mt-sm-2 d-block">
+                    <h6 className="mb-0 fs-14 fw-semibold">
+                      £
+                      {item?.shop_profit?.shop_profit
+                        ? formatNumber(item?.shop_profit?.shop_profit)
+                        : ""}
 
-                        {/* {item?.shop_profit?.shop_profit || "0.00"} */}
-                      </h6>
-                      <p
-                        className={`me-1 ${item?.shop_profit?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                          }`}
-                        data-tip={`${item?.shop_profit?.percentage}%`}
-                      >
-                        {item?.shop_profit?.status === "up" ? (
-                          <>
-                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                            <span className="text-success">
-                              {item?.shop_profit?.percentage}%
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                            <span className="text-danger">
-                              {item?.shop_profit?.percentage}%
-                            </span>
-                          </>
-                        )}
-                      </p>
-                    </div>
+                      {/* {item?.shop_profit?.shop_profit || "0.00"} */}
+                    </h6>
+                    <p
+                      className={`me-1 ${item?.shop_profit?.status === "up"
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
+                      data-tip={`${item?.shop_profit?.percentage}%`}
+                    >
+                      {item?.shop_profit?.status === "up" ? (
+                        <>
+                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                          <span className="text-success">
+                            {item?.shop_profit?.percentage}%
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                          <span className="text-danger">
+                            {item?.shop_profit?.percentage}%
+                          </span>
+                        </>
+                      )}
+                    </p>
                   </div>
-                </td>
-              </tr>
-            </div>
-          </div>
+                </div>
+              </td>
+            </tr>
+          </>
+
         ) : (
           <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }} >
             <td className="dashboard-child-tdata">

@@ -14,7 +14,8 @@ const DashboardStatsBox = (props) => {
     FuelValue,
     shopsale,
     dashboardData,
-    callStatsBoxParentFunc
+    callStatsBoxParentFunc,
+    parentComponent = true,
   } = props;
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -84,7 +85,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-1 img-card box-primary-shadow`}
             >
-              <Card.Body className="statscard c-stats-card">
+              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
                 <div className="d-flex justify-content-between">
                   <div className="text-white">
                     <h2
@@ -164,7 +165,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-3 img-card box-danger-shadow`}
             >
-              <Card.Body className="statscard c-stats-card">
+              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
                 <div className="d-flex justify-content-between">
                   <div className="text-white">
                     <h2
@@ -246,7 +247,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-5 img-card box-success-shadow`}
             >
-              <Card.Body className="statscard c-stats-card">
+              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
                 <div className="d-flex ">
                   <div className="text-white">
                     <h2
@@ -326,7 +327,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-2 img-card box-info-shadow`}
             >
-              <Card.Body className="statscard c-stats-card">
+              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
                 <div className="d-flex">
                   <div className="text-white">
                     <h2
@@ -400,7 +401,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-4 img-card box-warning-shadow`}
             >
-              <Card.Body className="statscard c-stats-card">
+              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
                 <div className="d-flex">
                   <div className="text-white">
                     <h2
@@ -471,7 +472,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-6 img-card box-primary-shadow`}
             >
-              <Card.Body className="statscard c-stats-card">
+              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
                 <div className="d-flex">
                   <div className="text-white">
                     <h2
@@ -540,7 +541,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-5 img-card box-primary-shadow`}
             >
-              <Card.Body className="statscard c-stats-card">
+              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
                 <div className="d-flex">
                   <div className="text-white">
                     <h2

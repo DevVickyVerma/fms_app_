@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from 'formik';
 import { Card, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
@@ -204,7 +204,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
 
                                                         {formik?.values?.columns?.map((column, colIndex) => (
 
-                                                            <>
+                                                            <React.Fragment key={colIndex}>
                                                                 <td className={`time-input-fuel-sell ${column === "time" ? "middayModal-time-td " : "middayModal-td "}`} key={colIndex}>
 
                                                                     {column === "date" ? (
@@ -243,7 +243,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                                                     )}
                                                                 </td>
 
-                                                            </>
+                                                            </React.Fragment>
 
                                                         ))}
 
@@ -252,9 +252,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
 
 
                                                 {lsitingformik?.values?.listing?.map((row, rowIndex) => (
-                                                    <>
-
-
+                                                    <React.Fragment key={rowIndex}>
                                                         <tr>
                                                             <td className='middayModal-td'>
                                                                 <div className="">
@@ -306,7 +304,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                                                 </td>
                                                             ))}
                                                         </tr>
-                                                    </>
+                                                    </React.Fragment>
                                                 ))}
 
                                             </tbody>

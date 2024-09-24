@@ -143,7 +143,7 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   color: #000;
   width: 100%;
   border: 1px solid #cfcfcf;
- min-width: 100px !important;
+  min-width: 100px !important;
   font-size: 15px;
 }
 
@@ -1962,6 +1962,11 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 .modal-ph-x {
   font-size: 20px;
 }
+
 td.middayModal-td.time-input-fuel-sell {
   min-width: 140px !important;
+}
+
+.default-pointer {
+  cursor: default
 }
