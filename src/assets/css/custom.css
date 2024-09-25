@@ -1967,3 +1967,7 @@ td.middayModal-td.time-input-fuel-sell {
 .default-pointer {
   cursor: default
 }
+
+.site-setting-table .rdt_TableBody {
+  height: 200px !important;
+}

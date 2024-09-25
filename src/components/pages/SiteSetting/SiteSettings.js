@@ -61,10 +61,7 @@ const SiteSettings = (props) => {
         setAssignCashCards(data?.data ? data.data.cashCards : []);
         setSiteValet(data?.data ? data.data.valetitems : []);
         setSiteName(response?.data?.data);
-        formik.setFieldValue(
-          "AssignFormikbussiness",
-          data?.data?.business_models
-        );
+        formik.setFieldValue("AssignFormikbussiness", data?.data?.business_models);
         formik.setFieldValue("FormikDeductionData", data?.data?.deductions);
         formik.setFieldValue("Formiksite_items", data?.data?.site_items);
         formik.setFieldValue("FormikChargesData", data?.data?.charges);
@@ -77,6 +74,7 @@ const SiteSettings = (props) => {
         formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
         formik.setFieldValue("CahsCardsFormikData", data?.data?.cashCards);
         formik.setFieldValue("SiteValetFormikData", data?.data?.valetitems);
+        formik.setFieldValue("bunkerFuels", data?.data?.bunkerFuels || []);
       } else {
         throw new Error("No data available in the response");
       }
@@ -91,7 +89,7 @@ const SiteSettings = (props) => {
       // Create a new FormData object
       const formData = new FormData();
 
-      values.AssignFormikbussiness.forEach((obj) => {
+      values?.AssignFormikbussiness?.forEach((obj) => {
         const { id, business_model_types, checked } = obj;
         const business_models_valueKey = `business_models[${id}]`;
 
@@ -478,6 +476,44 @@ const SiteSettings = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const SiteBunkringColumn = [
+    {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "15%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`bunkerFuels[${index}].checked`}
+            className="table-checkbox-input"
+            checked={
+              formik.values?.bunkerFuels?.[index]?.checked ?? false
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Name",
+      selector: (row) => row?.fuel_name,
+      sortable: false,
+      width: "85%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row?.fuel_name}</h6>
           </div>
         </div>
       ),
@@ -1119,6 +1155,25 @@ const SiteSettings = (props) => {
         formData.append(key, value);
       });
 
+
+      const bunkringDataFormikDataids = [];
+      const bunkerFuelFormikDataKey = "bunker_fuel";
+
+      for (let i = 0; i < formik?.values?.bunkerFuels?.length; i++) {
+        const { id, checked } = formik?.values?.bunkerFuels[i];
+
+        if (checked) {
+          bunkringDataFormikDataids?.push({
+            [bunkerFuelFormikDataKey + "[" + i + "]"]: id,
+          });
+        }
+      }
+      bunkringDataFormikDataids.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
+
       formData.append("id", id);
 
       const postDataUrl = "/site/update-advance-setting";
@@ -1131,6 +1186,10 @@ const SiteSettings = (props) => {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
+
+
+  console.log(formik?.values, "formik vlauessss");
+
 
   return (
     <>
@@ -1441,7 +1500,7 @@ const SiteSettings = (props) => {
                             <Card.Header className="cardheader-table">
                               <h3 className="card-title">Cldo Reports</h3>
                             </Card.Header>
-                            <div className="module-height">
+                            <div className="module-height mb-7">
                               <DataTable
                                 columns={CldoReportsColumn}
                                 data={CldoReportsReportsData}
@@ -1463,7 +1522,7 @@ const SiteSettings = (props) => {
                                   Vat Summary Items
                                 </h3>
                               </Card.Header>
-                              <div className="module-height">
+                              <div className="module-height mb-7">
                                 <DataTable
                                   columns={vat_summaryColumn}
                                   data={vat_summaryData}
@@ -1486,7 +1545,7 @@ const SiteSettings = (props) => {
                             </Card.Header>
                             {AssignCashCards?.length > 0 ? (
                               <>
-                                <div className="module-height">
+                                <div className="module-height mb-7">
                                   <DataTable
                                     columns={cashCardsModelColumn}
                                     data={AssignCashCards}
@@ -1520,6 +1579,38 @@ const SiteSettings = (props) => {
                                   <DataTable
                                     columns={SiteValetModelColumn}
                                     data={SiteValet}
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    searchable={false}
+                                    responsive
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <img
+                                  src={require("../../../assets/images/commonimages/no_data.png")}
+                                  alt="MyChartImage"
+                                  className="all-center-flex nodata-image"
+                                />
+                              </>
+                            )}
+                          </Col>
+
+
+                          <Col lg={4} md={4}>
+                            <Card.Header className="cardheader-table">
+                              <h3 className="card-title">Bunkring Fuel</h3>
+                            </Card.Header>
+                            {formik?.values?.bunkerFuels?.length > 0 ? (
+                              <>
+                                <div className="module-height mb-7">
+                                  <DataTable
+                                    columns={SiteBunkringColumn}
+                                    data={formik?.values?.bunkerFuels}
                                     defaultSortField="id"
                                     defaultSortAsc={false}
                                     striped={true}
