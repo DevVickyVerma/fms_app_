@@ -67,7 +67,7 @@ const ManageReports = (props) => {
 
 
 
- 
+
 
 
 
@@ -75,9 +75,9 @@ const ManageReports = (props) => {
     setpdfisLoading(true)
     try {
       const formData = new FormData();
-      
+
       formData.append("report", formValues.report);
-  
+
       // Add client_id based on superiorRole
       const superiorRole = localStorage.getItem("superiorRole");
       if (superiorRole !== "Client") {
@@ -85,37 +85,37 @@ const ManageReports = (props) => {
       } else {
         formData.append("client_id", clientIDLocalStorage);
       }
-  
+
       // Add other necessary form values
       formData.append("company_id", formValues.company_id);
       formData.append("start_date", formValues.start_date);
       formData.append("end_date", formValues.end_date);
-  
+
       // Prepare client ID condition for the query params
       let clientIDCondition = superiorRole !== "Client"
         ? `client_id=${formValues.client_id}&`
         : `client_id=${clientIDLocalStorage}&`;
-  
+
       // Check for selected sites
       if (!selected || (Array.isArray(selected) && selected.length === 0)) {
         ErrorToast("Please select at least one site");
         return;
       }
-  
+
       // Prepare site IDs and query parameters
       const selectedSiteIds = selected?.map((site) => site.value);
       const selectedSiteIdParams = selectedSiteIds
         .map((id) => `site_id[]=${id}`)
         .join("&");
-  
+
       // Construct commonParams based on toggleValue
       const commonParams = toggleValue
-        ? `/sdownload-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
-        : `/sdownload-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
-  
+        ? `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+        : `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
+
       // API URL for the fetch request
       const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
-  
+
       // Fetch the data
       const token = localStorage.getItem("token");
       const response = await fetch(apiUrl, {
@@ -125,7 +125,7 @@ const ManageReports = (props) => {
           'Authorization': `Bearer ${token}`,
         },
       });
-  
+
       // Check if the response is OK
       if (!response.ok) {
         const errorData = await response.json(); // Extract error message from response
@@ -134,12 +134,12 @@ const ManageReports = (props) => {
         throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
 
       }
-  
+
       // Handle the file download
       const blob = await response.blob();
       const contentType = response.headers.get('Content-Type');
       let fileExtension = 'xlsx'; // Default to xlsx
-  
+
       if (contentType) {
         if (contentType.includes('application/pdf')) {
           fileExtension = 'pdf';
@@ -151,27 +151,27 @@ const ManageReports = (props) => {
           console.warn('Unsupported file type:', contentType);
         }
       }
-  
+
       // Create a temporary URL for the Blob
       const url = window.URL.createObjectURL(new Blob([blob]));
-      
+
       // Create a link element and trigger the download
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `${formValues.reportName}.${fileExtension}`);
       document.body.appendChild(link);
       link.click();
-  
+
       // Cleanup
       link.parentNode.removeChild(link);
-  
+
     } catch (error) {
       console.error('Error downloading the file:', error);
-    }finally{
+    } finally {
       setpdfisLoading(false)
     }
   };
-  
+
 
   function handleReportClick(item) {
     console.log(item, "handleReportClick");
