@@ -11,6 +11,7 @@ import { Slide, toast } from "react-toastify";
 import Switch from "react-switch";
 import ShareReports from "./ShareReports";
 import { useSelector } from "react-redux";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 
 const ManageReports = (props) => {
   const { isLoading, getData, } = props;
@@ -109,8 +110,8 @@ const ManageReports = (props) => {
   
       // Construct commonParams based on toggleValue
       const commonParams = toggleValue
-        ? `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
-        : `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
+        ? `/sdownload-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+        : `/sdownload-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
   
       // API URL for the fetch request
       const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -127,7 +128,11 @@ const ManageReports = (props) => {
   
       // Check if the response is OK
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json(); // Extract error message from response
+        handleError(errorData)
+        ErrorAlert(errorData?.message)
+        throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
+
       }
   
       // Handle the file download
