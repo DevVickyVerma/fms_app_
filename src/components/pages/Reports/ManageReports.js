@@ -24,6 +24,7 @@ const ManageReports = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const isSendReportPermissionAvailable = UserPermissions?.includes("send-report");
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [pdfisLoading, setpdfisLoading] = useState(false);
   const handleCloseSidebar = () => {
     setSidebarVisible(true);
   };
@@ -65,22 +66,75 @@ const ManageReports = (props) => {
 
 
 
-  const downloadExcelFile = async (commonParams, report) => {
+ 
+
+
+
+  const DownloadReport = async (formValues) => {
+    setpdfisLoading(true)
     try {
-      const token = localStorage.getItem("token"); // Get the token from storage
+      const formData = new FormData();
+      
+      formData.append("report", formValues.report);
+  
+      // Add client_id based on superiorRole
+      const superiorRole = localStorage.getItem("superiorRole");
+      if (superiorRole !== "Client") {
+        formData.append("client_id", formValues.client_id);
+      } else {
+        formData.append("client_id", clientIDLocalStorage);
+      }
+  
+      // Add other necessary form values
+      formData.append("company_id", formValues.company_id);
+      formData.append("start_date", formValues.start_date);
+      formData.append("end_date", formValues.end_date);
+  
+      // Prepare client ID condition for the query params
+      let clientIDCondition = superiorRole !== "Client"
+        ? `client_id=${formValues.client_id}&`
+        : `client_id=${clientIDLocalStorage}&`;
+  
+      // Check for selected sites
+      if (!selected || (Array.isArray(selected) && selected.length === 0)) {
+        ErrorToast("Please select at least one site");
+        return;
+      }
+  
+      // Prepare site IDs and query parameters
+      const selectedSiteIds = selected?.map((site) => site.value);
+      const selectedSiteIdParams = selectedSiteIds
+        .map((id) => `site_id[]=${id}`)
+        .join("&");
+  
+      // Construct commonParams based on toggleValue
+      const commonParams = toggleValue
+        ? `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+        : `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
+  
+      // API URL for the fetch request
       const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
+  
+      // Fetch the data
+      const token = localStorage.getItem("token");
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          "Authorization": `Bearer ${token}`, // Attach token in headers
-          // Add Authorization headers if required
+          'Authorization': `Bearer ${token}`,
         },
       });
+  
+      // Check if the response is OK
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      // Handle the file download
       const blob = await response.blob();
       const contentType = response.headers.get('Content-Type');
-      let fileExtension = 'xlsxs'; // Default to xlsx
-
+      let fileExtension = 'xlsx'; // Default to xlsx
+  
       if (contentType) {
         if (contentType.includes('application/pdf')) {
           fileExtension = 'pdf';
@@ -92,82 +146,27 @@ const ManageReports = (props) => {
           console.warn('Unsupported file type:', contentType);
         }
       }
+  
       // Create a temporary URL for the Blob
       const url = window.URL.createObjectURL(new Blob([blob]));
-
-      // Create a link and trigger a download
+      
+      // Create a link element and trigger the download
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `${formik?.values?.reportName}.${fileExtension}`); // Set filename
-
+      link.setAttribute('download', `${formValues.reportName}.${fileExtension}`);
       document.body.appendChild(link);
       link.click();
-
-      // Clean up by removing the link element
+  
+      // Cleanup
       link.parentNode.removeChild(link);
+  
     } catch (error) {
       console.error('Error downloading the file:', error);
+    }finally{
+      setpdfisLoading(false)
     }
   };
-
-
-
-  const handleSubmit1 = async (formValues) => {
-    try {
-      const formData = new FormData();
-
-      formData.append("report", formValues.report);
-
-      if (localStorage.getItem("superiorRole") !== "Client") {
-        formData.append("client_id", formValues.client_id);
-      } else {
-        formData.append("client_id", clientIDLocalStorage);
-      }
-
-      formData.append("company_id", formValues.company_id);
-
-      formData.append("start_date", formValues.start_date);
-      formData.append("end_date", formValues.end_date);
-
-      let clientIDCondition = "";
-      if (localStorage.getItem("superiorRole") !== "Client") {
-        clientIDCondition = `client_id=${formValues.client_id}&`;
-      } else {
-        clientIDCondition = `client_id=${clientIDLocalStorage}&`;
-      }
-      if (
-        selected === undefined ||
-        selected === null ||
-        (Array.isArray(selected) && selected.length === 0)
-      ) {
-        ErrorToast("Please select at least one site");
-      }
-
-      // Assuming you have an array of selected values in the 'selected' state
-      const selectedSiteIds = selected?.map((site) => site.value);
-      const selectedSiteIdParams = selectedSiteIds
-        .map((id) => `site_id[]=${id}`)
-        .join("&");
-
-      // Now 'selectedSiteIdParams' contains the query parameter string for selected site IDs
-
-      const commonParams = toggleValue
-        ? `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
-        : `/download-report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
-
-      try {
-        const response = await getData(commonParams);
-        if (response?.data) {
-          downloadExcelFile(commonParams, formValues?.report)
-        }
-      } catch (error) {
-        console.error("Error occurred while fetching data:", error);
-      }
-    } catch (error) {
-      console.error(error);
-      // Set the submission state to false if an error occurs
-    }
-  };
+  
 
   function handleReportClick(item) {
     console.log(item, "handleReportClick");
@@ -213,7 +212,7 @@ const ManageReports = (props) => {
     }),
 
     onSubmit: (values) => {
-      handleSubmit1(values);
+      DownloadReport(values);
     },
   });
 
@@ -299,7 +298,7 @@ const ManageReports = (props) => {
 
 
   return <>
-    {isLoading ? <Loaderimg /> : null}
+    {isLoading || pdfisLoading ? <Loaderimg /> : null}
     <>
 
 
