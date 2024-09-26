@@ -163,9 +163,14 @@ const ManageCompany = (props) => {
     permissionsArray?.includes("company-upload-bank-ref");
   const isCompanyUploadBankReimbursementPermissionAvailable =
     permissionsArray?.includes("company-upload-bank-reimbursement");
+
+
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
-
+    isSagePermissionAvailable ||
+    isUploadSagePermissionAvailable ||
+    isCompanyUploadBankReimbursementPermissionAvailable ||
+    isUploadBankReferencePermissionAvailable ||
     isDeletePermissionAvailable ||
     isSagePermissionAvailable;
 

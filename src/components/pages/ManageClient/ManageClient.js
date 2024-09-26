@@ -108,6 +108,7 @@ const ManageClient = (props) => {
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
     isLoginPermissionAvailable ||
+    isAddPermissionAvailable ||
     isAddonPermissionAvailable ||
     isDeletePermissionAvailable ||
     isReportsPermissionAvailable;
