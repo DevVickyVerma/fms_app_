@@ -5,6 +5,8 @@ import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
+import FormikInput from "../../Formik/FormikInput";
+import { ReactMultiEmail } from "react-multi-email";
 
 
 
@@ -43,6 +45,10 @@ export default function AddSite(props) {
 
       if (response) {
         formik.setValues(response?.data?.data);
+
+        if (response?.data?.data?.update_tlm_price == 1) {
+          setShowToEmailError(true);
+        }
         // setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -67,8 +73,30 @@ export default function AddSite(props) {
       // Iterate over formik.values and convert null to empty strings
       for (const [key, value] of Object.entries(formik.values)) {
         const convertedValue = value === null ? "" : value;
-        formData.append(key, convertedValue);
+
+        if (key == "to_emails" || key == "cc_emails") {
+        } else {
+          formData.append(key, convertedValue);
+        }
       }
+
+
+      if (formik.values.to_emails && formik.values.to_emails.length > 0) {
+        formik.values.to_emails.forEach((client, index) => {
+          formData.append(`to_emails[${index}]`, client);
+        });
+      } else {
+        formData.append(`to_emails`, []);
+      }
+
+      if (formik.values.cc_emails && formik.values.cc_emails.length > 0) {
+        formik.values.cc_emails.forEach((client, index) => {
+          formData.append(`cc_emails[${index}]`, client);
+        });
+      } else {
+        formData.append(`cc_emails`, []);
+      }
+
 
       const postDataUrl = "/site/update";
       const navigatePath = `/sites`;
@@ -78,13 +106,14 @@ export default function AddSite(props) {
     }
   };
 
+  const [showToEmailError, setShowToEmailError] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       site_code: "",
       site_name: "",
       site_address: "",
       site_status: "",
-
       business_type: "",
       data_import_type_id: "",
       supplier_id: "",
@@ -97,7 +126,6 @@ export default function AddSite(props) {
       site_report_status: "",
       site_report_date_type: "",
       drs_upload_status: "",
-
       fuel_commission_calc_status: "",
       bunker_upload_status: "",
       paperwork_status: "",
@@ -126,6 +154,9 @@ export default function AddSite(props) {
       change_back_date_price: 0,
       cashback_enable: "",
       e_code: "",
+      to_emails: [],
+      cc_emails: [],
+      mobile: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -173,6 +204,12 @@ export default function AddSite(props) {
       loomis_status: Yup.string().required(" Loomis Status  is required"),
       apply_sc: Yup.string().required("Apply Shop Commission  is required"),
       is_reconciled: Yup.string().required("Reconciled Data   is required"),
+      to_emails: showToEmailError
+        ? Yup.array()
+          .of(Yup.string().email("Invalid email format"))
+          .min(1, 'At least one email is required')
+          .required('To Emails are required')
+        : Yup.mixed().notRequired(),
     }),
     onSubmit: handleSubmit,
   });
@@ -204,6 +241,49 @@ export default function AddSite(props) {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
   };
+
+
+  const handleTlmPriceChange = (e) => {
+    formik.handleChange(e);
+    setShowToEmailError(true);
+    if (e.target.value === "0") {
+      // Clear specific Formik field values when "No" is selected
+      formik.setFieldValue("mobile", "");
+      formik.setFieldValue("to_emails", []);
+      formik.setFieldValue("cc_emails", []);
+      setShowToEmailError(false);
+    }
+  };
+
+
+  const handleToEmailChange = (newEmails) => {
+    // Update Formik state when email input changes
+    formik.setFieldValue("to_emails", newEmails);
+  };
+
+  const renderToEmailTag = (email, index, removeEmail) => (
+    <div key={index} className="renderEmailTag">
+      {email}
+      <span className="closeicon" onClick={() => removeEmail(index)}>
+        ×
+      </span>
+    </div>
+  );
+  const handleCCEmailChange = (newEmails) => {
+    // Update Formik state when email input changes
+    formik.setFieldValue("cc_emails", newEmails);
+  };
+
+  const renderCCEmailTag = (email, index, removeEmail) => (
+    <div key={index} className="renderEmailTag">
+      {email}
+      <span className="closeicon" onClick={() => removeEmail(index)}>
+        ×
+      </span>
+    </div>
+  );
+
+
 
   return (
     <>
@@ -1685,7 +1765,7 @@ export default function AddSite(props) {
                               }`}
                             id="update_tlm_price"
                             name="update_tlm_price"
-                            onChange={formik.handleChange}
+                            onChange={handleTlmPriceChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.update_tlm_price}
                           >
@@ -1732,6 +1812,88 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
+
+
+
+
+                      {/* showing three boxes of input when TLM price  */}
+
+                      {formik.values.update_tlm_price == "1" && (
+                        <>
+                          <Col lg={4} md={6}>
+                            <FormikInput formik={formik} isRequired={false} type="number" label="Mobile" name="mobile" />
+                          </Col>
+
+                          <Col lg={4} md={6}>
+                            <label
+                              htmlFor="to_emails"
+                            >
+                              To Email
+                              <span className="text-danger">*</span>
+                            </label>
+                            <div className="email-input">
+                              <ReactMultiEmail
+                                emails={formik.values?.to_emails}
+                                onChange={handleToEmailChange}
+                                getLabel={renderToEmailTag}
+                                minTags={1}
+                                onBlur={() =>
+                                  formik.setFieldTouched("to_emails", true)
+                                }
+                              />
+
+                            </div>
+                            {formik.touched.to_emails &&
+                              formik.errors.to_emails ? (
+                              <div className="error invalid-feedback">
+                                {formik.errors.to_emails}
+                              </div>
+                            ) : null}
+                            <span className="fairbank-title">
+                              {" "}
+                              * You can add multiple email IDs by using{" "}
+                              <strong>,</strong>
+                            </span>
+                          </Col>
+
+
+                          <Col lg={4} md={6}>
+                            <label
+                              htmlFor="cc_emails"
+                            >
+                              CC Email
+                            </label>
+                            <div className="email-input">
+                              <ReactMultiEmail
+                                emails={formik.values?.cc_emails}
+                                onChange={handleCCEmailChange}
+                                getLabel={renderCCEmailTag}
+                                minTags={1}
+                                onBlur={() =>
+                                  formik.setFieldTouched("cc_emails", true)
+                                }
+                              />
+                              {formik.touched.cc_emails &&
+                                formik.errors.cc_emails ? (
+                                <div className="error">
+                                  {formik.errors.cc_emails}
+                                </div>
+                              ) : null}
+                            </div>
+                            <span className="fairbank-title">
+                              {" "}
+                              * You can add multiple email IDs by using{" "}
+                              <strong>,</strong>
+                            </span>
+                          </Col>
+                        </>
+                      )}
+
+
+
+
+
+
 
                     </Row>
                     <div className="text-end">

@@ -9,14 +9,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ReactMultiEmail } from "react-multi-email";
 
 const AddSite = (props) => {
   const { isLoading, postData } = props;
 
   const navigate = useNavigate();
-
+  const [showToEmailError, setShowToEmailError] = useState(false);
   const [AddSiteData, setAddSiteData] = useState([]);
-
   const [Listcompany, setCompanylist] = useState([]);
 
   useEffect(() => {
@@ -132,6 +132,23 @@ const AddSite = (props) => {
       formData.append("change_back_date_price", values.change_back_date_price);
       formData.append("cashback_enable", values.cashback_enable);
       formData.append("e_code", values.e_code);
+
+
+      if (values?.to_emails && values?.to_emails.length > 0) {
+        values?.to_emails.forEach((client, index) => {
+          formData.append(`to_emails[${index}]`, client);
+        });
+      } else {
+        formData.append(`to_emails`, []);
+      }
+
+      if (values?.cc_emails && values?.cc_emails.length > 0) {
+        values?.cc_emails.forEach((client, index) => {
+          formData.append(`cc_emails[${index}]`, client);
+        });
+      } else {
+        formData.append(`cc_emails`, []);
+      }
 
       const postDataUrl = "/site/add";
 
@@ -250,6 +267,9 @@ const AddSite = (props) => {
                     shop_sale_file_upload: 1,
                     update_tlm_price: 0,
                     change_back_date_price: 0,
+                    to_emails: [],
+                    cc_emails: [],
+                    mobile: "",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -325,6 +345,13 @@ const AddSite = (props) => {
                     update_tlm_price: Yup.string().required(
                       "Update TLM Price is required"
                     ),
+
+                    to_emails: showToEmailError
+                      ? Yup.array()
+                        .of(Yup.string().email("Invalid email format"))
+                        .min(1, 'At least one email is required')
+                        .required('To Emails are required')
+                      : Yup.mixed().notRequired(),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSubmit1(values, setSubmitting);
@@ -1768,18 +1795,26 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.update_tlm_price &&
-                                  touched.update_tlm_price
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${errors.update_tlm_price && touched.update_tlm_price ? "is-invalid" : ""}`}
                                 id="update_tlm_price"
                                 name="update_tlm_price"
+                                // Add onChange handler to reset fields when value is '0'
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  setFieldValue("update_tlm_price", value); // Update the field value
+                                  if (value === "0") {
+                                    // Clear the values of cc_emails, to_emails, and mobile when "No" is selected
+                                    setFieldValue("cc_emails", []);
+                                    setFieldValue("to_emails", []);
+                                    setFieldValue("mobile", "");
+                                    setShowToEmailError(false)
+                                  } else {
+                                    setShowToEmailError(true)
+                                  }
+                                }}
                               >
-                                {" "}
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
-
                               </Field>
                               <ErrorMessage
                                 component="div"
@@ -1821,6 +1856,76 @@ const AddSite = (props) => {
                             </FormGroup>
                           </Col>
 
+
+
+
+                          <Field name="update_tlm_price">
+                            {({ field }) => field.value == "1" && (
+                              <>
+                                {/* Mobile Input */}
+                                <Col lg={4} md={6}>
+                                  <FormGroup>
+                                    <label htmlFor="mobile"
+                                      className=" form-label mt-4">Mobile </label>
+                                    <Field
+                                      type="number"
+                                      name="mobile"
+                                      className="form-control input101"
+                                      placeholder="Mobile Number"
+                                    />
+                                    <ErrorMessage component="div" className="invalid-feedback" name="mobile" />
+                                  </FormGroup>
+                                </Col>
+
+                                {/* To Emails Input */}
+                                <Col lg={4} md={6}>
+                                  <label htmlFor="to_emails"
+                                    className=" form-label mt-4">To Email <span className="text-danger">*</span></label>
+                                  <div className="email-input">
+                                    <ReactMultiEmail
+                                      emails={field.to_emails}
+                                      onChange={(emails) => setFieldValue("to_emails", emails)}
+                                      getLabel={(email, index, removeEmail) => (
+                                        <div data-tag key={index} className="renderEmailTag">
+                                          {email}
+                                          <span data-tag-handle className="closeicon" onClick={() => removeEmail(index)}>
+                                            ×
+                                          </span>
+                                        </div>
+                                      )}
+                                    />
+                                  </div>
+                                  <ErrorMessage component="div" className="invalid-feedback" name="to_emails" />
+                                  <span className="fairbank-title">
+                                    * You can add multiple email IDs by using{" "}
+                                    <strong>,</strong>
+                                  </span>
+                                </Col>
+
+                                {/* CC Emails Input */}
+                                <Col lg={4} md={6}>
+                                  <label htmlFor="cc_emails"
+                                    className=" form-label mt-4">CC Email </label>
+                                  <div className="email-input">
+                                    <ReactMultiEmail
+                                      emails={field.cc_emails}
+                                      onChange={(emails) => setFieldValue("cc_emails", emails)}
+                                      getLabel={(email, index, removeEmail) => (
+                                        <div data-tag key={index} className="renderEmailTag">
+                                          {email}
+                                          <span data-tag-handle className="closeicon" onClick={() => removeEmail(index)}>
+                                            ×
+                                          </span>
+                                        </div>
+                                      )}
+                                    />
+                                    <ErrorMessage component="div" className="invalid-feedback" name="cc_emails" />
+                                  </div>
+                                </Col>
+                              </>
+                            )}
+                          </Field>
+
                         </Row>
                       </Card.Body>
 
@@ -1848,7 +1953,8 @@ const AddSite = (props) => {
             </Col>
           </Row>
         </>
-      )}
+      )
+      }
     </>
   );
 };

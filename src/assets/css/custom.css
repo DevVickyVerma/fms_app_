@@ -1971,3 +1971,11 @@ td.middayModal-td.time-input-fuel-sell {
 .site-setting-table .rdt_TableBody {
   height: 200px !important;
 }
+
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 87.5%;
+  color: #f82649;
+}
