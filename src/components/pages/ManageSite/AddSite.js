@@ -221,14 +221,12 @@ const AddSite = (props) => {
                     site_name: "",
                     site_Address: "",
                     Site_Status: "",
-
                     bussiness_Type: "",
                     Select_machine_type: "",
                     supplier: "",
                     DRS_Start_Date: "",
                     display_name: "",
                     Saga_department_code: "",
-
                     // supplier: "",
                     Saga_department_name: "",
                     Bp_nctt_site_no: "",
@@ -273,7 +271,6 @@ const AddSite = (props) => {
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
-
                       .required("Site Code is required"),
                     site_name: Yup.string()
                       .max(150, "Must be 20 characters or less")
