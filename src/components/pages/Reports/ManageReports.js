@@ -12,13 +12,11 @@ import Switch from "react-switch";
 import ShareReports from "./ShareReports";
 import { useSelector } from "react-redux";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import FormikSelect from "../../Formik/FormikSelect";
 
 const ManageReports = (props) => {
   const { isLoading, getData, } = props;
   const [ReportList, setReportList] = useState([]);
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
@@ -65,12 +63,6 @@ const ManageReports = (props) => {
     }
   };
 
-
-
-
-
-
-
   const DownloadReport = async (formValues) => {
     setpdfisLoading(true)
     try {
@@ -97,13 +89,13 @@ const ManageReports = (props) => {
         : `client_id=${clientIDLocalStorage}&`;
 
       // Check for selected sites
-      if (!selected || (Array.isArray(selected) && selected.length === 0)) {
+      if (!formik?.values?.selectedSites || (Array.isArray(formik?.values?.selectedSites) && formik?.values?.selectedSites?.length === 0)) {
         ErrorToast("Please select at least one site");
         return;
       }
 
       // Prepare site IDs and query parameters
-      const selectedSiteIds = selected?.map((site) => site.value);
+      const selectedSiteIds = formik?.values?.selectedSites?.map((site) => site.value);
       const selectedSiteIdParams = selectedSiteIds
         .map((id) => `site_id[]=${id}`)
         .join("&");
@@ -193,30 +185,44 @@ const ManageReports = (props) => {
     const inputDateElement = document.querySelector("#end_date");
     inputDateElement.showPicker();
   };
-  const [selected, setSelected] = useState([]);
-
-  const options = SiteList?.map((site) => ({
-    label: site?.site_name,
-    value: site?.id,
-  }));
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
 
   const formik = useFormik({
     initialValues: {
-      report: "1",
-      reportName: " ",
+      report: "",
+      reportName: "",
       client_id: "",
       company_id: "",
       sites: [],
       start_date: "",
       end_date: "",
       reportmonth: "",
+      selectedSites: [],
     },
     validationSchema: Yup.object({
       report: Yup.string().required("Report is required"),
       company_id: Yup.string().required("Company is required"),
+      selectedSites: Yup.array()
+        .min(1, 'At least one Site is required')
+        .required('Companies are required'),
+      client_id: isNotClient
+        ? Yup.string().required("Client is required")
+        : Yup.mixed().notRequired(), // Conditional validation based on toggleValue
+      reportmonth: !toggleValue
+        ? Yup.string().required('Report month is required')
+        : Yup.mixed().notRequired(),  // If toggleValue is false, require reportmonth
+
+      start_date: toggleValue
+        ? Yup.string().required('Start date is required')
+        : Yup.mixed().notRequired(),  // If toggleValue is true, require start_date
+
+      end_date: toggleValue
+        ? Yup.string().required('End date is required')
+        : Yup.mixed().notRequired(),  // If toggleValue is true, require end_date
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem(storedKeyName, JSON.stringify(values));
       DownloadReport(values);
     },
   });
@@ -226,12 +232,14 @@ const ManageReports = (props) => {
       const response = await getData("/common/client-list");
 
       const { data } = response;
-      if (data) {
-        setClientList(response.data);
 
+      if (response?.data?.data) {
+        formik.setFieldValue('clients', response?.data?.data);
+      }
+      if (data) {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
-          setSelectedClientId(clientId);
+          FetchReportList(clientId);
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
@@ -255,8 +263,8 @@ const ManageReports = (props) => {
         );
 
         if (response) {
-          setSelected([])
-          setCompanyList(response?.data?.data);
+
+          formik.setFieldValue('companies', response?.data?.data);
         } else {
           throw new Error("No data available in the response");
         }
@@ -287,20 +295,100 @@ const ManageReports = (props) => {
     }
   };
 
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
+  let storedKeyName = "localFilterModalData";
 
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-      FetchReportList(clientId);
+  useEffect(() => {
+    const storedDataString = localStorage.getItem(storedKeyName);
+
+    if (storedDataString) {
+      const parsedData = JSON.parse(storedDataString);
+      formik.setValues(parsedData);
+
+      if (!parsedData?.report) {
+        formik?.setFieldValue("report", "")
+      }
+      if (!parsedData?.selectedSites) {
+        formik?.setFieldValue("selectedSites", [])
+      }
+
+      if (parsedData?.client_id) {
+        GetCompanyList(parsedData?.client_id);
+        FetchReportList(parsedData?.client_id);
+      }
+
+      if (parsedData?.company_id) {
+        GetSiteList(parsedData?.company_id);
+      }
+    }
+
+    if (!storedDataString && localStorage.getItem("superiorRole") === "Client") {
+      const clientId = localStorage.getItem("superiorId");
+      if (clientId) {
+        handleClientChange({ target: { value: clientId } });
+      }
+    }
+    if (!storedDataString && localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
     }
   }, []);
 
 
 
+  const handleClientChange = (e) => {
+    const clientId = e.target.value;
+    formik.setFieldValue('client_id', clientId);
+
+    if (clientId) {
+      GetCompanyList(clientId);
+      FetchReportList(clientId);
+      const selectedClient = formik.values.clients.find(client => client?.id === clientId);
+      formik.setFieldValue('client_name', selectedClient?.client_name || "");
+      formik.setFieldValue('companies', selectedClient?.companies || []);
+      formik.setFieldValue('sites', []);
+      formik.setFieldValue('selectedSites', []);
+
+      formik.setFieldValue('company_id', "");
+      formik.setFieldValue('site_id', "");
+      formik.setFieldValue('reportName', "");
+      formik.setFieldValue('report', "");
+    } else {
+      formik.setFieldValue('client_name', "");
+      formik.setFieldValue('companies', []);
+      formik.setFieldValue('sites', []);
+      formik.setFieldValue('selectedSites', []);
+
+      formik.setFieldValue('company_id', "");
+      formik.setFieldValue('site_id', "");
+      formik.setFieldValue('reportName', "");
+      formik.setFieldValue('report', "");
+      setReportList([])
+    }
+  };
+
+  const handleCompanyChange = (e) => {
+    const companyId = e.target.value;
+    formik.setFieldValue('company_id', companyId);
+
+    if (companyId) {
+      GetSiteList(companyId);
+      formik.setFieldValue('site_id', "");
+      formik.setFieldValue('selectedSites', []);
+
+      const selectedCompany = formik.values.companies.find(company => company?.id === companyId);
+      formik.setFieldValue('company_name', selectedCompany?.company_name || "");
+    } else {
+      formik.setFieldValue('company_name', "");
+      formik.setFieldValue('sites', []);
+      formik.setFieldValue('selectedSites', []);
+
+      formik.setFieldValue('site_id', "");
+      formik.setFieldValue('site_name', "");
+    }
+  };
+
+  const handleMultiSelectChange = (selectedOptions) => {
+    formik.setFieldValue('selectedSites', selectedOptions);
+  };
 
   return <>
     {isLoading || pdfisLoading ? <Loaderimg /> : null}
@@ -367,125 +455,33 @@ const ManageReports = (props) => {
             <Card.Body>
               <form onSubmit={formik.handleSubmit}>
                 <Row>
-                  {localStorage.getItem("superiorRole") !== "Client" && (
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label
-                          htmlFor="client_id"
-                          className="form-label mt-4"
-                        >
-                          Client
-                          <span className="text-danger">*</span>
-                        </label>
-                        <select
-                          className={`input101 ${formik.errors.client_id &&
-                            formik.touched.client_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
-                          id="client_id"
-                          name="client_id"
-                          value={formik.values.client_id}
-                          onChange={(e) => {
-                            const selectedType = e.target.value;
-                            setReportList([])
-                            if (selectedType) {
-                              FetchReportList(selectedType);
-                              GetCompanyList(selectedType);
-                              formik.setFieldValue("client_id", selectedType);
-                              setSelectedClientId(selectedType);
-                              setSiteList([]);
-                              setSelected([])
-                              formik.setFieldValue("company_id", "");
-                              formik.setFieldValue("report", "");
-                              formik.setFieldValue("reportName", "");
-                              formik.setFieldValue("site_id", "");
-                            } else {
-                              formik.setFieldValue("client_id", "");
-                              formik.setFieldValue("company_id", "");
-                              formik.setFieldValue("site_id", "");
-                              formik.setFieldValue("report", "");
-                              formik.setFieldValue("reportName", "");
-                              setSelected([])
-                              setSiteList([]);
-                              setCompanyList([]);
-                            }
-                          }}
-                        >
-                          <option value="">Select a Client</option>
-                          {ClientList.data && ClientList.data.length > 0 ? (
-                            ClientList.data.map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.client_name}
-                              </option>
-                            ))
-                          ) : (
-                            <option disabled>No Client</option>
-                          )}
-                        </select>
 
-                        {formik.errors.client_id &&
-                          formik.touched.client_id && (
-                            <div className="invalid-feedback">
-                              {formik.errors.client_id}
-                            </div>
-                          )}
-                      </div>
+                  {localStorage.getItem('superiorRole') !== 'Client' && (
+                    <Col lg={4} md={6} className=" mt-4">
+                      <FormikSelect
+                        formik={formik}
+                        name="client_id"
+                        label="Client"
+                        options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
+                        className="form-input "
+                        onChange={handleClientChange}
+                      />
                     </Col>
                   )}
 
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="company_id" className="form-label mt-4">
-                        Company
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${formik.errors.company_id &&
-                          formik.touched.company_id
-                          ? "is-invalid"
-                          : ""
-                          }`}
-                        id="company_id"
-                        name="company_id"
-                        value={formik.values.company_id}
-                        onChange={(e) => {
-                          const selectcompany = e.target.value;
-                          if (selectcompany) {
-                            GetSiteList(selectcompany);
-                            formik.setFieldValue("site_id", "");
-                            formik.setFieldValue("company_id", selectcompany);
-                            setSelected([])
-                          } else {
-                            formik.setFieldValue("company_id", "");
-                            formik.setFieldValue("site_id", "");
-                            setSelected([])
 
-                            setSiteList([]);
-                          }
-                        }}
-                      >
-                        <option value="">Select a Company</option>
-                        {selectedClientId && CompanyList.length > 0 ? (
-                          <>
-                            {CompanyList.map((company) => (
-                              <option key={company.id} value={company.id}>
-                                {company.company_name}
-                              </option>
-                            ))}
-                          </>
-                        ) : (
-                          <option disabled>No Company</option>
-                        )}
-                      </select>
-                      {formik.errors.company_id &&
-                        formik.touched.company_id && (
-                          <div className="invalid-feedback">
-                            {formik.errors.company_id}
-                          </div>
-                        )}
-                    </div>
+                  <Col lg={4} md={6} className=" mt-4">
+                    <FormikSelect
+                      formik={formik}
+                      name="company_id"
+                      label="Company"
+                      options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
+                      className="form-input"
+                      onChange={handleCompanyChange}
+                    />
                   </Col>
+
+
                   <Col lg={4} md={6}>
                     <FormGroup>
                       <label className="form-label mt-4">
@@ -493,13 +489,19 @@ const ManageReports = (props) => {
                         <span className="text-danger">*</span>
                       </label>
                       <MultiSelect
-                        value={selected}
-                        onChange={setSelected}
+                        value={formik?.values?.selectedSites || []}
+                        onChange={handleMultiSelectChange}
                         labelledBy="Select Sites"
                         disableSearch="true"
-                        options={options}
+                        options={SiteList?.map((item) => ({
+                          value: item?.id,
+                          label: item?.site_name,
+                        })) || []}
                         showCheckbox="false"
                       />
+                      {formik.touched.selectedSites && typeof formik.errors.selectedSites === 'string' && (
+                        <div className='text-danger mt-1'>{formik.errors.selectedSites}</div>
+                      )}
                     </FormGroup>
                   </Col>
 
@@ -517,11 +519,12 @@ const ManageReports = (props) => {
                           }`}
                         id="report"
                         name="report"
+                        value={formik?.values?.report}
                         onChange={(e) => {
                           const selectedReportCode = e.target.value;
 
                           // Find the selected report name based on the selected report code
-                          const selectedReport = ReportList.data?.reports.find(
+                          const selectedReport = ReportList.data?.reports?.find(
                             (item) => item.report_code === selectedReportCode
                           );
 
@@ -529,12 +532,9 @@ const ManageReports = (props) => {
                           let selectedReportName = selectedReport?.report_name || "";
                           selectedReportName = selectedReportName.replace(/\s/g, "");
 
-
-
                           // Store both report_code and report_name in Formik state
                           formik.setFieldValue("report", selectedReportCode);
                           formik.setFieldValue("reportName", selectedReportName); // Assuming 'reportName' is part of formik initialValues
-
                         }}
                       >
                         <option value="">Select a Report</option>
@@ -555,7 +555,7 @@ const ManageReports = (props) => {
                       </select>
 
                       {formik.errors.report && formik.touched.report && (
-                        <div className="invalid-feedback">
+                        <div className="text-danger mt-1">
                           {formik.errors.report}
                         </div>
                       )}
@@ -570,6 +570,7 @@ const ManageReports = (props) => {
                             className="form-label mt-4"
                           >
                             Start Date
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             type="date"
@@ -596,7 +597,7 @@ const ManageReports = (props) => {
                           ></input>
                           {formik.errors.start_date &&
                             formik.touched.start_date && (
-                              <div className="invalid-feedback">
+                              <div className="text-danger mt-1">
                                 {formik.errors.start_date}
                               </div>
                             )}
@@ -609,6 +610,7 @@ const ManageReports = (props) => {
                             className="form-label mt-4"
                           >
                             End Date
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             type="date"
@@ -635,7 +637,7 @@ const ManageReports = (props) => {
                           ></input>
                           {formik.errors.end_date &&
                             formik.touched.end_date && (
-                              <div className="invalid-feedback">
+                              <div className="text-danger mt-1">
                                 {formik.errors.end_date}
                               </div>
                             )}
@@ -654,6 +656,7 @@ const ManageReports = (props) => {
                           htmlFor="reportmonth"
                         >
                           Months
+                          <span className="text-danger">*</span>
                         </label>
                         <select
                           as="select"
@@ -666,12 +669,7 @@ const ManageReports = (props) => {
                           name="reportmonth"
                           onChange={(e) => {
                             const selectedmonth = e.target.value;
-
-                            formik.setFieldValue(
-                              "reportmonth",
-                              selectedmonth
-                            );
-
+                            formik.setFieldValue("reportmonth", selectedmonth);
                           }}
                           value={formik.values.reportmonth}
                         >
@@ -694,7 +692,7 @@ const ManageReports = (props) => {
 
                         {formik.errors.reportmonth &&
                           formik.touched.reportmonth && (
-                            <div className="invalid-feedback">
+                            <div className="text-danger mt-1">
                               {formik.errors.reportmonth}
                             </div>
                           )}
@@ -722,23 +720,6 @@ const ManageReports = (props) => {
                   <button type="submit" className="btn btn-primary mx-2">
                     Generate Report
                   </button>
-                  {/* {ShowButton ? (
-                    <button
-                      onClick={() => {
-                        window.open(
-                          process.env.REACT_APP_BASE_URL + ReportDownloadUrl,
-                          "_blank",
-                          "noopener noreferrer"
-                        );
-                      }}
-                      className="btn btn-danger me-2"
-                      type="button"
-                    >
-                    Download-report
-                    </button>
-                  ) : (
-                    ""
-                  )} */}
                 </Card.Footer>
               </form>
             </Card.Body>

@@ -630,9 +630,10 @@
 }
 
 .multi-select .dropdown-container {
-  border-color: $border !important;
-  border: 1px solid $white-2;
+  border-radius: unset !important;
+  border: 1px solid #d4d4d4 !important;
 }
+
 
 .input-group {
   .form-control {
