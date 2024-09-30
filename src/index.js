@@ -524,6 +524,7 @@ const DailyFacilityFees = React.lazy(() =>
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
 const Sitecardopening = React.lazy(() => import("./components/pages/ManageSite/SiteCardOpening"));
+const SiteCardAdjustment = React.lazy(() => import("./components/pages/ManageSite/SiteCardAdjustment"));
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
@@ -594,6 +595,7 @@ const Root = () => {
   const WrappeAddEditUser = withApi(EditUser);
   const WrappedAddSite = withApi(AddSite);
   const WrappedSitecardopening = withApi(Sitecardopening);
+  const WrappedSiteCardAdjustment = withApi(SiteCardAdjustment);
   const WrappeAddEditSite = withApi(EditSite);
   const WrappedManageCompany = withApi(ManageCompany);
   const WrappedAddCompany = withApi(AddCompany);
@@ -800,6 +802,10 @@ const Root = () => {
                   <Route
                     path={`site-card-opening/:id`}
                     element={<WrappedSitecardopening />}
+                  />
+                  <Route
+                    path={`site-card-adjustment/:id`}
+                    element={<WrappedSiteCardAdjustment />}
                   />
                   <Route
                     path={`/site-setting/:id`}

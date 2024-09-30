@@ -369,6 +369,19 @@ const ManageSite = (props) => {
                       </div>
                     </Dropdown.Item>
                   ) : null}
+                  {permissionsArray?.includes("site-card-adjustment-list") ? (
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    >
+                      <div
+                        onClick={() => navigate(`/site-card-adjustment/${row.id}`)}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="ph ph-folder-open me-2"></i>
+                          Card Adjustment
+                        </div>
+                      </div>
+                    </Dropdown.Item>
+                  ) : null}
                   {permissionsArray?.includes("site-fuel-grade-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"

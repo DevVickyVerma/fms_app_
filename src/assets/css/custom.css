@@ -1907,3 +1907,7 @@ td.middayModal-td.time-input-fuel-sell {
   justify-content: center;
   align-items: center;
 }
+
+.react-datepicker__triangle {
+  left: 112px !important;
+}

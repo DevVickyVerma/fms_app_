@@ -287,30 +287,32 @@ const NewFilterTab = ({
 
                                 {showDateRangeInput && (
                                     <Col lg={lg || 6}>
-                                        <label htmlFor="date-range">Date Range</label>
-                                        <DatePicker
-                                            id="date-range"
-                                            selected={formik.values.range_start_date ? new Date(formik.values.range_start_date) : null}
-                                            onChange={handleDateChange}
-                                            startDate={formik.values.range_start_date ? new Date(formik.values.range_start_date) : null}
-                                            endDate={formik.values.range_end_date ? new Date(formik.values.range_end_date) : null}
-                                            selectsRange
-                                            isClearable={true}
-                                            placeholderText='Select Date Range'
-                                            dateFormat="yyyy-MM-dd"
-                                            autoComplete="off"
-                                            className="input101 form-input"
-                                        />
-                                        {formik.errors.range_start_date && formik.touched.range_start_date && (
-                                            <div className="text-danger mt-1">
-                                                {formik.errors.range_start_date}
-                                            </div>
-                                        )}
-                                        {formik.errors.range_end_date && formik.touched.range_end_date && (
-                                            <div className="text-danger mt-1">
-                                                {formik.errors.range_end_date}
-                                            </div>
-                                        )}
+                                        <div className='form-group '>
+                                            <label htmlFor="date-range">Date Range</label>
+                                            <DatePicker
+                                                id="date-range"
+                                                selected={formik.values.range_start_date ? new Date(formik.values.range_start_date) : null}
+                                                onChange={handleDateChange}
+                                                startDate={formik.values.range_start_date ? new Date(formik.values.range_start_date) : null}
+                                                endDate={formik.values.range_end_date ? new Date(formik.values.range_end_date) : null}
+                                                selectsRange
+                                                isClearable={true}
+                                                placeholderText='Select Date Range'
+                                                dateFormat="yyyy-MM-dd"
+                                                autoComplete="off"
+                                                className="input101 form-input"
+                                            />
+                                            {formik.errors.range_start_date && formik.touched.range_start_date && (
+                                                <div className="text-danger mt-1">
+                                                    {formik.errors.range_start_date}
+                                                </div>
+                                            )}
+                                            {formik.errors.range_end_date && formik.touched.range_end_date && (
+                                                <div className="text-danger mt-1">
+                                                    {formik.errors.range_end_date}
+                                                </div>
+                                            )}
+                                        </div>
                                     </Col>
                                 )}
 

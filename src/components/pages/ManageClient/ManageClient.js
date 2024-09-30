@@ -56,11 +56,6 @@ const ManageClient = (props) => {
     handleFetchData()
   }
 
-
-
-
-
-
   useEffect(() => {
     handleFetchData();
     console.clear();
