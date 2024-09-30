@@ -99,6 +99,7 @@ const DashSubChildBaseAPIS = (props) => {
           setDashboardSiteDetailsLoading(false);
         } else {
           setDashboardSiteDetailsLoading(false);
+          
           throw new Error("No data available in the response");
         }
       } catch (error) {

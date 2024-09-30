@@ -43,9 +43,9 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
   };
   return (
     <div>
-  
 
-      <Card>
+
+      <>
         <Card.Header>
           <Card.Title as="h3" className="gap-3 d-flex flex-wrap">
             {getSiteStats?.data?.dates?.map((tankDate, index) => (
@@ -288,7 +288,7 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
             ))}
           </Row>
         </Card.Body>
-      </Card>
+      </>
     </div>
   );
 };
