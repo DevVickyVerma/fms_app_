@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
