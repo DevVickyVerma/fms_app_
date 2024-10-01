@@ -12,7 +12,7 @@ const initialState = {
 
 const ErrorToast = (message) => {
   toast.error(message, {
-    position: toast.POSITION.TOP_RIGHT,
+    // position: toast.POSITION.TOP_RIGHT,
     hideProgressBar: true,
     transition: Slide,
     autoClose: 1000,

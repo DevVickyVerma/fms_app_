@@ -110,7 +110,7 @@ const UploadCompetitor = (props) => {
   const SuccessToast = (message) => {
     toast.success(message, {
       autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
+      // // position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
@@ -119,7 +119,7 @@ const UploadCompetitor = (props) => {
 
   const ErrorToast = (message) => {
     toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
+      // // position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
       autoClose: 1000,
