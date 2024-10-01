@@ -45,7 +45,11 @@ const DashBoardChild = (props) => {
   });
 
   const handleApplyFilters = (values) => {
-    callFetchFilterData(values)
+
+    if (userPermissions?.includes("dashboard-view")) {
+      callFetchFilterData(values)
+    }
+
     userPermissions?.includes("dashboard-site-stats") && (
       callTableData(values)
     )

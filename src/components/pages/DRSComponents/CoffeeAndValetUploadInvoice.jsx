@@ -124,7 +124,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
             formik.setFieldValue('uploadedFiles', []); // Clear formik field value
 
             // Navigate to the desired path after a successful upload
-            navigate(`/clients`);
+            // navigate(`/clients`);
         } catch (error) {
             handleError(error); // Handle error appropriately
         } finally {

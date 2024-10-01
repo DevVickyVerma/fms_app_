@@ -80,7 +80,9 @@ const Dashboard = (props) => {
       // Update the stored data with the new start_date
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
-    FetchFilterData(values);
+    if (permissionsArray?.includes("dashboard-view")) {
+      FetchFilterData(values);
+    }
   });
 
   const FetchFilterData = async (filters) => {

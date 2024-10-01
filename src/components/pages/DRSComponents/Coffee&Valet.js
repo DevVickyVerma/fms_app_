@@ -198,13 +198,11 @@ const CoffeeValet = (props) => {
       start_date,
       selectedRow: row,
     };
-
     setInvoiceCallData(allPropsData)
-
   }
 
   const columns = [
- 
+
     {
       name: "ITEM CATEGORY",
       selector: (row) => row.item_category,
@@ -663,7 +661,7 @@ const CoffeeValet = (props) => {
     const priceAmount = Number(formik?.values?.data?.[index]?.price);
     const comrate = Number(formik?.values?.data?.[index]?.com_rate);
     const formiktests = Number(formik?.values?.data?.[index]?.tests);
-  const formikadjust = Number(formik?.values?.data?.[index]?.adjust);
+    const formikadjust = Number(formik?.values?.data?.[index]?.adjust);
 
     if (
       !isNaN(closingAmount) &&

@@ -7,7 +7,6 @@ export const MENUITEMS = [
         icon: "house",
         type: "link",
         active: false,
-
         permission: "dashboard-view",
         visibility: false,
         title: "Dashboard",
