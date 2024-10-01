@@ -105,21 +105,19 @@ const DashSubChildShopSaleCenterModal = (props) => {
       centered
       className="custom-modal-width custom-modal-height"
     >
-      <div
-        className="modal-header"
-        style={{ color: "#fff", background: "#2D8BA8" }}
-      >
-        <h5 className="modal-title">{shopPerformanceData?.name}</h5>
-        <button
-          type="button"
-          className="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span onClick={handleCloseModal} style={{ cursor: "pointer" }}>
-            <AiOutlineClose color="#fff" />
+
+
+      <div className="modal-header">
+        <span className="ModalTitle d-flex justify-content-between w-100 p-0 fw-normal"  >
+          <span>
+            {shopPerformanceData?.name}
           </span>
-        </button>
+          <span onClick={handleCloseModal} >
+            <button className="close-button">
+              <i className="ph ph-x"></i>
+            </button>
+          </span>
+        </span>
       </div>
 
       <Modal.Body className="Disable2FA-modal">

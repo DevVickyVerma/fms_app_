@@ -560,25 +560,11 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-      // style={{ overflow: "auto" }}
       >
         <div
           className="modal-header"
-        // style={{ color: "#fff", background: "#2D8BA8" }}
         >
-          {/* <h5 className="modal-title"> Grades Date wise Reports   </h5>
-          <button
-            type="button"
-            className="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span onClick={handleCloseModal} style={{ cursor: "pointer" }}>
-              <AiOutlineClose color="#fff" />
-            </span>
-          </button> */}
-
-          <span className="ModalTitle d-flex justify-content-between w-100 p-2  fw-normal"  >
+          <span className="ModalTitle d-flex justify-content-between w-100 p-0  fw-normal"  >
             <span>
               Grades Date wise Reports
             </span>

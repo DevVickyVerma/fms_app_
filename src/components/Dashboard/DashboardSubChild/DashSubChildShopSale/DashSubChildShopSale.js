@@ -25,6 +25,8 @@ import withApi from "../../../../Utils/ApiHelper";
 import { useMyContext } from "../../../../Utils/MyContext";
 import { handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
 import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
+import { FaTimes } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DashSubChildShopSale = ({
   getData,
@@ -470,21 +472,19 @@ const DashSubChildShopSale = ({
         className="custom-modal-width custom-modal-height"
       // style={{ overflow: "auto" }}
       >
-        <div
-          className="modal-header"
-          style={{ color: "#fff", background: "#2D8BA8" }}
-        >
-          <h5 className="modal-title"> Grades Date wise Reports</h5>
-          <button
-            type="button"
-            className="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span onClick={handleCloseModal} style={{ cursor: "pointer" }}>
-              <AiOutlineClose color="#fff" />
+
+
+        <div className="modal-header">
+          <span className="ModalTitle d-flex justify-content-between w-100 p-0 fw-normal"  >
+            <span>
+              Shop Sales
             </span>
-          </button>
+            <span onClick={handleCloseModal} >
+              <button className="close-button">
+                <i className="ph ph-x"></i>
+              </button>
+            </span>
+          </span>
         </div>
 
         <Modal.Body className="Disable2FA-modal">

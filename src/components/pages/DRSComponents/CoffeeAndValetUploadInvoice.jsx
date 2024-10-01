@@ -144,10 +144,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
                 className="custom-modal-width custom-modal-height"
 
             >
-                <div
-                    className="modal-header"
-                // style={{ color: "#fff", background: "#2D8BA8" }}
-                >
+                <div className="modal-header">
 
                     <span className="ModalTitle d-flex justify-content-between w-100 p-2  fw-normal"  >
                         <span>

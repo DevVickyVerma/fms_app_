@@ -136,7 +136,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
-  }, []);
+  }, [permissionsArray?.includes("dashboard-view")]);
 
   const handleShowLive = () => {
     setShowLiveData((prevState) => !prevState); // Toggle the state
