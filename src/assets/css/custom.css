@@ -1937,3 +1937,11 @@ td.middayModal-td.time-input-fuel-sell {
     width: calc(100% - 25px) !important;
   }
 }
+
+.Toastify__toast-theme--colored.Toastify__toast--error {
+  background: #b52d2d !important;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background: #058308 !important;
+}
