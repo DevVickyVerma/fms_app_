@@ -1436,7 +1436,6 @@ const Root = () => {
                   path={`/custompages/errorpages/errorpage401`}
                   element={<Errorpage401 />}
                 />
-                <Route path={`/errorpage403`} element={<Errorpage403 />} />
                 <Route
                   path={`/custompages/errorpages/errorpage500`}
                   element={<Errorpage500 />}
@@ -1452,6 +1451,8 @@ const Root = () => {
                 />
                 <Route path="*" element={<Errorpage400 />} />
               </Route>
+
+              <Route path={`/errorpage403`} element={<Errorpage403 />} />
               <Route path="/login" element={<Login token={token} />} />
             </Routes>
           </Provider>

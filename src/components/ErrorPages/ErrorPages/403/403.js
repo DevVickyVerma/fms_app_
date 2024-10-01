@@ -1,6 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Errorpage403() {
+
+  const navigate = useNavigate()
+  const handleNavigate = () => {
+    localStorage.clear()
+    navigate('/login')
+  }
+
+
   return (
     <div className="error-bg">
       <div className="page">
@@ -21,6 +29,15 @@ export default function Errorpage403() {
 
                   <i className="fa fa-long-arrow-left"></i> Back to Home
                 </Link>
+                <div
+                  // to={`/dashboard/`}
+                  onClick={handleNavigate}
+                  className="btn btn-primary mt-5 ms-2 mb-5"
+                >
+                  {/* <i className="fa fa-long-arrow-left"></i> */}
+                  Back to Login Page
+                  <i className="ph ph-sign-in ms-1 login-403"></i>
+                </div>
               </div>
             </div>
           </div>
