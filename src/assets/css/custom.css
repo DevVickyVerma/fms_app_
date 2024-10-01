@@ -1916,3 +1916,24 @@ td.middayModal-td.time-input-fuel-sell {
   position: relative;
   top: 2px;
 }
+
+.Toastify__toast-container {
+  z-index: 9999 !important;
+  width: 100% !important;
+}
+
+.Toastify__toast-container {
+  width: calc(100% - 311px) !important;
+}
+
+@media screen and (max-width: 950px) {
+  .Toastify__toast-container {
+    width: calc(100% - 25px) !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Toastify__toast-container {
+    width: calc(100% - 25px) !important;
+  }
+}
