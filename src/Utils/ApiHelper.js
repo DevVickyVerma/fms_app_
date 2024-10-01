@@ -13,7 +13,7 @@ const withApi = (WrappedComponent) => {
     const SuccessToast = (message) => {
       toast.success(message, {
         autoClose: 2000,
-        position: toast.POSITION.TOP_CENTER,
+        // position: toast.POSITION.TOP_RIGHT,
         hideProgressBar: false,
         transition: Bounce,
         theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
@@ -21,7 +21,7 @@ const withApi = (WrappedComponent) => {
     };
     const ErrorToast = (message) => {
       toast.error(message, {
-        position: toast.POSITION.TOP_CENTER,
+        // position: toast.POSITION.TOP_RIGHT,
         hideProgressBar: false,
         transition: Bounce,
         autoClose: 2000,
@@ -121,7 +121,7 @@ const withApi = (WrappedComponent) => {
         setError(error);
         setIsLoading(false);
         throw error;        // Re-throw the error so the caller can handle it
-      }finally{
+      } finally {
         setIsLoading(false);
       }
     };
