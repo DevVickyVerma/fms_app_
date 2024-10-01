@@ -121,6 +121,8 @@ const withApi = (WrappedComponent) => {
         setError(error);
         setIsLoading(false);
         throw error;        // Re-throw the error so the caller can handle it
+      }finally{
+        setIsLoading(false);
       }
     };
 
