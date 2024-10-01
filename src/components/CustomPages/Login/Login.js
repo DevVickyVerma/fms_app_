@@ -64,7 +64,6 @@ export default function Login(props) {
   });
 
   const handleSubmit = async (values, resetForm) => {
-
     setLoading(true);
     const finalValues = {
       ...values, // include form values
@@ -81,7 +80,7 @@ export default function Login(props) {
       });
 
       const data = await response.json();
-      if (response.ok && data) {
+      if (response.ok && data) {      // Handle success
         localStorage.setItem("token", data?.data?.access_token);
         localStorage.setItem("superiorId", data?.data?.superiorId);
         localStorage.setItem("superiorRole", data?.data?.superiorRole);
@@ -89,53 +88,58 @@ export default function Login(props) {
         localStorage.setItem("auto_logout", data?.data?.auto_logout);
         localStorage.setItem("authToken", data?.data?.token);
 
-
-        if (data?.data?.is_verified === true) {
+        if (data?.data?.is_verified) {
           navigate(data?.data?.route);
         } else {
-          if (data?.data?.is_verified === false) {
-            // setAuthToken(data?.data?.token)
-            navigate("/validateOtp");
-          }
+          navigate("/validateOtp");
         }
         localStorage.setItem("justLoggedIn", true);
         SuccessAlert(data?.message);
-        setLoading(false);
       } else {
+        // Handle non-2xx responses
         if (data?.data?.show_captcha) {
           setLocalStorageData('capCheck', data?.data?.show_captcha);
           setshowCaptcha(data?.data?.show_captcha)
           setshowStillCaptcha(data?.data?.show_captcha)
           setshowStillCaptcha(true)
-
           if (recaptchaRef.current) {
             recaptchaRef.current.reset();
           }
           resetForm()
         }
-
         if (data?.data?.show_timer) {
-          setLocalStorageData('timer', data?.data?.show_timer);
+          setLocalStorageData("timer", data?.data?.show_timer);
           setshowTime(data?.data?.show_timer)
         }
         if (data?.data?.timer) {
-          localStorage.setItem('dynamicTime', data?.data?.timer);
-          setBackendTimer(data?.data?.timer)
+          localStorage.setItem("dynamicTime", data?.data?.timer);
+          setBackendTimer(data?.data?.timer);
         }
         ErrorAlert(data.message);
-        setLoading(false);
       }
+      setLoading(false);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        ErrorAlert("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
+      if (error.response) {
+        // Handle specific status codes if available
+        if (error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (error.response.status === 403) {
+          navigate("/errorpage403");
+        } else {
+          ErrorAlert(`Unexpected error: ${error.response.status}`);
+        }
+      } else if (error.message) {
+        // Handle unexpected errors without response structure (like network issues)
+        ErrorAlert(`Unexpected error: ${error.message}`);
       } else {
-        navigate("/under-construction");
-        ErrorAlert(error.message);
+        ErrorAlert("An unknown error occurred.");
       }
+      setLoading(false);
+      navigate("/under-construction");
+    } finally {
+      setLoading(false);
     }
     setLoading(false);
   };
