@@ -3,7 +3,7 @@ import { Bounce, toast } from "react-toastify";
 const SuccessAlert = (message) => {
     toast.success(message, {
         autoClose: 2000,
-        position: toast.POSITION.TOP_CENTER,
+        // position: toast.POSITION.TOP_CENTER,
         hideProgressBar: false,
         transition: Bounce,
         theme: "colored",
@@ -12,7 +12,7 @@ const SuccessAlert = (message) => {
 
 const ErrorAlert = (message) => {
     toast.error(message, {
-        position: toast.POSITION.TOP_CENTER,
+        // position: toast.POSITION.TOP_CENTER,
         hideProgressBar: false,
         transition: Bounce,
         autoClose: 2000,
