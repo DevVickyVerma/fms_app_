@@ -39,32 +39,6 @@ const ShopSales = (props) => {
       );
 
       const { data } = response;
-      // if (data) {
-      //   setData(data?.data ? data.data.charges : []);
-      //   setDeductionData(data?.data ? data.data.deductions : []);
-      //   setis_editable(data?.data ? data.data : {});
-
-      //   // Create an array of form values based on the response data
-      //   const formValues = data?.data?.charges
-      //     ? data.data.charges.map((item) => ({
-      //       id: item.id,
-      //       charge_value: item.charge_value,
-      //     }))
-      //     : [];
-
-      //   // Set the formik values using setFieldValue
-      //   formik.setFieldValue("data", formValues);
-
-      //   const deductionFormValues = data?.data?.deductions
-      //     ? data.data.deductions.map((item) => ({
-      //       id: item.id,
-      //       deduction_value: item.deduction_value,
-      //     }))
-      //     : [];
-
-      //   // Set the formik values for deductions using setFieldValue
-      //   formik.setFieldValue("deductions", deductionFormValues);
-      // }
 
       if (data) {
         setData(data?.data?.charges);
@@ -224,7 +198,7 @@ const ShopSales = (props) => {
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
+            <h6 className="mb-0 coffe-item-category fw-semibold">{row.charge_name}</h6>
           </div>
         </div>
       ),
@@ -324,7 +298,7 @@ const ShopSales = (props) => {
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
+            <h6 className="mb-0 coffe-item-category fw-semibold">{row.deduction_name}</h6>
           </div>
         </div>
       ),

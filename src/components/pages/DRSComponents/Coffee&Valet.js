@@ -210,7 +210,7 @@ const CoffeeValet = (props) => {
       width: editable?.is_adjustable ? "7%" : "14%",
       center: false,
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
+        <span className="text-muted  fw-semibold text-center coffe-item-category">
           {row.item_category !== undefined ? `${row.item_category}` : ""}
         </span>
       ),

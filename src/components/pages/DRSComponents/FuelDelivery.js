@@ -182,7 +182,7 @@ const FuelDelivery = (props) => {
       width: "15%",
       center: false,
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
+        <span className="text-muted coffe-item-category fw-semibold text-center">
           {row.fuel_name !== undefined
             ? `${row.tank_name}-${row.fuel_name}`
             : ""}

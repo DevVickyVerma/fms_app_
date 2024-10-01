@@ -1949,3 +1949,8 @@ td.middayModal-td.time-input-fuel-sell {
 .Toastify__toast {
   border-radius: 0px !important;
 }
+
+.coffe-item-category {
+  text-transform: capitalize;
+  font-size: 12px !important;
+}

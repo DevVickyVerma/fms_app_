@@ -152,7 +152,7 @@ const FuelSales = (props) => {
       width: "20%",
       center: false,
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
+        <span className="text-muted coffe-item-category fw-semibold text-center">
           {row.fuel_name !== undefined ? `${row.fuel_name}` : ""}
         </span>
       ),

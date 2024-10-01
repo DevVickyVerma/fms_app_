@@ -26,6 +26,8 @@ import SortIcon from "@mui/icons-material/Sort";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useMyContext } from "../../../Utils/MyContext";
 import { SuccessAlert } from "../../../Utils/ToastUtils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -562,9 +564,9 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
       >
         <div
           className="modal-header"
-          style={{ color: "#fff", background: "#2D8BA8" }}
+        // style={{ color: "#fff", background: "#2D8BA8" }}
         >
-          <h5 className="modal-title"> Grades Date wise Reports</h5>
+          {/* <h5 className="modal-title"> Grades Date wise Reports   </h5>
           <button
             type="button"
             className="close"
@@ -574,7 +576,18 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
             <span onClick={handleCloseModal} style={{ cursor: "pointer" }}>
               <AiOutlineClose color="#fff" />
             </span>
-          </button>
+          </button> */}
+
+          <span className="ModalTitle d-flex justify-content-between w-100 p-2  fw-normal"  >
+            <span>
+              Grades Date wise Reports
+            </span>
+            <span onClick={handleCloseModal} >
+              <button className="close-button">
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </span>
+          </span>
         </div>
 
         <Modal.Body className="Disable2FA-modal">

@@ -147,7 +147,7 @@ const Departmentshopsale = (props) => {
       width: editable?.is_adjustable ? "20%" : "25%",
       center: false,
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
+        <span className="text-muted coffe-item-category fw-semibold text-center">
           {row.category_name !== undefined ? `${row.category_name}` : ""}
         </span>
       ),

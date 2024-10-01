@@ -142,21 +142,14 @@ const CoffeeAndValetUploadInvoice = (props) => {
                 onHide={handleCloseModal}
                 centered
                 className="custom-modal-width custom-modal-height"
+
             >
                 <div
                     className="modal-header"
-                    style={{ color: "#fff", background: "#2D8BA8" }}
+                // style={{ color: "#fff", background: "#2D8BA8" }}
                 >
 
-
-                    <span
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "space-between",
-                        }}
-                    // className="ModalTitle"
-                    >
+                    <span className="ModalTitle d-flex justify-content-between w-100 p-2  fw-normal"  >
                         <span>
                             {formik?.values?.site_name} ({formik?.values?.item})
                         </span>

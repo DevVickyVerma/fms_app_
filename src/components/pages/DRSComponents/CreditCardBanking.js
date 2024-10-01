@@ -52,26 +52,6 @@ const CreditCardBanking = (props) => {
         );
 
         const { data } = response;
-        // if (data) {
-        //   setData(data.data.listing);
-        //   setis_editable(data.data);
-
-
-        //   // Create an array of form values based on the response data
-        //   const formValues = data.data.listing.map((item) => {
-        //     return {
-        //       id: item.id,
-        //       card_name: item.card_name,
-        //       koisk_value: item.koisk_value,
-        //       opt_value: item.opt_value,
-        //       account_value: item.account_value,
-        //       no_of_transactions: item.no_of_transactions,
-        //     };
-        //   });
-
-        //   // Set the formik values using setFieldValue
-        //   formik.setFieldValue("data", formValues);
-        // }
 
         if (data) {
           setData(data?.data?.listing);
@@ -173,7 +153,7 @@ const CreditCardBanking = (props) => {
       width: "20%",
       center: false,
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
+        <span className="text-muted coffe-item-category fw-semibold text-center">
           {row.card_name !== undefined ? `${row.card_name}` : ""}
         </span>
       ),
