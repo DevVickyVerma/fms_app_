@@ -1,5 +1,4 @@
 import { Card, Col, Modal, Row } from "react-bootstrap";
-import { AiOutlineClose } from "react-icons/ai";
 
 const CardGroupCenterModal = (props) => {
     const { showModal, setShowModal, detailApiData } = props;

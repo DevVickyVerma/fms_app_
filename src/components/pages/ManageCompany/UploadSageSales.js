@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { Card, Col, Modal, Row } from 'react-bootstrap';
-import { AiOutlineClose } from "react-icons/ai";
 import * as Yup from "yup";
 import Loaderimg from '../../../Utils/Loader';
 import { Slide, toast } from 'react-toastify';

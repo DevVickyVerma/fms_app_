@@ -11,12 +11,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 
 
 const CoffeeAndValetUploadInvoice = (props) => {
     const { showModal, setShowModal, invoiceCallData, getData, isLoading, postData, apidata } = props;
-    const navigate = useNavigate();
     const handleCloseModal = () => {
         setShowModal(false);
     };

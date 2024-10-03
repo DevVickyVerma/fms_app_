@@ -1,6 +1,5 @@
 import { Card, Col, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { AiOutlineClose } from "react-icons/ai";
 
 const DashSubChildShopSaleCenterModal = (props) => {
   const { showModal, setShowModal, shopPerformanceData } = props;

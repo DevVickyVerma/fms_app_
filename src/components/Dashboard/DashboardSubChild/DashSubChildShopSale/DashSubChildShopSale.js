@@ -16,7 +16,6 @@ import Loaderimg from "../../../../Utils/Loader";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import SortIcon from "@mui/icons-material/Sort";
 import moment from "moment";
-import { AiOutlineClose } from "react-icons/ai";
 import { format } from "date-fns";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
@@ -25,8 +24,6 @@ import withApi from "../../../../Utils/ApiHelper";
 import { useMyContext } from "../../../../Utils/MyContext";
 import { handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
 import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
-import { FaTimes } from "react-icons/fa";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DashSubChildShopSale = ({
   getData,

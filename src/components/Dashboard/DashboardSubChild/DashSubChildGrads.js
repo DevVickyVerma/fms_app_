@@ -16,7 +16,6 @@ import { BsFillFuelPumpFill } from "react-icons/bs";
 import Loaderimg from "../../../Utils/Loader";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import moment from "moment";
-import { AiOutlineClose } from "react-icons/ai";
 import { DateRangePicker } from "react-date-range";
 import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main css file
@@ -34,7 +33,6 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const { getGradsSiteDetails, setGradsGetSiteDetails, DashboardGradsLoading } =
     useMyContext();
-  // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
   const [gradsLoading, setGradsLoading] = useState(false);
   const [gridIndex, setGridIndex] = useState(0);
   const { id } = useParams();
