@@ -161,7 +161,6 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
 
 
 
-    console.log(formik?.values, "formik vlauesss");
 
     return (
         <>
