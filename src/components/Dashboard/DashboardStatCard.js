@@ -10,6 +10,11 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
   const [filters, setFilters] = useState();
 
   const FetchmannegerList = async (filters) => {
+
+    if (!filters?.client_id || !filters?.company_id || !filters?.site_id) {
+      setData(null);
+      return;
+    }
     try {
       const response = await getData(`/dashboard/get-live-margin?client_id=${filters?.client_id}&company_id=${filters.company_id}&site_id=${filters.site_id}`);
       if (response && response.data) {
@@ -25,11 +30,9 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
   useEffect(() => {
     if (filters?.site_id && filters?.client_id && filters.company_id) {
       FetchmannegerList(filters);
+    } else {
+      setData(null)
     }
-
-    // if (parentFilters) {
-    //   setFilters(parentFilters)
-    // }
   }, [filters?.site_id]);
 
   const request = [
@@ -121,9 +124,6 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
     setFilters(formik?.values)
   }, [formik?.values?.site_id])
 
-
-
-
   return (
 
     <>
@@ -182,7 +182,7 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
                         value={formik?.values?.site_id}
                         className="input101 form-input"
                       >
-                        <option key={""} >Please Select Site</option>
+                        <option key={""} value={''}>Please Select Site</option>
                         {formik?.values?.sites?.map((item) => (
                           <option key={item.id} value={item.id}>
                             {item.site_name}
@@ -207,7 +207,7 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font"><span className="l-sign">ℓ</span>  {data?.gross_volume}</h2>
+                          <h2 className="mb-0 number-font"><span className="l-sign">ℓ</span>  {data?.gross_volume || 0}</h2>
                           <p className="text-white mb-0">Gross Volume</p>
                         </div>
                         <div className="ms-auto">
@@ -225,7 +225,7 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font"> £  {data?.fuel_sales}</h2>
+                          <h2 className="mb-0 number-font"> £  {data?.fuel_sales || 0}</h2>
                           <p className="text-white mb-0">Fuel Sales</p>
                         </div>
                         <div className="ms-auto">
@@ -244,7 +244,7 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">£  {data?.gross_profit}</h2>
+                          <h2 className="mb-0 number-font">£  {data?.gross_profit || 0}</h2>
                           <p className="text-white mb-0">Gross Profit</p>
                         </div>
                         <div className="ms-auto">
@@ -281,7 +281,7 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">£  {data?.shop_sales}</h2>
+                          <h2 className="mb-0 number-font">£  {data?.shop_sales || 0}</h2>
                           <p className="text-white mb-0">Shop Sales</p>
                         </div>
                         <div className="ms-auto">
@@ -299,7 +299,7 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">£  {data?.shop_profit}</h2>
+                          <h2 className="mb-0 number-font">£  {data?.shop_profit || 0}</h2>
                           <p className="text-white mb-0">Shop Profit</p>
                         </div>
                         <div className="ms-auto">
