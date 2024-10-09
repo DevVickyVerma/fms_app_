@@ -1954,3 +1954,7 @@ td.middayModal-td.time-input-fuel-sell {
   text-transform: capitalize;
   font-size: 12px !important;
 }
+
+.react-datepicker-wrapper {
+  display: block !important;
+}

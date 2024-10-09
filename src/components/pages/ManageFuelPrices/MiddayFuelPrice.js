@@ -15,6 +15,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
             rows: [],
             head_array: [],
             update_tlm_price: false,
+            confirmation_required: false,
             pricedata: []
         },
         enableReinitialize: true,
@@ -68,6 +69,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                 columns: columns,
                 rows: [rows], // Make sure rows is an array with one object
                 update_tlm_price: data?.update_tlm_price,
+                confirmation_required: data?.confirmation_required,
                 notify_operator: data?.notify_operator,
                 head_array: data?.head_array,
                 pricedata: data
@@ -96,6 +98,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
             formData.append('site_id', prarmSiteID)
             if (formik?.values?.update_tlm_price == 1) {
                 formData.append('update_tlm_price', formik?.values?.update_tlm_price == 1 ? true : false);
+                formData.append('confirmation_required', formik?.values?.confirmation_required == 1 ? true : false);
             }
             if (formik?.values?.notify_operator) {
                 formData.append('notify_operator', formik?.values?.notify_operator);
@@ -158,6 +161,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
 
 
 
+    console.log(formik?.values, "formik vlauesss");
 
     return (
         <>
@@ -195,12 +199,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                             <tbody>
 
                                                 {formik?.values?.rows?.map((row, rowIndex) => (
-
-
                                                     <tr className="middayModal-tr" key={rowIndex}>
-
-
-
 
                                                         {formik?.values?.columns?.map((column, colIndex) => (
 
@@ -332,20 +331,38 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                             ) : null}
 
                                             {update_tlm_price == 1 ? (
-                                                <div className=' position-relative pointer'>
-                                                    <input
-                                                        type="checkbox"
-                                                        id="update_tlm_price"
-                                                        name="update_tlm_price"
-                                                        checked={formik?.values?.update_tlm_price === 1}
-                                                        onChange={(e) => {
-                                                            formik.setFieldValue('update_tlm_price', e.target.checked ? 1 : 0);
-                                                        }}
-                                                        className='mx-1 form-check-input form-check-input-updated pointer'
+                                                <>
+                                                    <div className=' position-relative pointer me-3'>
+                                                        <input
+                                                            type="checkbox"
+                                                            id="confirmation_required"
+                                                            name="confirmation_required"
+                                                            checked={formik?.values?.confirmation_required === 1}
+                                                            onChange={(e) => {
+                                                                formik.setFieldValue('confirmation_required', e.target.checked ? 1 : 0);
+                                                            }}
+                                                            className='mx-1 form-check-input form-check-input-updated pointer'
+                                                        />
+                                                        <label htmlFor="confirmation_required" className='p-0 m-0 pointer'>Confirmation Required From Site</label>
+                                                    </div>
 
-                                                    />
-                                                    <label htmlFor="update_tlm_price" className='p-0 m-0 pointer'>Update TLM Price</label>
-                                                </div>
+                                                    <div className=' position-relative pointer'>
+                                                        <input
+                                                            type="checkbox"
+                                                            id="update_tlm_price"
+                                                            name="update_tlm_price"
+                                                            checked={formik?.values?.update_tlm_price === 1}
+                                                            onChange={(e) => {
+                                                                formik.setFieldValue('update_tlm_price', e.target.checked ? 1 : 0);
+                                                            }}
+                                                            className='mx-1 form-check-input form-check-input-updated pointer'
+
+                                                        />
+                                                        <label htmlFor="update_tlm_price" className='p-0 m-0 pointer'>Update TLM Price</label>
+                                                    </div>
+
+
+                                                </>
                                             ) : null}
 
 
