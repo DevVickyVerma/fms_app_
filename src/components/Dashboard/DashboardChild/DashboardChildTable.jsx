@@ -46,11 +46,15 @@ const DashboardChildTable = (props) => {
 
 
   const handleFuelPriceLinkClick = (item) => {
+    // setting data for 3rd screen here with tha name of singleSiteData
+    const rowDataString = JSON.stringify(item);
+    localStorage.setItem("singleSiteData", rowDataString);
+
+
+    // handling state manage here
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
-    const rowDataString = JSON.stringify(item);
-    localStorage.setItem("singleSiteData", rowDataString);
 
     if (storedData && isSitePermissionAvailable) {
       let updatedStoredData = JSON.parse(storedData);
