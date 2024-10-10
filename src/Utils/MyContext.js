@@ -9,7 +9,7 @@ const MyContext = createContext();
 const MyProvider = ({ children }) => {
   const [contextClients, setcontextClients] = useState([]);
   const [setLoading] = useState(true);
-  const [ setError] = useState(null);
+  const [setError] = useState(null);
 
   useEffect(() => {
     const fetchClientList = async () => {
@@ -56,7 +56,7 @@ const MyProvider = ({ children }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(JSON.parse(
     localStorage.getItem("isTimerRunning")
   ));
-
+  const [showSmallLoader, setshowSmallLoader] = useState(false);
   // Value object to provide to consumers
   const value = {
     searchdata,
@@ -72,6 +72,7 @@ const MyProvider = ({ children }) => {
     timeLeft, setTimeLeft,
     contextClients, setcontextClients,
     isTimerRunning, setIsTimerRunning,
+    showSmallLoader, setshowSmallLoader
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;

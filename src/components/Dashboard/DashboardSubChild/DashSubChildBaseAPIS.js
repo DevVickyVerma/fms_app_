@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
@@ -17,6 +16,7 @@ const DashSubChildBaseAPIS = (props) => {
     setDashboardGradsLoading,
     setDashboardSiteDetailsLoading,
     setDashSubChildShopSaleLoading,
+    setshowSmallLoader,
   } = useMyContext();
 
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
@@ -25,9 +25,6 @@ const DashSubChildBaseAPIS = (props) => {
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [CompititorStats,] = useState("");
-
-
-
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -52,6 +49,7 @@ const DashSubChildBaseAPIS = (props) => {
 
     if (client_id && company_id) {
       try {
+        setshowSmallLoader(true)
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append('client_id', client_id);
         if (company_id) queryParams.append('company_id', company_id);
@@ -66,11 +64,11 @@ const DashSubChildBaseAPIS = (props) => {
             localStorage.setItem("SiteDetailsModalShow", "false");
           }
           setGetSiteStats(response?.data);
-        } else {
-          throw new Error("No data available in the response");
         }
       } catch (error) {
         handleError(error)
+      } finally {
+        setshowSmallLoader(false)
       }
     }
   };
@@ -99,7 +97,7 @@ const DashSubChildBaseAPIS = (props) => {
           setDashboardSiteDetailsLoading(false);
         } else {
           setDashboardSiteDetailsLoading(false);
-          
+
           throw new Error("No data available in the response");
         }
       } catch (error) {
@@ -139,13 +137,12 @@ const DashSubChildBaseAPIS = (props) => {
         if (response2 && response2.data) {
           setDashboardShopSaleData(response2?.data?.data);
           setDashSubChildShopSaleLoading(false);
-        } else {
-          setDashSubChildShopSaleLoading(false);
-          throw new Error("No data available in the response");
         }
       } catch (error) {
         setDashSubChildShopSaleLoading(false);
         handleError(error)
+      } finally {
+        setDashSubChildShopSaleLoading(false);
       }
     }
   };
@@ -164,13 +161,13 @@ const DashSubChildBaseAPIS = (props) => {
       if (response3 && response3.data) {
         setGradsGetSiteDetails(response3?.data?.data);
         setDashboardGradsLoading(false);
-      } else {
-        throw new Error("No data available in the response");
       }
       setDashboardGradsLoading(false);
     } catch (error) {
       setDashboardGradsLoading(false);
       handleError(error)
+    } finally {
+      setDashboardGradsLoading(false);
     }
   };
 

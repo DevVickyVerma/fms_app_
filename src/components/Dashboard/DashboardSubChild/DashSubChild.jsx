@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import {
   Chart as ChartJS,
@@ -30,47 +30,48 @@ const DashSubChild = ({
   getSiteStats,
   CompititorStats,
   setGetSiteStats,
-  statsID,
   getSiteDetails,
-  getData
+  getData,
 }) => {
-  const {
-    dashSubChildShopSaleLoading,
-    DashboardGradsLoading
-  } = useMyContext();
-
-  const [showLoader, setShowLoader] = useState(true);
-  const id = useParams();
+  const { dashSubChildShopSaleLoading, DashboardGradsLoading, showSmallLoader } = useMyContext();
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const { id: current_site_id } = useParams();
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowLoader(false);
-    }, 2000);
-
-    return () => clearTimeout(timeout);
-  }, []); // Empty dependency array ensures the effect runs only once on mount
-
-
-
-  const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
-    ? getSiteDetails.last_fuel_delivery_stats.last_day
-    : "";
-
-  const day = moment(dateStr).format("Do");
-  const MonthLastDelivery = moment(dateStr).format("MMM");
-
-  // single site Stacked Line Bar chart
-  const stackedLineBarDataForSite = getSiteDetails?.performance_reporting?.datasets;
-  const stackedLineBarLabelsForSite = getSiteDetails?.performance_reporting?.labels;
 
   const [modalOpen, setModalOpen] = useState(false);
-  const handleModalOpen = (item) => {
-    setModalOpen(true);
+  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(CompititorStats);
+
+
+  // Fetch competitor data when permissions are valid
+  const fetchCompetitorData = async () => {
+    if (userPermissions.includes("dashboard-site-stats") && current_site_id) {
+      try {
+        const response = await getData(`/site/competitor-price/stats?site_id=${current_site_id}`);
+        if (response?.data?.data) {
+          setGetCompetitorsPrice(response?.data?.data);
+        }
+      } catch (error) {
+        handleError(error); // Handle any error
+      }
+    }
   };
 
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
+
+  useEffect(() => {
+    fetchCompetitorData();
+  }, [current_site_id, userPermissions]);
+
+
+
+  // Memoizing stackedLineBar chart data to avoid unnecessary recalculations
+  const stackedLineBarDataForSite = useMemo(() => getSiteDetails?.performance_reporting?.datasets || [], [getSiteDetails]);
+  const stackedLineBarLabelsForSite = useMemo(() => getSiteDetails?.performance_reporting?.labels || [], [getSiteDetails]);
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+
+  const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day || "";
+  const day = moment(dateStr).format("Do");
+  const MonthLastDelivery = moment(dateStr).format("MMM");
 
   const colors = [
     { name: "About to Finish", color: "#e84118" },
@@ -79,31 +80,6 @@ const DashSubChild = ({
   ];
 
 
-  const alertStatus = getSiteStats?.data?.cash_tracker?.alert_status;
-  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(CompititorStats);
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-
-
-  const FetchCompititorData = async (selectedValues) => {
-    const isDashboardSiteStats = localStorage.getItem("Dashboardsitestats") === "true";
-    if (!isDashboardSiteStats || !current_site_id) return;
-
-    const url = `/site/competitor-price/stats?site_id=${current_site_id}`;
-    try {
-      const response = await getData(url);
-      if (response && response?.data && response?.data?.data) {
-        setGetCompetitorsPrice(response?.data?.data);
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
-
-  useEffect(() => {
-    userPermissions?.includes("dashboard-site-stats") &&
-      FetchCompititorData();
-  }, [id]);
 
 
   return (
@@ -111,81 +87,37 @@ const DashSubChild = ({
       <div className="page-header ">
         <div>
           <h1 className="page-title">
-            {getSiteStats?.data?.site_name || "DashBoard Site details"}{" "}({getSiteStats?.data?.dateString})
+            {getSiteStats?.data?.site_name || "Dashboard Site details"} ({getSiteStats?.data?.dateString})
           </h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard-details" }}
-            >
-              Details
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              {getSiteStats?.data?.site_name
-                ? getSiteStats?.data?.site_name
-                : "DashBoard Site details"}
-            </Breadcrumb.Item>
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard" }} >  Dashboard </Breadcrumb.Item>
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard-details" }}>Details</Breadcrumb.Item>
+            <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">{getSiteStats?.data?.site_name || "DashBoard Site details"}</Breadcrumb.Item>
           </Breadcrumb>
         </div>
 
-        <div className="Show-title">
-          <span>
-            {" "}
-            <OverlayTrigger
-              placement="top"
-              overlay={
-                <Tooltip
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  {" "}
-                  Opening Time :{" "}
-                  {getSiteStats?.data?.opening ? (
-                    moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm")
-                  ) : (
-                    <span className="Smallloader"></span>
-                  )}
-                  <br />
-                  Closing Time :{" "}
-                  {getSiteStats?.data?.closing ? (
-                    moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm")
-                  ) : (
-                    <span className="Smallloader"></span>
-                  )}
-                  <br />
-                </Tooltip>
-              }
-            >
-              <h1
-                className="page-title"
-                style={{ fontSize: "15px", fontWeight: "400" }}
-              >
-                Last Day End :{" "}
-                {getSiteStats?.data?.last_dayend ? (
-                  moment(getSiteStats?.data?.last_dayend).format("Do MMM")
-                ) : (
-                  <span className="Smallloader"></span>
-                )}{" "}
-                <i className="fa fa-info-circle" aria-hidden="true">
-                  {" "}
-                </i>
-              </h1>
-            </OverlayTrigger>
-          </span>
+        <div className="show-title">
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                Opening Time: {getSiteStats?.data?.opening ? moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm") : "--"}<br />
+                Closing Time: {getSiteStats?.data?.closing ? moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm") : "--"}<br />
+              </Tooltip>
+            }
+          >
+            <span className="pointer small-font-weight" >
+              Last Day End:
+              {showSmallLoader ? (
+                <span className="Smallloader"></span>
+              ) : (
+                <>
+                  {getSiteStats?.data?.last_dayend ? moment(getSiteStats?.data?.last_dayend).format("Do MMM") : null}
+                  <i className="fa fa-info-circle" aria-hidden="true"></i>
+                </>
+              )}
+            </span>
+          </OverlayTrigger>
         </div>
       </div>
 
@@ -200,7 +132,7 @@ const DashSubChild = ({
       )}
 
       <div className="mb-4">
-        {alertStatus === true ? (
+        {getSiteStats?.data?.cash_tracker?.alert_status === true && (
           <>
             <div
               style={{
@@ -243,8 +175,6 @@ const DashSubChild = ({
               </span>
             </div>
           </>
-        ) : (
-          ""
         )}
 
         {/* Header section*/}
@@ -253,22 +183,18 @@ const DashSubChild = ({
 
           <div class="d-flex justify-content-between align-items-center flex-wrap bg-white text-black mb-5 py-3 px-3 primary-shadow gap-1">
             <div className=" d-flex align-items-center">
-              <div className="">
-                {getSiteStats?.data?.site_image ? (
+              {showSmallLoader ? (<span className="Smallloader"></span>) : <>
+                <div className="">
                   <img
-                    src={getSiteStats?.data?.site_image}
-                    alt={getSiteStats?.data?.site_image}
+                    src={getSiteStats?.data?.site_image || null}
+                    alt={getSiteStats?.data?.site_image || ""}
                     style={{ width: "50px", height: "50px" }}
                   />
-                ) : (
-                  <span className="Smallloader"></span>
-                )}
-              </div>
-              <div>
-                <span class="fs-5 fw-light ms-2">
-                  {getSiteStats?.data?.site_name || ""}
-                </span>
-              </div>
+                </div>
+                <div>
+                  <span class="fs-5 fw-light ms-2">{getSiteStats?.data?.site_name || ""}</span>
+                </div>
+              </>}
             </div>
 
 
@@ -282,11 +208,11 @@ const DashSubChild = ({
                       placement="top"
                       overlay={
                         <Tooltip className="d-flex align-items-start justify-content-start">
-                          Security Amount: {getSiteStats?.data?.cash_tracker?.security_amount}
+                          Security Amount: {getSiteStats?.data?.cash_tracker?.security_amount || "--"}
                           <br />
-                          Loomis Day: {getSiteStats?.data?.cash_tracker?.last_loomis_day}
+                          Loomis Day: {getSiteStats?.data?.cash_tracker?.last_loomis_day || "--"}
                           <br />
-                          Loomis Date: {getSiteStats?.data?.cash_tracker?.last_loomis_date}
+                          Loomis Date: {getSiteStats?.data?.cash_tracker?.last_loomis_date || "--"}
                           <br />
                         </Tooltip>
                       }
@@ -306,11 +232,7 @@ const DashSubChild = ({
                         backgroundColor: "rgb(25, 122, 66)",
                       }}
                     >
-                      {getSiteStats?.data?.cash_tracker?.cash_amount ? (
-                        getSiteStats.data.cash_tracker.cash_amount
-                      ) : (
-                        <span className="Smallloader"></span>
-                      )}
+                      {showSmallLoader ? (<span className="Smallloader"></span>) : (getSiteStats?.data.cash_tracker?.cash_amount || "--")}
                     </div>
                   </div>
                 </div>
@@ -378,8 +300,8 @@ const DashSubChild = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  {showLoader && <span className="Smallloader"></span>}
-                  {!showLoader && moment(day, "DD").isValid() && day}
+                  {showSmallLoader && <span className="Smallloader"></span>}
+                  {!showSmallLoader && moment(day, "DD").isValid() && day}
                 </Typography>
               </Typography>
               <Box variant="body1">
@@ -469,7 +391,6 @@ const DashSubChild = ({
         </Row>
       </> :
         <>
-
           {/* new Shop sale */}
           <DashSubChildShopSale
             getSiteDetails={getSiteDetails}
@@ -481,12 +402,7 @@ const DashSubChild = ({
 
 
       {/* tank analysis */}
-      <Row
-        style={{
-          marginBottom: "10px",
-          marginTop: "20px",
-        }}
-      >
+      <Row className="my-4">
         <Col lg={12} md={12}>
           <>
             <Card>
@@ -510,7 +426,7 @@ const DashSubChild = ({
                                     backgroundColor: color?.color,
                                   }}
                                 ></div>
-                                <span className=" text-white ms-2" >   {color?.name}  </span>
+                                <span className=" text-white ms-2">{color?.name}</span>
                               </div>
                             ))}
                           </div>
@@ -563,12 +479,7 @@ const DashSubChild = ({
       </Col>
 
 
-      <Row
-        style={{
-          marginBottom: "10px",
-          marginTop: "20px",
-        }}
-      >
+      <Row className="my-4">
         <Col lg={12} md={12}>
           <Card>
             <Card.Header className="card-header">
