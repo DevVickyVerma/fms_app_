@@ -452,7 +452,6 @@ const ManageDsr = (props) => {
                         ))
                       ) : (
                         <>
-                          <p>Please select site first......</p>
                           <img
                             src={require("../../../assets/images/commonimages/no_data.png")}
                             alt="MyChartImage"
@@ -554,7 +553,6 @@ const ManageDsr = (props) => {
                     ))
                   ) : (
                     <>
-                      <p>Please select site first......</p>
                       <img
                         src={require("../../../assets/images/commonimages/no_data.png")}
                         alt="MyChartImage"

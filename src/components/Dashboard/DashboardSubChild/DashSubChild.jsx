@@ -266,7 +266,7 @@ const DashSubChild = ({
               </div>
               <div>
                 <span class="fs-5 fw-light ms-2">
-                  {getSiteStats?.data?.site_name || "No Site Name Found"}
+                  {getSiteStats?.data?.site_name || ""}
                 </span>
               </div>
             </div>

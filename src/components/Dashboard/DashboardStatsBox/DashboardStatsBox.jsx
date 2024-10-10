@@ -95,7 +95,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       <span className="l-sign">ℓ</span> {GrossVolume?.gross_volume
                         ? formatNumber(GrossVolume?.gross_volume)
-                        : ""}
+                        : "0"}
                     </h2>
                     <p className="boxtitle">Gross Volume</p>
                   </div>
@@ -107,7 +107,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       <span className="l-sign">ℓ</span>  {GrossVolume?.bunkered_volume
                         ? formatNumber(GrossVolume?.bunkered_volume)
-                        : ""}
+                        : "0"}
                     </h2>
                     <p className="boxtitle">Bunkered Volume</p>
                   </div>
@@ -175,7 +175,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       £ {FuelValue?.gross_value
                         ? formatNumber(FuelValue?.gross_value)
-                        : ""}
+                        : "0"}
 
                     </h2>
                     <p className="boxtitle">Fuel Sales (Ex. Vat)</p>
@@ -188,7 +188,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       £  {FuelValue?.bunkered_value
                         ? formatNumber(FuelValue?.bunkered_value)
-                        : ""}
+                        : "0"}
                     </h2>
                     <p className="boxtitle">Bunkered Sales</p>
                   </div>
@@ -257,7 +257,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       £ {GrossProfitValue?.gross_profit
                         ? formatNumber(GrossProfitValue?.gross_profit)
-                        : ""}
+                        : "0"}
                     </h2>
                     <p className="boxtitle">Gross Profit
                       <span className="ms-1">
@@ -338,7 +338,7 @@ const DashboardStatsBox = (props) => {
 
                       {GrossMarginValue?.gross_margin
                         ? formatNumber(GrossMarginValue?.gross_margin)
-                        : ""} ppl{" "}
+                        : "0"} ppl{" "}
                       {GrossMarginValue?.is_ppl == 1 ? (
                         <OverlayTrigger
                           placement="top"
@@ -411,7 +411,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       £  {shopsale?.shop_sales
                         ? formatNumber(shopsale?.shop_sales)
-                        : ""}
+                        : "0"}
 
 
                     </h2>
@@ -482,7 +482,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       £  {shop_fees?.shop_fee
                         ? formatNumber(shop_fees?.shop_fee)
-                        : ""}
+                        : "0"}
                     </h2>
                     <p className="boxtitle">Shop Fee </p>
                   </div>
@@ -551,7 +551,7 @@ const DashboardStatsBox = (props) => {
                       {" "}
                       £  {shopmargin?.shop_profit
                         ? formatNumber(shopmargin?.shop_profit)
-                        : ""}
+                        : "0"}
                     </h2>
                     <p className="boxtitle">Shop Profit
 

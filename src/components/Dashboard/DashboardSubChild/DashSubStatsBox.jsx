@@ -54,7 +54,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     <span className="l-sign">ℓ</span>  {singleSiteFuelVolume?.gross_volume
                       ? formatNumber(singleSiteFuelVolume?.gross_volume)
-                      : ""}
+                      : "0"}
                   </h2>
                   <p className="boxtitle">Fuel Volume</p>
                 </div>
@@ -66,7 +66,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     <span className="l-sign">ℓ</span> {singleSiteFuelVolume?.bunkered_volume
                       ? formatNumber(singleSiteFuelVolume?.bunkered_volume)
-                      : ""}
+                      : "0"}
                   </h2>
                   <p className="boxtitle">Bunkered Volume</p>
                 </div>
@@ -134,7 +134,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     £ {singleSiteFuelSales?.gross_value
                       ? formatNumber(singleSiteFuelSales?.gross_value)
-                      : ""}
+                      : "0"}
                   </h2>
                   <p className="boxtitle">Fuel Sales</p>
                 </div>
@@ -146,7 +146,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     £ {singleSiteFuelSales?.bunkered_value
                       ? formatNumber(singleSiteFuelSales?.bunkered_value)
-                      : ""}
+                      : "0"}
                   </h2>
                   <p className="boxtitle">Bunkered Sales</p>
                 </div>
@@ -215,7 +215,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     £ {singleSiteGrossProfit?.gross_profit
                       ? formatNumber(singleSiteGrossProfit?.gross_profit)
-                      : ""}
+                      : "0"}
                   </h2>
                   <p className="boxtitle">Gross Profit
 
@@ -296,7 +296,7 @@ const DashSubStatsBox = (props) => {
 
                     {singleSiteGrossMargin?.gross_margin
                       ? formatNumber(singleSiteGrossMargin?.gross_margin)
-                      : ""} ppl{" "}
+                      : "0"} ppl{" "}
                     {singleSiteGrossMargin?.is_ppl == 1 ? (
                       <OverlayTrigger
                         placement="top"
@@ -370,7 +370,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     £ {singleSiteShopSale?.shop_sales
                       ? formatNumber(singleSiteShopSale?.shop_sales)
-                      : ""}
+                      : "0"}
                   </h2>
                   <p className="boxtitle">Shop Sales</p>
                 </div>
@@ -439,7 +439,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     £ {singleSiteShopFee?.shop_fee
                       ? formatNumber(singleSiteShopFee?.shop_fee)
-                      : ""}
+                      : "0"}
 
                   </h2>
                   <p className="boxtitle">Shop Fee
@@ -510,7 +510,7 @@ const DashSubStatsBox = (props) => {
                     {" "}
                     £ {singleSiteShopMargin?.shop_profit
                       ? formatNumber(singleSiteShopMargin?.shop_profit)
-                      : ""}
+                      : "0"}
 
                   </h2>
                   <p className="boxtitle">Shop Profit

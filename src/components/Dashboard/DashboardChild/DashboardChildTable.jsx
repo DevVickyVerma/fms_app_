@@ -137,7 +137,7 @@ const DashboardChildTable = (props) => {
                     <h6 className="mb-0 fs-14 fw-semibold ">
                       <span className="l-sign">ℓ</span>  {item.fuel_volume?.gross_volume
                         ? formatNumber(item.fuel_volume?.gross_volume)
-                        : ""}
+                        : "0"}
                     </h6>
 
                     <p
@@ -174,7 +174,7 @@ const DashboardChildTable = (props) => {
                     <h6 className="mb-0 fs-14 fw-semibold">
                       £ {item?.fuel_sales?.gross_value
                         ? formatNumber(item?.fuel_sales?.gross_value)
-                        : ""}
+                        : "0"}
                     </h6>
                     <p
                       className={`me-1 ${item?.fuel_sales?.status === "up"
@@ -210,7 +210,7 @@ const DashboardChildTable = (props) => {
                     <h6 className="mb-0 fs-14 fw-semibold">
                       £ {item?.gross_profit?.gross_profit
                         ? formatNumber(item?.gross_profit?.gross_profit)
-                        : ""}
+                        : "0"}
                     </h6>
                     <p
                       className={`me-1 ${item?.gross_profit?.status === "up"
@@ -246,7 +246,7 @@ const DashboardChildTable = (props) => {
                     <h6 className="mb-0 fs-14 fw-semibold">
                       {item?.gross_margin?.gross_margin
                         ? formatNumber(item?.gross_margin?.gross_margin)
-                        : ""}
+                        : "0"}
 
                       ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
                         <OverlayTrigger
@@ -300,7 +300,7 @@ const DashboardChildTable = (props) => {
                       {/* {item?.shop_sales?.shop_sales} */}
                       {item?.shop_sales?.shop_sales
                         ? formatNumber(item?.shop_sales?.shop_sales)
-                        : ""}
+                        : "0"}
 
                     </h6>
                     <p
@@ -337,7 +337,7 @@ const DashboardChildTable = (props) => {
                       £
                       {item?.shop_fees?.shop_fee
                         ? formatNumber(item?.shop_fees?.shop_fee)
-                        : ""}
+                        : "0"}
 
                       {/* {item?.shop_fees?.shop_fees || "0.00"} */}
                     </h6>
@@ -375,7 +375,7 @@ const DashboardChildTable = (props) => {
                       £
                       {item?.shop_profit?.shop_profit
                         ? formatNumber(item?.shop_profit?.shop_profit)
-                        : ""}
+                        : "0"}
 
                       {/* {item?.shop_profit?.shop_profit || "0.00"} */}
                     </h6>
@@ -617,7 +617,6 @@ const DashboardChildTable = (props) => {
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
                     £ {item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : 0.0}
-                    {/* {item?.shop_profit?.shop_profit || 0.0} */}
                   </h6>
                   <p
                     className={`me-1 ${item?.shop_profit?.status === "up"
