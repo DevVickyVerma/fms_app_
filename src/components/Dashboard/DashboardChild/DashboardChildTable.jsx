@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect, useState } from 'react';
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
@@ -8,26 +7,16 @@ import { useSelector } from "react-redux";
 
 const DashboardChildTable = (props) => {
   const { isLoading, data } = props;
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-    console.clear()
-  }, [UserPermissions]);
-
-  const isSitePermissionAvailable = permissionsArray?.includes("dashboard-site-detail");
+  const isSitePermissionAvailable = UserPermissions?.includes("dashboard-site-detail");
 
 
   function handleSaveSingleSiteData(row) {
     const rowDataString = JSON.stringify(row);
     localStorage.setItem("singleSiteData", rowDataString);
   }
-
 
   const formatNumber = (num) => {
     if (num >= 1000000) {
@@ -60,7 +49,10 @@ const DashboardChildTable = (props) => {
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
-    if (storedData) {
+    const rowDataString = JSON.stringify(item);
+    localStorage.setItem("singleSiteData", rowDataString);
+
+    if (storedData && isSitePermissionAvailable) {
       let updatedStoredData = JSON.parse(storedData);
 
       updatedStoredData.site_id = item?.id; // Update the site_id here
@@ -88,7 +80,7 @@ const DashboardChildTable = (props) => {
               </div>
             </div> */}
             <tr
-              className={`fuelprice-tr p-0 pointer`}
+              className={`fuelprice-tr p-0  ${isSitePermissionAvailable ? 'pointer' : ''}`}
               key={item.id}
               onClick={() => handleFuelPriceLinkClick(item)}
             >
@@ -421,7 +413,9 @@ const DashboardChildTable = (props) => {
                   />
                 </div>
                 {isSitePermissionAvailable ? (
-                  <div onClick={() => handleSaveSingleSiteData(item)}>
+                  <div
+                  // onClick={() => handleSaveSingleSiteData(item)}
+                  >
                     <Link to={`/dashboard-details/${item?.id}`}>
                       <div className="d-flex">
                         <div className="ms-2 mt-0 mt-sm-2 d-block">
