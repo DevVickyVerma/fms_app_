@@ -125,6 +125,8 @@ const UpdateFuelPrices = (props) => {
         }
     }, [storedKeyName, paramSite_id]);
 
+
+
     const handleApplyFilters = (values) => {
         navigate(`/update-fuel-price/${values?.site_id}`);
         if (values?.start_date) {
@@ -153,6 +155,8 @@ const UpdateFuelPrices = (props) => {
             }
         }
     };
+
+    
     const myRef = useRef();  // This is valid inside functional components
 
     useEffect(() => {
