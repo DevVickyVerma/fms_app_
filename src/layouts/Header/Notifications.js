@@ -196,12 +196,9 @@ const Notification = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
-                        highlightOnHover
                         searchable={false}
                       />
                     </div>
@@ -230,7 +227,7 @@ const Notification = (props) => {
       </Row>
 
       <Modal show={isModalOpen} onHide={closeModal}>
-        <Modal.Header closeButton>{Modalmessage}</Modal.Header>
+        <Modal.Header closeButton={true}>{Modalmessage}</Modal.Header>
         <Modal.Body dangerouslySetInnerHTML={{ __html: modalContent }} />
         <Modal.Footer>
           <Button

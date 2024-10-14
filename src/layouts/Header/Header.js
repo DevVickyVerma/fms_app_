@@ -81,14 +81,14 @@ const Header = (props) => {
 
   return (
     <Navbar expand="md" className="app-header header sticky">
-      <Container fluid className="main-container">
+      <Container fluid={true} className="main-container">
         <div className="d-flex align-items-center">
           <Link
             aria-label="Hide Sidebar"
             className="app-sidebar__toggle"
             to="#"
             onClick={() => openCloseSidebar()}
-          ></Link>
+          />
           <div className="responsive-logo">
             <Link to={`/dashboard/`} className="header-logo">
               <img
@@ -134,7 +134,7 @@ const Header = (props) => {
                           {reduxData?.first_name ? reduxData?.first_name : " Admin"}
                         </span>
                       </h5>
-                      <i className="ph ph-caret-circle-down ms-2"></i>
+                      <i className="ph ph-caret-circle-down ms-2" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu
                       className="dropdown-menu-end dropdown-menu-arrow"
@@ -147,28 +147,28 @@ const Header = (props) => {
                           </h5>
                         </div>
                       </div>
-                      <div className="dropdown-divider m-0"></div>
+                      <div className="dropdown-divider m-0" />
                       {localStorage.getItem("superiorRole") == "Client" ? (
                         <Dropdown.Item as={Link} to="/manage-sms">
-                          <i className="dropdown-icon ph ph-chat-text"></i> MY SMS <span className="mybalance">{mybalance !== undefined ? mybalance : ""}</span>
+                          <i className="dropdown-icon ph ph-chat-text" /> MY SMS <span className="mybalance">{mybalance !== undefined ? mybalance : ""}</span>
                         </Dropdown.Item>
                       ) : null}
                       {isProfileUpdatePermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/editprofile">
-                          <i className="dropdown-icon ph ph-user"></i> Edit
+                          <i className="dropdown-icon ph ph-user" /> Edit
                           Profile
                         </Dropdown.Item>
                       ) : null}
                     
                       {isSettingsPermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/settings">
-                          <i className="dropdown-icon ph ph-gear"></i>
+                          <i className="dropdown-icon ph ph-gear" />
                           Settings
                         </Dropdown.Item>
                       ) : null}
 
                       <Dropdown.Item onClick={logout}>
-                        <i className="dropdown-icon ph ph-sign-out"></i>
+                        <i className="dropdown-icon ph ph-sign-out" />
                         Sign out
                       </Dropdown.Item>
                     </Dropdown.Menu>
