@@ -1958,3 +1958,8 @@ td.middayModal-td.time-input-fuel-sell {
 .react-datepicker-wrapper {
   display: block !important;
 }
+
+.white-background {
+  background-color: #fff;
+  color: #ddd;
+}

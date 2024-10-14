@@ -1,8 +1,8 @@
-import React from "react";
 import { useEffect, useState } from 'react';
-import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import DashCommonCard from "../DashCommonCard";
 
 const DashboardStatsBox = (props) => {
   const {
@@ -65,558 +65,132 @@ const DashboardStatsBox = (props) => {
 
 
 
-  const formatNumber = (num) => {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'm';
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'k';
-    } else {
-      return num;
-    }
-  };
-
 
   return (
     <div>
       {GrossVolume ? (
         <Row>
-          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-1 img-card box-primary-shadow`}
-            >
-              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
-                <div className="d-flex justify-content-between">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      <span className="l-sign">ℓ</span> {GrossVolume?.gross_volume
-                        ? formatNumber(GrossVolume?.gross_volume)
-                        : "0"}
-                    </h2>
-                    <p className="boxtitle">Gross Volume</p>
-                  </div>
-                  <div className="text-white " >
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      <span className="l-sign">ℓ</span>  {GrossVolume?.bunkered_volume
-                        ? formatNumber(GrossVolume?.bunkered_volume)
-                        : "0"}
-                    </h2>
-                    <p className="boxtitle">Bunkered Volume</p>
-                  </div>
-                  <div className="">
-                    <div
-                      className="counter-icon  brround  ms-auto"
 
-                      style={{ background: "#fff", color: "#ddd" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign  "
-                          style={{ color: "#000" }}
-                        >
-                          <span className="l-sign">ℓ</span>
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shopmargin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${GrossVolume?.percentage}%`}
-                  >
-                    {GrossVolume?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="white-text">
-                          {GrossVolume?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="white-text">
-                          {GrossVolume?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-3 img-card box-danger-shadow`}
-            >
-              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
-                <div className="d-flex justify-content-between">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £ {FuelValue?.gross_value
-                        ? formatNumber(FuelValue?.gross_value)
-                        : "0"}
+          <DashCommonCard
+            isParentComponent={parentComponent}
+            showRightSide={true}
+            leftSideData={GrossVolume?.gross_volume}
+            leftSideTitle={'Gross Volume'}
+            RightSideData={GrossVolume?.bunkered_volume}
+            RightSideTitle={'Bunkered Volume'}
+            statusValue={GrossVolume?.status}
+            percentageValue={GrossVolume?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            icon={"ℓ"}
+            containerStyle={'dash-plates-1'}
+          // tooltipContent={'dash-plates-1'}
+          // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+          />
 
-                    </h2>
-                    <p className="boxtitle">Fuel Sales (Ex. Vat)</p>
-                  </div>
-                  <div className="text-white" >
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £  {FuelValue?.bunkered_value
-                        ? formatNumber(FuelValue?.bunkered_value)
-                        : "0"}
-                    </h2>
-                    <p className="boxtitle">Bunkered Sales</p>
-                  </div>
+          <DashCommonCard
+            isParentComponent={parentComponent}
+            showRightSide={true}
+            leftSideData={FuelValue?.gross_value}
+            leftSideTitle={'Fuel Sales (Ex. Vat)'}
+            RightSideData={FuelValue?.bunkered_value}
+            RightSideTitle={'Bunkered Sales'}
+            statusValue={FuelValue?.status}
+            percentageValue={FuelValue?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            icon={"£"}
+            containerStyle={'dash-plates-3 '}
+          // tooltipContent={'dash-plates-1'}
+          // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+          />
 
-                  <div className="">
-                    <div
-                      className="counter-icon  brround  ms-auto"
-
-                      style={{ background: "#fff", color: "#ddd" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign  "
-                          style={{ color: "#000" }}
-                        >
-                          £
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shopmargin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${FuelValue?.percentage}%`}
-                  >
-                    {FuelValue?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="white-text">
-                          {FuelValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="white-text">
-                          {FuelValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-5 img-card box-success-shadow`}
-            >
-              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
-                <div className="d-flex ">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £ {GrossProfitValue?.gross_profit
-                        ? formatNumber(GrossProfitValue?.gross_profit)
-                        : "0"}
-                    </h2>
-                    <p className="boxtitle">Gross Profit
-                      <span className="ms-1">
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip>{`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}</Tooltip>
-                          }
-                        >
-                          <i className="fa fa-info-circle" aria-hidden="true"></i>
-                        </OverlayTrigger>
-                      </span>
-
-                    </p>
-                  </div>
-
-                  <div className="ms-auto">
-                    <div
-                      className="counter-icon  brround  ms-auto"
-                      style={{ fontSize: "18px" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign "
-                          style={{ color: "#000" }}
-                        >
-                          &#163;
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shopmargin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${GrossProfitValue?.percentage}%`}
-                  >
-                    {GrossProfitValue?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="white-text">
-                          {GrossProfitValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="white-text">
-                          {GrossProfitValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-2 img-card box-info-shadow`}
-            >
-              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-
-                      {GrossMarginValue?.gross_margin
-                        ? formatNumber(GrossMarginValue?.gross_margin)
-                        : "0"} ppl{" "}
-                      {GrossMarginValue?.is_ppl == 1 ? (
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip>{`${GrossMarginValue?.ppl_msg}%`}</Tooltip>
-                          }
-                        >
-                          <i className="fa fa-info-circle" aria-hidden="true"></i>
-                        </OverlayTrigger>
-                      ) : (
-                        ""
-                      )}
-                    </h2>
-                    <p className="boxtitle">Gross Margin
-
-                      <span className="ms-1">
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip>{`Gross Margin = (Gross Profit/Sales) * 100`}</Tooltip>
-                          }
-                        >
-                          <i className="fa fa-info-circle" aria-hidden="true"></i>
-                        </OverlayTrigger>
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shopmargin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${GrossMarginValue?.percentage}%`}
-                  >
-                    {GrossMarginValue?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="white-text">
-                          {GrossMarginValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="white-text">
-                          {GrossMarginValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-4 img-card box-warning-shadow`}
-            >
-              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £  {shopsale?.shop_sales
-                        ? formatNumber(shopsale?.shop_sales)
-                        : "0"}
+          <DashCommonCard
+            isParentComponent={parentComponent}
+            showRightSide={false}
+            leftSideData={GrossProfitValue?.gross_profit}
+            leftSideTitle={'Gross Profit'}
+            RightSideData={GrossProfitValue?.bunkered_value}
+            RightSideTitle={'Bunkered Sales'}
+            statusValue={GrossProfitValue?.status}
+            percentageValue={GrossProfitValue?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            icon={"£"}
+            containerStyle={'dash-plates-5 '}
+            tooltipContent={'Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock'}
+          // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+          />
 
 
-                    </h2>
-                    <p className="boxtitle">Shop Sales (Ex. Vat)</p>
-                  </div>
+          <DashCommonCard
+            isParentComponent={parentComponent}
+            showRightSide={false}
+            leftSideData={GrossMarginValue?.gross_margin}
+            leftSideTitle={'Gross Margin'}
+            RightSideData={GrossMarginValue?.bunkered_value}
+            RightSideTitle={'Bunkered Sales'}
+            statusValue={GrossMarginValue?.status}
+            percentageValue={GrossMarginValue?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            // icon={"£"}
+            containerStyle={'dash-plates-2'}
+            tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+            ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+            showPPL={true}
+          />
 
-                  <div className="ms-auto">
-                    <div
-                      className="counter-icon  brround  ms-auto"
 
-                      style={{ background: "#fff", color: "#ddd" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign  "
-                          style={{ color: "#000" }}
-                        >
-                          £
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shopmargin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${shopsale?.percentage}%`}
-                  >
-                    {shopsale?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="white-text">
-                          {shopsale?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="white-text">
-                          {shopsale?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-6 img-card box-primary-shadow`}
-            >
-              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £  {shop_fees?.shop_fee
-                        ? formatNumber(shop_fees?.shop_fee)
-                        : "0"}
-                    </h2>
-                    <p className="boxtitle">Shop Fee </p>
-                  </div>
+          <DashCommonCard
+            isParentComponent={parentComponent}
+            showRightSide={false}
+            leftSideData={shopsale?.shop_sales}
+            leftSideTitle={'Shop Sales (Ex. Vat)'}
+            RightSideData={shopsale?.bunkered_value}
+            RightSideTitle={'Bunkered Sales'}
+            statusValue={shopsale?.status}
+            percentageValue={shopsale?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            icon={"£"}
+            containerStyle={'dash-plates-2'}
+          // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+          // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
+          // showPPL={true}
+          />
 
-                  <div className="ms-auto">
-                    <div
-                      className="counter-icon  brround  ms-auto"
 
-                      style={{ background: "#fff", color: "#ddd" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign  "
-                          style={{ color: "#000" }}
-                        >
-                          £
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shop_fees?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${shop_fees?.percentage}%`}
-                  >
-                    {shop_fees?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="white-text">
-                          {shop_fees?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="white-text">
-                          {shop_fees?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-card-default-height dash-plates-5 img-card box-primary-shadow`}
-            >
-              <Card.Body className={`statscard c-stats-card ${parentComponent ? 'pointer' : 'default-pointer'}`}>
-                <div className="d-flex">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £  {shopmargin?.shop_profit
-                        ? formatNumber(shopmargin?.shop_profit)
-                        : "0"}
-                    </h2>
-                    <p className="boxtitle">Shop Profit
+          <DashCommonCard
+            isParentComponent={parentComponent}
+            showRightSide={false}
+            leftSideData={shop_fees?.shop_fee}
+            leftSideTitle={'Shop Fee'}
+            RightSideData={shop_fees?.bunkered_value}
+            RightSideTitle={'Bunkered Sales'}
+            statusValue={shop_fees?.status}
+            percentageValue={shop_fees?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            icon={"£"}
+            containerStyle={'dash-plates-2'}
+          // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+          // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
+          // showPPL={true}
+          />
 
-                      <span className="ms-1">
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip>{`The data is accurately sourced from back-office system`}</Tooltip>
-                          }
-                        >
-                          <i className="fa fa-info-circle" aria-hidden="true"></i>
-                        </OverlayTrigger>
-                      </span>
-                    </p>
-                  </div>
 
-                  <div className="ms-auto">
-                    <div
-                      className="counter-icon  brround  ms-auto"
+          <DashCommonCard
+            isParentComponent={parentComponent}
+            showRightSide={false}
+            leftSideData={shopmargin?.shop_profit}
+            leftSideTitle={'Shop Profit'}
+            RightSideData={shopmargin?.bunkered_value}
+            RightSideTitle={'Bunkered Sales'}
+            statusValue={shopmargin?.status}
+            percentageValue={shopmargin?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            icon={"£"}
+            containerStyle={'dash-plates-5'}
+            tooltipContent={`The data is accurately sourced from back-office system`}
+          // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
+          // showPPL={true}
+          />
 
-                      style={{ background: "#fff", color: "#ddd" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign  "
-                          style={{ color: "#000" }}
-                        >
-                          £
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shopmargin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${shopmargin?.percentage}%`}
-                  >
-                    {shopmargin?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="white-text">
-                          {shopmargin?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="white-text">
-                          {shopmargin?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
         </Row>
       ) : (
         <></>
