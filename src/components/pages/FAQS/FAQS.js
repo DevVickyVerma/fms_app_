@@ -22,13 +22,13 @@ export default function FAQS() {
         <div className="ms-auto pageheader-btn">
           <Link to="#" className="btn btn-primary btn-icon text-white me-3">
             <span>
-              <i className="fe fe-plus"></i>&nbsp;
+              <i className="fe fe-plus" />&nbsp;
             </span>
             Add Account
           </Link>
           <Link to="#" className="btn btn-success btn-icon text-white">
             <span>
-              <i className="fe fe-log-in"></i>&nbsp;
+              <i className="fe fe-log-in" />&nbsp;
             </span>
             Export
           </Link>
@@ -48,7 +48,7 @@ export default function FAQS() {
                 id="accordion"
                 role="tablist"
               >
-                <Accordion className="acc-card mb-4 " flush>
+                <Accordion className="acc-card mb-4 " flush={true}>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header className="acc-header">
                       How To Insert All The Plugins?
@@ -69,7 +69,7 @@ export default function FAQS() {
                   </Accordion.Item>
                 </Accordion>
 
-                <Accordion className="acc-card mb-4" flush>
+                <Accordion className="acc-card mb-4" flush={true}>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header className="acc-header">
                       How Can I contact?
@@ -90,7 +90,7 @@ export default function FAQS() {
                   </Accordion.Item>
                 </Accordion>
 
-                <Accordion className="acc-card mb-4" flush>
+                <Accordion className="acc-card mb-4" flush={true}>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header className="acc-header">
                       Can I use this Plugins in Another Template?
@@ -111,7 +111,7 @@ export default function FAQS() {
                   </Accordion.Item>
                 </Accordion>
 
-                <Accordion className="acc-card mb-4" flush>
+                <Accordion className="acc-card mb-4" flush={true}>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header className="acc-header">
                       It is Easy to Customizable?
@@ -132,7 +132,7 @@ export default function FAQS() {
                   </Accordion.Item>
                 </Accordion>
 
-                <Accordion className="acc-card mb-4" flush>
+                <Accordion className="acc-card mb-4" flush={true}>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header className="acc-header">
                       How can I download This template?
@@ -153,7 +153,7 @@ export default function FAQS() {
                   </Accordion.Item>
                 </Accordion>
 
-                <Accordion className="acc-card mb-4" flush>
+                <Accordion className="acc-card mb-4" flush={true}>
                   <Accordion.Item eventKey="0">
                     <Accordion.Header className="acc-header">
                       How Can I Add another page in Template?
@@ -188,7 +188,7 @@ export default function FAQS() {
               <div className="pt-4">
                 <Form.Group className="form-group">
                   <Form.Control
-                    type="text"  autoComplete="off"
+                    type="text" autoComplete="off"
                     className="form-control me-3"
                     id="name1"
                     placeholder="Your Name"
@@ -208,7 +208,7 @@ export default function FAQS() {
                     name="example-textarea-input"
                     rows="6"
                     placeholder="Post Your Quesry"
-                  ></textarea>
+                  />
                 </Form.Group>
                 <Link to="#" className="btn btn-primary">
                   Send Question

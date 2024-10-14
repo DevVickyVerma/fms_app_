@@ -202,7 +202,7 @@ const AddCompany = (props) => {
                             </option>
                           ))
                         ) : (
-                          <option disabled>No User</option>
+                          <option disabled={true}>No User</option>
                         )}
                       </select>
                       {formik.errors.userSelcetedid &&
@@ -221,14 +221,14 @@ const AddCompany = (props) => {
                       <DataTable
                         columns={ReportsColumn}
                         data={ReportsData}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
                         searchable={false}
-                        responsive
+                        responsive={true}
                       />
                     </div>
                   </Col>

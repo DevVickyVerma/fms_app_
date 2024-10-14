@@ -456,7 +456,7 @@ export default function EditProfile() {
                           >
                             New Password
                             <OverlayTrigger placement="right" overlay={passwordTooltip}>
-                              <i className="ph ph-info pointer"></i>
+                              <i className="ph ph-info pointer" />
                             </OverlayTrigger>
                             <span className="text-danger">*</span>
                           </label>
@@ -541,7 +541,7 @@ export default function EditProfile() {
                         <FormGroup>
                           <Form.Label className="form-label">
                             Confirm Password<OverlayTrigger placement="right" overlay={confirmPasswordTooltip}>
-                              <i className="ph ph-info pointer "></i>
+                              <i className="ph ph-info pointer " />
                             </OverlayTrigger>
                             <span className="text-danger">*</span>
                           </Form.Label>
@@ -730,7 +730,7 @@ export default function EditProfile() {
                             placeholder="Last Name"
                             value={formik.values.email}
                             onChange={formik.handleChange}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.email && formik.touched.email && (
                             <div className="invalid-feedback">
@@ -790,7 +790,7 @@ export default function EditProfile() {
               <Modal
                 show={showModal}
                 onHide={handleCloseModal}
-                centered
+                centered={true}
                 style={{ paddingBottom: "0px" }}
                 className="custom-modal-width custom-modal-height"
               >

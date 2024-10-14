@@ -130,11 +130,11 @@ const AddCompany = (props) => {
   };
 
   const renderEmailTag = (email, index, removeEmail) => (
-    <div data-tag key={index} className="renderEmailTag">
+    <div data-tag={true} key={index} className="renderEmailTag">
       {email}
       <span
         className="closeicon"
-        data-tag-handle
+        data-tag-handle={true}
         onClick={() => removeEmail(index)}
       >
         ×
@@ -246,7 +246,7 @@ const AddCompany = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Report</option>
+                              <option disabled={true}>No Report</option>
                             )}
                           </select>
                           {formik.errors.client_id &&

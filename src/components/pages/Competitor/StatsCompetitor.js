@@ -188,9 +188,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                 </div>
 
                 <div className="ms-auto ">
-                    <div className="input-group">
-
-                    </div>
+                    <div className="input-group" />
                 </div>
             </div>
 
@@ -236,12 +234,12 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                                 <DataTable
                                     columns={columns}
                                     data={data}
-                                    noHeader
+                                    noHeader={true}
                                     defaultSortField="id"
                                     defaultSortAsc={false}
                                     striped={true}
-                                    persistTableHead
-                                    highlightOnHover
+                                    persistTableHead={true}
+                                    highlightOnHover={true}
                                 />
                             </div>
                         </>

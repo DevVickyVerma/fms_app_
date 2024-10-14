@@ -168,7 +168,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                               </option>
                             ))
                           ) : (
-                            <option disabled>No Business Category</option>
+                            <option disabled={true}>No Business Category</option>
                           )}
                         </select>
                         {formik.errors.business_category_id &&

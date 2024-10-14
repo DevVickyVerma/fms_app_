@@ -145,7 +145,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                               </option>
                             ))
                           ) : (
-                            <option disabled>No Sub-Business Type</option>
+                            <option disabled={true}>No Sub-Business Type</option>
                           )}
                         </select>
                         {formik.errors.business_category_id &&

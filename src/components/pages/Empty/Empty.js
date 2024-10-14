@@ -22,20 +22,20 @@ export default function Empty() {
         <div className="ms-auto pageheader-btn">
           <Link to="#" className="btn btn-primary btn-icon text-white me-3">
             <span>
-              <i className="fe fe-plus"></i>&nbsp;
+              <i className="fe fe-plus" />&nbsp;
             </span>
             Add Account
           </Link>
           <Link to="#" className="btn btn-success btn-icon text-white">
             <span>
-              <i className="fe fe-log-in"></i>&nbsp;
+              <i className="fe fe-log-in" />&nbsp;
             </span>
             Export
           </Link>
         </div>
       </div>
 
-      <Row></Row>
+      <Row />
     </div>
   );
 }

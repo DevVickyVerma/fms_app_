@@ -185,7 +185,7 @@ const ShopSales = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.charge_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -198,7 +198,7 @@ const ShopSales = (props) => {
               value={formik.values?.data[index]?.charge_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -235,7 +235,7 @@ const ShopSales = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.deduction_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -248,7 +248,7 @@ const ShopSales = (props) => {
               value={formik.values?.deductions?.[index]?.deduction_value || ""}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -281,7 +281,7 @@ const ShopSales = (props) => {
                           data={data}
                           // pagination
                           // paginationPerPage={20}
-                          responsive
+                          responsive={true}
                         />
                       </>
                     ) : (
@@ -299,14 +299,14 @@ const ShopSales = (props) => {
                         <DataTable
                           columns={deductionsColumns}
                           data={DeductionData}
-                          noHeader
+                          noHeader={true}
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
-                          responsive
+                          responsive={true}
                         />
                       </>
                     ) : (

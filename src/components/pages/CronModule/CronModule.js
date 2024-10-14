@@ -176,7 +176,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
           </Breadcrumb>
         </div>
 
-        <div className="ms-auto "></div>
+        <div className="ms-auto " />
       </div>
 
       <Row className=" row-sm">
@@ -229,7 +229,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
                         Submit
                       </button>
                     ) : (
-                      <button className="btn btn-danger me-2" disabled>
+                      <button className="btn btn-danger me-2" disabled={true}>
                         Submit
                       </button>
                     )}
@@ -267,12 +267,12 @@ const CronModule = ({ getData, isLoading, postData }) => {
                     <DataTable
                       columns={columns}
                       data={data}
-                      noHeader
+                      noHeader={true}
                       defaultSortField="id"
                       defaultSortAsc={false}
                       striped={true}
-                      persistTableHead
-                      highlightOnHover
+                      persistTableHead={true}
+                      highlightOnHover={true}
                     />
                   </div>
                 </>

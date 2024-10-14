@@ -365,7 +365,7 @@ const AddCompetitor = (props) => {
                               </option>
                             ))
                           ) : (
-                            <option disabled>No Supplier available</option>
+                            <option disabled={true}>No Supplier available</option>
                           )}
                         </select>
                         {formik.errors.supplier && formik.touched.supplier && (

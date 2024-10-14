@@ -190,7 +190,7 @@ const Editdeductions = (props) => {
                             placeholder="Deduction Code"
                             onChange={formik.handleChange}
                             value={formik.values.deduction_code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.deduction_code &&
                             formik.touched.deduction_code && (

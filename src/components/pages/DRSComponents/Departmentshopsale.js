@@ -166,7 +166,7 @@ const Departmentshopsale = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.gross_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -199,7 +199,7 @@ const Departmentshopsale = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.disc_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -231,7 +231,7 @@ const Departmentshopsale = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.nett_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -268,7 +268,7 @@ const Departmentshopsale = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row?.adj_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -315,12 +315,12 @@ const Departmentshopsale = (props) => {
                         <DataTable
                           columns={columns}
                           data={data}
-                          noHeader
+                          noHeader={true}
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
                         />
                       </div>

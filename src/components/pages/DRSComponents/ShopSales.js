@@ -253,7 +253,7 @@ const ShopSales = (props) => {
                   <i
                     className="fa fa-upload btn btn-sm btn-primary"
                     aria-hidden="true"
-                  ></i>
+                  />
                   <input
                     type="file"
                     id={`file-charge-${index}`}
@@ -277,7 +277,7 @@ const ShopSales = (props) => {
                     <i
                       className="fa fa-file-image-o btn btn-sm btn-info ms-2"
                       aria-hidden="true"
-                    ></i>
+                    />
                   </span>
                 </a>
               )}
@@ -350,7 +350,7 @@ const ShopSales = (props) => {
                   <i
                     className="fa fa-upload btn btn-sm btn-primary"
                     aria-hidden="true"
-                  ></i>
+                  />
                   <input
                     type="file"
                     id={`file-deduction-${index}`}
@@ -374,7 +374,7 @@ const ShopSales = (props) => {
                     <i
                       className="fa fa-file-image-o btn btn-sm btn-info ms-2"
                       aria-hidden="true"
-                    ></i>
+                    />
                   </span>
                 </a>
               )}
@@ -401,7 +401,7 @@ const ShopSales = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row?.charge_adj_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -435,7 +435,7 @@ const ShopSales = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row?.deduction_adj_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -480,28 +480,28 @@ const ShopSales = (props) => {
                             <DataTable
                               columns={chargesColumns}
                               data={data}
-                              noHeader
+                              noHeader={true}
                               defaultSortField="id"
                               defaultSortAsc={false}
                               striped={true}
-                              persistTableHead
-                              highlightOnHover
+                              persistTableHead={true}
+                              highlightOnHover={true}
                               searchable={false}
-                              responsive
+                              responsive={true}
                             />
                           </Col>
                           <Col lg={6} md={6}>
                             <DataTable
                               columns={deductionsColumns}
                               data={DeductionData}
-                              noHeader
+                              noHeader={true}
                               defaultSortField="id"
                               defaultSortAsc={false}
                               striped={true}
-                              persistTableHead
-                              highlightOnHover
+                              persistTableHead={true}
+                              highlightOnHover={true}
                               searchable={false}
-                              responsive
+                              responsive={true}
                             />
                           </Col>
                         </Row>

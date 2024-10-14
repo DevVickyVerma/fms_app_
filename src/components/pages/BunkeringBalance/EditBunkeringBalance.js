@@ -136,7 +136,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                                                         ? "is-invalid"
                                                         : ""
                                                         }`}
-                                                    readOnly
+                                                    readOnly={true}
                                                     id="balance_date"
                                                     name="balance_date"
                                                     placeholder="Month"

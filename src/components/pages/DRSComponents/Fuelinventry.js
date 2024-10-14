@@ -312,7 +312,7 @@ const FuelInventry = (props) => {
         <span className="text-muted fs-15 fw-semibold ">
           <>
             {row?.description !== undefined ? `${row?.description}` : ""}
-            <br></br>
+            <br />
             <span className="margin-top">
               {row?.time_range !== undefined ? (
                 <>
@@ -356,7 +356,7 @@ const FuelInventry = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.fuel_price}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -401,7 +401,7 @@ const FuelInventry = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.metered_sale}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -414,7 +414,7 @@ const FuelInventry = (props) => {
               value={formik.values.data[index]?.metered_sale}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
 
           </div>
@@ -434,7 +434,7 @@ const FuelInventry = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.metered_sale_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -447,7 +447,7 @@ const FuelInventry = (props) => {
               value={formik.values.data[index]?.metered_sale_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
 
           </div>
@@ -468,7 +468,7 @@ const FuelInventry = (props) => {
               className="table-input readonly total-input"
               // value={row.adjustment}
               value={myAdjustmentValue ? myAdjustmentValue : row.adjustment}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -515,7 +515,7 @@ const FuelInventry = (props) => {
               value={
                 myBunkeredSalesValue ? myBunkeredSalesValue : row.bunkered_sale
               }
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -560,7 +560,7 @@ const FuelInventry = (props) => {
               className="table-input readonly total-input"
               // value={row.tests}
               value={myTestsValue ? myTestsValue : row.tests}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -603,7 +603,7 @@ const FuelInventry = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.actual_sales}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -622,7 +622,7 @@ const FuelInventry = (props) => {
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
 
           </div>
@@ -643,7 +643,7 @@ const FuelInventry = (props) => {
               className="table-input readonly total-input"
               value={myDueSalesValue == 0.0 ? row.due_sales : myDueSalesValue}
               // value={myDueSalesValue ? myDueSalesValue : row.due_sales}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -662,7 +662,7 @@ const FuelInventry = (props) => {
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
 
           </div>
@@ -704,7 +704,7 @@ const FuelInventry = (props) => {
             value={formik.values?.Combinedvariance?.[index]?.variance || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            readOnly
+            readOnly={true}
           />
 
         </div>
@@ -744,7 +744,7 @@ const FuelInventry = (props) => {
             value={formik.values?.Variancedataformik?.[index]?.due_sales || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            readOnly
+            readOnly={true}
           // readOnly={editable?.is_editable ? false : true}
           />
 
@@ -768,7 +768,7 @@ const FuelInventry = (props) => {
             value={formik.values?.Variancedataformik?.[index]?.sale_value || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            readOnly
+            readOnly={true}
           // readOnly={editable?.is_editable ? false : true}
           />
 
@@ -792,7 +792,7 @@ const FuelInventry = (props) => {
             value={formik.values?.Variancedataformik?.[index]?.variance || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            readOnly
+            readOnly={true}
           // readOnly={editable?.is_editable ? false : true}
           />
 
@@ -830,12 +830,12 @@ const FuelInventry = (props) => {
                           <DataTable
                             columns={columns}
                             data={data}
-                            noHeader
+                            noHeader={true}
                             defaultSortField="id"
                             defaultSortAsc={false}
                             striped={true}
-                            persistTableHead
-                            highlightOnHover
+                            persistTableHead={true}
+                            highlightOnHover={true}
                             searchable={false}
                           />
                         </div>
@@ -863,14 +863,14 @@ const FuelInventry = (props) => {
                                 <DataTable
                                   columns={VarianceColumns}
                                   data={VarianceDataa}
-                                  noHeader
+                                  noHeader={true}
                                   defaultSortField="id"
                                   defaultSortAsc={false}
                                   striped={true}
-                                  persistTableHead
-                                  highlightOnHover
+                                  persistTableHead={true}
+                                  highlightOnHover={true}
                                   searchable={false}
-                                  responsive
+                                  responsive={true}
                                 />
                               </>
                             ) : (
@@ -898,14 +898,14 @@ const FuelInventry = (props) => {
                                 <DataTable
                                   columns={CombinedVarianceColumns}
                                   data={CombinedVarianceData}
-                                  noHeader
+                                  noHeader={true}
                                   defaultSortField="id"
                                   defaultSortAsc={false}
                                   striped={true}
-                                  persistTableHead
-                                  highlightOnHover
+                                  persistTableHead={true}
+                                  highlightOnHover={true}
                                   searchable={false}
-                                  responsive
+                                  responsive={true}
                                 />
                               </>
                             ) : (
@@ -931,7 +931,7 @@ const FuelInventry = (props) => {
                       <button
                         className="btn btn-primary"
                         type="submit"
-                        disabled
+                        disabled={true}
                       >
                         Submit
                       </button>

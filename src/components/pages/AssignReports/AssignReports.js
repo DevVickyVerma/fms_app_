@@ -173,14 +173,14 @@ const AddCompany = (props) => {
                               <DataTable
                                 columns={ReportsColumn}
                                 data={ReportsData}
-                                noHeader
+                                noHeader={true}
                                 defaultSortField="id"
                                 defaultSortAsc={false}
                                 striped={true}
-                                persistTableHead
-                                highlightOnHover
+                                persistTableHead={true}
+                                highlightOnHover={true}
                                 searchable={false}
-                                responsive
+                                responsive={true}
                               />
                             </div>
                           </>

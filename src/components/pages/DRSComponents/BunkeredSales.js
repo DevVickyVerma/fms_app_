@@ -551,7 +551,7 @@ const DepartmentShop = (props) => {
                         type="button"
                         onClick={pushbunkeredSalesRow}
                       >
-                        <i className="ph ph-plus"></i>
+                        <i className="ph ph-plus" />
                       </button>
                     )}
                   </>
@@ -566,8 +566,8 @@ const DepartmentShop = (props) => {
 
                 {formik?.values?.bunkered_Sales?.length > 0 ? <>
                   {formik?.values?.bunkered_Sales?.map((delivery, index) => (
-                    <Row>
-                      <React.Fragment key={index}>
+                    <Row key={index}>
+                      <>
                         <Col lg={editable?.is_adjustable ? 2 : 4} md={2}>
                           <Form.Group
                             controlId={`bunkered_Sales[${index}].fuel_id`}
@@ -752,7 +752,7 @@ const DepartmentShop = (props) => {
                                     className="btn btn-danger"
                                     onClick={() => removebunkeredSalesRow(index)}
                                   >
-                                    <i className="ph ph-minus"></i>
+                                    <i className="ph ph-minus" />
                                   </button>
                                 </div>
                               </>)}
@@ -763,7 +763,7 @@ const DepartmentShop = (props) => {
                         </Col>
 
 
-                      </React.Fragment>
+                      </>
                     </Row>
                   ))}
                 </> : <>
@@ -797,7 +797,7 @@ const DepartmentShop = (props) => {
                         type="button"
                         onClick={pushnonbunkeredSalesRow}
                       >
-                        <i className="ph ph-plus"></i>
+                        <i className="ph ph-plus" />
                       </button>
                     )}
                   </>
@@ -814,8 +814,8 @@ const DepartmentShop = (props) => {
 
                 {formik2.values.non_bunkered_sales?.length > 0 ? <>
                   {formik2.values.non_bunkered_sales.map((item, index) => (
-                    <Row>
-                      <React.Fragment key={index}>
+                    <Row key={index}>
+                      <>
                         <Col lg={editable?.is_adjustable ? 2 : 4} md={2}>
                           <Form.Group
                             controlId={`non_bunkered_sales[${index}].fuel_id`}
@@ -1013,7 +1013,7 @@ const DepartmentShop = (props) => {
                                     className="btn btn-danger"
                                     onClick={() => removenonbunkeredSalesRow(index)}
                                   >
-                                    <i className="ph ph-minus"></i>
+                                    <i className="ph ph-minus" />
                                   </button>
                                 </div>
                               </>)}
@@ -1023,7 +1023,7 @@ const DepartmentShop = (props) => {
                             ""
                           )}
                         </Col>
-                      </React.Fragment>
+                      </>
                     </Row>
                   ))}
 
@@ -1056,7 +1056,7 @@ const DepartmentShop = (props) => {
                         type="button"
                         onClick={pushnoncreditcardRow}
                       >
-                        <i className="ph ph-plus"></i>
+                        <i className="ph ph-plus" />
                       </button>
                     )}
                   </>
@@ -1069,12 +1069,12 @@ const DepartmentShop = (props) => {
               <Form onSubmit={formik3.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
 
-
+                {/* dsf */}
                 {formik3.values?.bunkered_creditcardsales?.length > 0 ? <>
 
                   {formik3.values?.bunkered_creditcardsales?.map((item, index) => (
-                    <Row>
-                      <React.Fragment key={index}>
+                    <Row key={index}>
+                      <>
                         <Col lg={2} md={2}>
                           <Form.Group
                             controlId={`bunkered_creditcardsales[${index}].card_id`}
@@ -1282,7 +1282,7 @@ const DepartmentShop = (props) => {
                                     className="btn btn-danger"
                                     onClick={() => removecreditcardRow(index)}
                                   >
-                                    <i className="ph ph-minus"></i>
+                                    <i className="ph ph-minus" />
                                   </button>
                                 </div>
                               </>)}
@@ -1292,7 +1292,7 @@ const DepartmentShop = (props) => {
                             ""
                           )}
                         </Col>
-                      </React.Fragment>
+                      </>
                     </Row>
                   ))}
 

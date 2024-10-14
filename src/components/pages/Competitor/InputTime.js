@@ -44,7 +44,7 @@ const InputTime = ({ label, value, onChange, className, disabled }) => {
           desktopModeMediaQuery="(min-width: 0px)"
           disabled={disabled} // Disable the TimePicker when not editable
           renderInput={(params) => (
-            <TextField {...params} fullWidth label={label} disabled={disabled} />
+            <TextField {...params} fullWidth={true} label={label} disabled={disabled} />
           )}
         />
       </LocalizationProvider>

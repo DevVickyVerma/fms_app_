@@ -172,7 +172,7 @@ const CreditCardBanking = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.koisk_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -206,7 +206,7 @@ const CreditCardBanking = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.opt_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -240,7 +240,7 @@ const CreditCardBanking = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.account_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -274,7 +274,7 @@ const CreditCardBanking = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.no_of_transactions}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -313,7 +313,7 @@ const CreditCardBanking = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row?.adj_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -365,12 +365,12 @@ const CreditCardBanking = (props) => {
                         <DataTable
                           columns={columns}
                           data={data}
-                          noHeader
+                          noHeader={true}
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
                         />
                       </div>

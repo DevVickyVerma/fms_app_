@@ -164,7 +164,7 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Hide Business Categories <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                  Hide Business Categories <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : (
                 ""
@@ -186,13 +186,13 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
                         center={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
                         className=" overflow-hidden"
                         style={{ overflow: "hidden" }}
                       />

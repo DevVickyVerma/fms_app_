@@ -184,7 +184,7 @@ const AddCompany = (props) => {
                       name="client_id"
                       onChange={formik.handleChange}
                       value={formik.values.client_id}
-                      readOnly
+                      readOnly={true}
                     />
 
                     {formik.errors.client_id && formik.touched.client_id && (

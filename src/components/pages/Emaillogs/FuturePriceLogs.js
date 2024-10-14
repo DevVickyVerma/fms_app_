@@ -125,7 +125,7 @@ const FuturePriceLogs = (props) => {
                                 <i
                                     className="fa fa-info-circle"
                                     aria-hidden="true"
-                                ></i>
+                                />
                             </OverlayTrigger>
                         </h6>
                     </div>
@@ -449,8 +449,7 @@ const FuturePriceLogs = (props) => {
 
                                     {isFuelPricePermissionAvailable && (<>
                                         <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
-                                            <span>
-                                            </span>
+                                            <span />
                                             Go To Fuel Price <ExitToAppIcon />
                                         </Button>
                                     </>)}
@@ -464,7 +463,7 @@ const FuturePriceLogs = (props) => {
                                             <DataTable
                                                 columns={columns}
                                                 data={data}
-                                                noHeader
+                                                noHeader={true}
                                                 defaultSortField="id"
                                                 defaultSortAsc={false}
                                                 striped={true}

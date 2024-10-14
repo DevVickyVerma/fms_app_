@@ -62,7 +62,7 @@ const DepartmentShop = (props) => {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
       return (
-        <div className="Dps-data">
+        <div className="Dps-data" key={index}>
           <p>{displayName}</p>
           <p>{data[item]}</p>
         </div>

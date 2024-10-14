@@ -287,7 +287,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                         setMySelectedDate(selectedstart_date);
                         setFieldValue("start_date", selectedstart_date);
                       }}
-                    ></Field>
+                    />
                     <ErrorMessage
                       component="div"
                       className="invalid-feedback"
@@ -330,7 +330,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                   style={{ width: "50px", height: "50px" }}
                 />
               ) : (
-                <span className="Smallloader"></span>
+                <span className="Smallloader" />
               )}
             </Box>
             <Box>
@@ -364,7 +364,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
-                    <span className="Smallloader"></span>
+                    <span className="Smallloader" />
                   )}
                 </Typography>
               </Box>
@@ -402,7 +402,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                           "Do MMM, HH:mm"
                         )
                       ) : (
-                        <span className="Smallloader"></span>
+                        <span className="Smallloader" />
                       )}
                     </Typography>
                   </Typography>
@@ -439,7 +439,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                           "Do MMM, HH:mm"
                         )
                       ) : (
-                        <span className="Smallloader"></span>
+                        <span className="Smallloader" />
                       )}
                     </Typography>
                   </Typography>
@@ -564,8 +564,8 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                         className="fa fa-info-circle ms-1"
                                         aria-hidden="true"
                                         style={{ fontSize: "15px" }}
-                                      ></i>{" "}
-                                      <span></span>
+                                      />{" "}
+                                      <span />
                                     </p>
                                   </OverlayTrigger>
                                 </span>

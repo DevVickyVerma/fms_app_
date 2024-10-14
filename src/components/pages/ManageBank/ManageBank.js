@@ -329,13 +329,13 @@ const ManageBank = ({ isLoading, getData }) => {
                                             <DataTable
                                                 columns={columns}
                                                 data={data}
-                                                noHeader
+                                                noHeader={true}
                                                 defaultSortField="id"
                                                 defaultSortAsc={false}
                                                 striped={true}
-                                                persistTableHead
-                                                highlightOnHover
-                                                fixedHeader
+                                                persistTableHead={true}
+                                                highlightOnHover={true}
+                                                fixedHeader={true}
                                             />
                                         </div>
                                     </>

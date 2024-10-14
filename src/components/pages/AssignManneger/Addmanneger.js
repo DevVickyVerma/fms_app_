@@ -160,7 +160,7 @@ const AddCompany = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No User</option>
+                              <option disabled={true}>No User</option>
                             )}
                           </select>
                           {formik.errors.client_id &&
@@ -177,7 +177,7 @@ const AddCompany = (props) => {
                           <FormControl className="width mt-4">
                             <InputLabel>Select Reports</InputLabel>
                             <Select
-                              multiple
+                              multiple={true}
                               value={selectedItems1}
                               onChange={handleItemClick1}
                               renderValue={(selected) => selected.join(", ")}

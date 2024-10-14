@@ -217,7 +217,7 @@ const EditItems = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Item Type</option>
+                              <option disabled={true}>No Item Type</option>
                             )}
                           </select>
                           {formik.errors.item_type_id &&
@@ -245,7 +245,7 @@ const EditItems = (props) => {
                             placeholder="Item Code"
                             onChange={formik.handleChange}
                             value={formik.values.code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.code && formik.touched.code && (
                             <div className="invalid-feedback">

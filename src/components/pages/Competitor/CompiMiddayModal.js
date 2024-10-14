@@ -294,7 +294,7 @@ const CompiMiddayModal = ({
                                             formik.setFieldValue("start_date", selectedCompany);
                                             setSelectedDrsDate(selectedCompany);
                                         }}
-                                    ></input>
+                                    />
                                     {formik.errors.start_date &&
                                         formik.touched.start_date && (
                                             <div className="invalid-feedback">

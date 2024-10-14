@@ -171,7 +171,7 @@ const FuelSales = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row.sales_volume}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -204,7 +204,7 @@ const FuelSales = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row.gross_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -237,7 +237,7 @@ const FuelSales = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row.discount}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -270,7 +270,7 @@ const FuelSales = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row.nett_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -308,7 +308,7 @@ const FuelSales = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row?.adj_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -361,12 +361,12 @@ const FuelSales = (props) => {
                         <DataTable
                           columns={columns}
                           data={data}
-                          noHeader
+                          noHeader={true}
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
                         />
                       </div>

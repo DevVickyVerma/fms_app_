@@ -228,7 +228,7 @@ const CoffeeValet = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.opening}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -260,7 +260,7 @@ const CoffeeValet = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.closing}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -297,7 +297,7 @@ const CoffeeValet = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.tests}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -332,7 +332,7 @@ const CoffeeValet = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.adjust}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -367,7 +367,7 @@ const CoffeeValet = (props) => {
               className="table-input readonly total-input"
               // value={row.sale}
               value={mySalesTotalValue ? mySalesTotalValue : row.sale}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -387,7 +387,7 @@ const CoffeeValet = (props) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -406,7 +406,7 @@ const CoffeeValet = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.price}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -423,7 +423,7 @@ const CoffeeValet = (props) => {
               }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -442,7 +442,7 @@ const CoffeeValet = (props) => {
               className="table-input readonly total-input"
               // value={row.value}
               value={myValuesTotalValue ? myValuesTotalValue : row.value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -459,7 +459,7 @@ const CoffeeValet = (props) => {
               }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -479,7 +479,7 @@ const CoffeeValet = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.com_rate}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -492,7 +492,7 @@ const CoffeeValet = (props) => {
               value={formik.values.data[index]?.com_rate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -516,7 +516,7 @@ const CoffeeValet = (props) => {
                   ? myCommissionValueTotalValue
                   : row.commission
               }
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -533,7 +533,7 @@ const CoffeeValet = (props) => {
               }
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -559,7 +559,7 @@ const CoffeeValet = (props) => {
                     <i
                       className="fa fa-upload btn btn-sm btn-primary"
                       aria-hidden="true"
-                    ></i>
+                    />
                   </div>
                 </>
 
@@ -588,7 +588,7 @@ const CoffeeValet = (props) => {
               type="number"
               className={"table-input readonly"}
               value={row?.adj_value}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -725,12 +725,12 @@ const CoffeeValet = (props) => {
                         <DataTable
                           columns={columns}
                           data={data}
-                          noHeader
+                          noHeader={true}
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
                         />
                       </div>
@@ -744,7 +744,7 @@ const CoffeeValet = (props) => {
                           <button
                             className="btn btn-primary"
                             type="submit"
-                            disabled
+                            disabled={true}
                           >
                             Submit
                           </button>
