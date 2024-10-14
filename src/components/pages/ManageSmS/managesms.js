@@ -524,7 +524,7 @@ const ManageSiteTank = (props) => {
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <button onClick={() => handleDownloadInvoice(row.id)}>
-                <i className="fa fa-download" aria-hidden="true"></i>
+                <i className="fa fa-download" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -767,7 +767,7 @@ const ManageSiteTank = (props) => {
                                   </option>
                                 ))
                               ) : (
-                                <option disabled>No Client</option>
+                                <option disabled={true}>No Client</option>
                               )}
                             </select>
 
@@ -849,12 +849,12 @@ const ManageSiteTank = (props) => {
                                     <DataTable
                                       columns={columns}
                                       data={data?.history}
-                                      noHeader
+                                      noHeader={true}
                                       defaultSortField="id"
                                       defaultSortAsc={false}
                                       striped={true}
-                                      persistTableHead
-                                      highlightOnHover
+                                      persistTableHead={true}
+                                      highlightOnHover={true}
                                     />
                                   ) : (
                                     <img
@@ -876,13 +876,13 @@ const ManageSiteTank = (props) => {
                                     <DataTable
                                       columns={columns2}
                                       data={data?.history}
-                                      noHeader
+                                      noHeader={true}
                                       defaultSortField="id"
                                       defaultSortAsc={false}
                                       striped={true}
 
-                                      persistTableHead
-                                      highlightOnHover
+                                      persistTableHead={true}
+                                      highlightOnHover={true}
 
                                     />
                                   </div>
@@ -925,7 +925,7 @@ const ManageSiteTank = (props) => {
             <Modal
               show={showModal}
               onHide={handleCloseModal}
-              centered
+              centered={true}
               style={{ paddingBottom: "0px" }}
               className="custom-modal-width custom-modal-height"
             >
@@ -984,7 +984,7 @@ const ManageSiteTank = (props) => {
                           )}
 
                         <div className="mt-4 d-flex flex-column justify-content-between">
-                          <div></div>
+                          <div />
                           <div className="mt-4 d-flex flex-column">
                             <span className=" text-muted d-flex justify-content-between">
                               <strong>Your Quantity </strong>{" "}

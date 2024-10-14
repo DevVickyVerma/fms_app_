@@ -454,7 +454,7 @@ const DepartmentItems = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Client</option>
+                              <option disabled={true}>No Client</option>
                             )}
                           </select>
 
@@ -509,7 +509,7 @@ const DepartmentItems = (props) => {
                               ))}
                             </>
                           ) : (
-                            <option disabled>No Company</option>
+                            <option disabled={true}>No Company</option>
                           )}
                         </select>
                         {formik.errors.company_id &&
@@ -575,7 +575,7 @@ const DepartmentItems = (props) => {
                               ))}
                             </>
                           ) : (
-                            <option disabled>No Department</option>
+                            <option disabled={true}>No Department</option>
                           )}
                         </select>
                         {formik.errors.department_id &&
@@ -877,7 +877,7 @@ const DepartmentItems = (props) => {
                     </React.Fragment>
                     {index !== formik2.values.headsvalue.length - 1 &&
                       data?.sageExport.length > 0 ? (
-                      <hr className="mt-4"></hr>
+                      <hr className="mt-4" />
                     ) : null}
                   </>
                 ))}

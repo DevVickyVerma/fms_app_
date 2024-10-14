@@ -275,7 +275,7 @@ const AddSitePump = (props) => {
                                   </option>
                                 ))
                               ) : (
-                                <option disabled>No Client</option>
+                                <option disabled={true}>No Client</option>
                               )}
                             </select>
 
@@ -408,7 +408,7 @@ const AddSitePump = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Client</option>
+                              <option disabled={true}>No Client</option>
                             )}
                           </select>
                           {formik.errors.fuel_id && formik.touched.fuel_id && (

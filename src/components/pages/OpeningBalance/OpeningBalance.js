@@ -191,7 +191,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
                                 to={`/edit-opening-balance/${row?.id}`}
                                 className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
                             >
-                                <i className="ph ph-pencil"></i>
+                                <i className="ph ph-pencil" />
 
                             </Link>
                         </OverlayTrigger>
@@ -203,7 +203,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
                                 className="btn btn-danger btn-sm rounded-11 responsive-btn"
                                 onClick={() => handleDelete(row.id)}
                             >
-                                <i className="ph ph-trash"></i>
+                                <i className="ph ph-trash" />
                             </Link>
                         </OverlayTrigger>
                     ) : null}
@@ -254,7 +254,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
                                     className="btn btn-primary ms-2"
                                     style={{ borderRadius: "4px" }}
                                 >
-                                    Add Opening Balance  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                                    Add Opening Balance  <i className="ph ph-plus ms-1 ph-plus-icon" />
                                 </Link>
                             ) : (
                                 ""
@@ -277,13 +277,13 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
                                             <DataTable
                                                 columns={columns}
                                                 data={data}
-                                                noHeader
+                                                noHeader={true}
                                                 defaultSortField="id"
                                                 defaultSortAsc={false}
                                                 striped={true}
                                                 center={true}
-                                                persistTableHead
-                                                highlightOnHover
+                                                persistTableHead={true}
+                                                highlightOnHover={true}
                                                 className=' overflow-hidden'
                                                 style={{ overflow: "hidden" }}
                                             />

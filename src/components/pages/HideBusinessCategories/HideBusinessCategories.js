@@ -115,7 +115,7 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
                 className="btn btn-danger btn-sm rounded-11"
                 onClick={() => handleDelete(row?.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}

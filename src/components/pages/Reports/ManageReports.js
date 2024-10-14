@@ -446,7 +446,7 @@ const ManageReports = (props) => {
                         isSendReportPermissionAvailable ? () => handleToggleSidebar() : null
                       }
                     >  Share Report
-                      <i className="ph ph-share ms-1"></i>
+                      <i className="ph ph-share ms-1" />
                     </Button>
                   ) : null}
                 </div>
@@ -550,7 +550,7 @@ const ManageReports = (props) => {
                             </option>
                           ))
                         ) : (
-                          <option disabled>No Report</option>
+                          <option disabled={true}>No Report</option>
                         )}
                       </select>
 
@@ -594,7 +594,7 @@ const ManageReports = (props) => {
 
                             }}
                             value={formik.values.start_date}
-                          ></input>
+                          />
                           {formik.errors.start_date &&
                             formik.touched.start_date && (
                               <div className="text-danger mt-1">
@@ -634,7 +634,7 @@ const ManageReports = (props) => {
 
                             }}
                             value={formik.values.end_date}
-                          ></input>
+                          />
                           {formik.errors.end_date &&
                             formik.touched.end_date && (
                               <div className="text-danger mt-1">
@@ -686,7 +686,7 @@ const ManageReports = (props) => {
                               </option>
                             ))
                           ) : (
-                            <option disabled>No reportmonth</option>
+                            <option disabled={true}>No reportmonth</option>
                           )}
                         </select>
 

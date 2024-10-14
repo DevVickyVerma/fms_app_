@@ -18,6 +18,7 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import useCustomDelete from "../../CommonComponent/useCustomDelete";
 import useToggleStatus from "../../CommonComponent/useToggleStatus";
+import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
 
 const Competitor = (props) => {
   const { isLoading, getData, postData } = props;
@@ -27,6 +28,7 @@ const Competitor = (props) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+  const ReduxFullData = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
     handleSuccess()
@@ -196,8 +198,7 @@ const Competitor = (props) => {
                 to={`/edit-competitor/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
-
-                <i className="ph ph-pencil"></i>
+                <i className="ph ph-pencil" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -208,7 +209,7 @@ const Competitor = (props) => {
                 className="btn btn-danger btn-sm rounded-11"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -232,40 +233,10 @@ const Competitor = (props) => {
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
 
+
   useEffect(() => {
-    if (storedData) {
-      let parsedData = JSON.parse(storedData);
-
-      // Check if start_date exists in storedData
-      if (!parsedData.start_date) {
-        // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-        parsedData.start_date = currentDate;
-
-        // Update the stored data with the new start_date
-        localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
-        handleApplyFilters(parsedData);
-      } else {
-        handleApplyFilters(parsedData);
-      }
-
-      // Call the API with the updated or original data
-    } else if (localStorage.getItem("superiorRole") === "Client") {
-      const storedClientIdData = localStorage.getItem("superiorId");
-
-      if (storedClientIdData) {
-        const futurepriceLog = {
-          client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
-        };
-
-        // Optionally store this data back to localStorage
-        localStorage.setItem(storedKeyName, JSON.stringify(futurepriceLog));
-
-        handleApplyFilters(futurepriceLog);
-      }
-    }
-  }, [storedKeyName]); // Add any other dependencies needed here
+    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+  }, [storedKeyName]);
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.site_id) {
@@ -323,7 +294,7 @@ const Competitor = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Competitor
-                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>
@@ -377,8 +348,8 @@ const Competitor = (props) => {
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
                         searchable={false}
                       />
 

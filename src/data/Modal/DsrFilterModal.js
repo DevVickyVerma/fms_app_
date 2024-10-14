@@ -141,7 +141,7 @@ const WorkflowExceptionFilter = (props) => {
 
       {isLoading ? <Loaderimg /> : null}
       {/* Wrap your modal content with Modal component */}
-      <Modal show={visible} onHide={onClose} centered>
+      <Modal show={visible} onHide={onClose} centered={true}>
         <Modal.Header
           style={{
             color: "#fff",
@@ -226,7 +226,7 @@ const WorkflowExceptionFilter = (props) => {
                           </option>
                         ))
                       ) : (
-                        <option disabled>No Client</option>
+                        <option disabled={true}>No Client</option>
                       )}
                     </select>
 
@@ -294,7 +294,7 @@ const WorkflowExceptionFilter = (props) => {
                         ))}
                       </>
                     ) : (
-                      <option disabled>No Company</option>
+                      <option disabled={true}>No Company</option>
                     )}
                   </select>
                   {formik.errors.company_id &&
@@ -347,7 +347,7 @@ const WorkflowExceptionFilter = (props) => {
                         </option>
                       ))
                     ) : (
-                      <option disabled>No Site</option>
+                      <option disabled={true}>No Site</option>
                     )}
                   </select>
                   {formik.errors.site_id && formik.touched.site_id && (

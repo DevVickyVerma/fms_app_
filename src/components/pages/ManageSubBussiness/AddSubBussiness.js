@@ -233,7 +233,7 @@ const AddSubBussiness = (props) => {
                                   </option>
                                 ))
                               ) : (
-                                <option disabled>No Business Type</option>
+                                <option disabled={true}>No Business Type</option>
                               )}
                             </Field>
                             <ErrorMessage

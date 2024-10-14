@@ -343,7 +343,7 @@ const AddUsers = (props) => {
                             Password
 
                             <OverlayTrigger placement="right" overlay={passwordTooltip}>
-                              <i className="ph ph-info pointer"></i>
+                              <i className="ph ph-info pointer" />
                             </OverlayTrigger>
                             <span className="text-danger">*</span>
 
@@ -388,7 +388,7 @@ const AddUsers = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Role</option>
+                              <option disabled={true}>No Role</option>
                             )}
                           </Field>
                           <ErrorMessage

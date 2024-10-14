@@ -228,7 +228,7 @@ const ManageUser = (props) => {
                 to={`/editusers/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
               >
-                <i className="ph ph-pencil"></i>
+                <i className="ph ph-pencil" />
 
               </Link>
             </OverlayTrigger>
@@ -240,7 +240,7 @@ const ManageUser = (props) => {
                 className="btn btn-danger btn-sm rounded-11 responsive-btn"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
 
               </Link>
             </OverlayTrigger>
@@ -254,7 +254,7 @@ const ManageUser = (props) => {
                 to={`/assigusernaddon/${row.id}`}
                 className="btn btn-success btn-sm rounded-11 ms-2 responsive-btn"
               >
-                <i className="ph ph-user-circle-plus"></i>
+                <i className="ph ph-user-circle-plus" />
                 {/* <AssignmentIndIcon /> */}
               </Link>
             </OverlayTrigger>
@@ -298,7 +298,7 @@ const ManageUser = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Users
-                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>
@@ -323,12 +323,12 @@ const ManageUser = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
 
                         responsive={true}
                       />

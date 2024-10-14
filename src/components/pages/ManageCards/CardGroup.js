@@ -126,7 +126,7 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
                 to={`/card-group/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
               >
-                <i className="ph ph-pencil"></i>
+                <i className="ph ph-pencil" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -137,7 +137,7 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
                 className="btn btn-danger btn-sm rounded-11 responsive-btn"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}

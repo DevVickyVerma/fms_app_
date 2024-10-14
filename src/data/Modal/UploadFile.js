@@ -48,13 +48,11 @@ export function FormModal(props) {
 
     setIsLoading(true);
 
-    let storedKeyName = "localFilterModalData";
+    const storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
     if (storedData) {
-
-
-      let parsedData = JSON.parse(storedData);
+      const parsedData = JSON.parse(storedData);
       formData.append("site_id", parsedData?.site_id);
       formData.append("client_id", parsedData?.client_id);
       formData.append("company_id", parsedData?.company_id);

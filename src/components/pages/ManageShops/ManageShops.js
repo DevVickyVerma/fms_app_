@@ -264,7 +264,7 @@ const ManageShops = (props) => {
                 to={`/editshops/${row.id}`} // Assuming `row.id` contains the ID
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
-                <i className="ph ph-pencil"></i>
+                <i className="ph ph-pencil" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -275,7 +275,7 @@ const ManageShops = (props) => {
                 className="btn btn-danger btn-sm rounded-11"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}

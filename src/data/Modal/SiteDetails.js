@@ -159,7 +159,7 @@ const MyModal = (props) => {
               </svg>
             </i>
           </Button>
-          <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <Modal show={showModal} onHide={() => setShowModal(false)} centered={true}>
             <Modal.Header>
               <Modal.Title>Assign Site</Modal.Title>
               <button className="close" onClick={() => setShowModal(false)}>
@@ -199,7 +199,7 @@ const MyModal = (props) => {
                         </option>
                       ))
                     ) : (
-                      <option disabled>No clients</option>
+                      <option disabled={true}>No clients</option>
                     )}
                   </select>
                   {formik.errors.clientlist && formik.touched.clientlist && (
@@ -232,7 +232,7 @@ const MyModal = (props) => {
                         </option>
                       ))
                     ) : (
-                      <option disabled>No clients</option>
+                      <option disabled={true}>No clients</option>
                     )}
                   </select>
                   {formik.errors.companylist && formik.touched.companylist && (

@@ -135,7 +135,7 @@ const CustomModal = ({
             </div>
           </TableContainer>
         </DialogContent>
-        <Card.Footer></Card.Footer>
+        <Card.Footer />
       </Dialog>
     </>
   );

@@ -1246,10 +1246,10 @@ const SiteSettings = (props) => {
                               defaultSortField="id"
                               defaultSortAsc={false}
                               striped={true}
-                              persistTableHead
-                              highlightOnHover
+                              persistTableHead={true}
+                              highlightOnHover={true}
                               searchable={false}
-                              responsive
+                              responsive={true}
                             />
                           </div>
                         </>
@@ -1282,10 +1282,10 @@ const SiteSettings = (props) => {
                               defaultSortField="id"
                               defaultSortAsc={false}
                               striped={true}
-                              persistTableHead
-                              highlightOnHover
+                              persistTableHead={true}
+                              highlightOnHover={true}
                               searchable={false}
-                              responsive
+                              responsive={true}
                             />
                           </div>
                         </>
@@ -1313,10 +1313,10 @@ const SiteSettings = (props) => {
                               defaultSortField="id"
                               defaultSortAsc={false}
                               striped={true}
-                              persistTableHead
-                              highlightOnHover
+                              persistTableHead={true}
+                              highlightOnHover={true}
                               searchable={false}
-                              responsive
+                              responsive={true}
                             />
                           </div>
                         </>
@@ -1347,10 +1347,10 @@ const SiteSettings = (props) => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
-                          responsive
+                          responsive={true}
                         />
                       </div>
                     </Col>
@@ -1371,10 +1371,10 @@ const SiteSettings = (props) => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
-                          responsive
+                          responsive={true}
                         />
                       </div>
                     </Col>
@@ -1395,10 +1395,10 @@ const SiteSettings = (props) => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
-                          responsive
+                          responsive={true}
                         />
                       </div>
                     </Col>
@@ -1419,10 +1419,10 @@ const SiteSettings = (props) => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
-                          responsive
+                          responsive={true}
                         />
                       </div>
                     </Col>
@@ -1438,10 +1438,10 @@ const SiteSettings = (props) => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
-                          responsive
+                          responsive={true}
                         />
                       </div>
                     </Col>
@@ -1457,10 +1457,10 @@ const SiteSettings = (props) => {
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
-                          responsive
+                          responsive={true}
                         />
                       </div>
                     </Col>
@@ -1507,10 +1507,10 @@ const SiteSettings = (props) => {
                                 defaultSortField="id"
                                 defaultSortAsc={false}
                                 striped={true}
-                                persistTableHead
-                                highlightOnHover
+                                persistTableHead={true}
+                                highlightOnHover={true}
 
-                                responsive
+                                responsive={true}
                               />
                             </div>
                           </Col>
@@ -1529,10 +1529,10 @@ const SiteSettings = (props) => {
                                   defaultSortField="id"
                                   defaultSortAsc={false}
                                   striped={true}
-                                  persistTableHead
-                                  highlightOnHover
+                                  persistTableHead={true}
+                                  highlightOnHover={true}
                                   searchable={false}
-                                  responsive
+                                  responsive={true}
                                 />
                               </div>
                             </Col>
@@ -1552,10 +1552,10 @@ const SiteSettings = (props) => {
                                     defaultSortField="id"
                                     defaultSortAsc={false}
                                     striped={true}
-                                    persistTableHead
-                                    highlightOnHover
+                                    persistTableHead={true}
+                                    highlightOnHover={true}
                                     searchable={false}
-                                    responsive
+                                    responsive={true}
                                   />
                                 </div>
                               </>
@@ -1582,10 +1582,10 @@ const SiteSettings = (props) => {
                                     defaultSortField="id"
                                     defaultSortAsc={false}
                                     striped={true}
-                                    persistTableHead
-                                    highlightOnHover
+                                    persistTableHead={true}
+                                    highlightOnHover={true}
                                     searchable={false}
-                                    responsive
+                                    responsive={true}
                                   />
                                 </div>
                               </>
@@ -1614,10 +1614,10 @@ const SiteSettings = (props) => {
                                     defaultSortField="id"
                                     defaultSortAsc={false}
                                     striped={true}
-                                    persistTableHead
-                                    highlightOnHover
+                                    persistTableHead={true}
+                                    highlightOnHover={true}
                                     searchable={false}
-                                    responsive
+                                    responsive={true}
                                   />
                                 </div>
                               </>

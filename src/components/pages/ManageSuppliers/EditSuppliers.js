@@ -210,7 +210,7 @@ const Editsuppliers = (props) => {
                             placeholder="Supplier Code"
                             onChange={formik.handleChange}
                             value={formik.values.supplier_code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.supplier_code &&
                             formik.touched.supplier_code && (

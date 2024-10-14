@@ -148,7 +148,7 @@ const SiteCardOpening = (props) => {
                         id="start_date"
                         name="start_date"
                         onChange={formik.handleChange}
-                      ></input>
+                      />
                       {formik.errors.start_date &&
                         formik.touched.start_date && (
                           <div className="invalid-feedback">

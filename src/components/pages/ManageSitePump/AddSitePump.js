@@ -247,7 +247,7 @@ const AddSitePump = (props) => {
                                   </option>
                                 ))
                               ) : (
-                                <option disabled>No Client</option>
+                                <option disabled={true}>No Client</option>
                               )}
                             </select>
 

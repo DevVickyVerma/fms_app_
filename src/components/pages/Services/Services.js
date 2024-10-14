@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import { ProgressBar, Breadcrumb,Row,Col, Card } from "react-bootstrap";
+import { ProgressBar, Breadcrumb, Row, Col, Card } from "react-bootstrap";
 export default function Services() {
   return (
     <div>
@@ -8,7 +8,7 @@ export default function Services() {
         <div>
           <h1 className="page-title">Services</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item"href="#">
+            <Breadcrumb.Item className="breadcrumb-item" href="#">
               Pages
             </Breadcrumb.Item>
             <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
@@ -17,19 +17,19 @@ export default function Services() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-            <Link to="#" className="btn btn-primary btn-icon text-white me-3">
-              <span>
-                <i className="fe fe-plus"></i>&nbsp;
-              </span>
-              Add Account
-            </Link>
-            <Link to="#" className="btn btn-success btn-icon text-white">
-              <span>
-                <i className="fe fe-log-in"></i>&nbsp;
-              </span>
-              Export
-            </Link>
-          </div>
+          <Link to="#" className="btn btn-primary btn-icon text-white me-3">
+            <span>
+              <i className="fe fe-plus" />&nbsp;
+            </span>
+            Add Account
+          </Link>
+          <Link to="#" className="btn btn-success btn-icon text-white">
+            <span>
+              <i className="fe fe-log-in" />&nbsp;
+            </span>
+            Export
+          </Link>
+        </div>
       </div>
 
       <Row>
@@ -38,7 +38,7 @@ export default function Services() {
             <Card.Body>
               <div className="item-box text-center">
                 <div className=" text-center  mb-4 text-primary">
-                  <i className="icon icon-people"></i>
+                  <i className="icon icon-people" />
                 </div>
                 <div className="item-box-wrap">
                   <h5 className="mb-2">Creative solutions</h5>
@@ -56,7 +56,7 @@ export default function Services() {
             <Card.Body>
               <div className="item-box text-center">
                 <div className=" text-center text-danger-gradient mb-4">
-                  <i className="icon icon-clock"></i>
+                  <i className="icon icon-clock" />
                 </div>
                 <div className="item-box-wrap">
                   <h5 className="mb-2">Trace your time</h5>
@@ -74,7 +74,7 @@ export default function Services() {
             <Card.Body>
               <div className="item-box text-center">
                 <div className=" text-center text-success mb-4">
-                  <i className="fa fa-building-o"></i>
+                  <i className="fa fa-building-o" />
                 </div>
                 <div className="item-box-wrap">
                   <h5 className="mb-2">Business FrameWork</h5>
@@ -92,7 +92,7 @@ export default function Services() {
             <Card.Body>
               <div className="item-box text-center">
                 <div className="text-center text-warning-gradient mb-4">
-                  <i className="icon icon-action-redo"></i>
+                  <i className="icon icon-action-redo" />
                 </div>
                 <div className="item-box-wrap">
                   <h5 className="mb-2">Shares</h5>
@@ -114,7 +114,7 @@ export default function Services() {
               <Row>
                 <Col className="feature" xl={2} lg={3}>
                   <div className="fa-stack fa-lg fa-1x border btn-primary mb-3">
-                    <i className="fa fa-globe fa-stack-1x text-white"></i>
+                    <i className="fa fa-globe fa-stack-1x text-white" />
                   </div>
                 </Col>
                 <Col lg={9} xl={10}>
@@ -140,7 +140,7 @@ export default function Services() {
               <Row>
                 <Col className="feature" xl={2} lg={3}>
                   <div className="fa-stack fa-lg fa-1x border bg-warning mb-3">
-                    <i className="fa fa-building-o fa-stack-1x text-white"></i>
+                    <i className="fa fa-building-o fa-stack-1x text-white" />
                   </div>
                 </Col>
                 <Col lg={9} xl={10}>
@@ -166,7 +166,7 @@ export default function Services() {
               <Row>
                 <Col className="feature" xl={2} lg={3}>
                   <div className="fa-stack fa-lg fa-1x border bg-pink mb-3">
-                    <i className="fa fa-file-word-o fa-stack-1x text-white"></i>
+                    <i className="fa fa-file-word-o fa-stack-1x text-white" />
                   </div>
                 </Col>
                 <Col lg={9} xl={10}>
@@ -192,7 +192,7 @@ export default function Services() {
               <Row>
                 <Col className="feature" xl={2} lg={3}>
                   <div className="fa-stack fa-lg fa-1x border bg-danger mb-3">
-                    <i className="fa fa-camera fa-stack-1x text-white"></i>
+                    <i className="fa fa-camera fa-stack-1x text-white" />
                   </div>
                 </Col>
                 <Col lg={9} xl={10}>
@@ -218,7 +218,7 @@ export default function Services() {
               <Row>
                 <Col className="feature" xl={2} lg={3}>
                   <div className="fa-stack fa-lg fa-1x border bg-purple mb-3">
-                    <i className="fa fa-pencil-square-o fa-stack-1x text-white"></i>
+                    <i className="fa fa-pencil-square-o fa-stack-1x text-white" />
                   </div>
                 </Col>
                 <Col lg={9} xl={10}>
@@ -244,7 +244,7 @@ export default function Services() {
               <Row>
                 <Col className="feature" xl={2} lg={3}>
                   <div className="fa-stack fa-lg fa-1x border bg-success mb-3">
-                    <i className="fa fa-eercast fa-stack-1x text-white"></i>
+                    <i className="fa fa-eercast fa-stack-1x text-white" />
                   </div>
                 </Col>
                 <Col lg={9} xl={10}>

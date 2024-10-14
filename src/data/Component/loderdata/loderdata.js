@@ -55,7 +55,7 @@ export function Cardwithloader1() {
           <Collapse in={expanded} timeout="auto">
             <div className="card-body">
               <div className="dimmer active">
-                <div className="spinner"></div>
+                <div className="spinner" />
               </div>
             </div>
           </Collapse>
@@ -102,8 +102,8 @@ export function Cardwithloader2() {
             <div className="card-body">
               <div className="dimmer active">
                 <div className="spinner1">
-                  <div className="double-bounce1"></div>
-                  <div className="double-bounce2"></div>
+                  <div className="double-bounce1" />
+                  <div className="double-bounce2" />
                 </div>
               </div>
             </div>
@@ -151,8 +151,8 @@ export function Cardwithloader3() {
             <div className="card-body">
               <div className="dimmer active">
                 <div className="spinner2">
-                  <div className="cube1"></div>
-                  <div className="cube2"></div>
+                  <div className="cube1" />
+                  <div className="cube2" />
                 </div>
               </div>
             </div>
@@ -200,10 +200,10 @@ export function Cardwithloader4() {
             <div className="card-body">
               <div className="dimmer active">
                 <div className="lds-ring">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                  <div />
+                  <div />
+                  <div />
+                  <div />
                 </div>
               </div>
             </div>
@@ -250,7 +250,7 @@ export function Cardwithloader5() {
           <Collapse in={expanded} timeout="auto">
             <div className="card-body">
               <div className="dimmer active">
-                <div className="lds-hourglass"></div>
+                <div className="lds-hourglass" />
               </div>
             </div>
           </Collapse>
@@ -296,7 +296,7 @@ export function Cardwithloader6() {
             <div className="card-body">
               <div className="dimmer active">
                 <div className="lds-heart">
-                  <div></div>
+                  <div />
                 </div>
               </div>
             </div>
@@ -318,7 +318,7 @@ export function Loadersbigsizes() {
         <Collapse in={expanded} timeout="auto">
           <div className="card-body">
             <div className="dimmer active">
-              <div className="spinner-lg"></div>
+              <div className="spinner-lg" />
             </div>
           </div>
         </Collapse>
@@ -336,8 +336,8 @@ export function Loadersbigsizes1() {
           <div className="card-body">
             <div className="dimmer active">
               <div className="spinner1-lg">
-                <div className="double-bounce1"></div>
-                <div className="double-bounce2"></div>
+                <div className="double-bounce1" />
+                <div className="double-bounce2" />
               </div>
             </div>
           </div>

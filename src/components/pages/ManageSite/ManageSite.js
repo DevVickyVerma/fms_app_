@@ -336,7 +336,7 @@ const ManageSite = (props) => {
                     >
                       <div >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-pencil me-2"></i>
+                          <i className="ph ph-pencil me-2" />
                           Edit
                         </div>
                       </div>
@@ -350,7 +350,7 @@ const ManageSite = (props) => {
                     >
                       <div to="#" onClick={() => handleDelete(row.id)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-trash me-2"></i>
+                          <i className="ph ph-trash me-2" />
                           Delete
                         </div>
                       </div>
@@ -363,7 +363,7 @@ const ManageSite = (props) => {
                       <div
                         onClick={() => navigate(`/site-card-opening/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-folder-open me-2"></i>
+                          <i className="ph ph-folder-open me-2" />
                           Card Opening
                         </div>
                       </div>
@@ -376,7 +376,7 @@ const ManageSite = (props) => {
                       <div
                         onClick={() => navigate(`/site-card-adjustment/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-folder-open me-2"></i>
+                          <i className="ph ph-folder-open me-2" />
                           Card Adjustment
                         </div>
                       </div>
@@ -388,7 +388,7 @@ const ManageSite = (props) => {
                     >
                       <div onClick={() => navigate(`/set-fuel-grades/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-gas-pump me-2"></i>
+                          <i className="ph ph-gas-pump me-2" />
                           Set Fuel Grades
                         </div>
                       </div>
@@ -401,7 +401,7 @@ const ManageSite = (props) => {
                     >
                       <div onClick={() => navigate(`/site-setting/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-gear me-2"></i>
+                          <i className="ph ph-gear me-2" />
                           Settings
                         </div>
                       </div>
@@ -411,7 +411,7 @@ const ManageSite = (props) => {
                     <Dropdown.Item className=" p-0 m-0" >
                       <div onClick={() => navigate(`/autodayend/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                          <i className="ph ph-files me-2"></i>
+                          <i className="ph ph-files me-2" />
                           Site Auto Report
                         </div>
                       </div>
@@ -423,7 +423,7 @@ const ManageSite = (props) => {
                     >
                       <div onClick={() => navigate(`/assignmanger/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                          <i className="ph ph-user-plus me-2"></i>
+                          <i className="ph ph-user-plus me-2" />
                           Assign Manager
                         </div>
                       </div>
@@ -435,7 +435,7 @@ const ManageSite = (props) => {
                     >
                       <div onClick={() => navigate(`/skipdates/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-calendar-check me-2"></i>
+                          <i className="ph ph-calendar-check me-2" />
                           Skip Date
                         </div>
                       </div>
@@ -445,7 +445,7 @@ const ManageSite = (props) => {
                     <Dropdown.Item className=" p-0 m-0" >
                       <div onClick={() => navigate(`/managebank/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-person me-2"></i>
+                          <i className="ph ph-person me-2" />
                           Bank Manager
                         </div>
                       </div>
@@ -455,7 +455,7 @@ const ManageSite = (props) => {
                     <Dropdown.Item className=" p-0 m-0" >
                       <div onClick={() => navigate(`/opening-balance/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-wallet me-2"></i>
+                          <i className="ph ph-wallet me-2" />
                           Opening Balance
                         </div>
                       </div>
@@ -465,7 +465,7 @@ const ManageSite = (props) => {
                     <Dropdown.Item className=" p-0 m-0">
                       <div onClick={() => navigate(`/bunkering-balance/${row.id}`)}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-wallet me-2"></i>
+                          <i className="ph ph-wallet me-2" />
                           Bunkering Balance
                         </div>
                       </div>
@@ -475,7 +475,7 @@ const ManageSite = (props) => {
                     <Dropdown.Item className=" p-0 m-0">
                       <div onClick={() => navigate(`/assign-business-sub-categories/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-hourglass-high me-2"></i>
+                          <i className="ph ph-hourglass-high me-2" />
                           Assign Business Sub Categories
                         </div>
                       </div>
@@ -485,7 +485,7 @@ const ManageSite = (props) => {
                     <Dropdown.Item className=" p-0 m-0">
                       <div onClick={() => navigate(`/daily-due/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-computer-tower me-2"></i>
+                          <i className="ph ph-computer-tower me-2" />
                           Daily Dues
                         </div>
                       </div>
@@ -495,7 +495,7 @@ const ManageSite = (props) => {
                     <Dropdown.Item className=" p-0 m-0"  >
                       <div onClick={() => navigate(`/hide-business-categories/${row.id}`)} >
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="ph ph-eye-closed me-2"></i>
+                          <i className="ph ph-eye-closed me-2" />
                           Hide Business Categories
                         </div>
                       </div>
@@ -558,7 +558,7 @@ const ManageSite = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site
-                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>
@@ -595,18 +595,15 @@ const ManageSite = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
                         center={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
                         searchable={false}
                         subHeader={false}
-
-
-
                       />
                     </div>
                   </>

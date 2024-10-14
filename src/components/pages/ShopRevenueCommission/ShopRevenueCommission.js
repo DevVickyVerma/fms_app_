@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import Loaderimg from "../../../Utils/Loader";
-
 import { useSelector } from "react-redux";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -512,7 +509,7 @@ const SageDeduction = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Client</option>
+                              <option disabled={true}>No Client</option>
                             )}
                           </select>
 
@@ -568,7 +565,7 @@ const SageDeduction = (props) => {
                               ))}
                             </>
                           ) : (
-                            <option disabled>No Company</option>
+                            <option disabled={true}>No Company</option>
                           )}
                         </select>
                         {formik.errors.company_id &&
@@ -611,7 +608,7 @@ const SageDeduction = (props) => {
                               </option>
                             ))
                           ) : (
-                            <option disabled>No Site</option>
+                            <option disabled={true}>No Site</option>
                           )}
                         </select>
                         {formik.errors.site_id && formik.touched.site_id && (
@@ -665,7 +662,7 @@ const SageDeduction = (props) => {
                               ))}
                             </>
                           ) : (
-                            <option disabled>No Deduction</option>
+                            <option disabled={true}>No Deduction</option>
                           )}
                         </select>
                         {formik.errors.department_item_id &&

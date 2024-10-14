@@ -197,7 +197,7 @@ const ManageAddon = (props) => {
                 className="btn btn-primary btn-sm rounded-11 me-2"
                 onClick={() => handleEdit(row)}
               >
-                <i className="ph ph-pencil"></i>
+                <i className="ph ph-pencil" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -208,7 +208,7 @@ const ManageAddon = (props) => {
                 className="btn btn-danger btn-sm rounded-11"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -275,12 +275,12 @@ const ManageAddon = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
 
                       />
                     </div>

@@ -55,7 +55,7 @@ export function LocalizedTimePicker() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <TimePicker
-        ampmInClock
+        ampmInClock={true}
         openTo="hours"
         views={["hours", "minutes", "seconds"]}
         inputFormat="HH:mm:ss"
@@ -112,7 +112,7 @@ export function ResponsiveTimePickers() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <TimePicker
-        ampmInClock
+        ampmInClock={true}
         views={["minutes", "seconds"]}
         inputFormat="mm:ss"
         mask="__:__"
@@ -264,7 +264,7 @@ export function CustomSelectIcon() {
     <MultiSelect
       customCloseIcon={
         <>
-          <i className="fa fa-clock-o tx-16 lh-0 op-6"></i>
+          <i className="fa fa-clock-o tx-16 lh-0 op-6" />
         </>
       }
       onKeyPressFn={function noRefCheck() { }}
@@ -392,7 +392,7 @@ export function GroupOptionMutipleSelect1() {
         "November",
         "December",
       ]}
-      showCheckbox
+      showCheckbox={true}
       selectedValues={["January", "March"]}
     />
   );
@@ -430,7 +430,7 @@ export function GroupOptionMutipleSelect() {
   return (
     <div>
       <Select
-        isMulti
+        isMulti={true}
         classNamePrefix="background"
         isFilterOption={true}
         isSearchable={false}
@@ -557,7 +557,7 @@ export function Selectfilter() {
   ];
   return (
     <Select
-      isMulti
+      isMulti={true}
       classNamePrefix="background"
       options={optionsSelectfilter}
     />
@@ -693,7 +693,7 @@ export function TransferList1() {
           bgcolor: "background.paper",
           overflow: "auto",
         }}
-        dense
+        dense={true}
         component="div"
         role="list"
       >
@@ -704,14 +704,14 @@ export function TransferList1() {
             <ListItem
               key={value}
               role="listitem"
-              button
+              button={true}
               onClick={handleToggle(value)}
             >
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(value) !== -1}
                   tabIndex={-1}
-                  disableRipple
+                  disableRipple={true}
                   inputProps={{
                     "aria-labelledby": labelId,
                   }}
@@ -727,10 +727,10 @@ export function TransferList1() {
   );
 
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item>{customList("Choices", left)}</Grid>
-      <Grid item>
-        <Grid container direction="column" alignItems="center">
+    <Grid container={true} spacing={2} justifyContent="center" alignItems="center">
+      <Grid item={true}>{customList("Choices", left)}</Grid>
+      <Grid item={true}>
+        <Grid container={true} direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
             variant="outlined"
@@ -753,7 +753,7 @@ export function TransferList1() {
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList("Chosen", right)}</Grid>
+      <Grid item={true}>{customList("Chosen", right)}</Grid>
     </Grid>
   );
 }
@@ -786,7 +786,7 @@ export function AnimatedMultisingle() {
     <Select
       closeMenuOnSelect={false}
       components={animatedComponents}
-      isMulti
+      isMulti={true}
       options={Optionssingle}
     />
   );
@@ -895,7 +895,7 @@ export const SearchSelect13 = () => {
     <div>
       <Creatable
         classNamePrefix="background"
-        isMulti
+        isMulti={true}
         display="value"
         options={option13s}
         value={selected}
@@ -943,7 +943,7 @@ export const SearchSelect45 = () => {
     <div>
       <Creatable
         classNamePrefix="background"
-        isMulti
+        isMulti={true}
         display="value"
         options={groupedOptions3ss}
         value={selected}
@@ -1157,7 +1157,7 @@ export const Selectbox = () => {
 
   return (
     <DualListBox
-      canFilter
+      canFilter={true}
       selected={value}
       options={options}
       filterCallback={(option, filterInput) => {

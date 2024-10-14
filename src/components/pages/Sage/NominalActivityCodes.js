@@ -275,7 +275,7 @@ const UploadCompetitor = (props) => {
                 <>
                   <Link className="btn btn-danger me-2" onClick={openURL}>
                     Download Sample{" "}
-                    <i className="fa fa-download" aria-hidden="true"></i>
+                    <i className="fa fa-download" aria-hidden="true" />
                   </Link>
                 </>
               </Card.Header>
@@ -331,7 +331,7 @@ const UploadCompetitor = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Client</option>
+                              <option disabled={true}>No Client</option>
                             )}
                           </select>
 
@@ -384,7 +384,7 @@ const UploadCompetitor = (props) => {
                               ))}
                             </>
                           ) : (
-                            <option disabled>No Company</option>
+                            <option disabled={true}>No Company</option>
                           )}
                         </select>
                         {formik.errors.company_id &&
@@ -469,12 +469,12 @@ const UploadCompetitor = (props) => {
                   <DataTable
                     columns={columns}
                     data={data}
-                    noHeader
+                    noHeader={true}
                     defaultSortField="id"
                     defaultSortAsc={false}
                     striped={true}
-                    persistTableHead
-                    highlightOnHover
+                    persistTableHead={true}
+                    highlightOnHover={true}
                   />
                 </div>
               </>

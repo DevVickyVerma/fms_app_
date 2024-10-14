@@ -51,7 +51,7 @@ const CustomClient = ({ formik, lg, md, ClientList, setSelectedClientId, setSite
                                     </option>
                                 ))
                             ) : (
-                                <option disabled>No Client</option>
+                                <option disabled={true}>No Client</option>
                             )}
                         </select>
 

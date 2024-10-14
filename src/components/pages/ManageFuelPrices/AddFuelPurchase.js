@@ -316,7 +316,7 @@ const ManageDsr = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Client</option>
+                              <option disabled={true}>No Client</option>
                             )}
                           </select>
 
@@ -460,7 +460,7 @@ const ManageDsr = (props) => {
                               </option>
                             ))
                           ) : (
-                            <option disabled>No Client</option>
+                            <option disabled={true}>No Client</option>
                           )}
                         </select>
                         {formik2.errors.fuel_name &&

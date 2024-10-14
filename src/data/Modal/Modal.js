@@ -6,11 +6,11 @@ export function FormModal(props) {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(false);
-  
+
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -19,18 +19,18 @@ export function FormModal(props) {
     setInputValue(event.target.value);
     setError(event.target.value.trim() === "");
   };
-  
+
   const handleSave = () => {
     if (inputValue.trim() !== "") {
       handleClose();
       setInputValue("")
-   
-     
+
+
     } else {
       setError(true);
     }
   };
-  
+
   return (
     <div>
       <Button
@@ -53,14 +53,14 @@ export function FormModal(props) {
             {props.modalContentText}
           </DialogContentText>
           <TextField
-            
+
             margin="dense"
             id={props.modalInputId}
             label={props.modalInputLabel}
             type={props.modalInputType}
-            fullWidth
+            fullWidth={true}
             variant="standard"
-            required
+            required={true}
             value={inputValue}
             onChange={handleInputChange}
             error={error}

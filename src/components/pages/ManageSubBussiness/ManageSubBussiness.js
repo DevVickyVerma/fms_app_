@@ -188,7 +188,7 @@ const ManageSubBusinessTypes = (props) => {
                 to={`/editsub-business/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
-                <i className="ph ph-pencil"></i>
+                <i className="ph ph-pencil" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -199,7 +199,7 @@ const ManageSubBusinessTypes = (props) => {
                 className="btn btn-danger btn-sm rounded-11"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -259,7 +259,7 @@ const ManageSubBusinessTypes = (props) => {
                 />
                 {isAddPermissionAvailable ? (
                   <Link to="/addsub-business" className="btn btn-primary ms-2">
-                    Add Sub-Business Types <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                    Add Sub-Business Types <i className="ph ph-plus ms-1 ph-plus-icon" />
                   </Link>
                 ) : null}
               </div>
@@ -269,12 +269,12 @@ const ManageSubBusinessTypes = (props) => {
           <DataTable
             columns={columns}
             data={data}
-            noHeader
+            noHeader={true}
             defaultSortField="id"
             defaultSortAsc={false}
             striped={true}
-            persistTableHead
-            highlightOnHover
+            persistTableHead={true}
+            highlightOnHover={true}
           />
         </>
       )}

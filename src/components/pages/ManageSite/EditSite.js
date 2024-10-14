@@ -353,7 +353,7 @@ export default function AddSite(props) {
                             placeholder="Site Code"
                             onChange={formik.handleChange}
                             value={formik.values.site_code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.site_code &&
                             formik.touched.site_code && (
@@ -480,7 +480,7 @@ export default function AddSite(props) {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No supplier_id available</option>
+                              <option disabled={true}>No supplier_id available</option>
                             )}
                           </select>
                           {formik.errors.supplier_id &&
@@ -519,7 +519,7 @@ export default function AddSite(props) {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Site Status available</option>
+                              <option disabled={true}>No Site Status available</option>
                             )}
                           </select>
                           {formik.errors.site_status &&
@@ -558,7 +558,7 @@ export default function AddSite(props) {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>
+                              <option disabled={true}>
                                 No Bussiness Type available
                               </option>
                             )}
@@ -993,7 +993,7 @@ export default function AddSite(props) {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Machine Type</option>
+                              <option disabled={true}>No Machine Type</option>
                             )}
                           </select>
                           {formik.errors.data_import_type_id &&

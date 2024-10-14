@@ -375,7 +375,7 @@ const EditUsers = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Role</option>
+                              <option disabled={true}>No Role</option>
                             )}
                           </select>
                           {formik.errors.role_id && formik.touched.role_id && (
@@ -390,7 +390,7 @@ const EditUsers = (props) => {
                           <FormControl className="width">
                             <InputLabel>Select Clients</InputLabel>
                             <Select
-                              multiple
+                              multiple={true}
                               value={selectedItems}
                               // value={selectedItemsId}
                               onChange={(event) => {
@@ -410,7 +410,7 @@ const EditUsers = (props) => {
                               }}
                               renderValue={(selected) => selected.join(", ")}
                             >
-                              <MenuItem disabled value="">
+                              <MenuItem disabled={true} value="">
                                 <em>Select items</em>
                               </MenuItem>
 

@@ -288,7 +288,7 @@ export default function AddSite() {
                             </option>
                           ))
                         ) : (
-                          <option disabled>No Business Type</option>
+                          <option disabled={true}>No Business Type</option>
                         )}
                       </select>
                       {formik.errors.business_type_id &&

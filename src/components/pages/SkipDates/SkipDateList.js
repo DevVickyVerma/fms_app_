@@ -174,7 +174,7 @@ const ManageRoles = (props) => {
                 className="btn btn-danger btn-sm rounded-11"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash"></i>
+                <i className="ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -307,12 +307,12 @@ const ManageRoles = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
                       />
                     </div>
                   </>
@@ -340,7 +340,7 @@ const ManageRoles = (props) => {
           open={showModal}
           onClose={handleCloseModal}
           maxWidth="sm"
-          fullWidth
+          fullWidth={true}
           md={{ minHeight: "700px" }}
           style={{ minHeight: "700px" }}
         >
@@ -387,13 +387,13 @@ const ManageRoles = (props) => {
                 placeholder="Select Skip Dates"
                 value={selectedDates}
                 onChange={handleDateSelection}
-                multiple
+                multiple={true}
                 numberOfMonths={1}
                 style={{ width: "100%" }}
               />
             </form>
           </DialogContent>
-          <hr></hr>
+          <hr />
           <DialogActions>
             <button
               className="btn btn-primary me-2"

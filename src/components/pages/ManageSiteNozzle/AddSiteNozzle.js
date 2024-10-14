@@ -278,7 +278,7 @@ const AddSiteNozzle = (props) => {
                                   </option>
                                 ))
                               ) : (
-                                <option disabled>No Client</option>
+                                <option disabled={true}>No Client</option>
                               )}
                             </select>
 
@@ -412,7 +412,7 @@ const AddSiteNozzle = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Client</option>
+                              <option disabled={true}>No Client</option>
                             )}
                           </select>
                           {formik.errors.fuel_id &&
@@ -517,7 +517,7 @@ const AddSiteNozzle = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Client</option>
+                              <option disabled={true}>No Client</option>
                             )}
                           </select>
                           {formik.errors.site_pump_id &&
