@@ -298,9 +298,6 @@ const Dashboard = (props) => {
           </h2>
         )}
 
-
-
-
         <DashboardStatsBox
           GrossVolume={dashboardData?.gross_volume}
           shopmargin={dashboardData?.shop_profit}
