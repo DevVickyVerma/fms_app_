@@ -12,7 +12,7 @@ const Header = (props) => {
   const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
     useState(null);
 
-  const logout = async (row) => {
+  const logout = async () => {
     localStorage.clear();
     window.location.replace("/");
     try {
