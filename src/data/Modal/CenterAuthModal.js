@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Dialog,
   DialogContent,
@@ -104,10 +105,6 @@ const CenterAuthModal = (props) => {
       handleSubmit1(values, setSubmitting);
     },
   });
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);

@@ -1,10 +1,8 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -82,6 +80,7 @@ const ManageDeductions = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await postData("/deduction/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {
@@ -119,19 +118,12 @@ const ManageDeductions = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "deduction-status-update"
-  );
   const isEditPermissionAvailable =
     permissionsArray?.includes("deduction-edit");
   const isAddPermissionAvailable =
     permissionsArray?.includes("deduction-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("deduction-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("deduction-details");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("deduction-assign");
 
   const columns = [
     {
@@ -263,10 +255,6 @@ const ManageDeductions = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 

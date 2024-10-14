@@ -17,6 +17,7 @@ const SingleAuthModal = (props) => {
   const [factordata, setfactordata] = useState();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [UserPermissionstwo_factor, setUserPermissionstwo_factor] =
     useState(false);
 

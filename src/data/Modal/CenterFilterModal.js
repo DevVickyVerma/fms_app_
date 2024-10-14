@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,13 +21,10 @@ const CenterFilterModal = (props) => {
   } = props;
 
 
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [myclientID, setMyClientID] = useState(localStorage.getItem("superiorId"));
-  const [myClientRole, setMyClientRole] = useState(localStorage.getItem("superiorRole"));
+  const [myclientID] = useState(localStorage.getItem("superiorId"));
+  const [myClientRole] = useState(localStorage.getItem("superiorRole"));
   const [isLoading, setIsLoading] = useState(true);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
@@ -68,16 +64,8 @@ const CenterFilterModal = (props) => {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
 
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
+
         }
       }
       setIsLoading(false); // Set isLoading to false after the API call is complete
@@ -123,7 +111,6 @@ const CenterFilterModal = (props) => {
   };
 
   useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
 
     if (myClientRole !== "Client") {
       fetchCommonListData()
@@ -308,7 +295,6 @@ const CenterFilterModal = (props) => {
                               GetSiteList(selectcompany);
                               formik.setFieldValue("site_id", "");
                               formik.setFieldValue("company_id", selectcompany);
-                              setSelectedCompanyId(selectcompany);
 
                               const selectedCompanyData =
                                 CompanyList?.find(
@@ -331,7 +317,6 @@ const CenterFilterModal = (props) => {
                           <option value="">Select a Company</option>
                           {selectedClientId && CompanyList.length > 0 ? (
                             <>
-                              setSelectedCompanyId([])
                               {CompanyList.map((company) => (
                                 <option key={company.id} value={company.id}>
                                   {company.company_name}
@@ -369,7 +354,6 @@ const CenterFilterModal = (props) => {
                             const selectedsite_id = e.target.value;
 
                             formik.setFieldValue("site_id", selectedsite_id);
-                            setSelectedSiteId(selectedsite_id);
 
                             const selectedSiteData =
                               SiteList.find(

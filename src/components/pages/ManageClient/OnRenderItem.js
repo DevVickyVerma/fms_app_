@@ -110,6 +110,7 @@ const ManageClient = (props) => {
     e.preventDefault();
     try {
       // Assuming you want to make a POST request with selected IDs
+      // eslint-disable-next-line no-unused-vars
       const response = await postData('/your/api/endpoint', { selectedIds });
       // Handle the response as needed
     } catch (error) {

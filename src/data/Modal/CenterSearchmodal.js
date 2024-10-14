@@ -9,10 +9,10 @@ import { AiOutlineClose } from "react-icons/ai";
 
 const CenterSearchmodal = (props) => {
   const {
-    title,
-    sidebarContent,
-    visible,
-    onClose,
+    // title,
+    // sidebarContent,
+    // visible,
+    // onClose,
     onSubmit,
     searchListstatus,
   } = props;

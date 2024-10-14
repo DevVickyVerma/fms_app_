@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const Apexcharts2 = ({ data }) => {
-  const [series, setSeries] = useState([10, 15, 33, 43]);
+  // const [series, setSeries] = useState([10, 15, 33, 43]);
 
 
 

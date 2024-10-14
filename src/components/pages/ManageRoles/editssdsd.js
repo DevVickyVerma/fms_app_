@@ -17,7 +17,6 @@ export default function EditRoles() {
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [permissionArray, setPermissionArray] = useState([]);
-  const [addonArray, setAddonArray] = useState([]);
 
   const navigate = useNavigate();
 
@@ -58,7 +57,7 @@ export default function EditRoles() {
           formik.setValues({
             name: data.data.role.name,
             permissions: permissionArray,
-            addons: addonArray,
+            addons: [],
           });
         }
 
@@ -141,7 +140,7 @@ export default function EditRoles() {
     onSubmit: handleSubmit1,
   });
 
-  const { errors, touched, setFieldValue } = formik;
+  const { errors, touched, } = formik;
 
   return (
     <>

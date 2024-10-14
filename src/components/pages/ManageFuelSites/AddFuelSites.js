@@ -11,7 +11,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
 const AddDeductions = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, postData } = props;
   const navigate = useNavigate();
 
   const handleSubmit1 = async (values) => {

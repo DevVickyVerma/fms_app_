@@ -12,7 +12,6 @@ import { handleError } from "../../Utils/ToastUtils";
 
 const DashBordModal = (props) => {
   const { title, visible, onClose, onSubmit } = props;
-  const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -43,7 +42,6 @@ const DashBordModal = (props) => {
         ) {
           const clientId = localStorage.getItem("superiorId");
           if (clientId) {
-            setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
             if (response?.data) {
@@ -136,7 +134,6 @@ const DashBordModal = (props) => {
                                       onChange={(e) => {
                                         const selectedType = e.target.value;
                                         setFieldValue("client_id", selectedType);
-                                        setSelectedClientId(selectedType);
                                         setSelectedSiteList([]);
 
                                         // Reset the selected company and site
