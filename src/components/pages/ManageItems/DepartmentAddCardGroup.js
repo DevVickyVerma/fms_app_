@@ -213,10 +213,10 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
                                                     defaultSortField="id"
                                                     defaultSortAsc={false}
                                                     striped={true}
-                                                    persistTableHead
-                                                    highlightOnHover
+                                                    persistTableHead={true}
+                                                    highlightOnHover={true}
                                                     searchable={false}
-                                                    responsive
+                                                    responsive={true}
                                                 />
                                             </div>
                                         </>

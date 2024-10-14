@@ -440,7 +440,7 @@ const AddSite = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>No clients</option>
+                                  <option disabled={true}>No clients</option>
                                 )}
                               </select>
                               {errors.company_id && touched.company_id && (
@@ -477,7 +477,7 @@ const AddSite = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>
+                                  <option disabled={true}>
                                     No Supplier available
                                   </option>
                                 )}
@@ -623,7 +623,7 @@ const AddSite = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>
+                                  <option disabled={true}>
                                     No Site Status available
                                   </option>
                                 )}
@@ -669,7 +669,7 @@ const AddSite = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>
+                                  <option disabled={true}>
                                     No BusinessType available
                                   </option>
                                 )}
@@ -1111,7 +1111,7 @@ const AddSite = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>No Machine Type</option>
+                                  <option disabled={true}>No Machine Type</option>
                                 )}
                               </Field>
                               <ErrorMessage
@@ -1883,9 +1883,9 @@ const AddSite = (props) => {
                                       emails={field.to_emails}
                                       onChange={(emails) => setFieldValue("to_emails", emails)}
                                       getLabel={(email, index, removeEmail) => (
-                                        <div data-tag key={index} className="renderEmailTag">
+                                        <div data-tag={true} key={index} className="renderEmailTag">
                                           {email}
-                                          <span data-tag-handle className="closeicon" onClick={() => removeEmail(index)}>
+                                          <span data-tag-handle={true} className="closeicon" onClick={() => removeEmail(index)}>
                                             ×
                                           </span>
                                         </div>
@@ -1908,9 +1908,9 @@ const AddSite = (props) => {
                                       emails={field.cc_emails}
                                       onChange={(emails) => setFieldValue("cc_emails", emails)}
                                       getLabel={(email, index, removeEmail) => (
-                                        <div data-tag key={index} className="renderEmailTag">
+                                        <div data-tag={true} key={index} className="renderEmailTag">
                                           {email}
-                                          <span data-tag-handle className="closeicon" onClick={() => removeEmail(index)}>
+                                          <span data-tag-handle={true} className="closeicon" onClick={() => removeEmail(index)}>
                                             ×
                                           </span>
                                         </div>

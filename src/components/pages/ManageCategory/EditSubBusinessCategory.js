@@ -226,7 +226,7 @@ const EditBussiness = (props) => {
                             placeholder="Sub-Business Category Code"
                             onChange={formik.handleChange}
                             value={formik.values.sub_category_code}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.sub_category_code &&
                             formik.touched.sub_category_code && (
@@ -289,7 +289,7 @@ const EditBussiness = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Sub-Business Type</option>
+                              <option disabled={true}>No Sub-Business Type</option>
                             )}
                           </select>
                           {formik.errors.business_category_id &&

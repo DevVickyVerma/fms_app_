@@ -232,7 +232,7 @@ const TreeForm = (props) => {
                                                 className="fa fa-chevron-up"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
-                                              ></i>
+                                              />
                                             </span>
                                           ) : (
                                             <span>
@@ -240,7 +240,7 @@ const TreeForm = (props) => {
                                                 className="fa fa-chevron-down"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
-                                              ></i>
+                                              />
                                             </span>
                                           )}
                                         </button>
@@ -337,7 +337,7 @@ const TreeForm = (props) => {
                                                 className="fa fa-chevron-up"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
-                                              ></i>
+                                              />
                                             </span>
                                           ) : (
                                             <span>
@@ -345,7 +345,7 @@ const TreeForm = (props) => {
                                                 className="fa fa-chevron-down"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
-                                              ></i>
+                                              />
                                             </span>
                                           )}
                                         </button>

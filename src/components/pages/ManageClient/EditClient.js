@@ -136,11 +136,11 @@ const EditClient = (props) => {
     formik.setFieldValue("fairbank_email", newEmails);
   };
   const renderEmailTag = (email, index, removeEmail) => (
-    <div data-tag key={index} className="renderEmailTag">
+    <div data-tag={true} key={index} className="renderEmailTag">
       {email}
       <span
         className="closeicon"
-        data-tag-handle
+        data-tag-handle={true}
         onClick={() => {
           const newEmails = formik.values?.fairbank_email?.filter(
             (_, i) => i !== index
@@ -219,7 +219,7 @@ const EditClient = (props) => {
                             placeholder="Client Code"
                             onChange={formik.handleChange}
                             value={formik.values.client_code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.client_code &&
                             formik.touched.client_code && (
@@ -301,7 +301,7 @@ const EditClient = (props) => {
                             placeholder="Company Name"
                             // onChange={formik.handleChange}
                             value={formik.values.email || ""}
-                            readonly
+                            readonly={true}
                           />
                           {formik.errors.email && formik.touched.email && (
                             <div className="invalid-feedback">

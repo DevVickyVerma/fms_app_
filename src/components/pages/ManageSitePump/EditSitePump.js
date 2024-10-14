@@ -166,7 +166,7 @@ const EditSitePump = (props) => {
                             placeholder="Site Pump Code"
                             onChange={formik.handleChange}
                             value={formik.values.code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.code && formik.touched.code && (
                             <div className="invalid-feedback">

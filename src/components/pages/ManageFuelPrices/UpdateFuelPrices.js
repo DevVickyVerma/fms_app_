@@ -156,7 +156,7 @@ const UpdateFuelPrices = (props) => {
         }
     };
 
-    
+
     const myRef = useRef();  // This is valid inside functional components
 
     useEffect(() => {
@@ -240,7 +240,7 @@ const UpdateFuelPrices = (props) => {
                     <div className=' ' ref={myRef} >
                         <div className='p-2 my-2 d-flex justify-content-between w-100 px-3' style={{ background: "#e74c3c", color: "#fff" }}>
                             <span>{showError}</span>
-                            <span onClick={() => setShowError(null)}><i className="fa fa-times fs-4 pointer" aria-hidden="true"></i></span>
+                            <span onClick={() => setShowError(null)}><i className="fa fa-times fs-4 pointer" aria-hidden="true" /></span>
                         </div>
                     </div>
                 </>)}
@@ -382,8 +382,8 @@ const UpdateFuelPrices = (props) => {
                                                                                             className="fa fa-info-circle ms-1"
                                                                                             aria-hidden="true"
                                                                                             style={{ fontSize: "15px" }}
-                                                                                        ></i>{" "}
-                                                                                        <span></span>
+                                                                                        />{" "}
+                                                                                        <span />
                                                                                     </p>
                                                                                 </OverlayTrigger>
                                                                             </span>

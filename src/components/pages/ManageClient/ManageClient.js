@@ -274,7 +274,7 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/editclient/${row.id}`}>
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-pencil me-2"></i>
+                          <i className="ph ph-pencil me-2" />
                           Edit
                         </div>
                       </Link>
@@ -284,7 +284,7 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-trash me-2"></i>
+                          <i className="ph ph-trash me-2" />
                           Delete
                         </div>
                       </Link>
@@ -297,7 +297,7 @@ const ManageClient = (props) => {
                           {/* <i className="setting-icon">
                             <VpnKeyIcon />
                           </i> */}
-                          <i className="ph ph-sign-in me-2"></i>
+                          <i className="ph ph-sign-in me-2" />
                           Client Login
                         </div>
                       </Link>
@@ -307,7 +307,7 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/assignclientaddon/${row.id}`}>
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-user-circle-plus me-2"></i>
+                          <i className="ph ph-user-circle-plus me-2" />
                           Assign Addon
                         </div>
                       </Link>
@@ -317,7 +317,7 @@ const ManageClient = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-sliders me-2"></i>
+                          <i className="ph ph-sliders me-2" />
                           Setup Payroll
                         </div>
                       </Link>
@@ -330,7 +330,7 @@ const ManageClient = (props) => {
                         to={`/assignreport/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i class="ph ph-files me-2"></i>
+                          <i class="ph ph-files me-2" />
                           <span>Report Assign</span>
                         </div>
                       </Link>
@@ -383,7 +383,7 @@ const ManageClient = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Client
-                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>
@@ -411,13 +411,13 @@ const ManageClient = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
+                        persistTableHead={true}
                         // pagination
-                        highlightOnHover
+                        highlightOnHover={true}
                         searchable={false}
                         className={dynamicClass}
                       // className="custom-datatable" // Add your custom class here

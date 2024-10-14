@@ -103,11 +103,11 @@ const AddClient = (props) => {
   };
 
   const renderEmailTag = (email, index, removeEmail) => (
-    <div data-tag key={index} className="renderEmailTag">
+    <div data-tag={true} key={index} className="renderEmailTag">
       {email}
       <span
         className="closeicon"
-        data-tag-handle
+        data-tag-handle={true}
         onClick={() => removeEmail(index)}
       >
         ×
@@ -279,7 +279,7 @@ const AddClient = (props) => {
                             >
                               Password
                               <OverlayTrigger placement="right" overlay={passwordTooltip}>
-                                <i className="ph ph-info pointer me-1"></i>
+                                <i className="ph ph-info pointer me-1" />
                               </OverlayTrigger>
                               <span className="text-danger">*</span>
                             </label>

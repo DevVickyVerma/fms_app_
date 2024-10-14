@@ -167,7 +167,7 @@ const EditSiteTank = (props) => {
                           placeholder="Site Tank Code"
                           onChange={formik.handleChange}
                           value={formik.values.tank_code || ""}
-                          readOnly
+                          readOnly={true}
                         />
                         {formik.errors.tank_code &&
                           formik.touched.tank_code && (

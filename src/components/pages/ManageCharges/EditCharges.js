@@ -172,7 +172,7 @@ const EditBussiness = (props) => {
                             placeholder="Charge Code"
                             onChange={formik.handleChange}
                             value={formik.values.charge_code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.charge_code &&
                             formik.touched.charge_code && (

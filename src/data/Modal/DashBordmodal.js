@@ -229,7 +229,7 @@ const DashBordModal = (props) => {
                                       </option>
                                     ))
                                   ) : (
-                                    <option disabled>No Company</option>
+                                    <option disabled={true}>No Company</option>
                                   )}
                                 </Field>
                                 <ErrorMessage
@@ -279,7 +279,7 @@ const DashBordModal = (props) => {
                                       </option>
                                     ))
                                   ) : (
-                                    <option disabled>No Site</option>
+                                    <option disabled={true}>No Site</option>
                                   )}
                                 </Field>
                                 <ErrorMessage

@@ -377,7 +377,7 @@ const AddCompany = (props) => {
                                         </option>
                                       ))
                                     ) : (
-                                      <option disabled>No clients</option>
+                                      <option disabled={true}>No clients</option>
                                     )}
                                   </Field>
                                   <ErrorMessage
@@ -622,14 +622,14 @@ const AddCompany = (props) => {
                                 <div className="maoptions-cover">
                                   <input
                                     type="checkbox"
-                                    checked
+                                    checked={true}
                                     onChange={() => handleCheckboxChange("1")}
                                     className="form-check-input"
                                   />
                                   <span className="mx-2">Actual</span>
                                 </div>
 
-                                <br></br>
+                                <br />
                                 <div className="maoptions-cover">
                                   <input
                                     type="checkbox"
@@ -638,7 +638,7 @@ const AddCompany = (props) => {
                                   />
                                   <span className="mx-2">Forecast</span>
                                 </div>
-                                <br></br>
+                                <br />
                                 <div className="maoptions-cover">
                                   <input
                                     type="checkbox"

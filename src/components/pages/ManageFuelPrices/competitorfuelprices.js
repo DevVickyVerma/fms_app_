@@ -260,7 +260,7 @@ const CompetitorFuelPrices = (props) => {
                     {data &&
                       data?.listing?.map((site) => (
                         <div key={site.id} className="mt-2">
-                          <Collapse accordion>
+                          <Collapse accordion={true}>
                             <Panel header={site.site_name} key={site.id}>
                               {site?.competitors.length > 0 ? (
                                 // Render the table

@@ -308,7 +308,7 @@ const ManageCompany = (props) => {
                         onClick={() => handleEdit(row)}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-pencil me-2"></i>
+                          <i className="ph ph-pencil me-2" />
                           Edit
                         </div>
                       </Link>
@@ -318,7 +318,7 @@ const ManageCompany = (props) => {
                     <Dropdown.Item className="dropdown-item">
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-trash me-2"></i>
+                          <i className="ph ph-trash me-2" />
                           Delete
                         </div>
                       </Link>
@@ -332,7 +332,7 @@ const ManageCompany = (props) => {
                     >
                       <Link to={`/companyautoreport/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                          <i className="ph ph-files me-2"></i>
+                          <i className="ph ph-files me-2" />
                           Company Auto Report
                         </div>
                       </Link>
@@ -345,7 +345,7 @@ const ManageCompany = (props) => {
                         to={`/company/sage-fuels/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-gas-pump me-2"></i>
+                          <i className="ph ph-gas-pump me-2" />
                           <span>Manage Sage Fuel</span>
                         </div>
                       </Link>
@@ -358,7 +358,7 @@ const ManageCompany = (props) => {
                         to={`/company/sage-items/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-coda-logo me-2"></i>
+                          <i className="ph ph-coda-logo me-2" />
                           <span>Manage Sage Items</span>
                         </div>
                       </Link>
@@ -371,7 +371,7 @@ const ManageCompany = (props) => {
                         to={`/company/sage-other-codes/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-code me-2"></i>
+                          <i className="ph ph-code me-2" />
                           <span>Sage Other Code</span>
                         </div>
                       </Link>
@@ -384,7 +384,7 @@ const ManageCompany = (props) => {
                         onClick={() => handleUploadSageSale(row.id)}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-upload me-2"></i>
+                          <i className="ph ph-upload me-2" />
                           <span>Upload Sage Sales</span>
                         </div>
                       </Link>
@@ -398,7 +398,7 @@ const ManageCompany = (props) => {
                         onClick={() => handleUploadBankReferenceSale(row.id)}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-vault me-2"></i>
+                          <i className="ph ph-vault me-2" />
                           <span>Upload Bank Reference</span>
                         </div>
                       </Link>
@@ -412,7 +412,7 @@ const ManageCompany = (props) => {
                         onClick={() => handleUploadBankReimbursementsSale(row.id)}
                       >
                         <div style={{ width: "100%" }}>
-                          <i className="ph ph-hand-coins me-2"></i>
+                          <i className="ph ph-hand-coins me-2" />
                           <span>Upload Bank Reimbursements</span>
                         </div>
                       </Link>
@@ -492,7 +492,7 @@ const ManageCompany = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Company
-                  <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>
@@ -519,12 +519,12 @@ const ManageCompany = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
 
                       />
                     </div>

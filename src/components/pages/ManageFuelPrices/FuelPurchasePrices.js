@@ -292,7 +292,7 @@ const ManageDsr = (props) => {
                 formik?.values?.data && formik.values.data[index]?.ex_vat_price
               }
               onChange={formik.handleChange}
-              readOnly
+              readOnly={true}
               onBlur={formik.handleBlur}
             />
             {/* Error handling code */}
@@ -351,7 +351,7 @@ const ManageDsr = (props) => {
               value={formik?.values?.data && formik.values.data[index]?.total}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={true}
             />
             {/* Error handling code */}
           </div>
@@ -626,12 +626,12 @@ const ManageDsr = (props) => {
                         <DataTable
                           columns={columns}
                           data={data}
-                          noHeader
+                          noHeader={true}
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                         />
                       </div>
                       {isEditPermissionAvailable ? (

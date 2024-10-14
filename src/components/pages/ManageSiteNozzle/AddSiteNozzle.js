@@ -332,7 +332,7 @@ const AddSiteNozzle = (props) => {
                                 ))}
                               </>
                             ) : (
-                              <option disabled>No Company</option>
+                              <option disabled={true}>No Company</option>
                             )}
                           </select>
                           {formik.errors.company_id &&
@@ -372,7 +372,7 @@ const AddSiteNozzle = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Site</option>
+                              <option disabled={true}>No Site</option>
                             )}
                           </select>
                           {formik.errors.site_id && formik.touched.site_id && (

@@ -372,7 +372,7 @@ const ManageDsr = (props) => {
                               ))}
                             </>
                           ) : (
-                            <option disabled>No Company</option>
+                            <option disabled={true}>No Company</option>
                           )}
                         </select>
                         {formik2.errors.company_id &&
@@ -607,7 +607,7 @@ const ManageDsr = (props) => {
                           placeholder="Ex Vat"
                           onChange={formik2.handleChange}
                           value={formik2.values.exvat}
-                          readOnly
+                          readOnly={true}
                         />
                         {formik2.errors.exvat && formik2.touched.exvat && (
                           <div className="invalid-feedback">
@@ -659,7 +659,7 @@ const ManageDsr = (props) => {
                           placeholder="Total"
                           onChange={formik2.handleChange}
                           value={formik2.values.total}
-                          readOnly
+                          readOnly={true}
                         />
                         {formik2.errors.total && formik2.touched.total && (
                           <div className="invalid-feedback">

@@ -428,7 +428,7 @@ const FuelPrices = (props) => {
                                 item?.fuels?.map((fuel, index) => (
                                   <td key={index}>
                                     {Array?.isArray(fuel) ? (
-                                      <input type="text" className="table-input readonly fuel-price-conent" readOnly />
+                                      <input type="text" className="table-input readonly fuel-price-conent" readOnly={true} />
                                     ) : (
                                       <input
                                         type="number"
@@ -469,13 +469,7 @@ const FuelPrices = (props) => {
               <Card.Footer>
                 {data?.head_array ? (
                   <div className="text-end notification-class">
-                    <div style={{ width: "200px", textAlign: "left" }} >
-
-
-
-
-
-                    </div>
+                    <div style={{ width: "200px", textAlign: "left" }} />
 
 
 

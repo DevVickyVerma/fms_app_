@@ -339,7 +339,7 @@ const EditCompany = (props) => {
                                   </option>
                                 ))
                               ) : (
-                                <option disabled>No clients</option>
+                                <option disabled={true}>No clients</option>
                               )}
                             </select>
                             {formik.errors.client_id &&

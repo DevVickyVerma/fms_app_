@@ -116,7 +116,7 @@ const UploadSageSales = (props) => {
             <Modal
                 show={showUploadSageSalesModal}
                 onHide={handleCloseModal}
-                centered
+                centered={true}
                 className="custom-modal-width custom-modal-height"
             >
 
@@ -127,7 +127,7 @@ const UploadSageSales = (props) => {
                         </span>
                         <span onClick={handleCloseModal} >
                             <button className="close-button">
-                                <i className="ph ph-x"></i>
+                                <i className="ph ph-x" />
                             </button>
                         </span>
                     </span>

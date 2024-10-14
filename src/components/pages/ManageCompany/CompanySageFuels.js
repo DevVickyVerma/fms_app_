@@ -116,7 +116,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             className={"table-input readonly"}
                             value={row.sage_account_code}
-                            readOnly
+                            readOnly={true}
                         />
                     </div>
                 ) : (
@@ -150,7 +150,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             className={"table-input readonly"}
                             value={row.sage_nominal_code}
-                            readOnly
+                            readOnly={true}
                         />
                     </div>
                 ) : (
@@ -182,7 +182,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             className={"table-input readonly"}
                             value={row.sage_purchage_code}
-                            readOnly
+                            readOnly={true}
                         />
                     </div>
                 ) : (
@@ -215,7 +215,7 @@ const CompanySageFuels = (props) => {
                             className={"table-input readonly"}
 
                             value={row.positive_nominal_type_id}
-                            readOnly
+                            readOnly={true}
                         />
                     </div>
                 ) : (
@@ -258,7 +258,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             className={"table-input readonly"}
                             value={row.negative_nominal_type_id}
-                            readOnly
+                            readOnly={true}
                         />
                     </div>
                 ) : (
@@ -303,7 +303,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             className={"table-input readonly"}
                             value={row.nominal_tax_code_id}
-                            readOnly
+                            readOnly={true}
                         />
                     </div>
                 ) : (
@@ -460,12 +460,12 @@ const CompanySageFuels = (props) => {
                                                 <DataTable
                                                     columns={columns}
                                                     data={data}
-                                                    noHeader
+                                                    noHeader={true}
                                                     defaultSortField="id"
                                                     defaultSortAsc={false}
                                                     striped={true}
-                                                    persistTableHead
-                                                    highlightOnHover
+                                                    persistTableHead={true}
+                                                    highlightOnHover={true}
                                                     searchable={false}
                                                 />
                                             </div>

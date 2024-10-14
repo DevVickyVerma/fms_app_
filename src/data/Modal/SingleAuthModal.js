@@ -189,7 +189,7 @@ const SingleAuthModal = (props) => {
 
       <Modal
         show={showModal}
-        centered
+        centered={true}
         className="custom-modal-width custom-modal-height"
       >
         <Modal.Header

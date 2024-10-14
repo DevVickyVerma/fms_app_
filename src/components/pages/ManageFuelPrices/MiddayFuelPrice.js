@@ -183,7 +183,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
                                     <div>
                                         <span>Fuel Selling Price - {filterData?.site_name} ({`${data?.currentDate} ${data?.currentTime}`}) </span>
                                         <span className="d-flex pt-1 align-items-center" style={{ fontSize: "12px" }}>
-                                            <span className="greenboxx me-2"></span>
+                                            <span className="greenboxx me-2" />
                                             <span className="text-muted">Current Price</span>
                                         </span>
                                     </div>

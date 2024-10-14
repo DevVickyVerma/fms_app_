@@ -314,7 +314,7 @@ const ManageCharges = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Charges <i className="ph ph-plus ms-1 ph-plus-icon"></i>
+                  Add Charges <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>
@@ -340,13 +340,13 @@ const ManageCharges = (props) => {
                       <DataTable
                         columns={columns}
                         data={data}
-                        noHeader
+                        noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
                         center={true}
-                        persistTableHead
-                        highlightOnHover
+                        persistTableHead={true}
+                        highlightOnHover={true}
                         searchable={false}
                         subHeader={false}
                       />

@@ -75,7 +75,7 @@ const CompanySageFuels = ({ getData }) => {
               type="number"
               className={"table-input readonly"}
               value={row.sage_sale_code}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -107,7 +107,7 @@ const CompanySageFuels = ({ getData }) => {
               type="number"
               className={"table-input readonly"}
               value={row.sage_purchage_code}
-              readOnly
+              readOnly={true}
             />
           </div>
         ) : (
@@ -234,12 +234,12 @@ const CompanySageFuels = ({ getData }) => {
                         <DataTable
                           columns={columns}
                           data={data}
-                          noHeader
+                          noHeader={true}
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
-                          persistTableHead
-                          highlightOnHover
+                          persistTableHead={true}
+                          highlightOnHover={true}
                           searchable={false}
                         />
                       </div>

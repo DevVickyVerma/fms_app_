@@ -738,14 +738,14 @@ const Root = () => {
   const WrappedDailyDue = withApi(DailyDue);
 
   return (
-    <Fragment>
+    <>
       <BrowserRouter>
         <React.Suspense fallback={<Loaderimg />}>
           <Provider store={store}>
             <Routes>
               <Route element={<PrivateRoutes token={token} />}>
                 <Route path={`/`} element={<App />}>
-                  <Route index element={<Dashboard />} />
+                  <Route index={true} element={<Dashboard />} />
                   <Route path={`/dashboard`} element={<WrappedDashboard />} />
                   {/* client  Components Start */}
                   <Route path={`/clients`} element={<WrappedManageClient />} />
@@ -1458,7 +1458,7 @@ const Root = () => {
           </Provider>
         </React.Suspense>
       </BrowserRouter>
-    </Fragment>
+    </>
   );
 };
 const root = ReactDOM.createRoot(document.getElementById("root"));

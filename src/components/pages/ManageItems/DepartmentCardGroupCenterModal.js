@@ -12,7 +12,7 @@ const DepartmentCardGroupCenterModal = (props) => {
         <Modal
             show={showModal}
             onHide={handleCloseModal}
-            centered
+            centered={true}
             className="custom-modal-width custom-modal-height"
         >
             <div className="modal-header">
@@ -22,7 +22,7 @@ const DepartmentCardGroupCenterModal = (props) => {
                     </span>
                     <span onClick={handleCloseModal} >
                         <button className="close-button">
-                            <i className="ph ph-x"></i>
+                            <i className="ph ph-x" />
                         </button>
                     </span>
                 </span>

@@ -173,7 +173,7 @@ const EditShops = (props) => {
                             placeholder="Shop Code"
                             onChange={formik.handleChange}
                             value={formik.values.code || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.code && formik.touched.code && (
                             <div className="invalid-feedback">
@@ -225,7 +225,7 @@ const EditShops = (props) => {
                             placeholder="Client"
                             onChange={formik.handleChange}
                             value={formik.values.client || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.client && formik.touched.client && (
                             <div className="invalid-feedback">
@@ -251,7 +251,7 @@ const EditShops = (props) => {
                             placeholder="company"
                             onChange={formik.handleChange}
                             value={formik.values.company || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.company && formik.touched.company && (
                             <div className="invalid-feedback">
@@ -277,7 +277,7 @@ const EditShops = (props) => {
                             placeholder="site"
                             onChange={formik.handleChange}
                             value={formik.values.site || ""}
-                            readOnly
+                            readOnly={true}
                           />
                           {formik.errors.site && formik.touched.site && (
                             <div className="invalid-feedback">

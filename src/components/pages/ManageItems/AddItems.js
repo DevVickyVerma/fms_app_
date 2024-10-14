@@ -167,7 +167,7 @@ const AddItems = (props) => {
                                   </option>
                                 ))
                               ) : (
-                                <option disabled>No Item Type</option>
+                                <option disabled={true}>No Item Type</option>
                               )}
                             </Field>
                             <ErrorMessage
