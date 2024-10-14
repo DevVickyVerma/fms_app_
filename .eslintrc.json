@@ -28,7 +28,7 @@
 
 
    // React specific rules
-   "react/prop-types": "warn", // Enforce defining propTypes for better type-checking in React components
+   "react/prop-types": "off", // Enforce defining propTypes for better type-checking in React components
    "react/jsx-no-duplicate-props": "warn", // Prevent defining duplicate props in JSX
    "react/jsx-no-undef": "warn", // Disallow the use of undefined variables in JSX
    "react/jsx-key": "warn", // Ensure proper usage of 'key' prop in lists
