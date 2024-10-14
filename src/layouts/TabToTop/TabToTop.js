@@ -26,7 +26,7 @@ const TabToTop = () => {
         onClick={screenup}
         className={`${BacktoTop}`}
       >
-        <i className="fa fa-angle-up"></i>
+        <i className="fa fa-angle-up" />
       </Link>
     </div>
   );

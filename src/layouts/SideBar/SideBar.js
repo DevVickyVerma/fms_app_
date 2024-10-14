@@ -185,7 +185,7 @@ const Sidebar = () => {
       {isLoading || loading ? <Loaderimg /> : null}
 
       <div className="sticky">
-        <div className="app-sidebar__overlay"></div>
+        <div className="app-sidebar__overlay" />
         <aside
           className="app-sidebar"
           onMouseOver={() => Onhover()}
@@ -244,14 +244,14 @@ const Sidebar = () => {
                 id="sidebar-main"
                 style={{ marginBottom: "61px" }}
               >
-                {MENUITEMS.map((Item, i) => (
-                  <Fragment key={i}>
+                {MENUITEMS?.map((Item, i) => (
+                  <Fragment key={Item?.id}>
                     {Item.Items.map((menuItem, i) =>
                       menuItem.visibility ? (
                         <li
                           className={`slide ${menuItem.active ? "is-expanded" : ""
                             }`}
-                          key={i}
+                          key={menuItem?.id}
                         >
                           {menuItem.type === "link" ? (
                             <NavLink
@@ -266,7 +266,7 @@ const Sidebar = () => {
                               <i
                                 className={`side-menu__icon ph-thin  ph-${menuItem.icon}`}
                                 aria-hidden="true"
-                              ></i>
+                               />
                               <span className="side-menu__label">
                                 {menuItem.title}
                               </span>
@@ -297,7 +297,7 @@ const Sidebar = () => {
                             >
                               <i
                                 className={`side-menu__icon ph ph-${menuItem.icon}`}
-                              ></i>
+                               />
                               <span className="side-menu__label">
                                 {menuItem.title}
                               </span>
@@ -312,7 +312,7 @@ const Sidebar = () => {
                               )}
                               <i
                                 className={`${menuItem.background} fa angle fa-angle-right `}
-                              ></i>
+                               />
                             </div>
                           ) : (
                             ""
@@ -332,7 +332,7 @@ const Sidebar = () => {
                             >
                               {menuItem.children.map((childrenItem, index) => {
                                 return childrenItem.visibility ? (
-                                  <li key={index}>
+                                  <li key={childrenItem?.id}>
                                     {childrenItem.type === "sub" ? (
                                       <a
                                         href="javascript"
@@ -346,9 +346,9 @@ const Sidebar = () => {
                                           {childrenItem.title}
                                         </span>
                                         {childrenItem.active ? (
-                                          <i className="sub-angle  fa fa-angle-down"></i>
+                                          <i className="sub-angle  fa fa-angle-down" />
                                         ) : (
-                                          <i className="sub-angle fa fa-angle-right"></i>
+                                          <i className="sub-angle fa fa-angle-right" />
                                         )}
                                       </a>
                                     ) : (
@@ -378,7 +378,7 @@ const Sidebar = () => {
                                       >
                                         {childrenItem.children.map(
                                           (childrenSubItem, key) => (
-                                            <li key={key}>
+                                            <li key={childrenSubItem?.id}>
                                               {childrenSubItem.type ===
                                                 "link" ? (
                                                 <NavLink

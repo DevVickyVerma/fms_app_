@@ -53,7 +53,7 @@ export function FormModal(props) {
             {props.modalContentText}
           </DialogContentText>
           <TextField
-            autoFocus
+            
             margin="dense"
             id={props.modalInputId}
             label={props.modalInputLabel}
