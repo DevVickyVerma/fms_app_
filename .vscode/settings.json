@@ -1,7 +1,11 @@
 {
     "cSpell.words": [
-        "breadcrumds",
-        "formik",
-        "Loaderimg"
-    ]
-}
+      "breadcrumds", // Custom words for spell checking
+      "formik",
+      "Loaderimg"
+    ],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit" // Use "explicit" instead of true for ESLint fixes on save
+    }
+  }
+  

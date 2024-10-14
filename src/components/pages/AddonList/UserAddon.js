@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
-
 import * as Yup from "yup";
-
 import { Link, useParams } from "react-router-dom";
-
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
@@ -13,8 +9,6 @@ import DataTable from "react-data-table-component";
 
 const AddCompany = (props) => {
   const { isLoading, getData, postData } = props;
-
-
   const { id } = useParams();
   const [ReportsData, setReportsData] = useState([]);
 
