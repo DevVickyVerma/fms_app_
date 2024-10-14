@@ -149,7 +149,7 @@ const DashboardStatsBox = (props) => {
             percentageValue={shopsale?.percentage}
             handleNavigateClick={handleNavigateClick}
             icon={"£"}
-            containerStyle={'dash-plates-2'}
+            containerStyle={'dash-plates-4'}
           // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
           // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
           // showPPL={true}
@@ -167,7 +167,7 @@ const DashboardStatsBox = (props) => {
             percentageValue={shop_fees?.percentage}
             handleNavigateClick={handleNavigateClick}
             icon={"£"}
-            containerStyle={'dash-plates-2'}
+            containerStyle={'dash-plates-6'}
           // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
           // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
           // showPPL={true}

@@ -55,7 +55,7 @@ const DashSubStatsBox = (props) => {
           leftSideData={singleSiteFuelSales?.gross_value}
           leftSideTitle={'Fuel Sales'}
           RightSideData={singleSiteFuelSales?.bunkered_value}
-          RightSideTitle={'Bunkered Volume'}
+          RightSideTitle={'Bunkered Sales'}
           statusValue={singleSiteFuelSales?.status}
           percentageValue={singleSiteFuelSales?.percentage}
           // handleNavigateClick={handleNavigateClick}

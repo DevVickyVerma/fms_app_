@@ -34,7 +34,7 @@ const DashCommonCard = ({ isParentComponent,
                                     {" "}
                                     <span className="l-sign">{icon}</span> {leftSideData
                                         ? formatNumber(leftSideData)
-                                        : "0"}  {showPPL ? "PPL" : ""}
+                                        : "0"}  {showPPL ? "ppl" : ""}
                                     <span className='ms-1'>
                                         {ppl_msg && (
                                             <OverlayTrigger
@@ -75,7 +75,7 @@ const DashCommonCard = ({ isParentComponent,
                                         className="mb-0 number-font"
                                     >
                                         {" "}
-                                        <span className="l-sign">ℓ</span>  {RightSideData
+                                        <span className="l-sign">{icon}</span>  {RightSideData
                                             ? formatNumber(RightSideData)
                                             : "0"}
                                     </h2>
