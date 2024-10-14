@@ -7,7 +7,7 @@ import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import { ErrorAlert, handleError, SuccessAlert } from "../../Utils/ToastUtils";
 
-const MyModal = (props) => {
+const MyModal = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
@@ -104,13 +104,7 @@ const MyModal = (props) => {
   };
 
   const fetchCompanyList = async (id) => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+
 
     try {
       setLoading(true); // Set isLoading to true

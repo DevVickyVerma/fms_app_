@@ -81,6 +81,7 @@ const Competitormodal = ({
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem, selectedDrsDate]);
 
   const formik = useFormik({
@@ -98,8 +99,8 @@ const Competitormodal = ({
     setIsLoading(true);
     const formData = new FormData();
 
-    values?.listing?.forEach((listingItem, listingIndex) => {
-      listingItem.fuels.forEach((fuel, fuelIndex) => {
+    values?.listing?.forEach((listingItem) => {
+      listingItem.fuels.forEach((fuel) => {
         const priceId = fuel?.id;
 
         const fieldKey = `fuels[${priceId}]`;

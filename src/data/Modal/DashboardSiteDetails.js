@@ -17,7 +17,6 @@ import { handleError } from "../../Utils/ToastUtils";
 const CustomModal = ({
   open,
   onClose,
-  siteName,
 }) => {
   const [data, setData] = useState();
   const [month, setmonth] = useState();
@@ -31,9 +30,10 @@ const CustomModal = ({
       setPreviousId(id); // Update the previousId to prevent multiple calls with the same id
       handleFuelChange(id);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const handleFuelChange = async (id) => {
+  const handleFuelChange = async () => {
     try {
       setLoading(true); // Set loading to true before making the request
       const token = localStorage.getItem("token");
