@@ -154,13 +154,16 @@ const Sidebar = () => {
             if (Items.children.includes(item)) {
               b.active = false;
             }
-            if (!b.children) return false;
+            
+            if (!b.children) return; // Just return undefined instead of false
+          
             b.children.forEach((c) => {
               if (b.children.includes(item)) {
                 c.active = false;
               }
             });
           });
+          
           return Items;
         });
         return a;
@@ -244,9 +247,9 @@ const Sidebar = () => {
                 id="sidebar-main"
                 style={{ marginBottom: "61px" }}
               >
-                {MENUITEMS?.map((Item, i) => (
+                {MENUITEMS?.map((Item, ) => (
                   <Fragment key={Item?.id}>
-                    {Item.Items.map((menuItem, i) =>
+                    {Item.Items.map((menuItem, ) =>
                       menuItem.visibility ? (
                         <li
                           className={`slide ${menuItem.active ? "is-expanded" : ""
@@ -330,8 +333,7 @@ const Sidebar = () => {
                                   : { display: "none" }
                               }
                             >
-                              {menuItem.children.map((childrenItem, index) => {
-                                return childrenItem.visibility ? (
+                              {menuItem.children.map((childrenItem) => childrenItem.visibility ? (
                                   <li key={childrenItem?.id}>
                                     {childrenItem.type === "sub" ? (
                                       <a
@@ -377,7 +379,7 @@ const Sidebar = () => {
                                         }
                                       >
                                         {childrenItem.children.map(
-                                          (childrenSubItem, key) => (
+                                          (childrenSubItem) => (
                                             <li key={childrenSubItem?.id}>
                                               {childrenSubItem.type ===
                                                 "link" ? (
@@ -405,8 +407,7 @@ const Sidebar = () => {
                                       ""
                                     )}
                                   </li>
-                                ) : null;
-                              })}
+                                ) : null)}
                             </ul>
                           ) : (
                             ""
