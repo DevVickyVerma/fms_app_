@@ -134,7 +134,7 @@ const ManageRoles = (props) => {
       selector: (row) => [row.skip_date],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row,) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}
@@ -151,7 +151,7 @@ const ManageRoles = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row,) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>

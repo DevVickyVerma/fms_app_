@@ -28,32 +28,42 @@
 
 
    // React specific rules
-   "react/prop-types": "off", // Enforce defining propTypes for better type-checking in React components
-   "react/jsx-no-duplicate-props": "warn", // Prevent defining duplicate props in JSX
-   "react/jsx-no-undef": "warn", // Disallow the use of undefined variables in JSX
-   "react/jsx-key": "warn", // Ensure proper usage of 'key' prop in lists
-   "react/jsx-boolean-value": ["warn", "always"], // Always explicitly pass boolean values (e.g., `prop={true}` instead of `prop`)
-   "react/no-array-index-key": "warn", // Warn when using array index as key in lists (use unique IDs instead for stable keys)
-   "react/no-danger": "warn", // Prevent the use of `dangerouslySetInnerHTML` to avoid potential security risks
-   "react/no-direct-mutation-state": "warn", // Prevent directly mutating `this.state`, which can cause unexpected behavior
-   "react/no-access-state-in-setstate": "warn", // Prevent accessing `this.state` directly in `setState` as it can lead to bugs
-   "react/no-unused-state": "warn", // Warn if there are state properties that are defined but not used in the component
-   "react/jsx-no-comment-textnodes": "warn", // Prevent comments from being placed as text nodes in JSX
-   "react/self-closing-comp": "warn", // Enforce self-closing tags for components that don’t have children (e.g., `<div />`)
-   "react/jsx-pascal-case": "warn", // Enforce PascalCase for user-defined JSX components
-   "react/no-redundant-should-component-update": "warn", // Prevent unnecessary usage of `shouldComponentUpdate` when extending React.PureComponent
-   "react/jsx-fragments": ["warn", "syntax"], // Enforce using `<>` shorthand for React fragments
-   "react/no-multi-comp": ["warn", { "ignoreStateless": true }], // Warn if multiple components are declared in one file (encourages single responsibility principle)
+  //  "react/prop-types": "off", // Enforce defining propTypes for better type-checking in React components
+  //  "react/jsx-no-duplicate-props": "warn", // Prevent defining duplicate props in JSX
+  //  "react/jsx-no-undef": "warn", // Disallow the use of undefined variables in JSX
+  //  "react/jsx-key": "warn", // Ensure proper usage of 'key' prop in lists
+  //  "react/jsx-boolean-value": ["warn", "always"], // Always explicitly pass boolean values (e.g., `prop={true}` instead of `prop`)
+  //  "react/no-array-index-key": "warn", // Warn when using array index as key in lists (use unique IDs instead for stable keys)
+  //  "react/no-danger": "warn", // Prevent the use of `dangerouslySetInnerHTML` to avoid potential security risks
+  //  "react/no-direct-mutation-state": "warn", // Prevent directly mutating `this.state`, which can cause unexpected behavior
+  //  "react/no-access-state-in-setstate": "warn", // Prevent accessing `this.state` directly in `setState` as it can lead to bugs
+  //  "react/no-unused-state": "warn", // Warn if there are state properties that are defined but not used in the component
+  //  "react/jsx-no-comment-textnodes": "warn", // Prevent comments from being placed as text nodes in JSX
+  //  "react/self-closing-comp": "warn", // Enforce self-closing tags for components that don’t have children (e.g., `<div />`)
+  //  "react/jsx-pascal-case": "warn", // Enforce PascalCase for user-defined JSX components
+  //  "react/no-redundant-should-component-update": "warn", // Prevent unnecessary usage of `shouldComponentUpdate` when extending React.PureComponent
+  //  "react/jsx-fragments": ["warn", "syntax"], // Enforce using `<>` shorthand for React fragments
+  //  "react/no-multi-comp": ["warn", { "ignoreStateless": true }], // Warn if multiple components are declared in one file (encourages single responsibility principle)
    
 
   //   // JSX accessibility rules (optional, but helpful for accessibility)
   //   "jsx-a11y/alt-text": "warn", // Warn if images, buttons, etc., are missing alt text (for accessibility)
-    "jsx-a11y/anchor-is-valid": "warn" // Warn if `a` tags are missing `href` or have invalid `href` values
+    // "jsx-a11y/anchor-is-valid": "warn" // Warn if `a` tags are missing `href` or have invalid `href` values
     // "jsx-a11y/no-autofocus": "warn" // Warn if autoFocus is used in JSX (can harm accessibility)
     // "jsx-a11y/label-has-associated-control": "warn" // Ensure all form labels are properly associated with input fields
  
 
-
+    "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+    "prefer-arrow-callback": ["error"],
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": true }],
+    "consistent-return": ["error"],
+    "no-useless-return": ["error"],
+    "no-shadow": ["error"],
+    "no-param-reassign": ["error"],
+    "no-empty-function": ["error"],
+    "arrow-body-style": ["error", "as-needed"],
+    "func-names": ["error", "always"]
+  
     }
   }
   

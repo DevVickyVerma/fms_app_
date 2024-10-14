@@ -26,6 +26,7 @@ const SideSearchbar = (props) => {
       setStartDate("");
       setEndDate("");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSubmit]);
 
   const handleSubmit = async (event) => {

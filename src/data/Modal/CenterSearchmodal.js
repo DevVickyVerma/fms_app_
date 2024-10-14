@@ -34,7 +34,7 @@ const CenterSearchmodal = (props) => {
     }
   }, [onSubmit]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async () => {
     // event.preventDefault();
 
     if (start_date && !end_date) {

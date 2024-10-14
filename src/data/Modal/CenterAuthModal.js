@@ -55,7 +55,6 @@ const CenterAuthModal = (props) => {
 
   const handleSubmit1 = async (values, setSubmitting) => {
     setLoading(true);
-    const token = localStorage.getItem("token");
 
     const formData = new FormData();
     formData.append("first_name", values.first_name);
