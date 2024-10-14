@@ -33,14 +33,12 @@ const ManageDsr = (props) => {
           setis_editable(data.data);
 
           // Create an array of form values based on the response data
-          const formValues = data.data.items.map((item) => {
-            return {
-              id: item.department_item_id,
-              commission: item.commission,
-              name: item.name,
-              price: item.price,
-            };
-          });
+          const formValues = data.data.items.map((item) => ({
+            id: item.department_item_id,
+            commission: item.commission,
+            name: item.name,
+            price: item.price,
+          }));
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);

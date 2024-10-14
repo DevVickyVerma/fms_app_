@@ -74,7 +74,7 @@ const TreeForm = (props) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: () => {
       handleSubmit(formik.values);
     },
   });

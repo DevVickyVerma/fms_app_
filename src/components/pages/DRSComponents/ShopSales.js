@@ -68,7 +68,7 @@ const ShopSales = (props) => {
     fetchData();
   }, [site_id, start_date]);
 
-  const handleSubmit = async (values, deductionFormValues) => {
+  const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
     // Create a new FormData object
@@ -195,7 +195,7 @@ const ShopSales = (props) => {
 
       selector: (row) => row.charge_name,
       sortable: false,
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 coffe-item-category fw-semibold">{row.charge_name}</h6>
@@ -295,7 +295,7 @@ const ShopSales = (props) => {
       sortable: false,
       center: false,
       width: editable?.is_adjustable ? "30%" : "40%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 coffe-item-category fw-semibold">{row.deduction_name}</h6>

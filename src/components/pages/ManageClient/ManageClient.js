@@ -129,7 +129,7 @@ const ManageClient = (props) => {
         localStorage.setItem("Last_name", lastName);
         localStorage.setItem("Phone_Number", phoneNumber);
         localStorage.setItem("superiorRole", superiorRole);
-        setTimeout(function () {
+        setTimeout(() => {
           localStorage.setItem("tokenupdate", "true");
           localStorage.setItem("Client_login", "true");
         }, 1000); // 2000 milliseconds (2 seconds)
@@ -161,7 +161,7 @@ const ManageClient = (props) => {
       selector: (row) => [row.full_name],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
@@ -174,7 +174,7 @@ const ManageClient = (props) => {
       selector: (row) => [row.sms_balance],
       sortable: false,
       width: "12%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.sms_balance}</h6>
@@ -187,7 +187,7 @@ const ManageClient = (props) => {
       selector: (row) => [row.addons],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
@@ -200,7 +200,7 @@ const ManageClient = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "14%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

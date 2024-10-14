@@ -66,23 +66,21 @@ const FuelInventry = (props) => {
           setis_editable(data?.data ? data.data : {});
 
           const formValues = data?.data?.listing
-            ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                fuel_price: item.fuel_price,
-                metered_sale: item.metered_sale,
-                metered_sale_value: item.metered_sale_value,
-                adjustment: item.adjustment,
-                adjustment_euro: item.adjustment_euro,
-                adjusted_sale: item.adjusted_sale,
-                adjusted_sale_value: item.adjusted_sale_value,
-                tests: item.tests,
-                actual_sales: item.actual_sales,
-                due_sales: item.due_sales,
-                bunkered_sale: item.bunkered_sale,
-                // Add other properties as needed
-              };
-            })
+            ? data.data.listing.map((item) => ({
+              id: item.id,
+              fuel_price: item.fuel_price,
+              metered_sale: item.metered_sale,
+              metered_sale_value: item.metered_sale_value,
+              adjustment: item.adjustment,
+              adjustment_euro: item.adjustment_euro,
+              adjusted_sale: item.adjusted_sale,
+              adjusted_sale_value: item.adjusted_sale_value,
+              tests: item.tests,
+              actual_sales: item.actual_sales,
+              due_sales: item.due_sales,
+              bunkered_sale: item.bunkered_sale,
+              // Add other properties as needed
+            }))
             : [];
 
           const Combinedvariancedata = data?.data?.combined_variance_data
@@ -120,7 +118,7 @@ const FuelInventry = (props) => {
     fetchData();
   }, [site_id, start_date]);
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
@@ -678,7 +676,7 @@ const FuelInventry = (props) => {
       sortable: false,
       center: false,
       width: "50%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.description}</h6>
@@ -718,7 +716,7 @@ const FuelInventry = (props) => {
       sortable: false,
       center: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.description}</h6>

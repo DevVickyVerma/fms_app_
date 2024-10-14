@@ -56,9 +56,7 @@ const Apexcharts2 = ({ data }) => {
     // colors: ["#26a0fc", "#febc3b", "#26a0fc", "#6699ff"], // Example colors for each series
   };
 
-  const realColors = options.colors.map((color) => {
-    return color.startsWith("#") ? color : "#" + color;
-  });
+  const realColors = options.colors.map((color) => color.startsWith("#") ? color : "#" + color);
 
 
   return (

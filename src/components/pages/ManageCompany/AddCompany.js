@@ -234,10 +234,8 @@ const AddCompany = (props) => {
                 >
                   {({
                     handleSubmit,
-                    isSubmitting,
                     errors,
                     touched,
-                    setFieldValue,
                   }) => (
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>

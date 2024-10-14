@@ -97,7 +97,7 @@ const FuturePriceLogs = (props) => {
             selector: (row) => [row.site_name],
             sortable: false,
             width: "22%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div className="d-flex future-back-color align-items-center" onClick={() => handleErrorModal(row)} style={{ backgroundColor: row?.expired }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block ">
                         <h6 className="mb-0 fs-14 fw-bold pointer">
@@ -137,7 +137,7 @@ const FuturePriceLogs = (props) => {
             selector: (row) => [row?.category_name],
             sortable: false,
             width: "22%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div className="d-flex future-back-color  align-items-center" style={{ background: row?.expired }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row?.category_name}</h6>
@@ -152,7 +152,7 @@ const FuturePriceLogs = (props) => {
             selector: (row) => [row.price_date],
             sortable: false,
             width: "20%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div className="d-flex future-back-color  align-items-center" style={{ cursor: "default", background: row?.expired }} >
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold ">{row.price_date}</h6>
@@ -165,7 +165,7 @@ const FuturePriceLogs = (props) => {
             selector: (row) => [row.old_price],
             sortable: false,
             width: "14%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div className="d-flex w-100 h-100 future-back-color" style={{ background: row?.expired }} >
                     <div className="ms-2 mt-0 d-flex align-items-center  w-100 h-100">
                         <h6 className="mb-0 fs-14 fw-semibold" style={{ color: row?.price_color }}>
@@ -190,7 +190,7 @@ const FuturePriceLogs = (props) => {
             selector: (row) => [row.status],
             sortable: false,
             width: "12%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <span className="text-muted fs-15 fw-semibold text-center future-back-color py-2" style={{ background: row?.expired }}>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
                         {row.status === 1 ? (
@@ -225,7 +225,7 @@ const FuturePriceLogs = (props) => {
                 selector: (row) => [row.deleted_at],
                 sortable: false,
                 width: "10%",
-                cell: (row, index) => (
+                cell: (row) => (
                     <div className="d-flex future-back-color" style={{ background: row?.expired }}>
                         <div className="ms-2 mt-0 mt-sm-2 d-block">
                             <h6 className="mb-0 fs-14 fw-semibold">
@@ -265,7 +265,7 @@ const FuturePriceLogs = (props) => {
     };
 
 
-    const handleClearForm = async (resetForm) => {
+    const handleClearForm = async () => {
         localStorage.removeItem(storedKeyName);
         setData(null)
         handleSubmit1()

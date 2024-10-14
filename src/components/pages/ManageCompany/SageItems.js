@@ -19,7 +19,7 @@ const CompanySageFuels = ({ getData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

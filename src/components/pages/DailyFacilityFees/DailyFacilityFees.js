@@ -36,15 +36,13 @@ const SiteSettings = (props) => {
       const { data } = response;
       if (data) {
         setData(data?.data);
-        const formValues = data?.data.map((item) => {
-          return {
-            charge_id: item?.charge_id,
-            date: item?.date,
-            site_id: item?.site_id,
-            site_name: item?.site_name,
-            value: item?.value,
-          };
-        });
+        const formValues = data?.data.map((item) => ({
+          charge_id: item?.charge_id,
+          date: item?.date,
+          site_id: item?.site_id,
+          site_name: item?.site_name,
+          value: item?.value,
+        }));
 
         formik.setFieldValue("data", formValues);
 

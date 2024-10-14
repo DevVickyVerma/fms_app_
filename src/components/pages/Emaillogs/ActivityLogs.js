@@ -37,7 +37,7 @@ const ManageEmail = (props) => {
     console.clear();
   }, [currentPage, searchTerm]);
 
-  const FetchTableData = async (pageNumber) => {
+  const FetchTableData = async () => {
     try {
       let apiUrl = `/activity/logs?page=${currentPage}`;
       if (searchTerm) {
@@ -70,7 +70,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.name],
       sortable: false,
       width: "14%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
@@ -83,7 +83,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.model],
       sortable: false,
       width: "12%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.model}</h6>
@@ -97,7 +97,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.message],
       sortable: false,
       width: "29%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.message}</h6>
@@ -111,7 +111,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.created_date],
       sortable: false,
       width: "16%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.created_date}</h6>

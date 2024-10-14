@@ -92,7 +92,7 @@ const FuelPrices = (props) => {
 
 
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData(null)
   };
 
@@ -125,7 +125,7 @@ const FuelPrices = (props) => {
     setData(updatedData);
   };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async () => {
     try {
       const formData = new FormData();
 
@@ -176,7 +176,7 @@ const FuelPrices = (props) => {
   };
 
 
-  const handleDataFromChild = async (dataFromChild) => {
+  const handleDataFromChild = async () => {
     try {
       // Assuming you have the 'values' object constructed from 'dataFromChild'
       const values = {

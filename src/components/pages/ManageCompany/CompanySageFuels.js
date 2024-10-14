@@ -38,18 +38,16 @@ const CompanySageFuels = (props) => {
                 setTypesData(data.data.types);
 
                 // Create an array of form values based on the response data
-                const formValues = data.data.fuels.map((item) => {
-                    return {
-                        id: item.id || "",
-                        name: item.name || "",
-                        negative_nominal_type_id: item.negative_nominal_type_id || "",
-                        nominal_tax_code_id: item.nominal_tax_code_id || "",
-                        positive_nominal_type_id: item.positive_nominal_type_id || "",
-                        sage_account_code: item.sage_account_code || "",
-                        sage_nominal_code: item.sage_nominal_code || "",
-                        sage_purchage_code: item.sage_purchage_code || "",
-                    };
-                });
+                const formValues = data.data.fuels.map((item) => ({
+                    id: item.id || "",
+                    name: item.name || "",
+                    negative_nominal_type_id: item.negative_nominal_type_id || "",
+                    nominal_tax_code_id: item.nominal_tax_code_id || "",
+                    positive_nominal_type_id: item.positive_nominal_type_id || "",
+                    sage_account_code: item.sage_account_code || "",
+                    sage_nominal_code: item.sage_nominal_code || "",
+                    sage_purchage_code: item.sage_purchage_code || "",
+                }));
                 // Set the formik values using setFieldValue
                 formik.setFieldValue("data", formValues);
             }
@@ -64,7 +62,7 @@ const CompanySageFuels = (props) => {
         fetchData();
     }, []);
 
-    document.addEventListener("keydown", function (event) {
+    document.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
         }

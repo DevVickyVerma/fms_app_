@@ -44,7 +44,7 @@ const ManageEmail = (props) => {
     console.clear();
   }, [currentPage, searchTerm]);
 
-  const FetchTableData = async (pageNumber) => {
+  const FetchTableData = async () => {
     try {
 
       let apiUrl = `/email/logs?page=${currentPage}`;
@@ -78,7 +78,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.subject],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div>
           {row?.raw_data !== null ? (
             <div className="d-flex" onClick={() => handleaddshowModal(row)} style={{ cursor: "pointer" }}>
@@ -101,7 +101,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.message],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.message}</h6>
@@ -114,7 +114,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.email],
       sortable: false,
       width: "20%",
-      cell: (row, index) => {
+      cell: (row) => {
         try {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
@@ -139,7 +139,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.created_date],
       sortable: false,
       width: "12%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

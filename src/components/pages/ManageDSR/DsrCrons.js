@@ -50,7 +50,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.site],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.site}</h6>
@@ -63,7 +63,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.api_type],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.api_type}</h6>
@@ -76,7 +76,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.data_import_type],
       sortable: false,
       width: "10%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.data_import_type}</h6>
@@ -89,7 +89,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.hit_type],
       sortable: false,
       width: "10%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.hit_type}</h6>
@@ -102,7 +102,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.log_date],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.log_date}</h6>

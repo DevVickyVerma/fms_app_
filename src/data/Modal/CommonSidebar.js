@@ -6,9 +6,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 const CommonSidebar = (props) => {
   const { title, sidebarContent, visible, onClose } = props;
 
-  const capitalizeFirstLetter = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
+  const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   const formatKey = (key) => {
     const words = key.split(/[ _]/);

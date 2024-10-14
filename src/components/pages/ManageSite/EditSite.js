@@ -58,7 +58,7 @@ export default function AddSite(props) {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async () => {
     const formData = new FormData();
 
     // Iterate over formik.values and convert null to empty strings

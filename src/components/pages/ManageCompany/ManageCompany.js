@@ -192,7 +192,7 @@ const ManageCompany = (props) => {
       selector: (row) => [row.company_name],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.company_name}</h6>
@@ -205,7 +205,7 @@ const ManageCompany = (props) => {
       selector: (row) => [row.client],
       sortable: false,
       width: "20%",
-      cell: (row, index) => {
+      cell: (row) => {
         try {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
@@ -231,7 +231,7 @@ const ManageCompany = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "16%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

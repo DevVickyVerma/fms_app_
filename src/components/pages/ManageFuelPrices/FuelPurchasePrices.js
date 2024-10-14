@@ -63,19 +63,17 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
         setData(data?.data);
-        const formValues = data?.data.map((item) => {
-          return {
-            id: item.id,
-            fuel_name: item.fuel_name,
-            platts_price: item.platts_price,
-            premium_price: item.premium_price,
-            development_fuels_price: item.development_fuels_price,
-            duty_price: item.duty_price,
-            vat_percentage_rate: item.vat_percentage_rate,
-            ex_vat_price: item.ex_vat_price,
-            total: item.total,
-          };
-        });
+        const formValues = data?.data?.map((item) => ({
+          id: item.id,
+          fuel_name: item.fuel_name,
+          platts_price: item.platts_price,
+          premium_price: item.premium_price,
+          development_fuels_price: item.development_fuels_price,
+          duty_price: item.duty_price,
+          vat_percentage_rate: item.vat_percentage_rate,
+          ex_vat_price: item.ex_vat_price,
+          total: item.total,
+        }));
 
         formik.setFieldValue("data", formValues);
       } else {
@@ -520,7 +518,7 @@ const ManageDsr = (props) => {
 
 
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData(null)
   };
 

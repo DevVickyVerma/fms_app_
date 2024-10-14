@@ -88,7 +88,7 @@ const EditCompany = (props) => {
 
     formik.setFieldValue("ma_option", maOptionArray);
   };
-  const handleSubmit = async (event) => {
+  const handleSubmit = async () => {
     const token = localStorage.getItem("token");
     const Company_id = localStorage.getItem("Company_id");
     const formData = new FormData();

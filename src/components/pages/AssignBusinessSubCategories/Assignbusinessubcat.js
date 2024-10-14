@@ -13,6 +13,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+
   const [siteName, setSiteName] = useState("");
 
   const handlePageChange = (newPage) => {

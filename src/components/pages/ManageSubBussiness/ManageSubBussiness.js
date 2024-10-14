@@ -99,7 +99,7 @@ const ManageSubBusinessTypes = (props) => {
       selector: (row) => [row.business_sub_name],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.business_sub_name}</h6>
@@ -112,7 +112,7 @@ const ManageSubBusinessTypes = (props) => {
       selector: (row) => [row.business_type],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.business_type}</h6>
@@ -126,7 +126,7 @@ const ManageSubBusinessTypes = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "15%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
@@ -210,13 +210,11 @@ const ManageSubBusinessTypes = (props) => {
 
 
 
-  const Loaderimg = () => {
-    return (
-      <div id="global-loader">
-        <loderdata.Loadersbigsizes1 />
-      </div>
-    );
-  };
+  const Loaderimg = () => (
+    <div id="global-loader">
+      <loderdata.Loadersbigsizes1 />
+    </div>
+  );
 
 
 

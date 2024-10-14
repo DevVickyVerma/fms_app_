@@ -191,7 +191,7 @@ const ManageDsr = (props) => {
 
   // Calculate the total whenever the input values change
 
-  const sendEventWithName = (event, name) => {
+  const sendEventWithName = () => {
     formik2.setFieldValue("total", 0);
     formik2.setFieldValue("vat", "");
     const plattsValue = parseFloat(formik2.values.platts) || 0;
@@ -205,7 +205,7 @@ const ManageDsr = (props) => {
     formik2.setFieldValue(`exvat`, roundedSum);
   };
 
-  const sendEventWithName1 = (event, name) => {
+  const sendEventWithName1 = () => {
     const plattsValue = parseFloat(formik2.values.vat) || 0;
 
     const sum = (SumTotal * plattsValue) / 100 + SumTotal;

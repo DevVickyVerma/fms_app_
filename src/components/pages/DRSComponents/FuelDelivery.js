@@ -58,22 +58,20 @@ const FuelDelivery = (props) => {
 
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
-            ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                opening: item.opening,
-                bunkd_delivery_volume: item.bunkd_delivery_volume,
-                delivery_volume: item.delivery_volume,
-                dips_stock: item.dips_stock,
-                sales_volume: item.sales_volume,
-                book_stock: item.book_stock,
-                variance: item.variance,
-                percentage_sales: item.percentage_sales,
-                variance_lt: item.variance_lt,
-                variance_per: item.variance_per,
-                // Add other properties as needed
-              };
-            })
+            ? data.data.listing.map((item) => ({
+              id: item.id,
+              opening: item.opening,
+              bunkd_delivery_volume: item.bunkd_delivery_volume,
+              delivery_volume: item.delivery_volume,
+              dips_stock: item.dips_stock,
+              sales_volume: item.sales_volume,
+              book_stock: item.book_stock,
+              variance: item.variance,
+              percentage_sales: item.percentage_sales,
+              variance_lt: item.variance_lt,
+              variance_per: item.variance_per,
+              // Add other properties as needed
+            }))
             : [];
 
           // Set the formik values using setFieldValue
@@ -167,7 +165,7 @@ const FuelDelivery = (props) => {
       setIsLoading(false);
     }
   };
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

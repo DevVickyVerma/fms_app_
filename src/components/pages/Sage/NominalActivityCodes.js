@@ -126,7 +126,7 @@ const UploadCompetitor = (props) => {
       selector: (row) => [row?.code],
       sortable: false,
       width: "23%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.code}</h6>
@@ -139,7 +139,7 @@ const UploadCompetitor = (props) => {
       selector: (row) => [row.name],
       sortable: false,
       width: "23%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
@@ -152,7 +152,7 @@ const UploadCompetitor = (props) => {
       selector: (row) => [row.created_by],
       sortable: false,
       width: "23%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_by}</h6>
@@ -165,7 +165,7 @@ const UploadCompetitor = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "23%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>

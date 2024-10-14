@@ -138,7 +138,7 @@ const FuelSales = (props) => {
     }
   };
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

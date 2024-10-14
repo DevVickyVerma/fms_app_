@@ -107,7 +107,7 @@ const ManageSuppliers = (props) => {
       selector: (row) => [row.supplier_name],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.supplier_name}</h6>
@@ -120,7 +120,7 @@ const ManageSuppliers = (props) => {
       selector: (row) => [row.supplier_logo],
       sortable: false,
       width: "15%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex align-items-center card-img">
           <img
             src={row.supplier_logo}
@@ -137,7 +137,7 @@ const ManageSuppliers = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>

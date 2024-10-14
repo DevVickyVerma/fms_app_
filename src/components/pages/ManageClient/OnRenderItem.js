@@ -75,36 +75,32 @@ const ManageClient = (props) => {
     setSelectedIds(updatedSelectedIds);
   };
 
-  const renderSites = (sites) => {
-    return sites.map((site) => (
-      <div key={site.id} className="site">
+  const renderSites = (sites) => sites?.map((site) => (
+    <div key={site.id} className="site">
+      <input
+        type="checkbox"
+        id={site.id}
+        checked={selectedIds.includes(site.id)}
+        onChange={() => handleSiteCheckboxChange(site.id)}
+      />
+      <label htmlFor={site.id}>{site.site_name}</label>
+    </div>
+  ));
+
+  const renderCompanies = () => data?.companies?.map((company) => (
+    <div key={company.id} className="company">
+      <div className="company-header" style={{ background: "Black", color: "#fff" }}>
         <input
           type="checkbox"
-          id={site.id}
-          checked={selectedIds.includes(site.id)}
-          onChange={() => handleSiteCheckboxChange(site.id)}
+          id={`company_${company.id}`}
+          checked={selectedIds.includes(company.id)}
+          onChange={() => handleCompanyCheckboxChange(company.id)}
         />
-        <label htmlFor={site.id}>{site.site_name}</label>
+        <label htmlFor={`company_${company.id}`}>{company.company_name}</label>
       </div>
-    ));
-  };
-
-  const renderCompanies = () => {
-    return data?.companies.map((company) => (
-      <div key={company.id} className="company">
-        <div className="company-header" style={{ background: "Black", color: "#fff" }}>
-          <input
-            type="checkbox"
-            id={`company_${company.id}`}
-            checked={selectedIds.includes(company.id)}
-            onChange={() => handleCompanyCheckboxChange(company.id)}
-          />
-          <label htmlFor={`company_${company.id}`}>{company.company_name}</label>
-        </div>
-        {renderSites(company.sites)}
-      </div>
-    ));
-  };
+      {renderSites(company.sites)}
+    </div>
+  ));
 
   const handleSubmit = async (e) => {
     e.preventDefault();

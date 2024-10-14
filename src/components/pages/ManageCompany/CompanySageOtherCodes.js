@@ -55,14 +55,12 @@ const CompanySageOtherCodes = () => {
                 // setis_editable(data.data);
 
                 // Create an array of form values based on the response data
-                const formValues = data?.data?.codes?.map((item) => {
-                    return {
-                        id: item.id,
-                        name: item.name,
-                        slug: item.slug,
-                        nominal_code: item.nominal_code,
-                    };
-                });
+                const formValues = data?.data?.codes?.map((item) => ({
+                    id: item.id,
+                    name: item.name,
+                    slug: item.slug,
+                    nominal_code: item.nominal_code,
+                }));
                 // Set the formik values using setFieldValue
                 formik.setFieldValue("data", formValues);
             }
@@ -74,7 +72,7 @@ const CompanySageOtherCodes = () => {
         }
     };
 
-    document.addEventListener("keydown", function (event) {
+    document.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
         }

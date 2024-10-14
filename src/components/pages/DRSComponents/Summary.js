@@ -78,46 +78,42 @@ const DepartmentShop = (props) => {
     fetchData();
   }, [site_id, start_date]);
 
-  const _renderFunction = () => {
-    return Object.keys(data)?.map((item, index) => {
-      const displayName = item
-        .replace(/_/g, " ")
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+  const _renderFunction = () => Object.keys(data)?.map((item, index) => {
+    const displayName = item
+      .replace(/_/g, " ")
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
-      return (
-        <div className="Dps-data">
-          <p>{displayName}</p>
-          <p>{data[item]}</p>
-        </div>
-      );
-    });
-  };
+    return (
+      <div className="Dps-data">
+        <p>{displayName}</p>
+        <p>{data[item]}</p>
+      </div>
+    );
+  });
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
   });
 
-  const _renderFunction1 = () => {
-    return Object.keys(bankingdata).map((item, index) => {
-      // Replace underscores with spaces in the 'item' variable
-      const displayName = item
-        .replace(/_/g, " ")
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+  const _renderFunction1 = () => Object.keys(bankingdata).map((item, index) => {
+    // Replace underscores with spaces in the 'item' variable
+    const displayName = item
+      .replace(/_/g, " ")
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
-      return (
-        <div className="Dps-data" key={index}>
-          <p>{displayName}</p>
-          <p>{bankingdata[item]}</p>
-        </div>
-      );
-    });
-  };
+    return (
+      <div className="Dps-data" key={index}>
+        <p>{displayName}</p>
+        <p>{bankingdata[item]}</p>
+      </div>
+    );
+  });
 
   const SubmitSummary = async (values) => {
     setIsLoading(true);

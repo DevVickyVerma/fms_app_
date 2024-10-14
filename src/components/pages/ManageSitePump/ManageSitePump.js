@@ -94,7 +94,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.name],
       sortable: false,
       width: "15%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
@@ -107,7 +107,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.code],
       sortable: false,
       width: "15%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.code}</h6>
@@ -120,7 +120,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "15%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -257,7 +257,7 @@ const ManageSiteTank = (props) => {
     }
   }
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData(null)
   };
 

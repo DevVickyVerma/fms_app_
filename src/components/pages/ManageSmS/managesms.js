@@ -352,7 +352,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.credit],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6
@@ -370,7 +370,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.site],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.site}</h6>
@@ -384,7 +384,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.status],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             {row.status === 0 && (
@@ -432,7 +432,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.creator],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
@@ -445,7 +445,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
@@ -472,7 +472,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.creator],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
@@ -485,7 +485,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.credit],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6
@@ -505,7 +505,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "23.5",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
@@ -520,7 +520,7 @@ const ManageSiteTank = (props) => {
         selector: (row) => [row.id],
         sortable: false,
         width: "23.5",
-        cell: (row, index) => (
+        cell: (row) => (
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <button onClick={() => handleDownloadInvoice(row.id)}>

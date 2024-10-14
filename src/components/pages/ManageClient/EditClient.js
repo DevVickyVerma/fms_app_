@@ -135,7 +135,7 @@ const EditClient = (props) => {
   const handleEmailChange = (newEmails) => {
     formik.setFieldValue("fairbank_email", newEmails);
   };
-  const renderEmailTag = (email, index, removeEmail) => (
+  const renderEmailTag = (email, index,) => (
     <div data-tag={true} key={index} className="renderEmailTag">
       {email}
       <span

@@ -171,7 +171,7 @@ const ManageSite = (props) => {
       sortable: false,
       width: "7%",
       center: true,
-      cell: (row, index) => (
+      cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row?.sr_no}
         </span>
@@ -182,7 +182,7 @@ const ManageSite = (props) => {
       selector: (row) => [row.site_name],
       sortable: false,
       width: "18%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "pointer" }}
@@ -203,7 +203,7 @@ const ManageSite = (props) => {
       selector: (row) => [row.site_name],
       sortable: false,
       width: "15%",
-      cell: (row, index) => {
+      cell: (row) => {
         try {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
@@ -230,7 +230,7 @@ const ManageSite = (props) => {
       selector: (row) => [row.site_name],
       sortable: false,
       width: "19%",
-      cell: (row, index) => {
+      cell: (row) => {
         try {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
@@ -257,7 +257,7 @@ const ManageSite = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "12%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

@@ -167,7 +167,7 @@ const ManageCards = (props) => {
       selector: (row) => [row.card_name],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.card_name}</h6>
@@ -180,7 +180,7 @@ const ManageCards = (props) => {
       selector: (row) => [row.card_code],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex align-items-center card-img">
           <img
             src={row.logo}
@@ -197,7 +197,7 @@ const ManageCards = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

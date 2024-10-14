@@ -222,7 +222,7 @@ const ManageDsr = (props) => {
     }
   };
 
-  const handleShowModal = (item) => {
+  const handleShowModal = () => {
     setShowModal(true);
   };
 
@@ -303,14 +303,14 @@ const ManageDsr = (props) => {
 
 
 
-  const handleSuccess = (message) => {
+  const handleSuccess = () => {
     GetDataHttech();
     // Do any additional processing with the success message if needed
   };
 
 
 
-  const handleSendEmail = async (event, values) => {
+  const handleSendEmail = async () => {
     // event.preventDefault();
 
     try {

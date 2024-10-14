@@ -356,7 +356,6 @@ const AddSite = (props) => {
                 >
                   {({
                     handleSubmit,
-                    isSubmitting,
                     errors,
                     touched,
                     setFieldValue,

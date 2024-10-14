@@ -51,7 +51,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.site],
       sortable: false,
       width: "12%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.site}</h6>
@@ -64,7 +64,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.user],
       sortable: false,
       width: "12%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.user}</h6>
@@ -77,7 +77,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.name],
       sortable: false,
       width: "11%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
@@ -91,7 +91,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.type],
       sortable: false,
       width: "12%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.type}</h6>
@@ -104,7 +104,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.prev_price],
       sortable: false,
       width: "8%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.prev_price}</h6>
@@ -117,7 +117,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.price],
       sortable: false,
       width: "8%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.price}</h6>
@@ -130,7 +130,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.date],
       sortable: false,
       width: "16%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.date}</h6>
@@ -143,7 +143,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.created],
       sortable: false,
       width: "16%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created}</h6>
