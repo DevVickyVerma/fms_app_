@@ -125,7 +125,6 @@ const AddCompany = (props) => {
 
 
 
-  console.log(formik?.values, "formiik vlaure");
 
 
   return (

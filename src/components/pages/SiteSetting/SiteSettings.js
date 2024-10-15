@@ -1187,7 +1187,6 @@ const SiteSettings = (props) => {
   };
 
 
-  console.log(formik?.values, "formik vlauessss");
 
 
   return (
