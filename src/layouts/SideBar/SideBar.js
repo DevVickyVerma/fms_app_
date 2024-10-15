@@ -154,16 +154,16 @@ const Sidebar = () => {
             if (Items.children.includes(item)) {
               b.active = false;
             }
-            
+
             if (!b.children) return; // Just return undefined instead of false
-          
+
             b.children.forEach((c) => {
               if (b.children.includes(item)) {
                 c.active = false;
               }
             });
           });
-          
+
           return Items;
         });
         return a;
@@ -247,9 +247,9 @@ const Sidebar = () => {
                 id="sidebar-main"
                 style={{ marginBottom: "61px" }}
               >
-                {MENUITEMS?.map((Item, ) => (
+                {MENUITEMS?.map((Item,) => (
                   <Fragment key={Item?.id}>
-                    {Item.Items.map((menuItem, ) =>
+                    {Item.Items.map((menuItem,) =>
                       menuItem.visibility ? (
                         <li
                           className={`slide ${menuItem.active ? "is-expanded" : ""
@@ -259,7 +259,7 @@ const Sidebar = () => {
                           {menuItem.type === "link" ? (
                             <NavLink
                               to={menuItem.path + "/"}
-                              className={`side-menu__item ${menuItem.active ? "active" : ""
+                              className={`side-menu__item ${menuItem.active ? "active scale-up-ver-top " : ""
                                 }`}
                               onClick={() => {
                                 setNavActive(menuItem);
@@ -269,7 +269,7 @@ const Sidebar = () => {
                               <i
                                 className={`side-menu__icon ph-thin  ph-${menuItem.icon}`}
                                 aria-hidden="true"
-                               />
+                              />
                               <span className="side-menu__label">
                                 {menuItem.title}
                               </span>
@@ -300,7 +300,7 @@ const Sidebar = () => {
                             >
                               <i
                                 className={`side-menu__icon ph ph-${menuItem.icon}`}
-                               />
+                              />
                               <span className="side-menu__label">
                                 {menuItem.title}
                               </span>
@@ -315,14 +315,14 @@ const Sidebar = () => {
                               )}
                               <i
                                 className={`${menuItem.background} fa angle fa-angle-right `}
-                               />
+                              />
                             </div>
                           ) : (
                             ""
                           )}
                           {menuItem.children ? (
                             <ul
-                              className="slide-menu"
+                              className="slide-menu scale-up-ver-top"
                               style={
                                 menuItem.active
                                   ? {
@@ -334,80 +334,80 @@ const Sidebar = () => {
                               }
                             >
                               {menuItem.children.map((childrenItem) => childrenItem.visibility ? (
-                                  <li key={childrenItem?.id}>
-                                    {childrenItem.type === "sub" ? (
-                                      <a
-                                        href="javascript"
-                                        className="sub-side-menu__item"
-                                        onClick={(event) => {
-                                          event.preventDefault();
-                                          toggletNavActive(childrenItem);
-                                        }}
-                                      >
-                                        <span className="sub-side-menu__label">
-                                          {childrenItem.title}
-                                        </span>
-                                        {childrenItem.active ? (
-                                          <i className="sub-angle  fa fa-angle-down" />
-                                        ) : (
-                                          <i className="sub-angle fa fa-angle-right" />
-                                        )}
-                                      </a>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {childrenItem.type === "link" ? (
-                                      <NavLink
-                                        to={childrenItem.path + "/"}
-                                        className="slide-item"
-                                        onClick={() =>
-                                          toggletNavActive(childrenItem)
-                                        }
-                                      >
+                                <li key={childrenItem?.id}>
+                                  {childrenItem.type === "sub" ? (
+                                    <a
+                                      href="javascript"
+                                      className="sub-side-menu__item"
+                                      onClick={(event) => {
+                                        event.preventDefault();
+                                        toggletNavActive(childrenItem);
+                                      }}
+                                    >
+                                      <span className="sub-side-menu__label">
                                         {childrenItem.title}
-                                      </NavLink>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {childrenItem.children ? (
-                                      <ul
-                                        className="sub-slide-menu"
-                                        style={
-                                          childrenItem.active
-                                            ? { display: "block" }
-                                            : { display: "none" }
-                                        }
-                                      >
-                                        {childrenItem.children.map(
-                                          (childrenSubItem) => (
-                                            <li key={childrenSubItem?.id}>
-                                              {childrenSubItem.type ===
-                                                "link" ? (
-                                                <NavLink
-                                                  to={
-                                                    childrenSubItem.path + "/"
-                                                  }
-                                                  className={`${"sub-slide-item"}`}
-                                                  onClick={() =>
-                                                    toggletNavActive(
-                                                      childrenSubItem
-                                                    )
-                                                  }
-                                                >
-                                                  {childrenSubItem.title}
-                                                </NavLink>
-                                              ) : (
-                                                ""
-                                              )}
-                                            </li>
-                                          )
-                                        )}
-                                      </ul>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </li>
-                                ) : null)}
+                                      </span>
+                                      {childrenItem.active ? (
+                                        <i className="sub-angle  fa fa-angle-down" />
+                                      ) : (
+                                        <i className="sub-angle fa fa-angle-right" />
+                                      )}
+                                    </a>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {childrenItem.type === "link" ? (
+                                    <NavLink
+                                      to={childrenItem.path + "/"}
+                                      className="slide-item"
+                                      onClick={() =>
+                                        toggletNavActive(childrenItem)
+                                      }
+                                    >
+                                      {childrenItem.title}
+                                    </NavLink>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {childrenItem.children ? (
+                                    <ul
+                                      className="sub-slide-menu"
+                                      style={
+                                        childrenItem.active
+                                          ? { display: "block" }
+                                          : { display: "none" }
+                                      }
+                                    >
+                                      {childrenItem.children.map(
+                                        (childrenSubItem) => (
+                                          <li key={childrenSubItem?.id}>
+                                            {childrenSubItem.type ===
+                                              "link" ? (
+                                              <NavLink
+                                                to={
+                                                  childrenSubItem.path + "/"
+                                                }
+                                                className={`${"sub-slide-item"}`}
+                                                onClick={() =>
+                                                  toggletNavActive(
+                                                    childrenSubItem
+                                                  )
+                                                }
+                                              >
+                                                {childrenSubItem.title}
+                                              </NavLink>
+                                            ) : (
+                                              ""
+                                            )}
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  ) : (
+                                    ""
+                                  )}
+                                </li>
+                              ) : null)}
                             </ul>
                           ) : (
                             ""
