@@ -2034,3 +2034,47 @@ td.middayModal-td.time-input-fuel-sell {
     opacity: 1;
   }
 }
+
+.tracking-out-contract {
+  animation: tracking-out-contract 0.7s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+@keyframes tracking-out-contract {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+}
+
+.scale-out-horizontal {
+  animation: scale-out-horizontal 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+@keyframes scale-out-horizontal {
+  0% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+}
+
+
+.slide .angle {
+  transition: transform 300ms ease;
+}
+
+.slide.is-expanded .angle {
+  transform: rotate(90deg);
+}

@@ -259,7 +259,7 @@ const Sidebar = () => {
                           {menuItem.type === "link" ? (
                             <NavLink
                               to={menuItem.path + "/"}
-                              className={`side-menu__item ${menuItem.active ? "active scale-up-ver-top " : ""
+                              className={`side-menu__item   ${menuItem.active ? "active " : ""
                                 }`}
                               onClick={() => {
                                 setNavActive(menuItem);
@@ -290,7 +290,7 @@ const Sidebar = () => {
                           {menuItem.type === "sub" ? (
                             <div
                               to={menuItem.path + "/"}
-                              className={`side-menu__item ${menuItem.active ? "active" : ""
+                              className={`side-menu__item  ${menuItem.active ? "active" : ""
                                 }`}
                               onClick={(event) => {
                                 event.preventDefault();
@@ -322,16 +322,20 @@ const Sidebar = () => {
                           )}
                           {menuItem.children ? (
                             <ul
-                              className="slide-menu scale-up-ver-top"
-                              style={
-                                menuItem.active
-                                  ? {
-                                    opacity: 1,
-                                    transition: "opacity 500ms ease-in",
-                                    display: "block",
-                                  }
-                                  : { display: "none" }
-                              }
+                              className={`slide-menu ${menuItem.active ? ' scale-up-ver-top' : 'tracking-out-contract'}`}
+                            // style={
+                            //   menuItem.active
+                            //     ? {
+                            //       opacity: 1,
+                            //       transition: "opacity 500ms ease-in",
+                            //       display: "block",
+                            //     }
+                            //     : {
+                            //       opacity: 1,
+                            //       transition: "opacity 500222ms ease-out",
+                            //       // display: "none"
+                            //     }
+                            // }
                             >
                               {menuItem.children.map((childrenItem) => childrenItem.visibility ? (
                                 <li key={childrenItem?.id}>
@@ -443,7 +447,7 @@ const Sidebar = () => {
             </div>
           </Scrollbars>
         </aside>
-      </div>
+      </div >
     </>
   );
 };

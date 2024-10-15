@@ -35541,23 +35541,37 @@ body.rtl {
   display: block;
 }
 
+
+/* .slide-menu {
+  display: none;
+  padding: 5px;
+  font-size: 0.8rem !important;
+  padding-left: 20px;
+  margin-left: 10px;
+  transition: max-height 300ms ease, opacity 300ms ease, padding 300ms ease;
+} */
+
+.slide-menu {
+  max-height: 0;
+  opacity: 0;
+  padding: 0px;
+  overflow: hidden;
+  margin-left: 30px;
+  transition: max-height 300ms ease, opacity 300ms ease, padding 300ms ease;
+}
+
+.slide.is-expanded .slide-menu {
+  max-height: 5000px;
+  opacity: 1;
+}
+
 .slide.is-expanded .angle {
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
-.slide-menu {
-  display: none;
-  padding: 5px;
-  font-size: 0.8rem !important;
-  padding-left: 20px;
-  margin-left: 10px;
-}
-
 .slide-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
