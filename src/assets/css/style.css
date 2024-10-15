@@ -35423,7 +35423,7 @@ body.rtl {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 10px 30px;
+  padding: 10px 20px;
   font-size: 15px;
   font-weight: 400;
   -webkit-transition: border-left-color 0.3s ease, background-color 0.3s ease;
@@ -35552,7 +35552,7 @@ body.rtl {
   padding: 5px;
   font-size: 0.8rem !important;
   padding-left: 20px;
-  margin-left: 26px;
+  margin-left: 10px;
 }
 
 .slide-item {

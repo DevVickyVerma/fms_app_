@@ -23,7 +23,7 @@ const ErrorToast = (message) => {
 const baseUrl = process.env.REACT_APP_BASE_URL;
 export const fetchData = createAsyncThunk(
   "data/fetchData",
-  async (_, thunkAPI) => {
+  async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -55,7 +55,7 @@ export const fetchData = createAsyncThunk(
 
         if (response) {
           if (response.status === 401) {
-            setTimeout(function () {
+            setTimeout(() => {
               window.location.replace("/login");
               ErrorToast("Invalid access token");
               localStorage.clear();
