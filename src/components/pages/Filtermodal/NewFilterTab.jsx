@@ -20,13 +20,9 @@ const NewFilterTab = ({
     handleSendEmail,
     handleDeleteDRS,
     showClientInput = true,
-    isStatic = true,
-    smallScreen = false,
     showEntityInput = true,
     showStationInput = true,
     showStationValidation = true,
-    showMonthValidation = true,
-    showDateValidation = true,
     showMonthInput = true,
     showDateInput = true,
     showSendEmail = false,
@@ -35,11 +31,9 @@ const NewFilterTab = ({
     showDateRangeInput = false, // Add this prop
     validationSchema,
     storedKeyName,
-    layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5',
-    onClose,
-    isOpen,
     ClearForm,
     lg,
+    parentMaxDate,
 }) => {
     const reduxData = useSelector(state => state?.data?.data);
 
@@ -272,7 +266,7 @@ const NewFilterTab = ({
 
                                 {showDateInput && (
                                     <Col lg={lg || 6}>
-                                        <FormikInput formik={formik} type="date" label="Date" name="start_date" />
+                                        <FormikInput formik={formik} type="date" label="Date" name="start_date" maxDate={parentMaxDate} />
                                     </Col>
                                 )}
 

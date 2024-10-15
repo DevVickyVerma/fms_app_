@@ -341,7 +341,10 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
 
                                             {update_tlm_price == 1 ? (
                                                 <>
-                                                    <div className=' position-relative pointer me-3'>
+
+                                                    {/* confirmation_required dont remove for the future integration  */}
+
+                                                    {/* <div className=' position-relative pointer me-3'>
                                                         <input
                                                             type="checkbox"
                                                             id="confirmation_required"
@@ -353,7 +356,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                                                             className='mx-1 form-check-input form-check-input-updated pointer'
                                                         />
                                                         <label htmlFor="confirmation_required" className='p-0 m-0 pointer'>Confirmation Required From Site</label>
-                                                    </div>
+                                                    </div> */}
 
                                                     <div className=' position-relative pointer'>
                                                         <input

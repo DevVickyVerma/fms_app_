@@ -10,6 +10,7 @@ const FormikInput = ({
     className: customClassName = '',
     isRequired = true,
     readOnly = false,
+    maxDate = '',
 }) => {
     const dynamicLabel =
         label ||
@@ -59,6 +60,8 @@ const FormikInput = ({
         }
     };
 
+    const maxDateValue = maxDate || "";
+
     const renderInput = () => {
         switch (type) {
             case 'textarea':
@@ -90,7 +93,7 @@ const FormikInput = ({
                         onClick={() => handleShowDate(name)}
                         value={formik.values[name]}
                         min={dynamicPlaceholder === 'date' ? '2024-06-25' : ''}
-                        max={dynamicPlaceholder === 'date' ? '2024-06-27' : ''}
+                        max={maxDateValue} // Apply maxDate
                         onKeyDown={(e) => e.preventDefault()}
                         onKeyUp={(e) => e.preventDefault()}
                     />

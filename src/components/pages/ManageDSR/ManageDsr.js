@@ -25,7 +25,7 @@ import Swal from "sweetalert2";
 import { useMyContext } from "../../../Utils/MyContext";
 import { handleError } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
+import { getCurrentDate, handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
 
 const ManageDsr = (props) => {
   const { isLoading, getData, postData } = props;
@@ -407,6 +407,7 @@ const ManageDsr = (props) => {
                 showSendEmail={getDataBtn?.sendReportEmail && DataEnteryList}
                 showDRSDelete={isDeletePermissionAvailable && DataEnteryList}
                 ClearForm={handleClearForm}
+                parentMaxDate={getCurrentDate()}
               />
             </Card>
           </Col>

@@ -69,7 +69,7 @@ const DashboardStatsBox = (props) => {
   return (
     <div>
       {GrossVolume ? (
-        <Row>
+        <Row className=''>
 
           <DashCommonCard
             isParentComponent={parentComponent}
