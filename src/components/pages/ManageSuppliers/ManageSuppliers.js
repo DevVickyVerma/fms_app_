@@ -68,7 +68,7 @@ const ManageSuppliers = (props) => {
   }, [currentPage, searchTerm]);
 
 
-  const FetchTableData = async (pageNumber) => {
+  const FetchTableData = async () => {
     try {
       let apiUrl = `/supplier/list?page=${currentPage}`;
       if (searchTerm) {

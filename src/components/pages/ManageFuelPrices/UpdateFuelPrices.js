@@ -138,7 +138,7 @@ const UpdateFuelPrices = (props) => {
     };
 
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = () => {
         if (storedData) {
             let updatedStoredData = JSON.parse(storedData);
             updatedStoredData.site_id = paramSite_id; // Update the site_id here

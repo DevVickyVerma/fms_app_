@@ -19,7 +19,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
 import CompiMiddayModal from "./CompiMiddayModal";
 
-const SingleStatsCompetitor = ({ isLoading, getData }) => {
+const SingleStatsCompetitor = ({ getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [Compititorloading, setCompititorloading] = useState(false);
   const { id } = useParams();
@@ -163,7 +163,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const handleModalClose = () => {
     setModalOpen(false);
   };
-  const handleDataFromChild = async (dataFromChild) => {
+  const handleDataFromChild = async () => {
     try {
       // Assuming you have the 'values' object constructed from 'dataFromChild'
 

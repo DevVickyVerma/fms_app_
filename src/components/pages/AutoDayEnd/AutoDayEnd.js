@@ -153,7 +153,7 @@ const ManageRoles = (props) => {
       selector: (row) => [row.subject],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.subject}</h6>
@@ -166,7 +166,7 @@ const ManageRoles = (props) => {
       selector: (row) => [row.report_name],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

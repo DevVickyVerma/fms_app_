@@ -32,7 +32,7 @@ const AddCompany = (props) => {
     FetchReportList();
   }, [UserPermissions]);
 
-  const handleSubmit = async (event, values) => {
+  const handleSubmit = async () => {
     try {
       const formData = new FormData();
 

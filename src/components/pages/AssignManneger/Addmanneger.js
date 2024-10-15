@@ -54,7 +54,7 @@ const AddCompany = (props) => {
     formik.setFieldValue("sites", filteredSites);
   };
 
-  const handleSubmit = async (event, values) => {
+  const handleSubmit = async () => {
     // event.preventDefault();
 
     try {

@@ -78,22 +78,20 @@ const Departmentshopsale = (props) => {
 
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
-            ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                gross_value: item.gross_value,
-                disc_value: item.disc_value,
-                nett_value: item.nett_value,
-                adjust: item.adjust,
-                sale: item.sale,
-                price: item.price,
-                value: item.value,
-                com_rate: item.com_rate,
-                commission: item.commission,
-                // value_per: item.value_per ,
-                // Add other properties as needed
-              };
-            })
+            ? data.data.listing.map((item) => ({
+              id: item.id,
+              gross_value: item.gross_value,
+              disc_value: item.disc_value,
+              nett_value: item.nett_value,
+              adjust: item.adjust,
+              sale: item.sale,
+              price: item.price,
+              value: item.value,
+              com_rate: item.com_rate,
+              commission: item.commission,
+              // value_per: item.value_per ,
+              // Add other properties as needed
+            }))
             : [];
 
           // Set the formik values using setFieldValue
@@ -109,7 +107,7 @@ const Departmentshopsale = (props) => {
 
     fetchData();
   }, [site_id, start_date]);
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

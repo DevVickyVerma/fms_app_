@@ -65,7 +65,7 @@ const ManageDeductions = (props) => {
 
 
 
-  const FetchTableData = async (pageNumber) => {
+  const FetchTableData = async () => {
     try {
       let apiUrl = `/deduction/list?page=${currentPage}`;
       if (searchTerm) {

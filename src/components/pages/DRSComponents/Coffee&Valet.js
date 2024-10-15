@@ -547,7 +547,7 @@ const CoffeeValet = (props) => {
           sortable: false,
           width: "9.5%",
           center: true,
-          cell: (row, index) => {
+          cell: (row,) => {
             if (row.item_category === "Total") {
               return null;
             }
@@ -692,7 +692,7 @@ const CoffeeValet = (props) => {
     }
   };
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

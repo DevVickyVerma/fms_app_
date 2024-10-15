@@ -143,7 +143,7 @@ const ManageDeductions = (props) => {
       selector: (row) => [row.deduction_name],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
@@ -156,7 +156,7 @@ const ManageDeductions = (props) => {
       selector: (row) => [row.deduction_code],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_code}</h6>
@@ -169,7 +169,7 @@ const ManageDeductions = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

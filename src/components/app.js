@@ -13,7 +13,7 @@ import { fetchData } from "../Redux/dataSlice";
 import BlankDashboard from "./Dashboard/BlankDashboard";
 import 'phosphor-icons/src/css/icons.css'; // Import Phosphor Icons CSS
 
-const App = (props) => {
+const App = () => {
   const loadingBarRef = useRef();
   const location = useLocation();
   const simulateLoadingAndNavigate = () => {
@@ -92,7 +92,7 @@ const App = (props) => {
           iconColor: "#b52d2d",
         },
         reverseButtons: true,
-      }).then((result) => {
+      }).then(() => {
         handleConfirm();
       });
     } else {

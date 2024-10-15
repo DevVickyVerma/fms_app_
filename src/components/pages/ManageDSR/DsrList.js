@@ -51,7 +51,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.site],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.site}</h6>
@@ -64,7 +64,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.message],
       sortable: false,
       width: "40%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.message}</h6>
@@ -77,7 +77,7 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.drs_date],
       sortable: false,
       width: "25%",
-      cell: (row, index) => {
+      cell: (row) => {
         try {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
@@ -322,5 +322,7 @@ const ManageEmail = (props) => {
 export default withApi(ManageEmail);
 
 WorkflowExceptionFilter.defaultProps = {
-  onSubmit: () => { }, // Provide a default no-op function if `onSubmit` is not always required
+  onSubmit: () => {
+    console.clear()
+  }, // Provide a default no-op function if `onSubmit` is not always required
 };

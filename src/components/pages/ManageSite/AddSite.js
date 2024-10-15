@@ -73,7 +73,7 @@ const AddSite = (props) => {
     }
   };
 
-  const handleSubmit1 = async (values, setSubmitting) => {
+  const handleSubmit1 = async (values,) => {
     try {
       const formData = new FormData();
       formData.append("business_type_id", values.bussiness_Type);

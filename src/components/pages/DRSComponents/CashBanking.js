@@ -113,7 +113,7 @@ const CashBanking = (props) => {
   };
 
   //
-  const handleSubmit = async (values, setSubmitting) => {
+  const handleSubmit = async (values,) => {
     try {
       const formData = new FormData();
 
@@ -169,7 +169,7 @@ const CashBanking = (props) => {
       selector: (row) => [row.reference],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.reference}</h6>
@@ -182,7 +182,7 @@ const CashBanking = (props) => {
       selector: (row) => [row.value],
       sortable: false,
       width: "10%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.value}</h6>
@@ -195,7 +195,7 @@ const CashBanking = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
@@ -208,7 +208,7 @@ const CashBanking = (props) => {
       selector: (row) => [row.type],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.type}</h6>
@@ -252,7 +252,7 @@ const CashBanking = (props) => {
   ];
 
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

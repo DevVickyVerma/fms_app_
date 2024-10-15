@@ -93,7 +93,7 @@ export default function ForgotPassword() {
                           handleSubmit(values);
                         }}
                       >
-                        {({ errors, touched }) => (
+                        {() => (
                           <Form className=" shadow-none p-0 m-0" method="post">
                             <Card.Body className="mx-auto">
                               <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"271px"} className="forgot-body">

@@ -91,11 +91,11 @@ const Competitor = (props) => {
 
     {
       name: "Name",
-      selector: (row, index) => [row.name],
+      selector: (row) => [row.name],
       sortable: false,
       width: "20%",
       center: false,
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
@@ -108,7 +108,7 @@ const Competitor = (props) => {
       selector: (row) => [row.supplier],
       sortable: false,
       width: "18%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.supplier}</h6>
@@ -122,7 +122,7 @@ const Competitor = (props) => {
       // selector: "created_date",
       sortable: false,
       width: "17%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
@@ -136,7 +136,7 @@ const Competitor = (props) => {
       // selector: "created_date",
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.address}</h6>
@@ -244,7 +244,7 @@ const Competitor = (props) => {
     }
   }
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setCompetitorList(null)
   };
 

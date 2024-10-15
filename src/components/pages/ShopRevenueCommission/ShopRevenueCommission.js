@@ -82,7 +82,7 @@ const SageDeduction = (props) => {
     }
   }, []);
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     formik.setFieldValue("site_id", "")
     formik.setFieldValue("start_date", "")
     formik.setFieldValue("client_id", "")
@@ -252,6 +252,7 @@ const SageDeduction = (props) => {
     ],
   };
   const headsvalueonsubmit = () => {
+    console.clear();
   };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,

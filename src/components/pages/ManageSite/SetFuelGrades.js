@@ -9,7 +9,7 @@ import withApi from "../../../Utils/ApiHelper";
 import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
 
-const SetFuelGrades = (props) => {
+const SetFuelGrades = () => {
     const id = useParams();
     const UserPermissions = useSelector(
         (state) => state?.data?.data?.permissions || [],
@@ -88,7 +88,7 @@ const SetFuelGrades = (props) => {
             width: "30%",
             center: false,
 
-            cell: (row, index) =>
+            cell: (row,) =>
 
 
                 <div className="d-flex">

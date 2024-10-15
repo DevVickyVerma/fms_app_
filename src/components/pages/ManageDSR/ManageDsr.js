@@ -158,7 +158,7 @@ const ManageDsr = (props) => {
     }
   };
 
-  const GetDataHttech = (data) => {
+  const GetDataHttech = () => {
     if (localStorage.getItem("localFilterModalData")) {
       let parsedDataFromLocal = JSON.parse(
         localStorage.getItem("localFilterModalData")
@@ -351,7 +351,7 @@ const ManageDsr = (props) => {
 
 
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setUploadList();
     setDataEnteryList();
     setUploadTabname();

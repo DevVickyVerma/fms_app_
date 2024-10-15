@@ -94,7 +94,7 @@ const ShopSales = (props) => {
     fetchData();
   }, [site_id, start_date]);
 
-  const handleSubmit = async (values, deductionFormValues) => {
+  const handleSubmit = async (values,) => {
     const token = localStorage.getItem("token");
 
     // Create a new FormData object
@@ -161,7 +161,7 @@ const ShopSales = (props) => {
 
       selector: (row) => row.charge_name,
       sortable: false,
-      cell: (row, index) => (
+      cell: (row,) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
@@ -211,7 +211,7 @@ const ShopSales = (props) => {
       selector: (row) => row.deduction_name, // Update the selector to use a function
       sortable: false,
       center: false,
-      cell: (row, index) => (
+      cell: (row,) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
@@ -255,7 +255,7 @@ const ShopSales = (props) => {
         ),
     },
   ];
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

@@ -105,7 +105,7 @@ const CompetitorFuelPrices = (props) => {
 
 
 
-  const handleDataFromChild = async (dataFromChild) => {
+  const handleDataFromChild = async () => {
     try {
 
       if (storedData) {
@@ -180,7 +180,7 @@ const CompetitorFuelPrices = (props) => {
     }
   }
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData(null)
   };
 
@@ -271,7 +271,7 @@ const CompetitorFuelPrices = (props) => {
                                       title: "Competitor",
                                       dataIndex: "competitorinfo",
                                       key: "competitorinfo",
-                                      render: (text, record, index) => (
+                                      render: (text, record,) => (
                                         <div>
                                           <img
                                             src={record.competitorimage}
@@ -297,7 +297,7 @@ const CompetitorFuelPrices = (props) => {
                                       title: "Time",
                                       dataIndex: "time",
                                       key: "time",
-                                      render: (text, record, index) => (
+                                      render: (text,) => (
                                         <span>
                                           <p>{text}</p>
                                         </span>
@@ -308,16 +308,16 @@ const CompetitorFuelPrices = (props) => {
                                         title: heading,
                                         dataIndex: "priceData",
                                         key: `priceData_${headingIndex}`,
-                                        render: (priceData, record, index) => {
+                                        render: (index) => {
                                           // Get the current competitor's fuels from the record
                                           const competitorFuels =
-                                            site.competitors[index]?.fuels;
+                                            site?.competitors?.[index]?.fuels;
 
                                           // Find the fuel object that matches the current heading
                                           const matchedFuel =
-                                            competitorFuels.find(
+                                            competitorFuels?.find(
                                               (fuel) =>
-                                                fuel.category_name === heading
+                                                fuel?.category_name === heading
                                             );
 
                                           // Get the price data from the matched fuel or display "N/A"

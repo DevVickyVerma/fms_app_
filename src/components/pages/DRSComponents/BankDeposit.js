@@ -103,7 +103,7 @@ const BankDeposit = (props) => {
       ),
     reason: Yup.string().required("Reason is required"),
   });
-  const handleSubmit = async (values, setSubmitting) => {
+  const handleSubmit = async (values,) => {
 
     try {
       const formData = new FormData();
@@ -187,7 +187,7 @@ const BankDeposit = (props) => {
       selector: (row) => [row.amount],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.amount}</h6>
@@ -201,7 +201,7 @@ const BankDeposit = (props) => {
       selector: (row) => [row.reason],
       sortable: false,
       width: "10%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.reason}</h6>
@@ -214,7 +214,7 @@ const BankDeposit = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
@@ -228,7 +228,7 @@ const BankDeposit = (props) => {
       sortable: false,
       width: "20%",
 
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex align-items-center card-img">
           { }
 
@@ -299,7 +299,7 @@ const BankDeposit = (props) => {
   ];
 
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }

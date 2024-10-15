@@ -82,7 +82,7 @@ const BunkeringBalance = ({ isLoading, getData, postData }) => {
             selector: (row) => [row?.balance_date],
             sortable: false,
             width: "33.33%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row?.balance_date}</h6>
@@ -96,7 +96,7 @@ const BunkeringBalance = ({ isLoading, getData, postData }) => {
             selector: (row) => [row?.amount],
             sortable: false,
             width: "33.33%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div
                     className="d-flex"
                     style={{ cursor: "default" }}

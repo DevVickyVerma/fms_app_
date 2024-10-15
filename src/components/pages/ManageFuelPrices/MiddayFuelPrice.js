@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import InputTime from '../Competitor/InputTime';
 
 
-const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, setShowError }) => {
+const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => {
     const { notify_operator, update_tlm_price } = data || {};
     const [filterData, setFilterData] = useState()
 
@@ -20,7 +20,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
             pricedata: []
         },
         enableReinitialize: true,
-        onSubmit: (values) => {
+        onSubmit: () => {
             // Your submit logic here
         },
     });
@@ -145,7 +145,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, error, showError, s
         }
     };
 
-    const handleShowDate = (e, currentDate) => {
+    const handleShowDate = (e,) => {
         const inputDateElement = e.target; // Get the clicked input element
         if (inputDateElement && inputDateElement.showPicker) {
             inputDateElement.showPicker(); // Programmatically trigger the date picker

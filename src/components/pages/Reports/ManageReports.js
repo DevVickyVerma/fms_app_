@@ -28,7 +28,7 @@ const ManageReports = (props) => {
     setSidebarVisible(true);
   };
 
-  const handleToggleSidebar = async (row) => {
+  const handleToggleSidebar = async () => {
     setSidebarVisible(!sidebarVisible);
   };
 

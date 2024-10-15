@@ -221,7 +221,7 @@ const ManageDsr = (props) => {
     }
   }
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData(null)
   };
 

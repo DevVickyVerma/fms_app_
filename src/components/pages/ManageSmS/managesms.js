@@ -596,7 +596,7 @@ const ManageSiteTank = (props) => {
 
 
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     formik.setFieldValue("site_id", "");
     formik.setFieldValue("start_date", "");
     formik.setFieldValue("client_id", "");

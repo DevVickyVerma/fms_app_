@@ -85,7 +85,7 @@ const ManageUser = (props) => {
       selector: (row) => [row.full_name],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
@@ -98,7 +98,7 @@ const ManageUser = (props) => {
       selector: (row) => [row.role],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
@@ -112,7 +112,7 @@ const ManageUser = (props) => {
       selector: (row) => [row.email],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

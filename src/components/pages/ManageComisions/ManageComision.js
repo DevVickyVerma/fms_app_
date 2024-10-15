@@ -186,7 +186,7 @@ const ManageComision = (props) => {
     }
   };
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData([]);
   };
 

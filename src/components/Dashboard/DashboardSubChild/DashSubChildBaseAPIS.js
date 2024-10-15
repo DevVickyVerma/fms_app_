@@ -147,7 +147,7 @@ const DashSubChildBaseAPIS = (props) => {
     }
   };
 
-  const FetchSiteFuelPerformanceData = async (filters) => {
+  const FetchSiteFuelPerformanceData = async () => {
 
     setDashboardGradsLoading(true);
     // Check if the role is Client, then set the client_id and client_name from local storage

@@ -96,7 +96,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
 
   const isButtonDisabled = !startDate || !endDate;
 
-  const fetchData = async (values) => {
+  const fetchData = async () => {
     setGradsLoading(true);
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
@@ -164,7 +164,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
     return `${year}-${month}-${day}`;
   }
 
-  const ResetForm = async (values) => {
+  const ResetForm = async () => {
     setGradsLoading(true);
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
@@ -451,7 +451,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                             style={{ display: "flex", flexDirection: "column" }}
                           >
                             {getGradsSiteDetails?.[gridIndex]?.cards?.map(
-                              (cardDetail, index) => (
+                              (cardDetail,) => (
                                 <Col
                                   lg={12}
                                   md={12}
@@ -601,6 +601,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                             .test(
                               "start_date",
                               "Start Date must be before End Date",
+                              // eslint-disable-next-line func-names
                               function (value) {
                                 const { start_date } = this.parent;
                                 return start_date <= value;

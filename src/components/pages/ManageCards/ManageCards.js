@@ -126,7 +126,7 @@ const ManageCards = (props) => {
     }
   };
 
-  const FetchTableData = async (itemsPerPage) => {
+  const FetchTableData = async () => {
     try {
       let apiUrl = `/card/list?page=${currentPage}`;
       if (searchTerm) {

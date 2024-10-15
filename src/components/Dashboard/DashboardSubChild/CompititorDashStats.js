@@ -27,7 +27,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
 import CompetitorSingleGraph from "../../pages/Competitor/CompetitorSingleGraph";
 
-const CompititorDashStats = ({ isLoading, getData, id }) => {
+const CompititorDashStats = ({ getData, id }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [Compititorloading, setCompititorloading] = useState(false);
 

@@ -8,7 +8,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
-const CompanySageFuels = (props) => {
+const CompanySageFuels = () => {
     const id = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState([]);

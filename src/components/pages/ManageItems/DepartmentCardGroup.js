@@ -13,7 +13,7 @@ import NewFilterTab from '../Filtermodal/NewFilterTab';
 import { handleFilterData } from '../../../Utils/commonFunctions/commonFunction';
 import useCustomDelete from '../../../Utils/useCustomDelete';
 
-const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
+const DepartmentCardGroup = ({ isLoading, getData, postData, }) => {
     const [data, setData] = useState();
     const [showModal, setShowModal] = useState(false);
     const [showAddButton, setShowAddButton] = useState(false);

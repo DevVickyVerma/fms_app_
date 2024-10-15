@@ -123,7 +123,7 @@ const SiteCardOpening = (props) => {
               start_date: "",
             }}
             validationSchema={validationSchema1}
-            onSubmit={(values, { resetForm }) => {
+            onSubmit={(values) => {
               const { start_date } = values; // Destructuring to extract start_date
               GetListing(start_date);
             }}

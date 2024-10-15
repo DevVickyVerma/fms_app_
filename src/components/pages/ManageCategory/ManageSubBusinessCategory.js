@@ -106,7 +106,7 @@ const ManageSubBusinessCategory = (props) => {
       selector: (row) => [row.sub_category_name],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.sub_category_name}</h6>
@@ -119,7 +119,7 @@ const ManageSubBusinessCategory = (props) => {
       selector: (row) => [row.business_category],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.business_category}</h6>
@@ -132,7 +132,7 @@ const ManageSubBusinessCategory = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "15%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>

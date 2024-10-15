@@ -18,7 +18,7 @@ const DepartmentShop = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
 
-  document.addEventListener("keydown", function (event) {
+  document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
@@ -54,21 +54,19 @@ const DepartmentShop = (props) => {
     fetchData();
   }, [site_id, start_date]);
 
-  const _renderFunction = () => {
-    return Object.keys(data)?.map((item, index) => {
-      const displayName = item
-        .replace(/_/g, " ")
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
-      return (
-        <div className="Dps-data" key={index}>
-          <p>{displayName}</p>
-          <p>{data[item]}</p>
-        </div>
-      );
-    });
-  };
+  const _renderFunction = () => Object?.keys(data)?.map((item, index) => {
+    const displayName = item
+      .replace(/_/g, " ")
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+    return (
+      <div className="Dps-data" key={index}>
+        <p>{displayName}</p>
+        <p>{data[item]}</p>
+      </div>
+    );
+  });
 
   return (
     <>

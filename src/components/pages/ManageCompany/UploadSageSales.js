@@ -51,7 +51,7 @@ const UploadSageSales = (props) => {
     });
 
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = async () => {
         try {
             const formData = new FormData();
 

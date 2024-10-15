@@ -65,7 +65,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
             selector: (row) => [row?.opening_balance_type],
             sortable: false,
             width: "12.5%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row?.opening_balance_type}</h6>
@@ -78,7 +78,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
             selector: (row) => [row?.opening_balance],
             sortable: false,
             width: "12.5%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row?.opening_balance}</h6>
@@ -92,7 +92,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
             selector: (row) => [row?.opening_balance_loomis],
             sortable: false,
             width: "12.5%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div
                     className="d-flex"
                     style={{ cursor: "default" }}
@@ -111,7 +111,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
             selector: (row) => [row?.opening_balance_ou_loomis],
             sortable: false,
             width: "12.5%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div
                     className="d-flex"
                     style={{ cursor: "default" }}

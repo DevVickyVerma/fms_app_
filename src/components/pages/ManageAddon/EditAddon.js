@@ -294,7 +294,7 @@ const EditAddon = (props) => {
                                           checked={initialPermissionSet.has(
                                             nameItem.permission_name
                                           )}
-                                          onChange={(e) => {
+                                          onChange={() => {
                                             const permissionName =
                                               nameItem.permission_name;
                                             const updatedPermissionSet =

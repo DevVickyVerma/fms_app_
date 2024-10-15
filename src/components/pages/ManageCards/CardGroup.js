@@ -14,7 +14,7 @@ import useCustomDelete from "../../CommonComponent/useCustomDelete";
 
 
 
-const CardGroup = ({ isLoading, getData, postData, apidata }) => {
+const CardGroup = ({ isLoading, getData, postData, }) => {
   const [data, setData] = useState();
   const [showModal, setShowModal] = useState(false);
   const [showAddButton, setShowAddButton] = useState(false);
@@ -204,7 +204,7 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
     }
   }
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData(null)
   };
 

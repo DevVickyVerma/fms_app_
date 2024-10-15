@@ -76,7 +76,7 @@ const AddCompany = (props) => {
     FetchmannegerList();
   }, [UserPermissions]);
 
-  const handleSubmit = async (event, values) => {
+  const handleSubmit = async () => {
     // event.preventDefault();
     try {
       const formData = new FormData();

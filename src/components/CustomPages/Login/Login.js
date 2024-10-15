@@ -15,7 +15,7 @@ import CountdownTimer from "./CountdownTimer";
 
 
 
-export default function Login(props) {
+export default function Login() {
   const [isLoading, setLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);

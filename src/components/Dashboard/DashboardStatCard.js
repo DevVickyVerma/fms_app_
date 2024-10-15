@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Card, Col, Modal, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 
-const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters }) => {
+const DashboardStatCard = ({ getData, isOpen, onClose, }) => {
   const [data, setData] = useState();
   const [filters, setFilters] = useState();
 
@@ -108,7 +108,8 @@ const DashboardStatCard = ({ getData, isLoading, isOpen, onClose, parentFilters 
       companies: [],
       sites: [],
     },
-    onSubmit: (values) => {
+    onSubmit: () => {
+      console.clear()
     },
   });
 

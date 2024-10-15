@@ -63,7 +63,7 @@ const AddCompany = (props) => {
       value: site?.id,
     })) || [];
 
-  const handleSubmit = async (event, values) => {
+  const handleSubmit = async () => {
     // event.preventDefault();
 
     try {

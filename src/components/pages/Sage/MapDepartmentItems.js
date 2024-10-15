@@ -189,6 +189,7 @@ const DepartmentItems = (props) => {
     ],
   };
   const headsvalueonsubmit = () => {
+    console.clear()
   };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,
@@ -218,7 +219,7 @@ const DepartmentItems = (props) => {
   useEffect(() => {
     if (data?.heads?.length > 0) {
       // Loop through each head and set field values
-      data.heads.forEach((head, index) => {
+      data.heads.forEach((head,) => {
         setFieldValuesFromHeads(head);
       });
     }

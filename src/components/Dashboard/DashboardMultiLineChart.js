@@ -5,6 +5,7 @@ import { Line } from "react-chartjs-2";
 const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
 
   useEffect(() => {
+    console.clear()
   }, [])
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null
@@ -95,6 +96,7 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
     plugins: {
       tooltip: {
         callbacks: {
+          // eslint-disable-next-line func-names
           label: function (context) {
             let label = context?.dataset?.label || '';
             if (label) {

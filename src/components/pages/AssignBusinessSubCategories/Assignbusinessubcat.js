@@ -9,7 +9,7 @@ import { handleError } from "../../../Utils/ToastUtils";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import CustomPagination from "../../../Utils/CustomPagination";
 
-const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
+const OpeningBalance = ({ isLoading, getData, postData, }) => {
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -88,7 +88,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
       selector: (row) => [row?.main_category_name],
       sortable: false,
       width: "35%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
@@ -104,7 +104,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
       selector: (row) => [row?.sub_category_name],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}

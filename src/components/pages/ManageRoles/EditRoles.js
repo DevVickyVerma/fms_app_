@@ -256,7 +256,7 @@ const EditRoles = (props) => {
                                     checked={permissionArray.includes(
                                       nameItem.name
                                     )} // Check if the name is in permissionArray
-                                    onChange={(e) => {
+                                    onChange={() => {
                                       // Get the name of the permission being changed from the current element
                                       const permissionName = nameItem.name;
 

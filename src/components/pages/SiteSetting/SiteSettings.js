@@ -657,7 +657,7 @@ const SiteSettings = (props) => {
       width: "25%",
       selector: (row) => row.deduction_name,
       sortable: false,
-      cell: (row, index) => (
+      cell: (row,) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>

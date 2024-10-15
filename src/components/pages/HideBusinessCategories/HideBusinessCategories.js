@@ -87,7 +87,7 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
       selector: (row) => [row?.name],
       sortable: false,
       width: "35%",
-      cell: (row, index) => (
+      cell: (row,) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">

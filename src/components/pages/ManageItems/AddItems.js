@@ -137,7 +137,7 @@ const AddItems = (props) => {
                   handleSubmit1(values);
                 }}
               >
-                {({ handleSubmit, errors, touched, setFieldValue }) => (
+                {({ handleSubmit, errors, touched, }) => (
                   <Form onSubmit={handleSubmit}>
                     <Card.Body>
                       <Row>

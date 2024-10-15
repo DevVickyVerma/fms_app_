@@ -77,7 +77,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
             selector: (row) => [row?.site_name],
             sortable: false,
             width: "85%",
-            cell: (row, index) => (
+            cell: (row) => (
                 <div
 
                     onClick={() => handleCompiNavigateClick(row)}
@@ -157,7 +157,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
     }, []);
 
 
-    const handleClearForm = async (resetForm) => {
+    const handleClearForm = async () => {
         setData(null)
         handleClientStats()
     };

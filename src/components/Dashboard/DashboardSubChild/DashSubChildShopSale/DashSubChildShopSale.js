@@ -95,127 +95,123 @@ const DashSubChildShopSale = ({
   };
   console.clear();
 
-  const renderTableHeader = () => {
-    return (
-      <tr className="fuelprice-tr" style={{ padding: "0px" }}>
-        <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th"
-          style={{ width: "25%" }}
-        >
-          Name
-        </th>
-        <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
-          style={{ width: "15%" }}
-        >
-          Gross Sales
-        </th>
-        <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
-          style={{ width: "15%" }}
-        >
-          Net Sales
-        </th>
-        <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
-          style={{ width: "15%" }}
-        >
-          Profit
-        </th>
-        <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
-          style={{ width: "15%" }}
-        >
-          Transactions{" "}
-        </th>
-        <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
-          style={{ width: "15%" }}
-        >
-          Details
-        </th>
-      </tr>
-    );
-  };
+  const renderTableHeader = () => (
+    <tr className="fuelprice-tr" style={{ padding: "0px" }}>
+      <th
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-th"
+        style={{ width: "25%" }}
+      >
+        Name
+      </th>
+      <th
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
+        style={{ width: "15%" }}
+      >
+        Gross Sales
+      </th>
+      <th
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
+        style={{ width: "15%" }}
+      >
+        Net Sales
+      </th>
+      <th
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
+        style={{ width: "15%" }}
+      >
+        Profit
+      </th>
+      <th
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
+        style={{ width: "15%" }}
+      >
+        Transactions{" "}
+      </th>
+      <th
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center"
+        style={{ width: "15%" }}
+      >
+        Details
+      </th>
+    </tr>
+  );
 
-  const renderTableData = () => {
-    return dashboardShopSaleData?.shop_sales?.map((item) => (
-      <tr className="fuelprice-tr " key={item.id} style={{ padding: "0px" }}>
-        <td
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-td "
-          style={{ minWidth: "25%" }}
-        >
-          <div className="d-flex align-items-center justify-center h-100">
-            <div className="d-flex">
-              <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6 className="mb-0 fs-15 fw-semibold ">{item?.name}</h6>
-              </div>
-            </div>
-          </div>
-        </td>
-
-        <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-          <div className="d-flex align-items-center h-100 ">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold ">{item?.gross_sales}</h6>
-            </div>
-          </div>
-        </td>
-
-        <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+  const renderTableData = () => dashboardShopSaleData?.shop_sales?.map((item) => (
+    <tr className="fuelprice-tr " key={item.id} style={{ padding: "0px" }}>
+      <td
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-td "
+        style={{ minWidth: "25%" }}
+      >
+        <div className="d-flex align-items-center justify-center h-100">
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{item?.nett_sales}</h6>
+              <h6 className="mb-0 fs-15 fw-semibold ">{item?.name}</h6>
             </div>
           </div>
-        </td>
+        </div>
+      </td>
 
-        <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{item?.profit}</h6>
-            </div>
+      <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+        <div className="d-flex align-items-center h-100 ">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">{item?.gross_sales}</h6>
           </div>
-        </td>
-        <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">
-                {item?.total_transactions}
-              </h6>
-            </div>
+        </div>
+      </td>
+
+      <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{item?.nett_sales}</h6>
           </div>
-        </td>
-        {item?.total_transactions > 0 ? (
-          <>
-            <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-              <div className="d-flex justify-content-center">
-                <div className="ms-2 mt-0 mt-sm-2 d-block">
-                  <h6
-                    className="mb-0 fs-14 fw-semibold"
-                    onClick={() => handleOpenModal(item)}
-                  >
-                    <span
-                      className="dashboard-shop-sale-icon all-center-flex "
-                      style={{ cursor: "pointer" }}
-                    >
-                      <AiFillEye size={15} className=" all-center-flex" />
-                    </span>
-                  </h6>
-                </div>
-              </div>
-            </td>
-          </>
-        ) : (
+        </div>
+      </td>
+
+      <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{item?.profit}</h6>
+          </div>
+        </div>
+      </td>
+      <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">
+              {item?.total_transactions}
+            </h6>
+          </div>
+        </div>
+      </td>
+      {item?.total_transactions > 0 ? (
+        <>
           <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
             <div className="d-flex justify-content-center">
-              <div className="ms-2 mt-0 mt-sm-2 d-block"></div>
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6
+                  className="mb-0 fs-14 fw-semibold"
+                  onClick={() => handleOpenModal(item)}
+                >
+                  <span
+                    className="dashboard-shop-sale-icon all-center-flex "
+                    style={{ cursor: "pointer" }}
+                  >
+                    <AiFillEye size={15} className=" all-center-flex" />
+                  </span>
+                </h6>
+              </div>
             </div>
           </td>
-        )}
-      </tr>
-    ));
-  };
+        </>
+      ) : (
+        <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+          <div className="d-flex justify-content-center">
+            <div className="ms-2 mt-0 mt-sm-2 d-block"></div>
+          </div>
+        </td>
+      )}
+    </tr>
+  ));
   const handleCloseModal = () => {
     setShowModal(false);
     setShowCalenderModal(false);
@@ -277,7 +273,7 @@ const DashSubChildShopSale = ({
     inputDateElement.showPicker();
   };
 
-  const fetchData = async (values) => {
+  const fetchData = async () => {
     setGradsLoading(true);
 
     const storedData = localStorage.getItem("localFilterModalData");
@@ -324,7 +320,7 @@ const DashSubChildShopSale = ({
     setGradsLoading(false);
   };
 
-  const ResetForm = async (values) => {
+  const ResetForm = async () => {
     setGradsLoading(true);
 
     const storedData = localStorage.getItem("localFilterModalData");
@@ -511,6 +507,7 @@ const DashSubChildShopSale = ({
                             .test(
                               "start_date",
                               "Start Date must be before End Date",
+                              // eslint-disable-next-line func-names
                               function (value) {
                                 const { start_date } = this.parent;
                                 return start_date <= value;

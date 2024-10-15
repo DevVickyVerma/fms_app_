@@ -60,7 +60,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       selector: (row) => [row?.user],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.user}</h6>
@@ -73,7 +73,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       selector: (row) => [row?.type],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.type}</h6>
@@ -86,7 +86,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       selector: (row) => [row?.date],
       sortable: false,
       width: "30%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row?.date}</h6>
@@ -96,7 +96,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
     },
   ];
 
-  const FetchCronListApi = async (pageNumber) => {
+  const FetchCronListApi = async () => {
     try {
       const response = await getData(`/cron-job/list`);
       setCronList(response?.data?.data?.cronJobs);

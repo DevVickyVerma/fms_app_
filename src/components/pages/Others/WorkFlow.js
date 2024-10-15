@@ -88,7 +88,7 @@ const ManageSite = (props) => {
       selector: (row) => [row.site_name],
       sortable: false,
       width: "40%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.site_name}</h6>
@@ -101,7 +101,7 @@ const ManageSite = (props) => {
       selector: (row) => [row.work_flow],
       sortable: false,
       width: "25%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0  d-block">
             {row.work_flow === "Not Done" ? (
@@ -141,7 +141,7 @@ const ManageSite = (props) => {
       selector: (row) => [row.approval],
       sortable: false,
       width: "20%",
-      cell: (row, index) => (
+      cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             {row.approval === "No" ? (
@@ -216,7 +216,7 @@ const ManageSite = (props) => {
     }
   }
 
-  const handleClearForm = async (resetForm) => {
+  const handleClearForm = async () => {
     setData(null)
   };
 

@@ -8,94 +8,90 @@ const DashSubChildShopSaleCenterModal = (props) => {
     setShowModal(false);
   };
 
-  const renderTableHeader = () => {
-    return (
-      <tr className="fuelprice-tr" style={{ padding: "0px" }}>
-        <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th"
-          style={{ paddingLeft: "25px" }}
-        >
-          Name
-        </th>
-        <th className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center">
-          Shop Sales
-        </th>
-        <th className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center">
-          Quantity
-        </th>
-        <th className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center">
-          Transactions
-        </th>
-      </tr>
-    );
-  };
+  const renderTableHeader = () => (
+    <tr className="fuelprice-tr" style={{ padding: "0px" }}>
+      <th
+        className="dashboard-shopSale-table-width dashboard-shopSale-table-th"
+        style={{ paddingLeft: "25px" }}
+      >
+        Name
+      </th>
+      <th className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center">
+        Shop Sales
+      </th>
+      <th className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center">
+        Quantity
+      </th>
+      <th className="dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center">
+        Transactions
+      </th>
+    </tr>
+  );
 
-  const renderTableData = () => {
-    return (
-      <>
-        {shopPerformanceData?.card_details?.map((cardDetail, index) => (
-          <tr className="fuelprice-tr " style={{ padding: "0px" }}>
-            <td
-              className="dashboard-shopSale-table-width dashboard-shopSale-table-td "
-              style={{ minWidth: "25%" }}
-            >
-              <div className="d-flex align-items-center justify-center h-100">
-                <div className="d-flex">
-                  <div className="ms-2 mt-0 mt-sm-2 d-block">
-                    <h6 className="mb-0 fs-15 fw-semibold ">
-                      <img
-                        src={cardDetail.image}
-                        alt={cardDetail.card_name || "Card Image Alt Text"}
-                        style={{
-                          width: "60px",
-                          height: "40px",
-                          background: "#FFF",
-                          padding: "5px",
-                          borderRadius: "8px",
-                          margin: "0 5px",
-                        }}
-                      />
-                      {cardDetail?.card_name}
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </td>
-
-            <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-              <div className="d-flex align-items-center h-100 ">
+  const renderTableData = () => (
+    <>
+      {shopPerformanceData?.card_details?.map((cardDetail,) => (
+        <tr className="fuelprice-tr " style={{ padding: "0px" }}>
+          <td
+            className="dashboard-shopSale-table-width dashboard-shopSale-table-td "
+            style={{ minWidth: "25%" }}
+          >
+            <div className="d-flex align-items-center justify-center h-100">
+              <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
-                  <h6 className="mb-0 fs-14 fw-semibold ">
-                    {cardDetail?.shop_sales}
+                  <h6 className="mb-0 fs-15 fw-semibold ">
+                    <img
+                      src={cardDetail.image}
+                      alt={cardDetail.card_name || "Card Image Alt Text"}
+                      style={{
+                        width: "60px",
+                        height: "40px",
+                        background: "#FFF",
+                        padding: "5px",
+                        borderRadius: "8px",
+                        margin: "0 5px",
+                      }}
+                    />
+                    {cardDetail?.card_name}
                   </h6>
                 </div>
               </div>
-            </td>
+            </div>
+          </td>
 
-            <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-              <div className="d-flex align-items-center h-100 ">
-                <div className="ms-2 mt-0 mt-sm-2 d-block">
-                  <h6 className="mb-0 fs-14 fw-semibold ">
-                    {cardDetail?.quantity}
-                  </h6>
-                </div>
+          <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+            <div className="d-flex align-items-center h-100 ">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 fw-semibold ">
+                  {cardDetail?.shop_sales}
+                </h6>
               </div>
-            </td>
+            </div>
+          </td>
 
-            <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-              <div className="d-flex align-items-center h-100 ">
-                <div className="ms-2 mt-0 mt-sm-2 d-block">
-                  <h6 className="mb-0 fs-14 fw-semibold ">
-                    {cardDetail?.transactions}
-                  </h6>
-                </div>
+          <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+            <div className="d-flex align-items-center h-100 ">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 fw-semibold ">
+                  {cardDetail?.quantity}
+                </h6>
               </div>
-            </td>
-          </tr>
-        ))}
-      </>
-    );
-  };
+            </div>
+          </td>
+
+          <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
+            <div className="d-flex align-items-center h-100 ">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 fw-semibold ">
+                  {cardDetail?.transactions}
+                </h6>
+              </div>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </>
+  );
 
   return (
     <Modal

@@ -131,7 +131,7 @@ const SiteCardAdjustment = (props) => {
                             start_month: "", // Set the initial month value
                         }}
                         validationSchema={validationSchema1}
-                        onSubmit={(values, { resetForm }) => {
+                        onSubmit={(values,) => {
                             const { start_month } = values; // Destructuring to extract start_month
                             GetListing(start_month);
                         }}
