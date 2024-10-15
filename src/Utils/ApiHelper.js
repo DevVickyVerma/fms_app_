@@ -57,9 +57,7 @@ const withApi = (WrappedComponent) => {
         config.headers.Authorization = `Bearer ${token}`;
         return config;
       },
-      (error) => {
-        return Promise.reject(error);
-      }
+      (error) => Promise.reject(error)
     );
 
     const pendingRequests = useRef(0); // Ref to track ongoing requests

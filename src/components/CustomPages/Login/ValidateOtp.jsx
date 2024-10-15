@@ -79,7 +79,7 @@ export default function ValidateOtp() {
                     handleSubmit(values);
                   }}
                 >
-                  {({ errors, touched }) => (
+                  {() => (
                     <Form className="card shadow-none " method="post">
                       <Card.Body className="mx-auto">
                         <Box

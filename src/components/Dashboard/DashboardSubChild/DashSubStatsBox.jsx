@@ -1,7 +1,7 @@
 import { Row } from "react-bootstrap";
 import DashCommonCard from "../DashCommonCard";
 
-const DashSubStatsBox = (props) => {
+const DashSubStatsBox = () => {
   const singleSiteStoredData = localStorage.getItem("singleSiteData");
   const singleSiteParsedData = JSON.parse(singleSiteStoredData);
 

@@ -40,8 +40,6 @@ const SiteEvobossStatus = (props) => {
     FetchSitedata(rowData);
   };
 
-  useEffect(() => { }, [siteData]);
-
   const columns = [
     {
       name: "Sr. No.",
@@ -60,7 +58,7 @@ const SiteEvobossStatus = (props) => {
       selector: (row) => [row?.site_name],
       sortable: false,
       width: "85%",
-      cell: (row, index) => (
+      cell: (row, ) => (
         <div
           className="d-flex"
           onClick={() => handleNavigateToNewPage(row)}

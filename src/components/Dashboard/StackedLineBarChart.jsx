@@ -9,17 +9,15 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
     return <p> Please Apply Filter To Visualize Charttt.....</p>;
   }
 
-  const datasets = stackedLineBarData?.map((dataset, index) => {
-    return {
-      label: dataset?.label,
-      data: dataset?.data,
-      borderColor: dataset?.borderColor,
-      backgroundColor: dataset?.backgroundColor,
-      yAxisID: dataset?.yAxisID,
-      type: index === 1 ? "line" : "bar", // import Chart from "chart.js/auto";
-      key: index,
-    };
-  });
+  const datasets = stackedLineBarData?.map((dataset, index) => ({
+    label: dataset?.label,
+    data: dataset?.data,
+    borderColor: dataset?.borderColor,
+    backgroundColor: dataset?.backgroundColor,
+    yAxisID: dataset?.yAxisID,
+    type: index === 1 ? "line" : "bar", // import Chart from "chart.js/auto";
+    key: index,
+  }));
 
 
   const data = {
@@ -67,6 +65,7 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
       },
       tooltip: {
         callbacks: {
+          // eslint-disable-next-line func-names
           label: function (context) {
             let label = context?.dataset?.label || '';
             if (label) {

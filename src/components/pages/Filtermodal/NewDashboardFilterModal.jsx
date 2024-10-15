@@ -16,23 +16,18 @@ const NewDashboardFilterModal = ({
     isLoading,
     onApplyFilters,
     showClientInput = true,
-    isStatic = true,
-    smallScreen = false,
     showEntityInput = true,
     showEntityValidation = true,
     showClientValidation = true,
     showStationInput = true,
     showStationValidation = true,
-    showMonthValidation = true,
     showDateValidation = true,
     showMonthInput = true,
     showDateInput = true,
     validationSchema,
     storedKeyName,
-    layoutClasses = 'flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5',
     onClose,
     isOpen,
-    visible
 }) => {
 
     const reduxData = useSelector(state => state?.data?.data);

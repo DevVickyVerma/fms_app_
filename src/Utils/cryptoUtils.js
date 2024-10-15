@@ -3,9 +3,7 @@ import CryptoJS from 'crypto-js';
 
 const secretKey = 'mySecretKey'; // Replace with your actual secret key
 
-export const encryptData = (data) => {
-    return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
-};
+export const encryptData = (data) => CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
 
 export const decryptData = (encryptedData) => {
     const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);

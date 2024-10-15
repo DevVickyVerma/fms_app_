@@ -4,7 +4,6 @@ import { Line } from "react-chartjs-2";
 
 const CompetitorSingleGraph = ({
   getCompetitorsPrice,
-  setGetCompetitorsPrice,
 }) => {
   // Now you can safely map over the data
 
@@ -13,7 +12,7 @@ const CompetitorSingleGraph = ({
 
   useEffect(() => {
     if (!getCompetitorsPrice) {
-      return;
+
     }
   });
 

@@ -79,8 +79,6 @@ const MyProvider = ({ children }) => {
 };
 
 // Custom hook to access the context
-const useMyContext = () => {
-  return useContext(MyContext);
-};
+const useMyContext = () => useContext(MyContext);
 
 export { MyProvider, useMyContext };

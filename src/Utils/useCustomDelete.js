@@ -11,7 +11,7 @@ const useCustomDelete = () => {
         text,
         confirmButtonText,
         title,
-        navigate, // Add navigate parameter
+
     ) => {
         Swal.fire({
             title: title || 'Are you sure?',

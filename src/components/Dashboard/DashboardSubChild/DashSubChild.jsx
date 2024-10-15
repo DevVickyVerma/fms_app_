@@ -323,7 +323,7 @@ const DashSubChild = ({
           <Box display={"flex"} gap={"25px"} flexWrap={"wrap"} justifyContent={["center", "flex-start"]}>
             {" "}
             {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
-              (LastDeliveryState, index) => (
+              (LastDeliveryState,) => (
                 <Box
                   borderRadius={"5px"}
                   bgcolor={"#f2f2f8"}

@@ -31,7 +31,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
     const formik = useFormik({
         initialValues: {},
         // validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: () => {
             // handleSubmit1(values);
         },
     });
@@ -96,7 +96,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
             formik?.values?.uploadedFiles?.filter((_, index) => index !== indexToRemove)
         );
     };
-    const uploadDocument = async (id) => {
+    const uploadDocument = async () => {
 
         const formData = new FormData();
 
