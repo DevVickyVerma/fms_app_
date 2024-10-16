@@ -361,7 +361,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                               >
                                 <strong style={{ fontWeight: 700 }}>
                                   {" "}
-                                  Total Fuel Volume :{" "}  <span className="l-sign">
+                                  Total Fuel Volume :{" "}  <span className="l-sign fw-normal">
                                     {getGradsSiteDetails?.[gridIndex]?.fuel_volume}
                                   </span>
                                 </strong>
@@ -528,7 +528,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                                             {cardDetail?.total_fuel_sale_value}
                                             <br />
                                             Total Fuel Volume :{" "}
-                                            <span className="l-sign">  {cardDetail?.total_fuel_sale_volume}</span>
+                                            <span className="l-sign fw-normal">  {cardDetail?.total_fuel_sale_volume}</span>
                                           </Tooltip>
                                         }
                                       >
