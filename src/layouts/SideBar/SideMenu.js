@@ -663,6 +663,13 @@ export const MENUITEMS = [
             permission: "shop-facility-fees",
             visibility: false,
           },
+          {
+            path: `/subway-facility-fees`,
+            title: "Subway Facility Fees",
+            type: "link",
+            permission: "subway-facility-fees",
+            visibility: false,
+          },
         ],
       },
       //Department Items

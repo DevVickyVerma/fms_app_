@@ -41,6 +41,7 @@ import DashboardWetStock from "./components/Dashboard/DashboardWetStock/Dashboar
 import DummyPage from "./components/pages/DummyPage/DummyPage";
 import UpdateFuelPrices from "./components/pages/ManageFuelPrices/UpdateFuelPrices";
 import DailyDue from "./components/pages/DailyDue/DailyDue";
+import SubwayFacilityFees from "./components/pages/SubwayFacilityFees/SubwayFacilityFees";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -694,6 +695,7 @@ const Root = () => {
   const WrappedAssignEditPPL = withApi(EditPPL);
   const WrappedAssignAddPPL = withApi(AddPPL);
   const WrappedDailyFacilityFees = withApi(DailyFacilityFees);
+  const WrappedSubwayFacilityFees = withApi(SubwayFacilityFees);
   const WrappedDashBoardChild = withApi(DashBoardChild);
   const WrappedDashBoardSubChild = withApi(DashSubChild);
   const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
@@ -882,6 +884,10 @@ const Root = () => {
                   <Route
                     path={`/dailyfacilityfees`}
                     element={<WrappedDailyFacilityFees />}
+                  />
+                  <Route
+                    path={`/subway-facility-fees`}
+                    element={<WrappedSubwayFacilityFees />}
                   />
                   {/* sites  Components End */}
 
