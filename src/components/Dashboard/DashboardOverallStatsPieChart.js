@@ -26,13 +26,6 @@ const DashboardOverallStatsPieChart = ({ data }) => {
 
 
 
-  const colorArray = [
-    [126, 149, 228],
-    [147, 141, 223],
-    [59, 96, 172],
-    // Add more colors as needed
-  ];
-
 
   const options = {
     chart: {
