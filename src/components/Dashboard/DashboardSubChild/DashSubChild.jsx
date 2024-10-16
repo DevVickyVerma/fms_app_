@@ -257,6 +257,7 @@ const DashSubChild = ({
           gap={4}
           p={"25px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
+          className="l-sign"
         >
           <Box>
             <Box display={"flex"} gap={"12px"}>
@@ -402,7 +403,7 @@ const DashSubChild = ({
 
 
       {/* tank analysis */}
-      <Row className="my-4">
+      <Row className="my-4 l-sign">
         <Col lg={12} md={12}>
           <>
             <Card>
