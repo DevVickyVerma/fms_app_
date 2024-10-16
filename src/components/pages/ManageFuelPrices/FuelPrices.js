@@ -402,16 +402,14 @@ const FuelPrices = (props) => {
                                   <div
                                     className={
                                       item?.link_clickable
-                                        ? " fs-15 fw-semibold  flex-grow-1 fuel-site-name"
-                                        : "text-muted fs-15 fw-semibold  flex-grow-1"
+                                        ? " fs-15 fw-semibold  flex-grow-1 fuel-site-name fuel-site-name-color"
+                                        : "text-muted fs-15 fw-semibold  flex-grow-1 fuel-site-name-color"
                                     }
-                                    // onClick={item?.link_clickable && item?.count > 0 ? () => handleModalOpen(item) : null}
-                                    // onClick={() => navigate(`/update-fuel-price/${item?.id}`)}
                                     onClick={() => handleFuelPriceLinkClick(item)}
 
                                   >
                                     {item?.site_name}
-
+                                    {/* count number */}
                                     {/* <span className="itemcount ">
                                       <span className=" d-flex justify-content-center">
                                         {item?.count}
