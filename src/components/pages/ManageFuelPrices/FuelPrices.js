@@ -410,11 +410,13 @@ const FuelPrices = (props) => {
                                     onClick={() => handleFuelPriceLinkClick(item)}
 
                                   >
-                                    {item?.site_name} <span className="itemcount ">
+                                    {item?.site_name}
+
+                                    {/* <span className="itemcount ">
                                       <span className=" d-flex justify-content-center">
                                         {item?.count}
                                       </span>
-                                    </span>
+                                    </span> */}
                                   </div>
                                 </div>
                               </td>
