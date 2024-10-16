@@ -24,13 +24,23 @@ const DashboardOverallStatsPieChart = ({ data }) => {
     );
   }
 
+
+
+  const colorArray = [
+    [126, 149, 228],
+    [147, 141, 223],
+    [59, 96, 172],
+    // Add more colors as needed
+  ];
+
+
   const options = {
     chart: {
       width: 100,
       type: "pie",
     },
     labels: formattedLabels,
-    colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
+    colors: ["rgb(126, 149, 228)", "rgb(147, 141, 223)", "rgb(59, 96, 172)"],
   };
 
   const formatNumber = (num) => {
@@ -51,7 +61,7 @@ const DashboardOverallStatsPieChart = ({ data }) => {
       height: 450,
     },
     labels: formattedLabels,
-    colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
+    colors: ["rgb(126, 149, 228)", "rgb(147, 141, 223)", "rgb(59, 96, 172)"],
     responsive: [{
       breakpoint: 180,
       options: {

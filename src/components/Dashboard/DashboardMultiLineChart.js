@@ -36,9 +36,9 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
 
 
   const colorArray = [
-    [255, 99, 132], // Red
-    [54, 162, 235], // Green
-    [154, 62, 251], // Blue
+    [126, 149, 228],
+    [147, 141, 223],
+    [59, 96, 172],
     // Add more colors as needed
   ];
 
