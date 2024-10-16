@@ -75,6 +75,8 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
       mode: "index",
       intersect: false,
     },
+    responsive: true,
+    maintainAspectRatio: false,
     stacked: false,
     scales: {
       y: {
@@ -82,6 +84,12 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
         display: true,
         position: "left",
         min: 0,
+        ticks: {
+          font: {
+            size: 14,
+          },
+          color: '#6c757d', // Add color to scale labels
+        },
       },
       y1: {
         type: "linear",
@@ -91,10 +99,22 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
           drawOnChartArea: false,
         },
         min: 0,
+        ticks: {
+          font: {
+            size: 14,
+          },
+          color: '#6c757d', // Add color to right scale labels
+        },
       },
     },
     plugins: {
       tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Dark background for tooltips
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: '#ccc',
+        borderWidth: 1,
+        padding: 10,
         callbacks: {
           // eslint-disable-next-line func-names
           label: function (context) {
@@ -109,15 +129,42 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
           },
         },
       },
+      legend: {
+        display: true,
+        labels: {
+          font: {
+            size: 14,
+          },
+          color: '#333',
+        },
+      },
+    },
+    animation: {
+      duration: 1000, // Smooth animation on update
+      easing: 'easeOutBounce',
+    },
+    elements: {
+      line: {
+        tension: 0.4, // Makes lines curvier
+        borderWidth: 3,
+        borderColor: '#007bff',
+        backgroundColor: 'rgba(0, 123, 255, 0.3)', // Add background color to lines
+      },
+      point: {
+        radius: 5,
+        backgroundColor: '#007bff',
+        hoverRadius: 7, // Slight hover effect on points
+        hoverBorderWidth: 3,
+      },
     },
   };
 
 
 
 
-
   return (
     <div
+      style={{ height: '60vh', width: '100%' }}
     //  className="d-flex chart-items"
     >
       <Line data={data} options={options} />
