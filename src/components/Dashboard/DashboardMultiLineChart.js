@@ -1,6 +1,7 @@
 
 import { useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
 
 const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
 
@@ -34,22 +35,12 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
 
   const labels = LinechartOption?.map((label) => label);
 
-
-  const colorArray = [
-    [126, 149, 228],
-    [147, 141, 223],
-    [59, 96, 172],
-    // Add more colors as needed
-  ];
-
+  // Api data fatching and showing
   const datasets = LinechartValues?.map((dataset, index) => ({
     label: dataset?.name,
     data: dataset?.data,
-    borderColor: `rgba(${colorArray[index % colorArray.length].join(", ")}, 1)`,
-    backgroundColor: `rgba(${colorArray[index % colorArray.length].join(
-      ", "
-    )}, 0.2)`,
-
+    borderColor: dataset?.borderColor,
+    backgroundColor: dataset?.backgroundColor,
     yAxisID: index === 1 ? "y1" : "y",
     key: index,
   }));
@@ -57,16 +48,6 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
   const data = {
     labels: labels,
     datasets: datasets,
-  };
-
-  const formatNumber = (num) => {
-    if (Math.abs(num) > 999999) {
-      return (num / 1000000).toFixed(1) + 'm';
-    } else if (Math.abs(num) > 999) {
-      return (num / 1000).toFixed(1) + 'k';
-    } else {
-      return num;
-    }
   };
 
 
