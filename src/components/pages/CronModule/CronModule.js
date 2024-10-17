@@ -7,7 +7,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
 import Swal from "sweetalert2";
@@ -122,7 +122,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
 
 
 
-  const callfetchCronJobApi = (id) => {
+  const callfetchCronJobApi = () => {
     Swal.fire({
       title: "Are you sure?",
       text: " Want To Start Cron!",
@@ -149,7 +149,6 @@ const CronModule = ({ getData, isLoading, postData }) => {
       setData(response?.data?.data?.cronLogs);
       setCurrentPage(response?.data?.data?.currentPage || 1);
       setLastPage(response?.data?.data?.lastPage || 1);
-
     } catch (error) {
       console.error("API error:", error);
     }
@@ -157,10 +156,9 @@ const CronModule = ({ getData, isLoading, postData }) => {
 
   const FetchHiddenCronList = async () => {
     try {
-      const response = await getData(`${selectedCronList.url}`);
+      const response = await getData(`${selectedCronList?.url}`);
       if (response) {
         SuccessAlert(response?.data?.message);
-
       }
     } catch (error) {
       ErrorAlert(error);

@@ -25,7 +25,7 @@ const SingleStatsCompetitor = ({ getData }) => {
   const { id } = useParams();
   const [selected, setSelected] = useState();
   const [mySelectedDate, setMySelectedDate] = useState(new Date()?.toISOString()?.split('T')[0]);
-
+  const [showDate, setShowDate] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem,] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
@@ -56,7 +56,9 @@ const SingleStatsCompetitor = ({ getData }) => {
   const FetchCompititorData = async (selectedValues) => {
     setCompititorloading(true);
     if (localStorage.getItem("Dashboardsitestats") === "true") {
+
       try {
+        setShowDate(selectedValues?.start_date ? selectedValues?.start_date : mySelectedDate)
         // Use async/await to fetch data
         const response3 = await axiosInstance.get(
           selectedValues?.start_date
@@ -71,7 +73,6 @@ const SingleStatsCompetitor = ({ getData }) => {
         }
       } catch (error) {
         // Handle errors that occur during the asynchronous operations
-        console.error("API error:", error);
         handleError(error);
       } finally {
         // Set Compititorloading to false when the request is complete (whether successful or not)
@@ -465,7 +466,7 @@ const SingleStatsCompetitor = ({ getData }) => {
                 <h4 className="card-title">
                   {" "}
                   {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
-                  Competitors Stats   ({mySelectedDate})
+                  Competitors Stats   ({showDate})
                 </h4>
 
                 {/* {isFuelPriceUpdatePermissionAvailable && (<>

@@ -25,6 +25,8 @@ import DashSubChildCompititorStats from "./DashSubChildCompititorStats";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import LoaderImg from "../../../Utils/Loader";
+import { getCurrentDate } from "../../../Utils/commonFunctions/commonFunction";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -34,11 +36,12 @@ const DashSubChild = ({
   setGetSiteStats,
   getSiteDetails,
   getData,
+  isLoading
 }) => {
   const { dashSubChildShopSaleLoading, DashboardGradsLoading, showSmallLoader } = useMyContext();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const { id: current_site_id } = useParams();
-
+  const [mySelectedDate, setMySelectedDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(CompititorStats);
 
@@ -47,7 +50,13 @@ const DashSubChild = ({
   const fetchCompetitorData = async () => {
     if (userPermissions.includes("dashboard-site-stats") && current_site_id) {
       try {
-        const response = await getData(`/site/competitor-price/stats?site_id=${current_site_id}`);
+        const queryParams = new URLSearchParams();
+        if (current_site_id) queryParams.append("site_id", current_site_id);
+        if (mySelectedDate) queryParams.append("drs_date", mySelectedDate);
+        const queryString = queryParams.toString();
+        const response = await getData(`site/competitor-price/stats?${queryString}`);
+
+        // const response = await getData(url);
         if (response?.data?.data) {
           setGetCompetitorsPrice(response?.data?.data);
         }
@@ -60,7 +69,7 @@ const DashSubChild = ({
 
   useEffect(() => {
     fetchCompetitorData();
-  }, [current_site_id, userPermissions]);
+  }, [current_site_id, userPermissions, mySelectedDate]);
 
 
 
@@ -82,10 +91,6 @@ const DashSubChild = ({
   ];
 
 
-  const [mySelectedDate, setMySelectedDate] = useState("");
-  const formattedMinDate = "2023-01-01"; // Replace with actual logic
-  const formattedMaxDate = "2023-12-31"; // Replace with actual logic
-
   const formik = useFormik({
     initialValues: {
       start_date: mySelectedDate || "",
@@ -93,9 +98,6 @@ const DashSubChild = ({
     validationSchema: Yup.object().shape({
       start_date: Yup.date().required("Start Date is required"),
     }),
-    onSubmit: (values) => {
-      // FetchCompititorData(values);
-    },
   });
 
   const handleShowDate = () => {
@@ -106,6 +108,8 @@ const DashSubChild = ({
 
   return (
     <>
+
+      {isLoading ? <LoaderImg /> : null}
       <div className="page-header ">
         <div>
           <h1 className="page-title">
@@ -482,43 +486,45 @@ const DashSubChild = ({
       <Col xl={12} className="p-0">
         <Card>
           <Card.Header>
-            <div className="Tank-Details d-flex">
-              <h4 className="card-title">Competitor Stats ({getSiteStats?.data?.last_dayend ? moment(getSiteStats?.data?.last_dayend).format("Do MMM") : null})    <form
-                onSubmit={formik.handleSubmit}
-                style={{
-                  marginTop: "-11px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <label htmlFor="start_date" className="form-label">
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    // min={formattedMinDate}
-                    // max={formattedMaxDate}
-                    onClick={handleShowDate}
-                    className={`input101 compi-calender ${formik.errors.start_date && formik.touched.start_date
-                      ? "is-invalid"
-                      : ""
-                      }`}
-                    id="start_date"
-                    name="start_date"
-                    value={formik.values.start_date}
-                    onChange={(e) => {
-                      const selectedstart_date = e.target.value;
-                      setMySelectedDate(selectedstart_date);
-                      formik.setFieldValue("start_date", selectedstart_date);
-                    }}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.errors.start_date && formik.touched.start_date && (
-                    <div className="invalid-feedback">{formik.errors.start_date}</div>
-                  )}
-                </div>
-              </form>
+            <div className="Tank-Details d-flex w-100">
+              <h4 className="card-title d-flex justify-content-between align-items-center w-100">Competitor Stats
+                ({mySelectedDate ? mySelectedDate : <>
+                  {getSiteStats?.data?.last_dayend ? getSiteStats?.data?.last_dayend : null}
+                </>})
+
+                <form
+                  onSubmit={formik.handleSubmit}
+                  style={{
+                    marginTop: "-11px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <input
+                      type="date"
+                      // min={formattedMinDate}
+                      max={getCurrentDate()}
+                      onClick={handleShowDate}
+                      className={`input101 compi-calender ${formik.errors.start_date && formik.touched.start_date
+                        ? "is-invalid"
+                        : ""
+                        }`}
+                      id="start_date"
+                      name="start_date"
+                      value={formik.values.start_date}
+                      onChange={(e) => {
+                        const selectedstart_date = e.target.value;
+                        setMySelectedDate(selectedstart_date);
+                        formik.setFieldValue("start_date", selectedstart_date);
+                      }}
+                      onBlur={formik.handleBlur}
+                    />
+                    {formik.errors.start_date && formik.touched.start_date && (
+                      <div className="invalid-feedback">{formik.errors.start_date}</div>
+                    )}
+                  </div>
+                </form>
 
               </h4>
             </div>
