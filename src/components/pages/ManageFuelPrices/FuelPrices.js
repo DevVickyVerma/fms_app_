@@ -339,14 +339,8 @@ const FuelPrices = (props) => {
 
                   <div className=" d-flex w-100 justify-content-between align-items-center">
                     <span>
-                      Fuel Price   {data?.currentDate
-                        ? ` ( ${data?.currentDate ? data.currentDate : ""}${data?.currentDate && data?.currentTime ? ", " : ""}${data?.currentTime ? data.currentTime : ""} )`
-                        : ""}
+                      Fuel Price   {data?.currentDate ? <>({data?.currentDate})</> : ""}
                     </span>
-
-
-
-
                   </div>
                 </h3>
               </Card.Header>
