@@ -32,7 +32,7 @@ const DashCommonCard = ({ isParentComponent,
                                 {" "}
                                 <span className="l-sign">{icon}</span> {leftSideData
                                     ? formatNumber(leftSideData)
-                                    : "0"}  {showPPL ? "ppl" : ""}
+                                    : "0.0"}  {showPPL ? "ppl" : ""}
                                 <span className='ms-1'>
                                     {ppl_msg && (
                                         <OverlayTrigger
@@ -75,7 +75,7 @@ const DashCommonCard = ({ isParentComponent,
                                     {" "}
                                     <span className="l-sign">{icon}</span>  {RightSideData
                                         ? formatNumber(RightSideData)
-                                        : "0"}
+                                        : "0.0"}
                                 </h2>
                                 <p className="boxtitle">{RightSideTitle}</p>
                             </div>
