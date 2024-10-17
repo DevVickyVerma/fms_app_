@@ -23,6 +23,8 @@ import { useMyContext } from "../../../Utils/MyContext";
 import { useSelector } from "react-redux";
 import DashSubChildCompititorStats from "./DashSubChildCompititorStats";
 import withApi from "../../../Utils/ApiHelper";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -80,6 +82,26 @@ const DashSubChild = ({
   ];
 
 
+  const [mySelectedDate, setMySelectedDate] = useState("");
+  const formattedMinDate = "2023-01-01"; // Replace with actual logic
+  const formattedMaxDate = "2023-12-31"; // Replace with actual logic
+
+  const formik = useFormik({
+    initialValues: {
+      start_date: mySelectedDate || "",
+    },
+    validationSchema: Yup.object().shape({
+      start_date: Yup.date().required("Start Date is required"),
+    }),
+    onSubmit: (values) => {
+      // FetchCompititorData(values);
+    },
+  });
+
+  const handleShowDate = () => {
+    const inputDateElement = document.querySelector("#start_date");
+    inputDateElement.showPicker();
+  };
 
 
   return (
@@ -461,7 +483,44 @@ const DashSubChild = ({
         <Card>
           <Card.Header>
             <div className="Tank-Details d-flex">
-              <h4 className="card-title">Competitor Stats</h4>
+              <h4 className="card-title">Competitor Stats ({getSiteStats?.data?.last_dayend ? moment(getSiteStats?.data?.last_dayend).format("Do MMM") : null})    <form
+                onSubmit={formik.handleSubmit}
+                style={{
+                  marginTop: "-11px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <label htmlFor="start_date" className="form-label">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    // min={formattedMinDate}
+                    // max={formattedMaxDate}
+                    onClick={handleShowDate}
+                    className={`input101 compi-calender ${formik.errors.start_date && formik.touched.start_date
+                      ? "is-invalid"
+                      : ""
+                      }`}
+                    id="start_date"
+                    name="start_date"
+                    value={formik.values.start_date}
+                    onChange={(e) => {
+                      const selectedstart_date = e.target.value;
+                      setMySelectedDate(selectedstart_date);
+                      formik.setFieldValue("start_date", selectedstart_date);
+                    }}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.errors.start_date && formik.touched.start_date && (
+                    <div className="invalid-feedback">{formik.errors.start_date}</div>
+                  )}
+                </div>
+              </form>
+
+              </h4>
             </div>
           </Card.Header>
           <Card.Body className="p-6">

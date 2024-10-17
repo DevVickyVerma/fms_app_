@@ -465,7 +465,7 @@ const SingleStatsCompetitor = ({ getData }) => {
                 <h4 className="card-title">
                   {" "}
                   {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
-                  Competitors Stats
+                  Competitors Stats   ({mySelectedDate})
                 </h4>
 
                 {/* {isFuelPriceUpdatePermissionAvailable && (<>
@@ -621,83 +621,6 @@ const SingleStatsCompetitor = ({ getData }) => {
                                       </>
 
 
-                                      {/* {data[fuelType]?.[rowIndex]?.is_gov == "1" ? (
-                                        <>
-                                          <span
-                                            className="PetrolPrices-img"
-                                            style={{
-                                              width: "25px",
-                                              height: "25px",
-                                              fontSize: "20px",
-                                              cursor: "pointer",
-                                              marginLeft: "10px",
-                                              display: "flex"
-                                            }}
-                                          >
-                                            <OverlayTrigger
-                                              placement="top"
-                                              overlay={
-                                                <Tooltip
-                                                  style={{
-                                                    display: "flex",
-                                                    alignItems: "flex-start",
-                                                    justifyContent: "flex-start",
-                                                  }}
-                                                >
-                                                  GOV.UK
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <img
-                                                alt=""
-                                                src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
-                                                className=""
-                                                style={{
-                                                  objectFit: "contain",
-                                                }}
-                                              />
-                                            </OverlayTrigger>
-                                          </span>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <span
-                                            className="PetrolPrices-img"
-                                            style={{
-                                              width: "25px",
-                                              height: "25px",
-                                              fontSize: "20px",
-                                              cursor: "pointer",
-                                              marginLeft: "10px",
-                                              display: "flex"
-                                            }}
-                                          >
-                                            <OverlayTrigger
-                                              placement="top"
-                                              overlay={
-                                                <Tooltip
-                                                  style={{
-                                                    display: "flex",
-                                                    alignItems: "flex-start",
-                                                    justifyContent: "flex-start",
-                                                  }}
-                                                >
-                                                  PetrolPrices
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <img
-                                                alt=""
-                                                src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
-                                                className=""
-                                                style={{
-                                                  objectFit: "contain",
-                                                }}
-                                              />
-                                            </OverlayTrigger>
-                                          </span>
-                                        </>
-                                      )} */}
 
                                     </>
                                   )}

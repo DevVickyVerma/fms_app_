@@ -7,9 +7,10 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
+import Swal from "sweetalert2";
 
 const CronModule = ({ getData, isLoading, postData }) => {
   const [data, setData] = useState();
@@ -56,7 +57,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       ),
     },
     {
-      name: "user",
+      name: "User",
       selector: (row) => [row?.user],
       sortable: false,
       width: "30%",
@@ -118,6 +119,25 @@ const CronModule = ({ getData, isLoading, postData }) => {
       fetchCronJobApi()
     }
   }, [currentPage, searchTerm, selectedCronList?.value])
+
+
+
+  const callfetchCronJobApi = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: " Want To Start Cron!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Start it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        FetchHiddenCronList();
+      }
+    });
+  }
+
 
   const fetchCronJobApi = async () => {
     try {
@@ -223,7 +243,8 @@ const CronModule = ({ getData, isLoading, postData }) => {
                         type="submit"
                         className="btn btn-danger me-2"
                         // to={selectedCronList.url}
-                        onClick={FetchHiddenCronList}
+                        onClick={callfetchCronJobApi}
+                        // onClick={FetchHiddenCronList}
                         style={{ color: "white" }}
                       >
                         Submit

@@ -20,6 +20,7 @@ import MiddayFuelPrice from "./MiddayFuelPrice";
 const UpdateFuelPrices = (props) => {
     const { getData, isLoading, postData } = props;
     const [showError, setShowError] = useState();
+    const [showDate, setSetDate] = useState();
     const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
     const navigate = useNavigate();
     const reduxData = useSelector(state => state?.data?.data?.permissions || [])
@@ -130,6 +131,7 @@ const UpdateFuelPrices = (props) => {
     const handleApplyFilters = (values) => {
         navigate(`/update-fuel-price/${values?.site_id}`);
         if (values?.start_date) {
+            setSetDate(values?.start_date)
             SiteFilterSubmit(values);
             if (iscompititorStatsPermissionAvailable) {
                 GetCompititor(values);
@@ -272,7 +274,7 @@ const UpdateFuelPrices = (props) => {
                                                 {getCompetitorsPrice
                                                     ? getCompetitorsPrice?.siteName
                                                     : ""}{" "}
-                                                Competitors Stats
+                                                Competitors Stats ({showDate})
                                             </h4>
                                         </div>
                                     </Card.Header>
