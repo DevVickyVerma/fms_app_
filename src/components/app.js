@@ -81,7 +81,7 @@ const App = () => {
       localStorage.setItem("auto_logout_done", true);
       localStorage.setItem("token", "");
       Swal.fire({
-        title: "Inactivity Alert",
+        title: "Inactivity alert",
         text: `Oops, there is no activity from the last ${autoLogout} minutes.`,
         icon: "warning",
         showCancelButton: false,
