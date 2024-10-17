@@ -520,9 +520,7 @@ const DashSubChild = ({
                       }}
                       onBlur={formik.handleBlur}
                     />
-                    {formik.errors.start_date && formik.touched.start_date && (
-                      <div className="invalid-feedback">{formik.errors.start_date}</div>
-                    )}
+
                   </div>
                 </form>
 
