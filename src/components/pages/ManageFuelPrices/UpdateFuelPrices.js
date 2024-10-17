@@ -62,16 +62,13 @@ const UpdateFuelPrices = (props) => {
     };
 
     const SiteFilterSubmit = async (values) => {
-
         try {
             const formData = new FormData();
             formData.append("start_date", values.start_date);
             formData.append("client_id", values.client_id);
             formData.append("company_id", values.company_id);
 
-
             let { start_date, site_id } = values;
-
 
             const queryParams = new URLSearchParams();
             if (site_id) queryParams.append("site_id", site_id);
@@ -80,7 +77,6 @@ const UpdateFuelPrices = (props) => {
             const response1 = await getData(`site/fuel-price/mid-day?${queryString}`);
 
             const { data } = response1;
-
 
             if (data?.data) {
                 setMiddayFuelPriceData(data)
@@ -172,13 +168,7 @@ const UpdateFuelPrices = (props) => {
         <>
             {isLoading ? <Loaderimg /> : null}
 
-
-
-
-
             <div className="overflow-container" >
-
-
                 <div className="page-header ">
                     <div>
                         <h1 className="page-title"> Fuel Selling Price</h1>
@@ -198,7 +188,6 @@ const UpdateFuelPrices = (props) => {
                             >
                                 Fuel Price
                             </Breadcrumb.Item>
-
                             <Breadcrumb.Item
                                 className="breadcrumb-item active breadcrumds"
                                 aria-current="page"
@@ -208,8 +197,6 @@ const UpdateFuelPrices = (props) => {
                         </Breadcrumb>
                     </div>
                 </div>
-
-
 
                 <Row>
                     <Col md={12} xl={12}>
@@ -252,9 +239,6 @@ const UpdateFuelPrices = (props) => {
                 ) : (
                     <div>Loading...</div> // Optionally provide a fallback UI
                 )}
-
-
-
 
 
                 {getCompetitorsPrice && (
