@@ -286,10 +286,22 @@ const DashboardWetStock = () => {
 
     // Dummy data for testing
     const pie_chart_values = {
-        category_1: "'30'",
-        category_2: "'50'",
-        category_3: "'20'",
-    };
+        "label": [
+            "Shop Sales",
+            "Fuel Sales",
+            "Bunkered Sales"
+        ],
+        "colors": [
+            "rgba(126, 149, 228, 1)",
+            "rgba(59, 96, 172, 1)",
+            "rgba(147, 141, 223, 1)"
+        ],
+        "series": [
+            "854277.99",
+            "4683321.28",
+            "426913.58"
+        ]
+    }
 
 
 
@@ -377,7 +389,7 @@ const DashboardWetStock = () => {
                 </Col>
 
                 <Col>
-                    <Card>
+                    <Card className='height-25'>
                         <Card.Header className="card-header">
                             <h4 className="card-title" style={{ minHeight: "32px" }}>
                                 Overall Stats

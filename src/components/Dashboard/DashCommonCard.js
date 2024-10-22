@@ -15,9 +15,11 @@ const DashCommonCard = ({ isParentComponent,
     showPPL = false,
     ppl_msg = null,
     containerStyle = 'dash-plates-1',
+    lg = 6,
+    xl = 3,
 }) => (
     <>
-        <Col sm={12} md={6} lg={6} xl={3} key={Math.random()} className=''>
+        <Col sm={12} md={6} lg={lg || 6} xl={xl || 3} key={Math.random()} className=''>
             <Card
                 onClick={handleNavigateClick}
                 className={`card dash-card-default-height img-card box-primary-shadow ${containerStyle}`}

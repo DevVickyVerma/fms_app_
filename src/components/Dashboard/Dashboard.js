@@ -123,8 +123,8 @@ const Dashboard = (props) => {
         }
         localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
       } catch (error) {
-        handleError(error);
-      }
+        // handleError(error);
+      } 
     }
   };
 

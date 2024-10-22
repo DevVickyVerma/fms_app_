@@ -4,6 +4,7 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import DashCommonCard from "../DashCommonCard";
 
 const WetStockStatsBox = (props) => {
     const {
@@ -16,6 +17,7 @@ const WetStockStatsBox = (props) => {
         shopsale,
         searchdata,
         shouldNavigateToDetailsPage,
+        parentComponent = true,
     } = props;
 
     const [permissionsArray, setPermissionsArray] = useState([]);
@@ -66,7 +68,125 @@ const WetStockStatsBox = (props) => {
 
 
 
-                        <Col lg={4} md={12} sm={12} xl={4}>
+
+                        <DashCommonCard
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            // leftSideData={GrossVolume?.gross_volume}
+                            leftSideData={"171064.65"}
+                            leftSideTitle={'Wetstock Loss'}
+                            // RightSideData={GrossVolume?.bunkered_volume}
+                            RightSideData={"127599.66"}
+                            RightSideTitle={'YTD Value'}
+                            statusValue={GrossVolume?.status}
+                            percentageValue={GrossVolume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"£"}
+                            containerStyle={'dash-plates-1'}
+                            xl={4}
+                        // tooltipContent={'dash-plates-1'}
+                        // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+                        />
+
+                        <DashCommonCard
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            // leftSideData={GrossVolume?.gross_volume}
+                            leftSideData={"96756.65"}
+                            leftSideTitle={'Delivery Loss'}
+                            // RightSideData={GrossVolume?.bunkered_volume}
+                            RightSideData={"786574656.66"}
+                            RightSideTitle={'YTD Value'}
+                            statusValue={GrossVolume?.status}
+                            percentageValue={GrossVolume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"£"}
+                            containerStyle={'dash-plates-6'}
+                            xl={4}
+                        // tooltipContent={'dash-plates-1'}
+                        // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+                        />
+
+                        <DashCommonCard
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            // leftSideData={GrossVolume?.gross_volume}
+                            leftSideData={"567568.99"}
+                            leftSideTitle={'Unknown Loss'}
+                            // RightSideData={GrossVolume?.bunkered_volume}
+                            RightSideData={"43553454.97867"}
+                            RightSideTitle={'YTD Value'}
+                            statusValue={GrossVolume?.status}
+                            percentageValue={GrossVolume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"£"}
+                            containerStyle={'dash-plates-5'}
+                            xl={4}
+                        // tooltipContent={'dash-plates-1'}
+                        // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+                        />
+
+                        <DashCommonCard
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            // leftSideData={GrossVolume?.gross_volume}
+                            leftSideData={"3345777.34"}
+                            leftSideTitle={'Wetstock Loss'}
+                            // RightSideData={GrossVolume?.bunkered_volume}
+                            RightSideData={"2345.68796"}
+                            RightSideTitle={'YTD Value'}
+                            statusValue={GrossVolume?.status}
+                            percentageValue={GrossVolume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"ℓ"}
+                            containerStyle={'dash-plates-1'}
+                            xl={4}
+                        // tooltipContent={'dash-plates-1'}
+                        // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+                        />
+
+                        <DashCommonCard
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            // leftSideData={GrossVolume?.gross_volume}
+                            leftSideData={"46546.546"}
+                            leftSideTitle={'Delivery Loss'}
+                            // RightSideData={GrossVolume?.bunkered_volume}
+                            RightSideData={"8797987.69786"}
+                            RightSideTitle={'YTD Value'}
+                            statusValue={GrossVolume?.status}
+                            percentageValue={GrossVolume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"ℓ"}
+                            containerStyle={'dash-plates-6'}
+                            xl={4}
+                        // tooltipContent={'dash-plates-1'}
+                        // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+                        />
+
+                        <DashCommonCard
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            // leftSideData={GrossVolume?.gross_volume}
+                            leftSideData={"3242332.324"}
+                            leftSideTitle={'Unknown Loss'}
+                            // RightSideData={GrossVolume?.bunkered_volume}
+                            RightSideData={"213213.66"}
+                            RightSideTitle={'YTD Value'}
+                            statusValue={GrossVolume?.status}
+                            percentageValue={GrossVolume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"ℓ"}
+                            containerStyle={'dash-plates-5'}
+                            xl={4}
+                        // tooltipContent={'dash-plates-1'}
+                        // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
+                        />
+
+
+
+
+                        {/* <Col lg={4} md={12} sm={12} xl={4}>
                             <Card
                                 className={`card overflow-hidden Dashboard-card  ${GrossVolume?.status === "up"
                                     ? "Dashboard-success-border"
@@ -86,7 +206,7 @@ const WetStockStatsBox = (props) => {
                                                 <div>
                                                     {isLoading ? (
                                                         <>
-                                                            {/* <Spinners /> */}
+
                                                         </>
 
                                                     ) : (
@@ -96,7 +216,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>Wetstock Loss</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         £ 1111
-                                                                        {/* {GrossVolume?.gross_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                                 <div className="border-left"></div>
@@ -104,7 +224,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         £ 4444
-                                                                        {/* {GrossVolume?.bunkered_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -157,7 +277,7 @@ const WetStockStatsBox = (props) => {
 
 
 
-                                        {/* <div className="my-2 wetstock-dashboard-center-line"></div> */}
+                                        
 
 
 
@@ -165,14 +285,6 @@ const WetStockStatsBox = (props) => {
                                 </Card.Body>
                             </Card>
                         </Col>
-
-
-
-
-
-
-
-
 
                         <Col lg={4} md={12} sm={12} xl={4}>
                             <Card
@@ -194,7 +306,7 @@ const WetStockStatsBox = (props) => {
                                                 <div>
                                                     {isLoading ? (
                                                         <>
-                                                            {/* <Spinners /> */}
+
                                                         </>
                                                     ) : (
                                                         <>
@@ -203,7 +315,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>Delivery Loss</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         £ 765
-                                                                        {/* {GrossVolume?.gross_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                                 <div className="border-left"></div>
@@ -211,7 +323,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         £ 65
-                                                                        {/* {GrossVolume?.bunkered_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -264,7 +376,7 @@ const WetStockStatsBox = (props) => {
 
 
 
-                                        {/* <div className="my-2 Unknown-dashboard-center-line"></div> */}
+                                      
 
 
 
@@ -272,14 +384,6 @@ const WetStockStatsBox = (props) => {
                                 </Card.Body>
                             </Card>
                         </Col>
-
-
-
-
-
-
-
-
 
                         <Col lg={4} md={12} sm={12} xl={4}>
                             <Card
@@ -301,7 +405,7 @@ const WetStockStatsBox = (props) => {
                                                 <div>
                                                     {isLoading ? (
                                                         <>
-                                                            {/* <Spinners /> */}
+
                                                         </>
                                                     ) : (
                                                         <>
@@ -310,7 +414,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>Unknown Loss</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         £ 2321
-                                                                        {/* {GrossVolume?.gross_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                                 <div className="border-left"></div>
@@ -318,7 +422,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         £ 43
-                                                                        {/* {GrossVolume?.bunkered_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -371,7 +475,7 @@ const WetStockStatsBox = (props) => {
 
 
 
-                                        {/* <div className="my-2 Unknown-dashboard-center-line"></div> */}
+                                      
 
 
 
@@ -379,7 +483,6 @@ const WetStockStatsBox = (props) => {
                                 </Card.Body>
                             </Card>
                         </Col>
-
 
                         <Col lg={4} md={12} sm={12} xl={4}>
                             <Card
@@ -403,7 +506,7 @@ const WetStockStatsBox = (props) => {
                                                 <div>
                                                     {isLoading ? (
                                                         <>
-                                                            {/* <Spinners /> */}
+
                                                         </>
                                                     ) : (
                                                         <>
@@ -412,7 +515,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>Wetstock Loss</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         L 9743
-                                                                        {/* {GrossVolume?.gross_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                                 <div className="border-left"></div>
@@ -420,7 +523,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         L 233
-                                                                        {/* {GrossVolume?.bunkered_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -443,7 +546,7 @@ const WetStockStatsBox = (props) => {
                                                                             <>
                                                                                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                                                 <span className="text-success">
-                                                                                    {/* {GrossVolume?.percentage} */}
+                                                                                   
                                                                                     1
                                                                                     %
                                                                                 </span>
@@ -499,7 +602,7 @@ const WetStockStatsBox = (props) => {
                                                 <div>
                                                     {isLoading ? (
                                                         <>
-                                                            {/* <Spinners /> */}
+
                                                         </>
                                                     ) : (
                                                         <>
@@ -508,7 +611,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>Delivery Loss </h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         L 5644
-                                                                        {/* {GrossVolume?.gross_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                                 <div className="border-left"></div>
@@ -516,7 +619,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         L 76
-                                                                        {/* {GrossVolume?.bunkered_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -539,7 +642,7 @@ const WetStockStatsBox = (props) => {
                                                                             <>
                                                                                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                                                 <span className="text-success">
-                                                                                    {/* {GrossVolume?.percentage} */}
+                                                                                   
                                                                                     1
                                                                                     %
                                                                                 </span>
@@ -572,7 +675,6 @@ const WetStockStatsBox = (props) => {
                                 </Card.Body>
                             </Card>
                         </Col>
-
 
                         <Col lg={4} md={12} sm={12} xl={4}>
                             <Card
@@ -596,7 +698,7 @@ const WetStockStatsBox = (props) => {
                                                 <div>
                                                     {isLoading ? (
                                                         <>
-                                                            {/* <Spinners /> */}
+
                                                         </>
                                                     ) : (
                                                         <>
@@ -605,7 +707,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>Unknown Loss</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         L 5644
-                                                                        {/* {GrossVolume?.gross_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                                 <div className="border-left"></div>
@@ -613,7 +715,7 @@ const WetStockStatsBox = (props) => {
                                                                     <h6>YTD Value</h6>
                                                                     <h4 className="mb-2 number-font">
                                                                         L 76
-                                                                        {/* {GrossVolume?.bunkered_volume} */}
+
                                                                     </h4>
                                                                 </div>
                                                             </div>
@@ -636,7 +738,7 @@ const WetStockStatsBox = (props) => {
                                                                             <>
                                                                                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                                                 <span className="text-success">
-                                                                                    {/* {GrossVolume?.percentage} */}
+                                                                                   
                                                                                     1
                                                                                     %
                                                                                 </span>
@@ -668,7 +770,7 @@ const WetStockStatsBox = (props) => {
                                     </Row>
                                 </Card.Body>
                             </Card>
-                        </Col>
+                        </Col> */}
 
                     </Row>
                 </Col>
