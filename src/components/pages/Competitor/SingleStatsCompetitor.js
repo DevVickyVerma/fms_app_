@@ -538,100 +538,107 @@ const SingleStatsCompetitor = ({ getData }) => {
                         {Object.keys(data).map((fuelType, colIndex) => (
                           <td key={colIndex}>
                             <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
-                              <span className="circle-info">
-                                {data[fuelType]?.[rowIndex]?.last_updated}
-                                <span>
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                      <Tooltip
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-start",
-                                          justifyContent: "flex-start",
-                                          width: "300px", // Set your desired width here
-                                        }}
-                                      >
-                                        {data[fuelType]?.[rowIndex]?.last_date}
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <p
-                                      className=" m-0 single-Competitor-distance"
-                                      style={{ cursor: "pointer" }}
-                                    >
-                                      {" "}
-                                      <i
-                                        className="fa fa-info-circle ms-1"
-                                        aria-hidden="true"
-                                        style={{ fontSize: "15px" }}
-                                      />{" "}
-                                      <span />
-                                    </p>
-                                  </OverlayTrigger>
-                                </span>
-                              </span>
-
-                              <span className=" d-flex justify-content-between align-items-center">
-                                <span>{data[fuelType]?.[rowIndex]?.price}</span>
-
-                                <span>
-
-                                  {data[fuelType]?.[rowIndex]?.station ? (
-                                    ""
-                                  ) : (
-                                    <>
 
 
-                                      <>
-                                        <span
-                                          className="PetrolPrices-img"
+                              {data[fuelType]?.[rowIndex]?.price === '-' ? <>
+                                <div className='compidash-container'>-</div>
+                              </> : <>
+                                <span className="circle-info">
+                                  {data[fuelType]?.[rowIndex]?.last_updated}
+                                  <span>
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip
                                           style={{
-                                            width: "25px",
-                                            height: "25px",
-                                            fontSize: "20px",
-                                            cursor: "pointer",
-                                            marginLeft: "10px",
-                                            display: "flex"
+                                            display: "flex",
+                                            alignItems: "flex-start",
+                                            justifyContent: "flex-start",
+                                            width: "300px", // Set your desired width here
                                           }}
                                         >
-                                          <OverlayTrigger
-                                            placement="top"
-                                            overlay={
-                                              <Tooltip
-                                                style={{
-                                                  display: "flex",
-                                                  alignItems: "flex-start",
-                                                  justifyContent: "flex-start",
-                                                }}
-                                              >
-                                                <span>{data?.[fuelType]?.[rowIndex]?.logo_tip}</span>
-                                              </Tooltip>
-                                            }
+                                          {data[fuelType]?.[rowIndex]?.last_date}
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <p
+                                        className=" m-0 single-Competitor-distance"
+                                        style={{ cursor: "pointer" }}
+                                      >
+                                        {" "}
+                                        <i
+                                          className="fa fa-info-circle ms-1"
+                                          aria-hidden="true"
+                                          style={{ fontSize: "15px" }}
+                                        />{" "}
+                                        <span />
+                                      </p>
+                                    </OverlayTrigger>
+                                  </span>
+                                </span>
+
+                                <span className=" d-flex justify-content-between align-items-center">
+                                  <span>{data[fuelType]?.[rowIndex]?.price}</span>
+
+                                  <span>
+
+                                    {data[fuelType]?.[rowIndex]?.station ? (
+                                      ""
+                                    ) : (
+                                      <>
+
+
+                                        <>
+                                          <span
+                                            className="PetrolPrices-img"
+                                            style={{
+                                              width: "25px",
+                                              height: "25px",
+                                              fontSize: "20px",
+                                              cursor: "pointer",
+                                              marginLeft: "10px",
+                                              display: "flex"
+                                            }}
                                           >
-                                            <img
-                                              alt=""
-                                              src={data?.[fuelType]?.[rowIndex]?.logo}
-                                              className=""
-                                              style={{
-                                                objectFit: "contain",
-                                              }}
-                                            />
-                                          </OverlayTrigger>
-                                        </span>
+                                            <OverlayTrigger
+                                              placement="top"
+                                              overlay={
+                                                <Tooltip
+                                                  style={{
+                                                    display: "flex",
+                                                    alignItems: "flex-start",
+                                                    justifyContent: "flex-start",
+                                                  }}
+                                                >
+                                                  <span>{data?.[fuelType]?.[rowIndex]?.logo_tip}</span>
+                                                </Tooltip>
+                                              }
+                                            >
+                                              <img
+                                                alt=""
+                                                src={data?.[fuelType]?.[rowIndex]?.logo}
+                                                className=""
+                                                style={{
+                                                  objectFit: "contain",
+                                                }}
+                                              />
+                                            </OverlayTrigger>
+                                          </span>
+                                        </>
+
+
+
                                       </>
+                                    )}
 
 
 
-                                    </>
-                                  )}
-
+                                  </span>
 
 
                                 </span>
+                              </>}
 
-
-                              </span>
                             </span>
                           </td>
                         ))}
