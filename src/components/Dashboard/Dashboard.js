@@ -8,7 +8,6 @@ import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
 import { Row } from "react-bootstrap";
-import { handleError } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
 import NewDashboardFilterModal from "../pages/Filtermodal/NewDashboardFilterModal";
 import * as Yup from "yup";
