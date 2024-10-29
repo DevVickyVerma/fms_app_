@@ -4,11 +4,14 @@ import { Card, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useParams } from 'react-router-dom';
 import InputTime from '../Competitor/InputTime';
+import { handleError } from '../../../Utils/ToastUtils';
+import ConfirmModal from './ConfirmModal';
 
 
 const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => {
     const { notify_operator, update_tlm_price } = data || {};
     const [filterData, setFilterData] = useState()
+    const [formValues, setFormValues] = useState(null); // State to hold form values
 
     const formik = useFormik({
         initialValues: {
@@ -43,9 +46,10 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
         initialValues: { listing },
         validationSchema,
         onSubmit: (values) => {
-            handleSubmit(values);
-            // Optionally, you can handle form submission here, such as sending data to an API
-        }
+
+            setFormValues(values); // Store form values
+            setIsModalOpen(true); // Open the modal
+        },
     });
 
     const { id: prarmSiteID } = useParams()
@@ -131,19 +135,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
     };
 
 
-    const handleError = (error, navigate) => {
-        if (error.response && error.response.status === 401) {
-            navigate("/login");
-            localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-            navigate("/errorpage403");
-        } else {
-            const errorMessage = Array.isArray(error.response?.data?.message)
-                ? error.response?.data?.message.join(" ")
-                : error.response?.data?.message;
-            setShowError(errorMessage);
-        }
-    };
+
 
     const handleShowDate = (e,) => {
         const inputDateElement = e.target; // Get the clicked input element
@@ -171,7 +163,17 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
         }
     }, [storedKeyName, storedData]);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+    const handleConfirm = () => {
+        handleSubmit(formValues);
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false); // Close the modal without submitting
+    };
     return (
         <>
             <Row className="row-sm">
@@ -189,6 +191,15 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                                     </div>
                                 </div>
                             </h3>
+                            <ConfirmModal
+                                isOpen={isModalOpen}
+                                message="Are you sure you want to submit the form?"
+                                onConfirm={handleConfirm}
+                                formValues={formik.values}
+                                LatsRowvalues={lsitingformik.values}
+                                onCancel={handleCancel}
+
+                            />
                         </Card.Header>
                         <Card.Body>
 
@@ -382,6 +393,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                                                 <button type="submit" className="btn btn-primary"
                                                 >Submit</button>
                                             )}
+
 
                                         </div>
                                     </Card.Footer>
