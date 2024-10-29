@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
-
 import * as Yup from "yup";
-
 import { Link, useParams } from "react-router-dom";
-
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
@@ -141,6 +137,13 @@ const AddCompany = (props) => {
                   linkProps={{ to: "/dashboard" }}
                 >
                   Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/clients" }}
+                >
+                  Manage Clients
                 </Breadcrumb.Item>
 
                 <Breadcrumb.Item

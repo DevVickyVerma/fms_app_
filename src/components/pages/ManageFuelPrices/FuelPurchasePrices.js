@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -37,10 +36,12 @@ const ManageDsr = (props) => {
     }
   };
 
+  console.log(SiteList, "SiteList");
 
 
   const handleSubmit = async (values) => {
-
+    setSiteList([])
+    setSelected([])
     let { client_id, company_id, site_id, start_date } = values;
 
     // Check if the role is Client, then set the client_id and client_name from local storage
@@ -55,6 +56,10 @@ const ManageDsr = (props) => {
     if (start_date) queryParams.append('date', start_date);
 
     const queryString = queryParams.toString();
+
+    if (values?.sites) {
+      setSiteList(values?.sites)
+    }
 
     try {
       const response = await getData(`site/fuel/purchase-price?${queryString}`);
@@ -396,6 +401,7 @@ const ManageDsr = (props) => {
       (Array.isArray(selected) && selected.length === 0)
     ) {
       ErrorAlert("Please select at least one site");
+      return
     }
 
     try {
@@ -458,12 +464,6 @@ const ManageDsr = (props) => {
   const isAddPermissionAvailable = UserPermissions?.includes("fuel-purchase-add");
 
   const [selected, setSelected] = useState([]);
-
-  const options = SiteList?.map((site) => ({
-    label: site.site_name,
-    value: site.id,
-  }));
-
 
 
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
@@ -615,7 +615,9 @@ const ManageDsr = (props) => {
                             onChange={setSelected}
                             labelledBy="Select Sites"
                             disableSearch="true"
-                            options={options}
+                            // options={options}
+                            options={SiteList?.map((item) => ({ value: item.id, label: item.site_name }))}
+
                             showCheckbox="false"
                           />
                         </FormGroup>

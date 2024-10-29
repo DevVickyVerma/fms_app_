@@ -140,6 +140,13 @@ const AddCompany = (props) => {
                 >
                   Dashboard
                 </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/clients" }}
+                >
+                  Manage Clients
+                </Breadcrumb.Item>
 
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"

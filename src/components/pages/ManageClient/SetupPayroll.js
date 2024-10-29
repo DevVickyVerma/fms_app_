@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Breadcrumb } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { handleError } from "../../../Utils/ToastUtils";
 
@@ -181,6 +181,38 @@ const TreeForm = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
+
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Setup Payroll</h1>
+
+          <Breadcrumb className="breadcrumb">
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/clients" }}
+            >
+              Manage Clients
+            </Breadcrumb.Item>
+
+            <Breadcrumb.Item
+              className="breadcrumb-item active breadcrumds"
+              aria-current="page"
+            >
+              Setup Payroll
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+      </div>
+
+
       <>
         <form onSubmit={formik.handleSubmit}>
           <Row>

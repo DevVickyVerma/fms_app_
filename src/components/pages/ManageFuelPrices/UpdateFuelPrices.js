@@ -331,124 +331,131 @@ const UpdateFuelPrices = (props) => {
                                                             ).map((fuelType, colIndex) => (
                                                                 <td key={colIndex}>
                                                                     <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
-                                                                        <span className="circle-info">
-                                                                            {
-                                                                                getCompetitorsPrice
-                                                                                    ?.competitorListing?.[fuelType]?.[
-                                                                                    rowIndex
-                                                                                ]?.last_updated
-                                                                            }
-                                                                            <span>
-                                                                                <OverlayTrigger
-                                                                                    placement="top"
-                                                                                    overlay={
-                                                                                        <Tooltip
-                                                                                            style={{
-                                                                                                display: "flex",
-                                                                                                alignItems: "flex-start",
-                                                                                                justifyContent: "flex-start",
-                                                                                                width: "300px", // Set your desired width here
-                                                                                            }}
-                                                                                        >
-                                                                                            {
-                                                                                                getCompetitorsPrice
-                                                                                                    ?.competitorListing?.[
-                                                                                                    fuelType
-                                                                                                ]?.[rowIndex]?.last_date
-                                                                                            }
-                                                                                        </Tooltip>
-                                                                                    }
-                                                                                >
-                                                                                    <p
-                                                                                        className=" m-0 single-Competitor-distance"
-                                                                                        style={{ cursor: "pointer" }}
-                                                                                    >
-                                                                                        {" "}
-                                                                                        <i
-                                                                                            className="fa fa-info-circle ms-1"
-                                                                                            aria-hidden="true"
-                                                                                            style={{ fontSize: "15px" }}
-                                                                                        />{" "}
-                                                                                        <span />
-                                                                                    </p>
-                                                                                </OverlayTrigger>
-                                                                            </span>
-                                                                        </span>
 
-                                                                        <span className=" d-flex justify-content-between align-items-center">
-                                                                            <span>
+
+                                                                        {getCompetitorsPrice?.competitorListing?.[fuelType]?.[rowIndex]?.price === '-' ? <>
+                                                                            <div className='compidash-container'>-</div>
+                                                                        </> : <>
+                                                                            <span className="circle-info">
                                                                                 {
                                                                                     getCompetitorsPrice
                                                                                         ?.competitorListing?.[fuelType]?.[
                                                                                         rowIndex
-                                                                                    ]?.price
+                                                                                    ]?.last_updated
                                                                                 }
-                                                                            </span>
-
-                                                                            <span>
-                                                                                {getCompetitorsPrice
-                                                                                    ?.competitorListing?.[fuelType]?.[
-                                                                                    rowIndex
-                                                                                ]?.station ? (
-                                                                                    ""
-                                                                                ) : (
-                                                                                    <>
-                                                                                        <>
-                                                                                            <span
-                                                                                                className="PetrolPrices-img"
+                                                                                <span>
+                                                                                    <OverlayTrigger
+                                                                                        placement="top"
+                                                                                        overlay={
+                                                                                            <Tooltip
                                                                                                 style={{
-                                                                                                    width: "25px",
-                                                                                                    height: "25px",
-                                                                                                    fontSize: "20px",
-                                                                                                    cursor: "pointer",
-                                                                                                    marginLeft: "10px",
                                                                                                     display: "flex",
+                                                                                                    alignItems: "flex-start",
+                                                                                                    justifyContent: "flex-start",
+                                                                                                    width: "300px", // Set your desired width here
                                                                                                 }}
                                                                                             >
-                                                                                                <OverlayTrigger
-                                                                                                    placement="top"
-                                                                                                    overlay={
-                                                                                                        <Tooltip
-                                                                                                            style={{
-                                                                                                                display: "flex",
-                                                                                                                alignItems:
-                                                                                                                    "flex-start",
-                                                                                                                justifyContent:
-                                                                                                                    "flex-start",
-                                                                                                            }}
-                                                                                                        >
-                                                                                                            <span>
-                                                                                                                {
-                                                                                                                    getCompetitorsPrice
-                                                                                                                        ?.competitorListing?.[
-                                                                                                                        fuelType
-                                                                                                                    ]?.[rowIndex]
-                                                                                                                        ?.logo_tip
-                                                                                                                }
-                                                                                                            </span>
-                                                                                                        </Tooltip>
-                                                                                                    }
-                                                                                                >
-                                                                                                    <img
-                                                                                                        alt=""
-                                                                                                        src={
-                                                                                                            getCompetitorsPrice
-                                                                                                                ?.competitorListing?.[
-                                                                                                                fuelType
-                                                                                                            ]?.[rowIndex]?.logo
-                                                                                                        }
-                                                                                                        className=""
-                                                                                                        style={{
-                                                                                                            objectFit: "contain",
-                                                                                                        }}
-                                                                                                    />
-                                                                                                </OverlayTrigger>
-                                                                                            </span>
-                                                                                        </>
-                                                                                    </>
-                                                                                )}
+                                                                                                {
+                                                                                                    getCompetitorsPrice
+                                                                                                        ?.competitorListing?.[
+                                                                                                        fuelType
+                                                                                                    ]?.[rowIndex]?.last_date
+                                                                                                }
+                                                                                            </Tooltip>
+                                                                                        }
+                                                                                    >
+                                                                                        <p
+                                                                                            className=" m-0 single-Competitor-distance"
+                                                                                            style={{ cursor: "pointer" }}
+                                                                                        >
+                                                                                            {" "}
+                                                                                            <i
+                                                                                                className="fa fa-info-circle ms-1"
+                                                                                                aria-hidden="true"
+                                                                                                style={{ fontSize: "15px" }}
+                                                                                            />{" "}
+                                                                                            <span />
+                                                                                        </p>
+                                                                                    </OverlayTrigger>
+                                                                                </span>
                                                                             </span>
-                                                                        </span>
+
+                                                                            <span className=" d-flex justify-content-between align-items-center">
+                                                                                <span>
+                                                                                    {
+                                                                                        getCompetitorsPrice
+                                                                                            ?.competitorListing?.[fuelType]?.[
+                                                                                            rowIndex
+                                                                                        ]?.price
+                                                                                    }
+                                                                                </span>
+
+                                                                                <span>
+                                                                                    {getCompetitorsPrice
+                                                                                        ?.competitorListing?.[fuelType]?.[
+                                                                                        rowIndex
+                                                                                    ]?.station ? (
+                                                                                        ""
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <>
+                                                                                                <span
+                                                                                                    className="PetrolPrices-img"
+                                                                                                    style={{
+                                                                                                        width: "25px",
+                                                                                                        height: "25px",
+                                                                                                        fontSize: "20px",
+                                                                                                        cursor: "pointer",
+                                                                                                        marginLeft: "10px",
+                                                                                                        display: "flex",
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <OverlayTrigger
+                                                                                                        placement="top"
+                                                                                                        overlay={
+                                                                                                            <Tooltip
+                                                                                                                style={{
+                                                                                                                    display: "flex",
+                                                                                                                    alignItems:
+                                                                                                                        "flex-start",
+                                                                                                                    justifyContent:
+                                                                                                                        "flex-start",
+                                                                                                                }}
+                                                                                                            >
+                                                                                                                <span>
+                                                                                                                    {
+                                                                                                                        getCompetitorsPrice
+                                                                                                                            ?.competitorListing?.[
+                                                                                                                            fuelType
+                                                                                                                        ]?.[rowIndex]
+                                                                                                                            ?.logo_tip
+                                                                                                                    }
+                                                                                                                </span>
+                                                                                                            </Tooltip>
+                                                                                                        }
+                                                                                                    >
+                                                                                                        <img
+                                                                                                            alt=""
+                                                                                                            src={
+                                                                                                                getCompetitorsPrice
+                                                                                                                    ?.competitorListing?.[
+                                                                                                                    fuelType
+                                                                                                                ]?.[rowIndex]?.logo
+                                                                                                            }
+                                                                                                            className=""
+                                                                                                            style={{
+                                                                                                                objectFit: "contain",
+                                                                                                            }}
+                                                                                                        />
+                                                                                                    </OverlayTrigger>
+                                                                                                </span>
+                                                                                            </>
+                                                                                        </>
+                                                                                    )}
+                                                                                </span>
+                                                                            </span>
+                                                                        </>}
+
                                                                     </span>
                                                                 </td>
                                                             ))}

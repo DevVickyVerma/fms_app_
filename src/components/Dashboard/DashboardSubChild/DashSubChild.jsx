@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import {
   Chart as ChartJS,
@@ -17,59 +17,52 @@ import DashSubStatsBox from "./DashSubStatsBox";
 import DashSubChildGrads from "./DashSubChildGrads";
 import DashSubChildShopSale from "./DashSubChildShopSale/DashSubChildShopSale";
 import DashSubChildTankAnalysis from "./DashSubChildTankAnalysis";
-import { Link, useParams } from "react-router-dom";
-import { handleError } from "../../../Utils/ToastUtils";
+import { Link } from "react-router-dom";
 import { useMyContext } from "../../../Utils/MyContext";
-import { useSelector } from "react-redux";
-import DashSubChildCompititorStats from "./DashSubChildCompititorStats";
 import withApi from "../../../Utils/ApiHelper";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import LoaderImg from "../../../Utils/Loader";
-import { getCurrentDate } from "../../../Utils/commonFunctions/commonFunction";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const DashSubChild = ({
   getSiteStats,
-  CompititorStats,
   setGetSiteStats,
   getSiteDetails,
-  getData,
   isLoading
 }) => {
   const { dashSubChildShopSaleLoading, DashboardGradsLoading, showSmallLoader } = useMyContext();
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const { id: current_site_id } = useParams();
-  const [mySelectedDate, setMySelectedDate] = useState("");
+  // const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  // const { id: current_site_id } = useParams();
+  // const [mySelectedDate, setMySelectedDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(CompititorStats);
+  // const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(CompititorStats);
 
 
   // Fetch competitor data when permissions are valid
-  const fetchCompetitorData = async () => {
-    if (userPermissions.includes("dashboard-site-stats") && current_site_id) {
-      try {
-        const queryParams = new URLSearchParams();
-        if (current_site_id) queryParams.append("site_id", current_site_id);
-        if (mySelectedDate) queryParams.append("drs_date", mySelectedDate);
-        const queryString = queryParams.toString();
-        const response = await getData(`site/competitor-price/stats?${queryString}`);
+  // const fetchCompetitorData = async () => {
+  //   if (userPermissions.includes("dashboard-site-stats") && current_site_id) {
+  //     try {
+  //       const queryParams = new URLSearchParams();
+  //       if (current_site_id) queryParams.append("site_id", current_site_id);
+  //       if (mySelectedDate) queryParams.append("drs_date", mySelectedDate);
+  //       const queryString = queryParams.toString();
+  //       const response = await getData(`site/competitor-price/stats?${queryString}`);
 
-        // const response = await getData(url);
-        if (response?.data?.data) {
-          setGetCompetitorsPrice(response?.data?.data);
-        }
-      } catch (error) {
-        handleError(error); // Handle any error
-      }
-    }
-  };
+  //       // const response = await getData(url);
+  //       if (response?.data?.data) {
+  //         setGetCompetitorsPrice(response?.data?.data);
+  //       }
+  //     } catch (error) {
+  //       handleError(error); // Handle any error
+  //     }
+  //   }
+  // };
 
 
-  useEffect(() => {
-    fetchCompetitorData();
-  }, [current_site_id, userPermissions, mySelectedDate]);
+  // useEffect(() => {
+  //   // * for now it is commented for the competitor api data and commenting it for now 
+  //   // fetchCompetitorData();
+  // }, [current_site_id, userPermissions, mySelectedDate]);
 
 
 
@@ -91,19 +84,19 @@ const DashSubChild = ({
   ];
 
 
-  const formik = useFormik({
-    initialValues: {
-      start_date: mySelectedDate || "",
-    },
-    validationSchema: Yup.object().shape({
-      start_date: Yup.date().required("Start Date is required"),
-    }),
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     start_date: mySelectedDate || "",
+  //   },
+  //   validationSchema: Yup.object().shape({
+  //     start_date: Yup.date().required("Start Date is required"),
+  //   }),
+  // });
 
-  const handleShowDate = () => {
-    const inputDateElement = document.querySelector("#start_date");
-    inputDateElement.showPicker();
-  };
+  // const handleShowDate = () => {
+  //   const inputDateElement = document.querySelector("#start_date");
+  //   inputDateElement.showPicker();
+  // };
 
 
   return (
@@ -483,7 +476,7 @@ const DashSubChild = ({
 
 
 
-      <Col xl={12} className="p-0">
+      {/* <Col xl={12} className="p-0">
         <Card>
           <Card.Header>
             <div className="Tank-Details d-flex w-100">
@@ -540,7 +533,7 @@ const DashSubChild = ({
               </>}
           </Card.Body>
         </Card>
-      </Col>
+      </Col> */}
 
 
       <Row className="my-4">

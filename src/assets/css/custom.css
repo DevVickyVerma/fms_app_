@@ -2082,3 +2082,16 @@ td.middayModal-td.time-input-fuel-sell {
 .fuel-site-name-color {
   color: #7500ca;
 }
+
+.compidash-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 23px;
+  font-weight: 400;
+  margin-top: 8px;
+}
+
+.height-25 {
+  height: calc(100% - 25px);
+}
