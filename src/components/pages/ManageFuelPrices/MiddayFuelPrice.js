@@ -198,6 +198,9 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                                 formValues={formik.values}
                                 LatsRowvalues={lsitingformik.values}
                                 onCancel={handleCancel}
+                                SiteName={filterData?.site_name}
+                                update_tlm_price={formik?.values?.update_tlm_price}
+                                notify_operator={formik?.values?.notify_operator}
 
                             />
                         </Card.Header>
@@ -352,24 +355,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
 
                                             {update_tlm_price == 1 ? (
                                                 <>
-
-                                                    {/* confirmation_required dont remove for the future integration  */}
-
-                                                    {/* <div className=' position-relative pointer me-3'>
-                                                        <input
-                                                            type="checkbox"
-                                                            id="confirmation_required"
-                                                            name="confirmation_required"
-                                                            checked={formik?.values?.confirmation_required === 1}
-                                                            onChange={(e) => {
-                                                                formik.setFieldValue('confirmation_required', e.target.checked ? 1 : 0);
-                                                            }}
-                                                            className='mx-1 form-check-input form-check-input-updated pointer'
-                                                        />
-                                                        <label htmlFor="confirmation_required" className='p-0 m-0 pointer'>Confirmation Required From Site</label>
-                                                    </div> */}
-
-                                                    <div className=' position-relative pointer'>
+                                                <div className=' position-relative pointer'>
                                                         <input
                                                             type="checkbox"
                                                             id="update_tlm_price"
