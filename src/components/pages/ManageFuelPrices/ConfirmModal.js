@@ -1,27 +1,27 @@
 import './ConfirmModal.css'; // Import CSS for styling
 
-const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues }) => {
+const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues, SiteName, notify_operator, update_tlm_price }) => {
     // Early return if modal is not open
     if (!isOpen) return null;
     const { pricedata } = formValues || {};
-    const {current } = pricedata || {};
+    const { current } = pricedata || {};
     const lastArray = LatsRowvalues?.listing[LatsRowvalues?.listing?.length - 1];
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className='modal-header'>
-                    <h4 className='m-0 p-2'> Update Fuel Selling Price  <br></br><small clas
-                    mt-4>  ({lastArray[0]?.date} {" "} {lastArray[0]?.time})</small>  </h4>
+                    <h4 className='m-0 p-2'>{SiteName}- Update Fuel Selling Price  <br></br><small clas
+                        mt-4>  ({lastArray[0]?.date} {" "} {lastArray[0]?.time})</small>  </h4>
                 </div>
                 <div className="table-container table-responsive">
 
                     <table className="table">
                         <thead style={{ background: "#fff " }}>
                             <tr className='rowborder'>
-                                <th className='rowborder'>Grades</th>
+                                <th className='rowborder'>Grade</th>
                                 <th className='rowborder'>Current Price  </th>
-                                <th className='rowborder'>Updated Price   </th>
+                                <th className='rowborder'>New Price   </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,6 +70,26 @@ const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues }
 
                     </table>
                 </div>
+                {update_tlm_price === 1 && (
+                    <span
+                        className="badge btn-danger p-4 badge-text mt-3"
+                    >
+                        Upon clicking the Submit button, the prices will be updated on both the TLM back office and the pole sign.
+                        Please ensure to check the pole sign display, as occasionally, connectivity issues between the pole sign and POS system may prevent the update from reflecting immediately.
+                    </span>
+                )}
+                {/* {notify_operator === true && (
+                    <span
+                        className="badge btn-danger p-4 badge-text mt-3"
+                    >
+                        Upon clicking the Submit button, the prices will be updated on both the TLM back office and the pole sign.
+                        Please ensure to check the pole sign display, as occasionally, connectivity issues between the pole sign and POS system may prevent the update from reflecting immediately.
+                    </span>
+                )} */}
+
+
+
+
                 <div className="modal-footer">
                     <button className='btn btn-danger' onClick={onCancel}>Cancel</button>
                     <button className='btn btn-primary ms-2' onClick={onConfirm}>Update</button>

@@ -41,3 +41,15 @@
     border: 1px solid #ddd !important;
     background-color: #fff !important;
 }
+tr{
+  line-height:32px;
+}
+.badge-text {
+  display: block;
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 100%;
+  line-height: 1.4;
+  text-align: left;
+  font-size: 12px !important;
+}
