@@ -916,7 +916,7 @@ const DepartmentShop = (props) => {
                                 }`}
                               name={`non_bunkered_sales[${index}].volume`}
                               onChange={formik2.handleChange}
-                              value={item?.volume || ""}
+                              value={item?.volume}
                               readOnly={editable?.is_editable ? false : true}
                             />
                             {formik2.errors.non_bunkered_sales?.[index]
@@ -951,7 +951,7 @@ const DepartmentShop = (props) => {
                                 }`}
                               name={`non_bunkered_sales[${index}].value`}
                               onChange={formik2.handleChange}
-                              value={item?.value || ""}
+                              value={item?.value}
                               readOnly={editable?.is_editable ? false : true}
                             />
                             {formik2.errors.non_bunkered_sales?.[index]
@@ -1124,7 +1124,7 @@ const DepartmentShop = (props) => {
                                 } ${!item?.edit_koisk_value && 'readonly'}`}
                               name={`bunkered_creditcardsales[${index}].koisk_value`}
                               onChange={formik3.handleChange}
-                              value={item?.koisk_value || ""}
+                              value={item?.koisk_value}
                               readOnly={!item?.edit_koisk_value}
                             />
                             {formik3.errors.bunkered_creditcardsales?.[index]?.koisk_value &&
@@ -1155,7 +1155,7 @@ const DepartmentShop = (props) => {
                                 } ${!item?.edit_opt_value && 'readonly'}`}
                               name={`bunkered_creditcardsales[${index}].opt_value`}
                               onChange={formik3.handleChange}
-                              value={item?.opt_value || ""}
+                              value={item?.opt_value}
                               readOnly={!item?.edit_opt_value}
                             />
                             {formik3.errors.bunkered_creditcardsales?.[index]?.opt_value &&
@@ -1186,7 +1186,7 @@ const DepartmentShop = (props) => {
                                 } ${!item?.edit_account_value && 'readonly'}`}
                               name={`bunkered_creditcardsales[${index}].account_value`}
                               onChange={formik3.handleChange}
-                              value={item?.account_value || ""}
+                              value={item?.account_value}
                               readOnly={!item?.edit_account_value}
                             />
                             {formik3.errors.bunkered_creditcardsales?.[index]
@@ -1221,7 +1221,7 @@ const DepartmentShop = (props) => {
                                 }  ${!item?.edit_no_of_transactions && 'readonly'}`}
                               name={`bunkered_creditcardsales[${index}].no_of_transactions`}
                               onChange={formik3.handleChange}
-                              value={item?.no_of_transactions || ""}
+                              value={item?.no_of_transactions}
                               readOnly={!item?.edit_no_of_transactions}
                             />
                             {formik3.errors.bunkered_creditcardsales?.[index]
