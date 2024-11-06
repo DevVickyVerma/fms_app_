@@ -359,24 +359,25 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                                                 <>
 
 
-                                                    {/* {formik?.values?.update_tlm_price ? (<>
-                                                       
-                                                    </>) : ""} */}
+                                                    {formik?.values?.update_tlm_price ? (<>
+                                                        <div className=' position-relative pointer'>
+                                                            <input
+                                                                type="checkbox"
+                                                                id="confirmation_required"
+                                                                name="confirmation_required"
+                                                                checked={formik?.values?.confirmation_required === 1}
+                                                                onChange={(e) => {
+                                                                    formik.setFieldValue('confirmation_required', e.target.checked ? 1 : 0);
+                                                                }}
+                                                                className='mx-1 form-check-input form-check-input-updated pointer'
 
-                                                    <div className=' position-relative pointer'>
-                                                        <input
-                                                            type="checkbox"
-                                                            id="confirmation_required"
-                                                            name="confirmation_required"
-                                                            checked={formik?.values?.confirmation_required === 1}
-                                                            onChange={(e) => {
-                                                                formik.setFieldValue('confirmation_required', e.target.checked ? 1 : 0);
-                                                            }}
-                                                            className='mx-1 form-check-input form-check-input-updated pointer'
+                                                            />
+                                                            <label htmlFor="confirmation_required" className='p-0 m-0 pointer'>TLM POS Confirmation Required</label>
+                                                        </div>
 
-                                                        />
-                                                        <label htmlFor="confirmation_required" className='p-0 m-0 pointer'>TLM POS Confirmation Required</label>
-                                                    </div>
+                                                    </>) : ""}
+
+
 
 
 
