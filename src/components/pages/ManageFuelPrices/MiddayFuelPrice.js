@@ -4,7 +4,6 @@ import { Card, Row, Col } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useParams } from 'react-router-dom';
 import InputTime from '../Competitor/InputTime';
-import { handleError } from '../../../Utils/ToastUtils';
 import ConfirmModal from './ConfirmModal';
 
 
@@ -19,6 +18,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
             rows: [],
             head_array: [],
             update_tlm_price: false,
+            notify_operator: false,
             confirmation_required: false,
             pricedata: []
         },
@@ -105,6 +105,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                 formData.append('update_tlm_price', formik?.values?.update_tlm_price == 1 ? true : false);
                 formData.append('confirmation_required', formik?.values?.confirmation_required == 1 ? true : false);
             }
+
             if (formik?.values?.notify_operator) {
                 formData.append('notify_operator', formik?.values?.notify_operator);
             }
@@ -129,7 +130,6 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
 
             handleFormSubmit()
         } catch (error) {
-            handleError(error)
             console.error(error); // Set the submission state to false if an error occurs
         }
     };
@@ -174,6 +174,8 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
     const handleCancel = () => {
         setIsModalOpen(false); // Close the modal without submitting
     };
+
+
     return (
         <>
             <Row className="row-sm">
@@ -345,7 +347,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                                                         type="checkbox"
                                                         id="notify_operator"
                                                         name="notify_operator"
-                                                        value={formik?.values?.notify_operator}
+                                                        checked={formik?.values?.notify_operator}
                                                         onChange={formik.handleChange}
                                                         className='mx-1 form-check-input form-check-input-updated pointer'
                                                     />
@@ -355,7 +357,30 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
 
                                             {update_tlm_price == 1 ? (
                                                 <>
-                                                <div className=' position-relative pointer'>
+
+
+                                                    {/* {formik?.values?.update_tlm_price ? (<>
+                                                       
+                                                    </>) : ""} */}
+
+                                                    <div className=' position-relative pointer'>
+                                                        <input
+                                                            type="checkbox"
+                                                            id="confirmation_required"
+                                                            name="confirmation_required"
+                                                            checked={formik?.values?.confirmation_required === 1}
+                                                            onChange={(e) => {
+                                                                formik.setFieldValue('confirmation_required', e.target.checked ? 1 : 0);
+                                                            }}
+                                                            className='mx-1 form-check-input form-check-input-updated pointer'
+
+                                                        />
+                                                        <label htmlFor="confirmation_required" className='p-0 m-0 pointer'>TLM POS Confirmation Required</label>
+                                                    </div>
+
+
+
+                                                    <div className=' position-relative pointer  ms-4'>
                                                         <input
                                                             type="checkbox"
                                                             id="update_tlm_price"
@@ -367,8 +392,10 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
                                                             className='mx-1 form-check-input form-check-input-updated pointer'
 
                                                         />
-                                                        <label htmlFor="update_tlm_price" className='p-0 m-0 pointer'>Update TLM Price</label>
+                                                        <label htmlFor="update_tlm_price" className='p-0 m-0 pointer' > Forcefully Update TLM Price</label>
                                                     </div>
+
+
 
 
                                                 </>
@@ -382,6 +409,32 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => 
 
 
                                         </div>
+
+                                        {update_tlm_price == 1 && (<>
+
+                                            <hr />
+
+                                            <p>
+                                                <span className=' fw-bold'>
+                                                    *TLM POS Confirmation Required -
+                                                </span>
+                                                <span className='ms-2'>
+                                                    Selecting "TLM POS Confirmation Required" will prompt a pop-up on the POS system, where the operator must confirm the price change to proceed.
+
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <span className=' fw-bold'>
+                                                    *Forcefully Update TLM Price -
+                                                </span>
+                                                <span className='ms-2'>
+                                                    Enabling "Forcefully Update TLM Price" will automatically update prices on the POS, till, and pole sign, if the POS and pole are connected.
+                                                </span>
+                                            </p>
+
+                                        </>)}
+
+
                                     </Card.Footer>
                                 </Form >
                             </FormikProvider >
