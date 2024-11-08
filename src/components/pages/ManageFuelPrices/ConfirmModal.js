@@ -1,6 +1,6 @@
 import './ConfirmModal.css'; // Import CSS for styling
 
-const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues, SiteName, notify_operator, update_tlm_price }) => {
+const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues, SiteName, update_tlm_price }) => {
     // Early return if modal is not open
     if (!isOpen) return null;
     const { pricedata } = formValues || {};

@@ -7,7 +7,7 @@ import InputTime from '../Competitor/InputTime';
 import ConfirmModal from './ConfirmModal';
 
 
-const MiddayFuelPrice = ({ data, postData, handleFormSubmit, setShowError }) => {
+const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
     const { notify_operator, update_tlm_price } = data || {};
     const [filterData, setFilterData] = useState()
     const [formValues, setFormValues] = useState(null); // State to hold form values

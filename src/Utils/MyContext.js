@@ -8,8 +8,7 @@ const MyContext = createContext();
 // Create the provider component
 const MyProvider = ({ children }) => {
   const [contextClients, setcontextClients] = useState([]);
-  const [setLoading] = useState(true);
-  const [setError] = useState(null);
+
 
   useEffect(() => {
     const fetchClientList = async () => {
@@ -17,8 +16,7 @@ const MyProvider = ({ children }) => {
       const baseUrl = process.env.REACT_APP_BASE_URL;
 
       if (!token) {
-        setError("Token not found in localStorage.");
-        setLoading(false);
+        
         return;
       }
 
@@ -31,10 +29,8 @@ const MyProvider = ({ children }) => {
 
         setcontextClients(response?.data?.data || []); // Assuming the client list is in `response.data.data`
       } catch (err) {
-        setError(err.response ? err.response.data.message : 'Error fetching clients');
-      } finally {
-        setLoading(false);
-      }
+        console.log(err.response ? err.response.data.message : 'Error fetching clients');
+      } 
     };
 
     fetchClientList();
