@@ -4,18 +4,23 @@
   "homepage": "https://react.spurko.com/",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.5.1",
     "@emotion/styled": "^11.13.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@material-ui/core": "^4.12.4",
     "@mobiscroll/react-lite": "^4.10.9",
-    "@mui/icons-material": "^6.1.1",
+    "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
+    "@mui/styles": "^6.1.6",
     "@mui/system": "^6.1.6",
     "@mui/x-date-pickers": "^7.22.2",
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^6.6.3",
-    "antd": "^5.21.0",
+    "@types/react": "^18.3.12",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/utils": "^8.13.0",
+    "antd": "^5.21.6",
     "apexcharts": "^4.0.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
@@ -64,9 +69,12 @@
     "react-switch": "^7.0.0",
     "react-toastify": "^10.0.5",
     "react-top-loading-bar": "^2.3.1",
+    "sass": "^1.80.6",
+    "sass-loader": "^16.0.3",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.6.13",
+    "ts-unused-exports": "^10.1.0",
     "uuid": "^11.0.2",
     "web-vitals": "^4.2.4",
     "yup": "^1.4.0"
@@ -89,8 +97,7 @@
     }
   },
   "resolutions": {
-    "autoprefixer": "10.4.5",
-    "react": "^17.0.2"
+    "autoprefixer": "10.4.5"
   },
   "browserslist": [
     ">0.2%",

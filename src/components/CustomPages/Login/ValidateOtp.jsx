@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
-import { Box } from "@material-ui/core";
+
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 export default function ValidateOtp() {
@@ -82,7 +82,7 @@ export default function ValidateOtp() {
                   {() => (
                     <Form className="card shadow-none " method="post">
                       <Card.Body className="mx-auto">
-                        <Box
+                        <div
                           display={"flex"}
                           flexDirection={"column"}
                           justifyContent={"center"}
@@ -140,7 +140,7 @@ export default function ValidateOtp() {
                               </p>
                             </div>
                           </div>
-                        </Box>
+                        </div>
                       </Card.Body>
                     </Form>
                   )}

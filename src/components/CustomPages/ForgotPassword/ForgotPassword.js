@@ -5,7 +5,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
-import { Box } from "@material-ui/core";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 
@@ -96,7 +95,7 @@ export default function ForgotPassword() {
                         {() => (
                           <Form className=" shadow-none p-0 m-0" method="post">
                             <Card.Body className="mx-auto">
-                              <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"271px"} className="forgot-body">
+                              <div display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"271px"} className="forgot-body">
                                 <div className="text-center ">
                                   <span className="login100-form-title" style={{ paddingBottom: "12px" }}>
                                     <img
@@ -150,7 +149,7 @@ export default function ForgotPassword() {
                                     </p>
                                   </div>
                                 </div>
-                              </Box>
+                              </div>
                             </Card.Body>
                             <Card.Footer className=" text-end p-2 color-white" style={{ background: "linear-gradient(90deg, #000000 0%, #353535 91.71%)", color: "white", fontSize: "12px" }}>
                               <span className=" " style={{ paddingRight: "20px" }}>
