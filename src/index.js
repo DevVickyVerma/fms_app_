@@ -538,9 +538,7 @@ const Register = React.lazy(() =>
 const ForgotPassword = React.lazy(() =>
   import("./components/CustomPages/ForgotPassword/ForgotPassword")
 );
-const LockScreen = React.lazy(() =>
-  import("./components/CustomPages/LockScreen/LockScreen")
-);
+
 //Errorpages
 const Errorpage400 = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/400/400")
@@ -1434,10 +1432,7 @@ const Root = () => {
                   path={`/custompages/forgotPassword`}
                   element={<ForgotPassword />}
                 />
-                <Route
-                  path={`/custompages/lockScreen`}
-                  element={<LockScreen />}
-                />
+             
                 <Route
                   path={`/custompages/errorpages/errorpage401`}
                   element={<Errorpage401 />}
