@@ -661,13 +661,8 @@ const DepartmentShop = (props) => {
                               name={`bunkered_Sales[${index}].volume`}
                               onChange={formik.handleChange}
                               value={
-                                formik?.values?.bunkered_Sales?.[index]?.volume ||
-                                ""
-                              }
+                                formik?.values?.bunkered_Sales?.[index]?.volume}
                               readOnly={!delivery?.edit_volume}
-
-
-
                             />
                             {formik.errors.bunkered_Sales?.[index]?.volume &&
                               formik.touched[
@@ -693,9 +688,7 @@ const DepartmentShop = (props) => {
                               name={`bunkered_Sales[${index}].value`}
                               onChange={formik.handleChange}
                               value={
-                                formik?.values?.bunkered_Sales?.[index]?.value ||
-                                ""
-                              }
+                                formik?.values?.bunkered_Sales?.[index]?.value}
                               readOnly={!delivery?.edit_value}
                             />
                             {formik.errors.bunkered_Sales?.[index]?.value &&
@@ -723,9 +716,7 @@ const DepartmentShop = (props) => {
                                 name={`bunkered_Sales[${index}].adj_value`}
                                 onChange={formik.handleChange}
                                 value={
-                                  formik?.values?.bunkered_Sales?.[index]?.adj_value ||
-                                  ""
-                                }
+                                  formik?.values?.bunkered_Sales?.[index]?.adj_value}
                                 readOnly={!delivery?.edit_adj_value}
                               />
                               {formik.errors.bunkered_Sales?.[index]?.adj_value &&
@@ -984,9 +975,7 @@ const DepartmentShop = (props) => {
                                 name={`non_bunkered_sales[${index}].adj_value`}
                                 onChange={formik2.handleChange}
                                 value={
-                                  formik2?.values?.non_bunkered_sales?.[index]?.adj_value ||
-                                  ""
-                                }
+                                  formik2?.values?.non_bunkered_sales?.[index]?.adj_value}
                                 readOnly={!item?.edit_adj_value}
                               />
                               {formik2.errors.non_bunkered_sales?.[index]?.adj_value &&
@@ -1254,9 +1243,7 @@ const DepartmentShop = (props) => {
                                 name={`bunkered_creditcardsales[${index}].adj_value`}
                                 onChange={formik3.handleChange}
                                 value={
-                                  formik3?.values?.bunkered_creditcardsales?.[index]?.adj_value ||
-                                  ""
-                                }
+                                  formik3?.values?.bunkered_creditcardsales?.[index]?.adj_value}
                                 readOnly={!item?.edit_adj_value}
                               />
                               {formik3.errors.bunkered_creditcardsales?.[index]?.adj_value &&
