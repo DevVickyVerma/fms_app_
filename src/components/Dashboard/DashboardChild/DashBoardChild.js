@@ -178,7 +178,7 @@ const DashBoardChild = (props) => {
       <div className='d-flex justify-content-between align-items-center flex-wrap mb-5'>
         <div className="">
           <h2 className='page-title dashboard-page-title'>
-            Dashboard Deatil ({dashboardData?.dateString ? dashboardData?.dateString : ReduxFullData?.dates})
+            Dashboard Details ({dashboardData?.dateString ? dashboardData?.dateString : ReduxFullData?.dates})
           </h2>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
