@@ -1797,6 +1797,8 @@ span.text-error {
 .dashboard-center-modal .modal-content {
   max-width: 600px;
   margin: auto;
+  padding: 0px;
+  min-width: 300px;
 }
 
 .profile-drop-down .dropdown-menu {
