@@ -2097,3 +2097,7 @@ td.middayModal-td.time-input-fuel-sell {
 .height-25 {
   height: calc(100% - 25px);
 }
+
+.modal-content {
+  width: 100% !important;
+}

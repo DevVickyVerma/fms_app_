@@ -245,7 +245,7 @@ const DashboardChildTable = (props) => {
                       <OverlayTrigger
                         placement="top"
                         overlay={
-                          <Tooltip>{`${item?.gross_margin?.ppl_msg}%`}</Tooltip>
+                          <Tooltip>{`${item?.gross_margin?.ppl_msg}`}</Tooltip>
                         }
                       >
                         <i

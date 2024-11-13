@@ -14,10 +14,10 @@
 
 .modal-content {
   background: white;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 0px;
+  border-radius: 0px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 50%;
+  width: 100%;
 }
 
 .modal-actions {
@@ -25,25 +25,29 @@
   justify-content: space-between;
   margin-top: 20px;
 }
+
 .modal-header {
   color: #fff;
 }
+
 .modal-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  background-color: #4663ac;
+  background-color: #fff;
   padding: 1px;
 
 }
 
-.rowborder{
-    border: 1px solid #ddd !important;
-    background-color: #fff !important;
+.rowborder {
+  border: 1px solid #ddd !important;
+  background-color: #fff !important;
 }
-tr{
-  line-height:32px;
+
+tr {
+  line-height: 32px;
 }
+
 .badge-text {
   display: block;
   white-space: normal;

@@ -503,7 +503,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                                     </span>
                                     <span style={{ flex: 1, display: "flex" }}>
                                       {" "}
-                                      {cardDetail?.card_name}
+                                      {cardDetail?.card_name || "Unknown"}
                                     </span>
                                     <span style={{ flex: 1, display: "flex" }}>
                                       {cardDetail?.total_fuel_sale_value}
