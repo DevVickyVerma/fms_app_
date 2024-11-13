@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Col, Row, Card, Form, FormGroup, Breadcrumb, OverlayTrigger } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
@@ -11,7 +10,6 @@ import Loaderimg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
 import { handleError } from "../../../Utils/ToastUtils";
 import { passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
-import { useNavigation } from "../../../Utils/NavigationProvider";
 
 
 
@@ -22,13 +20,7 @@ const AddUsers = (props) => {
   const [selectRole, setselectRole] = useState([]);
   const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
 
-  const { lastPath } = useNavigation(); // Get the last path from the context
-
-  useEffect(() => {
-    if (lastPath) {
-      console.log("Last path was:", lastPath); // You can use this to display or log the last path
-    }
-  }, [lastPath]);
+ 
 
   const handleCountryCodeChange = (e) => {
     setSelectedCountryCode(e.target.value);

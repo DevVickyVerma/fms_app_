@@ -11,7 +11,7 @@ const withApi = (WrappedComponent) => {
     const [error, setError] = useState(null);
     const location = useLocation();
     const { lastPath } = useNavigation();
-    console.log(lastPath, "lastPath");
+    // console.log(lastPath, "lastPath");
     const navigate = useNavigate();
     const SuccessToast = (message) => {
       toast.success(message, {
