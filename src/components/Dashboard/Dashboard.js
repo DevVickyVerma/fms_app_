@@ -79,6 +79,8 @@ const Dashboard = (props) => {
       // Update the stored data with the new start_date
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
+
+    // only one permission check for first screen dashboard-view
     if (permissionsArray?.includes("dashboard-view")) {
       FetchFilterData(values);
     }
@@ -123,7 +125,7 @@ const Dashboard = (props) => {
         localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
       } catch (error) {
         // handleError(error);
-      } 
+      }
     }
   };
 
@@ -200,6 +202,16 @@ const Dashboard = (props) => {
       ) : (
         ""
       )}
+
+      {/* Showing error message for gross margin */}
+      {dashboardData?.gross_margin?.is_ppl == 1 && (<>
+        <div className="balance-alert head-alert-show">
+          <div>
+            {dashboardData?.gross_margin?.ppl_msg}
+          </div>
+        </div>
+      </>)}
+
 
       <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
         {!ShowLiveData && (

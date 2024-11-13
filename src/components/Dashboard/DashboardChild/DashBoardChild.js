@@ -51,7 +51,7 @@ const DashBoardChild = (props) => {
     }
 
     userPermissions?.includes("dashboard-site-stats") && (
-      callTableData(values)
+      callTableData(values)  
     )
   }
 
@@ -155,6 +155,16 @@ const DashBoardChild = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
+
+      {dashboardData?.gross_margin?.is_ppl == 1 && (<>
+        <div className="balance-alert head-alert-show">
+          <div>
+            {dashboardData?.gross_margin?.ppl_msg}
+          </div>
+        </div>
+      </>)}
+
+
       {centerFilterModalOpen && (
         <div className=''>
           <NewDashboardFilterModal

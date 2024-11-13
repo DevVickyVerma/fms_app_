@@ -42,7 +42,7 @@ const DashCommonCard = ({ isParentComponent,
                                             overlay={
                                                 <Tooltip>
                                                     <span>
-                                                        {`${ppl_msg}%`}
+                                                        {`${ppl_msg}`}
                                                     </span>
                                                 </Tooltip>
                                             }

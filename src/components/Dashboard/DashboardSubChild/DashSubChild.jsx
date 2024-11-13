@@ -37,6 +37,10 @@ const DashSubChild = ({
   const [modalOpen, setModalOpen] = useState(false);
   // const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(CompititorStats);
 
+  const singleSiteStoredData = localStorage.getItem("singleSiteData");
+  const singleSiteParsedData = JSON.parse(singleSiteStoredData);
+
+
 
   // Fetch competitor data when permissions are valid
   // const fetchCompetitorData = async () => {
@@ -103,6 +107,17 @@ const DashSubChild = ({
     <>
 
       {isLoading ? <LoaderImg /> : null}
+
+      {/* Showing error message for gross margin */}
+      {singleSiteParsedData?.gross_margin?.is_ppl == 1 && (<>
+        <div className="balance-alert head-alert-show">
+          <div>
+            {singleSiteParsedData?.gross_margin?.ppl_msg}
+          </div>
+        </div>
+      </>)}
+
+
       <div className="page-header ">
         <div>
           <h1 className="page-title">

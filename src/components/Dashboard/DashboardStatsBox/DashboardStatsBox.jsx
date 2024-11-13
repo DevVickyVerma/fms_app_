@@ -29,7 +29,7 @@ const DashboardStatsBox = (props) => {
   }, [UserPermissions]);
 
 
-
+  // dashboard-details for card navigate
   const isDetailPermissionAvailable =
     permissionsArray?.includes("dashboard-details");
   const navigate = useNavigate();

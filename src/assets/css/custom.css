@@ -2101,3 +2101,13 @@ td.middayModal-td.time-input-fuel-sell {
 .modal-content {
   width: 100% !important;
 }
+
+.head-alert-show {
+  text-align: left;
+  margin: 10px 0;
+  font-size: 16px;
+  color: white;
+  background: #b52d2d;
+  padding: 8px;
+  border-radius: 7px;
+}
