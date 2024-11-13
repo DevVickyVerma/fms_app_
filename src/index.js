@@ -42,6 +42,7 @@ import DummyPage from "./components/pages/DummyPage/DummyPage";
 import UpdateFuelPrices from "./components/pages/ManageFuelPrices/UpdateFuelPrices";
 import DailyDue from "./components/pages/DailyDue/DailyDue";
 import SubwayFacilityFees from "./components/pages/SubwayFacilityFees/SubwayFacilityFees";
+import { NavigationProvider } from "./Utils/NavigationProvider";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -742,6 +743,7 @@ const Root = () => {
       <BrowserRouter>
         <React.Suspense fallback={<Loaderimg />}>
           <Provider store={store}>
+          <NavigationProvider>
             <Routes>
               <Route element={<PrivateRoutes token={token} />}>
                 <Route path={`/`} element={<App />}>
@@ -1456,6 +1458,7 @@ const Root = () => {
               <Route path={`/errorpage403`} element={<Errorpage403 />} />
               <Route path="/login" element={<Login token={token} />} />
             </Routes>
+            </NavigationProvider>
           </Provider>
         </React.Suspense>
       </BrowserRouter>

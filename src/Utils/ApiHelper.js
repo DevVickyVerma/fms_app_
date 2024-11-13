@@ -2,13 +2,16 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
-
+import { useLocation } from 'react-router-dom';
+import { useNavigation } from "./NavigationProvider";
 const withApi = (WrappedComponent) => {
   const WithApi = (props) => {
     const [apidata, setApiData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-
+    const location = useLocation();
+    const { lastPath } = useNavigation();
+    console.log(lastPath, "lastPath");
     const navigate = useNavigate();
     const SuccessToast = (message) => {
       toast.success(message, {
@@ -28,12 +31,25 @@ const withApi = (WrappedComponent) => {
         theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
       });
     };
+
+    // else if (error.response && error.response.data.status_code === "403") {
+    //   const errorMessage = Array.isArray(error.response.data.message)
+    //     ? error.response.data.message.join(" ")
+    //     : error.response.data.message;
+
+    //   if (errorMessage) {
+    //     navigate(lastPath); 
+    //     ErrorToast(errorMessage);
+    //   }
+    // }
+
+
     function handleError(error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
         ErrorToast("Invalid access token");
         localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
+      }  else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
       } else if (error.response && error.response.data.message) {
         const errorMessage = Array.isArray(error.response.data.message)

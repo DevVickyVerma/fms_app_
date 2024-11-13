@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../Redux/dataSlice";
 import BlankDashboard from "./Dashboard/BlankDashboard";
 import 'phosphor-icons/src/css/icons.css'; // Import Phosphor Icons CSS
+import { NavigationProvider } from "../Utils/NavigationProvider";
 
 const App = () => {
   const loadingBarRef = useRef();
@@ -199,6 +200,7 @@ const App = () => {
   return (
 
     <MyProvider>
+    <NavigationProvider> 
       <Fragment>
 
         {UserPermissions?.permissions?.length > 0 ? <>
@@ -230,7 +232,9 @@ const App = () => {
         </>}
 
       </Fragment>
+      </NavigationProvider> 
     </MyProvider>
   );
 };
+
 export default withApi(App);
