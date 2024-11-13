@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import {
@@ -13,79 +12,110 @@ import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import FormikSelect from "../../Formik/FormikSelect";
+import { handleError } from "../../../Utils/ToastUtils";
+import { useMyContext } from "../../../Utils/MyContext";
+import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
 
 const SiteSettings = (props) => {
+  const { contextClients, setcontextClients } = useMyContext();
+  const ReduxFullData = useSelector((state) => state?.data?.data);
   const { isLoading, getData, postData } = props;
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [ClientList, setClientList] = useState([]);
-  const [CompanyList, setCompanyList] = useState([]);
-  const [SiteList, setSiteList] = useState([]);
+  const [permissionsArray, setPermissionsArray] = useState([]);
 
+  const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    console.clear();
-  }, []);
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
 
-  useEffect(() => {
-    let clientIDCondition = "";
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      clientIDCondition = `client_id=${formik.values.client_id}&`;
-    } else {
-      clientIDCondition = `client_id=${clientIDLocalStorage}`;
+  const isEditPermissionAvailable = permissionsArray?.includes("tolerance-update");
+
+
+
+
+  const FetchFilterData = async (filters) => {
+    let { client_id, company_id, site_id, client_name, company_name } = filters;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
     }
 
-    const fetchData = async () => {
-      if (selectedSiteId) {
-        try {
-          const response = await getData(
-            `/tolerance/?site_id=${formik.values.site_id}&${clientIDCondition}&company_id=${formik.values.company_id}`
-          );
-          const { data } = response;
-          if (data) {
-            formik.setValues(data.data);
-            // Process the API response and update your state or perform other actions
-          }
-        } catch (error) {
-          console.error("API error:", error);
-          // Handle error if the API call fails
-        }
-      }
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...filters,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
     };
 
-    if (selectedSiteId !== undefined) {
-      fetchData();
+
+    if (client_id) {
+      try {
+        const queryParams = new URLSearchParams();
+        if (client_id) queryParams.append("client_id", client_id);
+        if (company_id) queryParams.append("company_id", company_id);
+        if (site_id) queryParams.append("site_id", site_id);
+
+        const queryString = queryParams.toString();
+        const response = await getData(`tolerance/?${queryString}`);
+        if (response && response.data && response.data.data) {
+          formik.setValues((prevValues) => ({
+            ...prevValues, // Keep existing form values
+            ...response.data.data,  // Add/overwrite new data from the API response
+          }));
+        }
+        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
+      } catch (error) {
+        handleError(error);
+      }
     }
-  }, [selectedSiteId]);
+  };
+
+  useEffect(() => {
+    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+  }, []);
 
 
+
+  const handleApplyFilters = ((values) => {
+    if (!values?.start_date) {
+      // If start_date does not exist, set it to the current date
+      const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+      values.start_date = currentDate;
+      // Update the stored data with the new start_date
+      localStorage.setItem(storedKeyName, JSON.stringify(values));
+    }
+    if (values?.site_id) {
+      FetchFilterData(values);
+    }
+  });
 
   const handleSubmit = async (values) => {
+
+
     try {
       const formData = new FormData();
 
-      formData.append(
-        "max_dip_gain_loss_variance",
-        values.max_dip_gain_loss_variance
-      );
+      formData.append("max_dip_gain_loss_variance", values.max_dip_gain_loss_variance);
       formData.append("max_banking_variance", values.max_banking_variance);
-      formData.append(
-        "max_fuel_inv_sale_variance",
-        values.max_fuel_inv_sale_variance
-      );
+      formData.append("max_fuel_inv_sale_variance", values.max_fuel_inv_sale_variance);
       formData.append("max_bunkering_variance", values.max_bunkering_variance);
       formData.append("low_tank_limit", values.low_tank_limit);
-      // formData.append("vat_rate", values.vat_rate);
-      formData.append("client_id", selectedClientId);
-      formData.append("company_id", selectedCompanyId);
-      formData.append("site_id", selectedSiteId);
-      // formData.append("average_ppl", values.average_ppl);
+      formData.append("client_id", values?.client_id);
+      formData.append("company_id", values?.company_id);
+      formData.append("site_id", values?.site_id);
       formData.append("max_dip_gain_loss_variance_lt", "0");
+      // formData.append("vat_rate", values.vat_rate);
+      // formData.append("average_ppl", values.average_ppl);
 
       const postDataUrl = "tolerance/update";
 
@@ -103,10 +133,17 @@ const SiteSettings = (props) => {
       max_bunkering_variance: "",
       low_tank_limit: "",
       vat_rate: "",
-      client_id: "",
-      company_id: "",
-      site_id: "",
       average_ppl: "",
+      client_id: "",
+      client_name: "",
+      company_id: "",
+      company_name: "",
+      start_month: "",
+      site_id: "",
+      site_name: "",
+      clients: [],
+      companies: [],
+      sites: [],
     },
     validationSchema: Yup.object({
       max_dip_gain_loss_variance: Yup.string()
@@ -127,95 +164,136 @@ const SiteSettings = (props) => {
     onSubmit: handleSubmit,
   });
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
+    if (contextClients?.length === 0) {
+      fetchClientList();
+    } else if (contextClients?.length > 0) {
+      formik.setFieldValue('clients', contextClients || []);
     }
-  }, [UserPermissions]);
+  }, [contextClients, formik?.values?.clients]);
 
-  const isEditPermissionAvailable =
-    permissionsArray?.includes("tolerance-update");
 
-  const fetchCommonListData = async () => {
+  const fetchClientList = async () => {
     try {
-      const response = await getData("/common/client-list");
-
-      const { data } = response;
-      if (data) {
-        setClientList(response.data);
-
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-            }
-          }
-        }
-      }
+      const response = await getData('/common/client-list');
+      const clients = response?.data?.data;
+      setcontextClients(clients);
+      formik.setFieldValue('clients', clients);
     } catch (error) {
-      console.error("API error:", error);
+      handleError(error);
     }
   };
 
-  const GetCompanyList = async (values) => {
+  const fetchCompanyList = async (clientId) => {
     try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
+      const response = await getData(`common/company-list?client_id=${clientId}`);
+      formik.setFieldValue('companies', response?.data?.data);
     } catch (error) {
-      console.error("API error:", error);
+      handleError(error);
     }
   };
 
-  const GetSiteList = async (values) => {
+  const fetchSiteList = async (companyId) => {
     try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
+      const response = await getData(`common/site-list?company_id=${companyId}`);
+      formik.setFieldValue('sites', response?.data?.data);
     } catch (error) {
-      console.error("API error:", error);
+      handleError(error);
     }
   };
 
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
+  const handleClientChange = (e) => {
+    const clientId = e.target.value;
+    formik.setFieldValue('client_id', clientId);
 
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+    if (clientId) {
+      fetchCompanyList(clientId);
+      const selectedClient = formik.values.clients.find(client => client?.id === clientId);
+      formik.setFieldValue('client_name', selectedClient?.client_name || "");
+      formik.setFieldValue('companies', selectedClient?.companies || []);
+      formik.setFieldValue('sites', []);
+      formik.setFieldValue('company_id', "");
+      formik.setFieldValue('site_id', "");
     } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      formik.setFieldValue('client_name', "");
+      formik.setFieldValue('companies', []);
+      formik.setFieldValue('sites', []);
+      formik.setFieldValue('company_id', "");
+      formik.setFieldValue('site_id', "");
     }
+  };
+
+  const handleCompanyChange = (e) => {
+    const companyId = e.target.value;
+    formik.setFieldValue('company_id', companyId);
+
+    if (companyId) {
+      fetchSiteList(companyId);
+      formik.setFieldValue('site_id', "");
+      const selectedCompany = formik?.values?.companies?.find(company => company?.id === companyId);
+      formik.setFieldValue('company_name', selectedCompany?.company_name || "");
+    } else {
+      formik.setFieldValue('company_name', "");
+      formik.setFieldValue('sites', []);
+      formik.setFieldValue('site_id', "");
+      formik.setFieldValue('site_name', "");
+    }
+  };
+
+  const handleSiteChange = (e) => {
+    const selectedSiteId = e.target.value;
+    formik.setFieldValue("site_id", selectedSiteId);
+    const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
+    formik.setFieldValue('site_name', selectedSiteData?.site_name || "");
+
+
+
+    // Create the updated filters with the new site_id
+    const updatedFilters = {
+      ...formik?.values,
+      site_id: selectedSiteId,  // Ensure the new site_id is included in the updated filters
+      site_name: selectedSiteData?.site_name,
+    };
+
+    if (selectedSiteId) {
+      FetchFilterData(updatedFilters)
+    }
+  };
+
+
+  let storedKeyName = "localFilterModalData";
+
+  useEffect(() => {
+    const storedDataString = localStorage.getItem(storedKeyName);
+
+    if (storedDataString) {
+      const parsedData = JSON.parse(storedDataString);
+      formik.setValues(parsedData);
+
+      if (!parsedData?.selectedSites) {
+        formik?.setFieldValue("selectedSites", [])
+      }
+
+      if (parsedData?.client_id) {
+        fetchCompanyList(parsedData?.client_id);
+      }
+
+      if (parsedData?.company_id) {
+        fetchSiteList(parsedData?.company_id);
+      }
+    }
+
+    if (!storedDataString && localStorage.getItem("superiorRole") === "Client") {
+      const clientId = localStorage.getItem("superiorId");
+      if (clientId) {
+        handleClientChange({ target: { value: clientId } });
+      }
+    }
+
   }, []);
+
+
 
   return (
     <>
@@ -255,7 +333,46 @@ const SiteSettings = (props) => {
               <div className="card-body">
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
-                    {localStorage.getItem("superiorRole") !== "Client" && (
+
+
+                    {localStorage.getItem('superiorRole') !== 'Client' && (
+                      <Col lg={4} md={6} className=" mt-4">
+                        <FormikSelect
+                          formik={formik}
+                          name="client_id"
+                          label="Client"
+                          options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
+                          className="form-input "
+                          onChange={handleClientChange}
+                        />
+                      </Col>
+                    )}
+
+
+                    <Col lg={4} md={6} className=" mt-4">
+                      <FormikSelect
+                        formik={formik}
+                        name="company_id"
+                        label="Company"
+                        options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
+                        className="form-input"
+                        onChange={handleCompanyChange}
+                      />
+                    </Col>
+
+                    <Col lg={4} md={6} className=" mt-4">
+                      <FormikSelect
+                        formik={formik}
+                        name="site_id"
+                        label="Site"
+                        options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
+                        className="form-input"
+                        onChange={handleSiteChange}
+                      />
+                    </Col>
+
+
+                    {/* {localStorage.getItem("superiorRole") !== "Client" && (
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
@@ -369,9 +486,9 @@ const SiteSettings = (props) => {
                             </div>
                           )}
                       </div>
-                    </Col>
+                    </Col> */}
 
-                    <Col lg={4} md={6}>
+                    {/* <Col lg={4} md={6}>
                       <div className="form-group">
                         <label htmlFor="site_id" className="form-label mt-4">
                           Site Name
@@ -409,7 +526,9 @@ const SiteSettings = (props) => {
                           </div>
                         )}
                       </div>
-                    </Col>
+                    </Col> */}
+
+
                     <Col lg={4} md={6}>
                       <div className="form-group">
                         <label
