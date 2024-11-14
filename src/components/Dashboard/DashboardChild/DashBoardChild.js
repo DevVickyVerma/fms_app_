@@ -51,7 +51,7 @@ const DashBoardChild = (props) => {
     }
 
     userPermissions?.includes("dashboard-site-stats") && (
-      callTableData(values)  
+      callTableData(values)
     )
   }
 
@@ -125,8 +125,7 @@ const DashBoardChild = (props) => {
           setTableData(response?.data?.data?.sites);
         }
       } catch (error) {
-        handleError(error)
-      } finally {
+        console.error(error)
       }
     }
   };

@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { useMyContext } from "../../../Utils/MyContext";
 import withApi from "../../../Utils/ApiHelper";
 import LoaderImg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -31,7 +32,7 @@ const DashSubChild = ({
   isLoading
 }) => {
   const { dashSubChildShopSaleLoading, DashboardGradsLoading, showSmallLoader } = useMyContext();
-  // const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   // const { id: current_site_id } = useParams();
   // const [mySelectedDate, setMySelectedDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -281,109 +282,116 @@ const DashSubChild = ({
 
         {/* grid values */}
 
-        <Box
-          display={"flex"}
-          width={"100%"}
-          bgcolor={"#ffffff"}
-          color={"black"}
-          mb={"20px"}
-          flexDirection={"column"}
-          gap={4}
-          p={"25px"}
-          boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-          className="l-sign"
-        >
-          <Box>
-            <Box display={"flex"} gap={"12px"}>
-              <Typography
-                height={"60px"}
-                width={"60px"}
-                borderRadius={"10px"}
-                position={"relative"}
-                bgcolor={"#d63031"}
-                textAlign={"center"}
-                py={"2px"}
-                color={"#dfe6e9"}
-                sx={{
-                  transition: "background-color 0.3s, color 0.3s",
-                  ":hover": {
-                    backgroundColor: "#e6191a",
-                    color: "#ffffff",
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                <strong style={{ fontWeight: 700 }}>
-                  {" "}
-                  {
-                    moment(MonthLastDelivery, "MMM").isValid()
-                      ? MonthLastDelivery
-                      : "" // <span className="Smallloader"></span>
-                  }
-                </strong>
+        {/* Last delivery section persmission dashboard-site-detail is added  */}
+
+
+        {userPermissions.includes("dashboard-site-stats") && (<>
+          <Box
+            display={"flex"}
+            width={"100%"}
+            bgcolor={"#ffffff"}
+            color={"black"}
+            mb={"20px"}
+            flexDirection={"column"}
+            gap={4}
+            p={"25px"}
+            boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
+            className="l-sign"
+          >
+            <Box>
+              <Box display={"flex"} gap={"12px"}>
                 <Typography
-                  height={"27px"}
-                  width={"77%"}
-                  bgcolor={"#ecf0f1"}
-                  position={"absolute"}
-                  borderRadius={"8px"}
-                  bottom={0}
-                  m={"6px"}
-                  color={"#2d3436"}
+                  height={"60px"}
+                  width={"60px"}
+                  borderRadius={"10px"}
+                  position={"relative"}
+                  bgcolor={"#d63031"}
                   textAlign={"center"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
+                  py={"2px"}
+                  color={"#dfe6e9"}
+                  sx={{
+                    transition: "background-color 0.3s, color 0.3s",
+                    ":hover": {
+                      backgroundColor: "#e6191a",
+                      color: "#ffffff",
+                      cursor: "pointer",
+                    },
+                  }}
                 >
-                  {showSmallLoader && <span className="Smallloader"></span>}
-                  {!showSmallLoader && moment(day, "DD").isValid() && day}
+                  <strong style={{ fontWeight: 700 }}>
+                    {" "}
+                    {
+                      moment(MonthLastDelivery, "MMM").isValid()
+                        ? MonthLastDelivery
+                        : "" // <span className="Smallloader"></span>
+                    }
+                  </strong>
+                  <Typography
+                    height={"27px"}
+                    width={"77%"}
+                    bgcolor={"#ecf0f1"}
+                    position={"absolute"}
+                    borderRadius={"8px"}
+                    bottom={0}
+                    m={"6px"}
+                    color={"#2d3436"}
+                    textAlign={"center"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    {showSmallLoader && <span className="Smallloader"></span>}
+                    {!showSmallLoader && moment(day, "DD").isValid() && day}
+                  </Typography>
                 </Typography>
-              </Typography>
-              <Box variant="body1">
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Last Delivery on
-                </Typography>
-                <Typography variant="body1" fontSize={"18px"} fontWeight={500}>
-                  {getSiteDetails?.last_fuel_delivery_stats?.last_day
-                    ? getSiteDetails?.last_fuel_delivery_stats?.last_day
-                    : ""}
-                </Typography>
+                <Box variant="body1">
+                  <Typography variant="body3" sx={{ opacity: 0.5 }}>
+                    Last Delivery on
+                  </Typography>
+                  <Typography variant="body1" fontSize={"18px"} fontWeight={500}>
+                    {getSiteDetails?.last_fuel_delivery_stats?.last_day
+                      ? getSiteDetails?.last_fuel_delivery_stats?.last_day
+                      : ""}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
 
 
 
 
-          <Box display={"flex"} gap={"25px"} flexWrap={"wrap"} justifyContent={["center", "flex-start"]}>
-            {" "}
-            {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
-              (LastDeliveryState,) => (
-                <Box
-                  borderRadius={"5px"}
-                  bgcolor={"#f2f2f8"}
-                  px={"20px"}
-                  py={"15px"}
-                  color={"black"}
-                  minWidth={"250px"}
-                >
-                  <Typography
-                    display={"flex"}
-                    gap={"5px"}
-                    alignItems={"center"}
-                    mb={"5px"}
+            <Box display={"flex"} gap={"25px"} flexWrap={"wrap"} justifyContent={["center", "flex-start"]}>
+              {" "}
+              {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
+                (LastDeliveryState,) => (
+                  <Box
+                    borderRadius={"5px"}
+                    bgcolor={"#f2f2f8"}
+                    px={"20px"}
+                    py={"15px"}
+                    color={"black"}
+                    minWidth={"250px"}
                   >
-                    <BsFillFuelPumpFill />
-                    {LastDeliveryState?.fuel}
-                  </Typography>
-                  <strong style={{ fontWeight: 700 }}>
-                    {LastDeliveryState?.value}
-                  </strong>
-                </Box>
-              )
-            )}
+                    <Typography
+                      display={"flex"}
+                      gap={"5px"}
+                      alignItems={"center"}
+                      mb={"5px"}
+                    >
+                      <BsFillFuelPumpFill />
+                      {LastDeliveryState?.fuel}
+                    </Typography>
+                    <strong style={{ fontWeight: 700 }}>
+                      {LastDeliveryState?.value}
+                    </strong>
+                  </Box>
+                )
+              )}
+            </Box>
           </Box>
-        </Box>
+        </>)}
+
+
 
 
       </div>
