@@ -13,16 +13,16 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import FormikSelect from "../../Formik/FormikSelect";
-import { handleError } from "../../../Utils/ToastUtils";
 import { useMyContext } from "../../../Utils/MyContext";
 import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const SiteSettings = (props) => {
   const { contextClients, setcontextClients } = useMyContext();
   const ReduxFullData = useSelector((state) => state?.data?.data);
   const { isLoading, getData, postData } = props;
   const [permissionsArray, setPermissionsArray] = useState([]);
-
+  const { handleError } = useErrorHandler();
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {

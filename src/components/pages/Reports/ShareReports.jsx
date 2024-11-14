@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 import { Badge, Card, Col, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 import FormikSelect from "../../Formik/FormikSelect";
-import { handleError } from "../../../Utils/ToastUtils";
 import withApi from "../../../Utils/ApiHelper";
 import { useMyContext } from "../../../Utils/MyContext";
 import LoaderImg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
 import * as Yup from "yup";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ShareReports = (props) => {
     const { title, visible, onClose, getData, isLoading, postData, apidata } = props;
-
+    const { handleError } = useErrorHandler();
     const { contextClients, setcontextClients } = useMyContext();
     useEffect(() => {
         if (contextClients?.length == 0) {

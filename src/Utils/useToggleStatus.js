@@ -1,7 +1,7 @@
-import { handleError } from './ToastUtils';
+import useErrorHandler from '../components/CommonComponent/useErrorHandler';
 
 const useToggleStatus = () => {
-
+    const { handleError } = useErrorHandler();
     const toggleStatus = async (postData, apiUrl, formData, handleSuccess) => {
         try {
             const response = await postData(apiUrl, formData);
@@ -9,7 +9,7 @@ const useToggleStatus = () => {
                 handleSuccess();
             }
         } catch (error) {
-            handleError(error,);
+            handleError(error);
             console.error('Error toggling status:', error);
         }
     };

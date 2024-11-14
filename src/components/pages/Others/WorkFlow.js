@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -15,14 +14,14 @@ import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageSite = (props) => {
   const { isLoading, getData, } = props;
   const [data, setData] = useState();
   const navigate = useNavigate()
 
-
+  const { handleError } = useErrorHandler();
   const handleSubmit1 = async (values) => {
 
     let { client_id, company_id, } = values;
