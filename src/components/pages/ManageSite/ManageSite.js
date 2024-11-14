@@ -11,7 +11,6 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import useToggleStatus from "../../../Utils/useToggleStatus";
-import { useNavigation } from "../../../Utils/NavigationProvider";
 
 
 const ManageSite = (props) => {
@@ -28,7 +27,6 @@ const ManageSite = (props) => {
 
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
-  const { lastPath } = useNavigation();
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append('id', id);

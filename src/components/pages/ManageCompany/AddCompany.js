@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import { useNavigation } from '../../../Utils/NavigationProvider';
+import { Bounce, toast } from 'react-toastify';
 
 const AddCompany = (props) => {
   const { isLoading, postData } = props;
