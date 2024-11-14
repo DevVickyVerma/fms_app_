@@ -13,12 +13,12 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import useCustomDelete from "../../CommonComponent/useCustomDelete";
 import useToggleStatus from "../../CommonComponent/useToggleStatus";
 import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const Competitor = (props) => {
   const { isLoading, getData, postData } = props;
@@ -28,6 +28,7 @@ const Competitor = (props) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+  const { handleError } = useErrorHandler();
   const ReduxFullData = useSelector((state) => state?.data?.data);
 
   useEffect(() => {

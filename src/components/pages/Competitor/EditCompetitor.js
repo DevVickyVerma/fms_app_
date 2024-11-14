@@ -6,11 +6,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddCompetitor = (props) => {
   const { isLoading, getData, postData } = props;
-
+  const { handleError } = useErrorHandler();
   const [SupplierData, setSupplierData] = useState({});
 
   const { id } = useParams();
