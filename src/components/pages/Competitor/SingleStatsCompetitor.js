@@ -11,13 +11,13 @@ import {
 import { BsFuelPumpFill } from "react-icons/bs";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { handleError } from "../../../Utils/ToastUtils";
 import CompetitorSingleGraph from "./CompetitorSingleGraph";
 import { Box, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
 import CompiMiddayModal from "./CompiMiddayModal";
+import { handleError } from '../../../Utils/ToastHandler';
 
 const SingleStatsCompetitor = ({ getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
