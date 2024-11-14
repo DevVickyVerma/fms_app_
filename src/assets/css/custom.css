@@ -1269,6 +1269,7 @@ span.circle-info {
   color: red;
   font-size: 12px;
   margin-top: 3px;
+  text-transform: lowercase;
 }
 
 .pay-role-custom-input-box {
@@ -1457,6 +1458,7 @@ span.text-error {
   margin-top: 10px;
   padding: 2px 9px;
   color: #fff;
+  text-transform: lowercase;
 }
 
 .offcanvas-end {
@@ -1875,6 +1877,7 @@ td.middayModal-td.time-input-fuel-sell {
   margin-top: 0.25rem;
   font-size: 87.5%;
   color: #f82649;
+  text-transform: lowercase;
 }
 
 .rmsc .dropdown-heading {
