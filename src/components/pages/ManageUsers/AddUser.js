@@ -8,8 +8,8 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
-import { handleError } from "../../../Utils/ToastUtils";
 import { passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 
 
@@ -20,7 +20,7 @@ const AddUsers = (props) => {
   const [selectRole, setselectRole] = useState([]);
   const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
 
- 
+  const { handleError } = useErrorHandler();
 
   const handleCountryCodeChange = (e) => {
     setSelectedCountryCode(e.target.value);

@@ -4,9 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
 
 import { Card, Col, Row, Breadcrumb } from "react-bootstrap";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const SiteCardOpening = (props) => {
   const { getData, postData, isLoading } = props;
@@ -14,7 +14,7 @@ const SiteCardOpening = (props) => {
   const [data, setData] = useState();
   const [startdate, setStartdate] = useState();
   const { id } = useParams(); // Destructure id from useParams()
-
+  const { handleError } = useErrorHandler();
   const GetListing = async (start_date) => {
     setStartdate(start_date);
     const [year, month] = start_date.split("-");

@@ -4,10 +4,10 @@ import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
 
 import { Card, Col, Row, Breadcrumb } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const SiteCardAdjustment = (props) => {
     const { getData, postData, isLoading } = props;
@@ -16,7 +16,7 @@ const SiteCardAdjustment = (props) => {
     const [startdate, setStartdate] = useState();
     const { id } = useParams(); // Destructure id from useParams()
     const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-
+    const { handleError } = useErrorHandler();
     const isAddPermissionAvailable = UserPermissions?.includes("site-card-adjustment-create");
 
 

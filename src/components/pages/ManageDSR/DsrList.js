@@ -12,6 +12,7 @@ import NewDashboardFilterModal from "../Filtermodal/NewDashboardFilterModal";
 import { useSelector } from "react-redux";
 import { handleError } from "../../../Utils/ToastUtils";
 import * as Yup from "yup";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 const ManageEmail = (props) => {
@@ -26,7 +27,7 @@ const ManageEmail = (props) => {
     company_id: "",
     site_id: "",
   });
-
+  const { handleError } = useErrorHandlero();
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);

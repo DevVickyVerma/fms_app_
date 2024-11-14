@@ -12,13 +12,13 @@ import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditShops = (props) => {
   const { isLoading, getData, postData } = props;
 
   const { id } = useParams();
-
+  const { handleError } = useErrorHandler();
   useEffect(() => {
     try {
       FetchRoleList();

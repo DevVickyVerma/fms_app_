@@ -15,14 +15,14 @@ import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageShops = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
-
+  const { handleError } = useErrorHandler();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
