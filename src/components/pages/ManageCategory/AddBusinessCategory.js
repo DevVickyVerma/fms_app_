@@ -104,27 +104,39 @@ const AddBusinessCategory = (props) => {
     {isLoading ? <Loaderimg /> : null}
 
     <div>
+
       <div className="page-header">
+        <div>
+          <h1 className="page-title">Add Business Category</h1>
 
-        <h1 className="page-title">Add Business Category</h1>
-
-        <Breadcrumb className="breadcrumb">
-          <Breadcrumb.Item
-            className="breadcrumb-item"
-            linkAs={Link}
-            linkProps={{ to: "/dashboard" }}
-          >
-            Dashboard
-          </Breadcrumb.Item>
-          <Breadcrumb.Item
-            className="breadcrumb-item active breadcrumds"
-            aria-current="page"
-          >
-            Manage Business Category
-          </Breadcrumb.Item>
-        </Breadcrumb>
-
+          <Breadcrumb className="breadcrumb">
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item  "
+              aria-current="page"
+              linkAs={Link}
+              linkProps={{ to: "/managebusinesscategory" }}
+            >
+              Business Category
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item  active breadcrumds"
+              aria-current="page"
+            >
+              Add Business Category
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
       </div>
+
+
+
 
       <Row>
         <Col lg={12} xl={12} md={12} sm={12}>
