@@ -1,6 +1,5 @@
 
 
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card, Col, Row } from "react-bootstrap";
@@ -8,9 +7,10 @@ import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { SuccessAlert } from "../../../Utils/ToastUtils";
 import LoaderImg from "../../../Utils/Loader";
 import InputTime from "./InputTime";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const CompiMiddayModal = ({
     open,
@@ -20,6 +20,7 @@ const CompiMiddayModal = ({
     setSelectedDrsDate,
     onDataFromChild,
 }) => {
+    const { handleError } = useErrorHandler();
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [Showerrormessage, setShowerrormessage] = useState("");
