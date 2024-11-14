@@ -10,6 +10,7 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import { ReactMultiEmail } from "react-multi-email";
+import { useNavigation } from "../../../Utils/NavigationProvider";
 
 const AddSite = (props) => {
   const { isLoading, postData } = props;
@@ -18,7 +19,16 @@ const AddSite = (props) => {
   const [showToEmailError, setShowToEmailError] = useState(false);
   const [AddSiteData, setAddSiteData] = useState([]);
   const [Listcompany, setCompanylist] = useState([]);
-
+  const { lastPath } = useNavigation();
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      // // position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: false,
+      transition: Bounce,
+      autoClose: 2000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({

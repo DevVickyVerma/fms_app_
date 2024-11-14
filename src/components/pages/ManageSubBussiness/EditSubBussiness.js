@@ -7,11 +7,21 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ErrorAlert, SuccessAlert, handleError } from "../../../Utils/ToastUtils";
+import { useNavigation } from '../../../Utils/NavigationProvider';
 
 export default function AddSite() {
   const navigate = useNavigate();
   const [dropdownValue, setDropdownValue] = useState([]);
-
+  const { lastPath } = useNavigation();
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      // // position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: false,
+      transition: Bounce,
+      autoClose: 2000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
   const { id } = useParams();
 
   useEffect(() => {

@@ -11,6 +11,7 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { useNavigation } from '../../../Utils/NavigationProvider';
 
 const AddCompany = (props) => {
   const { isLoading, postData } = props;
@@ -21,7 +22,7 @@ const AddCompany = (props) => {
     localStorage.getItem("superiorId")
   );
 
-
+  const { lastPath } = useNavigation();
   const [selectedItems, setSelectedItems] = useState(["1"]);
 
   const handleCheckboxChange = (checkboxId) => {
@@ -46,6 +47,15 @@ const AddCompany = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
+      const ErrorToast = (message) => {
+      toast.error(message, {
+        // // position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: false,
+        transition: Bounce,
+        autoClose: 2000,
+        theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+      });
+    };
   const fetchClientList = async () => {
     try {
       const response = await axiosInstance.get("/client/list");
