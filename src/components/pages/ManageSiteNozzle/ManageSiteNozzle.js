@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
@@ -16,15 +15,15 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import useCustomDelete from "../../CommonComponent/useCustomDelete";
 import useToggleStatus from "../../CommonComponent/useToggleStatus";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageSiteTank = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
-
+  const { handleError } = useErrorHandler();
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
 

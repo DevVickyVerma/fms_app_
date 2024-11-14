@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import { Link } from "react-router-dom";
@@ -19,7 +18,7 @@ import useCustomDelete from "../../CommonComponent/useCustomDelete";
 import useToggleStatus from "../../CommonComponent/useToggleStatus";
 import * as Yup from "yup";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 
@@ -28,7 +27,7 @@ const ManageSiteTank = (props) => {
   const [data, setData] = useState();
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
-
+  const { handleError } = useErrorHandler();
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append('id', id);

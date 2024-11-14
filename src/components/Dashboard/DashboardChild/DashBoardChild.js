@@ -1,15 +1,14 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import DashboardChildTable from "./DashboardChildTable";
 import Loaderimg from "../../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
 import DashboardStatsBox from "../DashboardStatsBox/DashboardStatsBox";
 import NewDashboardFilterModal from "../../pages/Filtermodal/NewDashboardFilterModal";
 import * as Yup from 'yup';
 import FiltersComponent from "../DashboardHeader";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 
@@ -25,7 +24,7 @@ const DashBoardChild = (props) => {
     company_id: '',
     site_id: '',
   });
-
+  const { handleError } = useErrorHandler();
   const ReduxFullData = useSelector((state) => state?.data?.data);
 
   const handleToggleSidebar1 = () => {

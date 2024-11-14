@@ -7,7 +7,7 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 
 const initialValues = {
@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
 const AddRoles = (props) => {
   const { isLoading, getData, postData } = props;
   const [permissions, setPermissions] = useState([]);
-
+  const { handleError } = useErrorHandler();
   useEffect(() => {
     FetchTableData();
     console.clear();

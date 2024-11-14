@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -8,17 +7,17 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
 import useCustomDelete from "../../CommonComponent/useCustomDelete";
 import useToggleStatus from "../../CommonComponent/useToggleStatus";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageSiteTank = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
-
+  const { handleError } = useErrorHandler();
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append('id', id);

@@ -26,10 +26,11 @@ import { useMyContext } from "../../../Utils/MyContext";
 import { handleError } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import { getCurrentDate, handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const ManageDsr = (props) => {
   const { isLoading, getData, postData } = props;
-
+  const { handleError } = useErrorHandler();
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
