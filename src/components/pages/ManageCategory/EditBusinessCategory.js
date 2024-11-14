@@ -8,13 +8,13 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const EditBussiness = (props) => {
   const { isLoading, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
   const { id } = useParams();
-
+  const { handleError } = useErrorHandler();
   useEffect(() => {
     try {
       FetchRoleList();

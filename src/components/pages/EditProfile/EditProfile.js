@@ -21,9 +21,11 @@ import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import { AiOutlineClose } from "react-icons/ai";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { confirmPasswordTooltip, passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 export default function EditProfile() {
+  const { handleError } = useErrorHandler();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
