@@ -4,12 +4,12 @@ import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import LoaderImg from '../../../Utils/Loader';
-import { handleError } from '../../../Utils/ToastUtils';
 import FormikSelect from '../../Formik/FormikSelect';
 import FormikInput from '../../Formik/FormikInput';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useMyContext } from '../../../Utils/MyContext';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 
 
@@ -36,7 +36,7 @@ const NewFilterTab = ({
     parentMaxDate,
 }) => {
     const reduxData = useSelector(state => state?.data?.data);
-
+    const { handleError } = useErrorHandler();
 
     const now = new Date();
     const currentMonth = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`; // Formats as yyyy-MM

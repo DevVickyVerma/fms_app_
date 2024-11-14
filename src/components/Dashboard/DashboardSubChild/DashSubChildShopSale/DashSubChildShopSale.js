@@ -22,9 +22,10 @@ import * as Yup from "yup";
 import { DateRangePicker } from "react-date-range";
 import withApi from "../../../../Utils/ApiHelper";
 import { useMyContext } from "../../../../Utils/MyContext";
-import { handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
+import { SuccessAlert } from "../../../../Utils/ToastUtils";
 import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
 import { useSelector } from "react-redux";
+import useErrorHandler from "../../../CommonComponent/useErrorHandler";
 
 const DashSubChildShopSale = ({
   getData,
@@ -42,7 +43,7 @@ const DashSubChildShopSale = ({
   const [endDatePath, setEndDatePath] = useState("");
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
 
-
+  const { handleError } = useErrorHandler();
   const {
     dashboardShopSaleData,
     setDashboardShopSaleData,

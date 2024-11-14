@@ -7,14 +7,14 @@ import { useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { handleError } from '../../../Utils/ToastUtils';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const ManageBank = ({ isLoading, getData }) => {
     const [data, setData] = useState();
     const [permissionsArray, setPermissionsArray] = useState([]);
     const UserPermissions = useSelector((state) => state?.data?.data);
     const [siteName, setSiteName] = useState("");
-
+    const { handleError } = useErrorHandler();
     useEffect(() => {
         if (UserPermissions) {
             setPermissionsArray(UserPermissions.permissions);
