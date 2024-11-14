@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import { useLocation } from 'react-router-dom';
 import { useNavigation } from "./NavigationProvider";
+import { useSelector } from "react-redux";
 const withApi = (WrappedComponent) => {
   const WithApi = (props) => {
     const [apidata, setApiData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const location = useLocation();
     const { lastPath } = useNavigation();
     // console.log(lastPath, "lastPath");
     const navigate = useNavigate();
@@ -32,16 +32,12 @@ const withApi = (WrappedComponent) => {
       });
     };
 
-    // else if (error.response && error.response.data.status_code === "403") {
-    //   const errorMessage = Array.isArray(error.response.data.message)
-    //     ? error.response.data.message.join(" ")
-    //     : error.response.data.message;
+    const UserPermissions = useSelector((state) => state?.data?.data);
+console.log(UserPermissions?.route, "UserPermissions");
 
-    //   if (errorMessage) {
-    //     navigate(lastPath); 
-    //     ErrorToast(errorMessage);
-    //   }
-    // }
+    const location = useLocation(); // useLocation hook to access current path
+    const currentPath = location.pathname; // Current path as a string
+  
 
 
     function handleError(error) {
@@ -49,8 +45,26 @@ const withApi = (WrappedComponent) => {
         navigate("/login");
         ErrorToast("Invalid access token");
         localStorage.clear();
-      }  else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
+      } else if (error.response && error.response.data.status_code === "403") {
+        const errorMessage = Array.isArray(error.response.data.message)
+          ? error.response.data.message.join(" ")
+          : error.response.data.message;
+
+        if (errorMessage) {
+          console.log("Current Path:", currentPath);
+          console.log("Current Pathl:", lastPath);
+          console.log(lastPath, "errorMessage");
+          if (currentPath === lastPath) {
+            // console.log(" Navigating Same path: no navigation needed");
+            navigate(UserPermissions?.route)
+          } else {
+            // console.log("Navigating to last path:", lastPath);
+            navigate(lastPath); // Navigate to lastPath if they are different
+          }
+
+          // navigate(lastPath);
+          ErrorToast(errorMessage);
+        }
       } else if (error.response && error.response.data.message) {
         const errorMessage = Array.isArray(error.response.data.message)
           ? error.response.data.message.join(" ")
