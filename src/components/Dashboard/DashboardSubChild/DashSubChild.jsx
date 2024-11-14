@@ -285,7 +285,7 @@ const DashSubChild = ({
         {/* Last delivery section persmission dashboard-site-detail is added  */}
 
 
-        {userPermissions.includes("dashboard-site-stats") && (<>
+        {userPermissions.includes("dashboard-site-detail") && (<>
           <Box
             display={"flex"}
             width={"100%"}
