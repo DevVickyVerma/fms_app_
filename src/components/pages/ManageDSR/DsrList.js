@@ -10,9 +10,7 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import FiltersComponent from "../../Dashboard/DashboardHeader";
 import NewDashboardFilterModal from "../Filtermodal/NewDashboardFilterModal";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
 import * as Yup from "yup";
-import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 const ManageEmail = (props) => {

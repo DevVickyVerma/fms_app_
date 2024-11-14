@@ -8,7 +8,6 @@ import Loaderimg from "../../../Utils/Loader";
 import CustomPagination from "../../../Utils/CustomPagination";
 import NewDashboardFilterModal from "../Filtermodal/NewDashboardFilterModal";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
 import FiltersComponent from "../../Dashboard/DashboardHeader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";

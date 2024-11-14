@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 
 import {
@@ -13,13 +12,13 @@ import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { ReactMultiEmail } from "react-multi-email";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditClient = (props) => {
   const { isLoading, getData, postData } = props;
   const [LoadingFetchClientDetail, setLoadingFetchClientDetail] = useState(false);
   const { id } = useParams();
-
+  const { handleError } = useErrorHandler();
   useEffect(() => {
     try {
       FetchRoleList();
