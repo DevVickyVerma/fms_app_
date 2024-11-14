@@ -4,13 +4,13 @@ import withApi from "../../../Utils/ApiHelper";
 import LoaderImg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
-import { handleError } from "../../../Utils/ToastUtils";
 import { FileUploader } from "react-drag-drop-files";
 import { FaFileUpload } from "react-icons/fa";
 import CloseIcon from '@mui/icons-material/Close';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 
 const CoffeeAndValetUploadInvoice = (props) => {
@@ -18,7 +18,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
     const handleCloseModal = () => {
         setShowModal(false);
     };
-
+    const { handleError } = useErrorHandler();
     const fileTypes = ["JPEG", "PNG", "JPG",];
 
     useEffect(() => {

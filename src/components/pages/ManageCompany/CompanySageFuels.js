@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
@@ -6,10 +5,12 @@ import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const CompanySageFuels = () => {
     const id = useParams();
+    const { handleError } = useErrorHandler();
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [taxCodes, setTaxCodes] = useState([]);

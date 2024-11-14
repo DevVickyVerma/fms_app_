@@ -8,7 +8,6 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import moment from "moment";
 import Swal from "sweetalert2";
-import { handleError } from "../../../Utils/ToastUtils";
 import FuturePriceErrorModal from "./FuturePriceErrorModal";
 import { useSelector } from "react-redux";
 import CloseIcon from '@mui/icons-material/Close';
@@ -17,9 +16,11 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CustomPagination from "../../../Utils/CustomPagination";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const FuturePriceLogs = (props) => {
     const { isLoading, getData, postData, apidata } = props;
+    const { handleError } = useErrorHandler();
     const [data, setData] = useState();
     const ReduxFullData = useSelector((state) => state?.data?.data);
     const [showModal, setShowModal] = useState(false);

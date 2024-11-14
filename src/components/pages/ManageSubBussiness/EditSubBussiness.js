@@ -6,12 +6,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ErrorAlert, SuccessAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useNavigation } from '../../../Utils/NavigationProvider';
 import { Bounce, toast } from 'react-toastify';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 export default function AddSite() {
   const navigate = useNavigate();
+  const { handleError } = useErrorHandler();
   const [dropdownValue, setDropdownValue] = useState([]);
   const { lastPath } = useNavigation();
   const ErrorToast = (message) => {

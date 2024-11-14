@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -9,7 +8,8 @@ import * as Yup from "yup";
 import axios from "axios";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditAddon = (props) => {
   const { isLoading, getData, } = props;
@@ -17,7 +17,7 @@ const EditAddon = (props) => {
   // eslint-disable-next-line no-unused-vars
   const [userpermissions, setUserPermissions] = useState([]);
   const [edituserDetails, setEdituserDetails] = useState("");
-
+  const { handleError } = useErrorHandler();
   const navigate = useNavigate();
 
   const [permissionArray, setPermissionArray] = useState([]);
