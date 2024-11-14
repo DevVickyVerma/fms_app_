@@ -6,10 +6,10 @@ import { Card, Col, Modal, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import LoaderImg from '../../../Utils/Loader';
-import { handleError } from '../../../Utils/ToastUtils';
 import FormikSelect from '../../Formik/FormikSelect';
 import { useMyContext } from '../../../Utils/MyContext';
 import FormikInput from '../../Formik/FormikInput';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const NewDashboardFilterModal = ({
     getData,
@@ -32,7 +32,7 @@ const NewDashboardFilterModal = ({
 
     const reduxData = useSelector(state => state?.data?.data);
 
-
+    const { handleError } = useErrorHandler();
     const { contextClients, setcontextClients } = useMyContext();
     const formik = useFormik({
         initialValues: {

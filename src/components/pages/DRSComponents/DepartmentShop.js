@@ -1,16 +1,15 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const DepartmentShop = (props) => {
   const {
     site_id,
     start_date,
   } = props;
-
+  const { handleError } = useErrorHandler();
 
 
   const [data, setData] = useState([]);
