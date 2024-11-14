@@ -44,7 +44,7 @@ const useErrorHandler = () => {
 
       if (errorMessage) {
 
-        console.log(errorMessage, "errorMessageerrorMessageerrorMessageerrorMessage", currentPath, lastPath);
+
 
         // console.log("Current Path:", currentPath);
         // console.log("Current Pathl:", lastPath);

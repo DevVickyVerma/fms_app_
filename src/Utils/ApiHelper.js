@@ -33,11 +33,10 @@ const withApi = (WrappedComponent) => {
     };
 
     const UserPermissions = useSelector((state) => state?.data?.data);
-// console.log(UserPermissions?.route, "UserPermissions");
 
     const location = useLocation(); // useLocation hook to access current path
     const currentPath = location.pathname; // Current path as a string
-  
+
 
 
     function handleError(error) {
