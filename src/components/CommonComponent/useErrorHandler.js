@@ -9,6 +9,8 @@ const useErrorHandler = () => {
   const location = useLocation();
   const { lastPath } = useNavigation();
   const UserPermissions = useSelector((state) => state?.data?.data);
+  const currentPath = location.pathname; // Current path as a string
+
 
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -28,7 +30,9 @@ const useErrorHandler = () => {
     });
   };
 
-  const handleError = (error) => {
+
+
+  function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
       ErrorToast("Invalid access token");
@@ -39,12 +43,21 @@ const useErrorHandler = () => {
         : error.response.data.message;
 
       if (errorMessage) {
-        const currentPath = location.pathname;
+
+        console.log(errorMessage, "errorMessageerrorMessageerrorMessageerrorMessage", currentPath, lastPath);
+
+        // console.log("Current Path:", currentPath);
+        // console.log("Current Pathl:", lastPath);
+        // console.log(lastPath, "errorMessage");
         if (currentPath === lastPath) {
-          navigate(UserPermissions?.route);
+          // console.log(" Navigating Same path: no navigation needed");
+          navigate(UserPermissions?.route)
         } else {
-          navigate(lastPath);
+          // console.log("Navigating to last path:", lastPath);
+          navigate(lastPath); // Navigate to lastPath if they are different
         }
+
+        // navigate(lastPath);
         ErrorToast(errorMessage);
       }
     } else if (error.response && error.response.data.message) {
@@ -58,7 +71,7 @@ const useErrorHandler = () => {
     } else {
       ErrorToast("An error occurred.");
     }
-  };
+  }
 
   return {
     handleError,
