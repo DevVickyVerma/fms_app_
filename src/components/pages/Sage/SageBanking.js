@@ -6,10 +6,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 
@@ -20,7 +21,7 @@ const SageBanking = (props) => {
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [DepartmentList, setDepartmentList] = useState([]);
-
+  const { handleError } = useErrorHandler();
   const [data, setData] = useState();
 
   const isUpdatePermissionAvailable = userPermissions?.includes("bankinghead-update");

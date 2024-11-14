@@ -11,6 +11,7 @@ import FiltersComponent from "../../Dashboard/DashboardHeader";
 import NewDashboardFilterModal from "../Filtermodal/NewDashboardFilterModal";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 const ManageEmail = (props) => {
@@ -25,7 +26,7 @@ const ManageEmail = (props) => {
     company_id: "",
     site_id: "",
   });
-  const { handleError } = useErrorHandlero();
+  const { handleError } = useErrorHandler();
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);

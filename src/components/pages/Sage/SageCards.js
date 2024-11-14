@@ -6,10 +6,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 
@@ -22,7 +23,7 @@ const SageDeduction = (props) => {
   const [data, setData] = useState();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const isUpdatePermissionAvailable = userPermissions?.includes("cardgroup-update");
-
+  const { handleError } = useErrorHandler();
   const formik = useFormik({
     initialValues: {
       client_id: "",

@@ -8,14 +8,15 @@ import * as Yup from "yup";
 import { useSelector } from 'react-redux'
 import { handleFilterData } from '../../../Utils/commonFunctions/commonFunction'
 import { useFormik } from 'formik'
-import { ErrorAlert, handleError } from '../../../Utils/ToastUtils'
+import { ErrorAlert } from '../../../Utils/ToastUtils';
 import FormikInput from '../../Formik/FormikInput';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const DailyDue = ({ isLoading, getData, postData }) => {
     const [dateValidation, setDateValidation] = useState({ minDate: "", maxDate: "", drs_month: "" });
     const ReduxFullData = useSelector((state) => state?.data?.data);
     const { id: siteID } = useParams()
-
+    const { handleError } = useErrorHandler();
     const validationSchemaForCustomInput = Yup.object({
         start_month: Yup.date()
             .required("Date is required")

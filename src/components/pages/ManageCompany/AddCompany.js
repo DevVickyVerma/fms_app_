@@ -10,9 +10,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import { useNavigation } from '../../../Utils/NavigationProvider';
 import { Bounce, toast } from 'react-toastify';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddCompany = (props) => {
   const { isLoading, postData } = props;
@@ -22,6 +23,7 @@ const AddCompany = (props) => {
   const [clientIDLocalStorage,] = useState(
     localStorage.getItem("superiorId")
   );
+  const { handleError } = useErrorHandler();
 
   const { lastPath } = useNavigation();
   const [selectedItems, setSelectedItems] = useState(["1"]);

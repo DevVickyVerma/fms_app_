@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
@@ -8,14 +7,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import { ReactMultiEmail } from "react-multi-email";
 import { useNavigation } from "../../../Utils/NavigationProvider";
 import { Bounce, toast } from "react-toastify";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const AddSite = (props) => {
   const { isLoading, postData } = props;
-
+  const { handleError } = useErrorHandler();
   const navigate = useNavigate();
   const [showToEmailError, setShowToEmailError] = useState(false);
   const [AddSiteData, setAddSiteData] = useState([]);
