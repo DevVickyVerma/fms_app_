@@ -11,13 +11,14 @@ import {
 import { BsFuelPumpFill } from "react-icons/bs";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+
 import CompetitorSingleGraph from "./CompetitorSingleGraph";
 import { Box, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
 import CompiMiddayModal from "./CompiMiddayModal";
-import { handleError } from '../../../Utils/ToastHandler';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const SingleStatsCompetitor = ({ getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -29,7 +30,7 @@ const SingleStatsCompetitor = ({ getData }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem,] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
-
+  const { handleError, SuccessToast } = useErrorHandler();
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
