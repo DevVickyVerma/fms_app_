@@ -8,14 +8,15 @@ import * as Yup from "yup";
 import axios from "axios";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddAddon = (props) => {
   const { isLoading, } = props;
   const [permissions, setPermissions] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [userpermissions, setUserPermissions] = useState([]);
-
+  const { handleError } = useErrorHandler();
 
 
   const navigate = useNavigate();

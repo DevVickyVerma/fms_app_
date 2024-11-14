@@ -1,8 +1,8 @@
 import Swal from 'sweetalert2';
-import { handleError } from '../../Utils/ToastUtils';
+import useErrorHandler from './useErrorHandler';
 
 const useCustomDelete = () => {
-
+    const { handleError } = useErrorHandler();
     const customDelete = async (
         postData,
         apiUrl,

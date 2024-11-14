@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
@@ -6,14 +5,14 @@ import { Breadcrumb, Card, Col, Row } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { handleError } from '../../../Utils/ToastUtils';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 const EditBank = ({ isLoading, getData, postData }) => {
     const [data, setData] = useState();
     const [siteName, setSiteName] = useState("");
     const { id } = useParams();
-
+    const { handleError } = useErrorHandler();
 
     useEffect(() => {
         fetchBankManagerList();

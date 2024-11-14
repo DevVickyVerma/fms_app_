@@ -1,6 +1,7 @@
-import { handleError } from '../../Utils/ToastUtils';
+import useErrorHandler from './useErrorHandler';
 
 const useToggleStatus = () => {
+    const { handleError } = useErrorHandler();
     const toggleStatus = async (
         postData, // (url: string, body: any) => Promise<any>
         apiUrl,

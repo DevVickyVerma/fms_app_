@@ -6,11 +6,13 @@ import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const SetFuelGrades = () => {
     const id = useParams();
+    const { handleError } = useErrorHandler();
     const UserPermissions = useSelector(
         (state) => state?.data?.data?.permissions || [],
     );
