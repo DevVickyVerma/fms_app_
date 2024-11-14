@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const SiteSettings = (props) => {
   const {
@@ -19,7 +19,7 @@ const SiteSettings = (props) => {
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions
   );
-
+  const { handleError } = useErrorHandler();
   const [data, setData] = useState([]);
   const [DeductionData, setDeductionData] = useState([]);
   const [BussinesModelData, setBussinesModelData] = useState([]);

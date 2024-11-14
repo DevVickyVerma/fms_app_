@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 
 
@@ -18,7 +18,7 @@ const UploadCompetitor = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [data, setData] = useState();
   const [permissionsArray, setPermissionsArray] = useState([]);
-
+  const { handleError } = useErrorHandler();
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {

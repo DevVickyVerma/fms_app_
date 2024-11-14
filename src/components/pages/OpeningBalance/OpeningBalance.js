@@ -5,9 +5,9 @@ import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from 'react-boots
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import DataTable from 'react-data-table-component';
-import { handleError } from '../../../Utils/ToastUtils';
 import CustomPagination from '../../../Utils/CustomPagination';
 import useCustomDelete from '../../../Utils/useCustomDelete';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const OpeningBalance = ({ isLoading, getData, postData }) => {
     const [data, setData] = useState();
@@ -19,7 +19,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
     const isAddPermissionAvailable = userPermissions?.includes("opening-create");
     const isDeletePermissionAvailable = userPermissions?.includes("opening-delete");
     const isEditPermissionAvailable = userPermissions?.includes("opening-edit");
-
+    const { handleError } = useErrorHandler();
     const { customDelete } = useCustomDelete();
 
     const handlePageChange = (newPage) => {
