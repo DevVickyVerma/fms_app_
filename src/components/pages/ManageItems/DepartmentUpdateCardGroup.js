@@ -97,7 +97,7 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
             name: "Select",
             selector: "checked",
             sortable: false,
-            center: true,
+            center: false,
             width: "15%",
             cell: (row, index) => (
                 <div className="all-center-flex">

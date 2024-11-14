@@ -220,7 +220,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.opening,
       sortable: false,
       width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -252,7 +252,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.closing,
       sortable: false,
       width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -289,7 +289,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.tests,
       sortable: false,
       width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -324,7 +324,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.adjust,
       sortable: false,
       width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -398,7 +398,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.price,
       sortable: false,
       width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -471,7 +471,7 @@ const CoffeeValet = (props) => {
       sortable: false,
       width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
 
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -503,7 +503,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.commission,
       sortable: false,
       width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "10%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -546,7 +546,7 @@ const CoffeeValet = (props) => {
           selector: (row) => row.file,
           sortable: false,
           width: "9.5%",
-          center: true,
+          center: false,
           cell: (row,) => {
             if (row.item_category === "Total") {
               return null;
@@ -580,7 +580,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.adj_value,
       sortable: false,
       width: "7",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>

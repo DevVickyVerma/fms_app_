@@ -142,9 +142,9 @@ const ManageDsr = (props) => {
       selector: (row) => row.fuel_name,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
+        <span className="text-muted fs-15 fw-semibold text-left">
           {row.fuel_name !== undefined ? `${row.fuel_name}` : ""}
         </span>
       ),
@@ -154,7 +154,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.platts_price,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
 
       cell: (row, index) => (
         <div>
@@ -182,7 +182,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.premium_price,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -213,7 +213,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.development_fuels_price,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -245,7 +245,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.duty_price,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -277,7 +277,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.ex_vat_price,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -306,7 +306,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.vat_percentage_rate,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -338,7 +338,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.total,
       sortable: false,
       width: "12.5%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -631,6 +631,7 @@ const ManageDsr = (props) => {
                           striped={true}
                           persistTableHead={true}
                           highlightOnHover={true}
+                          responsive={true}
                         />
                       </div>
                       {isEditPermissionAvailable ? (

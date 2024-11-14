@@ -101,7 +101,7 @@ const CompanySageOtherCodes = () => {
             selector: (row) => row.nominal_codes,
             sortable: false,
             width: "50%",
-            center: true,
+            center: false,
 
             cell: (row, index) =>
                 <div

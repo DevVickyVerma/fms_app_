@@ -66,7 +66,7 @@ const CompanySageFuels = ({ getData }) => {
       selector: (row) => row.sage_sale_code,
       sortable: false,
       width: "30%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.name === "Total" ? (
@@ -98,7 +98,7 @@ const CompanySageFuels = ({ getData }) => {
       selector: (row) => row.sage_purchage_code,
       sortable: false,
       width: "30%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.name === "Total" ? (

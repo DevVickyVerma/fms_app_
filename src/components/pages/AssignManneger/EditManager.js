@@ -52,7 +52,7 @@ const AddCompany = (props) => {
       name: "Select",
       selector: (row) => row.checked,
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
       cell: (row, index) => (
         <div>

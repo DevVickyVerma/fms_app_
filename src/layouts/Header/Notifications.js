@@ -67,7 +67,7 @@ const Notification = (props) => {
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {index + 1}

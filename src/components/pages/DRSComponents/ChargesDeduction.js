@@ -175,7 +175,7 @@ const ShopSales = (props) => {
       selector: (row) => row.charge_value,
       sortable: false,
       width: "50%",
-      center: true,
+      center: false,
       // Title: "CASH METERED SALES",
 
       cell: (row, index) =>
@@ -225,7 +225,7 @@ const ShopSales = (props) => {
       selector: (row) => row.deduction_value,
       sortable: false,
       width: "50%",
-      center: true,
+      center: false,
       // Title: "CASH METERED SALES",
 
       cell: (row, index) =>

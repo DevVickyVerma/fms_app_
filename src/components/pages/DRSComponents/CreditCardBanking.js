@@ -163,7 +163,7 @@ const CreditCardBanking = (props) => {
       selector: (row) => row.koisk_value,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.card_name === "Total" ? (
@@ -197,7 +197,7 @@ const CreditCardBanking = (props) => {
       selector: (row) => row.opt_value,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.card_name === "Total" ? (
@@ -231,7 +231,7 @@ const CreditCardBanking = (props) => {
       selector: (row) => row.account_value,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.card_name === "Total" ? (
@@ -265,7 +265,7 @@ const CreditCardBanking = (props) => {
       selector: (row) => row.no_of_transactions,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.card_name === "Total" ? (
@@ -305,7 +305,7 @@ const CreditCardBanking = (props) => {
       selector: (row) => row.adj_value,
       sortable: false,
       width: "16%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>

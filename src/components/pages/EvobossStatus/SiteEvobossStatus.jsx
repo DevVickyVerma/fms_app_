@@ -46,7 +46,7 @@ const SiteEvobossStatus = (props) => {
       selector: (row, index) => index + 1,
       sortable: false,
       width: "15%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {index + 1}
@@ -58,7 +58,7 @@ const SiteEvobossStatus = (props) => {
       selector: (row) => [row?.site_name],
       sortable: false,
       width: "85%",
-      cell: (row, ) => (
+      cell: (row,) => (
         <div
           className="d-flex"
           onClick={() => handleNavigateToNewPage(row)}

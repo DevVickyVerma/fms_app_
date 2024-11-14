@@ -346,7 +346,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.fuel_price,
       sortable: false,
       width: "10.6%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
@@ -389,7 +389,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.metered_sale,
       sortable: false,
       width: "10.8%",
-      center: true,
+      center: false,
       // Title: "CASH METERED SALES",
 
       cell: (row, index) =>
@@ -423,7 +423,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.metered_sale_value,
       sortable: false,
       width: "10.6%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -456,7 +456,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.adjustment,
       sortable: false,
       width: "10.6%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -501,7 +501,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.bunkered_sale,
       sortable: false,
       width: "10.6%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -548,7 +548,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.tests,
       sortable: false,
       width: "10.6%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -592,7 +592,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.actual_sales,
       sortable: false,
       width: "10.6%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -631,7 +631,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.due_sales,
       sortable: false,
       width: "10.6%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -690,7 +690,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.variance,
       sortable: false,
       width: "50%",
-      center: true,
+      center: false,
       // Title: "CASH METERED SALES",
       cell: (row, index) => (
         <div>
@@ -730,7 +730,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.due_sales,
       sortable: false,
       width: "25%",
-      center: true,
+      center: false,
       // Title: "CASH METERED SALES",
       cell: (row, index) => (
         <div>
@@ -754,7 +754,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.sale_value,
       sortable: false,
       width: "25%",
-      center: true,
+      center: false,
       // Title: "CASH METERED SALES",
       cell: (row, index) => (
         <div>
@@ -778,7 +778,7 @@ const FuelInventry = (props) => {
       selector: (row) => row.variance,
       sortable: false,
       width: "25%",
-      center: true,
+      center: false,
       // Title: "CASH METERED SALES",
       cell: (row, index) => (
         <div>

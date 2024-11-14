@@ -304,7 +304,7 @@ const SiteSettings = (props) => {
 
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "10%",
       cell: (row, index) => (
         <div>
@@ -348,7 +348,7 @@ const SiteSettings = (props) => {
         name: model.model_name,
         selector: (row) => row.business_model_types[index]?.id,
         sortable: false,
-        center: true,
+        center: false,
         width: "15%",
         cell: (row) => (
           <div className="d-flex">
@@ -372,7 +372,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "15%",
       cell: (row, index) => (
         <div>
@@ -410,7 +410,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "15%",
       cell: (row, index) => (
         <div>
@@ -448,7 +448,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "15%",
       cell: (row, index) => (
         <div>
@@ -486,7 +486,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "15%",
       cell: (row, index) => (
         <div>
@@ -525,7 +525,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "10%",
       cell: (row, index) => (
         <div>
@@ -563,7 +563,7 @@ const SiteSettings = (props) => {
       selector: (row) => row.charge_value,
       sortable: false,
       width: "20%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -586,7 +586,7 @@ const SiteSettings = (props) => {
 
       selector: (row) => row.admin,
       sortable: false,
-      center: true,
+      center: false,
       width: "22.5%",
       cell: (row, index) => (
         <div>
@@ -608,7 +608,7 @@ const SiteSettings = (props) => {
 
       selector: (row) => row.operator,
       sortable: false,
-      center: true,
+      center: false,
       width: "22.5%",
       cell: (row, index) => (
         <div>
@@ -633,7 +633,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "10%",
       cell: (row, index) => (
         <div>
@@ -671,7 +671,7 @@ const SiteSettings = (props) => {
       selector: (row) => row.deduction_value,
       sortable: false,
       width: "20%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -697,7 +697,7 @@ const SiteSettings = (props) => {
 
       selector: (row) => row.admin,
       sortable: false,
-      center: true,
+      center: false,
       width: "22.5%",
       cell: (row, index) => (
         <div>
@@ -721,7 +721,7 @@ const SiteSettings = (props) => {
 
       selector: (row) => row.operator,
       sortable: false,
-      center: true,
+      center: false,
       width: "22.5%",
       cell: (row, index) => (
         <div>
@@ -747,7 +747,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "10%",
       cell: (row, index) => (
         <div>
@@ -783,7 +783,7 @@ const SiteSettings = (props) => {
       selector: (row) => row.price,
       sortable: false,
       width: "25%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -806,7 +806,7 @@ const SiteSettings = (props) => {
       name: "For Admin",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
       cell: (row, index) => (
         <div>
@@ -833,7 +833,7 @@ const SiteSettings = (props) => {
 
       selector: (row) => row.checked,
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
       cell: (row, index) => (
         <div>
@@ -878,7 +878,7 @@ const SiteSettings = (props) => {
       ),
       selector: (row) => row.checked,
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
       cell: (row, index) => (
         <div>
@@ -914,7 +914,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: (row) => row.checked,
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
       cell: (row, index) => (
         <div>
@@ -961,7 +961,7 @@ const SiteSettings = (props) => {
       ),
       selector: (row) => row.checked,
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
       cell: (row, index) => (
         <div>
@@ -1001,7 +1001,7 @@ const SiteSettings = (props) => {
 
       selector: (row) => row.checked,
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
 
       cell: (row, index) => (
@@ -1040,7 +1040,7 @@ const SiteSettings = (props) => {
       name: "Select",
       selector: (row) => row.checked,
       sortable: false,
-      center: true,
+      center: false,
       width: "20%",
       cell: (row, index) => (
         <div>

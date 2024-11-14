@@ -102,7 +102,7 @@ const SetFuelGrades = () => {
             selector: (row) => row?.grade,
             sortable: false,
             width: "40%",
-            center: true,
+            center: false,
             cell: (row, index) =>
                 <div>
                     <input

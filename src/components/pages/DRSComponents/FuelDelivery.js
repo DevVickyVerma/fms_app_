@@ -193,7 +193,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.opening,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -221,7 +221,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.bunkd_delivery_volume,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -249,7 +249,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.delivery_volume,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -277,7 +277,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.dips_stock,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -305,7 +305,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.sales_volume,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -333,7 +333,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.book_stock,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -357,7 +357,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.variance,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -385,7 +385,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.percentage_sales,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -413,7 +413,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.variance_lt,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -441,7 +441,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.variance_per,
       sortable: false,
       width: "8.5%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input

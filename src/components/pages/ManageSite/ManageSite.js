@@ -170,7 +170,7 @@ const ManageSite = (props) => {
       selector: (row, index) => index + 1,
       sortable: false,
       width: "7%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row?.sr_no}

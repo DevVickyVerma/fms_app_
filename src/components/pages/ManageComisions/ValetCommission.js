@@ -69,7 +69,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.price,
       sortable: false,
       width: "30%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -94,7 +94,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.commission,
       sortable: false,
       width: "30%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (

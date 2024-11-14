@@ -105,7 +105,7 @@ const CompanySageFuels = () => {
             selector: (row) => row.sage_account_code,
             sortable: false,
             width: "14.2%",
-            center: true,
+            center: false,
 
             cell: (row, index) =>
                 row.name === "Total" ? (
@@ -139,7 +139,7 @@ const CompanySageFuels = () => {
             selector: (row) => row.sage_nominal_code,
             sortable: false,
             width: "14.2%",
-            center: true,
+            center: false,
 
             cell: (row, index) =>
                 row.name === "Total" ? (
@@ -171,7 +171,7 @@ const CompanySageFuels = () => {
             selector: (row) => row.sage_purchage_code,
             sortable: false,
             width: "14.2%",
-            center: true,
+            center: false,
 
             cell: (row, index) =>
                 row.name === "Total" ? (
@@ -203,7 +203,7 @@ const CompanySageFuels = () => {
             selector: (row) => row.positive_nominal_type_id,
             sortable: false,
             width: "14.4%",
-            center: true,
+            center: false,
 
             cell: (row, index) =>
                 row.name === "Total" ? (
@@ -247,7 +247,7 @@ const CompanySageFuels = () => {
             selector: (row) => row.negative_nominal_type_id,
             sortable: false,
             width: "14.4%",
-            center: true,
+            center: false,
 
             cell: (row, index) =>
                 row.name === "Total" ? (
@@ -292,7 +292,7 @@ const CompanySageFuels = () => {
             selector: (row) => row.nominal_tax_code_id,
             sortable: false,
             width: "14%",
-            center: true,
+            center: false,
 
             cell: (row, index) =>
                 row.name === "Total" ? (

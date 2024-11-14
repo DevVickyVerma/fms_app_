@@ -162,7 +162,7 @@ const FuelSales = (props) => {
       selector: (row) => row.sales_volume,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -195,7 +195,7 @@ const FuelSales = (props) => {
       selector: (row) => row.gross_value,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -228,7 +228,7 @@ const FuelSales = (props) => {
       selector: (row) => row.discount,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -261,7 +261,7 @@ const FuelSales = (props) => {
       selector: (row) => row.nett_value,
       sortable: false,
       width: editable?.is_adjustable ? "16%" : "20%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -300,7 +300,7 @@ const FuelSales = (props) => {
       selector: (row) => row.adj_value,
       sortable: false,
       width: "16%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>

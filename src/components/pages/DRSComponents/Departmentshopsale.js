@@ -157,7 +157,7 @@ const Departmentshopsale = (props) => {
       selector: (row) => row.gross_value,
       sortable: false,
       width: editable?.is_adjustable ? "20%" : "25%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.category_name === "Total" ? (
@@ -190,7 +190,7 @@ const Departmentshopsale = (props) => {
       selector: (row) => row.disc_value,
       sortable: false,
       width: editable?.is_adjustable ? "20%" : "25%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.category_name === "Total" ? (
@@ -222,7 +222,7 @@ const Departmentshopsale = (props) => {
       selector: (row) => row.nett_value,
       sortable: false,
       width: editable?.is_adjustable ? "20%" : "25%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.category_name === "Total" ? (
@@ -260,7 +260,7 @@ const Departmentshopsale = (props) => {
       selector: (row) => row.adj_value,
       sortable: false,
       width: "20%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>

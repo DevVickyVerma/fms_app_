@@ -74,7 +74,7 @@ export const MENUITEMS = [
           {
             path: `/addclient`,
             type: "link",
-            title: "Add Clients",
+            title: "Add Client",
             permission: "client-create",
             visibility: false,
           },
@@ -223,7 +223,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addsite`,
-            title: "Add Sites",
+            title: "Add Site",
             type: "link",
             permission: "site-create",
             visibility: false,

@@ -208,7 +208,7 @@ const ShopSales = (props) => {
       selector: (row) => row.charge_value,
       sortable: false,
       width: editable?.is_adjustable ? "30%" : "40%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -236,7 +236,7 @@ const ShopSales = (props) => {
         selector: (row) => row.file,
         sortable: false,
         width: "20%",
-        center: true,
+        center: false,
         cell: (row, index) => {
           if (row.item_category === "Total") {
             return null;
@@ -308,7 +308,7 @@ const ShopSales = (props) => {
       selector: (row) => row.deduction_value,
       sortable: false,
       width: editable?.is_adjustable ? "30%" : "40%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <div>
           <input
@@ -336,7 +336,7 @@ const ShopSales = (props) => {
         selector: (row) => row.file,
         sortable: false,
         width: "20%",
-        center: true,
+        center: false,
         cell: (row, index) => {
           const hasFile = row.file && row.file.trim() !== "";
           const is_uploadfile = editable?.is_upload_file;
@@ -393,7 +393,7 @@ const ShopSales = (props) => {
       selector: (row) => row.charge_adj_value,
       sortable: false,
       width: "16%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>
@@ -427,7 +427,7 @@ const ShopSales = (props) => {
       selector: (row) => row.deduction_adj_value,
       sortable: false,
       width: "16%",
-      center: true,
+      center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>

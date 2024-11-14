@@ -87,7 +87,7 @@ const ManageComision = (props) => {
       selector: (row) => row.name,
       sortable: false,
       width: "40%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.name || ""}
@@ -99,7 +99,7 @@ const ManageComision = (props) => {
       selector: (row) => row?.commission,
       sortable: false,
       width: "60%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         row.fuel_name === "Total" ? (
           <h4 className="bottom-toal">{row?.commission}</h4>

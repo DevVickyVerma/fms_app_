@@ -93,41 +93,41 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
   const handleSettingSubmit = async (values) => {
 
     try {
-        const formData = new FormData();
+      const formData = new FormData();
 
-        // Append checked cards to formData
-        values?.AssignFormikCards?.forEach((obj, index) => {
-            const { id, checked } = obj;
-            if (checked) {
-              formData.append(`card_id[${index + 1}]`, id); // Using index + 1 to start from 1
-            }
-        });
-
-        // Append selected site IDs to formData
-        selected?.forEach((site, index) => {
-            formData.append(`site_id[${index}]`, site.value);
-        });
-
-        // Append company_id if storedData exists
-        if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            formData.append("company_id", parsedData?.company_id || "");
+      // Append checked cards to formData
+      values?.AssignFormikCards?.forEach((obj, index) => {
+        const { id, checked } = obj;
+        if (checked) {
+          formData.append(`card_id[${index + 1}]`, id); // Using index + 1 to start from 1
         }
+      });
 
-        // Append other form values
-        formData.append("name", values?.card_name || "");
-        formData.append("group_id", paramId.id || "");
+      // Append selected site IDs to formData
+      selected?.forEach((site, index) => {
+        formData.append(`site_id[${index}]`, site.value);
+      });
 
-        // Post data to the server
-        const postDataUrl = "/sage/card-group/update";
-        await postData(postDataUrl, formData);
+      // Append company_id if storedData exists
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        formData.append("company_id", parsedData?.company_id || "");
+      }
 
-        // Navigate to the desired path after successful submission
-        navigate("/card-group");
+      // Append other form values
+      formData.append("name", values?.card_name || "");
+      formData.append("group_id", paramId.id || "");
+
+      // Post data to the server
+      const postDataUrl = "/sage/card-group/update";
+      await postData(postDataUrl, formData);
+
+      // Navigate to the desired path after successful submission
+      navigate("/card-group");
     } catch (error) {
-        console.error("Error during submission:", error); // Improved error logging
+      console.error("Error during submission:", error); // Improved error logging
     }
-};
+  };
 
 
   const cardDataColumn = [
@@ -135,7 +135,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
       name: "Select",
       selector: "checked",
       sortable: false,
-      center: true,
+      center: false,
       width: "15%",
       cell: (row, index) => (
         <div className="all-center-flex">
