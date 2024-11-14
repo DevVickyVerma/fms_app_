@@ -24,6 +24,7 @@ import withApi from "../../../../Utils/ApiHelper";
 import { useMyContext } from "../../../../Utils/MyContext";
 import { handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
 import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
+import { useSelector } from "react-redux";
 
 const DashSubChildShopSale = ({
   getData,
@@ -39,6 +40,8 @@ const DashSubChildShopSale = ({
   const [ModalButtonName, setModalButtonName] = useState(false);
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+
 
   const {
     dashboardShopSaleData,
@@ -188,17 +191,23 @@ const DashSubChildShopSale = ({
           <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
             <div className="d-flex justify-content-center">
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6
-                  className="mb-0 fs-14 fw-semibold"
-                  onClick={() => handleOpenModal(item)}
-                >
-                  <span
-                    className="dashboard-shop-sale-icon all-center-flex "
-                    style={{ cursor: "pointer" }}
+
+
+                {(userPermissions?.includes("dashboard-site-stats")) && (<>
+                  <h6
+                    className="mb-0 fs-14 fw-semibold"
+                    onClick={() => handleOpenModal(item)}
                   >
-                    <AiFillEye size={15} className=" all-center-flex" />
-                  </span>
-                </h6>
+                    <span
+                      className="dashboard-shop-sale-icon all-center-flex "
+                      style={{ cursor: "pointer" }}
+                    >
+                      <AiFillEye size={15} className=" all-center-flex" />
+                    </span>
+                  </h6>
+                </>)}
+
+
               </div>
             </div>
           </td>
@@ -274,6 +283,9 @@ const DashSubChildShopSale = ({
   };
 
   const fetchData = async () => {
+    if (!userPermissions?.includes("dashboard-site-stats")) {
+      return; // Exit early if the user doesn't have permission
+    }
     setGradsLoading(true);
 
     const storedData = localStorage.getItem("localFilterModalData");
@@ -321,6 +333,9 @@ const DashSubChildShopSale = ({
   };
 
   const ResetForm = async () => {
+    if (!userPermissions?.includes("dashboard-site-stats")) {
+      return; // Exit early if the user doesn't have permission
+    }
     setGradsLoading(true);
 
     const storedData = localStorage.getItem("localFilterModalData");

@@ -27,6 +27,7 @@ import { useMyContext } from "../../../Utils/MyContext";
 import { SuccessAlert } from "../../../Utils/ToastUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 
 
@@ -40,6 +41,8 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
   const [ModalButtonName, setModalButtonName] = useState(false);
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+
 
   const handleShowDate = () => {
     const inputDateElement = document.querySelector("#start_date");
@@ -97,7 +100,15 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const isButtonDisabled = !startDate || !endDate;
 
   const fetchData = async () => {
+
+    if (!userPermissions?.includes("dashboard-site-stats")) {
+      return; // Exit early if the user doesn't have permission
+    }
+
     setGradsLoading(true);
+
+    if (userPermissions?.includes("dashboard-site-stats")) {
+    }
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
         try {
@@ -165,6 +176,10 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
   }
 
   const ResetForm = async () => {
+    if (!userPermissions?.includes("dashboard-site-stats")) {
+      return; // Exit early if the user doesn't have permission
+    }
+
     setGradsLoading(true);
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {

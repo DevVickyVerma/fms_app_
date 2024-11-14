@@ -10,7 +10,10 @@ const DashboardChildTable = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const navigate = useNavigate()
 
+
+  // ! Importent :- site permiossion is added one permission is needed to go into thrid screen 
   const isSitePermissionAvailable = UserPermissions?.includes("dashboard-site-detail");
+  const isSiteSecondPermissionAvailable = UserPermissions?.includes("dashboard-site-stats");
 
 
   function handleSaveSingleSiteData(row) {
@@ -54,7 +57,7 @@ const DashboardChildTable = (props) => {
     const storedData = localStorage.getItem(storedKeyName);
 
 
-    if (storedData && isSitePermissionAvailable) {
+    if (storedData && (isSitePermissionAvailable || isSiteSecondPermissionAvailable)) {
       let updatedStoredData = JSON.parse(storedData);
 
       updatedStoredData.site_id = item?.id; // Update the site_id here
@@ -69,7 +72,7 @@ const DashboardChildTable = (props) => {
 
   const renderTableData = () => data?.map((item, index) => (
     <React.Fragment key={index}>
-      {isSitePermissionAvailable ? (
+      {(isSitePermissionAvailable || isSiteSecondPermissionAvailable) ? (
 
         <>
 
@@ -81,7 +84,7 @@ const DashboardChildTable = (props) => {
               </div>
             </div> */}
           <tr
-            className={`fuelprice-tr p-0  ${isSitePermissionAvailable ? 'pointer' : ''}`}
+            className={`fuelprice-tr p-0  ${(isSitePermissionAvailable || isSiteSecondPermissionAvailable) ? 'pointer' : ''}`}
             key={item.id}
             onClick={() => handleFuelPriceLinkClick(item)}
           >
@@ -99,7 +102,7 @@ const DashboardChildTable = (props) => {
                     }}
                   />
                 </div>
-                {isSitePermissionAvailable ? (
+                {(isSitePermissionAvailable || isSiteSecondPermissionAvailable) ? (
                   <div onClick={() => handleSaveSingleSiteData(item)}>
                     <Link to={`/dashboard-details/${item?.id}`}>
                       <div className="d-flex">
@@ -413,7 +416,7 @@ const DashboardChildTable = (props) => {
                   style={{ width: "30px", height: "30px", minWidth: "30px" }}
                 />
               </div>
-              {isSitePermissionAvailable ? (
+              {(isSitePermissionAvailable || isSiteSecondPermissionAvailable) ? (
                 <div
                 // onClick={() => handleSaveSingleSiteData(item)}
                 >

@@ -13,6 +13,7 @@ import Loaderimg from "../../Utils/Loader";
 import { useParams } from "react-router-dom";
 import moment from "moment/moment";
 import { handleError } from "../../Utils/ToastUtils";
+import { useSelector } from "react-redux";
 
 const CustomModal = ({
   open,
@@ -24,14 +25,18 @@ const CustomModal = ({
 
   const { id } = useParams();
   const [previousId, setPreviousId] = useState(null);
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+
 
   useEffect(() => {
     if (id && id !== previousId) {
       setPreviousId(id); // Update the previousId to prevent multiple calls with the same id
-      handleFuelChange(id);
+      if (userPermissions?.includes("dashboard-site-stats")) {
+        handleFuelChange(id);
+      }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, userPermissions?.includes("dashboard-site-stats")]);
 
   const handleFuelChange = async () => {
     try {

@@ -179,6 +179,10 @@ const DashSubChildBaseAPIS = (props) => {
   useEffect(() => {
     if (userPermissions?.includes("dashboard-site-stats") && storedData) {
       FetchTableData(JSON.parse(storedData));
+      // FetchGetSiteDetailsApi(JSON.parse(storedData));
+    }
+    if (userPermissions?.includes("dashboard-site-detail") && storedData) {
+      // FetchTableData(JSON.parse(storedData));
       FetchGetSiteDetailsApi(JSON.parse(storedData));
     }
 
