@@ -5,7 +5,8 @@ import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import CoffeeAndValetUploadInvoice from "./CoffeeAndValetUploadInvoice";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const CoffeeValet = (props) => {
   const {
@@ -15,7 +16,7 @@ const CoffeeValet = (props) => {
     start_date,
     sendDataToParent,
   } = props;
-
+  const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,

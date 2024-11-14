@@ -4,8 +4,9 @@ import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const DepartmentShop = (props) => {
   const {
@@ -15,7 +16,7 @@ const DepartmentShop = (props) => {
     start_date,
     sendDataToParent,
   } = props;
-
+  const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,

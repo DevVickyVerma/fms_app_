@@ -4,7 +4,8 @@ import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const Departmentshopsale = (props) => {
   const {
@@ -14,7 +15,7 @@ const Departmentshopsale = (props) => {
     start_date,
     sendDataToParent,
   } = props;
-
+  const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,

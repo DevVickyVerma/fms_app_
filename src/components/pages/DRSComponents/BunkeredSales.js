@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row, Form } from "react-bootstrap";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const DepartmentShop = (props) => {
   const {
@@ -31,7 +32,7 @@ const DepartmentShop = (props) => {
     fetchListing();
     console.clear();
   }, []);
-
+  const { handleError } = useErrorHandler();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editable, setis_editable] = useState();

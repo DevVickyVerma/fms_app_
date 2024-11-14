@@ -6,7 +6,8 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MultiSelect } from "react-multi-select-component";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const CompanySageOtherCodes = () => {
     const urlId = useParams();
@@ -15,7 +16,7 @@ const CompanySageOtherCodes = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-
+    const { handleError } = useErrorHandler();
     const formik = useFormik({
         initialValues: {
             data: data,

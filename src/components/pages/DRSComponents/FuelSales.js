@@ -1,16 +1,16 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const FuelSales = (props) => {
   const { company_id, client_id, site_id, start_date, sendDataToParent } =
     props;
-
+    const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,
