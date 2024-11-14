@@ -10,9 +10,11 @@ import CustomSite from "../../../Utils/CustomSite";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomClient from "../../../Utils/CustomClient";
 import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddCompetitor = (props) => {
   const { isLoading, getData, postData } = props;
+  const { handleError } = useErrorHandler();
   const [SupplierData, setSupplierData] = useState({});
   const [selectedClientId, setSelectedClientId] = useState("");
   // eslint-disable-next-line no-unused-vars

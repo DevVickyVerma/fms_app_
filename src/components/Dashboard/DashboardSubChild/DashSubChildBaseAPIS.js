@@ -5,10 +5,11 @@ import Loaderimg from "../../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useMyContext } from "../../../Utils/MyContext";
-import { handleError } from "../../../Utils/ToastUtils";
 import DashSubChild from "./DashSubChild";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const DashSubChildBaseAPIS = (props) => {
+  const { handleError } = useErrorHandler();
   const { isLoading, getData } = props;
   const {
     setGradsGetSiteDetails,

@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -6,9 +5,10 @@ import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const AddOpeningBalance = ({ isLoading, postData, getData }) => {
+  const { handleError } = useErrorHandler();
   const { id, siteName } = useParams();
   const [AddCatSiteData, setCatSiteData] = useState([]);
   const [AddSubCatSiteData, setSubCatSiteData] = useState([]);

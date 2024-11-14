@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
 import { useNavigate } from "react-router-dom";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 const UnderConstruction = (props) => {
+  const { handleError } = useErrorHandler();
   const { getData } = props;
 
   const [isLoading, setLoading] = useState(false);

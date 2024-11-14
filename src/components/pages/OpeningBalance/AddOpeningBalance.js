@@ -4,10 +4,10 @@ import { Breadcrumb, Card, Col, Row } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { handleError } from '../../../Utils/ToastUtils';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddOpeningBalance = ({ isLoading, postData }) => {
-
+    const { handleError } = useErrorHandler();
     const { id, siteName } = useParams()
 
 

@@ -30,7 +30,7 @@ const SingleStatsCompetitor = ({ getData }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem,] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
-  const { handleError, SuccessToast } = useErrorHandler();
+  const { handleError, } = useErrorHandler();
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
