@@ -6,15 +6,17 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 
 const SageDeduction = (props) => {
   const { getData, isLoading, postData, apidata } = props;
+  const { handleError } = useErrorHandler();
   const [selectedClientId, setSelectedClientId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);

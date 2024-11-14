@@ -6,7 +6,6 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-import { handleError } from "../../../Utils/ToastUtils";
 import {
     AiFillCaretDown,
     AiFillCaretRight,
@@ -14,10 +13,12 @@ import {
 } from "react-icons/ai";
 import { BsFuelPumpFill } from "react-icons/bs";
 import MiddayFuelPrice from "./MiddayFuelPrice";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 
 const UpdateFuelPrices = (props) => {
+    const { handleError } = useErrorHandler();
     const { getData, isLoading, postData } = props;
     const [showError, setShowError] = useState();
     const [showDate, setSetDate] = useState();

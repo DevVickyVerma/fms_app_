@@ -11,11 +11,13 @@ import * as Yup from "yup";
 import { handleError } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
 import FiltersComponent from "../../Dashboard/DashboardHeader";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 
 
 const ManageEmail = (props) => {
   const { isLoading, getData, } = props;
+  const { handleError } = useErrorHandler();
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);

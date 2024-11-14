@@ -11,11 +11,13 @@ import { Slide, toast } from "react-toastify";
 import Switch from "react-switch";
 import ShareReports from "./ShareReports";
 import { useSelector } from "react-redux";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import FormikSelect from "../../Formik/FormikSelect";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageReports = (props) => {
   const { isLoading, getData, } = props;
+  const { handleError } = useErrorHandler();
   const [ReportList, setReportList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));

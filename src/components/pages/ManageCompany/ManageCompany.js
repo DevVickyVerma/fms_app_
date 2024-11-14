@@ -9,12 +9,13 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import UploadSageSales from "./UploadSageSales";
-import { handleError } from "../../../Utils/ToastUtils";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, getData, postData } = props;
+  const { handleError } = useErrorHandler();
   const [showUploadSageSalesModal, setShowUploadSageSalesModal] = useState(false);
   const [UploadModalTitle, setUploadModalTitle] = useState();
   const [UploadModalURLPath, setUploadModalURLPath] = useState();
