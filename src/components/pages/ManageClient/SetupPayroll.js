@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Row, Col, Card, Breadcrumb } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const validationSchema = Yup.object().shape({
   tree1: Yup.array().of(
@@ -53,7 +53,7 @@ const TreeForm = (props) => {
       handleError(error);
     }
   }, [id]);
-
+  const { handleError } = useErrorHandler();
   const GetSiteData = async () => {
     try {
       const response = await getData(`/payroll/setup/${id}`);
