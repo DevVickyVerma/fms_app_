@@ -15,9 +15,9 @@ import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 
 
@@ -33,7 +33,7 @@ const ManageAddon = (props) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
+  const { handleError } = useErrorHandler();
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
   };

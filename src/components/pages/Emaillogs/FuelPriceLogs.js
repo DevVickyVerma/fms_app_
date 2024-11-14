@@ -9,7 +9,7 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 
 const ManageSiteTank = (props) => {
@@ -19,6 +19,7 @@ const ManageSiteTank = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const { handleError } = useErrorHandler();
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")

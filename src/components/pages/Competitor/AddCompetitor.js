@@ -9,7 +9,6 @@ import Loaderimg from "../../../Utils/Loader";
 import CustomSite from "../../../Utils/CustomSite";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomClient from "../../../Utils/CustomClient";
-import { handleError } from "../../../Utils/ToastUtils";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddCompetitor = (props) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import {
   Col,
@@ -16,14 +15,14 @@ import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddSubBusinessCategory = (props) => {
   const { isLoading, postData } = props;
 
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
-
+  const { handleError } = useErrorHandler();
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();

@@ -7,13 +7,13 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const SiteSettings = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
-
+  const { handleError } = useErrorHandler();
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const isEditPermissionAvailable = UserPermissions?.includes("shop-update-facility-fees");
 

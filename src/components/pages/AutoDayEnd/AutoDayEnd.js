@@ -17,13 +17,13 @@ import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const [siteName, setSiteName] = useState("");
-
+  const { handleError } = useErrorHandler();
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",

@@ -5,9 +5,9 @@ import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-boots
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
-import { handleError } from "../../../Utils/ToastUtils";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import CustomPagination from "../../../Utils/CustomPagination";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const OpeningBalance = ({ isLoading, getData, postData, }) => {
   const [data, setData] = useState();
@@ -15,7 +15,7 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
   const [lastPage, setLastPage] = useState(1);
 
   const [siteName, setSiteName] = useState("");
-
+  const { handleError } = useErrorHandler();
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
