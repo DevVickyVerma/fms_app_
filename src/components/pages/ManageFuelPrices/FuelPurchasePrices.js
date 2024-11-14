@@ -36,7 +36,6 @@ const ManageDsr = (props) => {
     }
   };
 
-  console.log(SiteList, "SiteList");
 
 
   const handleSubmit = async (values) => {

@@ -33,7 +33,7 @@ const withApi = (WrappedComponent) => {
     };
 
     const UserPermissions = useSelector((state) => state?.data?.data);
-console.log(UserPermissions?.route, "UserPermissions");
+// console.log(UserPermissions?.route, "UserPermissions");
 
     const location = useLocation(); // useLocation hook to access current path
     const currentPath = location.pathname; // Current path as a string
@@ -51,9 +51,9 @@ console.log(UserPermissions?.route, "UserPermissions");
           : error.response.data.message;
 
         if (errorMessage) {
-          console.log("Current Path:", currentPath);
-          console.log("Current Pathl:", lastPath);
-          console.log(lastPath, "errorMessage");
+          // console.log("Current Path:", currentPath);
+          // console.log("Current Pathl:", lastPath);
+          // console.log(lastPath, "errorMessage");
           if (currentPath === lastPath) {
             // console.log(" Navigating Same path: no navigation needed");
             navigate(UserPermissions?.route)
