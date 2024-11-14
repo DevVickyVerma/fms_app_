@@ -10,7 +10,7 @@ import {
   Modal
 } from "react-bootstrap";
 import Loaderimg from "../../Utils/Loader";
-import { handleError } from "../../Utils/ToastUtils";
+import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 
 
 const WorkflowExceptionFilter = (props) => {
@@ -27,7 +27,7 @@ const WorkflowExceptionFilter = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
 
-
+  const { handleError } = useErrorHandler();
 
   const handleCloseModal = () => {
     onClose(); // Call the onClose function passed as a prop

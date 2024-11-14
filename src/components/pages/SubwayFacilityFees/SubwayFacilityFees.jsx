@@ -7,8 +7,8 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const SubwayFacilityFees = (props) => {
     const { isLoading, getData, postData } = props;
@@ -16,7 +16,7 @@ const SubwayFacilityFees = (props) => {
 
     const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
     const isEditPermissionAvailable = UserPermissions?.includes("subway-update-facility-fees");
-
+    const { handleError } = useErrorHandler();
     const handleSubmit = async (values) => {
         let { client_id, company_id, } = values;
         if (localStorage.getItem("superiorRole") === "Client") {

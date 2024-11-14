@@ -12,8 +12,9 @@ import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import { useParams } from "react-router-dom";
 import moment from "moment/moment";
-import { handleError } from "../../Utils/ToastUtils";
+
 import { useSelector } from "react-redux";
+import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 
 const CustomModal = ({
   open,
@@ -27,7 +28,7 @@ const CustomModal = ({
   const [previousId, setPreviousId] = useState(null);
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
 
-
+  const { handleError } = useErrorHandler();
   useEffect(() => {
     if (id && id !== previousId) {
       setPreviousId(id); // Update the previousId to prevent multiple calls with the same id

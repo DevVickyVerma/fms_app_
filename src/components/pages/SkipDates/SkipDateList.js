@@ -15,8 +15,9 @@ import {
   DialogActions,
   DialogContent,
 } from "@mui/material";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import CustomPagination from '../../../Utils/CustomPagination';
+import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, getData, postData } = props;
@@ -24,7 +25,7 @@ const ManageRoles = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [siteName, setSiteName] = useState("");
-
+  const { handleError } = useErrorHandler();
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",

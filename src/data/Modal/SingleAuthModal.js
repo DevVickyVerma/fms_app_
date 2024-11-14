@@ -9,7 +9,8 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import withApi from "../../Utils/ApiHelper";
-import { ErrorAlert, handleError, SuccessAlert } from "../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
+import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 
 const SingleAuthModal = (props) => {
   const { setShowTruw } = props;
@@ -17,6 +18,7 @@ const SingleAuthModal = (props) => {
   const [factordata, setfactordata] = useState();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [showModal, setShowModal] = useState(false);
+  const { handleError } = useErrorHandler();
   // eslint-disable-next-line no-unused-vars
   const [UserPermissionstwo_factor, setUserPermissionstwo_factor] =
     useState(false);

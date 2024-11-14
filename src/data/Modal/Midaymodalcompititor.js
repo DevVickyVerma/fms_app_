@@ -8,7 +8,8 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
-import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
+import {  SuccessAlert } from "../../Utils/ToastUtils";
+import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 
 const Competitormodal = ({
   open,
@@ -18,7 +19,7 @@ const Competitormodal = ({
   onDataFromChild,
   accordionSiteID,
 }) => {
-
+  const { handleError } = useErrorHandler();
 
   const [data, setData] = useState(null); // Initialize data as null
   const [isLoading, setIsLoading] = useState(false);

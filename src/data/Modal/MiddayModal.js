@@ -6,8 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
+import {  SuccessAlert } from "../../Utils/ToastUtils";
 import InputTime from "../../components/pages/Competitor/InputTime";
+import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 
 const CustomModal = ({
   open,
@@ -19,7 +20,7 @@ const CustomModal = ({
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [Showerrormessage, setShowerrormessage] = useState("");
-
+  const { handleError } = useErrorHandler();
 
 
   useEffect(() => {
