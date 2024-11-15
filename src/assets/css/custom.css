@@ -1265,12 +1265,7 @@ span.circle-info {
   box-shadow: 1px 1px #e3e3e3;
 }
 
-.custom-error-class {
-  color: red;
-  font-size: 12px;
-  margin-top: 3px;
-  text-transform: lowercase;
-}
+
 
 .pay-role-custom-input-box {
   border-radius: 1px dotted #cb2323 !important;
@@ -1879,6 +1874,23 @@ td.middayModal-td.time-input-fuel-sell {
   color: #f82649;
   text-transform: lowercase;
 }
+
+.invalid-feedback:first-letter {
+  text-transform: uppercase;
+}
+.custom-error-class {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 87.5%;
+  color: #f82649;
+  text-transform: lowercase;
+}
+
+.custom-error-class:first-letter {
+  text-transform: uppercase !important;
+}
+
 
 .rmsc .dropdown-heading {
   height: 46px !important;
