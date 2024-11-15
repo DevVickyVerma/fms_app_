@@ -646,7 +646,7 @@ export const MENUITEMS = [
         icon: "circuitry",
         type: "sub",
         active: false,
-        permission: "Site PPL Rate",
+        permission: "ppl-list",
         visibility: false,
         children: [
           {

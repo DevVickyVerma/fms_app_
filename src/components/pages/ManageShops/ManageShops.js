@@ -10,14 +10,13 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const ManageShops = (props) => {
   const { apidata, isLoading, getData, postData } = props;
@@ -39,50 +38,12 @@ const ManageShops = (props) => {
     setSearchTerm('');
   };
 
+  const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post("/shop/delete", formData);
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'shop/delete', formData, FetchTableData);
   };
 
 
