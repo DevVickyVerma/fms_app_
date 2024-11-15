@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-
-
 import {
   Col,
   Row,
@@ -9,10 +7,8 @@ import {
   FormGroup,
   Breadcrumb,
 } from "react-bootstrap";
-
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -20,7 +16,7 @@ import { useSelector } from "react-redux";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const AddBusinessCategory = (props) => {
-  const { isLoading, postData } = props;
+  const { isLoading, postData, getData } = props;
   const { handleError } = useErrorHandler();
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -77,17 +73,10 @@ const AddBusinessCategory = (props) => {
 
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.get("business/types");
+        const response = await getData("business/types");
         setAddSiteData(response.data);
       } catch (error) {
         handleError(error);

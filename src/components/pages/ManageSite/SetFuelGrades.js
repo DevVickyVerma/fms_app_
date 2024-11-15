@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
@@ -10,7 +9,7 @@ import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
-const SetFuelGrades = () => {
+const SetFuelGrades = ({ getData }) => {
     const id = useParams();
     const { handleError } = useErrorHandler();
     const UserPermissions = useSelector(
@@ -32,18 +31,11 @@ const SetFuelGrades = () => {
 
 
     const fetchData = async () => {
-        const token = localStorage.getItem("token");
-
-        const axiosInstance = axios.create({
-            baseURL: process.env.REACT_APP_BASE_URL,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+       
 
         try {
             setIsLoading(true); // Set loading state to true before fetching data
-            const response = await axiosInstance.get(`/site/fuel-grade/${id?.id}`);
+            const response = await getData(`/site/fuel-grade/${id?.id}`);
             const { data } = response;
             if (data && data?.data) {
                 const userData = response?.data?.data; // Adjust type as needed

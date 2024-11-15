@@ -4,7 +4,6 @@ import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -17,21 +16,14 @@ const EditBussiness = (props) => {
 
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const formData = new FormData();
 
     formData.append("id", id); // Use the retrieved ID from the URL
 
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.get("business/category");
+        const response = await getData("business/category");
         setAddSiteData(response.data);
         // if (response.data) {
         //   setAddSiteData(response.data.data);
@@ -261,7 +253,7 @@ const EditBussiness = (props) => {
                           )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      <Col lg={6} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="business_category_id"

@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from '../../../Utils/ApiHelper';
 
 const FuelSales = (props) => {
-  const { company_id, client_id, site_id, start_date, sendDataToParent } =
+  const { company_id, client_id, site_id, start_date, sendDataToParent, getData } =
     props;
-    const { handleError } = useErrorHandler();
+  const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,
@@ -29,19 +29,12 @@ const FuelSales = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-    const token = localStorage.getItem("token");
 
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     try {
       setIsLoading(true); // Set loading state to true before fetching data
 
-      const response = await axiosInstance.get(
+      const response = await getData(
         `/fuel-sale/list?site_id=${site_id}&drs_date=${start_date}`
       );
 
@@ -398,5 +391,5 @@ const FuelSales = (props) => {
   );
 };
 
-export default FuelSales;
+export default withApi(FuelSales);
 

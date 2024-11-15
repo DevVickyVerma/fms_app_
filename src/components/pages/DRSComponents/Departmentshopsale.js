@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import withApi from '../../../Utils/ApiHelper';
 
 const Departmentshopsale = (props) => {
   const {
@@ -14,6 +14,7 @@ const Departmentshopsale = (props) => {
     site_id,
     start_date,
     sendDataToParent,
+    getData
   } = props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
@@ -38,17 +39,9 @@ const Departmentshopsale = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
       try {
-        const response = await axiosInstance.get(
+        const response = await getData(
           `/department-shop-sale/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
@@ -358,4 +351,4 @@ const Departmentshopsale = (props) => {
   );
 };
 
-export default Departmentshopsale;
+export default withApi(Departmentshopsale);

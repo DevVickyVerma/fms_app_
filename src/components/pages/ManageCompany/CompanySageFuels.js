@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from '../../../Utils/ApiHelper';
 
-const CompanySageFuels = () => {
+const CompanySageFuels = ({ getData }) => {
     const id = useParams();
     const { handleError } = useErrorHandler();
     const navigate = useNavigate();
@@ -18,19 +18,12 @@ const CompanySageFuels = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = async () => {
-        const token = localStorage.getItem("token");
 
-        const axiosInstance = axios.create({
-            baseURL: process.env.REACT_APP_BASE_URL,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
 
         try {
             setIsLoading(true); // Set loading state to true before fetching data
 
-            const response = await axiosInstance.get(`/company/sage-fuels/${id?.id}`);
+            const response = await getData(`/company/sage-fuels/${id?.id}`);
 
             const { data } = response;
             if (data) {
@@ -494,4 +487,4 @@ const CompanySageFuels = () => {
     );
 };
 
-export default CompanySageFuels;
+export default withApi(CompanySageFuels);

@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Col, Modal, Row } from "react-bootstrap";
 import Loaderimg from "../../Utils/Loader";
@@ -13,7 +12,7 @@ import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
 import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 
 const SingleAuthModal = (props) => {
-  const { setShowTruw } = props;
+  const { setShowTruw, getData } = props;
   const [isLoading, setLoading] = useState(false);
   const [factordata, setfactordata] = useState();
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -41,7 +40,7 @@ const SingleAuthModal = (props) => {
   const Active2FA = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`enable/two-factor`);
+      const response = await getData(`enable/two-factor`);
       if (response) {
         setfactordata(response?.data?.data);
         setLoading(false);
@@ -115,7 +114,7 @@ const SingleAuthModal = (props) => {
   const GetDetails = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`/detail`);
+      const response = await getData(`/detail`);
       if (response) {
         setUserPermissionstwo_factor(response?.data?.data?.two_factor);
         localStorage.setItem("two_factor", response?.data?.data?.two_factor);

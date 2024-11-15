@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from '../../../Utils/ApiHelper';
 
 const ShopSales = (props) => {
-  const { company_id, client_id, site_id, start_date, sendDataToParent } = props;
+  const { company_id, client_id, site_id, start_date, sendDataToParent, getData } = props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = { company_id, client_id, site_id, start_date };
@@ -21,16 +21,9 @@ const ShopSales = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     try {
-      const response = await axiosInstance.get(
+      const response = await getData(
         `/shop-sale/list?site_id=${site_id}&drs_date=${start_date}`
       );
 
@@ -529,4 +522,4 @@ const ShopSales = (props) => {
   );
 };
 
-export default ShopSales;
+export default withApi(ShopSales);

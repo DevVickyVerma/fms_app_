@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card } from "react-bootstrap";
@@ -8,8 +7,9 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
-import {  SuccessAlert } from "../../Utils/ToastUtils";
+import { SuccessAlert } from "../../Utils/ToastUtils";
 import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
+import withApi from '../../Utils/ApiHelper';
 
 const Competitormodal = ({
   open,
@@ -18,6 +18,7 @@ const Competitormodal = ({
   selectedDrsDate,
   onDataFromChild,
   accordionSiteID,
+  getData
 }) => {
   const { handleError } = useErrorHandler();
 
@@ -30,19 +31,12 @@ const Competitormodal = ({
   useEffect(() => {
     const fetchData = async () => {
       if (selectedItem && selectedDrsDate) {
-        const token = localStorage.getItem("token");
 
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
 
         try {
           setIsLoading(true);
 
-          const response = await axiosInstance.get(
+          const response = await getData(
             `/site/competitor-price/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
           );
 
@@ -82,7 +76,7 @@ const Competitormodal = ({
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem, selectedDrsDate]);
 
   const formik = useFormik({
@@ -266,4 +260,4 @@ const Competitormodal = ({
   );
 };
 
-export default Competitormodal;
+export default withApi(Competitormodal);

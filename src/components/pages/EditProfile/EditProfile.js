@@ -14,7 +14,6 @@ import {
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
@@ -24,7 +23,10 @@ import { AiOutlineClose } from "react-icons/ai";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { confirmPasswordTooltip, passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-export default function EditProfile() {
+import withApi from "../../../Utils/ApiHelper";
+
+const EditProfile = ({ getData }) => {
+
   const { handleError } = useErrorHandler();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
@@ -179,17 +181,11 @@ export default function EditProfile() {
       handleSubmit1(values, setSubmitting);
     },
   });
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const Active2FA = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`enable/two-factor`);
+      const response = await getData(`enable/two-factor`);
       if (response) {
         setfactordata(response?.data?.data);
         setLoading(false);
@@ -203,7 +199,7 @@ export default function EditProfile() {
   const GetDetails = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`/detail`);
+      const response = await getData(`/detail`);
       if (response) {
         setUserPermissionstwo_factor(response?.data?.data?.two_factor);
       }
@@ -215,7 +211,7 @@ export default function EditProfile() {
   const Disable2FA = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`disable/two-factor`);
+      const response = await getData(`disable/two-factor`);
       if (response) {
         GetDetails();
         setLoading(false);
@@ -929,5 +925,7 @@ export default function EditProfile() {
         </div>
       </>
     </>
-  );
+  )
 }
+
+export default withApi(EditProfile)

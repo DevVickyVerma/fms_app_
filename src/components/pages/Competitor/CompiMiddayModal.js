@@ -11,6 +11,7 @@ import { SuccessAlert } from "../../../Utils/ToastUtils";
 import LoaderImg from "../../../Utils/Loader";
 import InputTime from "./InputTime";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from '../../../Utils/ApiHelper';
 
 const CompiMiddayModal = ({
     open,
@@ -19,6 +20,7 @@ const CompiMiddayModal = ({
     selectedDrsDate,
     setSelectedDrsDate,
     onDataFromChild,
+    getData
 }) => {
     const { handleError } = useErrorHandler();
     const [data, setData] = useState();
@@ -32,19 +34,12 @@ const CompiMiddayModal = ({
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = localStorage.getItem("token");
 
-            const axiosInstance = axios.create({
-                baseURL: process.env.REACT_APP_BASE_URL,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
 
             try {
                 setIsLoading(true);
 
-                const response = await axiosInstance.get(
+                const response = await getData(
                     `/site/fuel-price/mid-day?site_id=${selectedItem.id}&drs_date=${selectedDrsDate}`
                 );
 
@@ -444,4 +439,4 @@ const CompiMiddayModal = ({
     );
 };
 
-export default CompiMiddayModal;
+export default withApi(CompiMiddayModal);

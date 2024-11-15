@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -16,20 +15,9 @@ const AddSitePump = (props) => {
   const [SiteList, setSiteList] = useState([]);
 
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-
-
-
   const handleFuelChange = async (id) => {
     try {
-      const response = await axiosInstance.get(`/site/fuel/list?site_id=${id}`);
+      const response = await getData(`/site/fuel/list?site_id=${id}`);
 
       if (response.data) {
         setSelectedFuelList(response.data);
