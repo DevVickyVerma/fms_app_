@@ -424,9 +424,9 @@ export const MENUITEMS = [
           },
         ],
       },
-      //Business Types
+      //Business Type
       {
-        title: " Business Types",
+        title: " Business Type",
         icon: "eject-simple",
         type: "sub",
         active: false,
@@ -435,7 +435,7 @@ export const MENUITEMS = [
         children: [
           {
             path: `/business`,
-            title: " Business Types",
+            title: " Business Type",
             type: "link",
             permission: "business-type-list",
             visibility: false,
@@ -443,7 +443,7 @@ export const MENUITEMS = [
 
           {
             path: `/addbusiness`,
-            title: "Add Business Types",
+            title: "Add Business Type",
             type: "link",
             permission: "business-type-create",
             visibility: false,

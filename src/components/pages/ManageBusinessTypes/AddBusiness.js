@@ -69,7 +69,7 @@ const AddAddon = (props) => {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Add Business Type Name</h1>
+          <h1 className="page-title">Add Business Type </h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -80,10 +80,18 @@ const AddAddon = (props) => {
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
+              className="breadcrumb-item  breadcrumds"
+              aria-current="page"
+              linkAs={Link}
+              linkProps={{ to: "/business" }}
+            >
+              Manage Business Type
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Manage Business
+            Add Business Type
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -93,7 +101,7 @@ const AddAddon = (props) => {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Add Business Type Name</Card.Title>
+              <Card.Title as="h3">Add Business Type </Card.Title>
             </Card.Header>
             <Formik
               initialValues={{

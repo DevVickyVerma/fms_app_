@@ -226,7 +226,7 @@ const ManageSubBusinessTypes = (props) => {
         <>
           <div className="page-header ">
             <div>
-              <h1 className="page-title">Manage Sub-Business Types</h1>
+              <h1 className="page-title">Manage Sub-Business Type</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -240,7 +240,7 @@ const ManageSubBusinessTypes = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage Sub-Business Types
+                  Manage Sub-Business Type
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -257,7 +257,7 @@ const ManageSubBusinessTypes = (props) => {
                 />
                 {isAddPermissionAvailable ? (
                   <Link to="/addsub-business" className="btn btn-primary ms-2">
-                    Add Sub-Business Types <i className="ph ph-plus ms-1 ph-plus-icon" />
+                    Add Sub-Business Type <i className="ph ph-plus ms-1 ph-plus-icon" />
                   </Link>
                 ) : null}
               </div>

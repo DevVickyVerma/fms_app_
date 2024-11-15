@@ -203,7 +203,7 @@ const UpdateFuelPrices = (props) => {
                     <Col md={12} xl={12}>
                         <Card>
                             <Card.Header>
-                                <h3 className="card-title">Fuel Selling Price </h3>
+                                <h3 className="card-title">Filter </h3>
                             </Card.Header>
                             <NewFilterTab
                                 getData={getData}

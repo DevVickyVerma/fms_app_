@@ -202,7 +202,7 @@ const ManageBusinessTypes = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Business Types</h1>
+            <h1 className="page-title">Manage Business Type</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -216,7 +216,7 @@ const ManageBusinessTypes = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Business Types
+                Manage Business Type
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -229,7 +229,7 @@ const ManageBusinessTypes = (props) => {
                   className="btn btn-primary"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Business Types
+                  Add Business Type
                 </Link>
               ) : null}
             </div>
@@ -240,7 +240,7 @@ const ManageBusinessTypes = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Business Types</h3>
+                <h3 className="card-title">Manage Business Type</h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (

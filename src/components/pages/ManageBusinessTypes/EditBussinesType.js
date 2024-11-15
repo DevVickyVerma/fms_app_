@@ -93,7 +93,7 @@ const EditBussiness = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Edit Business Types</h1>
+              <h1 className="page-title">Edit Business Type</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -115,7 +115,7 @@ const EditBussiness = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Edit Business Types
+                  Edit Business Type
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -125,7 +125,7 @@ const EditBussiness = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Edit Business Types</Card.Title>
+                  <Card.Title as="h3">Edit Business Type</Card.Title>
                 </Card.Header>
 
                 <div className="card-body">

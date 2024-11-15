@@ -156,6 +156,8 @@ const SiteSettings = (props) => {
         "Bunkring Tolerance is required"
       ),
       low_tank_limit: Yup.string().required("Low Tank Limit is required"),
+      company_id: Yup.string().required("company is required"),
+      site_id: Yup.string().required("Site is required"),
 
       max_fuel_inv_sale_variance: Yup.string().required("Max Fuel is required"),
       // vat_rate: Yup.string().required("Vat Rate is required"),
