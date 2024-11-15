@@ -24,22 +24,12 @@ const EditAddon = (props) => {
 
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    // Fetch user permissions
-    axiosInstance
-      .get("/permission-list")
+    getData("/permission-list")
       .then((response) => {
         setUserPermissions(response.data.data);
       })
       .catch((error) => {
-        handleError(error);
+        console.error(error);
       });
 
     // Fetch addon details and set permissions

@@ -10,18 +10,16 @@ const DepartmentShop = (props) => {
     start_date,
   } = props;
   const { handleError } = useErrorHandler();
-
-
   const [data, setData] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
-
-
   document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
     }
   });
+
+
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");

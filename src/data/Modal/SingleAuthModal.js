@@ -3,7 +3,6 @@ import { Col, Modal, Row } from "react-bootstrap";
 import Loaderimg from "../../Utils/Loader";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -23,15 +22,7 @@ const SingleAuthModal = (props) => {
     useState(false);
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-
-
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+ 
 
   useEffect(() => {
     Active2FA();

@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { Breadcrumb, Card, Col, Dropdown, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -12,6 +10,7 @@ import UploadSageSales from "./UploadSageSales";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, getData, postData } = props;
@@ -38,53 +37,16 @@ const ManageCompany = (props) => {
     setSearchTerm('');
   };
 
+  const { customDelete } = useCustomDelete();
+
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "/company/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'company/delete', formData, FetchTableData);
   };
+
+
+
 
 
   const toggleActive = (row) => {
@@ -99,8 +61,7 @@ const ManageCompany = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await postData("/company/update-status", formData);
+     await postData("/company/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
