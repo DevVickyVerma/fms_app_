@@ -280,6 +280,9 @@ const AddSite = (props) => {
                     site_Address: Yup.string().required(
                       "Site Address is required"
                     ),
+                    company_id: Yup.string().required(
+                      "Company is required"
+                    ),
                     Site_Status: Yup.string().required(
                       "Site Status is required"
                     ),
@@ -416,7 +419,7 @@ const AddSite = (props) => {
                                 htmlFor="company_id"
                                 className="form-label mt-4"
                               >
-                                Select Company
+                                Select Company<span className="text-danger">*</span>
                               </label>
                               <select
                                 className={`input101 ${errors.company_id && touched.company_id
@@ -523,7 +526,7 @@ const AddSite = (props) => {
                                 className=" form-label mt-4"
                                 htmlFor="site_name"
                               >
-                                Site Name<span className="text-danger">*</span>
+                                Site <span className="text-danger">*</span>
                               </label>
                               <Field
                                 type="text"

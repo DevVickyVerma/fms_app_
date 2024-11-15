@@ -389,6 +389,9 @@ const ManageDsr = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
+            <Card.Header>
+            <h3 className="card-title">Filter</h3>
+            </Card.Header>
               <NewFilterTab
                 getData={getData}
                 isLoading={isLoading}

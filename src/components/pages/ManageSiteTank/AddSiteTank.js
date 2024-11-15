@@ -242,12 +242,12 @@ const AddSitePump = (props) => {
                                   formik.setFieldValue("client_id", selectedType);
                                   setSelectedClientId(selectedType);
                                   setSiteList([]);
-                                  formik.setFieldValue("company_id", "");
+                                  formik.setFieldValue("company_id","");
                                   formik.setFieldValue("site_id", "");
                                 } else {
 
-                                  formik.setFieldValue("client_id", "");
-                                  formik.setFieldValue("company_id", "");
+                                  formik.setFieldValue("client_id","");
+                                  formik.setFieldValue("company_id","");
                                   formik.setFieldValue("site_id", "");
 
                                   setSiteList([]);
@@ -501,9 +501,7 @@ const AddSitePump = (props) => {
 
                     </Row>
                     <Card.Footer className="text-end">
-                      <button className="btn btn-primary me-2" type="submit">
-                        Add
-                      </button>
+                    
                       <Link
                         type="submit"
                         className="btn btn-danger me-2 "
@@ -511,6 +509,9 @@ const AddSitePump = (props) => {
                       >
                         Cancel
                       </Link>
+                      <button className="btn btn-primary me-2" type="submit">
+                        Add
+                      </button>
                     </Card.Footer>
                   </form>
                 </Card.Body>

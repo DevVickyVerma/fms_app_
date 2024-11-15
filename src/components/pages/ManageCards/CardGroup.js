@@ -251,7 +251,7 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Filter Data</h3>
+                <h3 className="card-title"> Filter </h3>
               </Card.Header>
 
               <NewFilterTab

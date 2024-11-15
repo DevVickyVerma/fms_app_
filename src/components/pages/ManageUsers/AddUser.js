@@ -188,7 +188,7 @@ const AddUsers = (props) => {
                   .email("Invalid email format"),
 
                 password: Yup.string()
-                  .required("New Password is required")
+                  .required("Password is required")
                   .min(8, "Password must be at least 8 characters long")
                   .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
                   .matches(/\d/, "Password must contain at least one numeric digit")
