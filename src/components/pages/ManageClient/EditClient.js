@@ -175,7 +175,7 @@ const EditClient = (props) => {
                   linkAs={Link}
                   linkProps={{ to: "/clients" }}
                 >
-                  Manage Client
+                  Manage Clients
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"

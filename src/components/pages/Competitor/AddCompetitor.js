@@ -202,7 +202,7 @@ const AddCompetitor = (props) => {
                 linkAs={Link}
                 linkProps={{ to: "/competitor" }}
               >
-                Competitor
+                Manage Competitors
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"

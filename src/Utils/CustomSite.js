@@ -7,7 +7,7 @@ const CustomSite = ({ formik, lg, md, SiteList, setSelectedSiteId, CompanyList, 
             <div className="form-group">
 
                 <label htmlFor="site_id" className="form-label mt-4">
-                    Site Name
+                    Site 
                     <span className={`text-danger ${hideStarIcon ? "hide-star-icon" : ""}`}>*</span>
                 </label>
 

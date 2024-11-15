@@ -310,7 +310,7 @@ const Competitor = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Filter Data</h3>
+                <h3 className="card-title"> Filter </h3>
               </Card.Header>
 
               <NewFilterTab
@@ -337,7 +337,7 @@ const Competitor = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Competitor Listing Data</h3>
+                <h3 className="card-title"> Manage Competitors </h3>
               </Card.Header>
               <Card.Body>
                 {CompetitorList?.length > 0 ? (
