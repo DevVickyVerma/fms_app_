@@ -290,6 +290,7 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
                       style={{ borderRadius: "4px" }}
                     >
                       Add Cards
+                      <i className="ph ph-plus ms-1 ph-plus-icon" />
                     </Link>
                   ) : null}
                 </div>

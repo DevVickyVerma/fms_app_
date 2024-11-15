@@ -278,6 +278,8 @@ const ManageSiteTank = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site PPL Rate
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  
                 </Link>
               ) : null}
             </div>

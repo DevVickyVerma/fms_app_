@@ -300,7 +300,7 @@ const ManageSiteTank = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Site Pump
+                  Add Site Pump <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>

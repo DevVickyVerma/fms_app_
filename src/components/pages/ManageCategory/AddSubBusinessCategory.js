@@ -109,7 +109,7 @@ const AddSubBusinessCategory = (props) => {
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
+              className="breadcrumb-item  breadcrumds"
               aria-current="page"
               linkAs={Link}
               linkProps={{ to: "/managesubbusinesscategory" }}

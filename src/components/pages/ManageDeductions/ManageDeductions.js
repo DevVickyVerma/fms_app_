@@ -250,7 +250,8 @@ const ManageDeductions = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Deductions
+                  Add Deduction
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>

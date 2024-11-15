@@ -230,6 +230,7 @@ const ManageBusinessTypes = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Business Type
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>

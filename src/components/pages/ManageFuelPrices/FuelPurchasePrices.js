@@ -560,6 +560,7 @@ const ManageDsr = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Fuel Purchase
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>

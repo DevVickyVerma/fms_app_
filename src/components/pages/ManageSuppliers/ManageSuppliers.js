@@ -250,7 +250,8 @@ const ManageSuppliers = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Suppliers
+                  Add Supplier
+                  <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
             </div>
