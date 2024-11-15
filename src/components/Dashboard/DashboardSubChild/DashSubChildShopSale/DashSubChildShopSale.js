@@ -465,7 +465,7 @@ const DashSubChildShopSale = ({
                   {dashSubChildShopSaleLoading ? <>
                     <span className="primary-loader"></span>
                   </> : <>
-                    <span>Oops! Something Went Wrong No data Found.......</span>
+                    <span> No data Found....</span>
                   </>}
                 </p>
               )}
