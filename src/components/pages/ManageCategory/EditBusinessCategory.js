@@ -4,7 +4,6 @@ import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -40,17 +39,10 @@ const EditBussiness = (props) => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.get("business/types");
+        const response = await getData("business/types");
         setAddSiteData(response.data);
       } catch (error) {
         handleError(error);

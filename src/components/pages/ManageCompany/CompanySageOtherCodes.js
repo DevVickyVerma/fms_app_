@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MultiSelect } from "react-multi-select-component";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import withApi from '../../../Utils/ApiHelper';
 
-const CompanySageOtherCodes = () => {
+const CompanySageOtherCodes = ({ getData }) => {
     const urlId = useParams();
     const [data, setData] = useState([]);
     const [nominalCodesData, setNominalCodesData] = useState([])
@@ -32,20 +32,13 @@ const CompanySageOtherCodes = () => {
     useEffect(() => {
         fetchData()
     }, [])
+
+
     const fetchData = async () => {
-        const token = localStorage.getItem("token");
-
-        const axiosInstance = axios.create({
-            baseURL: process.env.REACT_APP_BASE_URL,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
         try {
             setIsLoading(true); // Set loading state to true before fetching data
 
-            const response = await axiosInstance.get(
+            const response = await getData(
                 `company/sage-other-codes/${urlId?.id}`
             );
 
@@ -281,4 +274,4 @@ const CompanySageOtherCodes = () => {
     );
 };
 
-export default CompanySageOtherCodes;
+export default withApi(CompanySageOtherCodes);

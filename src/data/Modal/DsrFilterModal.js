@@ -1,10 +1,8 @@
-import React from "react";
 import { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFormik } from "formik";
 import { AiOutlineClose } from "react-icons/ai";
-import axios from "axios";
 import {
   Card, Col, Row, // Import Modal from react-bootstrap
   Modal
@@ -19,6 +17,7 @@ const WorkflowExceptionFilter = (props) => {
     visible,
     onClose,
     onformSubmit,
+    getData
   } = props;
 
   const [isLoading, setIsLoading] = useState(true);
@@ -36,15 +35,6 @@ const WorkflowExceptionFilter = (props) => {
     const inputDateElement = document.querySelector("#start_date");
     inputDateElement.showPicker();
   };
-
-  const token = localStorage.getItem("token");
-
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -64,7 +54,7 @@ const WorkflowExceptionFilter = (props) => {
   const fetchCommonListData = async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get("/common/client-list");
+      const response = await getData("/common/client-list");
       setIsLoading(true); // Set isLoading to true to indicate the loading state
       const { data } = response;
       if (data) {
@@ -93,7 +83,7 @@ const WorkflowExceptionFilter = (props) => {
   const GetCompanyList = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get(`common/company-list?client_id=${values}`);
+      const response = await getData(`common/company-list?client_id=${values}`);
       setIsLoading(true); // Set isLoading to true to indicate the loading state
       if (response) {
         setCompanyList(response?.data?.data);
@@ -111,7 +101,7 @@ const WorkflowExceptionFilter = (props) => {
   const GetSiteList = async (values) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get(`common/site-list?company_id=${values}`);
+      const response = await getData(`common/site-list?company_id=${values}`);
       setIsLoading(true); // Set isLoading to true to indicate the loading state
       if (response) {
         setSiteList(response?.data?.data);

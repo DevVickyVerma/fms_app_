@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
@@ -14,7 +13,7 @@ import { Bounce, toast } from "react-toastify";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const AddSite = (props) => {
-  const { isLoading, postData } = props;
+  const { isLoading, postData, getData } = props;
   const { handleError } = useErrorHandler();
   const navigate = useNavigate();
   const [showToEmailError, setShowToEmailError] = useState(false);
@@ -23,7 +22,6 @@ const AddSite = (props) => {
   const { lastPath } = useNavigation();
   const ErrorToast = (message) => {
     toast.error(message, {
-      // // position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: false,
       transition: Bounce,
       autoClose: 2000,
@@ -31,17 +29,10 @@ const AddSite = (props) => {
     });
   };
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.get("site/common-data-list");
+        const response = await getData("site/common-data-list");
 
         if (response.data) {
           setAddSiteData(response.data.data);
@@ -59,16 +50,9 @@ const AddSite = (props) => {
   }, []);
 
   const fetchCompanyList = async (id) => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     try {
-      const response = await axiosInstance.get(`/companies?client_id=${id}`);
+      const response = await getData(`/companies?client_id=${id}`);
       setCompanylist(response.data.data);
       if (response.data.length > 0) {
         // setCompanylist(response.data.data);
@@ -78,16 +62,16 @@ const AddSite = (props) => {
         navigate("/login");
         ErrorAlert("Invalid access token");
         localStorage.clear();
-      }    else if (error.response && error.response.data.status_code === "403") {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
+      } else if (error.response && error.response.data.status_code === "403") {
+        const errorMessage = Array.isArray(error.response.data.message)
+          ? error.response.data.message.join(" ")
+          : error.response.data.message;
 
-      if (errorMessage) {
-        navigate(lastPath); 
-        ErrorToast(errorMessage);
+        if (errorMessage) {
+          navigate(lastPath);
+          ErrorToast(errorMessage);
+        }
       }
-    }
     }
   };
 

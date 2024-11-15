@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import moment from "moment/moment";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from '../../../Utils/ApiHelper';
 
 const FuelInventry = (props) => {
-  const { company_id, client_id, site_id, start_date, sendDataToParent } =
+  const { company_id, client_id, site_id, start_date, sendDataToParent, getData } =
     props;
 
   const [fuelInventoryFinalDataArray, setFuelInventoryFinalDataArray] =
@@ -42,17 +42,8 @@ const FuelInventry = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
       try {
-        const response = await axiosInstance.get(
+        const response = await getData(
           `/fuel-inventory/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
@@ -945,4 +936,4 @@ const FuelInventry = (props) => {
   );
 };
 
-export default FuelInventry;
+export default withApi(FuelInventry);

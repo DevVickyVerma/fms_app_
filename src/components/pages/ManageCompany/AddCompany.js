@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
-
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
@@ -16,7 +13,7 @@ import { Bounce, toast } from 'react-toastify';
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddCompany = (props) => {
-  const { isLoading, postData } = props;
+  const { isLoading, postData, getData } = props;
 
   const navigate = useNavigate();
   const [dropdownValue, setDropdownValue] = useState([]);
@@ -43,13 +40,6 @@ const AddCompany = (props) => {
 
     console.clear();
   }, []);
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
       const ErrorToast = (message) => {
       toast.error(message, {
         // // position: toast.POSITION.TOP_RIGHT,
@@ -61,7 +51,7 @@ const AddCompany = (props) => {
     };
   const fetchClientList = async () => {
     try {
-      const response = await axiosInstance.get("/client/list");
+      const response = await getData("/client/list");
 
       if (response.data.data.clients.length > 0) {
         // setData(response.data.data.sites);

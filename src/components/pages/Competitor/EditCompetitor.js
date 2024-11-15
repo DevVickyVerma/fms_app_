@@ -4,7 +4,6 @@ import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
@@ -69,17 +68,10 @@ const AddCompetitor = (props) => {
 
   useEffect(() => {
     GetDetails();
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.get("suppliers");
+        const response = await getData("suppliers");
 
         if (response.data) {
           setSupplierData(response.data.data);

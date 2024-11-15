@@ -18,7 +18,6 @@ import {
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -74,20 +73,13 @@ const EditUsers = (props) => {
     console.clear();
   }, []);
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
   const { id } = useParams();
   let combinedClientNames = [];
   let combinedClientId = [];
   const fetchClientList = async () => {
     setLoadingFetchUserDetail(true)
     try {
-      const response = await axiosInstance.get(`/user/detail?id=${id}`);
+      const response = await getData(`/user/detail?id=${id}`);
 
       if (response) {
         formik.setValues(response.data.data);

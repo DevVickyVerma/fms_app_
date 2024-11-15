@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
-import axios from "axios";
 import {
   AiFillCaretDown,
   AiFillCaretRight,
@@ -19,6 +18,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
 import CompiMiddayModal from "./CompiMiddayModal";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import withApi from '../../../Utils/ApiHelper';
 
 const SingleStatsCompetitor = ({ getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -31,13 +31,6 @@ const SingleStatsCompetitor = ({ getData }) => {
   const [selectedItem,] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const { handleError, } = useErrorHandler();
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,7 +54,7 @@ const SingleStatsCompetitor = ({ getData }) => {
       try {
         setShowDate(selectedValues?.start_date ? selectedValues?.start_date : mySelectedDate)
         // Use async/await to fetch data
-        const response3 = await axiosInstance.get(
+        const response3 = await getData(
           selectedValues?.start_date
             ? `/site/competitor-price/stats?site_id=${id}&drs_date=${selectedValues?.start_date}`
             : `/site/competitor-price/stats?site_id=${id}&drs_date=${mySelectedDate}`
@@ -681,4 +674,4 @@ const SingleStatsCompetitor = ({ getData }) => {
   );
 };
 
-export default SingleStatsCompetitor;
+export default withApi(SingleStatsCompetitor);

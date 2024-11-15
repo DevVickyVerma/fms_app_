@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import withApi from '../../../Utils/ApiHelper';
 
 const DepartmentShop = (props) => {
   const {
@@ -15,6 +15,7 @@ const DepartmentShop = (props) => {
     site_id,
     start_date,
     sendDataToParent,
+    getData
   } = props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
@@ -45,17 +46,10 @@ const DepartmentShop = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+     
 
       try {
-        const response = await axiosInstance.get(
+        const response = await getData(
           `/drs/summary/?site_id=${site_id}&drs_date=${start_date}`
         );
 
@@ -261,4 +255,4 @@ const DepartmentShop = (props) => {
   );
 };
 
-export default DepartmentShop;
+export default withApi(DepartmentShop);

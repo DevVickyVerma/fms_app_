@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import {
   Col,
   Row,
@@ -7,16 +6,15 @@ import {
 
   Breadcrumb,
 } from "react-bootstrap";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from '../../../Utils/ApiHelper';
 
-export default function Settings() {
+const Settings = ({ getData }) => {
   const [isLoading, setLoading] = useState(false);
   const { handleError } = useErrorHandler();
 
@@ -28,16 +26,10 @@ export default function Settings() {
   }, []);
 
   const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
   const GetDetails = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`/detail`);
+      const response = await getData(`/detail`);
       if (response) {
         localStorage.setItem("auto_logout", response?.data?.data?.auto_logout);
       }
@@ -49,7 +41,7 @@ export default function Settings() {
   const configsetting = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get("/config-setting");
+      const response = await getData("/config-setting");
       const { data } = response;
       if (data) {
         formik2.setValues(data?.data); // Set field values for formik2
@@ -281,5 +273,7 @@ export default function Settings() {
         </div>
       </>
     </>
-  );
+  )
 }
+
+export default withApi(Settings)

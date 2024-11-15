@@ -10,7 +10,6 @@ import {
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -18,7 +17,7 @@ import { useSelector } from "react-redux";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
 const AddSubBusinessCategory = (props) => {
-  const { isLoading, postData } = props;
+  const { isLoading, postData, getData } = props;
 
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -74,17 +73,10 @@ const AddSubBusinessCategory = (props) => {
 
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
     const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.get("business/category");
+        const response = await getData("business/category");
         setAddSiteData(response.data);
       } catch (error) {
         handleError(error);

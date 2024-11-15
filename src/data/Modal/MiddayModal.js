@@ -6,9 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import {  SuccessAlert } from "../../Utils/ToastUtils";
+import { SuccessAlert } from "../../Utils/ToastUtils";
 import InputTime from "../../components/pages/Competitor/InputTime";
 import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
+import withApi from "../../Utils/ApiHelper";
 
 const CustomModal = ({
   open,
@@ -16,6 +17,7 @@ const CustomModal = ({
   selectedItem,
   selectedDrsDate,
   onDataFromChild,
+  getData,
 }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,19 +27,12 @@ const CustomModal = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
-
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
 
       try {
         setIsLoading(true);
 
-        const response = await axiosInstance.get(
+        const response = await getData(
           `/site/fuel-price/mid-day?site_id=${selectedItem.id}&drs_date=${selectedDrsDate}`
         );
 
@@ -398,4 +393,4 @@ const CustomModal = ({
   );
 };
 
-export default CustomModal;
+export default withApi(CustomModal);

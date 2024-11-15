@@ -4,21 +4,20 @@ import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useNavigation } from '../../../Utils/NavigationProvider';
 import { Bounce, toast } from 'react-toastify';
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
-export default function AddSite() {
+const EditSubBussiness = ({ getData }) => {
+
   const navigate = useNavigate();
   const { handleError } = useErrorHandler();
   const [dropdownValue, setDropdownValue] = useState([]);
   const { lastPath } = useNavigation();
   const ErrorToast = (message) => {
     toast.error(message, {
-      // // position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: false,
       transition: Bounce,
       autoClose: 2000,
@@ -28,21 +27,15 @@ export default function AddSite() {
   const { id } = useParams();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const formData = new FormData();
 
     formData.append("id", id); // Use the retrieved ID from the URL
 
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  
 
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/business/sub-type/${id}`);
+        const response = await getData(`/business/sub-type/${id}`);
         if (response) {
           formik.setValues(response.data.data);
         }
@@ -61,7 +54,7 @@ export default function AddSite() {
   }, [id]);
   const fetchClientList = async () => {
     try {
-      const response = await axiosInstance.get("/business/types");
+      const response = await getData("/business/types");
 
       if (response) {
         // setData(response.data.data.sites);
@@ -73,26 +66,19 @@ export default function AddSite() {
         navigate("/login");
         ErrorAlert("Invalid access token");
         localStorage.clear();
-      }    else if (error.response && error.response.data.status_code === "403") {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
+      } else if (error.response && error.response.data.status_code === "403") {
+        const errorMessage = Array.isArray(error.response.data.message)
+          ? error.response.data.message.join(" ")
+          : error.response.data.message;
 
-      if (errorMessage) {
-        navigate(lastPath); 
-        ErrorToast(errorMessage);
+        if (errorMessage) {
+          navigate(lastPath);
+          ErrorToast(errorMessage);
+        }
       }
-    }
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
@@ -154,8 +140,6 @@ export default function AddSite() {
     }),
     onSubmit: handleSubmit,
   });
-
-
 
   return (
     <div>
@@ -339,5 +323,7 @@ export default function AddSite() {
         </Col>
       </Row>
     </div>
-  );
+  )
 }
+
+export default EditSubBussiness
