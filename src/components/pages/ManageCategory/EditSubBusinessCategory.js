@@ -141,7 +141,7 @@ const EditBussiness = (props) => {
                   className="breadcrumb-item  breadcrumds"
                   aria-current="page"
                   linkAs={Link}
-                  linkProps={{ to: "/business" }}
+                  linkProps={{ to: "/managesubbusinesscategory" }}
                 >
                   Manage Sub-Business Category
                 </Breadcrumb.Item>

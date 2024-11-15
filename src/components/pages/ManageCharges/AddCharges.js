@@ -76,7 +76,7 @@ const AddCharges = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Add Charges</h1>
+              <h1 className="page-title">Add Charge</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -87,10 +87,18 @@ const AddCharges = (props) => {
                   Dashboard
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
+                  className="breadcrumb-item  breadcrumds"
+                  aria-current="page"
+                  linkAs={Link}
+                  linkProps={{ to: "/managecharges" }}
+                >
+                  Manage Charges
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage Charges
+                  Add Charges
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -100,7 +108,7 @@ const AddCharges = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Add Charges</Card.Title>
+                  <Card.Title as="h3">Add Charge</Card.Title>
                 </Card.Header>
                 <Formik
                   initialValues={{

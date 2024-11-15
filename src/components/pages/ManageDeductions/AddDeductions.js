@@ -78,8 +78,16 @@ const AddDeductions = (props) => {
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
+                linkAs={Link}
+                linkProps={{ to: "/managedeductions" }}
               >
                 Manage Deductions
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Add Deductions
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>

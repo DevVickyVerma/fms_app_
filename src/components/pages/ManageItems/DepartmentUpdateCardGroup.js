@@ -144,7 +144,7 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
             {isLoading ? <Loaderimg /> : null}
             <div className="page-header ">
                 <div>
-                    <h1 className="page-title">Update Department Group</h1>
+                    <h1 className="page-title">Edit Department Group</h1>
                     <Breadcrumb className="breadcrumb">
                         <Breadcrumb.Item
                             className="breadcrumb-item"
@@ -159,13 +159,13 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
                             linkAs={Link}
                             linkProps={{ to: "/department-item-group" }}
                         >
-                            Item Group
+                           Manage Item Group
                         </Breadcrumb.Item>
                         <Breadcrumb.Item
                             className="breadcrumb-item active breadcrumds"
                             aria-current="page"
                         >
-                            Update Department Group
+                            Edit Item Group
                         </Breadcrumb.Item>
                     </Breadcrumb>
 

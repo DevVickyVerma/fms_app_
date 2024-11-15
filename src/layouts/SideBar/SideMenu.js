@@ -468,7 +468,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addcharges`,
-            title: "Add Charges",
+            title: "Add Charge",
             type: "link",
             permission: "charges-create",
             visibility: false,

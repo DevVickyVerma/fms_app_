@@ -68,14 +68,14 @@ const EditProfile = ({ getData }) => {
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
     password: Yup.string()
-      .required("New Password is required")
+      .required("New password is required")
       .min(8, "Password must be at least 8 characters long")
       .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
       .matches(/\d/, "Password must contain at least one numeric digit")
       .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character"),
     password_confirmation: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("Confirm Password is required"),
+      .required("Confirm password is required"),
   });
 
   const initialValues = {
@@ -267,7 +267,7 @@ const EditProfile = ({ getData }) => {
   };
   const authenticationCodevalidationSchema = Yup.object().shape({
     authenticationCode: Yup.string().required(
-      "Authentication Code is required"
+      "Authentication code is required"
     ),
   });
 

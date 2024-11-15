@@ -69,10 +69,18 @@ const AddItems = (props) => {
                 Dashboard
               </Breadcrumb.Item>
               <Breadcrumb.Item
+                className="breadcrumb-item  breadcrumds"
+                aria-current="page"
+                linkAs={Link}
+                linkProps={{ to: "/manageitems" }}
+              >
+                Manage Department Items
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Items
+                Add Items
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -93,10 +101,10 @@ const AddItems = (props) => {
                   status: "1",
                 }}
                 validationSchema={Yup.object({
-                  name: Yup.string().required(" Site Item Name is required"),
+                  name: Yup.string().required("  Item Name is required"),
 
                   code: Yup.string()
-                    .required("Site Item Code is required")
+                    .required(" Item Code is required")
                     .matches(/^[a-zA-Z0-9_\- ]+$/, {
                       message:
                         "Item Category Code must not contain special characters",
@@ -106,13 +114,13 @@ const AddItems = (props) => {
                       /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
                       {
                         message:
-                          "Site Item Code must not have consecutive spaces",
+                          " Item Code must not have consecutive spaces",
                         excludeEmptyString: true,
                       }
                     ),
 
                   status: Yup.string().required(
-                    "Site Item Status is required"
+                    " Item Status is required"
                   ),
                   item_type_id: Yup.string().required(
                     "Item Type is required"

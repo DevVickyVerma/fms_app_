@@ -192,10 +192,18 @@ const AddShops = (props) => {
                   Dashboard
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
+                  className="breadcrumb-item  breadcrumds"
+                  aria-current="page"
+                  linkAs={Link}
+                  linkProps={{ to: "/manageshops" }}
+                >
+                  Manage Shops
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage Shops
+                  Add Shop
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -331,7 +339,7 @@ const AddShops = (props) => {
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label htmlFor="site_id" className="form-label mt-4">
-                            Site Name
+                            Site 
                             <span className="text-danger">*</span>
                           </label>
                           <select
