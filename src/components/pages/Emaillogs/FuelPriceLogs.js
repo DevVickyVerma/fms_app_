@@ -35,23 +35,12 @@ const ManageSiteTank = (props) => {
 
 
   const columns = [
-    {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "5%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
+
     {
       name: "Site",
       selector: (row) => [row.site],
       sortable: false,
-      width: "12%",
+      width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -64,7 +53,7 @@ const ManageSiteTank = (props) => {
       name: "User  Name",
       selector: (row) => [row.user],
       sortable: false,
-      width: "12%",
+      width: "11%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -86,9 +75,22 @@ const ManageSiteTank = (props) => {
         </div>
       ),
     },
+    {
+      name: "Mode ",
+      selector: (row) => [row.is_checked],
+      sortable: false,
+      width: "12%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.is_checked}</h6>
+          </div>
+        </div>
+      ),
+    },
 
     {
-      name: " Action type",
+      name: " Action Type",
       selector: (row) => [row.type],
       sortable: false,
       width: "12%",
@@ -100,6 +102,7 @@ const ManageSiteTank = (props) => {
         </div>
       ),
     },
+
     {
       name: "Prev Price",
       selector: (row) => [row.prev_price],
@@ -130,7 +133,7 @@ const ManageSiteTank = (props) => {
       name: "Price Date",
       selector: (row) => [row.date],
       sortable: false,
-      width: "16%",
+      width: "14%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -143,7 +146,7 @@ const ManageSiteTank = (props) => {
       name: "Log Date",
       selector: (row) => [row.created],
       sortable: false,
-      width: "16%",
+      width: "14%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
