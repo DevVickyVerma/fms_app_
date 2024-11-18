@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -11,67 +10,42 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
-
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useCustomDelete from '../../../Utils/useCustomDelete';
+import useToggleStatus from '../../../Utils/useToggleStatus';
 
 const ManageRoles = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const [siteName, setSiteName] = useState("");
-  const { handleError } = useErrorHandler();
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
 
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "site/auto-report/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchmannegerList();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
-  }
   const { id } = useParams();
+
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append('id', id);
+    customDelete(postData, 'site/auto-report/delete', formData, handleSuccess);
+  };
+
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append('id', row.id.toString());
+    formData.append('status', (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/site/auto-report/update-status', formData, handleSuccess);
+  };
+
+  const handleSuccess = () => {
+    FetchmannegerList()
+  }
+
+
+
+
   const FetchmannegerList = async () => {
     try {
       const response = await getData(`/site/auto-report/list?site_id=${id}`);
@@ -108,29 +82,6 @@ const ManageRoles = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes(
     "site-assign-manager"
   );
-
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const response = await postData("/site/auto-report/update-status", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchmannegerList();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
 
 
 

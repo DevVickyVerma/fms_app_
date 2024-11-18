@@ -3,7 +3,6 @@ import { Col, Modal, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import LoaderImg from "../../../Utils/Loader";
 import { useFormik } from "formik";
-import Swal from "sweetalert2";
 import { FileUploader } from "react-drag-drop-files";
 import { FaFileUpload } from "react-icons/fa";
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,10 +10,24 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useCustomDelete from '../../../Utils/useCustomDelete';
 
 
 const CoffeeAndValetUploadInvoice = (props) => {
     const { showModal, setShowModal, invoiceCallData, getData, isLoading, postData, apidata } = props;
+
+    const { customDelete } = useCustomDelete();
+
+    const handleDelete = (id) => {
+        const formData = new FormData();
+        formData.append('id', id);
+        customDelete(postData, 'valet-coffee/delete-file', formData, handleSuccess);
+    };
+    const handleSuccess = () => {
+        FetchmannegerList()
+    }
+
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
@@ -53,36 +66,6 @@ const CoffeeAndValetUploadInvoice = (props) => {
         }
     };
 
-    const handleDelete = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You will not be able to recover this item!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "Cancel",
-            reverseButtons: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const formData = new FormData();
-                formData.append("id", id);
-
-                Deletehidecategory(formData);
-            }
-        });
-    };
-    const Deletehidecategory = async (formData) => {
-        try {
-            // eslint-disable-next-line no-unused-vars
-            const response = await postData("/valet-coffee/delete-file", formData);
-            // Console log the response
-            if (apidata.api_response === "success") {
-                FetchmannegerList()
-            }
-        } catch (error) {
-            handleError(error);
-        }
-    };
 
     const handleChangeDocumentUpload = (newFiles) => {
 
