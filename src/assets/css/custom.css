@@ -1791,11 +1791,12 @@ span.text-error {
   width: 175px;
 }
 
-.dashboard-center-modal .modal-content {
+.modal-content {
   max-width: 600px;
   margin: auto;
   padding: 0px;
   min-width: 300px;
+  color: #000;
 }
 
 .profile-drop-down .dropdown-menu {
@@ -1878,6 +1879,7 @@ td.middayModal-td.time-input-fuel-sell {
 .invalid-feedback:first-letter {
   text-transform: uppercase;
 }
+
 .custom-error-class {
   display: block;
   width: 100%;
