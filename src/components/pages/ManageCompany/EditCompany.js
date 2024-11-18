@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -13,12 +10,11 @@ import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditCompany = (props) => {
   const { handleError } = useErrorHandler();
-  const { isLoading, getData } = props;
+  const { isLoading, getData,postData } = props;
   const navigate = useNavigate();
   const [dropdownValue, setDropdownValue] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const Company_Client_id = localStorage.getItem("Company_Client_id");
     const Company_id = localStorage.getItem("Company_id");
 
@@ -27,15 +23,10 @@ const EditCompany = (props) => {
     formData.append("client_id", Company_Client_id);
     formData.append("company_id", Company_id);
 
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/company/detail", formData);
+        const response = await postData("/company/detail", formData);
         if (response) {
           formik.setValues(response.data.data);
         }

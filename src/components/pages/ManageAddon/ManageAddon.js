@@ -10,30 +10,22 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
-
-
-
+import useCustomDelete from '../../../Utils/useCustomDelete';
 
 const ManageAddon = (props) => {
-  const { isLoading, getData, } = props;
+  const { isLoading, getData, postData} = props;
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-  const { handleError } = useErrorHandler();
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
   };
@@ -49,53 +41,20 @@ const ManageAddon = (props) => {
     localStorage.setItem("EditAddon_name", row.name);
   };
 
+  const { customDelete } = useCustomDelete();
+
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("addon_id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "/addon/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append('addon_id', id);
+    customDelete(postData, 'addon/delete', formData, FetchTableData);
   };
+
+
+
+
+
+
+
 
   useEffect(() => {
     FetchTableData();
