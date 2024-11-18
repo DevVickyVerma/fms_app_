@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import withApi from '../../../Utils/ApiHelper';
 
 const DepartmentShop = (props) => {
   const {
     site_id,
     start_date,
   } = props;
-  const { handleError } = useErrorHandler();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   document.addEventListener("keydown", (event) => {
@@ -41,8 +40,8 @@ const DepartmentShop = (props) => {
           setData(data.data.takings);
         }
       } catch (error) {
-        console.error("API error:", error);
-        handleError(error);
+        // console.error("API error:", error);
+        // handleError(error);
       } finally {
         setIsLoading(false);
       }
@@ -87,4 +86,4 @@ const DepartmentShop = (props) => {
   );
 };
 
-export default DepartmentShop;
+export default withApi(DepartmentShop);

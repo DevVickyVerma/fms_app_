@@ -46,7 +46,7 @@ const DepartmentShop = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-     
+
 
       try {
         const response = await getData(
@@ -59,7 +59,7 @@ const DepartmentShop = (props) => {
           setbankingData(data?.data?.banking);
 
           setsummarydata(data?.data); //pending
-          setSummaryRemarks(data?.data?.summary_of_remarks.summary_remarks);
+          setSummaryRemarks(data?.data?.summary_of_remarks?.summary_remarks);
           // setremarkdata(data?.data?.summary_of_remarks);
         }
       } catch (error) {

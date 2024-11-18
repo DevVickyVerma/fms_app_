@@ -14,7 +14,7 @@ import useCustomDelete from '../../../Utils/useCustomDelete';
 
 
 const CoffeeAndValetUploadInvoice = (props) => {
-    const { showModal, setShowModal, invoiceCallData, getData, isLoading, postData, apidata } = props;
+    const { showModal, setShowModal, invoiceCallData, getData, isLoading, postData, } = props;
 
     const { customDelete } = useCustomDelete();
 
