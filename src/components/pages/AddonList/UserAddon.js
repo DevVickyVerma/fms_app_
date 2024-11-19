@@ -38,7 +38,7 @@ const AddCompany = (props) => {
       name: "Select",
       selector: (row) => row.checked,
       sortable: false,
-      center: false,
+      center: true,
       width: "20%",
       cell: (row, index) => (
         <div className="all-center-flex">
