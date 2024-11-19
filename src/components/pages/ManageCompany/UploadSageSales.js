@@ -117,7 +117,7 @@ const UploadSageSales = (props) => {
                 show={showUploadSageSalesModal}
                 onHide={handleCloseModal}
                 centered={true}
-                className="custom-modal-width custom-modal-height"
+                className="custom-modal-width custom-modal-height big-modal"
             >
 
                 <div className="modal-header">

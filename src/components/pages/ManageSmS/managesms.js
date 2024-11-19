@@ -927,7 +927,7 @@ const ManageSiteTank = (props) => {
               onHide={handleCloseModal}
               centered={true}
               style={{ paddingBottom: "0px" }}
-              className="custom-modal-width custom-modal-height"
+              className="custom-modal-width custom-modal-height big-modal"
             >
               <Modal.Header
                 style={{

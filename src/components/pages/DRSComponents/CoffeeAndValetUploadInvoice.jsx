@@ -122,7 +122,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
                 show={showModal}
                 onHide={handleCloseModal}
                 centered
-                className="custom-modal-width custom-modal-height"
+                className="custom-modal-width custom-modal-height big-modal"
 
             >
                 <div className="modal-header">

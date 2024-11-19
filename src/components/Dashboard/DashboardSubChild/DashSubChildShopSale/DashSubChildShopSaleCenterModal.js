@@ -98,7 +98,7 @@ const DashSubChildShopSaleCenterModal = (props) => {
       show={showModal}
       onHide={handleCloseModal}
       centered
-      className="custom-modal-width custom-modal-height"
+      className="custom-modal-width custom-modal-height big-modal"
     >
 
 

@@ -128,7 +128,7 @@ const DashboardStatCard = ({ getData, isOpen, onClose, }) => {
   return (
 
     <>
-      <Modal show={isOpen} onHide={onClose} centered className='' >
+      <Modal show={isOpen} onHide={onClose} centered className="custom-modal-width custom-modal-height big-modal ">
         <div>
           <Modal.Header
             style={{

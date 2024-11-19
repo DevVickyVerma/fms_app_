@@ -478,7 +478,7 @@ const DashSubChildShopSale = ({
         show={showCalenderModal}
         onHide={handleCloseModal}
         centered
-        className="custom-modal-width custom-modal-height"
+        className="custom-modal-width custom-modal-height big-modal"
       // style={{ overflow: "auto" }}
       >
 

@@ -22,7 +22,7 @@ const SingleAuthModal = (props) => {
     useState(false);
 
   const navigate = useNavigate();
- 
+
 
   useEffect(() => {
     Active2FA();
@@ -182,7 +182,7 @@ const SingleAuthModal = (props) => {
       <Modal
         show={showModal}
         centered={true}
-        className="custom-modal-width custom-modal-height"
+        className="custom-modal-width custom-modal-height big-modal"
       >
         <Modal.Header
           style={{

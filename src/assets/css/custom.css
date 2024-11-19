@@ -1799,6 +1799,14 @@ span.text-error {
   color: #000;
 }
 
+.big-modal .modal-content {
+  max-width: fit-content;
+  margin: auto;
+  padding: 0px;
+  min-width: 300px;
+  color: #000;
+}
+
 .profile-drop-down .dropdown-menu {
   position: absolute;
   inset: 0px 0px auto auto;

@@ -13,7 +13,7 @@ const DepartmentCardGroupCenterModal = (props) => {
             show={showModal}
             onHide={handleCloseModal}
             centered={true}
-            className="custom-modal-width custom-modal-height"
+            className="custom-modal-width custom-modal-height big-modal"
         >
             <div className="modal-header">
                 <span className="ModalTitle d-flex justify-content-between w-100 p-0 fw-normal"  >
