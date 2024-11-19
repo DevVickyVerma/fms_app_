@@ -238,7 +238,7 @@ const UploadCompetitor = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Nominal Tax Code</h1>
+            <h1 className="page-title">Nominal Tax Codes</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -252,7 +252,7 @@ const UploadCompetitor = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Nominal Tax Code
+                Nominal Tax Codes
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -263,7 +263,7 @@ const UploadCompetitor = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
-                <h3 className="card-title">Nominal Tax Code</h3>
+                <h3 className="card-title">Nominal Tax Codes</h3>
                 <>
                   <Link className="btn btn-danger me-2" onClick={openURL}>
                     Download Sample{" "}

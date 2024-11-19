@@ -330,7 +330,7 @@ const AddSite = (props) => {
                       "Cashback Status is required"
                     ),
                     apply_sc: Yup.string().required(
-                      "Apply Shop Commission is required"
+                      "Apply Add Shop is required"
                     ),
                     is_reconciled: Yup.string().required(
                       "  Reconciled Data  is required"
@@ -1162,7 +1162,7 @@ const AddSite = (props) => {
                                 htmlFor="shop_commission"
                                 className=" form-label mt-4"
                               >
-                                Shop Commission
+                                Add Shop
                               </label>
                               <Field
                                 type="Number"
@@ -1174,7 +1174,7 @@ const AddSite = (props) => {
                                   }`}
                                 id="shop_commission"
                                 name="shop_commission"
-                                placeholder="Shop Commission"
+                                placeholder="Add Shop"
                               />
                               <ErrorMessage
                                 component="div"
@@ -1273,7 +1273,7 @@ const AddSite = (props) => {
                                 htmlFor="apply_sc"
                                 className=" form-label mt-4"
                               >
-                                Apply Shop Commission
+                                Apply Add Shop
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
@@ -1285,7 +1285,7 @@ const AddSite = (props) => {
                                 id="apply_sc"
                                 name="apply_sc"
                               >
-                                <option value="">Apply Shop Commission</option>
+                                <option value="">Apply Add Shop</option>
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
                               </Field>

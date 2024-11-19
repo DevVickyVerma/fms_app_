@@ -392,7 +392,7 @@ const SageDeduction = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
-                <h3 className="card-title">Cards</h3>
+                <h3 className="card-title">Filter</h3>
               </Card.Header>
               {/* here my body will start */}
               <Card.Body>
@@ -605,7 +605,7 @@ const SageDeduction = (props) => {
         <Card>
           <Card.Header className="d-flex justify-content-between">
             <div>
-              <h3 className="card-title">Map to Sage Account </h3>
+              <h3 className="card-title">Map to Sage Accounts </h3>
             </div>
             <span className="text-end">
               {data?.sageExport.length > 0 ? (

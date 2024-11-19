@@ -96,7 +96,7 @@ const EditSiteTank = (props) => {
                 linkAs={Link}
                 linkProps={{ to: "/managesitetank" }}
               >
-                Manage Site Tank
+                Manage Site Tanks
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"

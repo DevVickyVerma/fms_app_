@@ -198,7 +198,7 @@ const AddSiteNozzle = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage Site Nozzle
+                  Manage Site Nozzles
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>

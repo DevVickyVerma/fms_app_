@@ -275,7 +275,7 @@ const ManageSiteTank = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Site Pump</h1>
+            <h1 className="page-title">Manage Site Pumps</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -288,7 +288,7 @@ const ManageSiteTank = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Site Pump
+                Manage Site Pumps
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -340,7 +340,7 @@ const ManageSiteTank = (props) => {
             <Card>
               <Card.Header>
                 <h3 className="card-title">
-                  Manage Site Pump
+                  Manage Site Pumps
                 </h3>
               </Card.Header>
               <Card.Body>

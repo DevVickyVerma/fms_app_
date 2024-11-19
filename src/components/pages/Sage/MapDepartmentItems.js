@@ -610,7 +610,7 @@ const DepartmentItems = (props) => {
         <Card>
           <Card.Header className="d-flex justify-content-between">
             <div>
-              <h3 className="card-title">Map to Sage Account </h3>
+              <h3 className="card-title">Map to Sage Accounts </h3>
             </div>
             <span className="text-end">
               {data?.sageExport.length > 0 ? (

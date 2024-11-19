@@ -144,7 +144,7 @@ const EditCards = (props) => {
                   linkAs={Link}
                   linkProps={{ to: "/managecards" }}
                 >
-                  Manage Card
+                  Manage Cards
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"

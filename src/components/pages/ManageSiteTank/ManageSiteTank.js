@@ -292,7 +292,7 @@ const ManageSiteTank = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Site Tank</h1>
+            <h1 className="page-title">Manage Site Tanks</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -305,7 +305,7 @@ const ManageSiteTank = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Site Tank
+                Manage Site Tanks
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -357,7 +357,7 @@ const ManageSiteTank = (props) => {
             <Card>
               <Card.Header>
                 <h3 className="card-title">
-                  Manage Site Tank
+                  Manage Site Tanks
                   {/* {localStorageSiteName ? `(${localStorageSiteName})` : ""}{" "} */}
                 </h3>
               </Card.Header>

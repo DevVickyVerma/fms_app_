@@ -206,7 +206,7 @@ const CompanySageFuels = ({ getData }) => {
                 linkAs={Link}
                 linkProps={{ to: "/managecompany" }}
               >
-                Manage Company
+                Manage Companies
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"

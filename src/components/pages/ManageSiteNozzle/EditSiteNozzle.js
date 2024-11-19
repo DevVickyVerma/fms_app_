@@ -104,7 +104,7 @@ const EditSiteNozzle = (props) => {
                   linkAs={Link}
                   linkProps={{ to: "/managesitenozzle" }}
                 >
-                  Manage Site Nozzle
+                  Manage Site Nozzles
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
