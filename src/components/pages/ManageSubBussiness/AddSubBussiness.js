@@ -64,7 +64,7 @@ const AddSubBussiness = (props) => {
       <>
         <div className="page-header">
           <div>
-            <h1 className="page-title">Add Sub-Business</h1>
+            <h1 className="page-title">Add SubBusiness </h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -78,7 +78,7 @@ const AddSubBussiness = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Sub-Business
+                Manage SubBusiness 
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -88,7 +88,7 @@ const AddSubBussiness = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Add Sub-Business</Card.Title>
+                <Card.Title as="h3">Add SubBusiness </Card.Title>
               </Card.Header>
               <Formik
                 initialValues={{

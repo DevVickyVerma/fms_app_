@@ -581,7 +581,7 @@ const ManageSite = (props) => {
               <Card.Header>
 
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
-                  <h3 className="card-title">Manage Site</h3>
+                  <h3 className="card-title">Manage Sites</h3>
                   <div className="mt-2 mt-sm-0">
                     <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
                   </div>

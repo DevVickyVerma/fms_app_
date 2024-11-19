@@ -181,7 +181,7 @@ const AddShops = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Add Shops</h1>
+              <h1 className="page-title">Add Shop </h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -213,7 +213,7 @@ const AddShops = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Add Shops</Card.Title>
+                  <Card.Title as="h3">Add Shop</Card.Title>
                 </Card.Header>
 
 

@@ -101,7 +101,7 @@ const EditSitePump = (props) => {
                   linkAs={Link}
                   linkProps={{ to: "/managesitepump" }}
                 >
-                  Manage Site Pump
+                  Manage Site Pumps
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"

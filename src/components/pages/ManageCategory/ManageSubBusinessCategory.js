@@ -102,7 +102,7 @@ const ManageSubBusinessCategory = (props) => {
       ),
     },
     {
-      name: "Sub-Business Category",
+      name: "SubBusiness  Category",
       selector: (row) => [row.sub_category_name],
       sortable: false,
       width: "25%",
@@ -221,7 +221,7 @@ const ManageSubBusinessCategory = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Sub-Business Category</h1>
+            <h1 className="page-title">Manage SubBusiness Category</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -235,7 +235,7 @@ const ManageSubBusinessCategory = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Sub-Business Category
+                Manage SubBusiness Category
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -248,7 +248,7 @@ const ManageSubBusinessCategory = (props) => {
                   className="btn btn-primary"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Sub-Business Category
+                  Add SubBusiness  Category
                   <i className="ph ph-plus ms-1 ph-plus-icon" />
                 </Link>
               ) : null}
@@ -261,7 +261,7 @@ const ManageSubBusinessCategory = (props) => {
             <Card>
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
-                  <h3 className="card-title">Manage Sub-Business Category</h3>
+                  <h3 className="card-title">Manage SubBusiness Category</h3>
                   <div className="mt-2 mt-sm-0">
                     <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
                   </div>

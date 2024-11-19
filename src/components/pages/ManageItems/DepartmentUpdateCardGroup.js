@@ -100,7 +100,7 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
             center: false,
             width: "15%",
             cell: (row, index) => (
-                <div className="all-center-flex">
+                <div className="all-center-flex" style={{margin:"auto"}}>
                     <input
                         type="checkbox"
                         id={`checked-${index}`}
@@ -144,7 +144,7 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
             {isLoading ? <Loaderimg /> : null}
             <div className="page-header ">
                 <div>
-                    <h1 className="page-title">Edit Department Group</h1>
+                    <h1 className="page-title">Edit  Group</h1>
                     <Breadcrumb className="breadcrumb">
                         <Breadcrumb.Item
                             className="breadcrumb-item"

@@ -93,7 +93,7 @@ const EditShops = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Edit Shops</h1>
+              <h1 className="page-title">Edit Shop</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -115,7 +115,7 @@ const EditShops = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Edit Shops
+                  Edit Shop
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>

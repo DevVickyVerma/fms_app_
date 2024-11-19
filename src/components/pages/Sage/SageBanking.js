@@ -363,7 +363,7 @@ const SageBanking = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Banking Summary</h1>
+            <h1 className="page-title">Manage Banking </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -377,7 +377,7 @@ const SageBanking = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Banking Summary
+                Manage Banking 
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -387,7 +387,7 @@ const SageBanking = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
-                <h3 className="card-title">Manage Banking Summary</h3>
+                <h3 className="card-title">Manage Banking </h3>
               </Card.Header>
               {/* here my body will start */}
               <Card.Body>
@@ -593,7 +593,7 @@ const SageBanking = (props) => {
         <Card>
           <Card.Header className="d-flex justify-content-between">
             <div>
-              <h3 className="card-title">Map to Sage Account </h3>
+              <h3 className="card-title">Map to Sage Accounts </h3>
             </div>
             <span className="text-end">
               {data?.sageExport.length > 0 ? (

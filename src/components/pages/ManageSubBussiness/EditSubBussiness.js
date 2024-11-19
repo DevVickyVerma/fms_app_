@@ -145,7 +145,7 @@ const EditSubBussiness = ({ getData }) => {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Edit Sub-Business</h1>
+          <h1 className="page-title">Edit SubBusiness </h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -161,13 +161,13 @@ const EditSubBussiness = ({ getData }) => {
               linkAs={Link}
               linkProps={{ to: "/sub-business" }}
             >
-              Manage Sub-Business
+              Manage SubBusiness 
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Edit Sub-Business
+              Edit SubBusiness 
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -177,7 +177,7 @@ const EditSubBussiness = ({ getData }) => {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Edit Sub-Business</Card.Title>
+              <Card.Title as="h3">Edit SubBusiness </Card.Title>
             </Card.Header>
 
             <div className="card-body">

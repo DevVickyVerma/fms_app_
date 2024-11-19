@@ -28,7 +28,9 @@ const EditCompany = (props) => {
       try {
         const response = await postData("/company/detail", formData);
         if (response) {
-          formik.setValues(response.data.data);
+          // formik.setFieldValue("company_code", response?.data?.data?.company_code);
+          formik.setValues(response?.data);
+          console.log(response?.data, "response?.data?.data");
         }
       } catch (error) {
         handleError(error);
@@ -121,9 +123,7 @@ const EditCompany = (props) => {
     initialValues: {
       company_code: "",
       company_name: "",
-
       address: "",
-
       end_month: "",
       start_month: "",
       pc_code: "",
@@ -131,9 +131,7 @@ const EditCompany = (props) => {
       sm_sub_code: "",
       bunkering_code: "",
       ma_option: [],
-
       website: "",
-
       client_id: "",
       company_details: "",
     },
@@ -192,7 +190,7 @@ const EditCompany = (props) => {
                   linkAs={Link}
                   linkProps={{ to: "/managecompany" }}
                 >
-                  Manage Company
+                  Manage Companies
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
@@ -234,7 +232,7 @@ const EditCompany = (props) => {
                               }`}
                             placeholder="Company Code"
                             onChange={formik.handleChange}
-                            value={formik.values.company_code || ""}
+                            value={formik.values?.company_code}
                           />
                           {formik.errors.company_code &&
                             formik.touched.company_code && (
@@ -264,7 +262,7 @@ const EditCompany = (props) => {
                             name="company_name"
                             placeholder="Company Name"
                             onChange={formik.handleChange}
-                            value={formik.values.company_name || ""}
+                            value={formik.values?.company_name}
                           />
                           {formik.errors.company_name &&
                             formik.touched.company_name && (
@@ -293,7 +291,7 @@ const EditCompany = (props) => {
                           name="company_details"
                           placeholder=" Company Details"
                           onChange={formik.handleChange}
-                          value={formik.values.company_details || ""}
+                          value={formik.values?.company_details}
                         />
                         {formik.errors.company_details &&
                           formik.touched.company_details && (
@@ -320,7 +318,7 @@ const EditCompany = (props) => {
                               id="client_id"
                               name="client_id"
                               onChange={formik.handleChange}
-                              value={formik.values.client_id}
+                              value={formik.values?.client_id}
                             >
                               <option value=""> Select Client</option>
                               {dropdownValue.clients &&
@@ -357,7 +355,7 @@ const EditCompany = (props) => {
                             name="address"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.address || ""}
+                            value={formik.values?.address}
                             placeholder=" Address"
                           />
                           {formik.errors.address && formik.touched.address && (
@@ -384,7 +382,7 @@ const EditCompany = (props) => {
                             placeholder="website"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.website || ""}
+                            value={formik.values?.website}
                           />
                           {formik.errors.website && formik.touched.website && (
                             <div className="invalid-feedback">
@@ -411,7 +409,7 @@ const EditCompany = (props) => {
                             id="start_month"
                             name="start_month"
                             onChange={formik.handleChange}
-                            value={formik.values.start_month}
+                            value={formik.values?.start_month}
                           >
                             <option value="">
                               Select a  Start Month
@@ -455,7 +453,7 @@ const EditCompany = (props) => {
                             id="end_month"
                             name="end_month"
                             onChange={formik.handleChange}
-                            value={formik.values.end_month}
+                            value={formik.values?.end_month}
                           >
                             <option value="">
                               Select a  End Month
@@ -502,7 +500,7 @@ const EditCompany = (props) => {
                             name="pc_code"
                             placeholder="Pc Code"
                             onChange={formik.handleChange}
-                            value={formik.values.pc_code || ""}
+                            value={formik.values?.pc_code}
                           />
                           {formik.errors.pc_code &&
                             formik.touched.pc_code && (
@@ -532,7 +530,7 @@ const EditCompany = (props) => {
                             name="sm_add_code"
                             placeholder="Sm Add Code"
                             onChange={formik.handleChange}
-                            value={formik.values.sm_add_code || ""}
+                            value={formik.values?.sm_add_code}
                           />
                           {formik.errors.sm_add_code &&
                             formik.touched.sm_add_code && (
@@ -562,7 +560,7 @@ const EditCompany = (props) => {
                             name="sm_sub_code"
                             placeholder="Sm Sub Code"
                             onChange={formik.handleChange}
-                            value={formik.values.sm_sub_code || ""}
+                            value={formik.values?.sm_sub_code}
                           />
                           {formik.errors.sm_sub_code &&
                             formik.touched.sm_sub_code && (
@@ -592,7 +590,7 @@ const EditCompany = (props) => {
                             name="bunkering_code"
                             placeholder="bunkering_code"
                             onChange={formik.handleChange}
-                            value={formik.values.bunkering_code || ""}
+                            value={formik.values?.bunkering_code}
                           />
                           {formik.errors.bunkering_code &&
                             formik.touched.bunkering_code && (

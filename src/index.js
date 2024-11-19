@@ -920,7 +920,7 @@ const Root = () => {
 
                   {/* Role  Components Start */}
                   <Route path={`/roles`} element={<WrappedManageRoles />} />
-                  <Route path={`/addroles`} element={<WrappedAddRoles />} />
+                  <Route path={`/addrole`} element={<WrappedAddRoles />} />
 
                   <Route
                     path={`/editrole/:id`}
@@ -983,7 +983,7 @@ const Root = () => {
 
                   {/* Addon  Components Start */}
                   <Route
-                    path={`/manageaddon`}
+                    path={`/manageaddons`}
                     element={<WrappedManageAddon />}
                   />
 

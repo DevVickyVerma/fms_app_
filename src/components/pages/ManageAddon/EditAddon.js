@@ -184,12 +184,35 @@ const EditAddon = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header ">
+      <div className="page-header ">
           <div>
             <h1 className="page-title">Edit Addon</h1>
-            <Breadcrumb className="breadcrumb">{/* ... */}</Breadcrumb>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item  breadcrumds"
+                linkAs={Link}
+                linkProps={{ to: "/manageaddons" }}
+              >
+                Manage Addons
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Edit Addon
+              </Breadcrumb.Item>
+            </Breadcrumb>
           </div>
+          
         </div>
+   
 
         <Row>
           <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
@@ -208,7 +231,9 @@ const EditAddon = (props) => {
                     <Form onSubmit={formik.handleSubmit}>
                       <div className="form-group">
                         <label className="form-label mt-4" htmlFor="name">
-                          Edit Addon
+                          Edit Addon   <span className="text-danger danger-title">
+                    * 
+                  </span>
                         </label>
                         <input
                           type="text"

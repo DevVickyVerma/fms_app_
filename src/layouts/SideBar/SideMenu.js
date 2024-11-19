@@ -20,7 +20,7 @@ export const MENUITEMS = [
 
       //   permission: "dashboard-view",
       //   visibility: false,
-      //   title: "Fuel Selling Prices",
+      //   title: "Fuel Selling Price",
       // },
 
       {
@@ -82,7 +82,7 @@ export const MENUITEMS = [
       },
       //compitior
       {
-        title: "Manage Competitor",
+        title: "Manage Competitors",
         icon: "flag",
         type: "sub",
         active: false,
@@ -92,7 +92,7 @@ export const MENUITEMS = [
           {
             path: `/competitor`,
             type: "link",
-            title: " Manage Competitor",
+            title: " Manage Competitors",
             permission: "competitor-list",
             visibility: false,
           },
@@ -115,7 +115,7 @@ export const MENUITEMS = [
       },
       //Company
       {
-        title: "Manage Company",
+        title: "Manage Companies",
         icon: "building",
         type: "sub",
         active: false,
@@ -124,7 +124,7 @@ export const MENUITEMS = [
         children: [
           {
             path: `/managecompany`,
-            title: "Manage Company",
+            title: "Manage Companies",
             type: "link",
             permission: "company-list",
             visibility: false,
@@ -156,7 +156,7 @@ export const MENUITEMS = [
           },
           {
             path: `/nominal-tax-code`,
-            title: "Nominal Tax Code",
+            title: "Nominal Tax Codes",
             type: "link",
             permission: "nominal-taxcode-list",
             visibility: false,
@@ -198,7 +198,7 @@ export const MENUITEMS = [
           },
           {
             path: `/manage-sage-banking`,
-            title: "Manage Banking Head",
+            title: "Manage Banking ",
             type: "link",
             permission: "bankinghead-list",
             visibility: false,
@@ -287,8 +287,8 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-            path: `/addroles`,
-            title: "Add Roles",
+            path: `/addrole`,
+            title: "Add Role",
             type: "link",
             permission: "role-create",
             visibility: false,
@@ -306,8 +306,8 @@ export const MENUITEMS = [
 
         children: [
           {
-            path: `/manageaddon`,
-            title: "Manage Addon",
+            path: `/manageaddons`,
+            title: "Manage Addons",
             type: "link",
             permission: "addons-list",
             visibility: false,
@@ -332,28 +332,28 @@ export const MENUITEMS = [
         children: [
           {
             path: `/managesitetank`,
-            title: "Manage Site Tank",
+            title: "Manage Site Tanks",
             type: "link",
             permission: "tank-list",
             visibility: false,
           },
           {
             path: `/managesitepump`,
-            title: "Manage Site Pump",
+            title: "Manage Site Pumps",
             type: "link",
             permission: "pump-list",
             visibility: false,
           },
           {
             path: `/managesitenozzle`,
-            title: "Manage Site Nozzle",
+            title: "Manage Site Nozzles",
             type: "link",
             permission: "nozzle-list",
             visibility: false,
           },
           {
             path: `/fuelprice`,
-            title: "Fuel Selling Prices",
+            title: "Fuel Selling Price",
             type: "link",
             permission: "fuel-price-update",
             visibility: false,
@@ -376,7 +376,7 @@ export const MENUITEMS = [
       },
       //Tolerances
       {
-        title: "Manage Tolerances",
+        title: "Manage Tolerance",
         icon: "target",
         type: "sub",
         active: false,
@@ -385,7 +385,7 @@ export const MENUITEMS = [
         children: [
           {
             path: `/tolerances`,
-            title: "Tolerances",
+            title: "Manage Tolerance",
             type: "link",
             permission: "tolerance-list",
             visibility: false,
@@ -493,7 +493,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addshops`,
-            title: "Add Shops",
+            title: "Add Shop",
             type: "link",
             permission: "shop-create",
             visibility: false,
@@ -518,7 +518,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addcards`,
-            title: "Add Cards",
+            title: "Add Card",
             type: "link",
             permission: "card-create",
             visibility: false,
@@ -550,7 +550,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addDeductions`,
-            title: "Add Deductions",
+            title: "Add Deduction",
             type: "link",
             permission: "deduction-create",
             visibility: false,
@@ -575,7 +575,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addSuppliers`,
-            title: "Add Suppliers",
+            title: "Add Supplier",
             type: "link",
             permission: "supplier-create",
             visibility: false,
@@ -608,7 +608,7 @@ export const MENUITEMS = [
           },
           {
             path: `/managesubbusinesscategory`,
-            title: "Manage Sub Business Category",
+            title: "Manage SubBusiness Category",
             type: "link",
             permission: "business-sub-category-list",
             visibility: false,
@@ -690,7 +690,7 @@ export const MENUITEMS = [
           },
           {
             path: `/additems`,
-            title: "Add Department Items",
+            title: "Add Department Item",
             type: "link",
             permission: "department-item-create",
             visibility: false,
