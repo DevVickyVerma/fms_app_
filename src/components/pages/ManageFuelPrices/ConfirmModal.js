@@ -12,7 +12,7 @@ const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues, 
             <div className="modal-content">
                 <div className='modal-header'>
                     <h4 className='m-0 p-2'>{SiteName}- Update Fuel Selling Price  <br></br><small clas
-                        mt-4>  ({lastArray[0]?.date} {" "} {lastArray[0]?.time})</small>  </h4>
+                        mt-4>  ({lastArray[0]?.date} {", "} {lastArray[0]?.time})</small>  </h4>
                 </div>
                 <div className="table-container table-responsive">
 
