@@ -58,7 +58,7 @@ const AddItems = (props) => {
       <div>
         <div className="page-header">
           <div>
-            <h1 className="page-title">Add Items</h1>
+            <h1 className="page-title">Add Department Item</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -80,7 +80,7 @@ const AddItems = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Add Items
+                Add Department Item
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -90,7 +90,7 @@ const AddItems = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Add Items</Card.Title>
+                <Card.Title as="h3">Add Department Item</Card.Title>
               </Card.Header>
               <Formik
                 initialValues={{

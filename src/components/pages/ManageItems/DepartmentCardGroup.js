@@ -217,7 +217,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, }) => {
             {isLoading ? <Loaderimg /> : null}
             <div className="page-header ">
                 <div>
-                    <h1 className="page-title">Department Item Group</h1>
+                    <h1 className="page-title">Manage Item Group</h1>
                     <Breadcrumb className="breadcrumb">
                         <Breadcrumb.Item
                             className="breadcrumb-item"
@@ -230,7 +230,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, }) => {
                             className="breadcrumb-item active breadcrumds"
                             aria-current="page"
                         >
-                            Department Item Group
+                            Manage Item Group
                         </Breadcrumb.Item>
                     </Breadcrumb>
                 </div>

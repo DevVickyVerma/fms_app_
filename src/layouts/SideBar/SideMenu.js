@@ -550,7 +550,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addDeductions`,
-            title: "Add Deductions",
+            title: "Add Deduction",
             type: "link",
             permission: "deduction-create",
             visibility: false,
@@ -575,7 +575,7 @@ export const MENUITEMS = [
           },
           {
             path: `/addSuppliers`,
-            title: "Add Suppliers",
+            title: "Add Supplier",
             type: "link",
             permission: "supplier-create",
             visibility: false,
@@ -608,7 +608,7 @@ export const MENUITEMS = [
           },
           {
             path: `/managesubbusinesscategory`,
-            title: "Manage Sub Business Category",
+            title: "Manage SubBusiness Category",
             type: "link",
             permission: "business-sub-category-list",
             visibility: false,
@@ -690,7 +690,7 @@ export const MENUITEMS = [
           },
           {
             path: `/additems`,
-            title: "Add Department Items",
+            title: "Add Department Item",
             type: "link",
             permission: "department-item-create",
             visibility: false,

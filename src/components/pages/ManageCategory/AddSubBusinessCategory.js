@@ -98,7 +98,7 @@ const AddSubBusinessCategory = (props) => {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Add Sub-Business Category</h1>
+          <h1 className="page-title">Add SubBusiness  Category</h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -114,13 +114,13 @@ const AddSubBusinessCategory = (props) => {
               linkAs={Link}
               linkProps={{ to: "/managesubbusinesscategory" }}
             >
-              Manage Sub-Business Category
+              Manage SubBusiness Category
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Add Sub-Business Category
+              Add SubBusiness  Category
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -130,7 +130,7 @@ const AddSubBusinessCategory = (props) => {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Add Sub-Business Category</Card.Title>
+              <Card.Title as="h3">Add SubBusiness  Category</Card.Title>
             </Card.Header>
             <Formik
               initialValues={{
@@ -141,11 +141,11 @@ const AddSubBusinessCategory = (props) => {
               }}
               validationSchema={Yup.object({
                 sub_category_name: Yup.string().required(
-                  " Sub-Business Category Name is required"
+                  " SubBusiness  Category Name is required"
                 ),
 
                 code: Yup.string()
-                  .required("Sub-Business Category Code  is required")
+                  .required("SubBusiness  Category Code  is required")
                   .matches(/^[a-zA-Z0-9_\- ]+$/, {
                     message: "Code must not contain special characters",
                     excludeEmptyString: true,
@@ -160,7 +160,7 @@ const AddSubBusinessCategory = (props) => {
 
                 status: Yup.string().required("Status is required"),
                 business_category_id: Yup.string().required(
-                  "Sub-Business Category Type is required"
+                  "SubBusiness  Category Type is required"
                 ),
               })}
               onSubmit={(values) => {
@@ -177,7 +177,7 @@ const AddSubBusinessCategory = (props) => {
                             className=" form-label mt-4"
                             htmlFor="sub_category_name"
                           >
-                            Sub-Business Category Name
+                            SubBusiness  Category Name
                             <span className="text-danger">*</span>
                           </label>
                           <Field
@@ -191,7 +191,7 @@ const AddSubBusinessCategory = (props) => {
                               }`}
                             id="sub_category_name"
                             name="sub_category_name"
-                            placeholder="Sub-Business Category Name"
+                            placeholder="SubBusiness  Category Name"
                           />
                           <ErrorMessage
                             component="div"
@@ -206,7 +206,7 @@ const AddSubBusinessCategory = (props) => {
                             className=" form-label mt-4"
                             htmlFor="code"
                           >
-                            Sub-Business Category Code
+                            SubBusiness  Category Code
                             <span className="text-danger">*</span>
                           </label>
                           <Field
@@ -218,7 +218,7 @@ const AddSubBusinessCategory = (props) => {
                               }`}
                             id="code"
                             name="code"
-                            placeholder="Sub-Business Category Code"
+                            placeholder="SubBusiness  Category Code"
                           />
                           <ErrorMessage
                             name="code"
@@ -287,7 +287,7 @@ const AddSubBusinessCategory = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No Sub-Business Type</option>
+                              <option disabled>No SubBusiness  Type</option>
                             )}
                           </Field>
                           <ErrorMessage

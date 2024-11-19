@@ -96,10 +96,10 @@ const EditBussiness = (props) => {
     validationSchema: Yup.object({
       sub_category_name: Yup.string()
 
-        .required("Sub-Business Category Name is required"),
+        .required("SubBusiness  Category Name is required"),
 
       sub_category_code: Yup.string()
-        .required("Sub-Business Category Code is required")
+        .required("SubBusiness  Category Code is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "Code must not contain special characters",
           excludeEmptyString: true,
@@ -113,7 +113,7 @@ const EditBussiness = (props) => {
         ),
 
       business_category_id: Yup.string().required(
-        "Sub-Business Category Type is required"
+        "SubBusiness  Category Type is required"
       ),
       status: Yup.string().required("Status is required"),
     }),
@@ -127,7 +127,7 @@ const EditBussiness = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Edit Sub-Business Category</h1>
+              <h1 className="page-title">Edit SubBusiness  Category</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -143,13 +143,13 @@ const EditBussiness = (props) => {
                   linkAs={Link}
                   linkProps={{ to: "/managesubbusinesscategory" }}
                 >
-                  Manage Sub-Business Category
+                  Manage SubBusiness Category
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Edit Sub-Business Category
+                  Edit SubBusiness  Category
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -159,7 +159,7 @@ const EditBussiness = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Edit Sub-Business Category</Card.Title>
+                  <Card.Title as="h3">Edit SubBusiness  Category</Card.Title>
                 </Card.Header>
 
                 <div className="card-body">
@@ -171,7 +171,7 @@ const EditBussiness = (props) => {
                             className="form-label mt-4"
                             htmlFor="sub_category_name"
                           >
-                            Sub-Business Category Name
+                            SubBusiness  Category Name
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -184,7 +184,7 @@ const EditBussiness = (props) => {
                               ? "is-invalid"
                               : ""
                               }`}
-                            placeholder="Sub-Business Category Name"
+                            placeholder="SubBusiness  Category Name"
                             onChange={formik.handleChange}
                             value={formik.values.sub_category_name || ""}
                           />
@@ -202,7 +202,7 @@ const EditBussiness = (props) => {
                             className=" form-label mt-4"
                             htmlFor="sub_category_code"
                           >
-                            Sub-Business Category Code
+                            SubBusiness  Category Code
                             <span className="text-danger">*</span>
                           </label>
                           <input
@@ -215,7 +215,7 @@ const EditBussiness = (props) => {
                               ? "is-invalid"
                               : ""
                               }`}
-                            placeholder="Sub-Business Category Code"
+                            placeholder="SubBusiness  Category Code"
                             onChange={formik.handleChange}
                             value={formik.values.sub_category_code}
                             readOnly={true}
@@ -281,7 +281,7 @@ const EditBussiness = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled={true}>No Sub-Business Type</option>
+                              <option disabled={true}>No SubBusiness  Type</option>
                             )}
                           </select>
                           {formik.errors.business_category_id &&
