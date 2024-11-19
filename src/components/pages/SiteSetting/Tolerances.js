@@ -303,7 +303,7 @@ const SiteSettings = (props) => {
       <div>
         <div className="page-header">
           <div>
-            <h1 className="page-title">Tolerances</h1>
+            <h1 className="page-title">Manage Tolerance</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -319,7 +319,7 @@ const SiteSettings = (props) => {
                 linkAs={Link}
                 linkProps={{ to: "/sites" }}
               >
-                Tolerances
+               Manage Tolerance
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -329,7 +329,7 @@ const SiteSettings = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Tolerances</Card.Title>
+                <Card.Title as="h3"> Manage Tolerance</Card.Title>
               </Card.Header>
 
               <div className="card-body">

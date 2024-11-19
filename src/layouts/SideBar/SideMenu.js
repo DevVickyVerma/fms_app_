@@ -376,7 +376,7 @@ export const MENUITEMS = [
       },
       //Tolerances
       {
-        title: "Manage Tolerances",
+        title: "Manage Tolerance",
         icon: "target",
         type: "sub",
         active: false,
@@ -385,7 +385,7 @@ export const MENUITEMS = [
         children: [
           {
             path: `/tolerances`,
-            title: "Tolerances",
+            title: "Manage Tolerance",
             type: "link",
             permission: "tolerance-list",
             visibility: false,
