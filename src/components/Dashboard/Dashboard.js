@@ -16,6 +16,7 @@ import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { fetchData } from "../../Redux/dataSlice";
+import CeoDashBoard from "./CeoDashBoard";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -321,9 +322,9 @@ const Dashboard = (props) => {
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
-        <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
+        {/* <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
-            title="Total Transactions"
+            title="Total Stats"
             chartType="default"
             chartData={dashboardData?.line_graph}
             noChartImage="../../assets/images/no-chart-img.png"
@@ -344,10 +345,10 @@ const Dashboard = (props) => {
           >
             <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
           </ChartCard>
-        </Row>
+        </Row> */}
         <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
-            title="Total Transactions"
+            title="Total Daywise Sales"
             chartType="full"
             chartData={dashboardData?.d_line_graph}
             noChartImage="../../assets/images/no-chart-img.png"
@@ -359,6 +360,9 @@ const Dashboard = (props) => {
             />
           </ChartCard>
         </Row>
+
+        {dashboardData ? <CeoDashBoard dashboardData={dashboardData} /> : ""}
+
 
       </div>
     </>

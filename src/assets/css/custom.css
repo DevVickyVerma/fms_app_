@@ -1533,6 +1533,7 @@ span.text-error {
 .boxtitle {
   font-size: 14px;
   margin-top: 4px;
+  text-transform: capitalize
 }
 
 .c-login-img {
@@ -2135,4 +2136,8 @@ td.middayModal-td.time-input-fuel-sell {
   background: #b52d2d;
   padding: 8px;
   border-radius: 7px;
+}
+.spacebetween{
+  display: flex !important;
+  justify-content: space-between !important;
 }
