@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { formatLabel } from '../../Utils/commonFunctions/commonFunction';
 
 const FormikInput = ({
     formik,
@@ -159,13 +160,13 @@ const FormikInput = ({
     return (
         <div className='form-group'>
             <label htmlFor={name} className="mb-2">
-                {dynamicLabel}
+                {formatLabel(dynamicLabel)}
                 {isRequired && <span className="text-danger">*</span>}
             </label>
 
             {renderInput()}
 
-            {hasError && <div className="text-danger mt-1">{errorMessages}</div>}
+            {hasError && <div className="text-danger mt-1"> {formatLabel(errorMessages)}</div>}
         </div>
     );
 };

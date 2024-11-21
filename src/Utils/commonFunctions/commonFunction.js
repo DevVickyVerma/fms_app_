@@ -33,7 +33,10 @@ export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyNam
     }
 }
 
-
+export const hadndleShowDate = () => {
+    const inputDateElement = document.querySelector('input[type="date"]');
+    inputDateElement.showPicker();
+  };
 export const passwordTooltip = (
     <Tooltip id="password-tooltip">
         Your password must be at least 8 characters long and include:
@@ -85,3 +88,24 @@ export const AutomaticManualOptions = [
     { value: '1', label: 'Automatic' },
     { value: '2', label: 'manual' },
 ];
+export const StartEndDate = [
+    { value: '1', name: 'Start Date' },
+    { value: '2', name: 'End Date' },
+
+];
+export const SalesSummary = [
+    { value: '1', label: 'Sales Summary' },
+    { value: '0', label: 'Grades Dispensed Summary' },
+
+];
+export function formatLabel(str) {
+    // Check if the input is indeed a string
+    if (typeof str !== 'string') {
+      console.error("Expected a string but got:", typeof str);
+      return ''; // Return empty string if the input is not a string
+    }
+  
+    return str
+      .replace(/_/g, ' ')               // Replace underscores with spaces
+      .replace(/\b\w/g, (match) => match.toUpperCase()); // Capitalize the first letter of each word
+  }

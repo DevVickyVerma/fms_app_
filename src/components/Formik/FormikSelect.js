@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatLabel } from '../../Utils/commonFunctions/commonFunction';
 
 const FormikSelect = ({
     formik,
@@ -16,10 +17,14 @@ const FormikSelect = ({
         }
     };
 
+
+      
+      
+
     return (
         <div className={`form-group ${formik.touched[name] && formik.errors[name] ? 'has-error' : ''} ${formik.submitCount > 0 && !formik.errors[name] ? 'has-success' : ''}`}>
             <label htmlFor={name} className='mb-2'>
-                {label} {isRequired && <span className="text-danger">*</span>}
+            {formatLabel(label)} {isRequired && <span className="text-danger">*</span>}
             </label>
             <select
                 id={name}
@@ -29,15 +34,18 @@ const FormikSelect = ({
                 value={formik.values?.[name]}
                 className={`input101 ${className}`}
             >
-                <option value="">Select {label}</option>
+                <option value="">Select  {formatLabel(label)} </option>
                 {options?.map((option) => (
                     <option key={option?.id} value={option?.id}>
                         {option?.name}
                     </option>
                 ))}
             </select>
-            {formik.touched[name] && formik.errors[name] && (
+            {/* {formik.touched[name] && formik.errors[name] && (
                 <div className="text-danger mt-1">{formik.errors[name]}</div>
+            )} */}
+            {formik.touched[name] && formik.errors[name] && (
+                <div className="text-danger mt-1"> {formatLabel(formik.errors[name])} </div>
             )}
         </div>
     );
