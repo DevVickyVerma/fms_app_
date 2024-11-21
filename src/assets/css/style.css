@@ -9678,7 +9678,7 @@ ul.labels-info li a i {
   }
 
   .modal-sm {
-    max-width: 300px;
+    max-width: 550px !important;
   }
 }
 
