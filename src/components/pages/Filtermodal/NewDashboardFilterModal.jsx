@@ -179,7 +179,7 @@ const NewDashboardFilterModal = ({
             {isLoading && <LoaderImg />}
 
 
-            <Modal show={isOpen} onHide={onClose} centered className='dashboard-center-modal' >
+            <Modal show={isOpen} onHide={onClose} centered size={'sm'} className='dashboard-center-modal' >
 
                 <div >
                     <Modal.Header
