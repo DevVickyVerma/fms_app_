@@ -1,39 +1,92 @@
-import './ConfirmModal.css'; // Import CSS for styling
-
 const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues, SiteName, update_tlm_price }) => {
     // Early return if modal is not open
     if (!isOpen) return null;
+
     const { pricedata } = formValues || {};
     const { current } = pricedata || {};
     const lastArray = LatsRowvalues?.listing[LatsRowvalues?.listing?.length - 1];
 
+    const styles = {
+        modalOverlay: {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+        },
+        modalContent: {
+            background: 'white',
+            padding: '0',
+            borderRadius: '0',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            width: '50%',
+            padding:"10px"
+        },
+        modalHeader: {
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            backgroundColor: '#fff',
+            padding: '1px',
+        },
+        rowBorder: {
+            border: '1px solid #ddd',
+            backgroundColor: '#fff',
+        },
+        badgeText: {
+            display: 'block',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+            maxWidth: '100%',
+            lineHeight: '1.4',
+            textAlign: 'left',
+            fontSize: '12px',
+        },
+        table: {
+            width: '100%',
+            borderCollapse: 'collapse',
+        },
+        tableHead: {
+            background: '#fff',
+        },
+        modalFooter: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '20px',
+        },
+    };
+
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <div className='modal-header'>
-                    <h4 className='m-0 p-2'>{SiteName}- Update Fuel Selling Price  <br></br><small clas
-                        mt-4>  ({lastArray[0]?.date} {", "} {lastArray[0]?.time})</small>  </h4>
+        <div style={styles.modalOverlay}>
+            <div style={styles.modalContent}>
+                <div style={styles.modalHeader}>
+                    <h4 className="m-0 p-2">
+                        {SiteName} - Update Fuel Selling Price
+                        <br />
+                        <small>({lastArray[0]?.date}, {lastArray[0]?.time})</small>
+                    </h4>
                 </div>
                 <div className="table-container table-responsive">
-
-                    <table className="table">
-                        <thead style={{ background: "#fff " }}>
-                            <tr className='rowborder'>
-                                <th className='rowborder'>Grade</th>
-                                <th className='rowborder'>Current Price  </th>
-                                <th className='rowborder'>New Price   </th>
+                    <table style={styles.table} className="table">
+                        <thead style={styles.tableHead}>
+                            <tr style={styles.rowBorder}>
+                                <th style={styles.rowBorder}>Grade</th>
+                                <th style={styles.rowBorder}>Current Price</th>
+                                <th style={styles.rowBorder}>New Price</th>
                             </tr>
                         </thead>
                         <tbody>
                             {formValues?.head_array
-                                ?.filter(item => item.id !== 0 && item.id !== 1) // Filter out unwanted IDs
-                                .map(item => {
-                                    // Find current price data for the current fuel grade
-                                    const currentItem = current[0].find(currentItem => currentItem.id === item.id);
-                                    // Find updated price data for the current fuel grade
-                                    const updatedItem = lastArray.find(updatedItem => updatedItem.id === item.id);
+                                ?.filter((item) => item.id !== 0 && item.id !== 1) // Filter out unwanted IDs
+                                .map((item) => {
+                                    const currentItem = current[0].find((currentItem) => currentItem.id === item.id);
+                                    const updatedItem = lastArray.find((updatedItem) => updatedItem.id === item.id);
 
-                                    // Determine the text or class based on price comparison
                                     let displayPrice = updatedItem?.price; // Default to updated price
                                     let className = '';
 
@@ -54,45 +107,28 @@ const ConfirmModal = ({ isOpen, LatsRowvalues, onConfirm, onCancel, formValues, 
                                     return (
                                         <tr key={item.id}>
                                             <td>{item.name}</td>
-
-                                            {/* Current Price Column */}
                                             <td>{currentItem?.price}</td>
-
-                                            {/* Updated Price Column with dynamic display */}
                                             <td className={className}>{displayPrice}</td>
                                         </tr>
                                     );
                                 })}
                         </tbody>
-
-
-
-
                     </table>
                 </div>
                 {update_tlm_price === 1 && (
-                    <span
-                        className="badge btn-danger p-4 badge-text mt-3"
-                    >
-                        Upon clicking the Submit button, the prices will be updated on both the TLM back office and the pole sign.
-                        Please ensure to check the pole sign display, as occasionally, connectivity issues between the pole sign and POS system may prevent the update from reflecting immediately.
+                    <span style={styles.badgeText} className="badge btn-danger p-4 mt-3">
+                        Upon clicking the Submit button, the prices will be updated on both the TLM back office and the
+                        pole sign. Please ensure to check the pole sign display, as occasionally, connectivity issues
+                        between the pole sign and POS system may prevent the update from reflecting immediately.
                     </span>
                 )}
-                {/* {notify_operator === true && (
-                    <span
-                        className="badge btn-danger p-4 badge-text mt-3"
-                    >
-                        Upon clicking the Submit button, the prices will be updated on both the TLM back office and the pole sign.
-                        Please ensure to check the pole sign display, as occasionally, connectivity issues between the pole sign and POS system may prevent the update from reflecting immediately.
-                    </span>
-                )} */}
-
-
-
-
-                <div className="modal-footer">
-                    <button className='btn btn-danger' onClick={onCancel}>Cancel</button>
-                    <button className='btn btn-primary ms-2' onClick={onConfirm}>Update</button>
+                <div className="text-end mt-4">
+                    <button className="btn btn-danger" onClick={onCancel}>
+                        Cancel
+                    </button>
+                    <button className="btn btn-primary ms-2" onClick={onConfirm}>
+                        Update
+                    </button>
                 </div>
             </div>
         </div>
