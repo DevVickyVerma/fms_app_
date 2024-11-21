@@ -1792,7 +1792,7 @@ span.text-error {
   width: 175px;
 }
 
-.modal-content {
+/* .modal-content {
   max-width: 600px;
   margin: auto;
   padding: 0px;
@@ -1806,7 +1806,11 @@ span.text-error {
   padding: 0px;
   min-width: 300px;
   color: #000;
+} 
+.modal-content {
+  width: 100% !important;
 }
+*/
 
 .profile-drop-down .dropdown-menu {
   position: absolute;
@@ -2124,9 +2128,6 @@ td.middayModal-td.time-input-fuel-sell {
   height: calc(100% - 25px);
 }
 
-.modal-content {
-  width: 100% !important;
-}
 
 .head-alert-show {
   text-align: left;
@@ -2137,7 +2138,8 @@ td.middayModal-td.time-input-fuel-sell {
   padding: 8px;
   border-radius: 7px;
 }
-.spacebetween{
+
+.spacebetween {
   display: flex !important;
   justify-content: space-between !important;
 }
