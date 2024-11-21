@@ -889,9 +889,7 @@ pre {
   max-width: 48rem;
 }
 
-.col-login {
-  max-width: 24rem;
-}
+
 
 /*------ Accordion -------*/
 .accordion .card:not(:first-of-type):not(:last-of-type) {
@@ -42809,7 +42807,8 @@ iframe {
 
 .wrap-login100 {
   /*width: 960px;*/
-  background: #fff;
+  background: #ffffffbf;
+  /* background: #fff; */
   overflow: hidden;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -42831,7 +42830,7 @@ iframe {
 /*------------------------------------------------------------------
 [  ]*/
 .login100-form {
-  width: 320px;
+  width: 400px;
 }
 
 .login100-form-title {

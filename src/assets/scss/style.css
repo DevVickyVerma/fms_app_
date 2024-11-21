@@ -850,6 +850,7 @@ pre {
 
 .col-login {
   max-width: 24rem;
+  width: 400px;
 }
 
 /*------ Accordion -------*/

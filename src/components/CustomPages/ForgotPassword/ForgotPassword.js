@@ -82,7 +82,7 @@ export default function ForgotPassword() {
                 </div>
                 <div className="container-login100 p-0">
                   <Row>
-                    <Col className=" col-login mx-auto">
+                    <Col className=" col-login  mx-auto">
                       <Formik
                         initialValues={{
                           email: "",

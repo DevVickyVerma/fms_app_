@@ -49,9 +49,7 @@ const Custompages = React.lazy(() => import("./components/custompages"));
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
-
-//pages
-
+const CeoDashBoard = React.lazy(() => import("./components/Dashboard/CeoDashBoard"));
 const EditProfile = React.lazy(() =>
   import("./components/pages/EditProfile/EditProfile")
 );
@@ -583,6 +581,7 @@ const Root = () => {
   });
   const [token] = useState(localStorage.getItem("token"));
   const WrappedDashboard = withApi(Dashboard);
+  const WrappedCeoDashBoard = withApi(CeoDashBoard);
   const Wrappedcanvaseditor = withApi(canvaseditor);
   const WrappedManageBusinessSubTypes = withApi(ManageBusinessSubTypes);
   const WrappeAddBusinessSubTypes = withApi(AddBusinessSubTypes);
@@ -743,543 +742,545 @@ const Root = () => {
       <BrowserRouter>
         <React.Suspense fallback={<Loaderimg />}>
           <Provider store={store}>
-          <NavigationProvider>
-            <Routes>
-              <Route element={<PrivateRoutes token={token} />}>
-                <Route path={`/`} element={<App />}>
-                  <Route index={true} element={<Dashboard />} />
-                  <Route path={`/dashboard`} element={<WrappedDashboard />} />
-                  {/* client  Components Start */}
-                  <Route path={`/clients`} element={<WrappedManageClient />} />
-                  <Route
-                    path={`editclient/:id`}
-                    element={<WrappeAddEditClient />}
-                  />
-                  <Route path={`addclient`} element={<WrappedAddClient />} />
-                  <Route path={`/wet-stock-dashboard/`} element={<WrappedDashboardWetStock />} />
+            <NavigationProvider>
+              <Routes>
+                <Route element={<PrivateRoutes token={token} />}>
+                  <Route path={`/`} element={<App />}>
+                    <Route index={true} element={<Dashboard />} />
+                   
+                    <Route path={`/dashboard`} element={<WrappedDashboard />} />
+                    <Route path={`/ceodashboard`} element={<WrappedCeoDashBoard />} />
+                    {/* client  Components Start */}
+                    <Route path={`/clients`} element={<WrappedManageClient />} />
+                    <Route
+                      path={`editclient/:id`}
+                      element={<WrappeAddEditClient />}
+                    />
+                    <Route path={`addclient`} element={<WrappedAddClient />} />
+                    <Route path={`/wet-stock-dashboard/`} element={<WrappedDashboardWetStock />} />
 
-                  {/* client  Components End */}
+                    {/* client  Components End */}
 
-                  {/* User  Components Start */}
-                  <Route path={`/users`} element={<WrappedManageUser />} />
-                  <Route
-                    path={`/2FA-authentication`}
-                    element={<Wrapped2FAuthentiion />}
-                  />
-                  <Route
-                    path={`/editusers/:id`}
-                    element={<WrappeAddEditUser />}
-                  />
-                  <Route path={`/daily-due/:id`} element={<WrappedDailyDue />} />
+                    {/* User  Components Start */}
+                    <Route path={`/users`} element={<WrappedManageUser />} />
+                    <Route
+                      path={`/2FA-authentication`}
+                      element={<Wrapped2FAuthentiion />}
+                    />
+                    <Route
+                      path={`/editusers/:id`}
+                      element={<WrappeAddEditUser />}
+                    />
+                    <Route path={`/daily-due/:id`} element={<WrappedDailyDue />} />
 
-                  <Route path={`addusers`} element={<WrappedAddUser />} />
+                    <Route path={`addusers`} element={<WrappedAddUser />} />
 
-                  <Route path={`/competitor`} element={<WrappedCompetitor />} />
-                  <Route
-                    path={`/addCompetitor`}
-                    element={<WrappedAddCompetitor />}
-                  />
-                  <Route
-                    path={`/competitorstats`}
-                    element={<WrappedStatsCompetitor />}
-                  />
-                  <Route
-                    path={`/sitecompetitor/:id`}
-                    element={<WrappedSingleStatsCompetitor />}
-                  />
-                  <Route
-                    path={`/uploadCompetitor-price`}
-                    element={<WrappeduploadCompetitor />}
-                  />
+                    <Route path={`/competitor`} element={<WrappedCompetitor />} />
+                    <Route
+                      path={`/addCompetitor`}
+                      element={<WrappedAddCompetitor />}
+                    />
+                    <Route
+                      path={`/competitorstats`}
+                      element={<WrappedStatsCompetitor />}
+                    />
+                    <Route
+                      path={`/sitecompetitor/:id`}
+                      element={<WrappedSingleStatsCompetitor />}
+                    />
+                    <Route
+                      path={`/uploadCompetitor-price`}
+                      element={<WrappeduploadCompetitor />}
+                    />
 
-                  {/* User  Components End */}
+                    {/* User  Components End */}
 
-                  {/* sites  Components Start */}
+                    {/* sites  Components Start */}
 
-                  <Route path={`addsite`} element={<WrappedAddSite />} />
-                  <Route
-                    path={`editsite/:id`}
-                    element={<WrappeAddEditSite />}
-                  />
-                  <Route
-                    path={`site-card-opening/:id`}
-                    element={<WrappedSitecardopening />}
-                  />
-                  <Route
-                    path={`site-card-adjustment/:id`}
-                    element={<WrappedSiteCardAdjustment />}
-                  />
-                  <Route
-                    path={`/site-setting/:id`}
-                    element={<WrappedSiteSettings />}
-                  />
-                  <Route
-                    path={`/set-fuel-grades/:id`}
-                    element={<WrappedSetFuelGrades />}
-                  />
-                  <Route
-                    path={`/assign-business-sub-categories/:id`}
-                    element={<Wrappedassignbusiness />}
-                  />
-                  <Route
-                    path={`/addassign-business-sub-categories/:siteName/:id`}
-                    element={<WrappedAddAssignbusiness />}
-                  />
-                  <Route
-                    path={`/editassign-business-sub-categories/:id`}
-                    element={<WrappedEditAssignbusiness />}
-                  />
-                  <Route
-                    path={`/hide-business-categories/:id`}
-                    element={<WrappedHideBusinessCategories />}
-                  />
-                  <Route
-                    path={`/addhide-business-categories/:siteName/:id`}
-                    element={<WrappedAddHideBusinessCategoriess />}
-                  />
-                  <Route
-                    path={`/edithide-business-categories/:id`}
-                    element={<WrappedEditAddHideBusinessCategories />}
-                  />
+                    <Route path={`addsite`} element={<WrappedAddSite />} />
+                    <Route
+                      path={`editsite/:id`}
+                      element={<WrappeAddEditSite />}
+                    />
+                    <Route
+                      path={`site-card-opening/:id`}
+                      element={<WrappedSitecardopening />}
+                    />
+                    <Route
+                      path={`site-card-adjustment/:id`}
+                      element={<WrappedSiteCardAdjustment />}
+                    />
+                    <Route
+                      path={`/site-setting/:id`}
+                      element={<WrappedSiteSettings />}
+                    />
+                    <Route
+                      path={`/set-fuel-grades/:id`}
+                      element={<WrappedSetFuelGrades />}
+                    />
+                    <Route
+                      path={`/assign-business-sub-categories/:id`}
+                      element={<Wrappedassignbusiness />}
+                    />
+                    <Route
+                      path={`/addassign-business-sub-categories/:siteName/:id`}
+                      element={<WrappedAddAssignbusiness />}
+                    />
+                    <Route
+                      path={`/editassign-business-sub-categories/:id`}
+                      element={<WrappedEditAssignbusiness />}
+                    />
+                    <Route
+                      path={`/hide-business-categories/:id`}
+                      element={<WrappedHideBusinessCategories />}
+                    />
+                    <Route
+                      path={`/addhide-business-categories/:siteName/:id`}
+                      element={<WrappedAddHideBusinessCategoriess />}
+                    />
+                    <Route
+                      path={`/edithide-business-categories/:id`}
+                      element={<WrappedEditAddHideBusinessCategories />}
+                    />
 
-                  <Route path={`/sites`} element={<Managesite />} />
+                    <Route path={`/sites`} element={<Managesite />} />
 
-                  <Route
-                    path={`/managebank/:id`}
-                    element={<WrappedManageBank />}
-                  />
-                  <Route
-                    path={`/addbank/:siteName/:id`}
-                    element={<WrappedAddBank />}
-                  />
-                  <Route
-                    path={`/editbankmanager/:id`}
-                    element={<WrappedEditBankManneger />}
-                  />
+                    <Route
+                      path={`/managebank/:id`}
+                      element={<WrappedManageBank />}
+                    />
+                    <Route
+                      path={`/addbank/:siteName/:id`}
+                      element={<WrappedAddBank />}
+                    />
+                    <Route
+                      path={`/editbankmanager/:id`}
+                      element={<WrappedEditBankManneger />}
+                    />
 
-                  <Route
-                    path={`/opening-balance/:id`}
-                    element={<WrappedOpeningBalance />}
-                  />
-                  <Route
-                    path={`/add-opening-balance/:siteName/:id`}
-                    element={<WrappedAddOpeningBalance />}
-                  />
-                  <Route
-                    path={`/edit-opening-balance/:id`}
-                    element={<WrappedEditOpeningBalance />}
-                  />
-                  <Route
-                    path={`/bunkering-balance/:id`}
-                    element={<WrappedBunkeringBalance />}
-                  />
-                  <Route
-                    path={`/add-bunkering-balance/:siteName/:id`}
-                    element={<WrappedAddBunkeringBalance />}
-                  />
-                  <Route
-                    path={`/edit-bunkering-balance/:id`}
-                    element={<WrappedEditBunkeringBalance />}
-                  />
-                  <Route
-                    path={`/dailyfacilityfees`}
-                    element={<WrappedDailyFacilityFees />}
-                  />
-                  <Route
-                    path={`/subway-facility-fees`}
-                    element={<WrappedSubwayFacilityFees />}
-                  />
-                  {/* sites  Components End */}
+                    <Route
+                      path={`/opening-balance/:id`}
+                      element={<WrappedOpeningBalance />}
+                    />
+                    <Route
+                      path={`/add-opening-balance/:siteName/:id`}
+                      element={<WrappedAddOpeningBalance />}
+                    />
+                    <Route
+                      path={`/edit-opening-balance/:id`}
+                      element={<WrappedEditOpeningBalance />}
+                    />
+                    <Route
+                      path={`/bunkering-balance/:id`}
+                      element={<WrappedBunkeringBalance />}
+                    />
+                    <Route
+                      path={`/add-bunkering-balance/:siteName/:id`}
+                      element={<WrappedAddBunkeringBalance />}
+                    />
+                    <Route
+                      path={`/edit-bunkering-balance/:id`}
+                      element={<WrappedEditBunkeringBalance />}
+                    />
+                    <Route
+                      path={`/dailyfacilityfees`}
+                      element={<WrappedDailyFacilityFees />}
+                    />
+                    <Route
+                      path={`/subway-facility-fees`}
+                      element={<WrappedSubwayFacilityFees />}
+                    />
+                    {/* sites  Components End */}
 
-                  {/* Company  Components Start */}
-                  <Route path={`/addcompany`} element={<WrappedAddCompany />} />
-                  <Route
-                    path={`/managecompany`}
-                    element={<WrappedManageCompany />}
-                  />
-                  <Route
-                    path={`/editcompany`}
-                    element={<WrappeAddEditCompany />}
-                  />
+                    {/* Company  Components Start */}
+                    <Route path={`/addcompany`} element={<WrappedAddCompany />} />
+                    <Route
+                      path={`/managecompany`}
+                      element={<WrappedManageCompany />}
+                    />
+                    <Route
+                      path={`/editcompany`}
+                      element={<WrappeAddEditCompany />}
+                    />
 
-                  <Route
-                    path={`/company/sage-fuels/:id`}
-                    element={<WrappedCompanySageFuels />}
-                  />
-                  <Route
-                    path={`/company/sage-items/:id`}
-                    element={<WrappedCompanySageitesms />}
-                  />
+                    <Route
+                      path={`/company/sage-fuels/:id`}
+                      element={<WrappedCompanySageFuels />}
+                    />
+                    <Route
+                      path={`/company/sage-items/:id`}
+                      element={<WrappedCompanySageitesms />}
+                    />
 
-                  <Route
-                    path={`/company/sage-other-codes/:id`}
-                    element={<WrappedCompanySageOtherCodes />}
-                  />
+                    <Route
+                      path={`/company/sage-other-codes/:id`}
+                      element={<WrappedCompanySageOtherCodes />}
+                    />
 
-                  {/* Company  Components End */}
+                    {/* Company  Components End */}
 
-                  {/* Role  Components Start */}
-                  <Route path={`/roles`} element={<WrappedManageRoles />} />
-                  <Route path={`/addrole`} element={<WrappedAddRoles />} />
+                    {/* Role  Components Start */}
+                    <Route path={`/roles`} element={<WrappedManageRoles />} />
+                    <Route path={`/addrole`} element={<WrappedAddRoles />} />
 
-                  <Route
-                    path={`/editrole/:id`}
-                    element={<WrappeAddEditRoles />}
-                  />
+                    <Route
+                      path={`/editrole/:id`}
+                      element={<WrappeAddEditRoles />}
+                    />
 
-                  {/* Role  Components End */}
-                  <Route
-                    path={`/assignclientaddon/:id`}
-                    element={<WrappedAssignaddon />}
-                  />
-                  <Route
-                    path={`/assignreport/:id`}
-                    element={<WrappedAssignreport />}
-                  />
-                  <Route
-                    path={`/assigusernaddon/:id`}
-                    element={<WrappedAssignUseraddon />}
-                  />
-                  {/* Role  Components Start */}
+                    {/* Role  Components End */}
+                    <Route
+                      path={`/assignclientaddon/:id`}
+                      element={<WrappedAssignaddon />}
+                    />
+                    <Route
+                      path={`/assignreport/:id`}
+                      element={<WrappedAssignreport />}
+                    />
+                    <Route
+                      path={`/assigusernaddon/:id`}
+                      element={<WrappedAssignUseraddon />}
+                    />
+                    {/* Role  Components Start */}
 
-                  <Route
-                    path={`/assignmanger/:id`}
-                    element={<WrappedAssignmanneger />}
-                  />
-                  <Route
-                    path={`/addmanager/:siteName/:id`}
-                    element={<WrappedAddManneger />}
-                  />
-                  <Route
-                    path={`/editmanager/:id`}
-                    element={<WrappedEditManneger />}
-                  />
-                  <Route
-                    path={`/autodayend/:id`}
-                    element={<WrappedAutoDayEnd />}
-                  />
-                  <Route
-                    path={`/addautodayend/:siteName/:id`}
-                    element={<WrappedAddAutoDayEnd />}
-                  />
-                  <Route
-                    path={`/editautodayend/:id`}
-                    element={<WrappedEditAutoDayEnd />}
-                  />
-                  <Route
-                    path={`/companyautoreport/:id`}
-                    element={<WrappedCompanyAutoReport />}
-                  />
-                  <Route
-                    path={`/addcompanyautoreport/:siteName/:id`}
-                    element={<WrappedAddCompanyAutoReport />}
-                  />
-                  <Route
-                    path={`/editcompanyautoreport/:id`}
-                    element={<WrappedEditCompanyAutoReport />}
-                  />
+                    <Route
+                      path={`/assignmanger/:id`}
+                      element={<WrappedAssignmanneger />}
+                    />
+                    <Route
+                      path={`/addmanager/:siteName/:id`}
+                      element={<WrappedAddManneger />}
+                    />
+                    <Route
+                      path={`/editmanager/:id`}
+                      element={<WrappedEditManneger />}
+                    />
+                    <Route
+                      path={`/autodayend/:id`}
+                      element={<WrappedAutoDayEnd />}
+                    />
+                    <Route
+                      path={`/addautodayend/:siteName/:id`}
+                      element={<WrappedAddAutoDayEnd />}
+                    />
+                    <Route
+                      path={`/editautodayend/:id`}
+                      element={<WrappedEditAutoDayEnd />}
+                    />
+                    <Route
+                      path={`/companyautoreport/:id`}
+                      element={<WrappedCompanyAutoReport />}
+                    />
+                    <Route
+                      path={`/addcompanyautoreport/:siteName/:id`}
+                      element={<WrappedAddCompanyAutoReport />}
+                    />
+                    <Route
+                      path={`/editcompanyautoreport/:id`}
+                      element={<WrappedEditCompanyAutoReport />}
+                    />
 
-                  {/* Role  Components End */}
+                    {/* Role  Components End */}
 
-                  {/* Addon  Components Start */}
-                  <Route
-                    path={`/manageaddons`}
-                    element={<WrappedManageAddon />}
-                  />
+                    {/* Addon  Components Start */}
+                    <Route
+                      path={`/manageaddons`}
+                      element={<WrappedManageAddon />}
+                    />
 
-                  <Route path={`/addaddon`} element={<WrappedAddAddon />} />
-                  <Route
-                    path={`EditAddon/:id`}
-                    element={<WrappeAddEditAddon />}
-                  />
+                    <Route path={`/addaddon`} element={<WrappedAddAddon />} />
+                    <Route
+                      path={`EditAddon/:id`}
+                      element={<WrappeAddEditAddon />}
+                    />
 
-                  {/* Addon  Components End */}
-                  <Route path={`/email-logs`} element={<WrappedEmaillogs />} />
-                  <Route
-                    path={`/fuel-price-logs`}
-                    element={<WrappedFuelPriceslogs />}
-                  />
-                  <Route
-                    path={`/future-price-logs`}
-                    element={<WrappedFuturePricelogs />}
-                  />
-                  <Route
-                    path={`/activity-logs`}
-                    element={<WrappedActivitylogs />}
-                  />
-                  {/* Header  Components Start */}
-                  {/* <Route
+                    {/* Addon  Components End */}
+                    <Route path={`/email-logs`} element={<WrappedEmaillogs />} />
+                    <Route
+                      path={`/fuel-price-logs`}
+                      element={<WrappedFuelPriceslogs />}
+                    />
+                    <Route
+                      path={`/future-price-logs`}
+                      element={<WrappedFuturePricelogs />}
+                    />
+                    <Route
+                      path={`/activity-logs`}
+                      element={<WrappedActivitylogs />}
+                    />
+                    {/* Header  Components Start */}
+                    {/* <Route
                     path={`/advancedElements/headers`}
                     element={<WrappeHeader />}
                   /> */}
-                  {/* Header  Components End */}
-                  {/* Header  Components Start */}
-                  <Route
-                    path={`/Managecommission`}
-                    element={<WrappedManagecommission />}
-                  />
-                  <Route
-                    path={`/valetcommission`}
-                    element={<Wrappedvaletcommission />}
-                  />
-                  {/* Header  Components End */}
+                    {/* Header  Components End */}
+                    {/* Header  Components Start */}
+                    <Route
+                      path={`/Managecommission`}
+                      element={<WrappedManagecommission />}
+                    />
+                    <Route
+                      path={`/valetcommission`}
+                      element={<Wrappedvaletcommission />}
+                    />
+                    {/* Header  Components End */}
 
-                  {/* DSR  Components Start */}
-                  <Route path={`/data-entry`} element={<WrappedManageDsr />} />
-                  <Route
-                    path={`/dsr-exception`}
-                    element={<WrappedManageManageDsrList />}
-                  />
-                  <Route
-                    path={`/drs-api-logs`}
-                    element={<WrappedManageManageDsrCrons />}
-                  />
-                  {/* DSR  Components End */}
+                    {/* DSR  Components Start */}
+                    <Route path={`/data-entry`} element={<WrappedManageDsr />} />
+                    <Route
+                      path={`/dsr-exception`}
+                      element={<WrappedManageManageDsrList />}
+                    />
+                    <Route
+                      path={`/drs-api-logs`}
+                      element={<WrappedManageManageDsrCrons />}
+                    />
+                    {/* DSR  Components End */}
 
-                  {/* Others  Components Start */}
-                  <Route path={`/workflows`} element={<WrappedWorkFlows />} />
-                  {/* Others  Components End */}
+                    {/* Others  Components Start */}
+                    <Route path={`/workflows`} element={<WrappedWorkFlows />} />
+                    {/* Others  Components End */}
 
-                  {/* Reports  Components Start */}
-                  <Route path={`/reports`} element={<WrappedManageReports />} />
-                  {/* Reports  Components End */}
-                  {/* Reports  Components Start */}
+                    {/* Reports  Components Start */}
+                    <Route path={`/reports`} element={<WrappedManageReports />} />
+                    {/* Reports  Components End */}
+                    {/* Reports  Components Start */}
 
-                  <Route path={`/tolerances`} element={<WrappedTolerances />} />
-                  {/* Reports  Components End */}
-                  {/* Charges  Components Start  */}
-                  <Route
-                    path={`/managecharges`}
-                    element={<WrappedManageCharges />}
-                  />
+                    <Route path={`/tolerances`} element={<WrappedTolerances />} />
+                    {/* Reports  Components End */}
+                    {/* Charges  Components Start  */}
+                    <Route
+                      path={`/managecharges`}
+                      element={<WrappedManageCharges />}
+                    />
 
-                  <Route path={`/addcharges`} element={<WrappedAddCharges />} />
-                  <Route
-                    path={`/editcharges/:id`}
-                    element={<WrappedEditCharges />}
-                  />
+                    <Route path={`/addcharges`} element={<WrappedAddCharges />} />
+                    <Route
+                      path={`/editcharges/:id`}
+                      element={<WrappedEditCharges />}
+                    />
 
-                  {/* Charges  Components End  */}
+                    {/* Charges  Components End  */}
 
-                  {/* Shops components start */}
+                    {/* Shops components start */}
 
-                  <Route
-                    path={`/manageshops`}
-                    element={<WrappedManageShops />}
-                  />
+                    <Route
+                      path={`/manageshops`}
+                      element={<WrappedManageShops />}
+                    />
 
-                  <Route path={`/addshops`} element={<WrappedAddShops />} />
-                  <Route
-                    path={`/site-evobos-status`}
-                    element={<WrappedSiteEvobossStatus />}
-                  />
-                  <Route
-                    path="/site-evobos-status/:siteName"
-                    element={<WrappedSiteEvobossStatusPage />}
-                  />
+                    <Route path={`/addshops`} element={<WrappedAddShops />} />
+                    <Route
+                      path={`/site-evobos-status`}
+                      element={<WrappedSiteEvobossStatus />}
+                    />
+                    <Route
+                      path="/site-evobos-status/:siteName"
+                      element={<WrappedSiteEvobossStatusPage />}
+                    />
 
-                  <Route
-                    path={`/editshops/:id`}
-                    element={<WrappedEditShops />}
-                  />
+                    <Route
+                      path={`/editshops/:id`}
+                      element={<WrappedEditShops />}
+                    />
 
-                  {/* Shops components end */}
+                    {/* Shops components end */}
 
-                  {/* Cards components start */}
+                    {/* Cards components start */}
 
-                  <Route
-                    path={`/managecards`}
-                    element={<WrappedManageCards />}
-                  />
-                  <Route
-                    path={`/editor`}
-                    element={<Wrappedcanvaseditor />}
-                  />
+                    <Route
+                      path={`/managecards`}
+                      element={<WrappedManageCards />}
+                    />
+                    <Route
+                      path={`/editor`}
+                      element={<Wrappedcanvaseditor />}
+                    />
 
-                  <Route path={`/addcards`} element={<WrappedAddCards />} />
-                  <Route
-                    path={`/editcard/:id`}
-                    element={<WrappedEditCards />}
-                  />
-                  <Route path={`/card-group`} element={<WrappedCardGroup />} />
-                  <Route
-                    path={`/card-group/:id`}
-                    element={<WrappedUpdateCardGroup />}
-                  />
+                    <Route path={`/addcards`} element={<WrappedAddCards />} />
+                    <Route
+                      path={`/editcard/:id`}
+                      element={<WrappedEditCards />}
+                    />
+                    <Route path={`/card-group`} element={<WrappedCardGroup />} />
+                    <Route
+                      path={`/card-group/:id`}
+                      element={<WrappedUpdateCardGroup />}
+                    />
 
-                  <Route
-                    path={`/add-group`}
-                    element={<WrappedAddCardGroup />}
-                  />
-                  <Route
-                    path={`/dummy-page`}
-                    element={<DummyPage />}
-                  />
+                    <Route
+                      path={`/add-group`}
+                      element={<WrappedAddCardGroup />}
+                    />
+                    <Route
+                      path={`/dummy-page`}
+                      element={<DummyPage />}
+                    />
 
-                  <Route
-                    path={`/department-item-group`}
-                    element={<WrappedDepartmentCardGroup />}
-                  />
-                  <Route
-                    path={`/department-item-group/:id`}
-                    element={<WrappedDepartmentUpdateCardGroup />}
-                  />
+                    <Route
+                      path={`/department-item-group`}
+                      element={<WrappedDepartmentCardGroup />}
+                    />
+                    <Route
+                      path={`/department-item-group/:id`}
+                      element={<WrappedDepartmentUpdateCardGroup />}
+                    />
 
-                  <Route
-                    path={`/department-add-group/:id`}
-                    element={<WrappedDepartmentAddCardGroup />}
-                  />
-                  <Route
-                    path={`/shop-revenue`}
-                    element={<WrappedShopRevenueCommission />}
-                  />
+                    <Route
+                      path={`/department-add-group/:id`}
+                      element={<WrappedDepartmentAddCardGroup />}
+                    />
+                    <Route
+                      path={`/shop-revenue`}
+                      element={<WrappedShopRevenueCommission />}
+                    />
 
-                  {/* Cards components end */}
+                    {/* Cards components end */}
 
-                  {/* Deductions components start */}
+                    {/* Deductions components start */}
 
-                  <Route
-                    path={`/managedeductions`}
-                    element={<WrappedManageDeductions />}
-                  />
+                    <Route
+                      path={`/managedeductions`}
+                      element={<WrappedManageDeductions />}
+                    />
 
-                  <Route
-                    path={`/adddeductions`}
-                    element={<WrappedAddDeductions />}
-                  />
-                  <Route
-                    path={`/editdeductions/:id`}
-                    element={<WrappedEditDeductions />}
-                  />
-                  <Route
-                    path={`/notifications`}
-                    element={<WrappedmanageNotification />}
-                  />
+                    <Route
+                      path={`/adddeductions`}
+                      element={<WrappedAddDeductions />}
+                    />
+                    <Route
+                      path={`/editdeductions/:id`}
+                      element={<WrappedEditDeductions />}
+                    />
+                    <Route
+                      path={`/notifications`}
+                      element={<WrappedmanageNotification />}
+                    />
 
-                  {/* Deduction components end */}
+                    {/* Deduction components end */}
 
-                  {/* Suppliers components start */}
+                    {/* Suppliers components start */}
 
-                  <Route
-                    path={`/managesuppliers`}
-                    element={<WrappedManageSuppliers />}
-                  />
+                    <Route
+                      path={`/managesuppliers`}
+                      element={<WrappedManageSuppliers />}
+                    />
 
-                  <Route
-                    path={`/addsuppliers`}
-                    element={<WrappedAddSuppliers />}
-                  />
-                  <Route
-                    path={`/editsuppliers/:id`}
-                    element={<WrappedEditSuppliers />}
-                  />
+                    <Route
+                      path={`/addsuppliers`}
+                      element={<WrappedAddSuppliers />}
+                    />
+                    <Route
+                      path={`/editsuppliers/:id`}
+                      element={<WrappedEditSuppliers />}
+                    />
 
-                  {/* Suppliers components end */}
+                    {/* Suppliers components end */}
 
-                  {/* SitePump components start */}
+                    {/* SitePump components start */}
 
-                  <Route path={`/fuelprice`} element={<WrappedFUELPRICE />} />
-                  <Route path={`/update-fuel-price/:id`} element={<WrappedUpdateFuelPrices />} />
+                    <Route path={`/fuelprice`} element={<WrappedFUELPRICE />} />
+                    <Route path={`/update-fuel-price/:id`} element={<WrappedUpdateFuelPrices />} />
 
-                  <Route
-                    path={`/competitor-fuel-price`}
-                    element={<WrappedCompetitorFuelPrices />}
-                  />
+                    <Route
+                      path={`/competitor-fuel-price`}
+                      element={<WrappedCompetitorFuelPrices />}
+                    />
 
-                  <Route
-                    path={`/fuel-purchase-prices`}
-                    element={<WrappedFuelPurchasePrices />}
-                  />
-                  <Route
-                    path={`/Add-purchase-prices`}
-                    element={<WrappedAddFuelPurchase />}
-                  />
-                  <Route
-                    path={`/managesitepump`}
-                    element={<WrappedManageSitePump />}
-                  />
+                    <Route
+                      path={`/fuel-purchase-prices`}
+                      element={<WrappedFuelPurchasePrices />}
+                    />
+                    <Route
+                      path={`/Add-purchase-prices`}
+                      element={<WrappedAddFuelPurchase />}
+                    />
+                    <Route
+                      path={`/managesitepump`}
+                      element={<WrappedManageSitePump />}
+                    />
 
-                  <Route
-                    path={`/addsitepump`}
-                    element={<WrappedAddSitePump />}
-                  />
-                  <Route
-                    path={`/editsitepump/:id`}
-                    element={<WrappedEditSitePump />}
-                  />
+                    <Route
+                      path={`/addsitepump`}
+                      element={<WrappedAddSitePump />}
+                    />
+                    <Route
+                      path={`/editsitepump/:id`}
+                      element={<WrappedEditSitePump />}
+                    />
 
-                  <Route
-                    path={`/assignppl`}
-                    element={<WrappedAssignManagePPL />}
-                  />
-                  <Route path={`/addppl`} element={<WrappedAssignAddPPL />} />
-                  <Route
-                    path={`/editppl/:id`}
-                    element={<WrappedAssignEditPPL />}
-                  />
+                    <Route
+                      path={`/assignppl`}
+                      element={<WrappedAssignManagePPL />}
+                    />
+                    <Route path={`/addppl`} element={<WrappedAssignAddPPL />} />
+                    <Route
+                      path={`/editppl/:id`}
+                      element={<WrappedAssignEditPPL />}
+                    />
 
-                  {/* SitePump components end */}
+                    {/* SitePump components end */}
 
-                  {/* SiteTank components start */}
+                    {/* SiteTank components start */}
 
-                  <Route
-                    path={`/managesitetank`}
-                    element={<WrappedManageSiteTank />}
-                  />
+                    <Route
+                      path={`/managesitetank`}
+                      element={<WrappedManageSiteTank />}
+                    />
 
-                  <Route
-                    path={`/addsitetank`}
-                    element={<WrappedAddSiteTank />}
-                  />
-                  <Route
-                    path={`/editsitetank/:id`}
-                    element={<WrappedEditSiteTank />}
-                  />
+                    <Route
+                      path={`/addsitetank`}
+                      element={<WrappedAddSiteTank />}
+                    />
+                    <Route
+                      path={`/editsitetank/:id`}
+                      element={<WrappedEditSiteTank />}
+                    />
 
-                  {/* SiteTank components end */}
+                    {/* SiteTank components end */}
 
-                  {/* SiteNozzle components start */}
+                    {/* SiteNozzle components start */}
 
-                  <Route
-                    path={`/managesitenozzle`}
-                    element={<WrappedManageSiteNozzle />}
-                  />
+                    <Route
+                      path={`/managesitenozzle`}
+                      element={<WrappedManageSiteNozzle />}
+                    />
 
-                  <Route
-                    path={`/addsitenozzle`}
-                    element={<WrappedAddSiteNozzle />}
-                  />
-                  <Route
-                    path={`/editsitenozzle/:id`}
-                    element={<WrappedEditSiteNozzle />}
-                  />
+                    <Route
+                      path={`/addsitenozzle`}
+                      element={<WrappedAddSiteNozzle />}
+                    />
+                    <Route
+                      path={`/editsitenozzle/:id`}
+                      element={<WrappedEditSiteNozzle />}
+                    />
 
-                  {/* SiteNozzle components end */}
+                    {/* SiteNozzle components end */}
 
-                  {/* Items components start */}
+                    {/* Items components start */}
 
-                  <Route
-                    path={`/manageitems`}
-                    element={<WrappedManageItems />}
-                  />
+                    <Route
+                      path={`/manageitems`}
+                      element={<WrappedManageItems />}
+                    />
 
-                  <Route path={`/additems`} element={<WrappedAddItems />} />
-                  <Route
-                    path={`/edititems/:id`}
-                    element={<WrappedEditItems />}
-                  />
-                  <Route
-                    path={`/edit-competitor/:id`}
-                    element={<WrappedEditCompetitorFuelPrices />}
-                  />
-                  <Route
-                    path={`/setup-payroll/:id`}
-                    element={<Wrappedsetuppayroll />}
-                  />
+                    <Route path={`/additems`} element={<WrappedAddItems />} />
+                    <Route
+                      path={`/edititems/:id`}
+                      element={<WrappedEditItems />}
+                    />
+                    <Route
+                      path={`/edit-competitor/:id`}
+                      element={<WrappedEditCompetitorFuelPrices />}
+                    />
+                    <Route
+                      path={`/setup-payroll/:id`}
+                      element={<Wrappedsetuppayroll />}
+                    />
 
-                  {/* Import Types components end */}
+                    {/* Import Types components end */}
 
-                  {/* <Route
+                    {/* <Route
                     path={`/manageimporttypes`}
                     element={<WrappedManageImportTypes />}
                   />
@@ -1293,171 +1294,171 @@ const Root = () => {
                     element={<WrappedEditImportTypes />}
                   /> */}
 
-                  {/* Import Types components end */}
+                    {/* Import Types components end */}
 
-                  {/* Category components start */}
-
-                  <Route
-                    path={`/managebusinesscategory`}
-                    element={<WrappedManageBusinessCategory />}
-                  />
-
-                  <Route
-                    path={`/managesubbusinesscategory`}
-                    element={<WrappedManageSubBusinessCategory />}
-                  />
-
-                  <Route
-                    path={`/addbusinesscategory`}
-                    element={<WrappedAddBusinessCategory />}
-                  />
-
-                  <Route
-                    path={`/dashboard-details`}
-                    element={<WrappedDashBoardChild />}
-                  />
-                  <Route
-                    path={`/dashboardSubChild`}
-                    element={<WrappedDashBoardSubChild />}
-                  />
-                  <Route
-                    path={`/dashboard-details/:id`}
-                    element={<WrappedDashBoardSiteDetail />}
-                  />
-
-                  <Route
-                    path={`/addsubbusinesscategory`}
-                    element={<WrappedAddSubBusinessCategory />}
-                  />
-
-                  <Route
-                    path={`/editbusinesscategory/:id`}
-                    element={<WrappedEditBusinessCategory />}
-                  />
-                  <Route
-                    path={`/editsubbusinesscategory/:id`}
-                    element={<WrappedEditSubBusinessCategory />}
-                  />
-
-                  {/* Category components end */}
-                  <Route
-                    path={`/skipdates/:id`}
-                    element={<WrappedSkipDates />}
-                  />
-
-                  <Route
-                    path={`/cron-module`}
-                    element={<WrappedCronModule />}
-                  />
-
-                  <Route
-                    path={`/manage-items`}
-                    element={<WrappedNominalMapDepartmentitems />}
-                  />
-                  <Route
-                    path={`/manage-sage-charges`}
-                    element={<WrappedNominalSageCharges />}
-                  />
-                  <Route
-                    path={`/manage-sage-deduction`}
-                    element={<WrappedNominalSageDeduction />}
-                  />
-                  <Route
-                    path={`/manage-sage-cards`}
-                    element={<WrappedNominalSageCards />}
-                  />
-                  <Route
-                    path={`/manage-sage-banking`}
-                    element={<WrappedNominalSagebanking />}
-                  />
-                  <Route
-                    path={`/nominal-activity-codes`}
-                    element={<WrappedNominalActivityCodes />}
-                  />
-                  <Route
-                    path={`/nominal-types`}
-                    element={<WrappedNominalTypes />}
-                  />
-                  <Route
-                    path={`/nominal-tax-code`}
-                    element={<WrappedNominalTaxCode />}
-                  />
-                  <Route path={`/manage-sms`} element={<Wrappedmanagesms />} />
-                  <Route>
-                    <Route path={`/editprofile`} element={<EditProfile />} />
+                    {/* Category components start */}
 
                     <Route
-                      path={`/business`}
-                      element={<ManageBusinessTypes />}
-                    />
-                    <Route path={`/comingsoon`} element={<COMINGSOON />} />
-                    <Route
-                      path={`/sub-business`}
-                      element={<WrappedManageBusinessSubTypes />}
-                    />
-                    <Route
-                      path={`/addsub-business`}
-                      element={<WrappeAddBusinessSubTypes />}
-                    />
-                    <Route
-                      path={`/editsub-business/:id`}
-                      element={<EditBusinessSubTypes />}
-                    />
-                    <Route path={`/addbusiness`} element={<AddBusiness />} />
-
-                    <Route
-                      path={`/editbusiness/:id`}
-                      element={<EditBusiness />}
+                      path={`/managebusinesscategory`}
+                      element={<WrappedManageBusinessCategory />}
                     />
 
-                    <Route path={`/settings`} element={<Settings />} />
+                    <Route
+                      path={`/managesubbusinesscategory`}
+                      element={<WrappedManageSubBusinessCategory />}
+                    />
 
-                    <Route path={`/pages/faqs`} element={<FAQS />} />
+                    <Route
+                      path={`/addbusinesscategory`}
+                      element={<WrappedAddBusinessCategory />}
+                    />
+
+                    <Route
+                      path={`/dashboard-details`}
+                      element={<WrappedDashBoardChild />}
+                    />
+                    <Route
+                      path={`/dashboardSubChild`}
+                      element={<WrappedDashBoardSubChild />}
+                    />
+                    <Route
+                      path={`/dashboard-details/:id`}
+                      element={<WrappedDashBoardSiteDetail />}
+                    />
+
+                    <Route
+                      path={`/addsubbusinesscategory`}
+                      element={<WrappedAddSubBusinessCategory />}
+                    />
+
+                    <Route
+                      path={`/editbusinesscategory/:id`}
+                      element={<WrappedEditBusinessCategory />}
+                    />
+                    <Route
+                      path={`/editsubbusinesscategory/:id`}
+                      element={<WrappedEditSubBusinessCategory />}
+                    />
+
+                    {/* Category components end */}
+                    <Route
+                      path={`/skipdates/:id`}
+                      element={<WrappedSkipDates />}
+                    />
+
+                    <Route
+                      path={`/cron-module`}
+                      element={<WrappedCronModule />}
+                    />
+
+                    <Route
+                      path={`/manage-items`}
+                      element={<WrappedNominalMapDepartmentitems />}
+                    />
+                    <Route
+                      path={`/manage-sage-charges`}
+                      element={<WrappedNominalSageCharges />}
+                    />
+                    <Route
+                      path={`/manage-sage-deduction`}
+                      element={<WrappedNominalSageDeduction />}
+                    />
+                    <Route
+                      path={`/manage-sage-cards`}
+                      element={<WrappedNominalSageCards />}
+                    />
+                    <Route
+                      path={`/manage-sage-banking`}
+                      element={<WrappedNominalSagebanking />}
+                    />
+                    <Route
+                      path={`/nominal-activity-codes`}
+                      element={<WrappedNominalActivityCodes />}
+                    />
+                    <Route
+                      path={`/nominal-types`}
+                      element={<WrappedNominalTypes />}
+                    />
+                    <Route
+                      path={`/nominal-tax-code`}
+                      element={<WrappedNominalTaxCode />}
+                    />
+                    <Route path={`/manage-sms`} element={<Wrappedmanagesms />} />
+                    <Route>
+                      <Route path={`/editprofile`} element={<EditProfile />} />
+
+                      <Route
+                        path={`/business`}
+                        element={<ManageBusinessTypes />}
+                      />
+                      <Route path={`/comingsoon`} element={<COMINGSOON />} />
+                      <Route
+                        path={`/sub-business`}
+                        element={<WrappedManageBusinessSubTypes />}
+                      />
+                      <Route
+                        path={`/addsub-business`}
+                        element={<WrappeAddBusinessSubTypes />}
+                      />
+                      <Route
+                        path={`/editsub-business/:id`}
+                        element={<EditBusinessSubTypes />}
+                      />
+                      <Route path={`/addbusiness`} element={<AddBusiness />} />
+
+                      <Route
+                        path={`/editbusiness/:id`}
+                        element={<EditBusiness />}
+                      />
+
+                      <Route path={`/settings`} element={<Settings />} />
+
+                      <Route path={`/pages/faqs`} element={<FAQS />} />
+                    </Route>
                   </Route>
                 </Route>
-              </Route>
 
-              <Route path={`/`} element={<Custompages />}>
+                <Route path={`/`} element={<Custompages />}>
+                  <Route path="/login" element={<Login token={token} />} />
+
+                  <Route
+                    path="/validateOtp"
+                    element={<ValidateOtp token={token} />}
+                  />
+
+                  <Route
+                    path={`/reset-password/:token`}
+                    element={<ResetPassword />}
+                  />
+                  <Route path={`/custompages/register`} element={<Register />} />
+                  <Route
+                    path={`/custompages/forgotPassword`}
+                    element={<ForgotPassword />}
+                  />
+
+                  <Route
+                    path={`/custompages/errorpages/errorpage401`}
+                    element={<Errorpage401 />}
+                  />
+                  <Route
+                    path={`/custompages/errorpages/errorpage500`}
+                    element={<Errorpage500 />}
+                  />
+
+                  <Route
+                    path={`/custompages/errorpages/errorpage503`}
+                    element={<Errorpage503 />}
+                  />
+                  <Route
+                    path={`/under-construction`}
+                    element={<UnderConstruction />}
+                  />
+                  <Route path="*" element={<Errorpage400 />} />
+                </Route>
+
+                <Route path={`/errorpage403`} element={<Errorpage403 />} />
                 <Route path="/login" element={<Login token={token} />} />
-
-                <Route
-                  path="/validateOtp"
-                  element={<ValidateOtp token={token} />}
-                />
-
-                <Route
-                  path={`/reset-password/:token`}
-                  element={<ResetPassword />}
-                />
-                <Route path={`/custompages/register`} element={<Register />} />
-                <Route
-                  path={`/custompages/forgotPassword`}
-                  element={<ForgotPassword />}
-                />
-             
-                <Route
-                  path={`/custompages/errorpages/errorpage401`}
-                  element={<Errorpage401 />}
-                />
-                <Route
-                  path={`/custompages/errorpages/errorpage500`}
-                  element={<Errorpage500 />}
-                />
-
-                <Route
-                  path={`/custompages/errorpages/errorpage503`}
-                  element={<Errorpage503 />}
-                />
-                <Route
-                  path={`/under-construction`}
-                  element={<UnderConstruction />}
-                />
-                <Route path="*" element={<Errorpage400 />} />
-              </Route>
-
-              <Route path={`/errorpage403`} element={<Errorpage403 />} />
-              <Route path="/login" element={<Login token={token} />} />
-            </Routes>
+              </Routes>
             </NavigationProvider>
           </Provider>
         </React.Suspense>

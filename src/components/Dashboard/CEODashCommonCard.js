@@ -1,7 +1,7 @@
 import { Card, Col, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { formatNumber } from '../../Utils/commonFunctions/commonFunction'
 
-const DashCommonCard = ({ isParentComponent,
+const CEODashCommonCard = ({ isParentComponent,
     leftSideData,
     leftSideTitle,
     RightSideData,
@@ -19,7 +19,7 @@ const DashCommonCard = ({ isParentComponent,
     xl = 3,
 }) => (
     <>
-        <Col sm={12} md={6} lg={lg || 6} xl={xl || 3} key={Math.random()} className=''>
+        {/* <Col sm={12} md={6} lg={lg || 6} xl={xl || 3} key={Math.random()} className=''>
             <Card
                 onClick={handleNavigateClick}
                 className={`card dash-card-default-height img-card box-primary-shadow ${containerStyle}`}
@@ -129,10 +129,10 @@ const DashCommonCard = ({ isParentComponent,
                     </p>
                 </Card.Body>
             </Card>
-        </Col>
+        </Col> */}
 
 
-        {/* <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
+        <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card onClick={handleNavigateClick}>
                 <Card.Body className={`text-center ${isParentComponent ? 'pointer' : 'default-pointer'}`} >
                     <i className={`text-success fa-3x l-sign`}>{icon ? icon : "ppl"}</i>
@@ -217,8 +217,8 @@ const DashCommonCard = ({ isParentComponent,
 
                 </Card.Body>
             </Card>
-        </Col> */}
+        </Col>
     </>
 )
 
-export default DashCommonCard
+export default CEODashCommonCard

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import CEODashCommonCard from '../CEODashCommonCard';
+import CEODashCommonCard from "../CEODashCommonCard";
 
-const CeoDashboardStatsBox = (props) => {
+const UpercardsCeoDashboardStatsBox = (props) => {
   const {
     GrossVolume,
     shopmargin,
@@ -63,9 +63,7 @@ const CeoDashboardStatsBox = (props) => {
   };
 
 
-  const CeohandleNavigateClick = () => {
-    console.log("CeohandleNavigateClick");
-  }
+
 
 
   return (
@@ -73,19 +71,16 @@ const CeoDashboardStatsBox = (props) => {
       {GrossVolume ? (
         <Row className=''>
 
-
-
-
           <CEODashCommonCard
             isParentComponent={parentComponent}
-            showRightSide={false}
+            showRightSide={true}
             leftSideData={GrossVolume?.gross_volume}
-            leftSideTitle={'Cash Fuel Sales'}
+            leftSideTitle={'Gross Volume'}
             RightSideData={GrossVolume?.bunkered_volume}
             RightSideTitle={'Bunkered Volume'}
             statusValue={GrossVolume?.status}
             percentageValue={GrossVolume?.percentage}
-            handleNavigateClick={CeohandleNavigateClick}
+            handleNavigateClick={handleNavigateClick}
             icon={"ℓ"}
             containerStyle={'dash-plates-1'}
           // tooltipContent={'dash-plates-1'}
@@ -94,14 +89,14 @@ const CeoDashboardStatsBox = (props) => {
 
           <CEODashCommonCard
             isParentComponent={parentComponent}
-            showRightSide={false}
+            showRightSide={true}
             leftSideData={FuelValue?.gross_value}
-            leftSideTitle={'cash shop sales'}
+            leftSideTitle={'Fuel Sales (Ex. Vat)'}
             RightSideData={FuelValue?.bunkered_value}
             RightSideTitle={'Bunkered Sales'}
             statusValue={FuelValue?.status}
             percentageValue={FuelValue?.percentage}
-            handleNavigateClick={CeohandleNavigateClick}
+            handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={'dash-plates-3 '}
           // tooltipContent={'dash-plates-1'}
@@ -112,12 +107,12 @@ const CeoDashboardStatsBox = (props) => {
             isParentComponent={parentComponent}
             showRightSide={false}
             leftSideData={GrossProfitValue?.gross_profit}
-            leftSideTitle={'card fuel sales'}
+            leftSideTitle={'Gross Profit'}
             RightSideData={GrossProfitValue?.bunkered_value}
             RightSideTitle={'Bunkered Sales'}
             statusValue={GrossProfitValue?.status}
             percentageValue={GrossProfitValue?.percentage}
-            handleNavigateClick={CeohandleNavigateClick}
+            handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={'dash-plates-5 '}
             tooltipContent={'Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock'}
@@ -129,12 +124,12 @@ const CeoDashboardStatsBox = (props) => {
             isParentComponent={parentComponent}
             showRightSide={false}
             leftSideData={GrossMarginValue?.gross_margin}
-            leftSideTitle={'card Shop sales'}
+            leftSideTitle={'Gross Margin'}
             RightSideData={GrossMarginValue?.bunkered_value}
             RightSideTitle={'Bunkered Sales'}
             statusValue={GrossMarginValue?.status}
             percentageValue={GrossMarginValue?.percentage}
-            handleNavigateClick={CeohandleNavigateClick}
+            handleNavigateClick={handleNavigateClick}
             // icon={"£"}
             containerStyle={'dash-plates-2'}
             tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
@@ -147,12 +142,12 @@ const CeoDashboardStatsBox = (props) => {
             isParentComponent={parentComponent}
             showRightSide={false}
             leftSideData={shopsale?.shop_sales}
-            leftSideTitle={'Keyfuel card fuel sales'}
+            leftSideTitle={'Shop Sales (Ex. Vat)'}
             RightSideData={shopsale?.bunkered_value}
             RightSideTitle={'Bunkered Sales'}
             statusValue={shopsale?.status}
             percentageValue={shopsale?.percentage}
-            handleNavigateClick={CeohandleNavigateClick}
+            handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={'dash-plates-4'}
           // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
@@ -165,12 +160,12 @@ const CeoDashboardStatsBox = (props) => {
             isParentComponent={parentComponent}
             showRightSide={false}
             leftSideData={shop_fees?.shop_fee}
-            leftSideTitle={'Keyfuel card shop sales'}
+            leftSideTitle={'Shop Fee'}
             RightSideData={shop_fees?.bunkered_value}
             RightSideTitle={'Bunkered Sales'}
             statusValue={shop_fees?.status}
             percentageValue={shop_fees?.percentage}
-            handleNavigateClick={CeohandleNavigateClick}
+            handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={'dash-plates-6'}
           // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
@@ -179,7 +174,7 @@ const CeoDashboardStatsBox = (props) => {
           />
 
 
-          {/* <CEODashCommonCard
+          <CEODashCommonCard
             isParentComponent={parentComponent}
             showRightSide={false}
             leftSideData={shopmargin?.shop_profit}
@@ -188,13 +183,13 @@ const CeoDashboardStatsBox = (props) => {
             RightSideTitle={'Bunkered Sales'}
             statusValue={shopmargin?.status}
             percentageValue={shopmargin?.percentage}
-            handleNavigateClick={CeohandleNavigateClick}
+            handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={'dash-plates-5'}
             tooltipContent={`The data is accurately sourced from back-office system`}
           // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
           // showPPL={true}
-          /> */}
+          />
 
         </Row>
       ) : (
@@ -204,4 +199,4 @@ const CeoDashboardStatsBox = (props) => {
   );
 };
 
-export default CeoDashboardStatsBox;
+export default UpercardsCeoDashboardStatsBox;

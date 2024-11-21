@@ -11,6 +11,15 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
+      {
+        path: `/ceodashboard`,
+        icon: "house",
+        type: "link",
+        active: false,
+        permission: "dashboard-view",
+        visibility: false,
+        title: "CEO Dashboard",
+      },
 
       // {
       //   path: `/fuelprice`,

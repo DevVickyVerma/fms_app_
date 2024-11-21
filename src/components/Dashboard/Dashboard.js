@@ -35,9 +35,9 @@ const Dashboard = (props) => {
   const [ShowLiveData, setShowLiveData] = useState(false);
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(fetchData())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchData())
+  // }, [])
 
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const validationSchemaForCustomInput = Yup.object({
@@ -150,7 +150,7 @@ const Dashboard = (props) => {
     setShowLiveData(false); // Toggle the state
   };
 
-
+console.log(dashboardData?.pi_graph, "dashboardData?.pi_graph");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -322,7 +322,7 @@ const Dashboard = (props) => {
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
-        {/* <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
+        <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
             title="Total Stats"
             chartType="default"
@@ -345,7 +345,7 @@ const Dashboard = (props) => {
           >
             <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
           </ChartCard>
-        </Row> */}
+        </Row>
         <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
             title="Total Daywise Sales"
@@ -361,7 +361,7 @@ const Dashboard = (props) => {
           </ChartCard>
         </Row>
 
-        {dashboardData ? <CeoDashBoard dashboardData={dashboardData} /> : ""}
+        {/* {dashboardData ? <CeoDashBoard dashboardData={dashboardData} /> : ""} */}
 
 
       </div>
