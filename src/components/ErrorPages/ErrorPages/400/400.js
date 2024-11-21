@@ -5,12 +5,12 @@ export default function Errorpage400() {
   return (
     <div className="error-bg">
       <div className="page">
-       
+
         <div className="page-content error-page error2" >
           <div className="container text-center">
             <div className="error-template">
               <h1 className="display-1 text-dark mb-2">
-                400<span className="fs-20">error</span>
+                404<span className="fs-20">error</span>
               </h1>
               <h5 className="error-details text-dark">
                 Sorry, an error has occured, Requested page not found!
