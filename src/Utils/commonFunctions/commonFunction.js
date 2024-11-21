@@ -69,3 +69,19 @@ export const getCurrentDate = () => {
     const day = String(today.getDate()).padStart(2, '0'); // Add leading zero
     return `${year}-${month}-${day}`;
 };
+
+
+export const yesNoOptions = [
+    { value: '1', label: 'Yes' },
+    { value: '0', label: 'No' },
+];
+
+export const activeInactiveOptions = [
+    { value: '1', label: 'Active' },
+    { value: '0', label: 'Inactive' },
+];
+
+export const AutomaticManualOptions = [
+    { value: '1', label: 'Automatic' },
+    { value: '2', label: 'manual' },
+];
