@@ -42807,7 +42807,7 @@ iframe {
 
 .wrap-login100 {
   /*width: 960px;*/
-  background: #ffffffbf;
+  background: rgb(255 255 255 / 80%);
   /* background: #fff; */
   overflow: hidden;
   flex-wrap: wrap;

@@ -471,7 +471,7 @@ export default function Login() {
                       className=" text-end p-2 color-white"
                       style={{
                         background:
-                          "linear-gradient(90deg, #000000 0%, #353535 91.71%)",
+                          "linear-gradient(90deg, rgb(70 99 172) 0%, rgb(70 99 172) 91.71%)",
                         color: "white",
                         fontSize: "12px",
                       }}
@@ -480,6 +480,8 @@ export default function Login() {
                         SECURE WITH{" "}
                         <strong className="  font-weight-bold">2FA</strong>{" "}
                         <i className="fa fa-shield" aria-hidden="true"></i>
+                        <i class="fa fa-brands-google"></i>
+                        <i class="fa fa-brands-microsoft"></i>
                       </span>
                     </Card.Footer>
                   </div>

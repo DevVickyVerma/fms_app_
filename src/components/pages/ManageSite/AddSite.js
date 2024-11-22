@@ -43,7 +43,7 @@ const AddSite = (props) => {
     Saga_department_name: "",
     Bp_nctt_site_no: "",
     bank_ref: "",
-    Report_generation_Status: "",
+    site_report_status: "",
     Report_date_type: "",
     consider_keyfules_cards: "",
     Fuel_commission_type: "",
@@ -123,7 +123,7 @@ const AddSite = (props) => {
       console.log("Form data", values);
     },
   });
- 
+
   const handleSubmit1 = async (values,) => {
     try {
       const formData = new FormData();
@@ -138,7 +138,7 @@ const AddSite = (props) => {
       formData.append("bp_credit_card_site_no", values.Bp_nctt_site_no);
       formData.append("bank_ref", values.bank_ref);
       formData.append("supplier_id", values.supplier);
-      formData.append("site_report_status", values.Report_generation_Status);
+      formData.append("site_report_status", values.site_report_status);
       formData.append("site_report_date_type", values.Report_date_type);
       formData.append(
         "consider_keyfules_cards",
@@ -419,7 +419,7 @@ const AddSite = (props) => {
                   <form onSubmit={formik.handleSubmit}>
                     <Row>
                       {localStorage.getItem('superiorRole') !== 'Client' && (
-                        <Col lg={4} md={6} className=" mt-4">
+                        <Col lg={4} md={6} >
                           <FormikSelect
                             formik={formik}
                             name="client_id"
@@ -432,7 +432,7 @@ const AddSite = (props) => {
                       )}
 
 
-                      <Col lg={4} md={6} className=" mt-4">
+                      <Col lg={4} md={6} >
                         <FormikSelect
                           formik={formik}
                           name="company_id"
@@ -442,14 +442,14 @@ const AddSite = (props) => {
                           onChange={handleCompanyChange}
                         />
                       </Col>
-                      <Col lg={4} md={6} className=" mt-4">
+                      <Col lg={4} md={6} >
                         <FormikSelect
                           formik={formik}
-                          name="Supplier"
-                          label="Supplier"
-                          options={AddSiteData.suppliers?.map((item) => ({ id: item?.id, name: item?.supplier_name }))}
+                          name="supplier"
+                          label="supplier"
+                          options={AddSiteData?.suppliers?.map((item) => ({ id: item?.id, name: item?.supplier_name }))}
                           className="form-input"
-                          // onChange={handleCompanyChange}
+                        // onChange={handleCompanyChange}
                         />
                       </Col>
                       <Col lg={4}>
@@ -459,7 +459,7 @@ const AddSite = (props) => {
                         <FormikInput formik={formik} type="text" name="site_name" />
                       </Col>
                       <Col lg={4}>
-                        <FormikInput formik={formik} type="text" label='Site Id'  name="e_code" />
+                        <FormikInput formik={formik} type="text" label='Site Id' name="e_code" />
                       </Col>
                       <Col lg={4}>
                         <FormikInput formik={formik} type="text" name="display_name" />
@@ -502,8 +502,8 @@ const AddSite = (props) => {
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
-                          name="Report_generation_Status"
-                          label="Report_generation_Status"
+                          name="site_report_status"
+                          label="Report Generation Status"
                           options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
 
