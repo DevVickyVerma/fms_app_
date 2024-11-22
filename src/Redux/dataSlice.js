@@ -23,7 +23,7 @@ const ErrorToast = (message) => {
 const baseUrl = process.env.REACT_APP_BASE_URL;
 export const fetchData = createAsyncThunk(
   "data/fetchData",
-  // eslint-disable-next-line consistent-return
+   
   async () => {
     const token = localStorage.getItem("token");
 

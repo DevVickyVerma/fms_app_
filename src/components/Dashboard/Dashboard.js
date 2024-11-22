@@ -16,7 +16,6 @@ import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { fetchData } from "../../Redux/dataSlice";
-import CeoDashBoard from "./CeoDashBoard";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -35,9 +34,9 @@ const Dashboard = (props) => {
   const [ShowLiveData, setShowLiveData] = useState(false);
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   dispatch(fetchData())
-  // }, [])
+  useEffect(() => {
+    dispatch(fetchData())
+  }, [])
 
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const validationSchemaForCustomInput = Yup.object({

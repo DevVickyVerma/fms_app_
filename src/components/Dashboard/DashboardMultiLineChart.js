@@ -97,7 +97,7 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
         borderWidth: 1,
         padding: 10,
         callbacks: {
-          // eslint-disable-next-line func-names
+           
           label: function (context) {
             let label = context?.dataset?.label || '';
             if (label) {

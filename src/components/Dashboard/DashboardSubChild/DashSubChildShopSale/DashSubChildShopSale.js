@@ -523,7 +523,7 @@ const DashSubChildShopSale = ({
                             .test(
                               "start_date",
                               "Start Date must be before End Date",
-                              // eslint-disable-next-line func-names
+                               
                               function (value) {
                                 const { start_date } = this.parent;
                                 return start_date <= value;

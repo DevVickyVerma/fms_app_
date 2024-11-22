@@ -1,4 +1,4 @@
-/* eslint-disable eqeqeq */
+ 
 import { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";

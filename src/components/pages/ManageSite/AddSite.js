@@ -6,7 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-import { AddSiteinitialValues } from '../../../Utils/commonFunctions/formConfig';
 import FormikSelect from '../../Formik/FormikSelect';
 import FormikInput from '../../Formik/FormikInput';
 import { ReactMultiEmail } from "react-multi-email";
@@ -365,7 +364,6 @@ const AddSite = (props) => {
     // Update Formik state when email input changes
     formik.setFieldValue("cc_emails", newEmails);
   };
-  console.log(formik.values.update_tlm_price, "formik.values.update_tlm_price");
   const renderCCEmailTag = (email, index, removeEmail) => (
     <div key={index} className="renderEmailTag">
       {email}
