@@ -17,7 +17,7 @@ const AddSite = (props) => {
   const { handleError } = useErrorHandler();
   const [AddSiteData, setAddSiteData] = useState([]);
   const [showToEmailError, setShowToEmailError] = useState(true);
-
+  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const GetSiteData = async () => {
     try {
       const response = await getData("site/common-data-list");
@@ -84,6 +84,9 @@ const AddSite = (props) => {
   const formik = useFormik({
     initialValues: AddSiteinitialValues,
     validationSchema: Yup.object({
+      client_id: isNotClient
+        ? Yup.string().required("Client is required")
+        : Yup.mixed().notRequired(),
       site_code: Yup.string().required("Site Code is required"),
       e_code: Yup.string().required("Site ID is required"),
       site_name: Yup.string()
@@ -506,7 +509,7 @@ const AddSite = (props) => {
                           label="Report Generation Status"
                           options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
-
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -536,6 +539,7 @@ const AddSite = (props) => {
                           label="Fuel_commission_type"
                           options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
+                          isRequired={false}
 
                         />
                       </Col>
@@ -546,6 +550,7 @@ const AddSite = (props) => {
                           label="Paper_work_status"
                           options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
+                          isRequired={false}
 
                         />
                       </Col>
@@ -556,7 +561,7 @@ const AddSite = (props) => {
                           label="Bunkered_sale_status"
                           options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
-
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -586,16 +591,20 @@ const AddSite = (props) => {
                         <FormikInput formik={formik} type="number" label='security_amount' name="security_amount" />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='shop_commission' name="shop_commission" />
+                        <FormikInput formik={formik} type="number" label='shop_commission' name="shop_commission"
+                          isRequired={false} />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='lottery_commission' name="lottery_commission" />
+                        <FormikInput formik={formik} type="number" label='lottery_commission' name="lottery_commission"
+                          isRequired={false} />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='instant_lottery_commission' name="instant_lottery_commission" />
+                        <FormikInput formik={formik} type="number" label='instant_lottery_commission' name="instant_lottery_commission"
+                          isRequired={false} />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='paypoint_commission' name="paypoint_commission" />
+                        <FormikInput formik={formik} type="number" label='paypoint_commission' name="paypoint_commission"
+                          isRequired={false} />
                       </Col>
                       <Col lg={4} md={6}>
                         <FormikSelect
@@ -625,6 +634,7 @@ const AddSite = (props) => {
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
 
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -654,6 +664,7 @@ const AddSite = (props) => {
                           label="auto_dayend"
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
+                          isRequired={false}
 
                         />
                       </Col>
@@ -664,6 +675,7 @@ const AddSite = (props) => {
                           label="ignore_tolerance"
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
+                          isRequired={false}
 
                         />
                       </Col>
@@ -694,7 +706,7 @@ const AddSite = (props) => {
                           label="fuel_discount"
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
-
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -705,6 +717,7 @@ const AddSite = (props) => {
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
 
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -714,6 +727,7 @@ const AddSite = (props) => {
                           label="include_bunkered_sales"
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
+                          isRequired={false}
 
                         />
                       </Col>
@@ -725,6 +739,7 @@ const AddSite = (props) => {
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
 
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -735,6 +750,7 @@ const AddSite = (props) => {
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
 
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -754,6 +770,7 @@ const AddSite = (props) => {
                           label="consider_fuel_sales"
                           options={SalesSummary?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
+                          isRequired={false}
 
                         />
                       </Col>
@@ -764,6 +781,7 @@ const AddSite = (props) => {
                           label="shop_sale_file_upload"
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
+                          isRequired={false}
 
                         />
                       </Col>
@@ -775,6 +793,7 @@ const AddSite = (props) => {
                           options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
                           className="form-input"
 
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -786,6 +805,7 @@ const AddSite = (props) => {
                           className="form-input"
                           onChange={handleTLMPriceChange}
 
+                          isRequired={false}
                         />
                       </Col>
 
@@ -803,7 +823,6 @@ const AddSite = (props) => {
                               htmlFor="to_emails"
                             >
                               To Email
-                              <span className="text-danger">*</span>
                             </label>
                             <div className="email-input">
                               <ReactMultiEmail
@@ -814,6 +833,7 @@ const AddSite = (props) => {
                                 onBlur={() =>
                                   formik.setFieldTouched("to_emails", true)
                                 }
+
                               />
 
                             </div>
