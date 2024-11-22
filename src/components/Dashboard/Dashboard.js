@@ -324,7 +324,7 @@ console.log(dashboardData?.pi_graph, "dashboardData?.pi_graph");
 
         <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
-            title="Total Stats"
+            title="Total Sales"
             chartType="default"
             chartData={dashboardData?.line_graph}
             noChartImage="../../assets/images/no-chart-img.png"
@@ -337,7 +337,7 @@ console.log(dashboardData?.pi_graph, "dashboardData?.pi_graph");
           </ChartCard>
 
           <ChartCard
-            title="Overall Stats"
+            title="Overall Sales"
             chartType="stats"
             chartData={dashboardData?.pi_graph}
             noChartImage="../../assets/images/no-chart-img.png"
@@ -348,7 +348,7 @@ console.log(dashboardData?.pi_graph, "dashboardData?.pi_graph");
         </Row>
         <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
-            title="Total Daywise Sales"
+            title="Total Day Wise Sales"
             chartType="full"
             chartData={dashboardData?.d_line_graph}
             noChartImage="../../assets/images/no-chart-img.png"
