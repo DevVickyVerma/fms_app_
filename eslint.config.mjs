@@ -1,33 +1,13 @@
-import js from "@eslint/js";
-import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginReact from "eslint-plugin-react";
 
+
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  js.configs.recommended,
-  {
-    files: ["**/*.js", "**/*.jsx"],
-    languageOptions: {
-      ecmaVersion: 2021,
-      sourceType: "module",
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    plugins: {
-      react,
-      reactHooks,
-    },
-    rules: {
-      eqeqeq: "off",
-      "react-hooks/exhaustive-deps": "off",
-      "no-useless-escape": "off",
-    },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
-  },
+  {files: ["**/*.{js,mjs,cjs,jsx}"]},
+  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
+  {languageOptions: { globals: globals.browser }},
+  pluginJs.configs.recommended,
+  pluginReact.configs.flat.recommended,
 ];

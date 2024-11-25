@@ -135,7 +135,9 @@ const CEODashCommonCard = ({ isParentComponent,
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card onClick={handleNavigateClick}>
                 <Card.Body className={`text-center ${isParentComponent ? 'pointer' : 'default-pointer'}`} >
-                    <i className={`text-success fa-3x l-sign`}>{icon ? icon : "ppl"}</i>
+                    <span className='iconborder'>
+                        <i className={`text-white fa-3x l-sign`}>{icon ? icon : "ppl"}</i>
+                    </span>
                     <div className={showRightSide ? 'spacebetween' : ''}>
 
 

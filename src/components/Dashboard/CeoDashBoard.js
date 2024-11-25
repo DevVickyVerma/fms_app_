@@ -367,7 +367,7 @@ const CeoDashBoard = (props) => {
             <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
           </ChartCard>
         </Row> */}
-        <Rddow style={{ marginBottom: '10px', marginTop: '20px' }}>
+        <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
             title="Total Day Wise Sales"
             chartType="full"
@@ -380,7 +380,7 @@ const CeoDashBoard = (props) => {
               LinechartOption={dashboardData?.d_line_graph?.option?.labels || []}
             />
           </ChartCard>
-        </Rddow>
+        </Row>
 
 
         <Card className="h-100">
