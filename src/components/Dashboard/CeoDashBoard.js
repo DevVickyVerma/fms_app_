@@ -1,11 +1,9 @@
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardMultiLineChart from "./DashboardMultiLineChart";
-import NewDashboardFilterModal from "../pages/Filtermodal/NewDashboardFilterModal";
 import * as Yup from "yup";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
@@ -18,7 +16,6 @@ import {
   Baroptions,
   Doughnutdata,
   Doughnutoptions,
-  DummyReports,
   priceLogData,
   StackedBarChartdata,
   StackedBarChartoptions,
@@ -28,6 +25,8 @@ import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import { ButtonGroup, Dropdown } from 'react-bootstrap';
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
+import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
+import FormikSelect from "../Formik/FormikSelect";
 
 
 const CeoDashBoard = (props) => {
@@ -56,6 +55,7 @@ const CeoDashBoard = (props) => {
       ? Yup.string().required("Client is required")
       : Yup.mixed().notRequired(),
     company_id: Yup.string().required("Company is required"),
+    // report_month: Yup.string().required("Report Month is required"),
   });
 
 
@@ -64,8 +64,19 @@ const CeoDashBoard = (props) => {
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
 
+  // const currentDate = new Date();
+  // const currentYear = currentDate.getFullYear();
+  // const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
 
+  // // Format current month to match the 'values' format (yyyyMM)
+  // const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
+
+  // // Find the current month object from the filters
+  // var currentMonthObject = filters.reportmonths.find(item => item.values === currentMonthFormatted);
+
+  // console.log(currentMonthObject, "currentMonthObject");
   useEffect(() => {
+
     localStorage.setItem("Dashboardsitestats", permissionsArray?.includes("dashboard-site-stats"));
     if (ReduxFullData?.company_id) {
       localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
@@ -99,6 +110,8 @@ const CeoDashBoard = (props) => {
   });
 
   const FetchFilterData = async (filters) => {
+    console.log(filters, "FetchFilterData");
+
     let { client_id, company_id, site_id, client_name, company_name } = filters;
 
     if (localStorage.getItem("superiorRole") === "Client") {
@@ -161,24 +174,122 @@ const CeoDashBoard = (props) => {
     setShowLiveData(false); // Toggle the state
   };
 
-  const handleDownload = (url) => {
-    // Simulating a download; in real cases, you can trigger a file download or fetch the file
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = url.split("/").pop();
-    link.click();
-  };
 
 
 
   const dropdown = { color: 'primary' };
+
+  const [pdfisLoading, setpdfisLoading] = useState(false);
+  console.log(filters, "filters?.reports");
+  const [selectedMonth, setSelectedMonth] = useState();
+  const [selectedMonthDetails, setSelectedMonthDetails] = useState();
+
+  const handleDownload = async (report) => {
+    console.log(report, "report");
+    setpdfisLoading(true)
+    try {
+      const formData = new FormData();
+
+      formData.append("report", report);
+
+      // Add client_id based on superiorRole
+      const superiorRole = localStorage.getItem("superiorRole");
+      if (superiorRole !== "Client") {
+        formData.append("client_id", filters.client_id);
+      } else {
+        formData.append("client_id", clientIDLocalStorage);
+      }
+
+      // Add other necessary form values
+      formData.append("company_id", filters.company_id);
+
+
+      // Prepare client ID condition for the query params
+      let clientIDCondition = superiorRole !== "Client"
+        ? `client_id=${filters.client_id}&`
+        : `client_id=${clientIDLocalStorage}&`;
+
+
+
+      // Construct commonParams based on toggleValue
+      const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(filters.site_id)}&month=${selectedMonthDetails?.value}`;
+
+      // API URL for the fetch request
+      const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
+
+      // Fetch the data
+      const token = localStorage.getItem("token");
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      // Check if the response is OK
+      if (!response.ok) {
+        const errorData = await response.json(); // Extract error message from response
+        handleError(errorData)
+        ErrorAlert(errorData?.message)
+        throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
+
+      }
+
+      // Handle the file download
+      const blob = await response.blob();
+      const contentType = response.headers.get('Content-Type');
+      let fileExtension = 'xlsx'; // Default to xlsx
+
+      if (contentType) {
+        if (contentType.includes('application/pdf')) {
+          fileExtension = 'pdf';
+        } else if (contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+          fileExtension = 'xlsx';
+        } else if (contentType.includes('text/csv')) {
+          fileExtension = 'csv';
+        } else {
+          console.warn('Unsupported file type:', contentType);
+        }
+      }
+
+      // Create a temporary URL for the Blob
+      const url = window.URL.createObjectURL(new Blob([blob]));
+
+      // Create a link element and trigger the download
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${report?.report_name}.${fileExtension}`);
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      link.parentNode.removeChild(link);
+
+    } catch (error) {
+      console.error('Error downloading the file:', error);
+    } finally {
+      setpdfisLoading(false)
+    }
+  };
+
+
+  console.log(filters.reportmonths, "filters.reportmonths");
+  const handleMonthChange = (selectedId) => {
+    console.log(selectedId, "selectedId");
+    setSelectedMonth(selectedId);
+    const selectedItem = filters.reportmonths.find((item) => item.display == (selectedId));
+    setSelectedMonthDetails(selectedItem);
+    console.log("Selected Item:", selectedItem);
+  };
+
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading || pdfisLoading ? <Loaderimg /> : null}
 
       {centerFilterModalOpen && (
         <div className="">
-          <NewDashboardFilterModal
+          <CeoDashboardFilterModal
             isOpen={centerFilterModalOpen}
             onClose={() => setCenterFilterModalOpen(false)}
             getData={getData}
@@ -482,8 +593,26 @@ const CeoDashBoard = (props) => {
           </Col>
           <Col sm={12} md={4} key={Math.random()}>
             <Card className="h-100">
-              <Card.Header className="p-4">
+              <Card.Header className="p-4 w-100 flexspacebetween">
                 <h4 className="card-title"> Reports</h4>
+                <div >
+
+                  <Col lg={6} style={{ marginRight: "0px" }}>
+                    <select
+                      id="selectedMonth"
+                      value={selectedMonth}
+                      onChange={(e) => handleMonthChange(e.target.value)}
+                      className="form-group"
+                    >
+                      <option value="">--Select a Month--</option>
+                      {filters?.reportmonths?.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.display}
+                        </option>
+                      ))}
+                    </select>
+                  </Col>
+                </div>
               </Card.Header>
               <Card.Body className="pt-0">
                 <div >
@@ -498,14 +627,14 @@ const CeoDashBoard = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {DummyReports?.map((report) => (
+                      {filters?.reports?.map((report) => (
                         <tr key={report.id} style={{ marginBottom: '10px' }}>
 
-                          <td>{report.name}</td>
+                          <td>{report.report_name}</td>
 
                           <td>
                             <button
-                              onClick={() => handleDownload(report.reportUrl)}>
+                              onClick={() => handleDownload(report)}>
                               <i className="fa fa-download" style={{ fontSize: "18px", color: "#4663ac" }}></i>
 
                             </button>

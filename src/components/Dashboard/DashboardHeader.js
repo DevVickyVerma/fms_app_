@@ -28,6 +28,11 @@ const FiltersComponent = ({ filters, handleToggleSidebar1, handleResetFilters, s
               <span className="font-semibold">Site :</span> {filters?.site_name}
             </div>
           )}
+          {/* {filters?.report_month && filters?.report_month && (
+            <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3">
+              <span className="font-semibold">Month :</span> {filters?.report_month}
+            </div>
+          )} */}
           {filters?.start_date && showStartDate && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3">
               <span className="font-semibold">Start Date :</span> {filters?.start_date}

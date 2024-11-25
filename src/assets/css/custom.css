@@ -2158,3 +2158,7 @@ td.middayModal-td.time-input-fuel-sell {
   font-size: 10px;
   background-color: #09ad95;
 }
+.flexspacebetween{
+  display: flex;
+  justify-content: space-between;
+}
