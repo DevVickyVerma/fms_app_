@@ -149,7 +149,6 @@ const Dashboard = (props) => {
     setShowLiveData(false); // Toggle the state
   };
 
-console.log(dashboardData?.pi_graph, "dashboardData?.pi_graph");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
