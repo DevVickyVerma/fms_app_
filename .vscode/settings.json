@@ -1,11 +1,17 @@
 {
-    "cSpell.words": [
-      "breadcrumds", // Custom words for spell checking
-      "formik",
-      "Loaderimg"
-    ],
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit" // Use "explicit" instead of true for ESLint fixes on save
-    }
-  }
-  
+  "cSpell.words": [
+    "breadcrumds", // Custom words for spell checking
+    "formik",
+    "Loaderimg"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit" // Use "explicit" instead of true for ESLint fixes on save
+  },
+  "eslint.options": {
+    "configFile": "eslint.config.mjs" // Path to your ESLint configuration file
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact" // Ensures ESLint validates .js and .jsx files
+  ]
+}

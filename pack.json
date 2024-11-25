@@ -88,7 +88,6 @@
       "eject": "react-scripts eject",
        "lint": "eslint ."
     },
-    "type": "module",
     "resolutions": {
       "autoprefixer": "10.4.5"
     },
