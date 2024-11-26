@@ -322,7 +322,7 @@ const Sidebar = () => {
                           )}
                           {menuItem.children ? (
                             <ul
-                              className={`slide-menu ${menuItem.active ? ' scale-up-ver-top' : 'tracking-out-contract'}`}
+                              className={`slide-menu `}
                             // style={
                             //   menuItem.active
                             //     ? {
