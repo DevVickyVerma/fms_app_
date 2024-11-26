@@ -33,36 +33,6 @@ export const Baroptions = {
 };
 
 
-export const DummyReports = [
-  {
-    id: 1,
-    name: "Monthly Sales Report (DRS)",
-    date: "2024-01-15",
-    status: "Completed",
-    reportUrl: "/path/to/sales-report-q1.pdf",
-  },
-  {
-    id: 2,
-    name: "PPL RSP Report",
-    date: "2024-02-10",
-    status: "Pending",
-    reportUrl: "/path/to/marketing-analysis.pdf",
-  },
-  {
-    id: 3,
-    name: "Cash Monitoring Monthly Report",
-    date: "2024-03-05",
-    status: "Completed",
-    reportUrl: "/path/to/financial-overview.pdf",
-  },
-  {
-    id: 4,
-    name: "Fuel Commission Invoice Pdf",
-    date: "2024-04-12",
-    status: "In Progress",
-    reportUrl: "/path/to/customer-feedback.pdf",
-  },
-];
 export const priceLogData = [
   {
     id: 1,

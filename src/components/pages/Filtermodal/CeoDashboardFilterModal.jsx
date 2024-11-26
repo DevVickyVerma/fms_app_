@@ -196,15 +196,7 @@ const CeoDashboardFilterModal = ({
         const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
         formik.setFieldValue('site_name', selectedSiteData?.site_name || "");
     };
-    const handleReportmonthChange = (e) => {
-        const selectedSiteId = e.target.value;
-        console.log(selectedSiteId, "selectedSiteId");
-        formik.setFieldValue("report_month", selectedSiteId);
-        const reportmonthvalue =  formik?.values?.reportmonths?.find(item => item.display === selectedSiteId);
-        console.log(reportmonthvalue, "reportmonthvalue");
-        formik.setFieldValue("report_monthvalue", reportmonthvalue|| "");
-      
-    };
+ 
 
 
     return (

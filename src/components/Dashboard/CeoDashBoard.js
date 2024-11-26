@@ -1,4 +1,5 @@
 
+import React from "react";
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
@@ -26,7 +27,6 @@ import { Doughnut } from "react-chartjs-2";
 import { ButtonGroup, Dropdown } from 'react-bootstrap';
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
-import FormikSelect from "../Formik/FormikSelect";
 
 
 const CeoDashBoard = (props) => {
@@ -64,17 +64,12 @@ const CeoDashBoard = (props) => {
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
 
-  // const currentDate = new Date();
-  // const currentYear = currentDate.getFullYear();
-  // const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
 
-  // // Format current month to match the 'values' format (yyyyMM)
-  // const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
 
-  // // Find the current month object from the filters
-  // var currentMonthObject = filters.reportmonths.find(item => item.values === currentMonthFormatted);
+  const [selectedMonth, setSelectedMonth] = useState();
+  const [selectedMonthDetails, setSelectedMonthDetails] = useState();
 
-  // console.log(currentMonthObject, "currentMonthObject");
+
   useEffect(() => {
 
     localStorage.setItem("Dashboardsitestats", permissionsArray?.includes("dashboard-site-stats"));
@@ -91,6 +86,37 @@ const CeoDashBoard = (props) => {
     console.clear();
   }, [ReduxFullData, permissionsArray]);
 
+  useEffect(() => {
+    if (!selectedMonth && selectedMonthDetails) {
+      // Case 1: selectedMonth is empty/undefined, but selectedMonthDetails has a value
+      console.log("selectedMonth is undefined or empty, but selectedMonthDetails has a value:", selectedMonthDetails);
+    } else if (selectedMonth && selectedMonthDetails) {
+      // Case 2: Both selectedMonth and selectedMonthDetails have values
+      console.log("Both selectedMonth and selectedMonthDetails have values:");
+      console.log("selectedMonth:", selectedMonth);
+      console.log("selectedMonthDetails:", selectedMonthDetails);
+    } else if (!selectedMonth && !selectedMonthDetails && filters?.reportmonths) {
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
+
+      // Format current month to match the 'values' format (yyyyMM)
+      const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
+
+      // Find the current month object from the filters
+      var currentMonthObject = filters?.reportmonths.find(item => item.values === currentMonthFormatted);
+
+      console.log(currentMonthObject, "currentMonthObject");
+      // Case 3: Both selectedMonth and selectedMonthDetails are empty/undefined
+      console.log(currentMonthObject, "Both selectedMonth and selectedMonthDetails are undefined or empty");
+      setSelectedMonthDetails(currentMonthObject)
+      setSelectedMonth(currentMonthObject?.display)
+    } else {
+      // Case 4: selectedMonth has a value, but selectedMonthDetails is empty/undefined
+      console.log("selectedMonth has a value, but selectedMonthDetails is undefined or empty:");
+      console.log("selectedMonth:", selectedMonth);
+    }
+  }, [selectedMonth, selectedMonthDetails]);
 
 
 
@@ -181,8 +207,6 @@ const CeoDashBoard = (props) => {
 
   const [pdfisLoading, setpdfisLoading] = useState(false);
   console.log(filters, "filters?.reports");
-  const [selectedMonth, setSelectedMonth] = useState();
-  const [selectedMonthDetails, setSelectedMonthDetails] = useState();
 
   const handleDownload = async (report) => {
     console.log(report, "report");
@@ -274,7 +298,6 @@ const CeoDashBoard = (props) => {
   };
 
 
-  console.log(filters.reportmonths, "filters.reportmonths");
   const handleMonthChange = (selectedId) => {
     console.log(selectedId, "selectedId");
     setSelectedMonth(selectedId);
@@ -282,6 +305,20 @@ const CeoDashBoard = (props) => {
     setSelectedMonthDetails(selectedItem);
     console.log("Selected Item:", selectedItem);
   };
+  const handleSiteChange = (selectedId) => {
+    console.log(selectedId, "selectedId");
+    const selectedItem = filters?.sites.find((item) => item.site_name == (selectedId));
+    console.log("Selected handleSiteChange:", selectedItem);
+  };
+  const firstSiteObject = () => {
+    if (filters && filters.site_id === "" && filters.site_name === "" && filters.company_id) {
+      return filters.sites.length > 0 ? filters.sites[0] : null;
+    }
+    return null;
+  };
+
+  const result = firstSiteObject();
+
 
   return (
     <>
@@ -532,32 +569,58 @@ const CeoDashBoard = (props) => {
 
         <Row className="d-flex align-items-stretch mt-5 ">
           <Col sm={12} md={8} key={Math.random()}>
-            <Card className="h-100">
+            <Card className="h-100" >
               <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
-                  <h4 className="card-title"> Selling Price Logs (Site 1) </h4>
+                  <h4 className="card-title"> Selling Price Logs ({result?.site_name || filters?.site_name})
+                  </h4>
                   {/* <a
     onClick={toggleDropdown}
     style={{ alignItems: "end", textDecoration: "underline", cursor: "pointer" }}
   >
     ....
   </a> */}
+                  <Col lg={6} style={{ marginRight: "0px" }}>
+                    <select
+                      id="selectedMonth"
+                      value={selectedMonth}
+                      onChange={(e) => handleSiteChange(e.target.value)}
+                      className="selectedMonth"
+                    >
+                      <option value="">--Select a Site--</option>
+                      {filters?.sites?.map((item, index) => (
+                        <option key={item.id} value={item.id}>
+                          {item.site_name}
+                        </option>
+                      ))}
+                    </select>
+                  </Col>
+                  {/* {
+                    filters?.sites?.length > 0 && (
+                      <Dropdown as={ButtonGroup} key={Math.random()}>
 
-                  <Dropdown as={ButtonGroup} key={Math.random()}>
+                        <Dropdown.Toggle split variant={dropdown.color} />
 
-                    <Dropdown.Toggle split variant={dropdown.color} />
+                        <Dropdown.Menu className="super-colors">
+                          {filters?.sites?.map((site, index) => (
+                            <React.Fragment key={site?.id}>
+                              <Dropdown.Item className="p-2" eventKey={index + 1}>
+                                {site?.site_name}
+                              </Dropdown.Item>
+                              {index < filters.sites?.length - 1 && <hr className="p-0 m-0" />}
+                            </React.Fragment>
+                          ))}
+                        </Dropdown.Menu>
 
-                    <Dropdown.Menu className="super-colors">
+                      </Dropdown>
+                    )
+                  } */}
 
-                      <Dropdown.Item className="p-2" eventKey="1">Site 1</Dropdown.Item>
-                      <hr className="p-0 m-0"></hr>
-                      <Dropdown.Item className="p-2" eventKey="2">Site 2</Dropdown.Item>
 
-                    </Dropdown.Menu>
-                  </Dropdown>
+
                 </div>
               </Card.Header>
-              <Card.Body className="pt-0">
+              <Card.Body style={{ maxHeight: "400px", overflowX: "auto", overflowY: "auto" }}>
                 <div>
                   <table style={{ width: "100%" }}>
                     <thead>
@@ -592,7 +655,7 @@ const CeoDashBoard = (props) => {
 
           </Col>
           <Col sm={12} md={4} key={Math.random()}>
-            <Card className="h-100">
+            <Card className="h-100" >
               <Card.Header className="p-4 w-100 flexspacebetween">
                 <h4 className="card-title"> Reports</h4>
                 <div >
@@ -602,7 +665,7 @@ const CeoDashBoard = (props) => {
                       id="selectedMonth"
                       value={selectedMonth}
                       onChange={(e) => handleMonthChange(e.target.value)}
-                      className="form-group"
+                      className="selectedMonth"
                     >
                       <option value="">--Select a Month--</option>
                       {filters?.reportmonths?.map((item) => (
@@ -614,16 +677,16 @@ const CeoDashBoard = (props) => {
                   </Col>
                 </div>
               </Card.Header>
-              <Card.Body className="pt-0">
+              <Card.Body style={{ maxHeight: "400px", overflowX: "auto", overflowY: "auto" }}>
                 <div >
 
                   <table style={{ width: "100%" }}>
                     <thead>
                       <tr>
 
-                        <th>Report Name</th>
+                        <th>Reports</th>
 
-                        <th>Actions</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -692,9 +755,6 @@ const CeoDashBoard = (props) => {
                           <td>{stock.itemName}</td>
                           <td>{stock.quantity}</td>
                           <td>{stock.stockAge}</td>
-
-
-
                         </tr>
                       ))}
                     </tbody>
