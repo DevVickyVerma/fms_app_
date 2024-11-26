@@ -2,7 +2,7 @@ import { margin } from '@mui/system';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 
-const SmallLoader = () => {
+const SmallLoader = ({ title = "", showBody = true }) => {
     const loaderStyle = {
         border: "3px solid #f3f3f3", // Light grey
         borderTop: "3px solid #3498db", // Blue
@@ -10,7 +10,7 @@ const SmallLoader = () => {
         width: "20px",
         height: "20px",
         animation: "spin 0.8s linear infinite",
-        margin:"auto"
+        margin: "auto"
     };
 
     const spinnerKeyframes = `
@@ -23,6 +23,12 @@ const SmallLoader = () => {
     return (
         <>
             <Card>
+                {title && (
+                    <Card.Header className="p-4">
+                        <h4 className="card-title">{title || "Loading..."}</h4>
+                    </Card.Header>
+                )}
+
                 <Card.Body>
                     <style>{spinnerKeyframes}</style>
                     <div style={loaderStyle}></div>

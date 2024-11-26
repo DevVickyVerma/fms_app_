@@ -2166,3 +2166,15 @@ td.middayModal-td.time-input-fuel-sell {
   padding: 5px;
   border: 2px solid #ddd;
 }
+.smalltitle{
+  font-size: 12px;
+  color: #726060ee;
+}
+.smallNoDataimg {
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

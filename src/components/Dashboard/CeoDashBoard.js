@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
-import Loaderimg from "../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import * as Yup from "yup";
@@ -11,16 +10,7 @@ import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, Row } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import {
-  Bardata,
-  Baroptions,
-  Doughnutdata,
-  Doughnutoptions,
-  priceLogData,
-  StackedBarChartdata,
-  StackedBarChartoptions,
-  stockAgingDetails,
-} from "../../Utils/commonFunctions/CommonData";
+import { Baroptions, stockAgingDetails } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -28,6 +18,7 @@ import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModa
 import { useFormik } from "formik";
 import SmallLoader from "../../Utils/SmallLoader";
 import CeoDashboardCharts from "./CeoDashboardCharts";
+import { Link } from "react-router-dom";
 
 
 const CeoDashBoard = (props) => {
@@ -103,6 +94,8 @@ const CeoDashBoard = (props) => {
       FetchMopCardStats(values);
       FetchSalesStats(values);
       FetchStockstats(values);
+      FetchShrinkagestats(values);
+
     }
   });
 
@@ -152,10 +145,13 @@ const CeoDashBoard = (props) => {
   const [Mopstatsloading, setMopstatsloading] = useState(false);
   const [Salesstatsloading, setSalesstatsloading] = useState(false);
   const [Stockstatsloading, setStockstatsloading] = useState(false);
-  const [Shrinagestatsloading, setShrinagestatsloading] = useState(false);
+  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(false);
+  const [PriceLogsloading, setPriceLogssloading] = useState(false);
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
+  const [Shrinkagestats, setShrinkagestats] = useState();
+  const [PriceLogs, setPriceLogs] = useState();
   const FetchMopCardStats = async (filters) => {
 
     let { client_id, company_id, site_id, client_name, company_name } = filters;
@@ -288,6 +284,74 @@ const CeoDashBoard = (props) => {
       }
     }
   };
+  const FetchShrinkagestats = async (filters) => {
+
+    let { client_id, company_id, site_id, client_name, company_name } = filters;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...filters,
+      client_id,
+      client_name,
+      company_id,
+      company_name
+    };
+
+
+    if (client_id) {
+      try {
+        setShrinkagestatsloading(true);
+        const queryParams = new URLSearchParams();
+        if (client_id) queryParams.append("client_id", client_id);
+        if (company_id) queryParams.append("company_id", company_id);
+        if (site_id) queryParams.append("site_id", site_id);
+
+        const queryString = queryParams.toString();
+        const response = await getData(`ceo-dashboard/shrinkage-stats?${queryString}`);
+        if (response && response.data && response.data.data) {
+          setShrinkagestats(response?.data?.data)
+        }
+        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
+      } catch (error) {
+        // handleError(error);
+      } finally {
+        setShrinkagestatsloading(false);
+      }
+    }
+  };
+  const FetchPriceLogs = async (filters) => {
+
+
+
+    try {
+      setPriceLogssloading(true);
+      const queryParams = new URLSearchParams();
+      // if (client_id) queryParams.append("client_id", client_id);
+      // if (company_id) queryParams.append("company_id", company_id);
+      if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+      if (formik?.values?.selectedMonth) queryParams.append("drs_date", `01-${formik?.values?.selectedMonthDetails?.value}`);
+
+      const queryString = queryParams.toString();
+      const response = await getData(`ceo-dashboard/selling-price?${queryString}`);
+      if (response && response.data && response.data.data) {
+        setPriceLogs(response?.data?.data)
+      }
+    } catch (error) {
+      // handleError(error);
+    } finally {
+      setPriceLogssloading(false);
+    }
+
+  };
 
 
   const handleResetFilters = async () => {
@@ -347,6 +411,9 @@ const CeoDashBoard = (props) => {
     },
   });
   useEffect(() => {
+    if (formik?.values?.selectedSite) {
+      FetchPriceLogs();
+    }
     // Set default month value if not set
     if (!formik?.values?.selectedMonth && !formik?.values?.selectedMonthDetails && filters?.reportmonths) {
       const currentDate = new Date();
@@ -463,12 +530,14 @@ const CeoDashBoard = (props) => {
     }
   };
 
-  console.log(Bardata, "Bardata");
-  console.log(BarGraphSalesStats, "BardataBarGraphSalesStats");
+  console.log(PriceLogs, "PriceLogs");
 
+
+
+  console.log(PriceLogs?.priceLogs, "columnIndex");
   return (
     <>
-      {isLoading || pdfisLoading ? <Loaderimg /> : null}
+      {isLoading || pdfisLoading ? <SmallLoader /> : null}
 
       {centerFilterModalOpen && (
         <div className="">
@@ -663,7 +732,7 @@ const CeoDashBoard = (props) => {
         </Card>
 
         {
-          Mopstatsloading ? <SmallLoader /> : <CeoDashboardStatsBox
+          Mopstatsloading ? <SmallLoader title="Cards" /> : <CeoDashboardStatsBox
             dashboardData={MopstatsData}
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           />
@@ -679,34 +748,13 @@ const CeoDashBoard = (props) => {
 
 
 
-        {/* <Row>
-          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-
-            {
-              Salesstatsloading && BarGraphSalesStats ? <SmallLoader /> : <CeoDashboardBarChart data={BarGraphSalesStats?.sales_mom} options={Baroptions} title={"Current Month vs Previous Month"} />
-            }
-
-          </Col>
-          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            {
-              Salesstatsloading && BarGraphSalesStats ? <SmallLoader /> : <CeoDashboardBarChart data={BarGraphSalesStats?.sales_actual_budgeted} options={Baroptions} title={"Actual Sales vs Budgeted Sales"} />
-            }
-
-          </Col>
-          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            {
-              Salesstatsloading && BarGraphSalesStats ? <SmallLoader /> : <CeoDashboardBarChart data={BarGraphSalesStats?.sales_yoy} options={Baroptions} title={"Same Month Sales vs Previous Year’s Month Sales"} />
-            }
-
-          </Col>
-        </Row> */}
 
 
         <Card className="h-100 mt-4">
 
 
           <Card.Header className="p-4 flexspacebetween">
-            <h4 className="card-title"> Selling Price Logs/Reports </h4>
+            <h4 className="card-title"> Selling Price Logs/Reports   </h4>
             <div className="flexspacebetween">
               <div>
                 <select
@@ -752,21 +800,25 @@ const CeoDashBoard = (props) => {
             <Card className="h-100" >
               <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
-                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
+                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})<span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
                   </h4>
 
 
+                  <span><Link to="/fuel-price-logs/">
+                    View All
+                  </Link></span>
 
 
                 </div>
               </Card.Header>
-              <Card.Body style={{ maxHeight: "400px", overflowX: "auto", overflowY: "auto" }}>
-                <div>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto" ,margin:"auto" }}>
+                {PriceLogsloading ? <SmallLoader /> : <> {PriceLogs?.priceLogs?.length > 0 ? (
                   <table style={{ width: "100%" }}>
                     <thead>
                       <tr>
-                        <th>ID</th>
+                        <th>Site</th>
                         <th>Selling</th>
+                        <th>Checked</th>
                         <th>Old Price</th>
                         <th>New Price</th>
                         <th>Updated By</th>
@@ -774,19 +826,30 @@ const CeoDashBoard = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {priceLogData?.map((log) => (
+                      {PriceLogs?.priceLogs?.map((log) => (
                         <tr key={log.id}>
-                          <td>{log.id}</td>
-                          <td>{log.productName}</td>
-                          <td>£{log.oldPrice.toFixed(2)}</td>
-                          <td>£{log.newPrice.toFixed(2)}</td>
-                          <td>{log.updatedBy}</td>
-                          <td>{log.updateDate}</td>
+                          <td>{log.site}</td>
+                          <td>{log.name}</td>
+                          <td>{log.is_checked}</td>
+                          <td>£{log.prev_price.toFixed(3)}</td>
+                          <td>£{log.price.toFixed(3)}</td>
+                          <td>{log.user}</td>
+                          <td>{new Date(log.created).toLocaleString()}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                </div>
+                ) : (
+                  <img
+                    src={require("../../assets/images/commonimages/no_data.png")}
+                    alt="MyChartImage"
+                   className=" all-center-flex  smallNoDataimg "
+                  />
+                )}</>}
+
+
+
+
 
               </Card.Body>
             </Card>
@@ -797,29 +860,17 @@ const CeoDashBoard = (props) => {
           <Col sm={12} md={4} key={Math.random()}>
             <Card className="h-100" >
               <Card.Header className="p-4 w-100 flexspacebetween">
-                <h4 className="card-title"> Reports</h4>
-                {/* <div >
-                  <Col lg={6} style={{ marginRight: "0px" }}>
-                    <select
-                      id="selectedMonth"
-                      value={selectedMonth}
-                      onChange={(e) => handleMonthChange(e.target.value)}
-                      className="selectedMonth"
-                    >
-                      <option value="">--Select a Month--</option>
-                      {filters?.reportmonths?.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.display}
-                        </option>
-                      ))}
-                    </select>
-                  </Col>
-                </div> */}
-              </Card.Header>
-              <Card.Body style={{ maxHeight: "400px", overflowX: "auto", overflowY: "auto" }}>
-                <div >
+                <h4 className="card-title"> <div className="lableWithsmall">
+                  Reports <span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+                </div></h4>
+                <span><Link to="/reports">
+                  View All
+                </Link></span>
 
-                  <table style={{ width: "100%" }}>
+              </Card.Header>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto" }}>
+                <div >
+                  {isLoading ? <SmallLoader /> : <table style={{ width: "100%" }}>
                     <thead>
                       <tr>
 
@@ -844,7 +895,8 @@ const CeoDashBoard = (props) => {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table>}
+
                 </div>
 
               </Card.Body>
@@ -854,22 +906,42 @@ const CeoDashBoard = (props) => {
         </Row>
         <Row className="mt-5 d-flex align-items-stretch" >
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            <Card className="h-100">
-              <Card.Header className="p-4">
-                <h4 className="card-title"> Stocks </h4>
-              </Card.Header>
-              <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
-                <div style={{ width: "300px", height: "300px" }}>
-                  <Doughnut data={Doughnutdata} options={Doughnutoptions} height="100px" />
-                </div>
+            {
+              // Conditionally render the chart or a loader based on availability of data
+              Stockstatsloading || !BarGraphStockStats ?
+                <SmallLoader title="Stocks" /> :
+                <Card className="h-100">
+                  <Card.Header className="p-4">
+                    <h4 className="card-title"> Stocks </h4>
+                  </Card.Header>
+                  <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
+                    <div style={{ width: "300px", height: "300px" }}>
 
-              </Card.Body>
-            </Card>
+                      <Doughnut
+                        data={BarGraphStockStats?.stock_graph_data}
+                        options={BarGraphStockStats?.stock_graph_options}
+                        height="100px"
+                      />
 
+                    </div>
+                  </Card.Body>
+                </Card>}
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            <CeoDashboardBarChart data={StackedBarChartdata} options={StackedBarChartoptions} title={"Shrinkage"} width={"300px"} height={"200px"} />
+            {Shrinkagestatsloading || !Shrinkagestats || !Shrinkagestats.shrinkage_graph_data || !Shrinkagestats.shrinkage_graph_options ?
+              <SmallLoader title="Shrinkage" /> :
+              <CeoDashboardBarChart
+                data={Shrinkagestats.shrinkage_graph_data}
+                options={Shrinkagestats.shrinkage_graph_options}
+                title={"Shrinkage"}
+                width={"300px"}
+                height={"200px"}
+              />
+            }
           </Col>
+
+
+
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
             <Card className="h-100">
               <Card.Header className="p-4">
