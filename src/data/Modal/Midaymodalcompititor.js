@@ -76,7 +76,7 @@ const Competitormodal = ({
     };
 
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [selectedItem, selectedDrsDate]);
 
   const formik = useFormik({

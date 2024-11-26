@@ -36,7 +36,7 @@ const CustomModal = ({
         handleFuelChange(id);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [id, userPermissions?.includes("dashboard-site-stats")]);
 
   const handleFuelChange = async () => {
