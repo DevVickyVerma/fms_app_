@@ -1,5 +1,4 @@
 
-import React from "react";
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
@@ -24,9 +23,9 @@ import {
 } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
-import { ButtonGroup, Dropdown } from 'react-bootstrap';
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
+import { useFormik } from "formik";
 
 
 const CeoDashBoard = (props) => {
@@ -66,9 +65,6 @@ const CeoDashBoard = (props) => {
 
 
 
-  const [selectedMonth, setSelectedMonth] = useState();
-  const [selectedMonthDetails, setSelectedMonthDetails] = useState();
-
 
   useEffect(() => {
 
@@ -86,37 +82,7 @@ const CeoDashBoard = (props) => {
     console.clear();
   }, [ReduxFullData, permissionsArray]);
 
-  useEffect(() => {
-    if (!selectedMonth && selectedMonthDetails) {
-      // Case 1: selectedMonth is empty/undefined, but selectedMonthDetails has a value
-      console.log("selectedMonth is undefined or empty, but selectedMonthDetails has a value:", selectedMonthDetails);
-    } else if (selectedMonth && selectedMonthDetails) {
-      // Case 2: Both selectedMonth and selectedMonthDetails have values
-      console.log("Both selectedMonth and selectedMonthDetails have values:");
-      console.log("selectedMonth:", selectedMonth);
-      console.log("selectedMonthDetails:", selectedMonthDetails);
-    } else if (!selectedMonth && !selectedMonthDetails && filters?.reportmonths) {
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
 
-      // Format current month to match the 'values' format (yyyyMM)
-      const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
-
-      // Find the current month object from the filters
-      var currentMonthObject = filters?.reportmonths.find(item => item.values === currentMonthFormatted);
-
-      console.log(currentMonthObject, "currentMonthObject");
-      // Case 3: Both selectedMonth and selectedMonthDetails are empty/undefined
-      console.log(currentMonthObject, "Both selectedMonth and selectedMonthDetails are undefined or empty");
-      setSelectedMonthDetails(currentMonthObject)
-      setSelectedMonth(currentMonthObject?.display)
-    } else {
-      // Case 4: selectedMonth has a value, but selectedMonthDetails is empty/undefined
-      console.log("selectedMonth has a value, but selectedMonthDetails is undefined or empty:");
-      console.log("selectedMonth:", selectedMonth);
-    }
-  }, [selectedMonth, selectedMonthDetails]);
 
 
 
@@ -132,11 +98,11 @@ const CeoDashBoard = (props) => {
     // only one permission check for first screen dashboard-view
     if (permissionsArray?.includes("dashboard-view")) {
       FetchFilterData(values);
+      FetchCeoData1(values);
     }
   });
 
   const FetchFilterData = async (filters) => {
-    console.log(filters, "FetchFilterData");
 
     let { client_id, company_id, site_id, client_name, company_name } = filters;
 
@@ -179,6 +145,55 @@ const CeoDashBoard = (props) => {
       }
     }
   };
+  const [Mopstatsloading, setMopstatsloading] = useState(false);
+  const [Salesstatsloading, setSalesstatsloading] = useState(false);
+  const [Stockstatsloading, setStockstatsloading] = useState(false);
+  const [Shrinagestatsloading, setShrinagestatsloading] = useState(false);
+  const [MopstatsData, setMopstatsData] = useState();
+  const FetchCeoData1 = async (filters) => {
+
+    let { client_id, company_id, site_id, client_name, company_name } = filters;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...filters,
+      client_id,
+      client_name,
+      company_id,
+      company_name
+    };
+
+
+    if (client_id) {
+      try {
+        const queryParams = new URLSearchParams();
+        if (client_id) queryParams.append("client_id", client_id);
+        if (company_id) queryParams.append("company_id", company_id);
+        if (site_id) queryParams.append("site_id", site_id);
+
+        const queryString = queryParams.toString();
+        const response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
+        if (response && response.data && response.data.data) {
+          setMopstatsData(response?.data?.data)
+        }
+        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
+      } catch (error) {
+        // handleError(error);
+      }
+    }
+  };
+
+console.log(MopstatsData, "MopstatsData");
+
 
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
@@ -199,17 +214,73 @@ const CeoDashBoard = (props) => {
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
   };
-
-
-
-
-  const dropdown = { color: 'primary' };
-
   const [pdfisLoading, setpdfisLoading] = useState(false);
-  console.log(filters, "filters?.reports");
+
+  const firstSiteObject = () => {
+    if (filters && filters.site_id === "" && filters.site_name === "" && filters.company_id) {
+      return filters.sites.length > 0 ? filters.sites[0] : null;
+    }
+    return null;
+  };
+
+  const result = firstSiteObject();
+
+
+
+  const handleMonthChange = (selectedId) => {
+    const selectedItem = filters.reportmonths.find((item) => item.display == (selectedId));
+    formik.setFieldValue("selectedMonth", selectedId,)
+    formik.setFieldValue("selectedMonthDetails", selectedItem,)
+  };
+  const handleSiteChange = (selectedId) => {
+    const selectedItem = filters?.sites.find((item) => item.id == (selectedId));
+    formik.setFieldValue("selectedSite", selectedId,)
+    formik.setFieldValue("selectedSiteDetails", selectedItem,)
+
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      selectedSite: '',
+      selectedSiteDetails: '',
+      selectedMonth: '',
+      selectedMonthDetails: '',
+    },
+    onSubmit: (values) => {
+      // Handle the form submission or changes
+      console.log(values);
+    },
+  });
+  useEffect(() => {
+    // Set default month value if not set
+    if (!formik?.values?.selectedMonth && !formik?.values?.selectedMonthDetails && filters?.reportmonths) {
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth() + 1;
+      const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
+      const currentMonthObject = filters?.reportmonths.find(item => item.values === currentMonthFormatted);
+
+
+      formik.setFieldValue("selectedMonth", currentMonthObject.display);
+      formik.setFieldValue("selectedMonthDetails", currentMonthObject);
+      console.log(currentMonthObject, "currentMonthObjectformik");
+
+    }
+    if (!formik?.values?.selectedSite && !formik?.values?.selectedSiteDetails && filters?.company_id && !filters?.site_id) {
+      console.log(result, "result");
+      if (result && formik.values.selectedSite !== result.id) {
+        formik.setFieldValue("selectedSite", result?.id);
+        formik.setFieldValue("selectedSiteDetails", result);
+      }
+    } else if (filters?.company_id && filters?.site_id && !formik.values?.selectedSite) {
+      const selectedItem = filters?.sites.find((item) => item.id == (filters?.site_id));
+      formik.setFieldValue("selectedSite", filters?.site_id);
+      formik.setFieldValue("selectedSiteDetails", selectedItem);
+    }
+  }, [filters, formik?.values?.selectedMonth, formik?.values?.selectedSite]);
+
 
   const handleDownload = async (report) => {
-    console.log(report, "report");
     setpdfisLoading(true)
     try {
       const formData = new FormData();
@@ -236,7 +307,7 @@ const CeoDashBoard = (props) => {
 
 
       // Construct commonParams based on toggleValue
-      const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(filters.site_id)}&month=${selectedMonthDetails?.value}`;
+      const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(filters.site_id)}&month=${formik?.values?.selectedMonthDetails?.value}`;
 
       // API URL for the fetch request
       const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -296,30 +367,6 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-
-
-  const handleMonthChange = (selectedId) => {
-    console.log(selectedId, "selectedId");
-    setSelectedMonth(selectedId);
-    const selectedItem = filters.reportmonths.find((item) => item.display == (selectedId));
-    setSelectedMonthDetails(selectedItem);
-    console.log("Selected Item:", selectedItem);
-  };
-  const handleSiteChange = (selectedId) => {
-    console.log(selectedId, "selectedId");
-    const selectedItem = filters?.sites.find((item) => item.site_name == (selectedId));
-    console.log("Selected handleSiteChange:", selectedItem);
-  };
-  const firstSiteObject = () => {
-    if (filters && filters.site_id === "" && filters.site_name === "" && filters.company_id) {
-      return filters.sites.length > 0 ? filters.sites[0] : null;
-    }
-    return null;
-  };
-
-  const result = firstSiteObject();
-
-
   return (
     <>
       {isLoading || pdfisLoading ? <Loaderimg /> : null}
@@ -539,14 +586,8 @@ const CeoDashBoard = (props) => {
           </Card.Header>
         </Card>
         <CeoDashboardStatsBox
-          GrossVolume={dashboardData?.gross_volume}
-          shopmargin={dashboardData?.shop_profit}
-          GrossProfitValue={dashboardData?.gross_profit}
-          GrossMarginValue={dashboardData?.gross_margin}
-          FuelValue={dashboardData?.fuel_sales}
-          shopsale={dashboardData?.shop_sales}
-          shop_fees={dashboardData?.shop_fees}
-          dashboardData={dashboardData}
+       
+          dashboardData={MopstatsData}
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
@@ -565,56 +606,59 @@ const CeoDashBoard = (props) => {
           </Col>
         </Row>
 
+        <Card className="h-100 mt-4">
 
+
+          <Card.Header className="p-4 flexspacebetween">
+            <h4 className="card-title"> Selling Price Logs/Reports </h4>
+            <div className="flexspacebetween">
+              <div>
+                <select
+                  id="selectedSite"
+                  name="selectedSite"
+                  value={formik.values.selectedSite}
+                  onChange={(e) => handleSiteChange(e.target.value)}
+                  className="selectedMonth"
+                >
+                  <option value="">--Select a Site--</option>
+                  {filters?.sites?.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.site_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <Col lg={6} style={{ marginRight: "0px" }}>
+                  <select
+                    id="selectedMonth"
+                    name="selectedMonth"
+                    value={formik.values.selectedMonth}
+                    onChange={(e) => handleMonthChange(e.target.value)}
+                    className="selectedMonth"
+                  >
+                    <option value="">--Select a Month--</option>
+                    {filters?.reportmonths?.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.display}
+                      </option>
+                    ))}
+                  </select>
+                </Col>
+              </div>
+            </div>
+          </Card.Header>
+
+        </Card>
 
         <Row className="d-flex align-items-stretch mt-5 ">
           <Col sm={12} md={8} key={Math.random()}>
             <Card className="h-100" >
               <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
-                  <h4 className="card-title"> Selling Price Logs ({result?.site_name || filters?.site_name})
+                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
                   </h4>
-                  {/* <a
-    onClick={toggleDropdown}
-    style={{ alignItems: "end", textDecoration: "underline", cursor: "pointer" }}
-  >
-    ....
-  </a> */}
-                  <Col lg={6} style={{ marginRight: "0px" }}>
-                    <select
-                      id="selectedMonth"
-                      value={selectedMonth}
-                      onChange={(e) => handleSiteChange(e.target.value)}
-                      className="selectedMonth"
-                    >
-                      <option value="">--Select a Site--</option>
-                      {filters?.sites?.map((item, index) => (
-                        <option key={item.id} value={item.id}>
-                          {item.site_name}
-                        </option>
-                      ))}
-                    </select>
-                  </Col>
-                  {/* {
-                    filters?.sites?.length > 0 && (
-                      <Dropdown as={ButtonGroup} key={Math.random()}>
 
-                        <Dropdown.Toggle split variant={dropdown.color} />
-
-                        <Dropdown.Menu className="super-colors">
-                          {filters?.sites?.map((site, index) => (
-                            <React.Fragment key={site?.id}>
-                              <Dropdown.Item className="p-2" eventKey={index + 1}>
-                                {site?.site_name}
-                              </Dropdown.Item>
-                              {index < filters.sites?.length - 1 && <hr className="p-0 m-0" />}
-                            </React.Fragment>
-                          ))}
-                        </Dropdown.Menu>
-
-                      </Dropdown>
-                    )
-                  } */}
 
 
 
@@ -658,8 +702,7 @@ const CeoDashBoard = (props) => {
             <Card className="h-100" >
               <Card.Header className="p-4 w-100 flexspacebetween">
                 <h4 className="card-title"> Reports</h4>
-                <div >
-
+                {/* <div >
                   <Col lg={6} style={{ marginRight: "0px" }}>
                     <select
                       id="selectedMonth"
@@ -675,7 +718,7 @@ const CeoDashBoard = (props) => {
                       ))}
                     </select>
                   </Col>
-                </div>
+                </div> */}
               </Card.Header>
               <Card.Body style={{ maxHeight: "400px", overflowX: "auto", overflowY: "auto" }}>
                 <div >
