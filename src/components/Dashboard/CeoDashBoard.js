@@ -26,6 +26,8 @@ import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
 import { useFormik } from "formik";
+import SmallLoader from "../../Utils/SmallLoader";
+import CeoDashboardCharts from "./CeoDashboardCharts";
 
 
 const CeoDashBoard = (props) => {
@@ -98,7 +100,9 @@ const CeoDashBoard = (props) => {
     // only one permission check for first screen dashboard-view
     if (permissionsArray?.includes("dashboard-view")) {
       FetchFilterData(values);
-      FetchCeoData1(values);
+      FetchMopCardStats(values);
+      FetchSalesStats(values);
+      FetchStockstats(values);
     }
   });
 
@@ -150,7 +154,9 @@ const CeoDashBoard = (props) => {
   const [Stockstatsloading, setStockstatsloading] = useState(false);
   const [Shrinagestatsloading, setShrinagestatsloading] = useState(false);
   const [MopstatsData, setMopstatsData] = useState();
-  const FetchCeoData1 = async (filters) => {
+  const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
+  const [BarGraphStockStats, setBarGraphStockStats] = useState();
+  const FetchMopCardStats = async (filters) => {
 
     let { client_id, company_id, site_id, client_name, company_name } = filters;
 
@@ -175,6 +181,7 @@ const CeoDashBoard = (props) => {
 
     if (client_id) {
       try {
+        setMopstatsloading(true);
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append("client_id", client_id);
         if (company_id) queryParams.append("company_id", company_id);
@@ -188,11 +195,99 @@ const CeoDashBoard = (props) => {
         localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
       } catch (error) {
         // handleError(error);
+      } finally {
+        setMopstatsloading(false);
       }
     }
   };
+  const FetchSalesStats = async (filters) => {
 
-console.log(MopstatsData, "MopstatsData");
+    let { client_id, company_id, site_id, client_name, company_name } = filters;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...filters,
+      client_id,
+      client_name,
+      company_id,
+      company_name
+    };
+
+
+    if (client_id) {
+      try {
+        setSalesstatsloading(true);
+        const queryParams = new URLSearchParams();
+        if (client_id) queryParams.append("client_id", client_id);
+        if (company_id) queryParams.append("company_id", company_id);
+        if (site_id) queryParams.append("site_id", site_id);
+
+        const queryString = queryParams.toString();
+        const response = await getData(`ceo-dashboard/sales-stats?${queryString}`);
+        if (response && response.data && response.data.data) {
+          setBarGraphSalesStats(response?.data?.data)
+        }
+        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
+      } catch (error) {
+        // handleError(error);
+      } finally {
+        setSalesstatsloading(false);
+      }
+    }
+  };
+  const FetchStockstats = async (filters) => {
+
+    let { client_id, company_id, site_id, client_name, company_name } = filters;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...filters,
+      client_id,
+      client_name,
+      company_id,
+      company_name
+    };
+
+
+    if (client_id) {
+      try {
+        setStockstatsloading(true);
+        const queryParams = new URLSearchParams();
+        if (client_id) queryParams.append("client_id", client_id);
+        if (company_id) queryParams.append("company_id", company_id);
+        if (site_id) queryParams.append("site_id", site_id);
+
+        const queryString = queryParams.toString();
+        const response = await getData(`ceo-dashboard/stock-stats?${queryString}`);
+        if (response && response.data && response.data.data) {
+          setBarGraphStockStats(response?.data?.data)
+        }
+        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
+      } catch (error) {
+        // handleError(error);
+      } finally {
+        setStockstatsloading(false);
+      }
+    }
+  };
 
 
   const handleResetFilters = async () => {
@@ -367,6 +462,10 @@ console.log(MopstatsData, "MopstatsData");
       setpdfisLoading(false)
     }
   };
+
+  console.log(Bardata, "Bardata");
+  console.log(BarGraphSalesStats, "BardataBarGraphSalesStats");
+
   return (
     <>
       {isLoading || pdfisLoading ? <Loaderimg /> : null}
@@ -538,30 +637,7 @@ console.log(MopstatsData, "MopstatsData");
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
-        {/* <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
-          <ChartCard
-            title="Total Stats"
-            chartType="default"
-            chartData={dashboardData?.line_graph}
-            noChartImage="../../assets/images/no-chart-img.png"
-            noChartMessage="Please Apply Filter To Visualize Chart....."
-          >
-            <StackedLineBarChart
-              stackedLineBarData={dashboardData?.line_graph?.datasets || []}
-              stackedLineBarLabels={dashboardData?.line_graph?.labels || []}
-            />
-          </ChartCard>
 
-          <ChartCard
-            title="Overall Stats"
-            chartType="stats"
-            chartData={dashboardData?.pi_graph}
-            noChartImage="../../assets/images/no-chart-img.png"
-            noChartMessage="Please Apply Filter To Visualize Chart....."
-          >
-            <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
-          </ChartCard>
-        </Row> */}
         <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
             title="Total Day Wise Sales"
@@ -585,26 +661,46 @@ console.log(MopstatsData, "MopstatsData");
             <h4 className="card-title"> MOP BreakDown </h4>
           </Card.Header>
         </Card>
-        <CeoDashboardStatsBox
-       
-          dashboardData={MopstatsData}
-          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+
+        {
+          Mopstatsloading ? <SmallLoader /> : <CeoDashboardStatsBox
+            dashboardData={MopstatsData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+          />
+        }
+
+
+
+        <CeoDashboardCharts
+          Salesstatsloading={Salesstatsloading} // Simulate loading
+          BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
+          Baroptions={Baroptions} // Pass the Baroptions directly
         />
 
 
 
+        {/* <Row>
+          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
 
-        <Row>
-          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            <CeoDashboardBarChart data={Bardata} options={Baroptions} title={"Current Month vs Previous Month"} />
+            {
+              Salesstatsloading && BarGraphSalesStats ? <SmallLoader /> : <CeoDashboardBarChart data={BarGraphSalesStats?.sales_mom} options={Baroptions} title={"Current Month vs Previous Month"} />
+            }
+
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            <CeoDashboardBarChart data={Bardata} options={Baroptions} title={"Actual Sales vs Budgeted Sales"} />
+            {
+              Salesstatsloading && BarGraphSalesStats ? <SmallLoader /> : <CeoDashboardBarChart data={BarGraphSalesStats?.sales_actual_budgeted} options={Baroptions} title={"Actual Sales vs Budgeted Sales"} />
+            }
+
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            <CeoDashboardBarChart data={Bardata} options={Baroptions} title={"Same Month Sales vs Previous Year’s Month Sales"} />
+            {
+              Salesstatsloading && BarGraphSalesStats ? <SmallLoader /> : <CeoDashboardBarChart data={BarGraphSalesStats?.sales_yoy} options={Baroptions} title={"Same Month Sales vs Previous Year’s Month Sales"} />
+            }
+
           </Col>
-        </Row>
+        </Row> */}
+
 
         <Card className="h-100 mt-4">
 
