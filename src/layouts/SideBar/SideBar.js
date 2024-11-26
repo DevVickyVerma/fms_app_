@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import { Fragment, useState, useEffect } from "react";
 import { MENUITEMS } from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
