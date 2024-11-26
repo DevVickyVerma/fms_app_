@@ -339,7 +339,7 @@ const FuelPrices = (props) => {
 
                   <div className=" d-flex w-100 justify-content-between align-items-center">
                     <span>
-                    Fuel Selling Price   {data?.currentDate ? <>({data?.currentDate})</> : ""}
+                    Fuel Selling Prices   {data?.currentDate ? <>({data?.currentDate})</> : ""}
                     </span>
                   </div>
                 </h3>
@@ -350,7 +350,8 @@ const FuelPrices = (props) => {
                 {data?.head_array ? (
                   <div style={{
                     overflowY: "auto",
-                    maxHeight: "calc(100vh - 376px )",
+                    // maxHeight: "calc(100vh - 376px )",
+                    maxHeight: "400px",
                   }}>
                     <>
                       <table className='table table-modern'>
