@@ -529,12 +529,7 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-
-  console.log(PriceLogs, "PriceLogs");
-
-
-
-  console.log(PriceLogs?.priceLogs, "columnIndex");
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   return (
     <>
       {isLoading || pdfisLoading ? <SmallLoader /> : null}
@@ -756,7 +751,7 @@ const CeoDashBoard = (props) => {
           <Card.Header className="p-4 flexspacebetween">
             <h4 className="card-title"> Selling Price Logs/Reports   </h4>
             <div className="flexspacebetween">
-              <div>
+              {filters?.sites ? <div>
                 <select
                   id="selectedSite"
                   name="selectedSite"
@@ -771,9 +766,10 @@ const CeoDashBoard = (props) => {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> : ""}
+
               <div>
-                <Col lg={6} style={{ marginRight: "0px" }}>
+                {filters?.reportmonths ? <Col lg={6} style={{ marginRight: "0px" }}>
                   <select
                     id="selectedMonth"
                     name="selectedMonth"
@@ -788,7 +784,9 @@ const CeoDashBoard = (props) => {
                       </option>
                     ))}
                   </select>
-                </Col>
+                </Col> : ""}
+
+
               </div>
             </div>
           </Card.Header>
@@ -802,16 +800,16 @@ const CeoDashBoard = (props) => {
                 <div className="spacebetween" style={{ width: "100%" }}>
                   <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})<span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
                   </h4>
-
-
-                  <span><Link to="/fuel-price-logs/">
+                  {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
                     View All
-                  </Link></span>
+                  </Link></span> : ""}
+
+
 
 
                 </div>
               </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto" ,margin:"auto" }}>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", margin: "auto" }}>
                 {PriceLogsloading ? <SmallLoader /> : <> {PriceLogs?.priceLogs?.length > 0 ? (
                   <table style={{ width: "100%" }}>
                     <thead>
@@ -843,7 +841,7 @@ const CeoDashBoard = (props) => {
                   <img
                     src={require("../../assets/images/commonimages/no_data.png")}
                     alt="MyChartImage"
-                   className=" all-center-flex  smallNoDataimg "
+                    className=" all-center-flex  smallNoDataimg "
                   />
                 )}</>}
 
@@ -863,14 +861,16 @@ const CeoDashBoard = (props) => {
                 <h4 className="card-title"> <div className="lableWithsmall">
                   Reports <span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
                 </div></h4>
-                <span><Link to="/reports">
-                  View All
-                </Link></span>
+
+                {userPermissions?.includes("report-type-list") ?
+                  <span><Link to="/reports">
+                    View All
+                  </Link></span> : ""}
 
               </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto" }}>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", margin: "auto" }}>
                 <div >
-                  {isLoading ? <SmallLoader /> : <table style={{ width: "100%" }}>
+                  {isLoading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<table style={{ width: "100%" }}>
                     <thead>
                       <tr>
 
@@ -895,7 +895,13 @@ const CeoDashBoard = (props) => {
                         </tr>
                       ))}
                     </tbody>
-                  </table>}
+                  </table>) : (
+                    <img
+                      src={require("../../assets/images/commonimages/no_data.png")}
+                      alt="MyChartImage"
+                      className=" all-center-flex  smallNoDataimg "
+                    />
+                  )}</>}
 
                 </div>
 
@@ -906,7 +912,7 @@ const CeoDashBoard = (props) => {
         </Row>
         <Row className="mt-5 d-flex align-items-stretch" >
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            {
+            {BarGraphStockStats?.stock_graph_data ? (
               // Conditionally render the chart or a loader based on availability of data
               Stockstatsloading || !BarGraphStockStats ?
                 <SmallLoader title="Stocks" /> :
@@ -925,19 +931,63 @@ const CeoDashBoard = (props) => {
 
                     </div>
                   </Card.Body>
-                </Card>}
+                </Card>
+            ) : (
+              <Card className="h-100">
+                <Card.Header className="p-4">
+                  <h4 className="card-title"> Stocks </h4>
+                </Card.Header>
+                <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
+                  <div className="all-center-flex">
+                    <img
+                      src={require("../../assets/images/commonimages/no_data.png")}
+                      alt="No data available"
+                      className="smallNoDataimg"
+                    />
+                  </div>
+
+
+                </Card.Body>
+              </Card>
+            )}
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            {Shrinkagestatsloading || !Shrinkagestats || !Shrinkagestats.shrinkage_graph_data || !Shrinkagestats.shrinkage_graph_options ?
-              <SmallLoader title="Shrinkage" /> :
-              <CeoDashboardBarChart
-                data={Shrinkagestats.shrinkage_graph_data}
-                options={Shrinkagestats.shrinkage_graph_options}
-                title={"Shrinkage"}
-                width={"300px"}
-                height={"200px"}
-              />
-            }
+
+            {Shrinkagestats?.shrinkage_graph_data ? (
+              Shrinkagestatsloading ||
+                !Shrinkagestats ||
+                !Shrinkagestats.shrinkage_graph_options ? (
+                <SmallLoader title="Shrinkage" />
+              ) : (
+                <CeoDashboardBarChart
+                  data={Shrinkagestats.shrinkage_graph_data}
+                  options={Shrinkagestats.shrinkage_graph_options}
+                  title="Shrinkage"
+                  width="300px"
+                  height="200px"
+                />
+              )
+            ) : (
+              <Card className="h-100">
+                <Card.Header className="p-4">
+                  <h4 className="card-title"> Shrinkage </h4>
+                </Card.Header>
+                <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
+                  <div className="all-center-flex">
+                    <img
+                      src={require("../../assets/images/commonimages/no_data.png")}
+                      alt="No data available"
+                      className="smallNoDataimg"
+                    />
+                  </div>
+
+
+                </Card.Body>
+              </Card>
+            )}
+
+
+
           </Col>
 
 
