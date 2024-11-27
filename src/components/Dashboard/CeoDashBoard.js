@@ -1,9 +1,8 @@
 
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import DashboardMultiLineChart from "./DashboardMultiLineChart";
-import * as Yup from "yup";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
@@ -49,7 +48,18 @@ const CeoDashBoard = (props) => {
 
 
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-
+  const formik = useFormik({
+    initialValues: {
+      selectedSite: '',
+      selectedSiteDetails: '',
+      selectedMonth: '',
+      selectedMonthDetails: '',
+    },
+    onSubmit: (values) => {
+      // Handle the form submission or changes
+      console.log(values);
+    },
+  });
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
@@ -70,71 +80,60 @@ const CeoDashBoard = (props) => {
   }, [ReduxFullData, permissionsArray]);
 
 
-
-
-
-  const handleApplyFilters = ((values) => {
+  const handleApplyFilters = (values) => {
     if (!values?.start_date) {
       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
     if (permissionsArray?.includes("dashboard-view")) {
-      FetchFilterData(values);
-      FetchMopCardStats(values);
-      FetchSalesStats(values);
-      FetchStockstats(values);
-      FetchShrinkagestats(values);
-
+      FetchDashboardStats(values);
     }
-  });
+  };
 
-  const FetchFilterData = async (filters) => {
-
-    let { client_id, company_id, site_id, client_name, company_name } = filters;
-
-    if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = ReduxFullData?.superiorId;
-      client_name = ReduxFullData?.full_name;
-    }
-
-    if (ReduxFullData?.company_id && !company_id) {
-      company_id = ReduxFullData?.company_id;
-      company_name = ReduxFullData?.company_name;
-    }
-
-    const updatedFilters = {
-      ...filters,
-      client_id,
-      client_name,
-      company_id,
-      company_name
-    };
-
-
-    if (client_id) {
-      try {
-        const queryParams = new URLSearchParams();
-        if (client_id) queryParams.append("client_id", client_id);
-        if (company_id) queryParams.append("company_id", company_id);
-        if (site_id) queryParams.append("site_id", site_id);
-
-        const queryString = queryParams.toString();
-        const response = await getData(`dashboard/stats?${queryString}`);
-        if (response && response.data && response.data.data) {
-          setDashboardData(response?.data?.data);
+  const FetchDashboardStats = (filters) => {
+    const endpoints = [
+      {
+        name: "dashboard",
+        url: "dashboard/stats",
+        setData: setDashboardData,
+        callback: (response, updatedFilters) => {
           setFilters(updatedFilters);
           setCenterFilterModalOpen(false);
-        }
-        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
-      } catch (error) {
-        // handleError(error);
-      }
-    }
+        },
+      },
+      {
+        name: "mop",
+        url: "ceo-dashboard/mop-stats",
+        setData: setMopstatsData,
+        setLoading: setMopstatsloading,
+      },
+      {
+        name: "sales",
+        url: "ceo-dashboard/sales-stats",
+        setData: setBarGraphSalesStats,
+        setLoading: setSalesstatsloading,
+      },
+      {
+        name: "stock",
+        url: "ceo-dashboard/stock-stats",
+        setData: setBarGraphStockStats,
+        setLoading: setStockstatsloading,
+      },
+      {
+        name: "shrinkage",
+        url: "ceo-dashboard/shrinkage-stats",
+        setData: setShrinkagestats,
+        setLoading: setShrinkagestatsloading,
+      },
+    ];
+
+    endpoints.forEach(({ url, setData, setLoading, callback }) => {
+      fetchData(filters, url, setData, setLoading, callback);
+    });
   };
 
-  const FetchMopCardStats = async (filters) => {
-
+  const updateFilters = (filters) => {
     let { client_id, company_id, site_id, client_name, company_name } = filters;
 
     if (localStorage.getItem("superiorRole") === "Client") {
@@ -147,168 +146,75 @@ const CeoDashBoard = (props) => {
       company_name = ReduxFullData?.company_name;
     }
 
-    const updatedFilters = {
-      ...filters,
-      client_id,
-      client_name,
-      company_id,
-      company_name
-    };
+    return { ...filters, client_id, client_name, company_id, company_name };
+  };
+
+  const fetchData = async (filters, endpoint, setData, setLoading, callback) => {
+    const updatedFilters = updateFilters(filters);
+    const { client_id, company_id, site_id } = updatedFilters;
+
+    if (!formik?.values?.selectedMonth && !formik?.values?.selectedMonthDetails && updatedFilters?.reportmonths) {
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth() + 1;
+      const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
 
 
+
+      const currentMonthObject = updatedFilters?.reportmonths.find(item => item.values === currentMonthFormatted);
+
+
+
+      if (currentMonthObject) {
+        formik.setFieldValue("selectedMonth", currentMonthObject.display);
+        formik.setFieldValue("selectedMonthDetails", currentMonthObject);
+
+      }
+    }
+
+
+    if (updatedFilters?.company_id && updatedFilters?.sites && !updatedFilters?.site_id) {
+
+      const firstSiteDetails = updatedFilters?.sites?.[0];
+      if (firstSiteDetails) {
+        formik.setFieldValue("selectedSite", firstSiteDetails?.id);
+        formik.setFieldValue("selectedSiteDetails", firstSiteDetails);
+      }
+    } else if (updatedFilters?.sites && updatedFilters?.site_id) {
+      const selectedItem = filters?.sites.find((item) => item.id == (updatedFilters?.site_id));
+      formik.setFieldValue("selectedSite", updatedFilters?.site_id);
+      formik.setFieldValue("selectedSiteDetails", selectedItem);
+    }
     if (client_id) {
       try {
-        setMopstatsloading(true);
+        if (setLoading) setLoading(true);
+
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append("client_id", client_id);
         if (company_id) queryParams.append("company_id", company_id);
         if (site_id) queryParams.append("site_id", site_id);
 
         const queryString = queryParams.toString();
-        const response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
+        const response = await getData(`${endpoint}?${queryString}`);
+        setFilters(updatedFilters);
+        setCenterFilterModalOpen(false);
         if (response && response.data && response.data.data) {
-          setMopstatsData(response?.data?.data)
+
+
+          setData(response.data.data);
+          if (callback) callback(response, updatedFilters);
+          localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
         }
-        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
       } catch (error) {
         // handleError(error);
       } finally {
-        setMopstatsloading(false);
+        if (setLoading) setLoading(false);
       }
     }
   };
-  const FetchSalesStats = async (filters) => {
-
-    let { client_id, company_id, site_id, client_name, company_name } = filters;
-
-    if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = ReduxFullData?.superiorId;
-      client_name = ReduxFullData?.full_name;
-    }
-
-    if (ReduxFullData?.company_id && !company_id) {
-      company_id = ReduxFullData?.company_id;
-      company_name = ReduxFullData?.company_name;
-    }
-
-    const updatedFilters = {
-      ...filters,
-      client_id,
-      client_name,
-      company_id,
-      company_name
-    };
 
 
-    if (client_id) {
-      try {
-        setSalesstatsloading(true);
-        const queryParams = new URLSearchParams();
-        if (client_id) queryParams.append("client_id", client_id);
-        if (company_id) queryParams.append("company_id", company_id);
-        if (site_id) queryParams.append("site_id", site_id);
 
-        const queryString = queryParams.toString();
-        const response = await getData(`ceo-dashboard/sales-stats?${queryString}`);
-        if (response && response.data && response.data.data) {
-          setBarGraphSalesStats(response?.data?.data)
-        }
-        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
-      } catch (error) {
-        // handleError(error);
-      } finally {
-        setSalesstatsloading(false);
-      }
-    }
-  };
-  const FetchStockstats = async (filters) => {
-
-    let { client_id, company_id, site_id, client_name, company_name } = filters;
-
-    if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = ReduxFullData?.superiorId;
-      client_name = ReduxFullData?.full_name;
-    }
-
-    if (ReduxFullData?.company_id && !company_id) {
-      company_id = ReduxFullData?.company_id;
-      company_name = ReduxFullData?.company_name;
-    }
-
-    const updatedFilters = {
-      ...filters,
-      client_id,
-      client_name,
-      company_id,
-      company_name
-    };
-
-
-    if (client_id) {
-      try {
-        setStockstatsloading(true);
-        const queryParams = new URLSearchParams();
-        if (client_id) queryParams.append("client_id", client_id);
-        if (company_id) queryParams.append("company_id", company_id);
-        if (site_id) queryParams.append("site_id", site_id);
-
-        const queryString = queryParams.toString();
-        const response = await getData(`ceo-dashboard/stock-stats?${queryString}`);
-        if (response && response.data && response.data.data) {
-          setBarGraphStockStats(response?.data?.data)
-        }
-        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
-      } catch (error) {
-        // handleError(error);
-      } finally {
-        setStockstatsloading(false);
-      }
-    }
-  };
-  const FetchShrinkagestats = async (filters) => {
-
-    let { client_id, company_id, site_id, client_name, company_name } = filters;
-
-    if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = ReduxFullData?.superiorId;
-      client_name = ReduxFullData?.full_name;
-    }
-
-    if (ReduxFullData?.company_id && !company_id) {
-      company_id = ReduxFullData?.company_id;
-      company_name = ReduxFullData?.company_name;
-    }
-
-    const updatedFilters = {
-      ...filters,
-      client_id,
-      client_name,
-      company_id,
-      company_name
-    };
-
-
-    if (client_id) {
-      try {
-        setShrinkagestatsloading(true);
-        const queryParams = new URLSearchParams();
-        if (client_id) queryParams.append("client_id", client_id);
-        if (company_id) queryParams.append("company_id", company_id);
-        if (site_id) queryParams.append("site_id", site_id);
-
-        const queryString = queryParams.toString();
-        const response = await getData(`ceo-dashboard/shrinkage-stats?${queryString}`);
-        if (response && response.data && response.data.data) {
-          setShrinkagestats(response?.data?.data)
-        }
-        localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
-      } catch (error) {
-        // handleError(error);
-      } finally {
-        setShrinkagestatsloading(false);
-      }
-    }
-  };
   const FetchPriceLogs = async (filters) => {
     try {
       setPriceLogssloading(true);
@@ -336,6 +242,14 @@ const CeoDashBoard = (props) => {
     localStorage.removeItem(storedKeyName);
     setFilters(null);
     setDashboardData(null);
+    setMopstatsData(null);
+    setBarGraphSalesStats(null);
+    setBarGraphStockStats(null);
+    setShrinkagestats(null);
+    setPriceLogs(null);
+    formik.resetForm()
+
+
   };
 
   useEffect(() => {
@@ -353,14 +267,6 @@ const CeoDashBoard = (props) => {
   };
   const [pdfisLoading, setpdfisLoading] = useState(false);
 
-  const firstSiteObject = () => {
-    if (filters && filters.site_id === "" && filters.site_name === "" && filters.company_id) {
-      return filters.sites.length > 0 ? filters.sites[0] : null;
-    }
-    return null;
-  };
-
-  const result = firstSiteObject();
 
 
 
@@ -376,48 +282,14 @@ const CeoDashBoard = (props) => {
 
   };
 
-  const formik = useFormik({
-    initialValues: {
-      selectedSite: '',
-      selectedSiteDetails: '',
-      selectedMonth: '',
-      selectedMonthDetails: '',
-    },
-    onSubmit: (values) => {
-      // Handle the form submission or changes
-      console.log(values);
-    },
-  });
+
   useEffect(() => {
-    if (formik?.values?.selectedSite) {
+    if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
       FetchPriceLogs();
     }
     // Set default month value if not set
-    if (!formik?.values?.selectedMonth && !formik?.values?.selectedMonthDetails && filters?.reportmonths) {
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const currentMonth = currentDate.getMonth() + 1;
-      const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
-      const currentMonthObject = filters?.reportmonths.find(item => item.values === currentMonthFormatted);
 
-
-      formik.setFieldValue("selectedMonth", currentMonthObject.display);
-      formik.setFieldValue("selectedMonthDetails", currentMonthObject);
-      console.log(currentMonthObject, "currentMonthObjectformik");
-
-    }
-    if (!formik?.values?.selectedSite && !formik?.values?.selectedSiteDetails && filters?.company_id && !filters?.site_id) {
-      console.log(result, "result");
-      if (result && formik.values.selectedSite !== result.id) {
-        formik.setFieldValue("selectedSite", result?.id);
-        formik.setFieldValue("selectedSiteDetails", result);
-      }
-    } else if (filters?.company_id && filters?.site_id && !formik.values?.selectedSite) {
-      const selectedItem = filters?.sites.find((item) => item.id == (filters?.site_id));
-      formik.setFieldValue("selectedSite", filters?.site_id);
-      formik.setFieldValue("selectedSiteDetails", selectedItem);
-    }
-  }, [filters, formik?.values?.selectedMonth, formik?.values?.selectedSite]);
+  }, [formik?.values?.selectedMonth, formik?.values?.selectedSite]);
 
 
   const handleDownload = async (report) => {
@@ -786,7 +658,7 @@ const CeoDashBoard = (props) => {
 
                 </div>
               </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", margin: "auto" }}>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
                 {PriceLogsloading ? <SmallLoader /> : <> {PriceLogs?.priceLogs?.length > 0 ? (
                   <table style={{ width: "100%" }}>
                     <thead>
@@ -845,7 +717,7 @@ const CeoDashBoard = (props) => {
                   </Link></span> : ""}
 
               </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", margin: "auto" }}>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
                 <div >
                   {isLoading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<table style={{ width: "100%" }}>
                     <thead>
