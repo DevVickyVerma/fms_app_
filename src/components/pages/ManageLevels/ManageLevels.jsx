@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
 import {
     Breadcrumb,
     Card,
@@ -17,6 +16,9 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import useToggleStatus from "../../../Utils/useToggleStatus";
+import { ReactSortable } from "react-sortablejs";
+import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
 
 const ManageLevels = (props) => {
     const { isLoading, getData, postData } = props;
@@ -202,6 +204,92 @@ const ManageLevels = (props) => {
     ];
 
 
+    const handleSortEnd = (evt) => {
+        const { oldIndex, newIndex } = evt;
+
+        // Check if oldIndex and newIndex are within bounds
+        if (
+            oldIndex >= 0 &&
+            newIndex >= 0 &&
+            oldIndex < data.length &&
+            newIndex < data.length
+        ) {
+            // Clone the data array to avoid mutating the state directly
+            const updatedData = [...data];
+
+            // Perform the swap in the local array
+            // [updatedData[oldIndex], updatedData[newIndex]] = [updatedData[newIndex], updatedData[oldIndex]];
+
+
+
+            // Immediately update the state with the swapped data
+            // setData(updatedData);
+
+            // Now you have the latest updated data instantly
+            console.log(updatedData, "Updated Data after swap");
+
+            // Prepare the payload with the moved item's id and the new index (destination)
+            const payload = {
+                id: updatedData[newIndex]?.id,  // Use the new index to reflect the moved item
+                destination: newIndex,
+            };
+
+
+            Swal.fire({
+                title: 'Are you sure?',
+                html: `You are about to move <strong>"${updatedData?.[oldIndex]?.name}"</strong> from position ${oldIndex + 1} to position ${newIndex + 1}. Do you want to proceed?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Swap it!',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true,
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        let postDataUrl = "/level/sort";
+                        const formData = new FormData();
+                        [updatedData[oldIndex], updatedData[newIndex]] = [updatedData[newIndex], updatedData[oldIndex]];
+
+
+
+                        // Append all the IDs in the updated order to formData
+                        updatedData.forEach((item, index) => {
+                            formData.append(`level_id[${index}]`, item.id);  // Store all the ids in formData
+                        });
+
+
+                        // console.log(updatedData, "updatedData");
+
+
+
+
+                        const response = await postData(postDataUrl, formData);  // Make your API call here
+                        if (response.api_response === 'success') {
+                            handleSuccess();  // Handle success after API approval
+                            setData(updatedData);  // Only update the state if the swap is successful
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        // handleError(error); // Handle errors if the API fails
+                    }
+                } else {
+                    handleFetchData()
+                }
+            });
+
+
+
+
+
+        } else {
+            console.error("Invalid indices for sorting:", { oldIndex, newIndex });
+        }
+    };
+
+
+
+
+
     return (
         <>
             {isLoading ? <Loaderimg /> : null}
@@ -253,10 +341,83 @@ const ManageLevels = (props) => {
                                     </div>
                                 </div>
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body className="overflow-auto" style={{ minHeight: "550px" }}>
                                 {data?.length > 0 ? (
                                     <>
-                                        <div className="table-responsive deleted-table">
+
+
+                                        <table className='table table-modern tracking-in-expand'>
+                                            <thead>
+                                                <tr className="drag-tr">
+                                                    <th scope='col'>Level Name</th>
+                                                    <th scope='col'>Sort Order</th>
+                                                    <th scope='col'>Created Date</th>
+                                                    <th scope='col'>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <ReactSortable
+                                                list={data || []}
+                                                swap
+                                                tag="tbody"
+                                                animation={200}
+                                                delayOnTouchStart={true}
+                                                delay={2}
+                                                setList={setData}
+                                                onEnd={handleSortEnd}
+                                            >
+                                                {data?.map((item) => (
+                                                    <tr key={item?.id} className="cursor-grab drag-tr">
+                                                        <td>
+                                                            <div className='d-flex align-items-center'>
+                                                                <div className='flex-grow-1'>
+                                                                    {item.name}
+
+                                                                    {item?.is_final === 1 ? <>
+                                                                        <i className="ph ph-check-circle c-fs-18 ms-2 c-top-3"></i>
+                                                                    </> : ""}
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>{item?.sort_order}</td>
+                                                        <td>
+                                                            {item?.created_date}
+                                                        </td>
+                                                        <td>
+                                                            <span
+                                                            // className="text-center d-flex justify-content-center gap-1 flex-wrap"
+                                                            >
+                                                                {isEditPermissionAvailable ? (
+                                                                    <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
+                                                                        <Link
+                                                                            to={`/manage-levels/edit-level/${item?.id}`}
+                                                                            className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
+                                                                        >
+                                                                            <i className="ph ph-pencil" />
+
+                                                                        </Link>
+                                                                    </OverlayTrigger>
+                                                                ) : null}
+                                                                {isDeletePermissionAvailable ? (
+                                                                    <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+                                                                        <Link
+                                                                            to="#"
+                                                                            className="btn btn-danger btn-sm rounded-11 responsive-btn"
+                                                                            onClick={() => handleDelete(item?.id)}
+                                                                        >
+                                                                            <i className="ph ph-trash" />
+
+                                                                        </Link>
+                                                                    </OverlayTrigger>
+                                                                ) : null}
+                                                            </span>
+                                                        </td>
+
+                                                    </tr>
+                                                ))}
+                                            </ReactSortable>
+                                        </table>
+                                        {/* <div className="table-responsive deleted-table">
                                             <DataTable
                                                 columns={columns}
                                                 data={data}
@@ -269,7 +430,7 @@ const ManageLevels = (props) => {
 
                                                 responsive={true}
                                             />
-                                        </div>
+                                        </div> */}
                                     </>
                                 ) : (
                                     <>

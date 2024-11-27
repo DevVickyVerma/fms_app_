@@ -2197,3 +2197,21 @@ td.middayModal-td.time-input-fuel-sell {
 .c-top-3 {
   top: 3px;
 }
+
+.cursor-grab {
+  cursor: grab;
+}
+
+
+.sortable-chosen {
+  background-color: #eaedf1;
+}
+
+.drag-tr th {
+  padding: 0.7rem 1rem !important;
+}
+
+.drag-tr td {
+  padding: 0.7rem 1rem !important;
+  border-bottom: 1px solid #eaedf1 !important;
+}

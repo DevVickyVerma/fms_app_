@@ -21,7 +21,7 @@ import useToggleStatus from "../../../Utils/useToggleStatus";
 const ManageUser = (props) => {
   const { isLoading, getData, postData } = props;
 
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');

@@ -33,6 +33,8 @@ const EditUsers = (props) => {
   const [roleItems, setRoleItems] = useState("");
   const [LoadingFetchUserDetail, setLoadingFetchUserDetail] = useState(false);
 
+  const [levelitems, setLevelItems] = useState("");
+
 
   const handleCountryCodeChange = (e) => {
     setSelectedCountryCode(e.target.value);
@@ -70,6 +72,7 @@ const EditUsers = (props) => {
     fetchClientList();
     handleFetchData();
     FetchRoleList();
+    FetchLevelList();
     console.clear();
   }, []);
 
@@ -112,6 +115,12 @@ const EditUsers = (props) => {
 
       formData.append("role_id", values.role_id);
 
+
+      if (values?.level_id) {
+        formData.append("level_id", values?.level_id);
+      }
+
+
       formData.append("country_code", selectedCountryCode);
 
       localStorage.getItem("superiorRole") === "Client" &&
@@ -137,6 +146,7 @@ const EditUsers = (props) => {
       first_name: "",
       id: "",
       role_id: "",
+      level_id: "",
       last_name: "",
       work_flow: "",
       phone_number: "",
@@ -166,6 +176,20 @@ const EditUsers = (props) => {
 
       if (response && response.data && response.data.data.roles) {
         setRoleItems(response.data.data.roles);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const FetchLevelList = async () => {
+    try {
+      const response = await getData("/levels");
+
+      if (response && response.data && response.data.data) {
+        setLevelItems(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -373,6 +397,40 @@ const EditUsers = (props) => {
                           {formik.errors.role_id && formik.touched.role_id && (
                             <div className="invalid-feedback">
                               {formik.errors.role_id}
+                            </div>
+                          )}
+                        </div>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label htmlFor="level_id" className="form-label mt-4">
+                            Level
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.level_id && formik.touched.level_id
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="level_id"
+                            name="level_id"
+                            onChange={formik.handleChange}
+                            value={formik.values.level_id}
+                          >
+                            <option value="">Select a Level</option>
+                            {levelitems ? (
+                              levelitems.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled={true}>No Level</option>
+                            )}
+                          </select>
+                          {formik.errors.level_id && formik.touched.level_id && (
+                            <div className="invalid-feedback">
+                              {formik.errors.level_id}
                             </div>
                           )}
                         </div>

@@ -17,6 +17,7 @@ import useErrorHandler from '../../CommonComponent/useErrorHandler';
 const AddUsers = (props) => {
   const { isLoading, getData, postData } = props;
   const [roleitems, setRoleItems] = useState("");
+  const [levelitems, setLevelItems] = useState("");
   const [selectRole, setselectRole] = useState([]);
   const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
 
@@ -53,6 +54,13 @@ const AddUsers = (props) => {
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
       formData.append("country_code", selectedCountryCode);
+
+
+      if (values?.level_id) {
+        formData.append("level_id", values?.level_id);
+      }
+
+
       localStorage.getItem("superiorRole") === "Client" &&
         formData.append("work_flow", values.work_flow);
 
@@ -84,6 +92,7 @@ const AddUsers = (props) => {
 
   useEffect(() => {
     FetchRoleList();
+    FetchLevelList();
     handleFetchData();
   }, [UserPermissions]);
 
@@ -106,6 +115,20 @@ const AddUsers = (props) => {
 
       if (response && response.data && response.data.data) {
         setRoleItems(response?.data?.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const FetchLevelList = async () => {
+    try {
+      const response = await getData("/levels");
+
+      if (response && response.data && response.data.data) {
+        setLevelItems(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -164,7 +187,7 @@ const AddUsers = (props) => {
               initialValues={{
                 first_name: "",
                 role: "",
-
+                level_id: "",
                 last_name: "",
 
                 email: "",
@@ -392,6 +415,40 @@ const AddUsers = (props) => {
                             component="div"
                             className="invalid-feedback"
                             name="role"
+                          />
+                        </FormGroup>
+                      </Col>
+
+
+
+
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label htmlFor="level_id" className=" form-label mt-4">
+                            Level
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${errors.level_id && touched.level_id ? "is-invalid" : ""
+                              }`}
+                            id="level_id"
+                            name="level_id"
+                          >
+                            <option value="">Select a Level</option>
+                            {levelitems ? (
+                              levelitems.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled={true}>No Level</option>
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="level_id"
                           />
                         </FormGroup>
                       </Col>

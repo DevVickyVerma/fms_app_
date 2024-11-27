@@ -12,7 +12,7 @@ import LoaderImg from '../../../Utils/Loader';
 
 
 
-const ManageAddEditLevel = (props) => {
+const ManageAddEditUser = (props) => {
     const { isLoading, postData, getData } = props;
     const { id: urlId } = useParams()
 
@@ -32,12 +32,17 @@ const ManageAddEditLevel = (props) => {
 
     const AddSiteinitialValues = {
         name: "",
+        sort_order: "",
         is_final: 0,
     };
     const formik = useFormik({
         initialValues: AddSiteinitialValues,
         validationSchema: Yup.object({
             name: Yup.string().required("Name is required"),
+            sort_order: Yup.number()
+                .min(1, "Sort order must be at least 1")
+                .max(10, "Sort order must be at most 10")
+                .required("Sort order is required"),
             is_final: Yup.number().oneOf([0, 1], "Invalid value for is_final"),
         }),
         onSubmit: (values) => {
@@ -50,6 +55,7 @@ const ManageAddEditLevel = (props) => {
         try {
             const formData = new FormData();
             formData.append("name", values.name);
+            formData.append("sort_order", values.sort_order);
             formData.append("is_final", values.is_final);
 
             if (urlId) {
@@ -84,7 +90,7 @@ const ManageAddEditLevel = (props) => {
             <>
                 <div className="page-header">
                     <div>
-                        <h1 className="page-title">{urlId ? "Edit Level" : "Add Level"}  </h1>
+                        <h1 className="page-title">{urlId ? "Edit User" : "Add User"}  </h1>
 
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
@@ -106,7 +112,7 @@ const ManageAddEditLevel = (props) => {
                                 className="breadcrumb-item active breadcrumds"
                                 aria-current="page"
                             >
-                                {urlId ? "Edit Level" : "Add Level"}
+                                {urlId ? "Edit User" : "Add User"}
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
@@ -116,7 +122,7 @@ const ManageAddEditLevel = (props) => {
                     <Col lg={12} xl={12} md={12} sm={12}>
                         <Card>
                             <Card.Header>
-                                <Card.Title as="h3">{urlId ? "Edit Level" : "Add Level"} </Card.Title>
+                                <Card.Title as="h3">{urlId ? "Edit User" : "Add User"} </Card.Title>
                             </Card.Header>
                             <Card.Body>
                                 <form onSubmit={formik.handleSubmit}>
@@ -124,10 +130,27 @@ const ManageAddEditLevel = (props) => {
 
 
 
-                                        <Col lg={12}>
-                                            <FormikInput formik={formik} type="text" name="name" />
+                                        <Col lg={6}>
+                                            <FormikInput formik={formik} type="text" name="first_name" />
+                                        </Col>
+                                        <Col lg={6}>
+                                            <FormikInput formik={formik} type="text" name="last_name" />
                                         </Col>
 
+                                        <Col lg={4} md={6}>
+                                            <FormikSelect
+                                                formik={formik}
+                                                name="Site_Status"
+                                                label="Site Status"
+                                                options={AddSiteData.site_status?.map((item) => ({ id: item?.id, name: item?.name }))}
+                                                className="form-input"
+                                            />
+                                        </Col>
+
+
+                                        <Col lg={6}>
+                                            <FormikInput formik={formik} type="number" name="sort_order" label='Sort Order' min='1' max='10' />
+                                        </Col>
 
 
                                         <Col lg={6}>
@@ -141,7 +164,6 @@ const ManageAddEditLevel = (props) => {
                                                         formik.setFieldValue('is_final', e.target.checked ? 1 : 0);
                                                     }}
                                                     className='mx-1 form-check-input form-check-input-updated pointer'
-
                                                 />
                                                 <label htmlFor="is_final" className='p-0 m-0 pointer' > Final Approver</label>
                                             </div>
@@ -177,4 +199,4 @@ const ManageAddEditLevel = (props) => {
         </>
     );
 };
-export default withApi(ManageAddEditLevel);
+export default withApi(ManageAddEditUser);
