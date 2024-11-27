@@ -19,6 +19,7 @@ import { useFormik } from "formik";
 import SmallLoader from "../../Utils/SmallLoader";
 import CeoDashboardCharts from "./CeoDashboardCharts";
 import { Link } from "react-router-dom";
+import { CeoDashBoardFilterValidation } from "../../Utils/commonFunctions/CommonValidation";
 
 
 const CeoDashBoard = (props) => {
@@ -35,21 +36,17 @@ const CeoDashBoard = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
-  const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   dispatch(fetchData())
-  // }, [])
 
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-  const validationSchemaForCustomInput = Yup.object({
-    client_id: isNotClient
-      ? Yup.string().required("Client is required")
-      : Yup.mixed().notRequired(),
-    company_id: Yup.string().required("Company is required"),
-    // report_month: Yup.string().required("Report Month is required"),
-  });
-
+  // const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  // // const validationSchemaForCustomInput = Yup.object({
+  // //   client_id: isNotClient
+  // //     ? Yup.string().required("Client is required")
+  // //     : Yup.mixed().notRequired(),
+  // //   company_id: Yup.string().required("Company is required"),
+  // //   // report_month: Yup.string().required("Report Month is required"),
+  // // });
+  const validationSchemaForCustomInput = CeoDashBoardFilterValidation(isNotClient);
 
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
