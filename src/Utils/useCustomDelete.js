@@ -30,7 +30,8 @@ const useCustomDelete = () => {
                         handleSuccess();
                     }
                 } catch (error) {
-                    handleError(error)
+                    console.error(error)
+                    // handleError(error)
                 }
             }
         });

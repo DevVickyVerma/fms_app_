@@ -12,6 +12,8 @@ const FormikInput = ({
     isRequired = true,
     readOnly = false,
     maxDate = '',
+    min = '',
+    max = ''
 }) => {
     const dynamicLabel =
         label ||
@@ -152,6 +154,8 @@ const FormikInput = ({
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values[name]}
+                        min={min}
+                        max={max}
                     />
                 );
         }
@@ -166,7 +170,7 @@ const FormikInput = ({
 
             {renderInput()}
 
-            {hasError && <div className="text-danger mt-1"> {formatLabel(errorMessages)}</div>}
+            {hasError && <div className="invalid-feedback mt-1"> {formatLabel(errorMessages)}</div>}
         </div>
     );
 };

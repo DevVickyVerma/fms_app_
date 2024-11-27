@@ -2158,18 +2158,22 @@ td.middayModal-td.time-input-fuel-sell {
   font-size: 10px;
   background-color: #09ad95;
 }
-.flexspacebetween{
+
+.flexspacebetween {
   display: flex;
   justify-content: space-between;
 }
-.selectedMonth{
+
+.selectedMonth {
   padding: 5px;
   border: 2px solid #ddd;
 }
-.smalltitle{
+
+.smalltitle {
   font-size: 12px;
   color: #726060ee;
 }
+
 .smallNoDataimg {
   height: 200px;
   width: 200px;
@@ -2178,4 +2182,16 @@ td.middayModal-td.time-input-fuel-sell {
   justify-content: center;
   align-items: center;
   margin: auto;
+}
+
+.c-fs-18 {
+  font-size: 18px;
+}
+
+.ph {
+  position: relative;
+}
+
+.c-top-3 {
+  top: 3px;
 }

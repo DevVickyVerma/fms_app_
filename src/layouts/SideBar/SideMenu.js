@@ -33,6 +33,30 @@ export const MENUITEMS = [
       // },
 
       {
+        title: "Manage Levels",
+        icon: "users",
+        type: "sub",
+        active: false,
+        permission: "user-list",
+        visibility: false,
+        children: [
+          {
+            path: `/manage-levels`,
+            type: "link",
+            title: "Manage Levels",
+            permission: "user-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-levels/add-level`,
+            type: "link",
+            title: "Add Level",
+            permission: "user-create",
+            visibility: false,
+          },
+        ],
+      },
+      {
         title: "Manage Users",
         icon: "users",
         type: "sub",

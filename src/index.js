@@ -43,6 +43,8 @@ import UpdateFuelPrices from "./components/pages/ManageFuelPrices/UpdateFuelPric
 import DailyDue from "./components/pages/DailyDue/DailyDue";
 import SubwayFacilityFees from "./components/pages/SubwayFacilityFees/SubwayFacilityFees";
 import { NavigationProvider } from "./Utils/NavigationProvider";
+import ManageLevels from "./components/pages/ManageLevels/ManageLevels";
+import ManageAddEditLevel from "./components/pages/ManageLevels/ManageAddEditLevel";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -736,6 +738,8 @@ const Root = () => {
   const WrappedShopRevenueCommission = withApi(ShopRevenueCommission);
   const WrappedDashboardWetStock = withApi(DashboardWetStock);
   const WrappedDailyDue = withApi(DailyDue);
+  const WrappedManageLevels = withApi(ManageLevels);
+  const WrappedManageAddLevel = withApi(ManageAddEditLevel);
 
   return (
     <>
@@ -747,7 +751,7 @@ const Root = () => {
                 <Route element={<PrivateRoutes token={token} />}>
                   <Route path={`/`} element={<App />}>
                     <Route index={true} element={<Dashboard />} />
-                   
+
                     <Route path={`/dashboard`} element={<WrappedDashboard />} />
                     <Route path={`/ceodashboard`} element={<WrappedCeoDashBoard />} />
                     {/* client  Components Start */}
@@ -772,6 +776,9 @@ const Root = () => {
                       element={<WrappeAddEditUser />}
                     />
                     <Route path={`/daily-due/:id`} element={<WrappedDailyDue />} />
+                    <Route path={`/manage-levels`} element={<WrappedManageLevels />} />
+                    <Route path={`/manage-levels/add-level`} element={<WrappedManageAddLevel />} />
+                    <Route path={`/manage-levels/edit-level/:id`} element={<WrappedManageAddLevel />} />
 
                     <Route path={`addusers`} element={<WrappedAddUser />} />
 
