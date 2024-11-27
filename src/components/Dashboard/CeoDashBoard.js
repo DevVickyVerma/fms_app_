@@ -36,28 +36,25 @@ const CeoDashBoard = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
+  const [Mopstatsloading, setMopstatsloading] = useState(false);
+  const [Salesstatsloading, setSalesstatsloading] = useState(false);
+  const [Stockstatsloading, setStockstatsloading] = useState(false);
+  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(false);
+  const [PriceLogsloading, setPriceLogssloading] = useState(false);
+  const [MopstatsData, setMopstatsData] = useState();
+  const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
+  const [BarGraphStockStats, setBarGraphStockStats] = useState();
+  const [Shrinkagestats, setShrinkagestats] = useState();
+  const [PriceLogs, setPriceLogs] = useState();
 
 
-  // const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
-  // // const validationSchemaForCustomInput = Yup.object({
-  // //   client_id: isNotClient
-  // //     ? Yup.string().required("Client is required")
-  // //     : Yup.mixed().notRequired(),
-  // //   company_id: Yup.string().required("Company is required"),
-  // //   // report_month: Yup.string().required("Report Month is required"),
-  // // });
-  const validationSchemaForCustomInput = CeoDashBoardFilterValidation(isNotClient);
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
 
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
-
-
-
-
   useEffect(() => {
-
     localStorage.setItem("Dashboardsitestats", permissionsArray?.includes("dashboard-site-stats"));
     if (ReduxFullData?.company_id) {
       localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
@@ -78,14 +75,10 @@ const CeoDashBoard = (props) => {
 
   const handleApplyFilters = ((values) => {
     if (!values?.start_date) {
-      // If start_date does not exist, set it to the current date
       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
-      // Update the stored data with the new start_date
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
-
-    // only one permission check for first screen dashboard-view
     if (permissionsArray?.includes("dashboard-view")) {
       FetchFilterData(values);
       FetchMopCardStats(values);
@@ -139,16 +132,7 @@ const CeoDashBoard = (props) => {
       }
     }
   };
-  const [Mopstatsloading, setMopstatsloading] = useState(false);
-  const [Salesstatsloading, setSalesstatsloading] = useState(false);
-  const [Stockstatsloading, setStockstatsloading] = useState(false);
-  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(false);
-  const [PriceLogsloading, setPriceLogssloading] = useState(false);
-  const [MopstatsData, setMopstatsData] = useState();
-  const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
-  const [BarGraphStockStats, setBarGraphStockStats] = useState();
-  const [Shrinkagestats, setShrinkagestats] = useState();
-  const [PriceLogs, setPriceLogs] = useState();
+
   const FetchMopCardStats = async (filters) => {
 
     let { client_id, company_id, site_id, client_name, company_name } = filters;
@@ -326,9 +310,6 @@ const CeoDashBoard = (props) => {
     }
   };
   const FetchPriceLogs = async (filters) => {
-
-
-
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
@@ -526,7 +507,6 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   return (
     <>
       {isLoading || pdfisLoading ? <SmallLoader /> : null}
@@ -540,7 +520,7 @@ const CeoDashBoard = (props) => {
             isLoading={isLoading}
             isStatic={true}
             onApplyFilters={handleApplyFilters}
-            validationSchema={validationSchemaForCustomInput}
+            validationSchema={CeoDashBoardFilterValidation}
             storedKeyName={storedKeyName}
             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
             showStationValidation={false}
