@@ -95,7 +95,7 @@ const CeoDashBoard = (props) => {
     }
   };
 
-  const FetchDashboardStats = (filters) => {
+  const FetchDashboardStats =  (filters) => {
     const endpoints = [
       {
         name: "dashboard",
@@ -131,7 +131,9 @@ const CeoDashBoard = (props) => {
         setLoading: setShrinkagestatsloading,
       },
     ];
-
+    // for (const { url, setData, setLoading, callback } of endpoints) {
+    //   await fetchData(filters, url, setData, setLoading, callback);
+    // }
     endpoints.forEach(({ url, setData, setLoading, callback }) => {
       fetchData(filters, url, setData, setLoading, callback);
     });
@@ -162,13 +164,7 @@ const CeoDashBoard = (props) => {
       const currentYear = currentDate.getFullYear();
       const currentMonth = currentDate.getMonth() + 1;
       const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
-
-
-
       const currentMonthObject = updatedFilters?.reportmonths.find(item => item.values === currentMonthFormatted);
-
-
-
       if (currentMonthObject) {
         formik.setFieldValue("selectedMonth", currentMonthObject.display);
         formik.setFieldValue("selectedMonthDetails", currentMonthObject);
@@ -203,8 +199,6 @@ const CeoDashBoard = (props) => {
         setFilters(updatedFilters);
         setCenterFilterModalOpen(false);
         if (response && response.data && response.data.data) {
-
-
           setData(response.data.data);
           if (callback) callback(response, updatedFilters);
           localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
@@ -270,18 +264,12 @@ const CeoDashBoard = (props) => {
     setShowLiveData(false); // Toggle the state
   };
   const [pdfisLoading, setpdfisLoading] = useState(false);
-
-
-
-
   const handleMonthChange = (selectedId) => {
     const selectedItem = filters.reportmonths.find((item) => item.display == (selectedId));
     formik.setFieldValue("selectedMonth", selectedId,)
     formik.setFieldValue("selectedMonthDetails", selectedItem,)
   };
   const handleSiteChange = (selectedId) => {
-
-
     const selectedItem = filters?.sites.find((item) => item.id == (selectedId));
     formik.setFieldValue("selectedSite", selectedId,)
     formik.setFieldValue("selectedSiteDetails", selectedItem,)
@@ -289,14 +277,10 @@ const CeoDashBoard = (props) => {
   };
 
   useEffect(() => {
-
-
     if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
       FetchPriceLogs();
     }
-    // Set default month value if not set
-
-  }, [formik?.values?.selectedSite,formik?.values?.selectedMonth]);
+  }, [formik?.values?.selectedSite, formik?.values?.selectedMonth]);
 
 
   const handleDownload = async (report) => {
@@ -386,9 +370,12 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
+
+
+
   return (
     <>
-      {isLoading || pdfisLoading ? <SmallLoader /> : null}
+      {/* {!isLoading || pdfisLoading ? <SmallLoader /> : null} */}
 
       {centerFilterModalOpen && (
         <div className="">
@@ -543,7 +530,8 @@ const CeoDashBoard = (props) => {
           </h2>
         )}
 
-        <UpercardsCeoDashboardStatsBox
+
+        {isLoading ? <SmallLoader title="Stats Cards" /> : <UpercardsCeoDashboardStatsBox
           GrossVolume={dashboardData?.gross_volume}
           shopmargin={dashboardData?.shop_profit}
           GrossProfitValue={dashboardData?.gross_profit}
@@ -553,10 +541,11 @@ const CeoDashBoard = (props) => {
           shop_fees={dashboardData?.shop_fees}
           dashboardData={dashboardData}
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-        />
+        />}
 
 
-        <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
+
+        {isLoading ? <SmallLoader title="Total Day Wise Sales" /> : <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
           <ChartCard
             title="Total Day Wise Sales"
             chartType="full"
@@ -569,7 +558,10 @@ const CeoDashBoard = (props) => {
               LinechartOption={dashboardData?.d_line_graph?.option?.labels || []}
             />
           </ChartCard>
-        </Row>
+        </Row>}
+
+
+
 
 
         <Card className="h-100">
@@ -588,15 +580,19 @@ const CeoDashBoard = (props) => {
         }
 
 
-
-        {
+        <CeoDashboardCharts
+          Salesstatsloading={Salesstatsloading} // Simulate loading
+          BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
+          Baroptions={Baroptions} // Pass the Baroptions directly
+        />
+        {/* {
           BarGraphSalesStats ? <CeoDashboardCharts
             Salesstatsloading={Salesstatsloading} // Simulate loading
             BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
             Baroptions={Baroptions} // Pass the Baroptions directly
           /> :
             <NoDataComponent title="Sales Graph" />
-        }
+        } */}
 
 
 
@@ -674,15 +670,18 @@ const CeoDashBoard = (props) => {
                 </div>
               </Card.Header>
               <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
-                {PriceLogsloading ? <SmallLoader /> : <> {PriceLogs?.priceLogs?.length > 0 ? (
+                {PriceLogsloading ? (
+                  <SmallLoader />
+                ) : PriceLogs?.priceLogs?.length > 0 ? (
                   <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
                 ) : (
                   <img
                     src={require("../../assets/images/commonimages/no_data.png")}
-                    alt="MyChartImage"
-                    className=" all-center-flex  smallNoDataimg "
+                    alt="No data available"
+                    className="all-center-flex smallNoDataimg"
                   />
-                )}</>}
+                )}
+
 
 
 
@@ -727,29 +726,30 @@ const CeoDashBoard = (props) => {
         <Row className="mt-5 d-flex align-items-stretch" >
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
             {BarGraphStockStats?.stock_graph_data ? (
-              // Conditionally render the chart or a loader based on availability of data
-              Stockstatsloading || !BarGraphStockStats ?
-                <SmallLoader title="Stocks" /> :
+              // If data is available, render the chart or show loader if data is still being fetched
+              Stockstatsloading ? (
+                <SmallLoader title="Stocks" />
+              ) : (
                 <Card className="h-100">
                   <Card.Header className="p-4">
-                    <h4 className="card-title"> Stocks </h4>
+                    <h4 className="card-title">Stocks</h4>
                   </Card.Header>
-                  <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
+                  <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <div style={{ width: "300px", height: "300px" }}>
-
                       <Doughnut
                         data={BarGraphStockStats?.stock_graph_data}
                         options={BarGraphStockStats?.stock_graph_options}
                         height="100px"
                       />
-
                     </div>
                   </Card.Body>
                 </Card>
+              )
             ) : (
+              // If no data is available, show the NoDataComponent
               <NoDataComponent title="Stocks" />
-
             )}
+
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
 
