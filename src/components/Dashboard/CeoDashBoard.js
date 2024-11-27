@@ -19,6 +19,10 @@ import SmallLoader from "../../Utils/SmallLoader";
 import CeoDashboardCharts from "./CeoDashboardCharts";
 import { Link } from "react-router-dom";
 import { CeoDashBoardFilterValidation } from "../../Utils/commonFunctions/CommonValidation";
+import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
+import PriceLogTable from "./PriceLogTable";
+import ReportTable from "./ReportTable";
+import FormikSelect from "../Formik/FormikSelect";
 
 
 const CeoDashBoard = (props) => {
@@ -276,20 +280,23 @@ const CeoDashBoard = (props) => {
     formik.setFieldValue("selectedMonthDetails", selectedItem,)
   };
   const handleSiteChange = (selectedId) => {
+
+
     const selectedItem = filters?.sites.find((item) => item.id == (selectedId));
     formik.setFieldValue("selectedSite", selectedId,)
     formik.setFieldValue("selectedSiteDetails", selectedItem,)
 
   };
 
-
   useEffect(() => {
+
+
     if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
       FetchPriceLogs();
     }
     // Set default month value if not set
 
-  }, [formik?.values?.selectedMonth, formik?.values?.selectedSite]);
+  }, [formik?.values?.selectedSite,formik?.values?.selectedMonth]);
 
 
   const handleDownload = async (report) => {
@@ -319,7 +326,7 @@ const CeoDashBoard = (props) => {
 
 
       // Construct commonParams based on toggleValue
-      const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(filters.site_id)}&month=${formik?.values?.selectedMonthDetails?.value}`;
+      const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value}`;
 
       // API URL for the fetch request
       const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -498,8 +505,6 @@ const CeoDashBoard = (props) => {
 
 
       <div className="mb-2 ">
-
-
         {filters?.client_id && filters.company_id && (<>
           <div className="text-end " >
             <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
@@ -584,11 +589,18 @@ const CeoDashBoard = (props) => {
 
 
 
-        <CeoDashboardCharts
-          Salesstatsloading={Salesstatsloading} // Simulate loading
-          BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
-          Baroptions={Baroptions} // Pass the Baroptions directly
-        />
+        {
+          BarGraphSalesStats ? <CeoDashboardCharts
+            Salesstatsloading={Salesstatsloading} // Simulate loading
+            BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
+            Baroptions={Baroptions} // Pass the Baroptions directly
+          /> :
+            <NoDataComponent title="Sales Graph" />
+        }
+
+
+
+
 
 
 
@@ -597,7 +609,7 @@ const CeoDashBoard = (props) => {
         <Card className="h-100 mt-4">
 
 
-          <Card.Header className="p-4 flexspacebetween">
+          <Card.Header className="flexspacebetween">
             <h4 className="card-title"> Selling Price Logs/Reports   </h4>
             <div className="flexspacebetween">
               {filters?.sites ? <div>
@@ -615,6 +627,13 @@ const CeoDashBoard = (props) => {
                     </option>
                   ))}
                 </select>
+                {/* <FormikSelect
+                  formik={formik}
+                  name="selectedSite"
+                  options={filters?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
+                  className="selectedMonth"
+                  onChange={(e) => handleSiteChange(e.target.value)}
+                /> */}
               </div> : ""}
 
               <div>
@@ -652,40 +671,11 @@ const CeoDashBoard = (props) => {
                   {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
                     View All
                   </Link></span> : ""}
-
-
-
-
                 </div>
               </Card.Header>
               <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
                 {PriceLogsloading ? <SmallLoader /> : <> {PriceLogs?.priceLogs?.length > 0 ? (
-                  <table style={{ width: "100%" }}>
-                    <thead>
-                      <tr>
-                        <th>Site</th>
-                        <th>Selling</th>
-                        <th>Checked</th>
-                        <th>Old Price</th>
-                        <th>New Price</th>
-                        <th>Updated By</th>
-                        <th>Update Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {PriceLogs?.priceLogs?.map((log) => (
-                        <tr key={log.id}>
-                          <td>{log.site}</td>
-                          <td>{log.name}</td>
-                          <td>{log.is_checked}</td>
-                          <td>£{log.prev_price.toFixed(3)}</td>
-                          <td>£{log.price.toFixed(3)}</td>
-                          <td>{log.user}</td>
-                          <td>{new Date(log.created).toLocaleString()}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
                 ) : (
                   <img
                     src={require("../../assets/images/commonimages/no_data.png")}
@@ -719,32 +709,7 @@ const CeoDashBoard = (props) => {
               </Card.Header>
               <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
                 <div >
-                  {isLoading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<table style={{ width: "100%" }}>
-                    <thead>
-                      <tr>
-
-                        <th>Reports</th>
-
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filters?.reports?.map((report) => (
-                        <tr key={report.id} style={{ marginBottom: '10px' }}>
-
-                          <td>{report.report_name}</td>
-
-                          <td>
-                            <button
-                              onClick={() => handleDownload(report)}>
-                              <i className="fa fa-download" style={{ fontSize: "18px", color: "#4663ac" }}></i>
-
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>) : (
+                  {isLoading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} handleDownload={handleDownload} />) : (
                     <img
                       src={require("../../assets/images/commonimages/no_data.png")}
                       alt="MyChartImage"
@@ -782,22 +747,8 @@ const CeoDashBoard = (props) => {
                   </Card.Body>
                 </Card>
             ) : (
-              <Card className="h-100">
-                <Card.Header className="p-4">
-                  <h4 className="card-title"> Stocks </h4>
-                </Card.Header>
-                <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
-                  <div className="all-center-flex">
-                    <img
-                      src={require("../../assets/images/commonimages/no_data.png")}
-                      alt="No data available"
-                      className="smallNoDataimg"
-                    />
-                  </div>
+              <NoDataComponent title="Stocks" />
 
-
-                </Card.Body>
-              </Card>
             )}
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
@@ -817,22 +768,7 @@ const CeoDashBoard = (props) => {
                 />
               )
             ) : (
-              <Card className="h-100">
-                <Card.Header className="p-4">
-                  <h4 className="card-title"> Shrinkage </h4>
-                </Card.Header>
-                <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
-                  <div className="all-center-flex">
-                    <img
-                      src={require("../../assets/images/commonimages/no_data.png")}
-                      alt="No data available"
-                      className="smallNoDataimg"
-                    />
-                  </div>
-
-
-                </Card.Body>
-              </Card>
+              <NoDataComponent title="Shrinkage" />
             )}
 
 

@@ -2167,6 +2167,8 @@ td.middayModal-td.time-input-fuel-sell {
 .selectedMonth {
   padding: 5px;
   border: 2px solid #ddd;
+  min-width: 170px;
+  height: 100%;
 }
 
 .smalltitle {

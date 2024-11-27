@@ -23,9 +23,11 @@ const FormikSelect = ({
 
     return (
         <div className={`form-group ${formik.touched[name] && formik.errors[name] ? 'has-error' : ''} ${formik.submitCount > 0 && !formik.errors[name] ? 'has-success' : ''}`}>
-            <label htmlFor={name} className='mb-2'>
+           {label?<label htmlFor={name} className='mb-2'>
             {formatLabel(label)} {isRequired && <span className="text-danger">*</span>}
-            </label>
+            </label>:""}
+           
+            
             <select
                 id={name}
                 name={name}
