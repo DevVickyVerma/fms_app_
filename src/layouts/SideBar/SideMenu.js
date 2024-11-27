@@ -34,7 +34,7 @@ export const MENUITEMS = [
 
       {
         title: "Manage Levels",
-        icon: "users",
+        icon: "graduation-cap",
         type: "sub",
         active: false,
         permission: "user-list",
