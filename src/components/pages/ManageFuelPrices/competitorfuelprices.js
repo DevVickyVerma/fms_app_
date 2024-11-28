@@ -1,9 +1,11 @@
+import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
+import { useFormik } from "formik";
 import { Collapse, Table } from "antd";
 import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
@@ -38,6 +40,12 @@ const CompetitorFuelPrices = (props) => {
     setSelectedDrsDate(values.start_date);
 
     try {
+      // const formData = new FormData();
+      // formData.append("start_date", values.start_date);
+      // formData.append("client_id", values.client_id);
+      // formData.append("company_id", values.company_id);
+
+
       let { client_id, company_id, start_date } = values;
       if (localStorage.getItem("superiorRole") === "Client") {
         client_id = localStorage.getItem("superiorId");
@@ -105,7 +113,7 @@ const CompetitorFuelPrices = (props) => {
 
 
 
-  const handleDataFromChild = async () => {
+  const handleDataFromChild = async (dataFromChild) => {
     try {
 
       if (storedData) {
@@ -180,7 +188,7 @@ const CompetitorFuelPrices = (props) => {
     }
   }
 
-  const handleClearForm = async () => {
+  const handleClearForm = async (resetForm) => {
     setData(null)
   };
 
@@ -226,7 +234,7 @@ const CompetitorFuelPrices = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Filter </h3>
+                <h3 className="card-title"> Filter Data</h3>
               </Card.Header>
 
               <NewFilterTab
@@ -260,7 +268,7 @@ const CompetitorFuelPrices = (props) => {
                     {data &&
                       data?.listing?.map((site) => (
                         <div key={site.id} className="mt-2">
-                          <Collapse accordion={true}>
+                          <Collapse accordion>
                             <Panel header={site.site_name} key={site.id}>
                               {site?.competitors.length > 0 ? (
                                 // Render the table
@@ -271,7 +279,7 @@ const CompetitorFuelPrices = (props) => {
                                       title: "Competitor",
                                       dataIndex: "competitorinfo",
                                       key: "competitorinfo",
-                                      render: (text, record,) => (
+                                      render: (text, record, index) => (
                                         <div>
                                           <img
                                             src={record.competitorimage}
@@ -297,7 +305,7 @@ const CompetitorFuelPrices = (props) => {
                                       title: "Time",
                                       dataIndex: "time",
                                       key: "time",
-                                      render: (text,) => (
+                                      render: (text, record, index) => (
                                         <span>
                                           <p>{text}</p>
                                         </span>
@@ -308,16 +316,16 @@ const CompetitorFuelPrices = (props) => {
                                         title: heading,
                                         dataIndex: "priceData",
                                         key: `priceData_${headingIndex}`,
-                                        render: (index) => {
+                                        render: (priceData, record, index) => {
                                           // Get the current competitor's fuels from the record
                                           const competitorFuels =
-                                            site?.competitors?.[index]?.fuels;
+                                            site.competitors[index]?.fuels;
 
                                           // Find the fuel object that matches the current heading
                                           const matchedFuel =
-                                            competitorFuels?.find(
+                                            competitorFuels.find(
                                               (fuel) =>
-                                                fuel?.category_name === heading
+                                                fuel.category_name === heading
                                             );
 
                                           // Get the price data from the matched fuel or display "N/A"
