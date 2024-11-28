@@ -11,8 +11,11 @@ import FormikInput from '../../Formik/FormikInput';
 import { ReactMultiEmail } from "react-multi-email";
 import * as Yup from "yup";
 import { activeInactiveOptions, AutomaticManualOptions, SalesSummary, StartEndDate, yesNoOptions } from '../../../Utils/commonFunctions/commonFunction';
+import { useSelector } from 'react-redux';
 const AddSite = (props) => {
   const { isLoading, postData, getData } = props;
+
+  const ReduxFullData = useSelector((state) => state?.data?.data);
   const { handleError } = useErrorHandler();
   const [AddSiteData, setAddSiteData] = useState([]);
   const [showToEmailError, setShowToEmailError] = useState(true);
@@ -32,9 +35,9 @@ const AddSite = (props) => {
     site_name: "",
     clients: [],
     site_Address: "",
-    Site_Status: "",
+    site_status: "",
     bussiness_Type: "",
-    Select_machine_type: "",
+    data_import_type_id: "",
     supplier: "",
     DRS_Start_Date: "",
     display_name: "",
@@ -93,7 +96,7 @@ const AddSite = (props) => {
         .required("Site Name is required"),
       site_Address: Yup.string().required("Site Address is required"),
       company_id: Yup.string().required("Company is required"),
-      Site_Status: Yup.string().required("Site Status is required"),
+      site_status: Yup.string().required("Site Status is required"),
       display_name: Yup.string().required("Display Name is required"),
       bussiness_Type: Yup.string().required("Business Type is required"),
       consider_keyfules_cards: Yup.string().required(
@@ -101,7 +104,7 @@ const AddSite = (props) => {
       ),
       supplier: Yup.string().required("Supplier is required"),
       DRS_Start_Date: Yup.string().required("DRS Start Date is required"),
-      Select_machine_type: Yup.string().required("Data Import Types is required"),
+      data_import_type_id: Yup.string().required("Data Import Types is required"),
       Saga_department_code: Yup.string().required("Sage Department Code is required"),
       Saga_department_name: Yup.string().required("Saga Department Name is required"),
       Drs_upload_status: Yup.string().required("Drs Upload Status is required"),
@@ -129,8 +132,17 @@ const AddSite = (props) => {
   const handleSubmit1 = async (values,) => {
     try {
       const formData = new FormData();
+
+
+      if (localStorage.getItem("superiorRole") === "Client") {
+        formData.append("client_id", ReduxFullData?.superiorId);
+      } else {
+        formData.append("client_id", values.client_id);
+      }
+
+
       formData.append("business_type_id", values.bussiness_Type);
-      formData.append("data_import_type_id", values.Select_machine_type);
+      formData.append("data_import_type_id", values.data_import_type_id);
       formData.append("site_code", values.site_code);
       formData.append("site_name", values.site_name);
       formData.append("site_display_name", values.display_name);
@@ -148,7 +160,7 @@ const AddSite = (props) => {
       );
       formData.append("sage_department_id", values.Saga_department_code);
       formData.append("drs_upload_status", values.Drs_upload_status);
-      formData.append("site_status", values.Site_Status);
+      formData.append("site_status", values.site_status);
       formData.append("security_amount", values.security_amount);
       formData.append("bunker_upload_status", values.Bunkered_sale_status);
       formData.append(
@@ -157,7 +169,6 @@ const AddSite = (props) => {
       );
       formData.append("paperwork_status", values.Paper_work_status);
       formData.append("company_id", values.company_id);
-      formData.append("client_id", values.client_id);
       formData.append("lottery_commission", 0);
       formData.append("paypoint_commission", values.paypoint_commission);
       formData.append(
@@ -203,7 +214,7 @@ const AddSite = (props) => {
         formData.append(`cc_emails`, []);
       }
 
-      const postDataUrl = "/site/addss";
+      const postDataUrl = "/site/add";
 
       const navigatePath = "/sites";
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
@@ -222,7 +233,6 @@ const AddSite = (props) => {
 
       if (response?.data?.data) {
 
-        console.log(response?.data?.data, "response?.data?.data");
 
         formik.setFieldValue('clients', response?.data?.data);
       }
@@ -305,7 +315,7 @@ const AddSite = (props) => {
     GetSiteData()
     if (storedDataString) {
       const parsedData = JSON.parse(storedDataString);
-      formik.setValues(parsedData);
+      // formik.setValues(parsedData);
 
       if (!parsedData?.report) {
         formik?.setFieldValue("report", "")
@@ -318,8 +328,6 @@ const AddSite = (props) => {
         GetCompanyList(parsedData?.client_id);
 
       }
-
-
     }
 
     if (!storedDataString && localStorage.getItem("superiorRole") === "Client") {
@@ -332,6 +340,8 @@ const AddSite = (props) => {
       fetchCommonListData()
     }
   }, []);
+
+
   const handleTLMPriceChange = (e) => {
     const value = e.target.value;
     formik.setFieldValue("update_tlm_price", value); // Update the field value
@@ -372,7 +382,8 @@ const AddSite = (props) => {
       </span>
     </div>
   );
-  console.log(formik.values, "closeicon");
+
+
 
   return (
     <>
@@ -468,9 +479,9 @@ const AddSite = (props) => {
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
-                          name="Site_Status"
+                          name="site_status"
                           label="Site Status"
-                          options={AddSiteData.site_status?.map((item) => ({ id: item?.id, name: item?.name }))}
+                          options={AddSiteData.site_status?.map((item) => ({ id: item?.value, name: item?.name }))}
                           className="form-input"
 
                         />
@@ -578,7 +589,7 @@ const AddSite = (props) => {
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
-                          name="Select_machine_type"
+                          name="data_import_type_id"
                           label="Select Data Import Types"
                           options={AddSiteData.data_import_types?.map((item) => ({ id: item?.id, name: item?.import_type_name }))}
                           className="form-input"
