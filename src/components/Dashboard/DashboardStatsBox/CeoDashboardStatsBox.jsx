@@ -1,7 +1,8 @@
 import { Row } from "react-bootstrap";
 import CEODashCommonCard from "../CEODashCommonCard";
 
-const CeoDashboardStatsBox = ({ dashboardData, parentComponent = true }) => {
+const CeoDashboardStatsBox = ({ dashboardData, parentComponent = true,Mopstatsloading }) => {
+  console.log(Mopstatsloading, "Mopstatsloading");
   const CeohandleNavigateClick = () => {
     console.log("CeohandleNavigateClick");
   };

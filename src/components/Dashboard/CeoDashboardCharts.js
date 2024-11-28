@@ -2,17 +2,23 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import SmallLoader from "../../Utils/SmallLoader";
+import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 
 const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions }) => {
 
     // Helper function to render either chart or loader
     const renderChartOrLoader = (data, title) => {
-        if (Salesstatsloading || !BarGraphSalesStats) {
+        if (Salesstatsloading) {
             return <SmallLoader />;
         }
-
+    
+        if (!data || data.length === 0) {
+            return  <NoDataComponent title={title} />; // Display a message or fallback when data is empty
+        }
+    
         return <CeoDashboardBarChart data={data} options={Baroptions} title={title} />;
     };
+    
 
     return (
         <Row>

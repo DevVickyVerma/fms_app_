@@ -2,7 +2,7 @@ import { Tooltip } from "react-bootstrap";
 
 // filterDataUtils.js
 export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyName = 'localFilterModalData',) {
-
+    console.log(ReduxFullData, "ReduxFullData");
     const storedData = localStorage.getItem(storedKeyName);
 
     if (storedData) {
@@ -19,6 +19,8 @@ export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyNam
     } else if (localStorage.getItem('superiorRole') === 'Client') {
         const storedClientIdData = localStorage.getItem('superiorId');
         if (ReduxFullData) {
+
+            console.log(ReduxFullData, "ReduxFullData");
             const futurepriceLog = {
                 client_id: storedClientIdData,
                 client_name: ReduxFullData?.full_name,
@@ -36,7 +38,7 @@ export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyNam
 export const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-  };
+};
 export const passwordTooltip = (
     <Tooltip id="password-tooltip">
         Your password must be at least 8 characters long and include:
@@ -101,11 +103,11 @@ export const SalesSummary = [
 export function formatLabel(str) {
     // Check if the input is indeed a string
     if (typeof str !== 'string') {
-      console.error("Expected a string but got:", typeof str);
-      return ''; // Return empty string if the input is not a string
+        console.error("Expected a string but got:", typeof str);
+        return ''; // Return empty string if the input is not a string
     }
-  
+
     return str
-      .replace(/_/g, ' ')               // Replace underscores with spaces
-      .replace(/\b\w/g, (match) => match.toUpperCase()); // Capitalize the first letter of each word
-  }
+        .replace(/_/g, ' ')               // Replace underscores with spaces
+        .replace(/\b\w/g, (match) => match.toUpperCase()); // Capitalize the first letter of each word
+}

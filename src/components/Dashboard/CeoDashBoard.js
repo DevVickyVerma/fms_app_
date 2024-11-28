@@ -68,6 +68,7 @@ const CeoDashBoard = (props) => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
+
   useEffect(() => {
     localStorage.setItem("Dashboardsitestats", permissionsArray?.includes("dashboard-site-stats"));
     if (ReduxFullData?.company_id) {
@@ -84,10 +85,21 @@ const CeoDashBoard = (props) => {
   }, [ReduxFullData, permissionsArray]);
 
 
+  var [isClientRole] = useState(localStorage.getItem("superiorRole") == "Client");
   const handleApplyFilters = (values) => {
+
+    if (!values?.Sites && isClientRole){
+      setCenterFilterModalOpen(true)
+      values.Role = "isClientRole";
+    } 
+
+    
     if (!values?.start_date) {
       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
+
+
+
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
     if (permissionsArray?.includes("dashboard-view")) {
@@ -95,7 +107,7 @@ const CeoDashBoard = (props) => {
     }
   };
 
-  const FetchDashboardStats =  (filters) => {
+  const FetchDashboardStats = (filters) => {
     const endpoints = [
       {
         name: "dashboard",
@@ -140,7 +152,7 @@ const CeoDashBoard = (props) => {
   };
 
   const updateFilters = (filters) => {
-    let { client_id, company_id, site_id, client_name, company_name } = filters;
+    let { client_id, company_id, site_id, client_name, company_name, sites } = filters;
 
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = ReduxFullData?.superiorId;
@@ -196,6 +208,8 @@ const CeoDashBoard = (props) => {
 
         const queryString = queryParams.toString();
         const response = await getData(`${endpoint}?${queryString}`);
+
+
         setFilters(updatedFilters);
         setCenterFilterModalOpen(false);
         if (response && response.data && response.data.data) {
@@ -210,8 +224,6 @@ const CeoDashBoard = (props) => {
       }
     }
   };
-
-
 
   const FetchPriceLogs = async (filters) => {
     try {
@@ -234,8 +246,6 @@ const CeoDashBoard = (props) => {
     }
 
   };
-
-
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
     setFilters(null);
@@ -246,8 +256,6 @@ const CeoDashBoard = (props) => {
     setShrinkagestats(null);
     setPriceLogs(null);
     formik.resetForm()
-
-
   };
 
   useEffect(() => {
@@ -346,9 +354,7 @@ const CeoDashBoard = (props) => {
           fileExtension = 'xlsx';
         } else if (contentType.includes('text/csv')) {
           fileExtension = 'csv';
-        } else {
-          console.warn('Unsupported file type:', contentType);
-        }
+        } 
       }
 
       // Create a temporary URL for the Blob
@@ -370,7 +376,6 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-
 
 
   return (
@@ -572,12 +577,12 @@ const CeoDashBoard = (props) => {
           </Card.Header>
         </Card>
 
-        {
-          Mopstatsloading ? <SmallLoader title="Cards" /> : <CeoDashboardStatsBox
+         <CeoDashboardStatsBox
             dashboardData={MopstatsData}
+            Mopstatsloading={Mopstatsloading}
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           />
-        }
+        
 
 
         <CeoDashboardCharts
