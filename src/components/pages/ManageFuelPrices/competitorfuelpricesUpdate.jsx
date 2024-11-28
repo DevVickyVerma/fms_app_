@@ -122,7 +122,7 @@ const competitorfuelpricesUpdate = ({ data, postData, handleFormSubmit, accordio
                 }
             });
 
-            const postDataUrl = "/site/fuel-price/update-sitepriceeeee";
+            const postDataUrl = "/site/fuel-price/suggestion/add";
 
             await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
 
