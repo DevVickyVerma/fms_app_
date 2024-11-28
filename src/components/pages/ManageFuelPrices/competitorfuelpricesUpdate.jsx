@@ -180,6 +180,8 @@ const competitorfuelpricesUpdate = ({ data, postData, handleFormSubmit, accordio
 
     return (
         <>
+
+            <hr />
             <div style={{ overflowY: "auto" }}>
                 <Card.Header className='pt-0'>
                     <h3 className="card-title w-100">
