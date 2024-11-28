@@ -15,7 +15,7 @@ import NewFilterTab from "../Filtermodal/NewFilterTab";
 const { Panel } = Collapse;
 
 const CompetitorFuelPrices = (props) => {
-  const { getData, isLoading } =
+  const { getData, isLoading, postData } =
     props;
 
   const [selectedItem, setSelectedItem] = useState(null);
@@ -201,14 +201,19 @@ const CompetitorFuelPrices = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <Compititormodal
-          open={modalOpen}
-          onClose={handleModalClose}
-          selectedItem={selectedItem}
-          accordionSiteID={accordionSiteID}
-          selectedDrsDate={selectedDrsDate}
-          onDataFromChild={handleDataFromChild}
-        />
+
+        {modalOpen && (<>
+          <Compititormodal
+            open={modalOpen}
+            onClose={handleModalClose}
+            selectedItem={selectedItem}
+            accordionSiteID={accordionSiteID}
+            selectedDrsDate={selectedDrsDate}
+            onDataFromChild={handleDataFromChild}
+            postData={postData}
+          />
+        </>)}
+
         <div className="page-header ">
           <div>
             <h1 className="page-title">Competitor Fuel Price</h1>

@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { SuccessAlert } from "../../Utils/ToastUtils";
 import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 import withApi from '../../Utils/ApiHelper';
+import MiddayFuelPrice from "../../components/pages/ManageFuelPrices/MiddayFuelPrice";
+import CompetitorfuelpricesUpdate from "../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
 
 const Competitormodal = ({
   open,
@@ -19,7 +21,8 @@ const Competitormodal = ({
   selectedDrsDate,
   onDataFromChild,
   accordionSiteID,
-  getData
+  getData,
+  postData
 }) => {
   const { handleError } = useErrorHandler();
 
@@ -77,7 +80,7 @@ const Competitormodal = ({
     };
 
     fetchData();
-    
+
   }, [selectedItem, selectedDrsDate]);
 
   const formik = useFormik({
@@ -152,6 +155,15 @@ const Competitormodal = ({
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend);
   };
+  const handleFormSubmit = (values) => {
+    console.log(values, "submited");
+
+    // const dataToSend = "Data from child 123";
+    // onDataFromChild(dataToSend);
+  };
+
+  console.log(data, "dataaa");
+
 
   return (
     <>
@@ -234,7 +246,7 @@ const Competitormodal = ({
             <p>No Data...........</p>
           )}
         </DialogContent>
-        <Card.Footer>
+        <Card.Footer className="pb-0">
           <div className="text-end notification-class">
             <button
               className="btn btn-danger me-2"
@@ -255,7 +267,23 @@ const Competitormodal = ({
               ""
             )}
           </div>
+
+
+
         </Card.Footer>
+
+
+
+        {data ? (
+          <CompetitorfuelpricesUpdate
+            data={data}
+            postData={postData}
+            handleFormSubmit={handleFormSubmit}
+            accordionSiteID={accordionSiteID}
+          />
+        ) : (
+          <div>Loading...</div> // Optionally provide a fallback UI
+        )}
       </Dialog>
     </>
   );
