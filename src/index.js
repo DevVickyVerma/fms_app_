@@ -45,6 +45,7 @@ import SubwayFacilityFees from "./components/pages/SubwayFacilityFees/SubwayFaci
 import { NavigationProvider } from "./Utils/NavigationProvider";
 import ManageLevels from "./components/pages/ManageLevels/ManageLevels";
 import ManageAddEditLevel from "./components/pages/ManageLevels/ManageAddEditLevel";
+import FuelSellingPricesSuggestion from "./components/pages/FuelSellingPricesSuggestion/FuelSellingPricesSuggestion";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -740,6 +741,7 @@ const Root = () => {
   const WrappedDailyDue = withApi(DailyDue);
   const WrappedManageLevels = withApi(ManageLevels);
   const WrappedManageAddLevel = withApi(ManageAddEditLevel);
+  const WrappedFuelSellingPricesSuggestion = withApi(FuelSellingPricesSuggestion);
 
   return (
     <>
@@ -1102,6 +1104,10 @@ const Root = () => {
                     <Route
                       path={`/editor`}
                       element={<Wrappedcanvaseditor />}
+                    />
+                    <Route
+                      path={`/fuel-selling-prices-suggestion`}
+                      element={<WrappedFuelSellingPricesSuggestion />}
                     />
 
                     <Route path={`/addcards`} element={<WrappedAddCards />} />
