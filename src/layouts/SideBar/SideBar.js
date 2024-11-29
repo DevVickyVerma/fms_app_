@@ -303,6 +303,9 @@ const Sidebar = () => {
                               />
                               <span className="side-menu__label">
                                 {menuItem.title}
+                                {menuItem.title === "Manage Site Fuels" ? <>
+                                  <span className="ms-2  btn-danger btn-sm p-1">10</span>
+                                </> : ""}
                               </span>
                               {menuItem.badge ? (
                                 <label
@@ -369,6 +372,12 @@ const Sidebar = () => {
                                       }
                                     >
                                       {childrenItem.title}
+
+                                      {childrenItem.title === "Fuel Selling Prices Suggestion" ? <>
+                                        <span className="btn-danger btn-sm p-1 d-flex justify-content-center align-items-center">10</span>
+                                      </> : ""}
+
+
                                     </NavLink>
                                   ) : (
                                     ""

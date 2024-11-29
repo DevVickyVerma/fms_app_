@@ -356,7 +356,7 @@ export const MENUITEMS = [
       },
       //Site Fuels
       {
-        title: " Manage Site Fuels",
+        title: "Manage Site Fuels",
         icon: "gas-pump",
         type: "sub",
         active: false,
