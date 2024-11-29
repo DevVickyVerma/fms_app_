@@ -94,7 +94,7 @@ const CeoDashBoard = (props) => {
   const handleApplyFilters = async (values) => {
     try {
       // Check if 'Sites' is missing and user has client role
-      if (!values?.Sites && isClientRole) {
+      if (!values?.sites && isClientRole) {
         const response = await getData(`common/site-list?company_id=${values?.company_id}`);
         values.sites = response?.data?.data || [];
       }
