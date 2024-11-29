@@ -807,29 +807,43 @@ const CeoDashBoard = (props) => {
                 <h4 className="card-title"> Stock Details </h4>
               </Card.Header>
               <Card.Body >
-                <div style={{ width: "400px", height: "200px" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Stock</th>
-                        <th>Quantity</th>
-                        <th>Aging</th>
+               
+                  {Shrinkagestatsloading ? (
+                    <SmallLoader />
+                  ) : PriceLogs?.priceLogs?.length > 0 ? (
+                    <div style={{ width: "400px", height: "200px" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Stock</th>
+                          <th>Quantity</th>
+                          <th>Aging</th>
 
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {stockAgingDetails.map((stock) => (
-                        <tr key={stock.id}>
-                          <td>{stock.id}</td>
-                          <td>{stock.itemName}</td>
-                          <td>{stock.quantity}</td>
-                          <td>{stock.stockAge}</td>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {stockAgingDetails.map((stock) => (
+                          <tr key={stock.id}>
+                            <td>{stock.id}</td>
+                            <td>{stock.itemName}</td>
+                            <td>{stock.quantity}</td>
+                            <td>{stock.stockAge}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    </div>
+                  ) : (
+                    <img
+                      src={require("../../assets/images/commonimages/no_data.png")}
+                      alt="No data available"
+                      className="all-center-flex smallNoDataimg"
+                    />
+                  )}
+
+
+         
 
               </Card.Body>
             </Card>
