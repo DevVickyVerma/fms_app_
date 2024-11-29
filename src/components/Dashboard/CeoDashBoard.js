@@ -649,65 +649,68 @@ const CeoDashBoard = (props) => {
 
 
 
+{userPermissions?.includes("fuel-price-logs") || userPermissions?.includes("report-type-list")?
+<> <Card className="h-100 mt-4">
 
 
-        <Card className="h-100 mt-4">
+<Card.Header className="flexspacebetween">
+  <h4 className="card-title"> Selling Price Logs/Reports   </h4>
+  <div className="flexspacebetween">
+    {filters?.sites ? <div>
+      <select
+        id="selectedSite"
+        name="selectedSite"
+        value={formik.values.selectedSite}
+        onChange={(e) => handleSiteChange(e.target.value)}
+        className="selectedMonth"
+      >
+        <option value="">--Select a Site--</option>
+        {filters?.sites?.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.site_name}
+          </option>
+        ))}
+      </select>
+      {/* <FormikSelect
+        formik={formik}
+        name="selectedSite"
+        options={filters?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
+        className="selectedMonth"
+        onChange={(e) => handleSiteChange(e.target.value)}
+      /> */}
+    </div> : ""}
+
+    <div>
+      {filters?.reportmonths ? <Col lg={6} style={{ marginRight: "0px" }}>
+        <select
+          id="selectedMonth"
+          name="selectedMonth"
+          value={formik.values.selectedMonth}
+          onChange={(e) => handleMonthChange(e.target.value)}
+          className="selectedMonth"
+        >
+          <option value="">--Select a Month--</option>
+          {filters?.reportmonths?.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.display}
+            </option>
+          ))}
+        </select>
+      </Col> : ""}
 
 
-          <Card.Header className="flexspacebetween">
-            <h4 className="card-title"> Selling Price Logs/Reports   </h4>
-            <div className="flexspacebetween">
-              {filters?.sites ? <div>
-                <select
-                  id="selectedSite"
-                  name="selectedSite"
-                  value={formik.values.selectedSite}
-                  onChange={(e) => handleSiteChange(e.target.value)}
-                  className="selectedMonth"
-                >
-                  <option value="">--Select a Site--</option>
-                  {filters?.sites?.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.site_name}
-                    </option>
-                  ))}
-                </select>
-                {/* <FormikSelect
-                  formik={formik}
-                  name="selectedSite"
-                  options={filters?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
-                  className="selectedMonth"
-                  onChange={(e) => handleSiteChange(e.target.value)}
-                /> */}
-              </div> : ""}
+    </div>
+  </div>
+</Card.Header>
 
-              <div>
-                {filters?.reportmonths ? <Col lg={6} style={{ marginRight: "0px" }}>
-                  <select
-                    id="selectedMonth"
-                    name="selectedMonth"
-                    value={formik.values.selectedMonth}
-                    onChange={(e) => handleMonthChange(e.target.value)}
-                    className="selectedMonth"
-                  >
-                    <option value="">--Select a Month--</option>
-                    {filters?.reportmonths?.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.display}
-                      </option>
-                    ))}
-                  </select>
-                </Col> : ""}
+</Card></>:""
+  
+}
 
-
-              </div>
-            </div>
-          </Card.Header>
-
-        </Card>
+       
 
         <Row className="d-flex align-items-stretch mt-5 ">
-          <Col sm={12} md={8} key={Math.random()}>
+        {userPermissions?.includes("fuel-price-logs") ?      <Col sm={12} md={8} key={Math.random()}>
             <Card className="h-100" >
               <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
@@ -742,8 +745,8 @@ const CeoDashBoard = (props) => {
 
 
 
-          </Col>
-          <Col sm={12} md={4} key={Math.random()}>
+          </Col> : ""}
+          {userPermissions?.includes("report-type-list") ?  <Col sm={12} md={4} key={Math.random()}>
             <Card className="h-100" >
               <Card.Header className="p-4 w-100 flexspacebetween">
                 <h4 className="card-title"> <div className="lableWithsmall">
@@ -771,7 +774,8 @@ const CeoDashBoard = (props) => {
 
               </Card.Body>
             </Card>
-          </Col>
+          </Col> : ""}
+         
 
         </Row>
         <Row className="mt-5 d-flex align-items-stretch" >
