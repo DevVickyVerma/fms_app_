@@ -13,6 +13,7 @@ import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
 import withApi from '../../Utils/ApiHelper';
 import MiddayFuelPrice from "../../components/pages/ManageFuelPrices/MiddayFuelPrice";
 import CompetitorfuelpricesUpdate from "../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
+import { useSelector } from "react-redux";
 
 const Competitormodal = ({
   open,
@@ -26,6 +27,7 @@ const Competitormodal = ({
 }) => {
   const { handleError } = useErrorHandler();
 
+  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const [data, setData] = useState(null); // Initialize data as null
   const [isLoading, setIsLoading] = useState(false);
   const [hasListing, setHasListing] = useState(false);
@@ -246,7 +248,7 @@ const Competitormodal = ({
             <p>No Data...........</p>
           )}
         </DialogContent>
-        <Card.Footer className="pb-0">
+        <Card.Footer >
           <div className="text-end notification-class">
             <button
               className="btn btn-danger me-2"
@@ -274,7 +276,7 @@ const Competitormodal = ({
 
 
 
-        {data ? (
+        {userPermissions?.includes("fuel-suggestion-create") && data ? (
           <CompetitorfuelpricesUpdate
             data={data}
             postData={postData}
@@ -282,7 +284,7 @@ const Competitormodal = ({
             accordionSiteID={accordionSiteID}
           />
         ) : (
-          <div>Loading...</div> // Optionally provide a fallback UI
+          <div></div> // Optionally provide a fallback UI
         )}
       </Dialog>
     </>
