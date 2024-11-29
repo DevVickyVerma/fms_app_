@@ -20,10 +20,10 @@ const PriceLogTable = ({ priceLogs }) => {
             <td>{log.site}</td>
             <td>{log.name}</td>
             <td>{log.is_checked}</td>
-            <td>£{log.prev_price.toFixed(3)}</td>
-            <td>£{log.price.toFixed(3)}</td>
+            <td>£{log.prev_price}</td>
+            <td>£{log.price}</td>
             <td>{log.user}</td>
-            <td>{new Date(log.created).toLocaleString()}</td>
+            <td>{log.created}</td>
           </tr>
         ))}
       </tbody>
