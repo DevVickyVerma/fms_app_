@@ -321,7 +321,7 @@ const CeoDashBoard = (props) => {
       if (superiorRole !== "Client") {
         formData.append("client_id", filters.client_id);
       } else {
-        formData.append("client_id", clientIDLocalStorage);
+        formData.append("client_id", filters.client_id);
       }
 
       // Add other necessary form values
@@ -331,7 +331,7 @@ const CeoDashBoard = (props) => {
       // Prepare client ID condition for the query params
       let clientIDCondition = superiorRole !== "Client"
         ? `client_id=${filters.client_id}&`
-        : `client_id=${clientIDLocalStorage}&`;
+        : `client_id=${filters.client_id}&`;
 
 
 
