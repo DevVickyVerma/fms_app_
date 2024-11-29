@@ -22,7 +22,6 @@ import { CeoDashBoardFilterValidation } from "../../Utils/commonFunctions/Common
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import PriceLogTable from "./PriceLogTable";
 import ReportTable from "./ReportTable";
-import FormikSelect from "../Formik/FormikSelect";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 
@@ -99,7 +98,7 @@ const CeoDashBoard = (props) => {
         const response = await getData(`common/site-list?company_id=${values?.company_id}`);
         values.sites = response?.data?.data || [];
       }
-      if (!values?.Sites && isClientRole) {
+      if (!values?.reports && isClientRole) {
         const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
         values.reports = response?.data?.data?.reports || [];
         values.reportmonths = response?.data?.data?.months || [];
@@ -164,7 +163,7 @@ const CeoDashBoard = (props) => {
     // Split the endpoints into two halves
     const firstHalf = endpoints.slice(0, Math.ceil(endpoints.length / 3));
     const secondHalf = endpoints.slice(Math.ceil(endpoints.length / 3));
-  
+
     const fetchEndpointData = ({ url, setData, setLoading, callback }) => {
       return fetchData(filters, url, setData, setLoading, callback);
     };
@@ -641,7 +640,6 @@ const CeoDashBoard = (props) => {
           BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
           Baroptions={Baroptions} // Pass the Baroptions directly
         />
-     
 
 
 
@@ -649,8 +647,8 @@ const CeoDashBoard = (props) => {
 
 
 
-{userPermissions?.includes("fuel-price-logs") || userPermissions?.includes("report-type-list")?
-<> <Card className="h-100 mt-4">
+
+<Card className="h-100 mt-4">
 
 
 <Card.Header className="flexspacebetween">
@@ -672,12 +670,12 @@ const CeoDashBoard = (props) => {
         ))}
       </select>
       {/* <FormikSelect
-        formik={formik}
-        name="selectedSite"
-        options={filters?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
-        className="selectedMonth"
-        onChange={(e) => handleSiteChange(e.target.value)}
-      /> */}
+formik={formik}
+name="selectedSite"
+options={filters?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
+className="selectedMonth"
+onChange={(e) => handleSiteChange(e.target.value)}
+/> */}
     </div> : ""}
 
     <div>
@@ -703,81 +701,80 @@ const CeoDashBoard = (props) => {
   </div>
 </Card.Header>
 
-</Card></>:""
-  
-}
-
-       
-
-        <Row className="d-flex align-items-stretch mt-5 ">
-        {userPermissions?.includes("fuel-price-logs") ?      <Col sm={12} md={8} key={Math.random()}>
-            <Card className="h-100" >
-              <Card.Header className="p-4">
-                <div className="spacebetween" style={{ width: "100%" }}>
-                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
-                    <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
-                  </h4>
-                  {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
-                    View All
-                  </Link></span> : ""}
-                </div>
-              </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
-                {PriceLogsloading ? (
-                  <SmallLoader />
-                ) : PriceLogs?.priceLogs?.length > 0 ? (
-                  <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
-                ) : (
-                  <img
-                    src={require("../../assets/images/commonimages/no_data.png")}
-                    alt="No data available"
-                    className="all-center-flex smallNoDataimg"
-                  />
-                )}
+</Card>
+<Row className="d-flex align-items-stretch mt-5 ">
+ <Col sm={12} md={8} key={Math.random()}>
+    <Card className="h-100" >
+      <Card.Header className="p-4">
+        <div className="spacebetween" style={{ width: "100%" }}>
+          <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
+            <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+          </h4>
+          {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
+            View All
+          </Link></span> : ""}
+        </div>
+      </Card.Header>
+      <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
+        {PriceLogsloading ? (
+          <SmallLoader />
+        ) : PriceLogs?.priceLogs?.length > 0 ? (
+          <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
+        ) : (
+          <img
+            src={require("../../assets/images/commonimages/no_data.png")}
+            alt="No data available"
+            className="all-center-flex smallNoDataimg"
+          />
+        )}
 
 
 
 
 
 
-              </Card.Body>
-            </Card>
+      </Card.Body>
+    </Card>
 
 
 
-          </Col> : ""}
-          {userPermissions?.includes("report-type-list") ?  <Col sm={12} md={4} key={Math.random()}>
-            <Card className="h-100" >
-              <Card.Header className="p-4 w-100 flexspacebetween">
-                <h4 className="card-title"> <div className="lableWithsmall">
-                  Reports({formik.values?.selectedSiteDetails?.site_name})
-                  <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
-                </div></h4>
+  </Col> 
+  <Col sm={12} md={4} key={Math.random()}>
+    <Card className="h-100" >
+      <Card.Header className="p-4 w-100 flexspacebetween">
+        <h4 className="card-title"> <div className="lableWithsmall">
+          Reports({formik.values?.selectedSiteDetails?.site_name})
+          <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+        </div></h4>
 
-                {userPermissions?.includes("report-type-list") ?
-                  <span><Link to="/reports">
-                    View All
-                  </Link></span> : ""}
+        {userPermissions?.includes("report-type-list") ?
+          <span><Link to="/reports">
+            View All
+          </Link></span> : ""}
 
-              </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
-                <div >
-                  {PriceLogsloading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} pdfisLoading={pdfisLoading} handleDownload={handleDownload} />) : (
-                    <img
-                      src={require("../../assets/images/commonimages/no_data.png")}
-                      alt="MyChartImage"
-                      className=" all-center-flex  smallNoDataimg "
-                    />
-                  )}</>}
+      </Card.Header>
+      <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
+        <div >
+          {PriceLogsloading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} pdfisLoading={pdfisLoading} handleDownload={handleDownload} />) : (
+            <img
+              src={require("../../assets/images/commonimages/no_data.png")}
+              alt="MyChartImage"
+              className=" all-center-flex  smallNoDataimg "
+            />
+          )}</>}
 
-                </div>
+        </div>
 
-              </Card.Body>
-            </Card>
-          </Col> : ""}
-         
+      </Card.Body>
+    </Card>
+  </Col> 
 
-        </Row>
+
+</Row>
+
+
+
+
         <Row className="mt-5 d-flex align-items-stretch" >
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
 
@@ -834,7 +831,7 @@ const CeoDashBoard = (props) => {
 
             {Shrinkagestatsloading ? (
               <SmallLoader title="Stock Details" />
-            ) : PriceLogs?.priceLogs?.length > 0 ? (
+            ) : Shrinkagestats.shrinkage_graph_data ? (
               <Card className="h-100">
                 <Card.Header className="p-4">
                   <h4 className="card-title"> Stock Details </h4>
@@ -866,11 +863,10 @@ const CeoDashBoard = (props) => {
                 </Card.Body>
               </Card>
             ) : (
-              <img
-                src={require("../../assets/images/commonimages/no_data.png")}
-                alt="No data available"
-                className="all-center-flex smallNoDataimg"
-              />
+              <div  className="h-100" >
+              <NoDataComponent title="Stock Details" />
+              </div>
+       
             )}
 
 
