@@ -23,6 +23,8 @@ import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import PriceLogTable from "./PriceLogTable";
 import ReportTable from "./ReportTable";
 import FormikSelect from "../Formik/FormikSelect";
+import useErrorHandler from "../CommonComponent/useErrorHandler";
+import LoaderImg from "../../Utils/Loader";
 
 
 const CeoDashBoard = (props) => {
@@ -39,11 +41,11 @@ const CeoDashBoard = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
-  const [Mopstatsloading, setMopstatsloading] = useState(false);
-  const [Salesstatsloading, setSalesstatsloading] = useState(false);
-  const [Stockstatsloading, setStockstatsloading] = useState(false);
-  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(false);
-  const [PriceLogsloading, setPriceLogssloading] = useState(false);
+  const [Mopstatsloading, setMopstatsloading] = useState(true);
+  const [Salesstatsloading, setSalesstatsloading] = useState(true);
+  const [Stockstatsloading, setStockstatsloading] = useState(true);
+  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(true);
+  const [PriceLogsloading, setPriceLogssloading] = useState(true);
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
@@ -51,6 +53,7 @@ const CeoDashBoard = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
 
 
+  const { handleError } = useErrorHandler();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const formik = useFormik({
     initialValues: {
@@ -86,11 +89,7 @@ const CeoDashBoard = (props) => {
 
   var [isClientRole] = useState(localStorage.getItem("superiorRole") == "Client");
 
-  useEffect(() => {
-    if (localStorage.getItem("superiorRole") == "Client") {
-      console.log(isClientRole, "useEffect");
-    }
-  }, [])
+
 
 
   const handleApplyFilters = async (values) => {
@@ -125,7 +124,7 @@ const CeoDashBoard = (props) => {
     }
   };
 
-  const FetchDashboardStats = (filters) => {
+  const FetchDashboardStats = async (filters) => {
     const endpoints = [
       {
         name: "dashboard",
@@ -161,13 +160,27 @@ const CeoDashBoard = (props) => {
         setLoading: setShrinkagestatsloading,
       },
     ];
-    // for (const { url, setData, setLoading, callback } of endpoints) {
-    //   await fetchData(filters, url, setData, setLoading, callback);
-    // }
-    endpoints.forEach(({ url, setData, setLoading, callback }) => {
-      fetchData(filters, url, setData, setLoading, callback);
-    });
+
+    // Split the endpoints into two halves
+    const firstHalf = endpoints.slice(0, Math.ceil(endpoints.length / 3));
+    const secondHalf = endpoints.slice(Math.ceil(endpoints.length / 3));
+  
+    const fetchEndpointData = ({ url, setData, setLoading, callback }) => {
+      return fetchData(filters, url, setData, setLoading, callback);
+    };
+
+    try {
+      // Execute all requests for the first half concurrently
+      await Promise.all(firstHalf.map(fetchEndpointData));
+
+      // Once the first half is completed, execute all requests for the second half
+      await Promise.all(secondHalf.map(fetchEndpointData));
+    } catch (error) {
+      console.error("Error fetching dashboard stats:", error);
+    }
   };
+
+
 
   const updateFilters = (filters) => {
     let { client_id, company_id, site_id, client_name, company_name, sites } = filters;
@@ -266,6 +279,12 @@ const CeoDashBoard = (props) => {
   };
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
+    setPriceLogssloading(true)
+    setShrinkagestatsloading(true)
+    setStockstatsloading(true)
+    setSalesstatsloading(true)
+    setMopstatsloading(true)
+
     setFilters(null);
     setDashboardData(null);
     setMopstatsData(null);
@@ -308,7 +327,14 @@ const CeoDashBoard = (props) => {
     }
   }, [formik?.values?.selectedSite, formik?.values?.selectedMonth]);
 
-
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      autoClose: 2000,
+      hideProgressBar: false,
+      transition: Bounce,
+      theme: "colored",
+    });
+  };
   const handleDownload = async (report) => {
     setpdfisLoading(true)
     try {
@@ -335,7 +361,7 @@ const CeoDashBoard = (props) => {
 
 
 
-      // Construct commonParams based on toggleValue
+      // Construct commonParams basedd on toggleValue
       const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value}`;
 
       // API URL for the fetch request
@@ -353,12 +379,19 @@ const CeoDashBoard = (props) => {
 
       // Check if the response is OK
       if (!response.ok) {
-        const errorData = await response.json(); // Extract error message from response
+        console.clear()
+        // Await the response body parsing first to get the actual JSON data
+        const errorData = await response.json();
+        // alert(errorData?.message)
+        // Log the actual parsed error data
+        console.log(errorData?.message, "errorData");
         handleError(errorData)
-        ErrorAlert(errorData?.message)
-        throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
+        ErrorToast(errorData?.message)
 
+        // Throw an error with the message
+        throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
       }
+
 
       // Handle the file download
       const blob = await response.blob();
@@ -394,12 +427,10 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-  console.log(filters, "values");
-  console.log(formik.values, "formikvalues")
 
   return (
     <>
-      {/* {!isLoading || pdfisLoading ? <SmallLoader /> : null} */}
+      {pdfisLoading ? <LoaderImg /> : ""}
 
       {centerFilterModalOpen && (
         <div className="">
@@ -596,6 +627,7 @@ const CeoDashBoard = (props) => {
           </Card.Header>
         </Card>
 
+
         <CeoDashboardStatsBox
           dashboardData={MopstatsData}
           Mopstatsloading={Mopstatsloading}
@@ -609,14 +641,7 @@ const CeoDashBoard = (props) => {
           BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
           Baroptions={Baroptions} // Pass the Baroptions directly
         />
-        {/* {
-          BarGraphSalesStats ? <CeoDashboardCharts
-            Salesstatsloading={Salesstatsloading} // Simulate loading
-            BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
-            Baroptions={Baroptions} // Pass the Baroptions directly
-          /> :
-            <NoDataComponent title="Sales Graph" />
-        } */}
+     
 
 
 
@@ -686,7 +711,8 @@ const CeoDashBoard = (props) => {
             <Card className="h-100" >
               <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
-                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})<span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
+                    <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
                   </h4>
                   {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
                     View All
@@ -721,7 +747,8 @@ const CeoDashBoard = (props) => {
             <Card className="h-100" >
               <Card.Header className="p-4 w-100 flexspacebetween">
                 <h4 className="card-title"> <div className="lableWithsmall">
-                  Reports <span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+                  Reports({formik.values?.selectedSiteDetails?.site_name})
+                  <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
                 </div></h4>
 
                 {userPermissions?.includes("report-type-list") ?
@@ -732,7 +759,7 @@ const CeoDashBoard = (props) => {
               </Card.Header>
               <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
                 <div >
-                  {isLoading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} handleDownload={handleDownload} />) : (
+                  {PriceLogsloading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} pdfisLoading={pdfisLoading} handleDownload={handleDownload} />) : (
                     <img
                       src={require("../../assets/images/commonimages/no_data.png")}
                       alt="MyChartImage"
@@ -749,69 +776,67 @@ const CeoDashBoard = (props) => {
         </Row>
         <Row className="mt-5 d-flex align-items-stretch" >
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            {BarGraphStockStats?.stock_graph_data ? (
-              // If data is available, render the chart or show loader if data is still being fetched
-              Stockstatsloading ? (
-                <SmallLoader title="Stocks" />
-              ) : (
-                <Card className="h-100">
-                  <Card.Header className="p-4">
-                    <h4 className="card-title">Stocks</h4>
-                  </Card.Header>
-                  <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <div style={{ width: "300px", height: "300px" }}>
-                      <Doughnut
-                        data={BarGraphStockStats?.stock_graph_data}
-                        options={BarGraphStockStats?.stock_graph_options}
-                        height="100px"
-                      />
-                    </div>
-                  </Card.Body>
-                </Card>
-              )
+
+
+            {Stockstatsloading ? (
+              <SmallLoader title="Stocks" />
+            ) : BarGraphStockStats?.stock_graph_data ? (
+              <Card className="h-100">
+                <Card.Header className="p-4">
+                  <h4 className="card-title">Stocks</h4>
+                </Card.Header>
+                <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <div style={{ width: "300px", height: "300px" }}>
+                    <Doughnut
+                      data={BarGraphStockStats?.stock_graph_data}
+                      options={BarGraphStockStats?.stock_graph_options}
+                      height="100px"
+                    />
+                  </div>
+                </Card.Body>
+              </Card>
+
             ) : (
-              // If no data is available, show the NoDataComponent
               <NoDataComponent title="Stocks" />
             )}
+
 
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
 
-            {Shrinkagestats?.shrinkage_graph_data ? (
-              Shrinkagestatsloading ||
-                !Shrinkagestats ||
-                !Shrinkagestats.shrinkage_graph_options ? (
-                <SmallLoader title="Shrinkage" />
-              ) : (
-                <CeoDashboardBarChart
-                  data={Shrinkagestats.shrinkage_graph_data}
-                  options={Shrinkagestats.shrinkage_graph_options}
-                  title="Shrinkage"
-                  width="300px"
-                  height="200px"
-                />
-              )
+
+
+            {Shrinkagestatsloading ? (
+              <SmallLoader title="Shrinkage" />
+            ) : Shrinkagestats.shrinkage_graph_data ? (
+              <CeoDashboardBarChart
+                data={Shrinkagestats.shrinkage_graph_data}
+                options={Shrinkagestats.shrinkage_graph_options}
+                title="Shrinkage"
+                width="300px"
+                height="200px"
+              />
             ) : (
               <NoDataComponent title="Shrinkage" />
             )}
 
 
-
           </Col>
 
 
 
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-            <Card className="h-100">
-              <Card.Header className="p-4">
-                <h4 className="card-title"> Stock Details </h4>
-              </Card.Header>
-              <Card.Body >
-               
-                  {Shrinkagestatsloading ? (
-                    <SmallLoader />
-                  ) : PriceLogs?.priceLogs?.length > 0 ? (
-                    <div style={{ width: "400px", height: "200px" }}>
+
+
+            {Shrinkagestatsloading ? (
+              <SmallLoader title="Stock Details" />
+            ) : PriceLogs?.priceLogs?.length > 0 ? (
+              <Card className="h-100">
+                <Card.Header className="p-4">
+                  <h4 className="card-title"> Stock Details </h4>
+                </Card.Header>
+                <Card.Body >
+                  <div style={{ width: "400px", height: "200px" }}>
                     <table style={{ width: "100%", borderCollapse: "collapse" }}>
                       <thead>
                         <tr>
@@ -833,20 +858,21 @@ const CeoDashBoard = (props) => {
                         ))}
                       </tbody>
                     </table>
-                    </div>
-                  ) : (
-                    <img
-                      src={require("../../assets/images/commonimages/no_data.png")}
-                      alt="No data available"
-                      className="all-center-flex smallNoDataimg"
-                    />
-                  )}
+                  </div>
+                </Card.Body>
+              </Card>
+            ) : (
+              <img
+                src={require("../../assets/images/commonimages/no_data.png")}
+                alt="No data available"
+                className="all-center-flex smallNoDataimg"
+              />
+            )}
 
 
-         
 
-              </Card.Body>
-            </Card>
+
+
 
           </Col>
 
