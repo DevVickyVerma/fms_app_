@@ -60,7 +60,6 @@ const CeoDashBoard = (props) => {
       selectedMonthDetails: '',
     },
     onSubmit: (values) => {
-      // Handle the form submission or changes
       console.log(values);
     },
   });
@@ -86,24 +85,43 @@ const CeoDashBoard = (props) => {
 
 
   var [isClientRole] = useState(localStorage.getItem("superiorRole") == "Client");
-  const handleApplyFilters = (values) => {
 
-    if (!values?.Sites && isClientRole){
-      setCenterFilterModalOpen(true)
-      values.Role = "isClientRole";
-    } 
-
-    
-    if (!values?.start_date) {
-      const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-      values.start_date = currentDate;
-
-
-
-      localStorage.setItem(storedKeyName, JSON.stringify(values));
+  useEffect(() => {
+    if (localStorage.getItem("superiorRole") == "Client") {
+      console.log(isClientRole, "useEffect");
     }
-    if (permissionsArray?.includes("dashboard-view")) {
-      FetchDashboardStats(values);
+  }, [])
+
+
+  const handleApplyFilters = async (values) => {
+    try {
+      // Check if 'Sites' is missing and user has client role
+      if (!values?.Sites && isClientRole) {
+        const response = await getData(`common/site-list?company_id=${values?.company_id}`);
+        values.sites = response?.data?.data || [];
+      }
+      if (!values?.Sites && isClientRole) {
+        const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
+        values.reports = response?.data?.data?.reports || [];
+        values.reportmonths = response?.data?.data?.months || [];
+      }
+
+
+      // Ensure 'start_date' is set
+      if (!values?.start_date) {
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        values.start_date = currentDate;
+      }
+
+      // Store the updated values in localStorage
+      localStorage.setItem(storedKeyName, JSON.stringify(values));
+
+      // Fetch dashboard stats if the user has the required permission
+      if (permissionsArray?.includes("dashboard-view")) {
+        FetchDashboardStats(values);
+      }
+    } catch (error) {
+      handleError(error); // Handle errors from API or other logic
     }
   };
 
@@ -354,7 +372,7 @@ const CeoDashBoard = (props) => {
           fileExtension = 'xlsx';
         } else if (contentType.includes('text/csv')) {
           fileExtension = 'csv';
-        } 
+        }
       }
 
       // Create a temporary URL for the Blob
@@ -376,7 +394,8 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-
+  console.log(filters, "values");
+  console.log(formik.values, "formikvalues")
 
   return (
     <>
@@ -577,12 +596,12 @@ const CeoDashBoard = (props) => {
           </Card.Header>
         </Card>
 
-         <CeoDashboardStatsBox
-            dashboardData={MopstatsData}
-            Mopstatsloading={Mopstatsloading}
-            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-          />
-        
+        <CeoDashboardStatsBox
+          dashboardData={MopstatsData}
+          Mopstatsloading={Mopstatsloading}
+          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+        />
+
 
 
         <CeoDashboardCharts

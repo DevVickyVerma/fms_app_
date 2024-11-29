@@ -2,7 +2,6 @@ import { Tooltip } from "react-bootstrap";
 
 // filterDataUtils.js
 export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyName = 'localFilterModalData',) {
-    console.log(ReduxFullData, "ReduxFullData");
     const storedData = localStorage.getItem(storedKeyName);
 
     if (storedData) {
@@ -11,7 +10,6 @@ export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyNam
         if (!parsedData.start_date) {
             const currentDate = new Date().toISOString().split('T')[0];
             parsedData.start_date = currentDate;
-
             localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
             // handleApplyFilters(parsedData);
         }
@@ -20,7 +18,6 @@ export function handleFilterData(handleApplyFilters, ReduxFullData, storedKeyNam
         const storedClientIdData = localStorage.getItem('superiorId');
         if (ReduxFullData) {
 
-            console.log(ReduxFullData, "ReduxFullData");
             const futurepriceLog = {
                 client_id: storedClientIdData,
                 client_name: ReduxFullData?.full_name,
