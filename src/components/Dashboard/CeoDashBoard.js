@@ -25,6 +25,7 @@ import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
 import DashSubChildTankAnalysis from "./DashboardSubChild/DashSubChildTankAnalysis";
+import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -47,12 +48,14 @@ const CeoDashBoard = (props) => {
   const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(true);
   const [Itemstockstatsloading, setItemstockstatsloading] = useState(true);
   const [PriceLogsloading, setPriceLogssloading] = useState(true);
+  const [getSiteStatsloading, setGetSiteStatsloading] = useState(true);
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
   const [Shrinkagestats, setShrinkagestats] = useState();
   const [Itemstockstats, setItemstockstats] = useState();
   const [PriceLogs, setPriceLogs] = useState();
+  const [getSiteStats, setGetSiteStats] = useState(null);
 
 
   const { handleError } = useErrorHandler();
@@ -189,9 +192,16 @@ const CeoDashBoard = (props) => {
         url: "ceo-dashboard/department-item-stocks",
         setData: setItemstockstats,
         setLoading: setItemstockstatsloading,
-      },
+      }
     ];
-
+    if (filters?.site_id) {
+      endpoints.push({
+        name: "tankanalysis",
+        url: "dashboard/get-site-stats",
+        setData: setGetSiteStats,
+        setLoading: setGetSiteStatsloading,
+      });
+    }
     // Split the endpoints into two halves
     const firstHalf = endpoints.slice(0, Math.ceil(endpoints.length / 3));
     const secondHalf = endpoints.slice(Math.ceil(endpoints.length / 3));
@@ -315,7 +325,7 @@ const CeoDashBoard = (props) => {
     setStockstatsloading(true)
     setSalesstatsloading(true)
     setMopstatsloading(true)
-
+    setGetSiteStats(null);
     setFilters(null);
     setDashboardData(null);
     setMopstatsData(null);
@@ -459,7 +469,6 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-
 
   return (
     <>
@@ -674,60 +683,66 @@ const CeoDashBoard = (props) => {
           BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
           Baroptions={Baroptions} // Pass the Baroptions directly
         />
-
-
-
-
-        <Row className="my-4 l-sign">
-          <Col lg={12} md={12}>
-            <>
-              <Card>
-                <Card.Header className="card-header">
-                  <div className="Tank-Details d-flex">
-                    <h4 className="card-title">Tank Analysis</h4>
-                    <div className="Tank-Details-icon">
-                      <OverlayTrigger
-                        placement="right"
-                        className="Tank-Detailss"
-                        overlay={
-                          <Tooltip style={{ width: "200px" }}>
-                            <div>
-                              {Tankcolors?.map((color, index) => (
-                                <div key={index} className=" d-flex align-items-center py-1 px-3 text-white" >
-                                  <div
-                                    style={{
-                                      width: "20px", // Set the width for the color circle
-                                      height: "20px",
-                                      borderRadius: "50%",
-                                      backgroundColor: color?.color,
-                                    }}
-                                  ></div>
-                                  <span className=" text-white ms-2">{color?.name}</span>
+        {
+          filters?.site_id ? (
+            getSiteStats?.dates?.length > 0 ? (
+              <Row className="my-4 l-sign">
+                <Col lg={12} md={12}>
+                  <Card>
+                    <Card.Header className="card-header">
+                      <div className="Tank-Details d-flex">
+                        <h4 className="card-title">Tank Analysis</h4>
+                        <div className="Tank-Details-icon">
+                          <OverlayTrigger
+                            placement="right"
+                            className="Tank-Detailss"
+                            overlay={
+                              <Tooltip style={{ width: "200px" }}>
+                                <div>
+                                  {Tankcolors?.map((color, index) => (
+                                    <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
+                                      <div
+                                        style={{
+                                          width: "20px", // Set the width for the color circle
+                                          height: "20px",
+                                          borderRadius: "50%",
+                                          backgroundColor: color?.color,
+                                        }}
+                                      ></div>
+                                      <span className=" text-white ms-2">{color?.name}</span>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          </Tooltip>
-                        }
-                      >
-                        <img
-                          alt=""
-                          src={require("../../assets/images/dashboard/dashboardTankImage.png")}
+                              </Tooltip>
+                            }
+                          >
+                            <img
+                              alt=""
+                              src={require("../../assets/images/dashboard/dashboardTankImage.png")}
+                            />
+                          </OverlayTrigger>
+                        </div>
+                      </div>
+                    </Card.Header>
+                    <Card.Body className="card-body p-0 m-0">
+                      <div id="chart">
+                        <CeoDashTankAnalysis
+                          getSiteStats={getSiteStats}
+                          setGetSiteStats={setGetSiteStats}
                         />
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                </Card.Header>
-                <Card.Body className="card-body p-0 m-0">
-                  <div id="chart">
-                    <DashSubChildTankAnalysis
-                      getSiteStats={DummygetSiteStats}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </>
-          </Col>
-        </Row>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            ) : (
+              <SmallLoader title="Tank Analysis" />
+            )
+          ) : null
+        }
+
+
+
 
 
 

@@ -21,7 +21,7 @@ const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions 
     
 
     return (
-        <Row>
+        <Row className="mb-4">
             <Col sm={12} md={4} xl={4} key="chart-1">
                 {renderChartOrLoader(BarGraphSalesStats?.sales_mom, "Current Month vs Previous Month")}
             </Col>
