@@ -25,7 +25,8 @@ import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
 import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
-import DashSubChildTankAnalysis from "./DashboardSubChild/DashSubChildTankAnalysis";
+import Swal from "sweetalert2";
+import NoDataGraph from "../../Utils/commonFunctions/NoDataGraph";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -69,12 +70,10 @@ const CeoDashBoard = (props) => {
 
   // StockDetails function to handle the site_id check
   const StockDeatils = () => {
-
     const AlertShow = "true"
-
-
+    setCenterFilterModalOpen(true)
+    setShowAlet(true)
     handleApplyFilters(filters, AlertShow, true)
-
   };
 
   const formik = useFormik({
@@ -116,18 +115,48 @@ const CeoDashBoard = (props) => {
     Yup.object({
       client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
-      site_id: applyFilterOvells
-        ? Yup.string().required("Site is required") // Required if `applyFilterOvell` is false
-        : Yup.string(), // Optional if `applyFilterOvell` is true
+      // site_id: applyFilterOvells
+      //   ? Yup.string().required("Site is required") // Required if `applyFilterOvell` is false
+      //   : Yup.string(), // Optional if `applyFilterOvell` is true
     });
+  const handleClick = async (values) => {
+    const handleConfirmedAction = async (values) => {
+      try {
+        setShowAlet(false)
+        // Check if 'Sites' is missing and user has client role
+        if (!values?.sites && isClientRole) {
+          const response = await getData(`common/site-list?company_id=${values?.company_id}`);
+          values.sites = response?.data?.data || [];
+        }
+        if (!values?.reports && isClientRole) {
+          const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
+          values.reports = response?.data?.data?.reports || [];
+          values.reportmonths = response?.data?.data?.months || [];
+        }
 
-  const handleApplyFilters = async (values, showAletr, isStockDetails) => {
-    if (showAletr) {
-      setShowAlet(true)
-      console.log(isStockDetails, "isStockDetails");
-      setCenterFilterModalOpen(true);
-      console.log(showAletr, "showAlert");
-    }else{
+        // Ensure 'start_date' is set
+        if (!values?.start_date) {
+          const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+          values.start_date = currentDate;
+        }
+
+        // Store the updated values in localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(values));
+
+        // Fetch dashboard stats if the user has the required permission
+        if (permissionsArray?.includes("dashboard-view")) {
+          FetchDashboardStats(values);
+          console.log(applyFilterOvell, "applyFilterOvell");
+        }
+      } catch (error) {
+        handleError(error); // Handle errors from API or other logic
+      }
+    };
+
+    const handleCancelledAction = async (values) => {
+      values.site_id = "";
+      values.site_name = "";
+      setShowAlet(false)
       try {
         // Check if 'Sites' is missing and user has client role
         if (!values?.sites && isClientRole) {
@@ -139,20 +168,89 @@ const CeoDashBoard = (props) => {
           values.reports = response?.data?.data?.reports || [];
           values.reportmonths = response?.data?.data?.months || [];
         }
-  
-  
+
         // Ensure 'start_date' is set
         if (!values?.start_date) {
           const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
           values.start_date = currentDate;
         }
-  
+
         // Store the updated values in localStorage
         localStorage.setItem(storedKeyName, JSON.stringify(values));
-  
+
         // Fetch dashboard stats if the user has the required permission
         if (permissionsArray?.includes("dashboard-view")) {
-  
+          FetchDashboardStats(values);
+          console.log(applyFilterOvell, "applyFilterOvell");
+        }
+      } catch (error) {
+        handleError(error); // Handle errors from API or other logic
+      }
+    };
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Apply filter to all data or only to this statistic?',
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonText: 'Submit',
+      cancelButtonText: 'Cancel',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log(values, "User clicked Submit");
+        await handleConfirmedAction(values);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        console.log('User clicked Cancel', values);
+        await handleCancelledAction(values);
+      }
+    });
+  };
+
+  const handleApplyFilters = async (values, showAletr) => {
+
+    console.log(showAletr, "showAletr");
+    console.log(showAlet, "showAlet");
+    if (showAlet && !values?.site_id) {
+      setShowAlet(true)
+      console.log("Condition 1: showAlet is true and site_id is missing");
+      // handleClick(values);
+    }
+    // Condition 2: If `showAletr` is defined and true
+    else if (showAlet && values?.site_id) {
+      console.log("Condition 2: showAletr is true");
+      handleClick(values)
+      // Additional logic for this condition
+      // Example: Call another function or perform an operation
+      // applyDefaultFilter(values);
+    }
+    // Condition 3: If none of the above are true
+    else {
+      console.log("Condition 3: None of the above conditions matched");
+      try {
+        // Check if 'Sites' is missing and user has client role
+        if (!values?.sites && isClientRole) {
+          const response = await getData(`common/site-list?company_id=${values?.company_id}`);
+          values.sites = response?.data?.data || [];
+        }
+        if (!values?.reports && isClientRole) {
+          const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
+          values.reports = response?.data?.data?.reports || [];
+          values.reportmonths = response?.data?.data?.months || [];
+        }
+
+
+        // Ensure 'start_date' is set
+        if (!values?.start_date) {
+          const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+          values.start_date = currentDate;
+        }
+
+        // Store the updated values in localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(values));
+
+        // Fetch dashboard stats if the user has the required permission
+        if (permissionsArray?.includes("dashboard-view")) {
+
           // console.log(storedKeyName, "storedKeyName");
           FetchDashboardStats(values);
           console.log(applyFilterOvell, "applyFilterOvell");
@@ -161,10 +259,53 @@ const CeoDashBoard = (props) => {
         handleError(error); // Handle errors from API or other logic
       }
     }
+    // if (showAletr && !values?.site_id && showAlet) {
+
+    //   console.log(showAlet && !values?.site_id, "firstStep",showAlet   && !values?.site_id);
+    // } else if (showAletr  && values?.site_id && showAlet) {
+    //   // handleClick(values)
+    //   console.log(showAlet && !values?.site_id, "Second showAlet && !values?.site_id");
+    // }else {
+    //   try {
+    //     // Check if 'Sites' is missing and user has client role
+    //     if (!values?.sites && isClientRole) {
+    //       const response = await getData(`common/site-list?company_id=${values?.company_id}`);
+    //       values.sites = response?.data?.data || [];
+    //     }
+    //     if (!values?.reports && isClientRole) {
+    //       const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
+    //       values.reports = response?.data?.data?.reports || [];
+    //       values.reportmonths = response?.data?.data?.months || [];
+    //     }
+
+
+    //     // Ensure 'start_date' is set
+    //     if (!values?.start_date) {
+    //       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+    //       values.start_date = currentDate;
+    //     }
+
+    //     // Store the updated values in localStorage
+    //     localStorage.setItem(storedKeyName, JSON.stringify(values));
+
+    //     // Fetch dashboard stats if the user has the required permission
+    //     if (permissionsArray?.includes("dashboard-view")) {
+
+    //       // console.log(storedKeyName, "storedKeyName");
+    //       FetchDashboardStats(values);
+    //       console.log(applyFilterOvell, "applyFilterOvell");
+    //     }
+    //   } catch (error) {
+    //     handleError(error); // Handle errors from API or other logic
+    //   }
+    // }
 
 
 
- 
+
+
+
+
   };
 
   const FetchDashboardStats = async (filters) => {
@@ -345,14 +486,16 @@ const CeoDashBoard = (props) => {
 
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
-    setPriceLogssloading(true)
-    setShrinkagestatsloading(true)
-    setStockstatsloading(true)
-    setSalesstatsloading(true)
-    setMopstatsloading(true)
+    setShowAlet(false)
+    // setPriceLogssloading(true)
+    // setShrinkagestatsloading(true)
+    // setStockstatsloading(true)
+    // setSalesstatsloading(true)
+    // setMopstatsloading(true)
     setGetSiteStats(null);
     setFilters(null);
     setDashboardData(null);
+    setItemstockstats(null);
     setMopstatsData(null);
     setBarGraphSalesStats(null);
     setBarGraphStockStats(null);
@@ -713,63 +856,6 @@ const CeoDashBoard = (props) => {
           Baroptions={Baroptions} // Pass the Baroptions directly
         />
 
-        {getSiteStatsloading ? (
-          <SmallLoader title="Tank Analysis" />
-        ) : getSiteStats?.dates?.length > 0 ? (
-          <Row className="my-4 l-sign">
-            <Col lg={12} md={12}>
-              <Card>
-                <Card.Header className="card-header">
-                  <div className="Tank-Details d-flex">
-                    <h4 className="card-title">Tank Analysis ({formik.values?.selectedSiteDetails?.site_name})</h4>
-                    <div className="Tank-Details-icon">
-                      <OverlayTrigger
-                        placement="right"
-                        className="Tank-Detailss"
-                        overlay={
-                          <Tooltip style={{ width: "200px" }}>
-                            <div>
-                              {Tankcolors?.map((color, index) => (
-                                <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
-                                  <div
-                                    style={{
-                                      width: "20px", // Set the width for the color circle
-                                      height: "20px",
-                                      borderRadius: "50%",
-                                      backgroundColor: color?.color,
-                                    }}
-                                  ></div>
-                                  <span className=" text-white ms-2">{color?.name}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </Tooltip>
-                        }
-                      >
-                        <img
-                          alt=""
-                          src={require("../../assets/images/dashboard/dashboardTankImage.png")}
-                        />
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                </Card.Header>
-                <Card.Body className="card-body p-0 m-0">
-                  <div id="chart">
-                    <CeoDashTankAnalysis
-                      getSiteStats={getSiteStats}
-                      setGetSiteStats={setGetSiteStats}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-
-        ) : (
-          <NoDataComponent title="Tank Analysis" />
-        )}
-
 
 
 
@@ -831,6 +917,66 @@ onChange={(e) => handleSiteChange(e.target.value)}
           </Card.Header>
 
         </Card>
+
+
+        {getSiteStatsloading ? (
+          <SmallLoader title="Tank Analysis" />
+        ) : getSiteStats?.dates?.length > 0 ? (
+          <Row className="my-4 l-sign">
+            <Col lg={12} md={12}>
+              <Card>
+                <Card.Header className="card-header">
+                  <div className="Tank-Details d-flex">
+                    <h4 className="card-title">Tank Analysis ({formik.values?.selectedSiteDetails?.site_name})</h4>
+                    <div className="Tank-Details-icon">
+                      <OverlayTrigger
+                        placement="right"
+                        className="Tank-Detailss"
+                        overlay={
+                          <Tooltip style={{ width: "200px" }}>
+                            <div>
+                              {Tankcolors?.map((color, index) => (
+                                <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
+                                  <div
+                                    style={{
+                                      width: "20px", // Set the width for the color circle
+                                      height: "20px",
+                                      borderRadius: "50%",
+                                      backgroundColor: color?.color,
+                                    }}
+                                  ></div>
+                                  <span className=" text-white ms-2">{color?.name}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          alt=""
+                          src={require("../../assets/images/dashboard/dashboardTankImage.png")}
+                        />
+                      </OverlayTrigger>
+                    </div>
+                  </div>
+                </Card.Header>
+                <Card.Body className="card-body p-0 m-0">
+                  <div id="chart">
+                    <CeoDashTankAnalysis
+                      getSiteStats={getSiteStats}
+                      setGetSiteStats={setGetSiteStats}
+                    />
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+
+        ) : (
+          <NoDataComponent title="Tank Analysis" />
+        )}
+
+
         <Row className="d-flex align-items-stretch mt-5 ">
           <Col sm={12} md={8} key={Math.random()}>
             <Card className="h-100" >
@@ -927,7 +1073,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
               </Card>
 
             ) : (
-              <NoDataComponent title="Stocks" />
+              <NoDataGraph title="Stocks" />
             )}
 
 
@@ -947,7 +1093,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                 height="200px"
               />
             ) : (
-              <NoDataComponent title="Shrinkage" />
+              <NoDataGraph title="Shrinkage" />
             )}
 
 
