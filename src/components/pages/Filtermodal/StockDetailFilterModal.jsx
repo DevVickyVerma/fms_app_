@@ -11,7 +11,7 @@ import { useMyContext } from '../../../Utils/MyContext';
 import FormikInput from '../../Formik/FormikInput';
 import useErrorHandler from '../../CommonComponent/useErrorHandler';
 
-const CeoDashboardFilterModal = ({
+const StockDetailFilterModal = ({
     getData,
     isLoading,
     onApplyFilters,
@@ -32,7 +32,7 @@ const CeoDashboardFilterModal = ({
     onClose,
     isOpen,
 }) => {
-    console.log(showAlet, "reduxData");
+
     const reduxData = useSelector(state => state?.data?.data);
 
     const { handleError } = useErrorHandler();
@@ -273,7 +273,7 @@ const CeoDashboardFilterModal = ({
                                             label="Site"
                                             options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
                                             className="form-input"
-                                            isRequired={showStationValidation}
+                                            isRequired={true}
                                             onChange={handleSiteChange}
                                         />
                                     </Col>
@@ -309,13 +309,8 @@ const CeoDashboardFilterModal = ({
                                     )
                                 }
 
-                                {/* 
-                                {showAlet && !formik.values?.site_id ? (
-                                    <>
-                                        <span style={{ color: "red" }}>Please Select Site</span>
-                                   
-                                    </>
-                                ) : ""} */}
+
+
 
 
                             </Row>
@@ -336,4 +331,4 @@ const CeoDashboardFilterModal = ({
     );
 };
 
-export default CeoDashboardFilterModal;
+export default StockDetailFilterModal;

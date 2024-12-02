@@ -17,7 +17,7 @@ import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModa
 import { useFormik } from "formik";
 import SmallLoader from "../../Utils/SmallLoader";
 import CeoDashboardCharts from "./CeoDashboardCharts";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import PriceLogTable from "./PriceLogTable";
 import ReportTable from "./ReportTable";
@@ -27,11 +27,13 @@ import * as Yup from "yup";
 import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
 import NoDataGraph from "../../Utils/commonFunctions/NoDataGraph";
+import StockDetailFilterModal from "../pages/Filtermodal/StockDetailFilterModal";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
+  const [stockDetailModal, setstockDetailModal] = useState(false);
 
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
@@ -69,11 +71,7 @@ const CeoDashBoard = (props) => {
 
 
   // StockDetails function to handle the site_id check
-  const StockDeatils = () => {
-    setCenterFilterModalOpen(true)
-    setShowAlet(true)
-    // handleApplyFilters(filters, AlertShow, true)
-  };
+
 
   const formik = useFormik({
     initialValues: {
@@ -117,92 +115,7 @@ const CeoDashBoard = (props) => {
       //   ? Yup.string().required("Site is required") // Required if `applyFilterOvell` is false
       //   : Yup.string(), // Optional if `applyFilterOvell` is true
     });
-  const handleClick = async (values) => {
-    const handleConfirmedAction = async (values) => {
-      try {
-        setShowAlet(false)
-        // Check if 'Sites' is missing and user has client role
-        if (!values?.sites && isClientRole) {
-          const response = await getData(`common/site-list?company_id=${values?.company_id}`);
-          values.sites = response?.data?.data || [];
-        }
-        if (!values?.reports && isClientRole) {
-          const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
-          values.reports = response?.data?.data?.reports || [];
-          values.reportmonths = response?.data?.data?.months || [];
-        }
 
-        // Ensure 'start_date' is set
-        if (!values?.start_date) {
-          const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-          values.start_date = currentDate;
-        }
-
-        // Store the updated values in localStorage
-        localStorage.setItem(storedKeyName, JSON.stringify(values));
-
-        // Fetch dashboard stats if the user has the required permission
-        if (permissionsArray?.includes("dashboard-view")) {
-          FetchDashboardStats(values);
-          console.log(applyFilterOvell, "applyFilterOvell");
-        }
-      } catch (error) {
-        handleError(error); // Handle errors from API or other logic
-      }
-    };
-
-    const handleCancelledAction = async (values) => {
-      values.site_id = "";
-      values.site_name = "";
-      setShowAlet(false)
-      try {
-        // Check if 'Sites' is missing and user has client role
-        if (!values?.sites && isClientRole) {
-          const response = await getData(`common/site-list?company_id=${values?.company_id}`);
-          values.sites = response?.data?.data || [];
-        }
-        if (!values?.reports && isClientRole) {
-          const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
-          values.reports = response?.data?.data?.reports || [];
-          values.reportmonths = response?.data?.data?.months || [];
-        }
-
-        // Ensure 'start_date' is set
-        if (!values?.start_date) {
-          const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-          values.start_date = currentDate;
-        }
-
-        // Store the updated values in localStorage
-        localStorage.setItem(storedKeyName, JSON.stringify(values));
-
-        // Fetch dashboard stats if the user has the required permission
-        if (permissionsArray?.includes("dashboard-view")) {
-          FetchDashboardStats(values);
-          console.log(applyFilterOvell, "applyFilterOvell");
-        }
-      } catch (error) {
-        handleError(error); // Handle errors from API or other logic
-      }
-    };
-
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Apply filter to all data or only to this statistic?',
-      icon: 'success',
-      showCancelButton: true,
-      confirmButtonText: 'Submit',
-      cancelButtonText: 'Cancel',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        console.log(values, "User clicked Submit");
-        await handleConfirmedAction(values);
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        console.log('User clicked Cancel', values);
-        await handleCancelledAction(values);
-      }
-    });
-  };
 
   const handleApplyFilters = async (values, showAletr) => {
 
@@ -581,10 +494,72 @@ const CeoDashBoard = (props) => {
     }
   };
 
+  const StockDetailvalidation = (applyFilterOvells) =>
+    Yup.object({
+      client_id: Yup.string().required("Client is required"),
+      company_id: Yup.string().required("Company is required"),
+      site_id: Yup.string().required("Site is required"),
+
+    });
+  const StockDeatils = () => {
+    setstockDetailModal(true)
+  };
+  const navigate = useNavigate()
+  const handleStockApplyFilters = async (values) => {
+    const handleConfirmedAction = async (values) => {
+      console.log(values, "values");
+    
+      // Navigate to dashboard-details with the provided state
+      navigate(`/dashboard-details/${values?.site_id}`, {
+        state: { isCeoDashboard: true }, // Pass the key-value pair in the state
+      });
+    };
+    
+    const handleCancelledAction = async (values) => {
+      console.log(values, "columnIndex");
+    };
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Apply filter to all data or only to this statistic?',
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonText: 'Apply',
+      cancelButtonText: 'Cancel',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log(values, "User clicked Submit");
+        await handleConfirmedAction(values);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        console.log('User clicked Cancel', values);
+        await handleCancelledAction(values);
+      }
+    });
+  };
+
+
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
 
+      {stockDetailModal && (
+        <div className="">
+          <StockDetailFilterModal
+            isOpen={stockDetailModal}
+            onClose={() => setstockDetailModal(false)}
+            getData={getData}
+            isLoading={isLoading}
+            isStatic={true}
+            onApplyFilters={handleStockApplyFilters}
+            validationSchema={StockDetailvalidation}
+            storedKeyName={storedKeyName}
+            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+            showStationValidation={false}
+            showMonthInput={false}
+            showDateInput={false}
+          />
+        </div>
+      )}
       {centerFilterModalOpen && (
         <div className="">
           <CeoDashboardFilterModal
