@@ -6,10 +6,10 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 
 const DashboardChildTable = (props) => {
-  const { isLoading, data } = props;
+  const { isLoading, data, ceo } = props;
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const navigate = useNavigate()
-
+  console.log(ceo, "useSelector");
 
   // ! Importent :- site permiossion is added one permission is needed to go into thrid screen 
   const isSitePermissionAvailable = UserPermissions?.includes("dashboard-site-detail");
@@ -34,7 +34,10 @@ const DashboardChildTable = (props) => {
 
   const renderTableHeader = () => (
     <tr className="fuelprice-tr " style={{ padding: "0px" }}>
-      <th className="dashboard-child-thead">Sites</th>
+      <th className="dashboard-child-thead">
+        Sites
+      </th>
+
       <th className="dashboard-child-thead">Gross Volume</th>
       <th className="dashboard-child-thead">Fuel Sales</th>
       <th className="dashboard-child-thead">Gross Profit</th>
@@ -64,7 +67,17 @@ const DashboardChildTable = (props) => {
       updatedStoredData.site_name = item?.name; // Update the site_id here
 
       localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
-      navigate(`/dashboard-details/${item?.id}`);
+
+
+
+      {
+        ceo ?
+          navigate(`/dashboard-details/${item?.id}`, {
+            state: { details: true }, // Pass the state when ceo is true
+          }) :
+          navigate(`/dashboard-details/${item?.id}`) // No state when ceo is false
+      }
+
     }
   };
 
@@ -655,7 +668,7 @@ const DashboardChildTable = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <b>Site Stats</b>
+              <b>Site Stats </b>
             </Card.Header>
             <Card.Body>
               {data ? (

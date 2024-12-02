@@ -104,7 +104,9 @@ const DashSubChild = ({
   // };
   const location = useLocation();
   const { isCeoDashboard } = location.state || {}; // Destructure state and default to an empty object
-
+  const { details } = location.state || {}; // Destructure state and default to an empty object
+  console.log(details, "details");
+  console.log(isCeoDashboard, "isCeoDashboard");
   return (
     <>
 
@@ -126,15 +128,42 @@ const DashSubChild = ({
             {getSiteStats?.data?.site_name || "Dashboard Site details"} ({getSiteStats?.data?.dateString})
           </h1>
           {
-            isCeoDashboard ? <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/ceodashboard" }} >  Dashboard </Breadcrumb.Item>
-              <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">{getSiteStats?.data?.site_name || "DashBoard Site details"}</Breadcrumb.Item>
-            </Breadcrumb> : <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard" }} >  Dashboard </Breadcrumb.Item>
-              <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard-details" }}>Details</Breadcrumb.Item>
-              <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">{getSiteStats?.data?.site_name || "DashBoard Site details"}</Breadcrumb.Item>
-            </Breadcrumb>
+            isCeoDashboard ? (
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/ceodashboard" }}>
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
+                  {getSiteStats?.data?.site_name || "DashBoard Site details"}
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            ) : details ? (
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/ceodashboard" }}>
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/ceodashboard-details" }}>
+                  Details
+                </Breadcrumb.Item>
+                <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
+                  {getSiteStats?.data?.site_name || "DashBoard Site details"}
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            ) : (
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard" }}>
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard-details" }}>
+                  Details
+                </Breadcrumb.Item>
+                <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
+                  {getSiteStats?.data?.site_name || "DashBoard Site details"}
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            )
           }
+
 
 
         </div>

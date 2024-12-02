@@ -205,12 +205,12 @@ const CeoDashBoard = (props) => {
         setData: setItemstockstats,
         setLoading: setItemstockstatsloading,
       },
-      {
-        name: "tankanalysis",
-        url: "dashboard/get-site-stats",
-        setData: setGetSiteStats,
-        setLoading: setGetSiteStatsloading,
-      }
+      // {
+      //   name: "tankanalysis",
+      //   url: "dashboard/get-site-stats",
+      //   setData: setGetSiteStats,
+      //   setLoading: setGetSiteStatsloading,
+      // }
     ];
 
 
@@ -336,6 +336,30 @@ const CeoDashBoard = (props) => {
     }
 
   };
+  // {
+  //   name: "tankanalysis",
+  //   url: "dashboard/get-site-stats",
+  //   setData: setGetSiteStats,
+  //   setLoading: setGetSiteStatsloading,
+  // }
+  const FetchTankDetails = async (filters) => {
+    try {
+      setGetSiteStatsloading(true);
+      const queryParams = new URLSearchParams();
+      if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+
+      const queryString = queryParams.toString();
+      const response = await getData(`dashboard/get-site-stats?${queryString}`);
+      if (response && response.data && response.data.data) {
+        setGetSiteStats(response?.data?.data)
+      }
+    } catch (error) {
+      // handleError(error);
+    } finally {
+      setGetSiteStatsloading(false);
+    }
+
+  };
 
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
@@ -389,6 +413,7 @@ const CeoDashBoard = (props) => {
   useEffect(() => {
     if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
       FetchPriceLogs();
+      FetchTankDetails()
 
     }
   }, [formik?.values?.selectedSite, formik?.values?.selectedMonth]);
@@ -575,7 +600,7 @@ const CeoDashBoard = (props) => {
             showStationValidation={false}
             showMonthInput={false}
             showDateInput={false}
-            showAlet={showAlet}
+          
           />
         </div>
       )}

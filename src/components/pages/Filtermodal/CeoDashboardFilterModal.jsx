@@ -32,7 +32,7 @@ const CeoDashboardFilterModal = ({
     onClose,
     isOpen,
 }) => {
-    console.log(showAlet, "reduxData");
+
     const reduxData = useSelector(state => state?.data?.data);
 
     const { handleError } = useErrorHandler();
@@ -309,13 +309,7 @@ const CeoDashboardFilterModal = ({
                                     )
                                 }
 
-                                {/* 
-                                {showAlet && !formik.values?.site_id ? (
-                                    <>
-                                        <span style={{ color: "red" }}>Please Select Site</span>
-                                   
-                                    </>
-                                ) : ""} */}
+                          
 
 
                             </Row>

@@ -228,7 +228,7 @@ const CeoDashBoardChild = (props) => {
                 />
             </Row>
 
-            <DashboardChildTable data={tableData} />
+            <DashboardChildTable data={tableData} ceo={"true"} />
         </>
     );
 };
