@@ -146,7 +146,7 @@ const DashBoardChild = (props) => {
         handleApplyFilters(futurepriceLog);
       }
     }
-    console.clear()
+ 
   }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
 
 

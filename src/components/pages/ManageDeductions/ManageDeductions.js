@@ -52,7 +52,7 @@ const ManageDeductions = (props) => {
 
   useEffect(() => {
     FetchTableData(currentPage);
-    console.clear();
+    
   }, [currentPage, searchTerm]);
 
   const toggleActive = (row) => {

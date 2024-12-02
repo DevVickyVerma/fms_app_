@@ -97,7 +97,7 @@ const DashSubChildShopSale = ({
     // setShowModal(true);
     setShowCalenderModal(true);
   };
-  console.clear();
+  
 
   const renderTableHeader = () => (
     <tr className="fuelprice-tr" style={{ padding: "0px" }}>

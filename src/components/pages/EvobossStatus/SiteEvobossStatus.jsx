@@ -15,7 +15,7 @@ const SiteEvobossStatus = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, []);
 
   const FetchTableData = async () => {

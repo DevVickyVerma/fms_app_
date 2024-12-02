@@ -73,7 +73,7 @@ const EditUsers = (props) => {
     handleFetchData();
     FetchRoleList();
     FetchLevelList();
-    console.clear();
+    
   }, []);
 
   const { id } = useParams();

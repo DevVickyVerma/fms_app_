@@ -49,7 +49,7 @@ const AddItems = (props) => {
 
   useEffect(() => {
     handleItemData();
-    console.clear();
+    
   }, []);
 
   return <>

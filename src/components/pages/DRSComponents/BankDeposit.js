@@ -70,7 +70,7 @@ const BankDeposit = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, []);
   const [editable, setis_editable] = useState();
   const FetchTableData = async () => {

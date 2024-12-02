@@ -18,7 +18,7 @@ const ManageUser = (props) => {
 
   useEffect(() => {
     handleFetchData();
-    console.clear();
+    
   }, []);
 
 

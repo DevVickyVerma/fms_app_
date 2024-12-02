@@ -87,7 +87,7 @@ const AddSubBusinessCategory = (props) => {
     } catch (error) {
       handleError(error);
     }
-    console.clear();
+    
   }, []);
 
 

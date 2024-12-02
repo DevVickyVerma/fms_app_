@@ -9,7 +9,7 @@ import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import { Baroptions, DummygetSiteStats, stockAgingDetails, Tankcolors } from "../../Utils/commonFunctions/CommonData";
+import { Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -17,21 +17,21 @@ import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModa
 import { useFormik } from "formik";
 import SmallLoader from "../../Utils/SmallLoader";
 import CeoDashboardCharts from "./CeoDashboardCharts";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import PriceLogTable from "./PriceLogTable";
 import ReportTable from "./ReportTable";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
-import DashSubChildTankAnalysis from "./DashboardSubChild/DashSubChildTankAnalysis";
 import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
+import DashSubChildTankAnalysis from "./DashboardSubChild/DashSubChildTankAnalysis";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
-  const [applyFilterOvell, setapplyFilterOvell] = useState(false);
+
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
     client_id: "",
@@ -49,6 +49,7 @@ const CeoDashBoard = (props) => {
   const [Itemstockstatsloading, setItemstockstatsloading] = useState(true);
   const [PriceLogsloading, setPriceLogssloading] = useState(true);
   const [getSiteStatsloading, setGetSiteStatsloading] = useState(true);
+  const [ShowAlert, setShowAlert] = useState(false);
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
@@ -60,20 +61,28 @@ const CeoDashBoard = (props) => {
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-
-  const StockDeatils = () => {
-    setapplyFilterOvell(true);
-    setCenterFilterModalOpen(true);
-  };
-
+  const [applyFilterOvell, setapplyFilterOvell] = useState(false);
+  // Define the validation schema
   const getCeoDashBoardFilterValidation = (applyFilterOvell) =>
     Yup.object({
       client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
-      site_id: !applyFilterOvell
-        ? Yup.string() // Optional if `applyFilterOvell` is true
-        : Yup.string().required("Site is required"), // Required if `applyFilterOvell` is false
+      site_id: applyFilterOvell
+        ? Yup.string().required("Site is required") // Required if `applyFilterOvell` is false
+        : Yup.string(), // Optional if `applyFilterOvell` is true
     });
+
+
+  // StockDetails function to handle the site_id check
+  const StockDeatils = () => {
+    if (!filters?.site_id) {
+      console.log(filters?.site_id, "filters?.site_id");
+      setapplyFilterOvell(false);
+    }
+    setShowAlert(true)
+    setCenterFilterModalOpen(true);
+  };
+
   const formik = useFormik({
     initialValues: {
       selectedSite: '',
@@ -102,7 +111,7 @@ const CeoDashBoard = (props) => {
       setPermissionsArray(ReduxFullData?.permissions);
     }
     // navigate(ReduxFullData?.route);
-    // console.clear();;
+    // ;
   }, [ReduxFullData, permissionsArray]);
 
 
@@ -112,9 +121,6 @@ const CeoDashBoard = (props) => {
 
 
   const handleApplyFilters = async (values) => {
-
-
-
     try {
       // Check if 'Sites' is missing and user has client role
       if (!values?.sites && isClientRole) {
@@ -139,8 +145,10 @@ const CeoDashBoard = (props) => {
 
       // Fetch dashboard stats if the user has the required permission
       if (permissionsArray?.includes("dashboard-view")) {
+
         // console.log(storedKeyName, "storedKeyName");
         FetchDashboardStats(values);
+        console.log(applyFilterOvell, "applyFilterOvell");
       }
     } catch (error) {
       handleError(error); // Handle errors from API or other logic
@@ -149,7 +157,7 @@ const CeoDashBoard = (props) => {
 
   const FetchDashboardStats = async (filters) => {
 
-    if (applyFilterOvell && filters?.site_id) {
+    if (ShowAlert) {
       alert("Dashboard")
     }
 
@@ -192,16 +200,16 @@ const CeoDashBoard = (props) => {
         url: "ceo-dashboard/department-item-stocks",
         setData: setItemstockstats,
         setLoading: setItemstockstatsloading,
-      }
-    ];
-    if (filters?.site_id) {
-      endpoints.push({
+      },
+      {
         name: "tankanalysis",
         url: "dashboard/get-site-stats",
         setData: setGetSiteStats,
         setLoading: setGetSiteStatsloading,
-      });
-    }
+      }
+    ];
+
+
     // Split the endpoints into two halves
     const firstHalf = endpoints.slice(0, Math.ceil(endpoints.length / 3));
     const secondHalf = endpoints.slice(Math.ceil(endpoints.length / 3));
@@ -276,7 +284,15 @@ const CeoDashBoard = (props) => {
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append("client_id", client_id);
         if (company_id) queryParams.append("company_id", company_id);
-        if (site_id) queryParams.append("site_id", site_id);
+        if (endpoint === "dashboard/get-site-stats") {
+          if (site_id) {
+            queryParams.append("site_id", site_id);
+          } else if (updatedFilters?.sites && updatedFilters?.sites.length > 0) {
+            console.log(updatedFilters, "updatedFilters");
+            queryParams.append("site_id", updatedFilters?.sites[0]?.id);
+          }
+        }
+
 
         const queryString = queryParams.toString();
         const response = await getData(`${endpoint}?${queryString}`);
@@ -301,8 +317,6 @@ const CeoDashBoard = (props) => {
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
-      // if (client_id) queryParams.append("client_id", client_id);
-      // if (company_id) queryParams.append("company_id", company_id);
       if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
       if (formik?.values?.selectedMonth) queryParams.append("drs_date", `01-${formik?.values?.selectedMonthDetails?.value}`);
 
@@ -318,6 +332,34 @@ const CeoDashBoard = (props) => {
     }
 
   };
+  // const FetchTankData = async () => {
+  //   try {
+  //     setGetSiteStatsloading(true);
+  //     const queryParams = new URLSearchParams();
+
+  //     if (client_id) queryParams.append("client_id", filters?.client_id);
+  //     if (company_id) queryParams.append("company_id", filters?.company_id);
+
+
+  //     if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+
+  //     const queryString = queryParams.toString();
+  //     const response = await getData(`dashboard/get-site-stats?${queryString}`);
+  //     console.log(response, "response");
+  //     if (response && response.data && response.data.data) {
+
+  //       // Clears the console before logging the new data
+  //       console.log(response?.data?.data, "response?.data?.data");
+  //       setGetSiteStats(response?.data);
+  //     }
+
+  //   } catch (error) {
+  //     // handleError(error);
+  //   } finally {
+  //     setGetSiteStatsloading(false);
+  //   }
+
+  // };
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
     setPriceLogssloading(true)
@@ -362,10 +404,15 @@ const CeoDashBoard = (props) => {
 
   };
 
+  // useEffect(()=>{
+  //   FetchTankData()
+  // },[])
+
 
   useEffect(() => {
     if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
       FetchPriceLogs();
+
     }
   }, [formik?.values?.selectedSite, formik?.values?.selectedMonth]);
 
@@ -421,7 +468,7 @@ const CeoDashBoard = (props) => {
 
       // Check if the response is OK
       if (!response.ok) {
-        // console.clear();
+        // 
         // Await the response body parsing first to get the actual JSON data
         const errorData = await response.json();
         // alert(errorData?.message)
@@ -469,6 +516,10 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
+  console.group("getSiteStats Group");  // Start a new group
+  console.log(getSiteStats, "getSiteStats");
+  console.groupEnd();  // End the group
+
 
   return (
     <>
@@ -684,61 +735,59 @@ const CeoDashBoard = (props) => {
           Baroptions={Baroptions} // Pass the Baroptions directly
         />
         {
-          filters?.site_id ? (
-            getSiteStats?.dates?.length > 0 ? (
-              <Row className="my-4 l-sign">
-                <Col lg={12} md={12}>
-                  <Card>
-                    <Card.Header className="card-header">
-                      <div className="Tank-Details d-flex">
-                        <h4 className="card-title">Tank Analysis</h4>
-                        <div className="Tank-Details-icon">
-                          <OverlayTrigger
-                            placement="right"
-                            className="Tank-Detailss"
-                            overlay={
-                              <Tooltip style={{ width: "200px" }}>
-                                <div>
-                                  {Tankcolors?.map((color, index) => (
-                                    <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
-                                      <div
-                                        style={{
-                                          width: "20px", // Set the width for the color circle
-                                          height: "20px",
-                                          borderRadius: "50%",
-                                          backgroundColor: color?.color,
-                                        }}
-                                      ></div>
-                                      <span className=" text-white ms-2">{color?.name}</span>
-                                    </div>
-                                  ))}
+
+
+          <Row className="my-4 l-sign">
+            <Col lg={12} md={12}>
+              <Card>
+                <Card.Header className="card-header">
+                  <div className="Tank-Details d-flex">
+                    <h4 className="card-title">Tank Analysis ({formik.values?.selectedSiteDetails?.site_name})</h4>
+                    <div className="Tank-Details-icon">
+                      <OverlayTrigger
+                        placement="right"
+                        className="Tank-Detailss"
+                        overlay={
+                          <Tooltip style={{ width: "200px" }}>
+                            <div>
+                              {Tankcolors?.map((color, index) => (
+                                <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
+                                  <div
+                                    style={{
+                                      width: "20px", // Set the width for the color circle
+                                      height: "20px",
+                                      borderRadius: "50%",
+                                      backgroundColor: color?.color,
+                                    }}
+                                  ></div>
+                                  <span className=" text-white ms-2">{color?.name}</span>
                                 </div>
-                              </Tooltip>
-                            }
-                          >
-                            <img
-                              alt=""
-                              src={require("../../assets/images/dashboard/dashboardTankImage.png")}
-                            />
-                          </OverlayTrigger>
-                        </div>
-                      </div>
-                    </Card.Header>
-                    <Card.Body className="card-body p-0 m-0">
-                      <div id="chart">
-                        <CeoDashTankAnalysis
-                          getSiteStats={getSiteStats}
-                          setGetSiteStats={setGetSiteStats}
+                              ))}
+                            </div>
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          alt=""
+                          src={require("../../assets/images/dashboard/dashboardTankImage.png")}
                         />
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            ) : (
-              <SmallLoader title="Tank Analysis" />
-            )
-          ) : null
+                      </OverlayTrigger>
+                    </div>
+                  </div>
+                </Card.Header>
+                <Card.Body className="card-body p-0 m-0">
+                  <div id="chart">
+                    <CeoDashTankAnalysis
+                      getSiteStats={getSiteStats}
+                      setGetSiteStats={setGetSiteStats}
+                    />
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+
+
         }
 
 

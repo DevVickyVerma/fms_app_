@@ -185,7 +185,7 @@ const SageBanking = (props) => {
       },
     ],
   };
-  const headsvalueonsubmit = () => { console.clear() };
+  const headsvalueonsubmit = () => {  };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,
 

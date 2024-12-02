@@ -14,7 +14,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
 
     useEffect(() => {
         fetchUpdateCardDetail()
-        console.clear()
+        
     }, []);
 
     const initialValues = {

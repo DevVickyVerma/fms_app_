@@ -38,7 +38,7 @@ const AddCompany = (props) => {
       fetchClientList();
     }
 
-    console.clear();
+    
   }, []);
       const ErrorToast = (message) => {
       toast.error(message, {

@@ -72,7 +72,7 @@ const ManageBusinessCategory = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, [searchTerm]);
 
 

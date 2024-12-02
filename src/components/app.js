@@ -28,7 +28,7 @@ const App = () => {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    // console.clear();
+    // 
   }, [location.pathname]);
   const [autoLogout] = useState(
     localStorage.getItem("auto_logout")
@@ -41,7 +41,7 @@ const App = () => {
 
   useEffect(() => {
     GetDetails()
-    // console.clear();
+    // 
   }, []);
 
   const [isInactive, setIsInactive] = useState(false);
@@ -63,7 +63,7 @@ const App = () => {
 
     inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
 
-    console.clear();
+    // 
     return () => {
       window.removeEventListener("mousemove", handleUserActivity);
       window.removeEventListener("keydown", handleUserActivity);
@@ -99,7 +99,7 @@ const App = () => {
     } else {
       localStorage.setItem("auto_logout_done", false);
     }
-    // console.clear();
+    // 
   }, [isInactive, autoLogout, logoutTime]);
   useEffect(() => {
     const handleNetworkChange = () => {

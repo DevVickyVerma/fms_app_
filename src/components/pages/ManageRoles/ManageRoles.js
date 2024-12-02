@@ -65,7 +65,7 @@ const ManageRoles = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, [searchTerm, currentPage]);
 
 

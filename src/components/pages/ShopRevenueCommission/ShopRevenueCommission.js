@@ -254,7 +254,7 @@ const SageDeduction = (props) => {
     ],
   };
   const headsvalueonsubmit = () => {
-    console.clear();
+    
   };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,

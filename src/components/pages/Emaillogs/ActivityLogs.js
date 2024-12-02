@@ -34,7 +34,7 @@ const ManageEmail = (props) => {
 
   useEffect(() => {
     FetchTableData(currentPage);
-    console.clear();
+    
   }, [currentPage, searchTerm]);
 
   const FetchTableData = async () => {

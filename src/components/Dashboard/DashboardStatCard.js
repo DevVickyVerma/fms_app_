@@ -109,7 +109,8 @@ const DashboardStatCard = ({ getData, isOpen, onClose, }) => {
       sites: [],
     },
     onSubmit: () => {
-      console.clear()
+      console.log("columnIndex");
+  
     },
   });
 

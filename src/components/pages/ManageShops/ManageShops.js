@@ -49,7 +49,7 @@ const ManageShops = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, [currentPage, searchTerm]);
 
   const toggleActive = (row) => {

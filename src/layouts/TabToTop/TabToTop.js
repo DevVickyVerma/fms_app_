@@ -9,7 +9,7 @@ const TabToTop = () => {
         setBacktopTop("d-block");
       } else setBacktopTop("");
     });
-    // console.clear();
+    // 
   }, []);
   const screenup = () => {
     window.scrollTo({

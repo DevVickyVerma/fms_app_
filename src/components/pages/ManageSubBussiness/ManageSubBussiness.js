@@ -18,7 +18,7 @@ const ManageSubBusinessTypes = (props) => {
 
   useEffect(() => {
     handleFetchData();
-    console.clear();
+    
   }, []);
 
 

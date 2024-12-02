@@ -63,7 +63,7 @@ const ManageBusinessTypes = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, []);
 
   const [permissionsArray, setPermissionsArray] = useState([]);

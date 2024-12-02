@@ -118,7 +118,7 @@ const ManageSite = (props) => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
-    console.clear();
+    
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
@@ -516,7 +516,7 @@ const ManageSite = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, [currentPage, searchTerm]);
 
 

@@ -46,7 +46,7 @@ const SageCharges = (props) => {
     }
   }, [data]);
   const headsvalueonsubmit = () => {
-    console.clear()
+    
   };
   const GetCompanyList = async (values) => {
     try {

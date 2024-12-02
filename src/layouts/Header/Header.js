@@ -70,7 +70,7 @@ const Header = (props) => {
   useEffect(() => {
     const isTwoFactorAvailable = JSON.parse(localStorage.getItem("two_factor"));
     setIsTwoFactorPermissionAvailable(isTwoFactorAvailable);
-    console.clear()
+    
   }, [isTwoFactorPermissionAvailable]);
 
   const openCloseSidebar = () => {

@@ -24,7 +24,7 @@ const Notification = (props) => {
 
   useEffect(() => {
     fetchData(currentPage);
-    console.clear();
+    
   }, [currentPage]);
 
   const fetchData = async (pageNumber) => {

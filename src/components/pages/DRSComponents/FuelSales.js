@@ -63,7 +63,7 @@ const FuelSales = (props) => {
     if (start_date) {
       fetchData();
     }
-    console.clear();
+    
   }, [site_id, start_date]);
 
   const SubmitFuelSalesForm = async (values) => {

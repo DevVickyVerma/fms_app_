@@ -38,7 +38,7 @@ const ManageCharges = (props) => {
 
   useEffect(() => {
     FetchTableData(currentPage);
-    console.clear();
+    
   }, [currentPage, searchTerm]);
 
   useEffect(() => {

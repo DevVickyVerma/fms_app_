@@ -20,7 +20,7 @@ const EditItems = (props) => {
     } catch (error) {
       handleError(error);
     }
-    console.clear();
+    
   }, [id]);
 
   const FetchRoleList = async () => {
@@ -51,7 +51,7 @@ const EditItems = (props) => {
   };
   useEffect(() => {
     handleItemData();
-    console.clear();
+    
   }, []);
 
   const handleSubmit = async (values) => {

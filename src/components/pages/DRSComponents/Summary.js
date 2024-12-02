@@ -40,7 +40,7 @@ const DepartmentShop = (props) => {
   const dayEndPermission = UserPermissions?.includes("drs-day-end")
 
   useEffect(() => {
-    console.clear();
+    
   }, [UserPermissions])
 
 

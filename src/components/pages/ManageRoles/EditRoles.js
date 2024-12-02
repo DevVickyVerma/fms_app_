@@ -19,7 +19,7 @@ const EditRoles = (props) => {
 
   useEffect(() => {
     FetchPermisionList();
-    console.clear();
+    
   }, []);
   const FetchPermisionList = async () => {
     try {

@@ -62,7 +62,7 @@ const ManageItems = (props) => {
 
   useEffect(() => {
     FetchTableData(currentPage);
-    console.clear();
+    
   }, [currentPage, searchTerm]);
 
 

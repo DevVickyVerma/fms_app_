@@ -34,7 +34,7 @@ const AddRoles = (props) => {
   const { handleError } = useErrorHandler();
   useEffect(() => {
     FetchTableData();
-    console.clear();
+    
   }, []);
   const FetchTableData = async () => {
     try {

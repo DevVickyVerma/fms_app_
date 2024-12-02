@@ -22,7 +22,7 @@ const Settings = ({ getData }) => {
   const navigate = useNavigate();
   useEffect(() => {
     configsetting();
-    console.clear();
+    
   }, []);
 
   const token = localStorage.getItem("token");

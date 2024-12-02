@@ -19,7 +19,7 @@ export default function AddSite(props) {
 
   useEffect(() => {
     FetchRoleList();
-    console.clear();
+    
   }, [id]);
 
   const FetchRoleList = async () => {

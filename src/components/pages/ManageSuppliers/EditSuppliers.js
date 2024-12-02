@@ -27,7 +27,7 @@ const Editsuppliers = (props) => {
     } catch (error) {
       handleError(error);
     }
-    console.clear();
+    
   }, [id]);
 
   const FetchRoleList = async () => {

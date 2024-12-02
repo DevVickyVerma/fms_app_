@@ -42,7 +42,7 @@ const EditCompany = (props) => {
     } catch (error) {
       handleError(error);
     }
-    console.clear();
+    
   }, []);
 
 
@@ -51,7 +51,7 @@ const EditCompany = (props) => {
       handleFetchData();
     }
 
-    console.clear();
+    
   }, []);
 
 

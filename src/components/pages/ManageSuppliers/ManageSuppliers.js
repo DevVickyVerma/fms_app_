@@ -64,7 +64,7 @@ const ManageSuppliers = (props) => {
 
   useEffect(() => {
     FetchTableData(currentPage);
-    console.clear();
+    
   }, [currentPage, searchTerm]);
 
 

@@ -31,7 +31,7 @@ const DepartmentShop = (props) => {
   useEffect(() => {
     fetchDetails();
     fetchListing();
-    console.clear();
+    
   }, []);
   const { handleError } = useErrorHandler();
   const [data, setData] = useState([]);

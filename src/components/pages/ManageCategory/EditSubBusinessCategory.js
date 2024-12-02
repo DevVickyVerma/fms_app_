@@ -38,7 +38,7 @@ const EditBussiness = (props) => {
       handleError(error);
     }
     // console.clear()
-    console.clear();
+    
   }, []);
 
   const { id } = useParams();
@@ -49,7 +49,7 @@ const EditBussiness = (props) => {
     } catch (error) {
       handleError(error);
     }
-    console.clear();
+    
   }, [id]);
 
   const FetchRoleList = async () => {

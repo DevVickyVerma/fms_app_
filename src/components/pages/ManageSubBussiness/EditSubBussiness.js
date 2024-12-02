@@ -50,7 +50,7 @@ const EditSubBussiness = ({ getData }) => {
     } catch (error) {
       handleError(error);
     }
-    console.clear();
+    
   }, [id]);
   const fetchClientList = async () => {
     try {

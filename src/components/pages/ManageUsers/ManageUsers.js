@@ -64,7 +64,7 @@ const ManageUser = (props) => {
 
   useEffect(() => {
     handleFetchData();
-    console.clear();
+    
   }, [searchTerm, currentPage]);
 
   const handleFetchData = async () => {

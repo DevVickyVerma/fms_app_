@@ -35,7 +35,7 @@ const EditAddon = (props) => {
     formData.append("addon_id", addonId);
 
     FetchPermisionList();
-    console.clear();
+    
   }, []);
 
   const FetchPermisionList = async () => {
@@ -84,7 +84,7 @@ const EditAddon = (props) => {
 
   useEffect(() => {
     setEdituserDetails();
-    // console.clear();
+    // 
   }, [edituserDetails]);
 
   const formik = useFormik({

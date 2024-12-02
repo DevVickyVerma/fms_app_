@@ -263,7 +263,7 @@ const ManageDsr = (props) => {
       let parshedData = JSON.parse(storedData);
       GetDataWithClient(parshedData);
     }
-    console.clear();
+    
     return () => clearInterval(timer);
   }, [isTimerRunning, timeLeft]);
 

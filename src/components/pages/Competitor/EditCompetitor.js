@@ -86,7 +86,7 @@ const AddCompetitor = (props) => {
       handleError(error);
     }
     // console.clear()
-    console.clear();
+    
   }, []);
 
   const formik = useFormik({

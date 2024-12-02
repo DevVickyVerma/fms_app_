@@ -5,9 +5,7 @@ import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
 
 const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
 
-  useEffect(() => {
-    console.clear()
-  }, [])
+
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null
 
