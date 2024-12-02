@@ -70,10 +70,9 @@ const CeoDashBoard = (props) => {
 
   // StockDetails function to handle the site_id check
   const StockDeatils = () => {
-    const AlertShow = "true"
     setCenterFilterModalOpen(true)
     setShowAlet(true)
-    handleApplyFilters(filters, AlertShow, true)
+    // handleApplyFilters(filters, AlertShow, true)
   };
 
   const formik = useFormik({
@@ -110,7 +109,6 @@ const CeoDashBoard = (props) => {
 
   var [isClientRole] = useState(localStorage.getItem("superiorRole") == "Client");
 
-  const applyFilterOvells = "false"
   const getCeoDashBoardFilterValidation = (applyFilterOvells) =>
     Yup.object({
       client_id: Yup.string().required("Client is required"),
@@ -208,97 +206,39 @@ const CeoDashBoard = (props) => {
 
   const handleApplyFilters = async (values, showAletr) => {
 
-    console.log(showAletr, "showAletr");
-    console.log(showAlet, "showAlet");
-    if (showAlet && !values?.site_id) {
-      setShowAlet(true)
-      console.log("Condition 1: showAlet is true and site_id is missing");
-      // handleClick(values);
-    }
-    // Condition 2: If `showAletr` is defined and true
-    else if (showAlet && values?.site_id) {
-      console.log("Condition 2: showAletr is true");
-      handleClick(values)
-      // Additional logic for this condition
-      // Example: Call another function or perform an operation
-      // applyDefaultFilter(values);
-    }
-    // Condition 3: If none of the above are true
-    else {
-      console.log("Condition 3: None of the above conditions matched");
-      try {
-        // Check if 'Sites' is missing and user has client role
-        if (!values?.sites && isClientRole) {
-          const response = await getData(`common/site-list?company_id=${values?.company_id}`);
-          values.sites = response?.data?.data || [];
-        }
-        if (!values?.reports && isClientRole) {
-          const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
-          values.reports = response?.data?.data?.reports || [];
-          values.reportmonths = response?.data?.data?.months || [];
-        }
 
-
-        // Ensure 'start_date' is set
-        if (!values?.start_date) {
-          const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-          values.start_date = currentDate;
-        }
-
-        // Store the updated values in localStorage
-        localStorage.setItem(storedKeyName, JSON.stringify(values));
-
-        // Fetch dashboard stats if the user has the required permission
-        if (permissionsArray?.includes("dashboard-view")) {
-
-          // console.log(storedKeyName, "storedKeyName");
-          FetchDashboardStats(values);
-          console.log(applyFilterOvell, "applyFilterOvell");
-        }
-      } catch (error) {
-        handleError(error); // Handle errors from API or other logic
+    try {
+      // Check if 'Sites' is missing and user has client role
+      if (!values?.sites && isClientRole) {
+        const response = await getData(`common/site-list?company_id=${values?.company_id}`);
+        values.sites = response?.data?.data || [];
       }
+      if (!values?.reports && isClientRole) {
+        const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
+        values.reports = response?.data?.data?.reports || [];
+        values.reportmonths = response?.data?.data?.months || [];
+      }
+
+
+      // Ensure 'start_date' is set
+      if (!values?.start_date) {
+        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        values.start_date = currentDate;
+      }
+
+      // Store the updated values in localStorage
+      localStorage.setItem(storedKeyName, JSON.stringify(values));
+
+      // Fetch dashboard stats if the user has the required permission
+      if (permissionsArray?.includes("dashboard-view")) {
+
+        // console.log(storedKeyName, "storedKeyName");
+        FetchDashboardStats(values);
+        console.log(applyFilterOvell, "applyFilterOvell");
+      }
+    } catch (error) {
+      handleError(error); // Handle errors from API or other logic
     }
-    // if (showAletr && !values?.site_id && showAlet) {
-
-    //   console.log(showAlet && !values?.site_id, "firstStep",showAlet   && !values?.site_id);
-    // } else if (showAletr  && values?.site_id && showAlet) {
-    //   // handleClick(values)
-    //   console.log(showAlet && !values?.site_id, "Second showAlet && !values?.site_id");
-    // }else {
-    //   try {
-    //     // Check if 'Sites' is missing and user has client role
-    //     if (!values?.sites && isClientRole) {
-    //       const response = await getData(`common/site-list?company_id=${values?.company_id}`);
-    //       values.sites = response?.data?.data || [];
-    //     }
-    //     if (!values?.reports && isClientRole) {
-    //       const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
-    //       values.reports = response?.data?.data?.reports || [];
-    //       values.reportmonths = response?.data?.data?.months || [];
-    //     }
-
-
-    //     // Ensure 'start_date' is set
-    //     if (!values?.start_date) {
-    //       const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-    //       values.start_date = currentDate;
-    //     }
-
-    //     // Store the updated values in localStorage
-    //     localStorage.setItem(storedKeyName, JSON.stringify(values));
-
-    //     // Fetch dashboard stats if the user has the required permission
-    //     if (permissionsArray?.includes("dashboard-view")) {
-
-    //       // console.log(storedKeyName, "storedKeyName");
-    //       FetchDashboardStats(values);
-    //       console.log(applyFilterOvell, "applyFilterOvell");
-    //     }
-    //   } catch (error) {
-    //     handleError(error); // Handle errors from API or other logic
-    //   }
-    // }
 
 
 
@@ -1016,7 +956,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
           </Col>
           <Col sm={12} md={4} key={Math.random()}>
             <Card className="h-100" >
-              <Card.Header className="p-4 w-100 flexspacebetween">
+              <Card.Header className="p-4 w-100 flexspacebetween ">
                 <h4 className="card-title"> <div className="lableWithsmall">
                   Reports({formik.values?.selectedSiteDetails?.site_name})
                   <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
@@ -1079,9 +1019,6 @@ onChange={(e) => handleSiteChange(e.target.value)}
 
           </Col>
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-
-
-
             {Shrinkagestatsloading ? (
               <SmallLoader title="Shrinkage" />
             ) : Shrinkagestats?.shrinkage_graph_data ? (

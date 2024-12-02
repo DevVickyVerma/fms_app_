@@ -26,7 +26,7 @@ const CeoDashboardFilterModal = ({
     showReportMonthInputValidation = false,
     showMonthInput = true,
     showDateInput = true,
-    showAlet = false,
+
     validationSchema,
     storedKeyName,
     onClose,
@@ -309,13 +309,13 @@ const CeoDashboardFilterModal = ({
                                     )
                                 }
 
-
+{/* 
                                 {showAlet && !formik.values?.site_id ? (
                                     <>
                                         <span style={{ color: "red" }}>Please Select Site</span>
-                                        {/* <span>Please Select Site</span> */}
+                                   
                                     </>
-                                ) : ""}
+                                ) : ""} */}
 
 
                             </Row>
