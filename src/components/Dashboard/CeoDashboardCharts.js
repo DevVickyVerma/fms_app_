@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import SmallLoader from "../../Utils/SmallLoader";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
+import NoDataGraph from "../../Utils/commonFunctions/NoDataGraph";
 
 const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions }) => {
 
@@ -13,7 +14,7 @@ const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions 
         }
     
         if (!data || data.length === 0) {
-            return  <NoDataComponent title={title} />; // Display a message or fallback when data is empty
+            return  <NoDataGraph title={title} />; // Display a message or fallback when data is empty
         }
     
         return <CeoDashboardBarChart data={data} options={Baroptions} title={title} />;

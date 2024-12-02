@@ -26,6 +26,7 @@ import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
 import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
+import NoDataGraph from "../../Utils/commonFunctions/NoDataGraph";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -1072,7 +1073,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
               </Card>
 
             ) : (
-              <NoDataComponent title="Stocks" />
+              <NoDataGraph title="Stocks" />
             )}
 
 
@@ -1092,7 +1093,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                 height="200px"
               />
             ) : (
-              <NoDataComponent title="Shrinkage" />
+              <NoDataGraph title="Shrinkage" />
             )}
 
 
