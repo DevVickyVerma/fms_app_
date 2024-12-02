@@ -143,7 +143,6 @@ export const MENUITEMS = [
             permission: "competitor-stats",
             visibility: false,
           },
-
         ],
       },
       //Company
@@ -409,7 +408,8 @@ export const MENUITEMS = [
             path: `/fuel-selling-prices-suggestion`,
             title: "Fuel Selling Prices Suggestion",
             type: "link",
-            permission: "fuel-suggestion-list",
+            permission: "competitor-price-update",
+            // permission: "fuel-suggestion-list",
             visibility: false,
           },
         ],
@@ -815,7 +815,6 @@ export const MENUITEMS = [
           },
         ],
       },
-
     ],
   },
 ];

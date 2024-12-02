@@ -173,8 +173,8 @@ const competitorfuelpricesUpdate = ({ data, postData, handleFormSubmit, accordio
         setIsModalOpen(false); // Close the modal without submitting
     };
 
-    console.log(lsitingformik?.values, "lsitingformik");
-    console.log(formik?.values, "formik");
+    // console.log(lsitingformik?.values, "lsitingformik");
+    // console.log(formik?.values, "formik");
 
 
 

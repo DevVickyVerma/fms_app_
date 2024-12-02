@@ -13,5 +13,8 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact" // Ensures ESLint validates .js and .jsx files
-  ]
+  ],
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
 }
