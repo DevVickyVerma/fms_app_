@@ -58,6 +58,7 @@ const CeoDashBoard = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
 
+  const [showAlet, setShowAlet] = useState(false);
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
@@ -70,7 +71,9 @@ const CeoDashBoard = (props) => {
   const StockDeatils = () => {
 
     const AlertShow = "true"
-    setCenterFilterModalOpen(true);
+
+
+    handleApplyFilters(filters, AlertShow, true)
 
   };
 
@@ -119,46 +122,49 @@ const CeoDashBoard = (props) => {
     });
 
   const handleApplyFilters = async (values, showAletr, isStockDetails) => {
-    // if (showAletr) {
-    //   console.log(isStockDetails, "isStockDetails");
-    //   setCenterFilterModalOpen(true);
-    //   console.log(showAletr, "showAlert");
-    // }
-
-
-
-    try {
-      // Check if 'Sites' is missing and user has client role
-      if (!values?.sites && isClientRole) {
-        const response = await getData(`common/site-list?company_id=${values?.company_id}`);
-        values.sites = response?.data?.data || [];
+    if (showAletr) {
+      setShowAlet(true)
+      console.log(isStockDetails, "isStockDetails");
+      setCenterFilterModalOpen(true);
+      console.log(showAletr, "showAlert");
+    }else{
+      try {
+        // Check if 'Sites' is missing and user has client role
+        if (!values?.sites && isClientRole) {
+          const response = await getData(`common/site-list?company_id=${values?.company_id}`);
+          values.sites = response?.data?.data || [];
+        }
+        if (!values?.reports && isClientRole) {
+          const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
+          values.reports = response?.data?.data?.reports || [];
+          values.reportmonths = response?.data?.data?.months || [];
+        }
+  
+  
+        // Ensure 'start_date' is set
+        if (!values?.start_date) {
+          const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+          values.start_date = currentDate;
+        }
+  
+        // Store the updated values in localStorage
+        localStorage.setItem(storedKeyName, JSON.stringify(values));
+  
+        // Fetch dashboard stats if the user has the required permission
+        if (permissionsArray?.includes("dashboard-view")) {
+  
+          // console.log(storedKeyName, "storedKeyName");
+          FetchDashboardStats(values);
+          console.log(applyFilterOvell, "applyFilterOvell");
+        }
+      } catch (error) {
+        handleError(error); // Handle errors from API or other logic
       }
-      if (!values?.reports && isClientRole) {
-        const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
-        values.reports = response?.data?.data?.reports || [];
-        values.reportmonths = response?.data?.data?.months || [];
-      }
-
-
-      // Ensure 'start_date' is set
-      if (!values?.start_date) {
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-        values.start_date = currentDate;
-      }
-
-      // Store the updated values in localStorage
-      localStorage.setItem(storedKeyName, JSON.stringify(values));
-
-      // Fetch dashboard stats if the user has the required permission
-      if (permissionsArray?.includes("dashboard-view")) {
-
-        // console.log(storedKeyName, "storedKeyName");
-        FetchDashboardStats(values);
-        console.log(applyFilterOvell, "applyFilterOvell");
-      }
-    } catch (error) {
-      handleError(error); // Handle errors from API or other logic
     }
+
+
+
+ 
   };
 
   const FetchDashboardStats = async (filters) => {
@@ -492,8 +498,6 @@ const CeoDashBoard = (props) => {
     }
   };
 
-
-
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -513,6 +517,7 @@ const CeoDashBoard = (props) => {
             showStationValidation={false}
             showMonthInput={false}
             showDateInput={false}
+            showAlet={showAlet}
           />
         </div>
       )}
@@ -707,7 +712,7 @@ const CeoDashBoard = (props) => {
           BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
           Baroptions={Baroptions} // Pass the Baroptions directly
         />
-      
+
         {getSiteStatsloading ? (
           <SmallLoader title="Tank Analysis" />
         ) : getSiteStats?.dates?.length > 0 ? (

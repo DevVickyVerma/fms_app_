@@ -26,17 +26,18 @@ const CeoDashboardFilterModal = ({
     showReportMonthInputValidation = false,
     showMonthInput = true,
     showDateInput = true,
+    showAlet = false,
     validationSchema,
     storedKeyName,
     onClose,
     isOpen,
 }) => {
-
+    console.log(showAlet, "reduxData");
     const reduxData = useSelector(state => state?.data?.data);
 
     const { handleError } = useErrorHandler();
     const { contextClients, setcontextClients } = useMyContext();
-    
+
     const formik = useFormik({
         initialValues: {
             client_id: "",
@@ -176,19 +177,19 @@ const CeoDashboardFilterModal = ({
         }
     };
     const FetchReportList = async (id) => {
-    
+
         try {
-          const response = await getData(`client/reportlist?client_id=${id}`);
-    
-          const { data } = response;
-          if (data) {
-            formik.setFieldValue('reportmonths', response?.data?.data?.months);
-            formik.setFieldValue('reports', response?.data?.data?.reports);
-          }
+            const response = await getData(`client/reportlist?client_id=${id}`);
+
+            const { data } = response;
+            if (data) {
+                formik.setFieldValue('reportmonths', response?.data?.data?.months);
+                formik.setFieldValue('reports', response?.data?.data?.reports);
+            }
         } catch (error) {
-          console.error("API error:", error);
+            console.error("API error:", error);
         }
-      };
+    };
 
     const handleSiteChange = (e) => {
         const selectedSiteId = e.target.value;
@@ -196,7 +197,7 @@ const CeoDashboardFilterModal = ({
         const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
         formik.setFieldValue('site_name', selectedSiteData?.site_name || "");
     };
- 
+
 
 
     return (
@@ -228,6 +229,8 @@ const CeoDashboardFilterModal = ({
 
                     <form onSubmit={formik.handleSubmit}>
                         <Card.Body>
+
+
                             <Row>
 
 
@@ -307,7 +310,12 @@ const CeoDashboardFilterModal = ({
                                 }
 
 
-
+                                {showAlet && !formik.values?.site_id ? (
+                                    <>
+                                        <span style={{ color: "red" }}>Please Select Site</span>
+                                        {/* <span>Please Select Site</span> */}
+                                    </>
+                                ) : ""}
 
 
                             </Row>
