@@ -508,13 +508,13 @@ const CeoDashBoard = (props) => {
   const handleStockApplyFilters = async (values) => {
     const handleConfirmedAction = async (values) => {
       console.log(values, "values");
-    
+
       // Navigate to dashboard-details with the provided state
       navigate(`/dashboard-details/${values?.site_id}`, {
         state: { isCeoDashboard: true }, // Pass the key-value pair in the state
       });
     };
-    
+
     const handleCancelledAction = async (values) => {
       console.log(values, "columnIndex");
     };
