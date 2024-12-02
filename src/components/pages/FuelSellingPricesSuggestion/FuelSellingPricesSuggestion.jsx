@@ -10,6 +10,7 @@ import { Collapse, Table } from "antd";
 import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import FuelSellingSuggestionsLogModal from "./FuelSellingSuggestionsLogModal";
+import FuelPricesSuggestionModal from "./FuelPricesSuggestionModal";
 
 const { Panel } = Collapse;
 
@@ -192,7 +193,7 @@ const FuelSellingPricesSuggestion = (props) => {
       <>
         {modalOpen && (
           <>
-            <Compititormodal
+            <FuelPricesSuggestionModal
               open={modalOpen}
               onClose={handleModalClose}
               selectedItem={selectedItem}

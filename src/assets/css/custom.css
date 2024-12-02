@@ -276,7 +276,7 @@ tbody td {
 }
 
 .table thead th {
-  vertical-align: bottom;
+  vertical-align: middle;
   border-bottom-width: 1px;
   border-top: 0;
   border-bottom: 1px solid #e6e7e9 !important;

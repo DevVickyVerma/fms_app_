@@ -1,21 +1,22 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
-import { Card } from "react-bootstrap";
+import { Card, Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import Loaderimg from "../../Utils/Loader";
+// import Loaderimg from "../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
-import { SuccessAlert } from "../../Utils/ToastUtils";
-import useErrorHandler from "../../components/CommonComponent/useErrorHandler";
-import withApi from "../../Utils/ApiHelper";
-import MiddayFuelPrice from "../../components/pages/ManageFuelPrices/MiddayFuelPrice";
-import CompetitorfuelpricesUpdate from "../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
+import { SuccessAlert } from "../../../Utils/ToastUtils";
+import useErrorHandler from "../../../components/CommonComponent/useErrorHandler";
+import withApi from "../../../Utils/ApiHelper";
+import MiddayFuelPrice from "../../../components/pages/ManageFuelPrices/MiddayFuelPrice";
+import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
 import { useSelector } from "react-redux";
+import LoaderImg from "../../../Utils/Loader";
 
-const Competitormodal = ({
+const FuelPricesSuggestionModal = ({
   open,
   onClose,
   selectedItem,
@@ -167,7 +168,107 @@ const Competitormodal = ({
 
   return (
     <>
-      <Dialog
+      {isLoading ? <LoaderImg /> : null}
+
+      <Modal
+        show={open}
+        onHide={onClose}
+        centered
+        size={"xl"}
+        // size={"sm"}
+        className="dashboard-center-modal"
+      >
+        <div>
+          <Modal.Header
+            style={{
+              color: "#fff",
+            }}
+            className="p-0 m-0 d-flex justify-content-between align-items-center"
+          >
+            <span className="ModalTitle d-flex justify-content-between w-100  fw-normal">
+              <div className="">
+                <span> {selectedItem?.competitorname}</span>
+                <span> ({selectedDrsDate})</span>
+              </div>
+              <span onClick={onClose}>
+                <button className="close-button">
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </span>
+            </span>
+          </Modal.Header>
+
+          <form onSubmit={formik.handleSubmit}>
+            <Card.Body>
+              {hasListing ? (
+                <TableContainer>
+                  <div className="table-container table-responsive">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Competitor</th>
+
+                          {data?.head_array?.map((header, columnIndex) => (
+                            <th key={columnIndex}>{header}</th>
+                          ))}
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {formik.values.listing.map(
+                          (competitor, competitorIndex) => (
+                            <tr key={competitor.id} className="middayModal-tr">
+                              <td className="middayModal-td text-muted fs-15 fw-semibold">
+                                {competitor.competitor_name}
+                              </td>
+
+                              {competitor.fuels.map((fuel, fuelIndex) => (
+                                <td key={fuel.id} className="middayModal-td">
+                                  {!fuel.is_editable ? (
+                                    <input
+                                      className={`table-input readonly`}
+                                      readOnly
+                                      type="number"
+                                      step="0.010"
+                                      name={`listing[${competitorIndex}].fuels[${fuelIndex}].price`}
+                                      value={
+                                        formik.values.listing[competitorIndex]
+                                          .fuels[fuelIndex].price
+                                      }
+                                      onChange={formik.handleChange}
+                                    />
+                                  ) : (
+                                    <span>{fuel.price}</span>
+                                  )}
+                                </td>
+                              ))}
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </TableContainer>
+              ) : (
+                <p>No Data...........</p>
+              )}
+
+              {userPermissions?.includes("fuel-suggestion-create") && data ? (
+                <CompetitorfuelpricesUpdate
+                  data={data}
+                  postData={postData}
+                  handleFormSubmit={handleFormSubmit}
+                  accordionSiteID={accordionSiteID}
+                />
+              ) : (
+                <div></div> // Optionally provide a fallback UI
+              )}
+            </Card.Body>
+          </form>
+        </div>
+      </Modal>
+
+      {/* <Dialog
         open={open}
         onClose={onClose}
         aria-labelledby="responsive-dialog-title"
@@ -193,7 +294,6 @@ const Competitormodal = ({
         </span>
 
         <DialogContent>
-          {isLoading ? <Loaderimg /> : null}
           {hasListing ? (
             <TableContainer>
               <div className="table-container table-responsive">
@@ -220,7 +320,8 @@ const Competitormodal = ({
                             <td key={fuel.id} className="middayModal-td">
                               {!fuel.is_editable ? (
                                 <input
-                                  className={`table-input`}
+                                  className={`table-input readonly`}
+                                  readOnly
                                   type="number"
                                   step="0.010"
                                   name={`listing[${competitorIndex}].fuels[${fuelIndex}].price`}
@@ -246,46 +347,20 @@ const Competitormodal = ({
             <p>No Data...........</p>
           )}
         </DialogContent>
-        <Card.Footer>
-          <div className="text-end notification-class">
-            <button
-              className="btn btn-danger me-2"
-              type="submit"
-              onClick={onClose}
-            >
-              Close
-            </button>
-            {hasListing ? (
-              <button
-                className="btn btn-primary me-2"
-                type="submit"
-                onClick={formik.handleSubmit}
-              >
-                Submit
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-        </Card.Footer>
 
         {userPermissions?.includes("fuel-suggestion-create") && data ? (
-          <>
-            <Card.Body>
-              <CompetitorfuelpricesUpdate
-                data={data}
-                postData={postData}
-                handleFormSubmit={handleFormSubmit}
-                accordionSiteID={accordionSiteID}
-              />
-            </Card.Body>
-          </>
+          <CompetitorfuelpricesUpdate
+            data={data}
+            postData={postData}
+            handleFormSubmit={handleFormSubmit}
+            accordionSiteID={accordionSiteID}
+          />
         ) : (
           <div></div> // Optionally provide a fallback UI
         )}
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };
 
-export default withApi(Competitormodal);
+export default withApi(FuelPricesSuggestionModal);
