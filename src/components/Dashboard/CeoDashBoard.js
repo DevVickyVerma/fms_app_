@@ -7,9 +7,9 @@ import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import { Baroptions, stockAgingDetails } from "../../Utils/commonFunctions/CommonData";
+import { Baroptions, DummygetSiteStats, stockAgingDetails, Tankcolors } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -24,6 +24,7 @@ import ReportTable from "./ReportTable";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
+import DashSubChildTankAnalysis from "./DashboardSubChild/DashSubChildTankAnalysis";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -98,7 +99,7 @@ const CeoDashBoard = (props) => {
       setPermissionsArray(ReduxFullData?.permissions);
     }
     // navigate(ReduxFullData?.route);
-    console.clear();
+    // console.clear();;
   }, [ReduxFullData, permissionsArray]);
 
 
@@ -410,7 +411,7 @@ const CeoDashBoard = (props) => {
 
       // Check if the response is OK
       if (!response.ok) {
-        console.clear()
+        // console.clear();
         // Await the response body parsing first to get the actual JSON data
         const errorData = await response.json();
         // alert(errorData?.message)
@@ -677,7 +678,56 @@ const CeoDashBoard = (props) => {
 
 
 
-
+        <Row className="my-4 l-sign">
+          <Col lg={12} md={12}>
+            <>
+              <Card>
+                <Card.Header className="card-header">
+                  <div className="Tank-Details d-flex">
+                    <h4 className="card-title">Tank Analysis</h4>
+                    <div className="Tank-Details-icon">
+                      <OverlayTrigger
+                        placement="right"
+                        className="Tank-Detailss"
+                        overlay={
+                          <Tooltip style={{ width: "200px" }}>
+                            <div>
+                              {Tankcolors?.map((color, index) => (
+                                <div key={index} className=" d-flex align-items-center py-1 px-3 text-white" >
+                                  <div
+                                    style={{
+                                      width: "20px", // Set the width for the color circle
+                                      height: "20px",
+                                      borderRadius: "50%",
+                                      backgroundColor: color?.color,
+                                    }}
+                                  ></div>
+                                  <span className=" text-white ms-2">{color?.name}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          alt=""
+                          src={require("../../assets/images/dashboard/dashboardTankImage.png")}
+                        />
+                      </OverlayTrigger>
+                    </div>
+                  </div>
+                </Card.Header>
+                <Card.Body className="card-body p-0 m-0">
+                  <div id="chart">
+                    <DashSubChildTankAnalysis
+                      getSiteStats={DummygetSiteStats}
+                    />
+                  </div>
+                </Card.Body>
+              </Card>
+            </>
+          </Col>
+        </Row>
 
 
 
