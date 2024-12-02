@@ -42,14 +42,14 @@ const CeoDashBoard = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
-  const [Mopstatsloading, setMopstatsloading] = useState(true);
-  const [Salesstatsloading, setSalesstatsloading] = useState(true);
-  const [Stockstatsloading, setStockstatsloading] = useState(true);
-  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(true);
-  const [Itemstockstatsloading, setItemstockstatsloading] = useState(true);
-  const [PriceLogsloading, setPriceLogssloading] = useState(true);
-  const [getSiteStatsloading, setGetSiteStatsloading] = useState(true);
-  const [ShowAlert, setShowAlert] = useState(false);
+  const [Mopstatsloading, setMopstatsloading] = useState(false);
+  const [Salesstatsloading, setSalesstatsloading] = useState(false);
+  const [Stockstatsloading, setStockstatsloading] = useState(false);
+  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(false);
+  const [Itemstockstatsloading, setItemstockstatsloading] = useState(false);
+  const [PriceLogsloading, setPriceLogssloading] = useState(false);
+  const [getSiteStatsloading, setGetSiteStatsloading] = useState(false);
+
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
@@ -63,24 +63,15 @@ const CeoDashBoard = (props) => {
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const [applyFilterOvell, setapplyFilterOvell] = useState(false);
   // Define the validation schema
-  const getCeoDashBoardFilterValidation = (applyFilterOvell) =>
-    Yup.object({
-      client_id: Yup.string().required("Client is required"),
-      company_id: Yup.string().required("Company is required"),
-      site_id: applyFilterOvell
-        ? Yup.string().required("Site is required") // Required if `applyFilterOvell` is false
-        : Yup.string(), // Optional if `applyFilterOvell` is true
-    });
+
 
 
   // StockDetails function to handle the site_id check
   const StockDeatils = () => {
-    if (!filters?.site_id) {
-      console.log(filters?.site_id, "filters?.site_id");
-      setapplyFilterOvell(false);
-    }
-    setShowAlert(true)
+
+    const AlertShow = "true"
     setCenterFilterModalOpen(true);
+
   };
 
   const formik = useFormik({
@@ -117,10 +108,25 @@ const CeoDashBoard = (props) => {
 
   var [isClientRole] = useState(localStorage.getItem("superiorRole") == "Client");
 
+  const applyFilterOvells = "false"
+  const getCeoDashBoardFilterValidation = (applyFilterOvells) =>
+    Yup.object({
+      client_id: Yup.string().required("Client is required"),
+      company_id: Yup.string().required("Company is required"),
+      site_id: applyFilterOvells
+        ? Yup.string().required("Site is required") // Required if `applyFilterOvell` is false
+        : Yup.string(), // Optional if `applyFilterOvell` is true
+    });
+
+  const handleApplyFilters = async (values, showAletr, isStockDetails) => {
+    // if (showAletr) {
+    //   console.log(isStockDetails, "isStockDetails");
+    //   setCenterFilterModalOpen(true);
+    //   console.log(showAletr, "showAlert");
+    // }
 
 
 
-  const handleApplyFilters = async (values) => {
     try {
       // Check if 'Sites' is missing and user has client role
       if (!values?.sites && isClientRole) {
@@ -157,7 +163,7 @@ const CeoDashBoard = (props) => {
 
   const FetchDashboardStats = async (filters) => {
 
-   
+
 
     const endpoints = [
       {
@@ -701,9 +707,10 @@ const CeoDashBoard = (props) => {
           BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
           Baroptions={Baroptions} // Pass the Baroptions directly
         />
-        {
-
-
+      
+        {getSiteStatsloading ? (
+          <SmallLoader title="Tank Analysis" />
+        ) : getSiteStats?.dates?.length > 0 ? (
           <Row className="my-4 l-sign">
             <Col lg={12} md={12}>
               <Card>
@@ -754,8 +761,11 @@ const CeoDashBoard = (props) => {
             </Col>
           </Row>
 
+        ) : (
+          <NoDataComponent title="Tank Analysis" />
+        )}
 
-        }
+
 
 
 
@@ -954,7 +964,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                   </div></h4>
                   {userPermissions?.includes("report-type-list") ?
                     <span style={{ color: "#4663ac", cursor: "pointer" }} onClick={StockDeatils}>
-                      View All
+                      View Details
                     </span> : ""}
 
                 </Card.Header>
