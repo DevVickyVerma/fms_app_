@@ -157,9 +157,7 @@ const CeoDashBoard = (props) => {
 
   const FetchDashboardStats = async (filters) => {
 
-    if (ShowAlert) {
-      alert("Dashboard")
-    }
+   
 
     const endpoints = [
       {
@@ -332,34 +330,7 @@ const CeoDashBoard = (props) => {
     }
 
   };
-  // const FetchTankData = async () => {
-  //   try {
-  //     setGetSiteStatsloading(true);
-  //     const queryParams = new URLSearchParams();
 
-  //     if (client_id) queryParams.append("client_id", filters?.client_id);
-  //     if (company_id) queryParams.append("company_id", filters?.company_id);
-
-
-  //     if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
-
-  //     const queryString = queryParams.toString();
-  //     const response = await getData(`dashboard/get-site-stats?${queryString}`);
-  //     console.log(response, "response");
-  //     if (response && response.data && response.data.data) {
-
-  //       // Clears the console before logging the new data
-  //       console.log(response?.data?.data, "response?.data?.data");
-  //       setGetSiteStats(response?.data);
-  //     }
-
-  //   } catch (error) {
-  //     // handleError(error);
-  //   } finally {
-  //     setGetSiteStatsloading(false);
-  //   }
-
-  // };
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
     setPriceLogssloading(true)
@@ -404,9 +375,7 @@ const CeoDashBoard = (props) => {
 
   };
 
-  // useEffect(()=>{
-  //   FetchTankData()
-  // },[])
+
 
 
   useEffect(() => {
@@ -516,9 +485,7 @@ const CeoDashBoard = (props) => {
       setpdfisLoading(false)
     }
   };
-  console.group("getSiteStats Group");  // Start a new group
-  console.log(getSiteStats, "getSiteStats");
-  console.groupEnd();  // End the group
+
 
 
   return (
