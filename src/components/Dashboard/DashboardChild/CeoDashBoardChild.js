@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Breadcrumb, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DashboardChildTable from "./DashboardChildTable";
 import Loaderimg from "../../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -150,7 +150,9 @@ const CeoDashBoardChild = (props) => {
 
     }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
 
-
+    const location = useLocation();
+    const { isCeoDashboard } = location.state || {}; // Destructure state and default to an empty object
+    console.log(isCeoDashboard, "isCeoDashboard");
     return (
         <>
             {isLoading ? <Loaderimg /> : null}
@@ -193,7 +195,7 @@ const CeoDashBoardChild = (props) => {
                         <Breadcrumb.Item
                             className="breadcrumb-item"
                             linkAs={Link}
-                            linkProps={{ to: "/dashboard" }}
+                            linkProps={{ to: "/ceodashboard" }}
                         >
                             Dashboard
                         </Breadcrumb.Item>
