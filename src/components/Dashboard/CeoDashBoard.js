@@ -842,10 +842,10 @@ onChange={(e) => handleSiteChange(e.target.value)}
 
             {Shrinkagestatsloading ? (
               <SmallLoader title="Shrinkage" />
-            ) : Shrinkagestats.shrinkage_graph_data ? (
+            ) : Shrinkagestats?.shrinkage_graph_data ? (
               <CeoDashboardBarChart
-                data={Shrinkagestats.shrinkage_graph_data}
-                options={Shrinkagestats.shrinkage_graph_options}
+                data={Shrinkagestats?.shrinkage_graph_data}
+                options={Shrinkagestats?.shrinkage_graph_options}
                 title="Shrinkage"
                 width="300px"
                 height="200px"
