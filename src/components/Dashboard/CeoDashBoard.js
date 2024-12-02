@@ -17,19 +17,19 @@ import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModa
 import { useFormik } from "formik";
 import SmallLoader from "../../Utils/SmallLoader";
 import CeoDashboardCharts from "./CeoDashboardCharts";
-import { Link } from "react-router-dom";
-import { CeoDashBoardFilterValidation } from "../../Utils/commonFunctions/CommonValidation";
+import { Link, useNavigate } from "react-router-dom";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import PriceLogTable from "./PriceLogTable";
 import ReportTable from "./ReportTable";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
-
+import * as Yup from "yup";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
+  const [applyFilterOvell, setapplyFilterOvell] = useState(false);
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
     client_id: "",
@@ -44,16 +44,32 @@ const CeoDashBoard = (props) => {
   const [Salesstatsloading, setSalesstatsloading] = useState(true);
   const [Stockstatsloading, setStockstatsloading] = useState(true);
   const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(true);
+  const [Itemstockstatsloading, setItemstockstatsloading] = useState(true);
   const [PriceLogsloading, setPriceLogssloading] = useState(true);
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
   const [Shrinkagestats, setShrinkagestats] = useState();
+  const [Itemstockstats, setItemstockstats] = useState();
   const [PriceLogs, setPriceLogs] = useState();
 
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+
+  const StockDeatils = () => {
+    setapplyFilterOvell(true);
+    setCenterFilterModalOpen(true);
+  };
+
+  const getCeoDashBoardFilterValidation = (applyFilterOvell) =>
+    Yup.object({
+      client_id: Yup.string().required("Client is required"),
+      company_id: Yup.string().required("Company is required"),
+      site_id: !applyFilterOvell
+        ? Yup.string() // Optional if `applyFilterOvell` is true
+        : Yup.string().required("Site is required"), // Required if `applyFilterOvell` is false
+    });
   const formik = useFormik({
     initialValues: {
       selectedSite: '',
@@ -92,6 +108,9 @@ const CeoDashBoard = (props) => {
 
 
   const handleApplyFilters = async (values) => {
+
+
+
     try {
       // Check if 'Sites' is missing and user has client role
       if (!values?.sites && isClientRole) {
@@ -116,6 +135,7 @@ const CeoDashBoard = (props) => {
 
       // Fetch dashboard stats if the user has the required permission
       if (permissionsArray?.includes("dashboard-view")) {
+        // console.log(storedKeyName, "storedKeyName");
         FetchDashboardStats(values);
       }
     } catch (error) {
@@ -124,6 +144,11 @@ const CeoDashBoard = (props) => {
   };
 
   const FetchDashboardStats = async (filters) => {
+
+    if (applyFilterOvell && filters?.site_id) {
+      alert("Dashboard")
+    }
+
     const endpoints = [
       {
         name: "dashboard",
@@ -157,6 +182,12 @@ const CeoDashBoard = (props) => {
         url: "ceo-dashboard/shrinkage-stats",
         setData: setShrinkagestats,
         setLoading: setShrinkagestatsloading,
+      },
+      {
+        name: "itemstock",
+        url: "ceo-dashboard/department-item-stocks",
+        setData: setItemstockstats,
+        setLoading: setItemstockstatsloading,
       },
     ];
 
@@ -320,6 +351,7 @@ const CeoDashBoard = (props) => {
 
   };
 
+
   useEffect(() => {
     if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
       FetchPriceLogs();
@@ -427,6 +459,7 @@ const CeoDashBoard = (props) => {
     }
   };
 
+
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -440,7 +473,7 @@ const CeoDashBoard = (props) => {
             isLoading={isLoading}
             isStatic={true}
             onApplyFilters={handleApplyFilters}
-            validationSchema={CeoDashBoardFilterValidation}
+            validationSchema={getCeoDashBoardFilterValidation}
             storedKeyName={storedKeyName}
             layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
             showStationValidation={false}
@@ -648,129 +681,129 @@ const CeoDashBoard = (props) => {
 
 
 
-<Card className="h-100 mt-4">
+        <Card className="h-100 mt-4">
 
 
-<Card.Header className="flexspacebetween">
-  <h4 className="card-title"> Selling Price Logs/Reports   </h4>
-  <div className="flexspacebetween">
-    {filters?.sites ? <div>
-      <select
-        id="selectedSite"
-        name="selectedSite"
-        value={formik.values.selectedSite}
-        onChange={(e) => handleSiteChange(e.target.value)}
-        className="selectedMonth"
-      >
-        <option value="">--Select a Site--</option>
-        {filters?.sites?.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.site_name}
-          </option>
-        ))}
-      </select>
-      {/* <FormikSelect
+          <Card.Header className="flexspacebetween">
+            <h4 className="card-title"> Selling Price Logs/Reports   </h4>
+            <div className="flexspacebetween">
+              {filters?.sites ? <div>
+                <select
+                  id="selectedSite"
+                  name="selectedSite"
+                  value={formik.values.selectedSite}
+                  onChange={(e) => handleSiteChange(e.target.value)}
+                  className="selectedMonth"
+                >
+                  <option value="">--Select a Site--</option>
+                  {filters?.sites?.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.site_name}
+                    </option>
+                  ))}
+                </select>
+                {/* <FormikSelect
 formik={formik}
 name="selectedSite"
 options={filters?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
 className="selectedMonth"
 onChange={(e) => handleSiteChange(e.target.value)}
 /> */}
-    </div> : ""}
+              </div> : ""}
 
-    <div>
-      {filters?.reportmonths ? <Col lg={6} style={{ marginRight: "0px" }}>
-        <select
-          id="selectedMonth"
-          name="selectedMonth"
-          value={formik.values.selectedMonth}
-          onChange={(e) => handleMonthChange(e.target.value)}
-          className="selectedMonth"
-        >
-          <option value="">--Select a Month--</option>
-          {filters?.reportmonths?.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.display}
-            </option>
-          ))}
-        </select>
-      </Col> : ""}
-
-
-    </div>
-  </div>
-</Card.Header>
-
-</Card>
-<Row className="d-flex align-items-stretch mt-5 ">
- <Col sm={12} md={8} key={Math.random()}>
-    <Card className="h-100" >
-      <Card.Header className="p-4">
-        <div className="spacebetween" style={{ width: "100%" }}>
-          <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
-            <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
-          </h4>
-          {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
-            View All
-          </Link></span> : ""}
-        </div>
-      </Card.Header>
-      <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
-        {PriceLogsloading ? (
-          <SmallLoader />
-        ) : PriceLogs?.priceLogs?.length > 0 ? (
-          <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
-        ) : (
-          <img
-            src={require("../../assets/images/commonimages/no_data.png")}
-            alt="No data available"
-            className="all-center-flex smallNoDataimg"
-          />
-        )}
+              <div>
+                {filters?.reportmonths ? <Col lg={6} style={{ marginRight: "0px" }}>
+                  <select
+                    id="selectedMonth"
+                    name="selectedMonth"
+                    value={formik.values.selectedMonth}
+                    onChange={(e) => handleMonthChange(e.target.value)}
+                    className="selectedMonth"
+                  >
+                    <option value="">--Select a Month--</option>
+                    {filters?.reportmonths?.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.display}
+                      </option>
+                    ))}
+                  </select>
+                </Col> : ""}
 
 
+              </div>
+            </div>
+          </Card.Header>
+
+        </Card>
+        <Row className="d-flex align-items-stretch mt-5 ">
+          <Col sm={12} md={8} key={Math.random()}>
+            <Card className="h-100" >
+              <Card.Header className="p-4">
+                <div className="spacebetween" style={{ width: "100%" }}>
+                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
+                    <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+                  </h4>
+                  {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
+                    View All
+                  </Link></span> : ""}
+                </div>
+              </Card.Header>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
+                {PriceLogsloading ? (
+                  <SmallLoader />
+                ) : PriceLogs?.priceLogs?.length > 0 ? (
+                  <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
+                ) : (
+                  <img
+                    src={require("../../assets/images/commonimages/no_data.png")}
+                    alt="No data available"
+                    className="all-center-flex smallNoDataimg"
+                  />
+                )}
 
 
 
 
-      </Card.Body>
-    </Card>
+
+
+              </Card.Body>
+            </Card>
 
 
 
-  </Col> 
-  <Col sm={12} md={4} key={Math.random()}>
-    <Card className="h-100" >
-      <Card.Header className="p-4 w-100 flexspacebetween">
-        <h4 className="card-title"> <div className="lableWithsmall">
-          Reports({formik.values?.selectedSiteDetails?.site_name})
-          <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
-        </div></h4>
+          </Col>
+          <Col sm={12} md={4} key={Math.random()}>
+            <Card className="h-100" >
+              <Card.Header className="p-4 w-100 flexspacebetween">
+                <h4 className="card-title"> <div className="lableWithsmall">
+                  Reports({formik.values?.selectedSiteDetails?.site_name})
+                  <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+                </div></h4>
 
-        {userPermissions?.includes("report-type-list") ?
-          <span><Link to="/reports">
-            View All
-          </Link></span> : ""}
+                {userPermissions?.includes("report-type-list") ?
+                  <span><Link to="/reports">
+                    View All
+                  </Link></span> : ""}
 
-      </Card.Header>
-      <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
-        <div >
-          {PriceLogsloading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} pdfisLoading={pdfisLoading} handleDownload={handleDownload} />) : (
-            <img
-              src={require("../../assets/images/commonimages/no_data.png")}
-              alt="MyChartImage"
-              className=" all-center-flex  smallNoDataimg "
-            />
-          )}</>}
+              </Card.Header>
+              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
+                <div >
+                  {PriceLogsloading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} pdfisLoading={pdfisLoading} handleDownload={handleDownload} />) : (
+                    <img
+                      src={require("../../assets/images/commonimages/no_data.png")}
+                      alt="MyChartImage"
+                      className=" all-center-flex  smallNoDataimg "
+                    />
+                  )}</>}
 
-        </div>
+                </div>
 
-      </Card.Body>
-    </Card>
-  </Col> 
+              </Card.Body>
+            </Card>
+          </Col>
 
 
-</Row>
+        </Row>
 
 
 
@@ -829,52 +862,56 @@ onChange={(e) => handleSiteChange(e.target.value)}
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
 
 
-            {Shrinkagestatsloading ? (
+            {Itemstockstatsloading ? (
               <SmallLoader title="Stock Details" />
-            ) : Shrinkagestats.shrinkage_graph_data ? (
+            ) : Itemstockstats?.length > 0 ? (
               <Card className="h-100">
-                <Card.Header className="p-4">
-                  <h4 className="card-title"> Stock Details </h4>
-                </Card.Header>
-                <Card.Body >
-                  <div style={{ width: "400px", height: "200px" }}>
-                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Stock</th>
-                          <th>Quantity</th>
-                          <th>Aging</th>
+                <Card.Header className="p-4 w-100 flexspacebetween">
+                  <h4 className="card-title" > <div className="lableWithsmall">
+                    Stock Details
 
+                  </div></h4>
+                  {userPermissions?.includes("report-type-list") ?
+                    <span style={{ color: "#4663ac", cursor: "pointer" }} onClick={StockDeatils}>
+                      View All
+                    </span> : ""}
+
+                </Card.Header>
+                <Card.Body style={{ maxHeight: "350px" }}>
+                  <div style={{ maxHeight: "300px", overflowY: "auto", }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                      <thead style={{ position: "sticky", top: 0, backgroundColor: "#fff", zIndex: 1 }}>
+                        <tr>
+                          <th style={{ textAlign: "left", padding: "8px", }}>Name</th>
+                          <th style={{ textAlign: "left", padding: "8px", }}>Gross Sales</th>
+                          <th style={{ textAlign: "left", padding: "8px", }}>Nett Sales</th>
+                          <th style={{ textAlign: "left", padding: "8px", }}>Profit</th>
+                          <th style={{ textAlign: "left", padding: "8px", }}>Total Transactions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {stockAgingDetails.map((stock) => (
-                          <tr key={stock.id}>
-                            <td>{stock.id}</td>
-                            <td>{stock.itemName}</td>
-                            <td>{stock.quantity}</td>
-                            <td>{stock.stockAge}</td>
+                        {Itemstockstats?.map((stock) => (
+                          <tr key={stock?.id}>
+                            <td style={{ padding: "8px", }}>{stock?.name}</td>
+                            <td style={{ padding: "8px", }}>{stock?.gross_sales}</td>
+                            <td style={{ padding: "8px", }}>{stock?.nett_sales}</td>
+                            <td style={{ padding: "8px", }}>{stock?.profit}</td>
+                            <td style={{ padding: "8px", }}>{stock?.total_transactions}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
                 </Card.Body>
+
+
               </Card>
             ) : (
-              <div  className="h-100" >
-              <NoDataComponent title="Stock Details" />
+              <div className="h-100" >
+                <NoDataComponent title="Stock Details" />
               </div>
-       
-            )}
 
-
-
-
-
-
-          </Col>
+            )}</Col>
 
         </Row>
 
