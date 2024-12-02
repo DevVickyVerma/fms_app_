@@ -45,7 +45,6 @@ span.text-danger.danger-title {
   height: 107px;
 }
 
-
 h3.SidebarSearch-title {
   font-size: 20px;
   max-width: 90%;
@@ -91,10 +90,6 @@ h3.SidebarSearch-title {
   text-align: center;
 }
 
-
-
-
-
 .readonly {
   background-color: #dddddd !important;
   cursor: default;
@@ -107,7 +102,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions>.data-table-extensions-filter>.filter-text {
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
   margin-left: -11px !important;
@@ -314,7 +309,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
-
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -481,7 +475,6 @@ tbody tr {
   width: 34px;
 }
 
-
 .Dashboard-card {
   height: 126px !important;
 }
@@ -517,7 +510,7 @@ tbody tr {
   border-radius: 50%;
 }
 
-.d-flex.chart-items>div:first-child {
+.d-flex.chart-items > div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -658,7 +651,6 @@ span.fairbank-title {
 .fuel-site-name:hover {
   color: #7500ca !important;
 }
-
 
 .fuel-price-time-td {
   min-width: 120px !important;
@@ -818,8 +810,11 @@ span.ModalTitle-2fa {
   font-size: 0.9375rem;
   line-height: 1.84615385;
   border-radius: 5px;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   width: 100px;
   height: 100%;
   cursor: pointer;
@@ -842,8 +837,11 @@ span.ModalTitle-2fa {
   font-size: 19px;
   line-height: 1.84615385;
   border-radius: 5px;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -933,23 +931,37 @@ span.ModalTitle-2fa {
   animation: animloader 1s linear infinite alternate;
 }
 
-
-
 @keyframes animloader {
   0% {
-    box-shadow: -38px -12px, -14px 0, 14px 0, 38px 0;
+    box-shadow:
+      -38px -12px,
+      -14px 0,
+      14px 0,
+      38px 0;
   }
 
   33% {
-    box-shadow: -38px 0px, -14px -12px, 14px 0, 38px 0;
+    box-shadow:
+      -38px 0px,
+      -14px -12px,
+      14px 0,
+      38px 0;
   }
 
   66% {
-    box-shadow: -38px 0px, -14px 0, 14px -12px, 38px 0;
+    box-shadow:
+      -38px 0px,
+      -14px 0,
+      14px -12px,
+      38px 0;
   }
 
   100% {
-    box-shadow: -38px 0, -14px 0, 14px 0, 38px -12px;
+    box-shadow:
+      -38px 0,
+      -14px 0,
+      14px 0,
+      38px -12px;
   }
 }
 
@@ -1194,7 +1206,8 @@ span.uk-date-time {
 }
 
 .header-time-section {
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+  box-shadow:
+    rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   background-color: white;
   border-radius: 4px;
@@ -1265,8 +1278,6 @@ span.circle-info {
   border: 1px solid #bdc3c7;
   box-shadow: 1px 1px #e3e3e3;
 }
-
-
 
 .pay-role-custom-input-box {
   border-radius: 1px dotted #cb2323 !important;
@@ -1518,7 +1529,7 @@ span.text-error {
 }
 
 .btn-sm,
-.btn-group-sm>.btn {
+.btn-group-sm > .btn {
   font-size: 14px;
 }
 
@@ -1530,11 +1541,10 @@ span.text-error {
   color: var(--primary-text-color);
 }
 
-
 .boxtitle {
   font-size: 14px;
   margin-top: 4px;
-  text-transform: capitalize
+  text-transform: capitalize;
 }
 
 .c-login-img {
@@ -1593,7 +1603,7 @@ span.text-error {
   overflow: auto;
 }
 
-.custom-matiral-modal>div>div {
+.custom-matiral-modal > div > div {
   border-radius: 0px !important;
 }
 
@@ -1601,12 +1611,23 @@ span.text-error {
   font-size: 19px;
 }
 
-.future-price-log-table>.sc-dmRaPn>.sc-fLlhyt>.rdt_Table>.rdt_TableBody>.rdt_TableRow>.sc-hKMtZM {
+.future-price-log-table
+  > .sc-dmRaPn
+  > .sc-fLlhyt
+  > .rdt_Table
+  > .rdt_TableBody
+  > .rdt_TableRow
+  > .sc-hKMtZM {
   margin: 0px;
   padding: 0px;
 }
 
-.future-price-log-table>.sc-dmRaPn>.sc-fLlhyt>.rdt_Table>.rdt_TableBody>.rdt_TableRow {
+.future-price-log-table
+  > .sc-dmRaPn
+  > .sc-fLlhyt
+  > .rdt_Table
+  > .rdt_TableBody
+  > .rdt_TableRow {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 }
@@ -1689,7 +1710,7 @@ span.text-error {
   }
 
   .btn-sm,
-  .btn-group-sm>.btn {
+  .btn-group-sm > .btn {
     font-size: 10px;
   }
 
@@ -1727,7 +1748,6 @@ span.text-error {
   inset: 0px 0px auto auto;
   transform: translate(-130px, 19px);
 }
-
 
 .dropdown-menu {
   overflow: hidden;
@@ -1849,10 +1869,10 @@ span.text-error {
   height: 43px;
 }
 
-.matrix-multi>.dropdown-container {
+.matrix-multi > .dropdown-container {
   height: 43px;
   border-radius: 0px !important;
-  border: 1px solid #d4d4d4
+  border: 1px solid #d4d4d4;
 }
 
 .rmsc .dropdown-container:focus-within {
@@ -1874,7 +1894,7 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .default-pointer {
-  cursor: default
+  cursor: default;
 }
 
 .site-setting-table .rdt_TableBody {
@@ -1907,7 +1927,6 @@ td.middayModal-td.time-input-fuel-sell {
   text-transform: uppercase !important;
 }
 
-
 .rmsc .dropdown-heading {
   height: 46px !important;
 }
@@ -1924,9 +1943,8 @@ td.middayModal-td.time-input-fuel-sell {
   height: 60px;
   width: 60px;
   border-radius: 10px;
-  background-color: #d63031
+  background-color: #d63031;
 }
-
 
 .dash-sub-child-header-content {
   height: 27px;
@@ -1998,7 +2016,7 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .slide-in-fwd-center {
-  animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: slide-in-fwd-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @keyframes slide-in-fwd-center {
@@ -2013,9 +2031,8 @@ td.middayModal-td.time-input-fuel-sell {
   }
 }
 
-
 .scale-up-ver-top {
-  animation: scale-up-ver-top 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  animation: scale-up-ver-top 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
 @keyframes scale-up-ver-top {
@@ -2031,9 +2048,8 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .tracking-in-contract {
-  animation: tracking-in-contract 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  animation: tracking-in-contract 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) both;
 }
-
 
 @keyframes tracking-in-contract {
   0% {
@@ -2051,9 +2067,8 @@ td.middayModal-td.time-input-fuel-sell {
   }
 }
 
-
 .rotate-in-ver {
-  animation: rotate-in-ver 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: rotate-in-ver 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @keyframes rotate-in-ver {
@@ -2069,7 +2084,8 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .tracking-out-contract {
-  animation: tracking-out-contract 0.7s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: tracking-out-contract 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53)
+    both;
 }
 
 @keyframes tracking-out-contract {
@@ -2088,7 +2104,8 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .scale-out-horizontal {
-  animation: scale-out-horizontal 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: scale-out-horizontal 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)
+    both;
 }
 
 @keyframes scale-out-horizontal {
@@ -2102,7 +2119,6 @@ td.middayModal-td.time-input-fuel-sell {
     opacity: 1;
   }
 }
-
 
 .slide .angle {
   transition: transform 300ms ease;
@@ -2128,7 +2144,6 @@ td.middayModal-td.time-input-fuel-sell {
 .height-25 {
   height: calc(100% - 25px);
 }
-
 
 .head-alert-show {
   text-align: left;
@@ -2192,6 +2207,7 @@ td.middayModal-td.time-input-fuel-sell {
 
 .ph {
   position: relative;
+  font-size: 18px;
 }
 
 .c-top-3 {
@@ -2201,7 +2217,6 @@ td.middayModal-td.time-input-fuel-sell {
 .cursor-grab {
   cursor: grab;
 }
-
 
 .sortable-chosen {
   background-color: #eaedf1;

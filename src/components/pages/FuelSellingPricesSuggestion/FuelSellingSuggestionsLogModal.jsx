@@ -160,7 +160,7 @@ const FuelSellingSuggestionsLogModal = ({
     // onDataFromChild(dataToSend);
   };
 
-  console.log(data, "dataaa");
+  console.log(selectedItem, "selectedItem");
 
   // Dummy data for approval timeline
   const approvalTimelineData = [
@@ -213,6 +213,7 @@ const FuelSellingSuggestionsLogModal = ({
 
   return (
     <>
+      {isLoading ? <Loaderimg /> : null}
       <Modal
         show={open}
         onHide={onClose}
@@ -228,7 +229,7 @@ const FuelSellingSuggestionsLogModal = ({
             className="p-0 m-0 d-flex justify-content-between align-items-center"
           >
             <span className="ModalTitle d-flex justify-content-between w-100  fw-normal">
-              <span> Dynamic TimeLine</span>
+              <span> {selectedItem?.site_name} Logs</span>
               <span onClick={onClose}>
                 <button className="close-button">
                   <FontAwesomeIcon icon={faTimes} />

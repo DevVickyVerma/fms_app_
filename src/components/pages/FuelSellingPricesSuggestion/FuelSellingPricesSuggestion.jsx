@@ -177,8 +177,9 @@ const FuelSellingPricesSuggestion = (props) => {
       handleSubmit1(values);
     }
   };
-  const handleModalLogs = (values) => {
+  const handleModalLogs = (site) => {
     setLogsModal(true);
+    setSelectedItem(site);
   };
 
   const handleClearForm = async (resetForm) => {
@@ -283,8 +284,12 @@ const FuelSellingPricesSuggestion = (props) => {
                                     <div>{site?.site_name}</div>
                                     <div
                                       className=" fw-bolder"
-                                      onClick={() => handleModalLogs()}
+                                      onClick={(e) => {
+                                        e.stopPropagation(); // Prevent the parent click from triggering
+                                        handleModalLogs(site); // Call the logs modal handler
+                                      }}
                                     >
+                                      <i className="ph ph-table c-top-3 me-1"></i>
                                       Logs
                                     </div>
                                   </div>
