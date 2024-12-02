@@ -52,7 +52,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
 
 
         if (parsedData?.company_id && parsedData?.client_id) {
-          navigate(`/dashboard-details`);
+          navigate(`/ceodashboard-details`);
         } else {
           callStatsBoxParentFunc()
         }

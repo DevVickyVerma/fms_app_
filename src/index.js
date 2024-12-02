@@ -20,6 +20,7 @@ import ManageBank from "./components/pages/ManageBank/ManageBank";
 import AddBank from "./components/pages/ManageBank/AddBank";
 import EditBank from "./components/pages/ManageBank/EditBank";
 import DashBoardChild from "./components/Dashboard/DashboardChild/DashBoardChild";
+import CeoDashBoardChild from "./components/Dashboard/DashboardChild/CeoDashBoardChild";
 import DashSubChild from "./components/Dashboard/DashboardSubChild/DashSubChild";
 import DashSubChildBaseAPIS from "./components/Dashboard/DashboardSubChild/DashSubChildBaseAPIS";
 import CronModule from "./components/pages/CronModule/CronModule";
@@ -698,6 +699,7 @@ const Root = () => {
   const WrappedDailyFacilityFees = withApi(DailyFacilityFees);
   const WrappedSubwayFacilityFees = withApi(SubwayFacilityFees);
   const WrappedDashBoardChild = withApi(DashBoardChild);
+  const WrappedCeoDashBoardChild = withApi(CeoDashBoardChild);
   const WrappedDashBoardSubChild = withApi(DashSubChild);
   const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
   const WrappedEmaillogs = withApi(Emaillogs);
@@ -1329,6 +1331,10 @@ const Root = () => {
                     <Route
                       path={`/dashboard-details`}
                       element={<WrappedDashBoardChild />}
+                    />
+                    <Route
+                      path={`/ceodashboard-details`}
+                      element={<WrappedCeoDashBoardChild />}
                     />
                     <Route
                       path={`/dashboardSubChild`}
