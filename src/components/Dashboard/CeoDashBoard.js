@@ -302,7 +302,7 @@ const CeoDashBoard = (props) => {
     }
   };
 
-  const FetchPriceLogs = async (filters) => {
+  const FetchPriceLogs = async () => {
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
