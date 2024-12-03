@@ -896,7 +896,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                   <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
                     {/* <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span> */}
                   </h4>
-                  {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
+                  {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-selling-price-logs/">
                     View All
                   </Link></span> : ""}
                 </div>
