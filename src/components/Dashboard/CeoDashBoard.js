@@ -314,7 +314,6 @@ const CeoDashBoard = (props) => {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
       if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
-      if (formik?.values?.selectedMonth) queryParams.append("drs_date", `01-${formik?.values?.selectedMonthDetails?.value}`);
 
       const queryString = queryParams.toString();
       const response = await getData(`ceo-dashboard/selling-price?${queryString}`);
@@ -746,7 +745,7 @@ const CeoDashBoard = (props) => {
             title="Total Day Wise Sales"
             chartType="full"
             chartData={dashboardData?.d_line_graph}
-            noChartImage="../../assets/images/no-chart-img.png"
+            CeoDashBoard={true}
             noChartMessage=""
           >
             <DashboardMultiLineChart
@@ -1001,7 +1000,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
               </Card>
 
             ) : (
-              <NoDataGraph title="Stocks" />
+              <NoDataComponent title="Stocks" />
             )}
 
 
@@ -1018,7 +1017,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                 height="200px"
               />
             ) : (
-              <NoDataGraph title="Shrinkage" />
+              <NoDataComponent title="Shrinkage" />
             )}
 
 

@@ -14,7 +14,7 @@ const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions 
         }
     
         if (!data || data.length === 0) {
-            return  <NoDataGraph title={title} />; // Display a message or fallback when data is empty
+            return  <NoDataComponent title={title} />; // Display a message or fallback when data is empty
         }
     
         return <CeoDashboardBarChart data={data} options={Baroptions} title={title} />;

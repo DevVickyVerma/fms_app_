@@ -6,6 +6,7 @@ const ChartCard = ({
     chartType,
     chartData,
     noChartMessage,
+    CeoDashBoard,
     children
 }) => (
     <Col lg={chartType === 'full' ? 12 : (chartType === 'stats' ? 4 : 8)}>
@@ -20,9 +21,16 @@ const ChartCard = ({
                     ) : (
                         <>
                             <img
-                                src={require("../../assets/images/no-chart-img.png")}
+
+                                src={
+                                    CeoDashBoard
+                                        ? require("../../assets/images/commonimages/no_data.png")
+                                        : require("../../assets/images/no-chart-img.png")
+                                }
                                 alt="MyChartImage"
-                                className="all-center-flex disable-chart"
+                                className={`all-center-flex ${CeoDashBoard ? "smallNoDataimg" : "disable-chart"
+                                    }`}
+                            // className="all-center-flex smallNoDataimg"
                             />
                             <p
                                 style={{
