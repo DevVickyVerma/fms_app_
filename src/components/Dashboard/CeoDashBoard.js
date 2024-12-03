@@ -6,7 +6,7 @@ import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
-import { currentMonth, handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
 import { Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
@@ -99,7 +99,7 @@ const CeoDashBoard = (props) => {
 
   var [isClientRole] = useState(localStorage.getItem("superiorRole") == "Client");
 
-  const getCeoDashBoardFilterValidation = (applyFilterOvells) =>
+  const getCeoDashBoardFilterValidation = () =>
     Yup.object({
       client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
@@ -109,9 +109,7 @@ const CeoDashBoard = (props) => {
     });
 
 
-  const handleApplyFilters = async (values, showAletr) => {
-
-
+  const handleApplyFilters = async (values) => {
     try {
       // Check if 'Sites' is missing and user has client role
       if (!values?.sites && isClientRole) {
@@ -143,13 +141,6 @@ const CeoDashBoard = (props) => {
     } catch (error) {
       handleError(error); // Handle errors from API or other logic
     }
-
-
-
-
-
-
-
   };
 
   const FetchDashboardStats = async (filters) => {
@@ -326,7 +317,7 @@ const CeoDashBoard = (props) => {
 
   };
 
-  const FetchTankDetails = async (filters) => {
+  const FetchTankDetails = async () => {
     try {
       setGetSiteStatsloading(true);
       const queryParams = new URLSearchParams();
@@ -383,12 +374,7 @@ const CeoDashBoard = (props) => {
     formik.setFieldValue("selectedMonth", selectedId,)
     formik.setFieldValue("selectedMonthDetails", selectedItem,)
   };
-  const handleSiteChange = (selectedId) => {
-    const selectedItem = filters?.sites.find((item) => item.id == (selectedId));
-    formik.setFieldValue("selectedSite", selectedId,)
-    formik.setFieldValue("selectedSiteDetails", selectedItem,)
 
-  };
 
 
 
@@ -463,12 +449,7 @@ const CeoDashBoard = (props) => {
           // 
           // Await the response body parsing first to get the actual JSON data
           const errorData = await response.json();
-          // alert(errorData?.message)
-          // Log the actual parsed error data
-          // handleError(errorData)
           ErrorToast(errorData?.message)
-
-          // Throw an error with the message
           throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
         }
 
@@ -522,36 +503,65 @@ const CeoDashBoard = (props) => {
     setstockDetailModal(true)
   };
   const navigate = useNavigate()
-  const handleStockApplyFilters = async (values) => {
-    const handleConfirmedAction = async (values) => {
 
-      // Navigate to dashboard-details with the provided state
-      navigate(`/dashboard-details/${values?.site_id}`, {
-        state: { isCeoDashboard: true }, // Pass the key-value pair in the state
-      });
+  // const handleSiteChange = (selectedId) => {
+  //   const selectedItem = filters?.sites.find((item) => item.id == (selectedId));
+  //   formik.setFieldValue("selectedSite", selectedId,)
+  //   formik.setFieldValue("selectedSiteDetails", selectedItem,)
+
+  // };
+  console.log(filters, "filters");
+  const handleSiteChange = async (selectedId) => {
+    const handleConfirmedAction = async (selectedId) => {
+      try {
+        const selectedItem = await filters?.sites.find((item) => item.id === selectedId);
+        filters.site_id = selectedId;
+        filters.site_name = selectedItem?.site_name;
+  
+        console.log(filters, "filters after update");
+        handleApplyFilters(filters)
+     
+      } catch (error) {
+        console.error("Error in handleConfirmedAction:", error);
+      }
     };
-
-    const handleCancelledAction = async (values) => {
-      console.log(values, "columnIndex");
+  
+    const handleCancelledAction = async (selectedId) => {
+      try {
+        const selectedItem = await filters?.sites.find((item) => item.id === selectedId);
+        console.log(selectedItem, "CancelledAction selectedItem");
+  
+        await formik.setFieldValue("selectedSite", selectedId);
+        await formik.setFieldValue("selectedSiteDetails", selectedItem);
+      } catch (error) {
+        console.error("Error in handleCancelledAction:", error);
+      }
     };
-
+  
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'Apply filter to all data or only to this statistic?',
+      title: 'Apply filter to all data or only to this statistic?',
       icon: 'success',
       showCancelButton: true,
-      confirmButtonText: 'Apply',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Apply to All',
+      cancelButtonText: 'Apply to This Only',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log(values, "User clicked Submit");
-        await handleConfirmedAction(values);
+        console.log(selectedId, "User clicked Submit");
+        await handleConfirmedAction(selectedId);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        console.log('User clicked Cancel', values);
-        await handleCancelledAction(values);
+        console.log('User clicked Cancel', selectedId);
+        await handleCancelledAction(selectedId);
       }
     });
   };
+  
+
+
+  const handleStockApplyFilters = (values) => {
+    navigate(`/dashboard-details/${values?.site_id}`, {
+      state: { isCeoDashboard: true }, // Pass the key-value pair in the state
+    });
+  }
 
 
   return (
@@ -962,19 +972,8 @@ onChange={(e) => handleSiteChange(e.target.value)}
                         ))}
                       </select>
                     </Col> : ""}
-
-
-
                   </div>
                 </div>
-
-
-
-
-
-
-
-
               </Card.Header>
               <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
                 <div >
@@ -990,18 +989,10 @@ onChange={(e) => handleSiteChange(e.target.value)}
 
               </Card.Body>
             </Card>
-          </Col>
-
-
-        </Row>
-
-
-
+          </Col></Row>
 
         <Row className="mt-5 d-flex align-items-stretch" >
           <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-
-
             {Stockstatsloading ? (
               <SmallLoader title="Stocks" />
             ) : BarGraphStockStats?.stock_graph_data ? (
@@ -1073,7 +1064,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                           <th style={{ textAlign: "left", padding: "8px", }}>Gross Sales</th>
                           <th style={{ textAlign: "left", padding: "8px", }}>Nett Sales</th>
                           <th style={{ textAlign: "left", padding: "8px", }}>Profit</th>
-                          <th style={{ textAlign: "left", padding: "8px", }}>Total Transactions</th>
+                          {/* <th style={{ textAlign: "left", padding: "8px", }}>Total Transactions</th> */}
                         </tr>
                       </thead>
                       <tbody>
@@ -1083,7 +1074,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                             <td style={{ padding: "8px", }}>{stock?.gross_sales}</td>
                             <td style={{ padding: "8px", }}>{stock?.nett_sales}</td>
                             <td style={{ padding: "8px", }}>{stock?.profit}</td>
-                            <td style={{ padding: "8px", }}>{stock?.total_transactions}</td>
+                            {/* <td style={{ padding: "8px", }}>{stock?.total_transactions}</td> */}
                           </tr>
                         ))}
                       </tbody>
@@ -1101,12 +1092,6 @@ onChange={(e) => handleSiteChange(e.target.value)}
             )}</Col>
 
         </Row>
-
-
-
-
-
-
       </div>
     </>
   );
