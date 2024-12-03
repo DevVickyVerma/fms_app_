@@ -47,6 +47,7 @@ import { NavigationProvider } from "./Utils/NavigationProvider";
 import ManageLevels from "./components/pages/ManageLevels/ManageLevels";
 import ManageAddEditLevel from "./components/pages/ManageLevels/ManageAddEditLevel";
 import FuelSellingPricesSuggestion from "./components/pages/FuelSellingPricesSuggestion/FuelSellingPricesSuggestion";
+import FuelSellingSuggestionLogs from "./components/pages/FuelSellingSuggestionLogs/FuelSellingSuggestionLogs";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -744,6 +745,7 @@ const Root = () => {
   const WrappedManageLevels = withApi(ManageLevels);
   const WrappedManageAddLevel = withApi(ManageAddEditLevel);
   const WrappedFuelSellingPricesSuggestion = withApi(FuelSellingPricesSuggestion);
+  const WrappedFuelSellingSuggestionLogs = withApi(FuelSellingSuggestionLogs);
 
   return (
     <>
@@ -787,6 +789,7 @@ const Root = () => {
                     <Route path={`addusers`} element={<WrappedAddUser />} />
 
                     <Route path={`/competitor`} element={<WrappedCompetitor />} />
+                    <Route path={`/fuel-selling-price-logs`} element={<WrappedFuelSellingSuggestionLogs />} />
                     <Route
                       path={`/addCompetitor`}
                       element={<WrappedAddCompetitor />}

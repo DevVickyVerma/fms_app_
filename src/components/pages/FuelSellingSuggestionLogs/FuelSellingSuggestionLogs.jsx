@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -6,12 +6,10 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { Collapse, Table } from "antd";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-import FuelSellingSuggestionsLogModal from "./FuelSellingSuggestionsLogModal";
-import FuelPricesSuggestionModal from "./FuelPricesSuggestionModal";
 
 const { Panel } = Collapse;
 
-const FuelSellingPricesSuggestion = (props) => {
+const FuelSellingSuggestionLogs = (props) => {
   const { getData, isLoading, postData } = props;
 
   const [selectedItem, setSelectedItem] = useState(null);
@@ -124,12 +122,8 @@ const FuelSellingPricesSuggestion = (props) => {
       ? Yup.string().required("Client is required")
       : Yup.mixed().notRequired(),
     company_id: Yup.string().required("Company is required"),
-    start_date: Yup.date()
-      .required("Start Date is required")
-      .min(
-        new Date("2023-01-01"),
-        "Start Date cannot be before January 1, 2023"
-      ),
+    range_start_date: Yup.date().required("Start Date is required"),
+    range_end_date: Yup.date().required("End Date is required"),
   });
 
   let storedKeyName = "localFilterModalData";
@@ -184,11 +178,118 @@ const FuelSellingPricesSuggestion = (props) => {
     setData(null);
   };
 
+  const dummyData = [
+    {
+      site_name: "Site A",
+      data: [
+        {
+          date: "2024-12-01",
+          time: "08:00 AM",
+          fuels: {
+            Unleaded: "500 L",
+            "Super Unleaded": "600 L",
+            Diesel: "450 L",
+            "Super Diesel": "300 L",
+            Adblue: "100 L",
+            "Manual Fuel": "200 L",
+            Other: "50 L",
+            LPG: "80 L",
+            LRP: "90 L",
+          },
+        },
+        {
+          date: "2024-12-01",
+          time: "09:00 AM",
+          fuels: {
+            Unleaded: "550 L",
+            "Super Unleaded": "620 L",
+            Diesel: "470 L",
+            "Super Diesel": "310 L",
+            Adblue: "110 L",
+            "Manual Fuel": "210 L",
+            Other: "60 L",
+            LPG: "90 L",
+            LRP: "100 L",
+          },
+        },
+        {
+          date: "2024-12-01",
+          time: "10:00 AM",
+          fuels: {
+            Unleaded: "530 L",
+            "Super Unleaded": "610 L",
+            Diesel: "460 L",
+            "Super Diesel": "305 L",
+            Adblue: "105 L",
+            "Manual Fuel": "205 L",
+            Other: "55 L",
+            LPG: "85 L",
+            LRP: "95 L",
+          },
+        },
+      ],
+    },
+    {
+      site_name: "Site B",
+      data: [
+        {
+          date: "2024-12-01",
+          time: "08:00 AM",
+          fuels: {
+            Unleaded: "450 L",
+            "Super Unleaded": "580 L",
+            Diesel: "420 L",
+            "Super Diesel": "280 L",
+            Adblue: "120 L",
+            "Manual Fuel": "190 L",
+            Other: "40 L",
+            LPG: "70 L",
+            LRP: "80 L",
+          },
+        },
+        {
+          date: "2024-12-01",
+          time: "09:00 AM",
+          fuels: {
+            Unleaded: "480 L",
+            "Super Unleaded": "600 L",
+            Diesel: "440 L",
+            "Super Diesel": "290 L",
+            Adblue: "130 L",
+            "Manual Fuel": "200 L",
+            Other: "50 L",
+            LPG: "75 L",
+            LRP: "85 L",
+          },
+        },
+      ],
+    },
+  ];
+
+  const fuelTypes = [
+    "Unleaded",
+    "Super Unleaded",
+    "Diesel",
+    "Super Diesel",
+    "Adblue",
+    "Manual Fuel",
+    "Other",
+    "LPG",
+    "LRP"
+  ];
+
+  //   const fuelTypes = useMemo(() =>
+  //     Object.keys(dummyData[0]).filter(key => key !== "date" && key !== "time"),
+  //     []
+  //   );
+
+  console.log(fuelTypes, "fuelTypes");
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        {modalOpen && (
+        {/* {modalOpen && (
           <>
             <FuelPricesSuggestionModal
               open={modalOpen}
@@ -200,25 +301,11 @@ const FuelSellingPricesSuggestion = (props) => {
               postData={postData}
             />
           </>
-        )}
-
-        {logsModal && (
-          <>
-            <FuelSellingSuggestionsLogModal
-              open={logsModal}
-              onClose={handleModalClose}
-              selectedItem={selectedItem}
-              accordionSiteID={accordionSiteID}
-              selectedDrsDate={selectedDrsDate}
-              onDataFromChild={handleDataFromChild}
-              postData={postData}
-            />
-          </>
-        )}
+        )} */}
 
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Fuel Selling Prices Suggestion</h1>
+            <h1 className="page-title">Fuel Selling Prices Suggestion Logs</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -231,7 +318,7 @@ const FuelSellingPricesSuggestion = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Fuel Selling Prices Suggestion
+                Fuel Selling Prices Suggestion Logs
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -254,7 +341,8 @@ const FuelSellingPricesSuggestion = (props) => {
                 lg="4"
                 showStationValidation={true}
                 showMonthInput={false}
-                showDateInput={true}
+                showDateRangeInput={true}
+                showDateInput={false}
                 showDateValidation={true}
                 showStationInput={false}
                 ClearForm={handleClearForm}
@@ -266,12 +354,55 @@ const FuelSellingPricesSuggestion = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Fuel Selling Prices Suggestion</h3>
+                <h3 className="card-title">
+                  {" "}
+                  Fuel Selling Prices Suggestion Logs
+                </h3>
               </Card.Header>
               <Card.Body>
                 {data ? (
                   <div>
-                    {data &&
+                    <div>
+                      {dummyData?.map((site) => (
+                        <div key={site.site_name} className="mt-2">
+                          <Collapse accordion>
+                            <Panel
+                              header={<div>{site.site_name}</div>}
+                              key={site.site_name}
+                            >
+                              {site.data.length > 0 ? (
+                                <table className="table table-modern tracking-in-expand">
+                                  <thead>
+                                    <tr>
+                                      <th>Date</th>
+                                      <th>Time</th>
+                                      {fuelTypes.map((fuel, index) => (
+                                        <th key={index}>{fuel}</th>
+                                      ))}
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {site.data.map((entry, index) => (
+                                      <tr key={index}>
+                                        <td>{entry.date}</td>
+                                        <td>{entry.time}</td>
+                                        {fuelTypes.map((fuel, i) => (
+                                          <td key={i}>{entry.fuels[fuel]}</td>
+                                        ))}
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              ) : (
+                                <p>No data available</p>
+                              )}
+                            </Panel>
+                          </Collapse>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* {data &&
                       data?.listing?.map((site) => (
                         <div key={site.id} className="mt-2">
                           <Collapse accordion>
@@ -280,16 +411,6 @@ const FuelSellingPricesSuggestion = (props) => {
                                 <>
                                   <div className=" d-flex justify-content-between ">
                                     <div>{site?.site_name}</div>
-                                    <div
-                                      className=" fw-bolder"
-                                      onClick={(e) => {
-                                        e.stopPropagation(); // Prevent the parent click from triggering
-                                        handleModalLogs(site); // Call the logs modal handler
-                                      }}
-                                    >
-                                      <i className="ph ph-table c-top-3 me-1"></i>
-                                      Logs
-                                    </div>
                                   </div>
                                 </>
                               }
@@ -297,7 +418,60 @@ const FuelSellingPricesSuggestion = (props) => {
                             >
                               {site?.competitors.length > 0 ? (
                                 // Render the table
-                                <Table
+                                <>
+                                  <table className="table table-modern tracking-in-expand">
+                                    <thead>
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        {fuelTypes.map((fuel, index) => (
+                                          <th key={index}>{fuel}</th>
+                                        ))}
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {dummyData.map((data, index) => (
+                                        <tr key={index}>
+                                          <td>{data.date}</td>
+                                          <td>{data.time}</td>
+                                          {fuelTypes.map((fuel, i) => (
+                                            <td key={i}>{data[fuel]}</td>
+                                          ))}
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                </>
+                              ) : (
+                                <p>No Price available</p>
+                              )}
+                            </Panel>
+                          </Collapse>
+                        </div>
+                      ))} */}
+                  </div>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/commonimages/no_data.png")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
+    </>
+  );
+};
+
+export default withApi(FuelSellingSuggestionLogs);
+
+{
+  /* <Table
                                   dataSource={extractFuelData(site)}
                                   columns={[
                                     {
@@ -364,31 +538,5 @@ const FuelSellingPricesSuggestion = (props) => {
                                     ),
                                   ]}
                                   pagination={false}
-                                />
-                              ) : (
-                                <p>No Price available</p>
-                              )}
-                            </Panel>
-                          </Collapse>
-                        </div>
-                      ))}
-                  </div>
-                ) : (
-                  <>
-                    <img
-                      src={require("../../../assets/images/commonimages/no_data.png")}
-                      alt="MyChartImage"
-                      className="all-center-flex nodata-image"
-                    />
-                  </>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </>
-    </>
-  );
-};
-
-export default withApi(FuelSellingPricesSuggestion);
+                                /> */
+}

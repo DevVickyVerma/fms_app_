@@ -282,7 +282,7 @@ const NewFilterTab = ({
                                 {showDateRangeInput && (
                                     <Col lg={lg || 6}>
                                         <div className='form-group '>
-                                            <label htmlFor="date-range">Date Range</label>
+                                            <label htmlFor="date-range">Date Range <span className="text-danger">*</span></label>
                                             <DatePicker
                                                 id="date-range"
                                                 selected={formik.values.range_start_date ? new Date(formik.values.range_start_date) : null}

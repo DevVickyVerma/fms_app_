@@ -137,7 +137,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
 
 
 
-    const handleShowDate = (e,) => {
+    const handleShowDate = (e) => {
         const inputDateElement = e.target; // Get the clicked input element
         if (inputDateElement && inputDateElement.showPicker) {
             inputDateElement.showPicker(); // Programmatically trigger the date picker
