@@ -810,11 +810,8 @@ span.ModalTitle-2fa {
   font-size: 0.9375rem;
   line-height: 1.84615385;
   border-radius: 5px;
-  transition:
-    color 0.15s ease-in-out,
-    background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   width: 100px;
   height: 100%;
   cursor: pointer;
@@ -837,11 +834,8 @@ span.ModalTitle-2fa {
   font-size: 19px;
   line-height: 1.84615385;
   border-radius: 5px;
-  transition:
-    color 0.15s ease-in-out,
-    background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -933,35 +927,19 @@ span.ModalTitle-2fa {
 
 @keyframes animloader {
   0% {
-    box-shadow:
-      -38px -12px,
-      -14px 0,
-      14px 0,
-      38px 0;
+    box-shadow: -38px -12px, -14px 0, 14px 0, 38px 0;
   }
 
   33% {
-    box-shadow:
-      -38px 0px,
-      -14px -12px,
-      14px 0,
-      38px 0;
+    box-shadow: -38px 0px, -14px -12px, 14px 0, 38px 0;
   }
 
   66% {
-    box-shadow:
-      -38px 0px,
-      -14px 0,
-      14px -12px,
-      38px 0;
+    box-shadow: -38px 0px, -14px 0, 14px -12px, 38px 0;
   }
 
   100% {
-    box-shadow:
-      -38px 0,
-      -14px 0,
-      14px 0,
-      38px -12px;
+    box-shadow: -38px 0, -14px 0, 14px 0, 38px -12px;
   }
 }
 
@@ -1206,8 +1184,7 @@ span.uk-date-time {
 }
 
 .header-time-section {
-  box-shadow:
-    rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   background-color: white;
   border-radius: 4px;
@@ -2181,7 +2158,7 @@ td.middayModal-td.time-input-fuel-sell {
 
 .selectedMonth {
   padding: 5px;
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
   min-width: 170px;
   height: 100%;
 }
@@ -2229,4 +2206,16 @@ td.middayModal-td.time-input-fuel-sell {
 .drag-tr td {
   padding: 0.7rem 1rem !important;
   border-bottom: 1px solid #eaedf1 !important;
+}
+.textend {
+  display: flex;
+  justify-content: end;
+}
+.spacebetweenend {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+:focus-visible {
+  border: 1px solid #4663ac !important;
 }

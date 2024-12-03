@@ -71,6 +71,7 @@ export const getCurrentDate = () => {
     const day = String(today.getDate()).padStart(2, '0'); // Add leading zero
     return `${year}-${month}-${day}`;
 };
+export const currentMonth = new Date().toISOString().slice(0, 7);
 
 
 export const yesNoOptions = [

@@ -6,7 +6,7 @@ import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
-import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import { currentMonth, handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
 import { Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
@@ -26,8 +26,8 @@ import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
 import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
-import NoDataGraph from "../../Utils/commonFunctions/NoDataGraph";
 import StockDetailFilterModal from "../pages/Filtermodal/StockDetailFilterModal";
+import { Bounce, toast } from "react-toastify";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -64,13 +64,6 @@ const CeoDashBoard = (props) => {
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const [applyFilterOvell, setapplyFilterOvell] = useState(false);
-  // Define the validation schema
-
-
-
-  // StockDetails function to handle the site_id check
-
 
   const formik = useFormik({
     initialValues: {
@@ -314,6 +307,11 @@ const CeoDashBoard = (props) => {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
       if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+      const currentDate = new Date();
+      const day = '01'
+      const formattedDate = `${String(day)}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
+      console.log(formattedDate, "formattedDate");
+      queryParams.append("drs_date", formattedDate);
 
       const queryString = queryParams.toString();
       const response = await getData(`ceo-dashboard/selling-price?${queryString}`);
@@ -396,14 +394,14 @@ const CeoDashBoard = (props) => {
 
 
   useEffect(() => {
-    if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
+    if (formik?.values?.selectedSite) {
       FetchPriceLogs();
       if (userPermissions?.includes("dashboard-site-stats")) {
         FetchTankDetails()
       }
 
     }
-  }, [formik?.values?.selectedSite, formik?.values?.selectedMonth]);
+  }, [formik?.values?.selectedSite]);
 
   const ErrorToast = (message) => {
     toast.error(message, {
@@ -414,98 +412,106 @@ const CeoDashBoard = (props) => {
     });
   };
   const handleDownload = async (report) => {
-    setpdfisLoading(true)
-    try {
-      const formData = new FormData();
-
-      formData.append("report", report);
-
-      // Add client_id based on superiorRole
-      const superiorRole = localStorage.getItem("superiorRole");
-      if (superiorRole !== "Client") {
-        formData.append("client_id", filters.client_id);
-      } else {
-        formData.append("client_id", filters.client_id);
-      }
-
-      // Add other necessary form values
-      formData.append("company_id", filters.company_id);
 
 
-      // Prepare client ID condition for the query params
-      let clientIDCondition = superiorRole !== "Client"
-        ? `client_id=${filters.client_id}&`
-        : `client_id=${filters.client_id}&`;
+    if (!formik?.values?.selectedMonthDetails?.value) {
+      ErrorToast("Please select Month For Reports")
+    } else {
+      setpdfisLoading(true)
+      try {
+        const formData = new FormData();
 
+        formData.append("report", report);
 
-
-      // Construct commonParams basedd on toggleValue
-      const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value}`;
-
-      // API URL for the fetch request
-      const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
-
-      // Fetch the data
-      const token = localStorage.getItem("token");
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      // Check if the response is OK
-      if (!response.ok) {
-        // 
-        // Await the response body parsing first to get the actual JSON data
-        const errorData = await response.json();
-        // alert(errorData?.message)
-        // Log the actual parsed error data
-        handleError(errorData)
-        ErrorToast(errorData?.message)
-
-        // Throw an error with the message
-        throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
-      }
-
-
-      // Handle the file download
-      const blob = await response.blob();
-      const contentType = response.headers.get('Content-Type');
-      let fileExtension = 'xlsx'; // Default to xlsx
-
-      if (contentType) {
-        if (contentType.includes('application/pdf')) {
-          fileExtension = 'pdf';
-        } else if (contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
-          fileExtension = 'xlsx';
-        } else if (contentType.includes('text/csv')) {
-          fileExtension = 'csv';
+        // Add client_id based on superiorRole
+        const superiorRole = localStorage.getItem("superiorRole");
+        if (superiorRole !== "Client") {
+          formData.append("client_id", filters.client_id);
+        } else {
+          formData.append("client_id", filters.client_id);
         }
+
+        // Add other necessary form values
+        formData.append("company_id", filters.company_id);
+
+
+        // Prepare client ID condition for the query params
+        let clientIDCondition = superiorRole !== "Client"
+          ? `client_id=${filters.client_id}&`
+          : `client_id=${filters.client_id}&`;
+
+
+
+        // Construct commonParams basedd on toggleValue
+        const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value}`;
+
+        // API URL for the fetch request
+        const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
+
+        // Fetch the data
+        const token = localStorage.getItem("token");
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        // Check if the response is OK
+        if (!response.ok) {
+          // 
+          // Await the response body parsing first to get the actual JSON data
+          const errorData = await response.json();
+          // alert(errorData?.message)
+          // Log the actual parsed error data
+          // handleError(errorData)
+          ErrorToast(errorData?.message)
+
+          // Throw an error with the message
+          throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
+        }
+
+
+        // Handle the file download
+        const blob = await response.blob();
+        const contentType = response.headers.get('Content-Type');
+        let fileExtension = 'xlsx'; // Default to xlsx
+
+        if (contentType) {
+          if (contentType.includes('application/pdf')) {
+            fileExtension = 'pdf';
+          } else if (contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
+            fileExtension = 'xlsx';
+          } else if (contentType.includes('text/csv')) {
+            fileExtension = 'csv';
+          }
+        }
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(new Blob([blob]));
+
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${report?.report_name}.${fileExtension}`);
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        link.parentNode.removeChild(link);
+
+      } catch (error) {
+        console.error('Error downloading the file:', error);
+      } finally {
+        setpdfisLoading(false)
       }
-
-      // Create a temporary URL for the Blob
-      const url = window.URL.createObjectURL(new Blob([blob]));
-
-      // Create a link element and trigger the download
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${report?.report_name}.${fileExtension}`);
-      document.body.appendChild(link);
-      link.click();
-
-      // Cleanup
-      link.parentNode.removeChild(link);
-
-    } catch (error) {
-      console.error('Error downloading the file:', error);
-    } finally {
-      setpdfisLoading(false)
     }
+
+
   };
 
-  const StockDetailvalidation = (applyFilterOvells) =>
+  const StockDetailvalidation = () =>
     Yup.object({
       client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
@@ -760,8 +766,6 @@ const CeoDashBoard = (props) => {
 
 
         <Card className="h-100">
-
-
           <Card.Header className="p-4">
             <h4 className="card-title"> MOP BreakDown </h4>
           </Card.Header>
@@ -819,26 +823,6 @@ onChange={(e) => handleSiteChange(e.target.value)}
 /> */}
               </div> : ""}
 
-              <div>
-                {filters?.reportmonths ? <Col lg={6} style={{ marginRight: "0px" }}>
-                  <select
-                    id="selectedMonth"
-                    name="selectedMonth"
-                    value={formik.values.selectedMonth}
-                    onChange={(e) => handleMonthChange(e.target.value)}
-                    className="selectedMonth"
-                  >
-                    <option value="">--Select a Month--</option>
-                    {filters?.reportmonths?.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.display}
-                      </option>
-                    ))}
-                  </select>
-                </Col> : ""}
-
-
-              </div>
             </div>
           </Card.Header>
 
@@ -910,7 +894,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
               <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
                   <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
-                    <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+                    {/* <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span> */}
                   </h4>
                   {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-price-logs/">
                     View All
@@ -943,16 +927,53 @@ onChange={(e) => handleSiteChange(e.target.value)}
           </Col>
           <Col sm={12} md={4} key={Math.random()}>
             <Card className="h-100" >
-              <Card.Header className="p-4 w-100 flexspacebetween ">
-                <h4 className="card-title"> <div className="lableWithsmall">
-                  Reports({formik.values?.selectedSiteDetails?.site_name})
-                  <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
-                </div></h4>
 
-                {userPermissions?.includes("report-type-list") ?
-                  <span><Link to="/reports">
-                    View All
-                  </Link></span> : ""}
+
+              <Card.Header className="p-4 w-100  ">
+                <div className="w-100">
+
+                  <div className="spacebetweenend">
+                    <h4>
+                      Reports({formik.values?.selectedSiteDetails?.site_name})
+
+                    </h4>
+                    {userPermissions?.includes("report-type-list") ?
+                      <span className="textend"><Link to="/reports">
+                        View All
+                      </Link></span> : ""}
+                  </div>
+                  <div className="spacebetweenend">
+                    <span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+
+
+                    {filters?.reportmonths ? <Col lg={6} className="textend p-0">
+                      <select
+                        id="selectedMonth"
+                        name="selectedMonth"
+                        value={formik.values.selectedMonth}
+                        onChange={(e) => handleMonthChange(e.target.value)}
+                        className="selectedMonth"
+                      >
+                        <option value="">--Select a Month--</option>
+                        {filters?.reportmonths?.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.display}
+                          </option>
+                        ))}
+                      </select>
+                    </Col> : ""}
+
+
+
+                  </div>
+                </div>
+
+
+
+
+
+
+
 
               </Card.Header>
               <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
