@@ -69,7 +69,6 @@ const UpercardsCeoDashboardStatsBox = (props) => {
 
 
 
-console.log(GrossVolume, "GrossVolume");
 
   return (
     <div>

@@ -164,8 +164,6 @@ const FuelPricesSuggestionModal = ({
     // onDataFromChild(dataToSend);
   };
 
-  console.log(data, "dataaa");
-
   return (
     <>
       {isLoading ? <LoaderImg /> : null}

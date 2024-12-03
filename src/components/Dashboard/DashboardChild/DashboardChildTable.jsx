@@ -9,7 +9,6 @@ const DashboardChildTable = (props) => {
   const { isLoading, data, ceo } = props;
   const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
   const navigate = useNavigate()
-  console.log(ceo, "useSelector");
 
   // ! Importent :- site permiossion is added one permission is needed to go into thrid screen 
   const isSitePermissionAvailable = UserPermissions?.includes("dashboard-site-detail");

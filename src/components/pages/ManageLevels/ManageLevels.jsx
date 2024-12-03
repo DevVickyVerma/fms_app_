@@ -226,8 +226,7 @@ const ManageLevels = (props) => {
             // setData(updatedData);
 
             // Now you have the latest updated data instantly
-            console.log(updatedData, "Updated Data after swap");
-
+          
             // Prepare the payload with the moved item's id and the new index (destination)
             const payload = {
                 id: updatedData[newIndex]?.id,  // Use the new index to reflect the moved item

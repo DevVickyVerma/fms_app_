@@ -163,7 +163,6 @@ const Competitormodal = ({
     // onDataFromChild(dataToSend);
   };
 
-  console.log(data, "dataaa");
 
   return (
     <>

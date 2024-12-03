@@ -47,7 +47,6 @@ const ManageAddEditUser = (props) => {
         }),
         onSubmit: (values) => {
             handleSubmit1(values)
-            console.log("Form data", values);
         },
     });
 

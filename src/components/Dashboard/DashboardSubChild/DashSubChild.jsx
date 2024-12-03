@@ -104,9 +104,7 @@ const DashSubChild = ({
   // };
   const location = useLocation();
   const { isCeoDashboard } = location.state || {}; // Destructure state and default to an empty object
-  const { details } = location.state || {}; // Destructure state and default to an empty object
-  console.log(details, "details");
-  console.log(isCeoDashboard, "isCeoDashboard");
+  const { details } = location.state || {}; 
   return (
     <>
 

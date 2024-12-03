@@ -146,7 +146,6 @@ const CeoDashBoard = (props) => {
 
         // console.log(storedKeyName, "storedKeyName");
         FetchDashboardStats(values);
-        console.log(applyFilterOvell, "applyFilterOvell");
       }
     } catch (error) {
       handleError(error); // Handle errors from API or other logic
@@ -464,7 +463,6 @@ const CeoDashBoard = (props) => {
         const errorData = await response.json();
         // alert(errorData?.message)
         // Log the actual parsed error data
-        console.log(errorData?.message, "errorData");
         handleError(errorData)
         ErrorToast(errorData?.message)
 
@@ -521,7 +519,6 @@ const CeoDashBoard = (props) => {
   const navigate = useNavigate()
   const handleStockApplyFilters = async (values) => {
     const handleConfirmedAction = async (values) => {
-      console.log(values, "values");
 
       // Navigate to dashboard-details with the provided state
       navigate(`/dashboard-details/${values?.site_id}`, {
@@ -848,7 +845,6 @@ onChange={(e) => handleSiteChange(e.target.value)}
 
         </Card>
         {userPermissions?.includes("dashboard-site-stats") ?
-
           <>
             {getSiteStatsloading ? (
               <SmallLoader title="Tank Analysis" />

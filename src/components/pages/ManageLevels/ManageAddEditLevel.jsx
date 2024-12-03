@@ -42,7 +42,6 @@ const ManageAddEditLevel = (props) => {
         }),
         onSubmit: (values) => {
             handleSubmit1(values)
-            console.log("Form data", values);
         },
     });
 
@@ -76,8 +75,7 @@ const ManageAddEditLevel = (props) => {
 
 
 
-    console.log(formik.values, "closeicon");
-
+ 
     return (
         <>
             {isLoading ? <LoaderImg /> : null}

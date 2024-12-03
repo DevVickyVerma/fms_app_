@@ -152,7 +152,6 @@ const CeoDashBoardChild = (props) => {
 
     const location = useLocation();
     const { isCeoDashboard } = location.state || {}; // Destructure state and default to an empty object
-    console.log(isCeoDashboard, "isCeoDashboard");
     return (
         <>
             {isLoading ? <Loaderimg /> : null}

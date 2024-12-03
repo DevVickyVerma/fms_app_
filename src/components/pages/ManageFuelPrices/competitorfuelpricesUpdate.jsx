@@ -170,9 +170,6 @@ const competitorfuelpricesUpdate = ({
     setIsModalOpen(false); // Close the modal without submitting
   };
 
-  // console.log(lsitingformik?.values, "lsitingformik");
-  // console.log(formik?.values, "formik");
-
   return (
     <>
       <hr />
