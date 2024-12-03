@@ -186,22 +186,22 @@ const FuelSellingSuggestionLogs = (props) => {
           date: "2024-12-01",
           time: "08:00 AM",
           fuels: {
-            Unleaded: "500 L",
-            "Super Unleaded": "600 L",
-            Diesel: "450 L",
-            "Super Diesel": "300 L",
+              Unleaded: "500 L",
+              "Super Unleaded": "600 L",
+              Diesel: "450 L",
+              "Super Diesel": "300 L",
             Adblue: "100 L",
             "Manual Fuel": "200 L",
             Other: "50 L",
             LPG: "80 L",
-            LRP: "90 L",
-          },
+            LRP: "90 L"
+          }
         },
         {
           date: "2024-12-01",
           time: "09:00 AM",
           fuels: {
-            Unleaded: "550 L",
+            Unleaded: "50 L",
             "Super Unleaded": "620 L",
             Diesel: "470 L",
             "Super Diesel": "310 L",
@@ -209,8 +209,8 @@ const FuelSellingSuggestionLogs = (props) => {
             "Manual Fuel": "210 L",
             Other: "60 L",
             LPG: "90 L",
-            LRP: "100 L",
-          },
+            LRP: "100 L"
+          }
         },
         {
           date: "2024-12-01",
@@ -224,10 +224,10 @@ const FuelSellingSuggestionLogs = (props) => {
             "Manual Fuel": "205 L",
             Other: "55 L",
             LPG: "85 L",
-            LRP: "95 L",
-          },
-        },
-      ],
+            LRP: "95 L"
+          }
+        }
+      ]
     },
     {
       site_name: "Site B",
@@ -244,8 +244,8 @@ const FuelSellingSuggestionLogs = (props) => {
             "Manual Fuel": "190 L",
             Other: "40 L",
             LPG: "70 L",
-            LRP: "80 L",
-          },
+            LRP: "80 L"
+          }
         },
         {
           date: "2024-12-01",
@@ -259,31 +259,13 @@ const FuelSellingSuggestionLogs = (props) => {
             "Manual Fuel": "200 L",
             Other: "50 L",
             LPG: "75 L",
-            LRP: "85 L",
-          },
-        },
-      ],
-    },
+            LRP: "85 L"
+          }
+        }
+      ]
+    }
   ];
 
-  const fuelTypes = [
-    "Unleaded",
-    "Super Unleaded",
-    "Diesel",
-    "Super Diesel",
-    "Adblue",
-    "Manual Fuel",
-    "Other",
-    "LPG",
-    "LRP"
-  ];
-
-  //   const fuelTypes = useMemo(() =>
-  //     Object.keys(dummyData[0]).filter(key => key !== "date" && key !== "time"),
-  //     []
-  //   );
-
-  console.log(fuelTypes, "fuelTypes");
 
   return (
     <>
@@ -363,11 +345,15 @@ const FuelSellingSuggestionLogs = (props) => {
                 {data ? (
                   <div>
                     <div>
-                      {dummyData?.map((site) => (
+                      {dummyData.map((site) => (
                         <div key={site.site_name} className="mt-2">
                           <Collapse accordion>
                             <Panel
-                              header={<div>{site.site_name}</div>}
+                              header={<div>{site.site_name} 
+                              <span className=" fw-600 ms-2">
+                              ({site?.data?.length})
+                              </span>
+                               </div>}
                               key={site.site_name}
                             >
                               {site.data.length > 0 ? (
@@ -376,9 +362,12 @@ const FuelSellingSuggestionLogs = (props) => {
                                     <tr>
                                       <th>Date</th>
                                       <th>Time</th>
-                                      {fuelTypes.map((fuel, index) => (
-                                        <th key={index}>{fuel}</th>
-                                      ))}
+                                      {/* Dynamically render fuel types based on the keys in the first data entry */}
+                                      {Object.keys(site.data[0].fuels).map(
+                                        (fuel, index) => (
+                                          <th key={index}>{fuel}</th>
+                                        )
+                                      )}
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -386,9 +375,12 @@ const FuelSellingSuggestionLogs = (props) => {
                                       <tr key={index}>
                                         <td>{entry.date}</td>
                                         <td>{entry.time}</td>
-                                        {fuelTypes.map((fuel, i) => (
-                                          <td key={i}>{entry.fuels[fuel]}</td>
-                                        ))}
+                                        {/* Dynamically render the fuel data based on the keys */}
+                                        {Object.keys(entry.fuels).map(
+                                          (fuel, i) => (
+                                            <td key={i}>{entry.fuels[fuel]}</td>
+                                          )
+                                        )}
                                       </tr>
                                     ))}
                                   </tbody>
