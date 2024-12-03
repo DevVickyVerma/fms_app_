@@ -600,7 +600,7 @@ const CeoDashBoard = (props) => {
             showStationValidation={false}
             showMonthInput={false}
             showDateInput={false}
-          
+
           />
         </div>
       )}
@@ -714,6 +714,7 @@ const CeoDashBoard = (props) => {
               isLoading={isLoading}
               getData={getData}
               parentFilters={filters}
+          
               isOpen={ShowLiveData}
               // onClose={() => setShowLiveData(false)}
               onClose={() => handlelivemaringclosemodal()}
@@ -760,7 +761,7 @@ const CeoDashBoard = (props) => {
             chartType="full"
             chartData={dashboardData?.d_line_graph}
             noChartImage="../../assets/images/no-chart-img.png"
-            noChartMessage="No data available"
+            noChartMessage=""
           >
             <DashboardMultiLineChart
               LinechartValues={dashboardData?.d_line_graph?.series || []}

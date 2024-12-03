@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Card, Col, Modal, Row } from "react-bootstrap";
 import { useFormik } from "formik";
+import LoaderImg from "../../Utils/Loader";
 
-const DashboardStatCard = ({ getData, isOpen, onClose, }) => {
+const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
   const [data, setData] = useState();
   const [filters, setFilters] = useState();
 
@@ -110,7 +111,7 @@ const DashboardStatCard = ({ getData, isOpen, onClose, }) => {
     },
     onSubmit: () => {
       console.log("columnIndex");
-  
+
     },
   });
 
@@ -165,6 +166,7 @@ const DashboardStatCard = ({ getData, isOpen, onClose, }) => {
           </Modal.Header>
 
           <>
+            {isLoading ? <LoaderImg /> : null}
             <Card.Body className="card-body pb-0">
               <Row>
                 {formik?.values?.sites?.length > 0 && (<>
