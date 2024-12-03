@@ -61,7 +61,6 @@ const CeoDashBoard = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
 
-  const [showAlet, setShowAlet] = useState(false);
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
@@ -288,14 +287,8 @@ const CeoDashBoard = (props) => {
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append("client_id", client_id);
         if (company_id) queryParams.append("company_id", company_id);
-        if (endpoint === "dashboard/get-site-stats") {
-          if (site_id) {
-            queryParams.append("site_id", site_id);
-          } else if (updatedFilters?.sites && updatedFilters?.sites.length > 0) {
-            console.log(updatedFilters, "updatedFilters");
-            queryParams.append("site_id", updatedFilters?.sites[0]?.id);
-          }
-        }
+        if (site_id) queryParams.append("site_id", site_id);
+
 
 
         const queryString = queryParams.toString();
@@ -336,12 +329,7 @@ const CeoDashBoard = (props) => {
     }
 
   };
-  // {
-  //   name: "tankanalysis",
-  //   url: "dashboard/get-site-stats",
-  //   setData: setGetSiteStats,
-  //   setLoading: setGetSiteStatsloading,
-  // }
+
   const FetchTankDetails = async (filters) => {
     try {
       setGetSiteStatsloading(true);
@@ -363,7 +351,6 @@ const CeoDashBoard = (props) => {
 
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
-    setShowAlet(false)
     // setPriceLogssloading(true)
     // setShrinkagestatsloading(true)
     // setStockstatsloading(true)
@@ -413,7 +400,9 @@ const CeoDashBoard = (props) => {
   useEffect(() => {
     if (formik?.values?.selectedSite && formik?.values?.selectedMonth) {
       FetchPriceLogs();
-      FetchTankDetails()
+      if (userPermissions?.includes("dashboard-site-stats")) {
+        FetchTankDetails()
+      }
 
     }
   }, [formik?.values?.selectedSite, formik?.values?.selectedMonth]);
@@ -714,7 +703,7 @@ const CeoDashBoard = (props) => {
               isLoading={isLoading}
               getData={getData}
               parentFilters={filters}
-          
+
               isOpen={ShowLiveData}
               // onClose={() => setShowLiveData(false)}
               onClose={() => handlelivemaringclosemodal()}
@@ -858,65 +847,67 @@ onChange={(e) => handleSiteChange(e.target.value)}
           </Card.Header>
 
         </Card>
+        {userPermissions?.includes("dashboard-site-stats") ?
 
-
-        {getSiteStatsloading ? (
-          <SmallLoader title="Tank Analysis" />
-        ) : getSiteStats?.dates?.length > 0 ? (
-          <Row className="my-4 l-sign">
-            <Col lg={12} md={12}>
-              <Card>
-                <Card.Header className="card-header">
-                  <div className="Tank-Details d-flex">
-                    <h4 className="card-title">Tank Analysis ({formik.values?.selectedSiteDetails?.site_name})</h4>
-                    <div className="Tank-Details-icon">
-                      <OverlayTrigger
-                        placement="right"
-                        className="Tank-Detailss"
-                        overlay={
-                          <Tooltip style={{ width: "200px" }}>
-                            <div>
-                              {Tankcolors?.map((color, index) => (
-                                <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
-                                  <div
-                                    style={{
-                                      width: "20px", // Set the width for the color circle
-                                      height: "20px",
-                                      borderRadius: "50%",
-                                      backgroundColor: color?.color,
-                                    }}
-                                  ></div>
-                                  <span className=" text-white ms-2">{color?.name}</span>
+          <>
+            {getSiteStatsloading ? (
+              <SmallLoader title="Tank Analysis" />
+            ) : getSiteStats?.dates?.length > 0 ? (
+              <Row className="my-4 l-sign">
+                <Col lg={12} md={12}>
+                  <Card>
+                    <Card.Header className="card-header">
+                      <div className="Tank-Details d-flex">
+                        <h4 className="card-title">Tank Analysis ({formik.values?.selectedSiteDetails?.site_name})</h4>
+                        <div className="Tank-Details-icon">
+                          <OverlayTrigger
+                            placement="right"
+                            className="Tank-Detailss"
+                            overlay={
+                              <Tooltip style={{ width: "200px" }}>
+                                <div>
+                                  {Tankcolors?.map((color, index) => (
+                                    <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
+                                      <div
+                                        style={{
+                                          width: "20px", // Set the width for the color circle
+                                          height: "20px",
+                                          borderRadius: "50%",
+                                          backgroundColor: color?.color,
+                                        }}
+                                      ></div>
+                                      <span className=" text-white ms-2">{color?.name}</span>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          </Tooltip>
-                        }
-                      >
-                        <img
-                          alt=""
-                          src={require("../../assets/images/dashboard/dashboardTankImage.png")}
+                              </Tooltip>
+                            }
+                          >
+                            <img
+                              alt=""
+                              src={require("../../assets/images/dashboard/dashboardTankImage.png")}
+                            />
+                          </OverlayTrigger>
+                        </div>
+                      </div>
+                    </Card.Header>
+                    <Card.Body className="card-body p-0 m-0">
+                      <div id="chart">
+                        <CeoDashTankAnalysis
+                          getSiteStats={getSiteStats}
+                          setGetSiteStats={setGetSiteStats}
                         />
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                </Card.Header>
-                <Card.Body className="card-body p-0 m-0">
-                  <div id="chart">
-                    <CeoDashTankAnalysis
-                      getSiteStats={getSiteStats}
-                      setGetSiteStats={setGetSiteStats}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
 
-        ) : (
-          <NoDataComponent title="Tank Analysis" />
-        )}
-
+            ) : (
+              <NoDataComponent title="Tank Analysis" />
+            )}
+          </>
+          : ""}
 
         <Row className="d-flex align-items-stretch mt-5 ">
           <Col sm={12} md={8} key={Math.random()}>

@@ -16,7 +16,7 @@ export const MENUITEMS = [
         icon: "house",
         type: "link",
         active: false,
-        permission: "dashboard-view",
+        permission: "ceodashboard-view",
         visibility: false,
         title: "CEO Dashboard",
       },
