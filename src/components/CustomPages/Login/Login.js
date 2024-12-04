@@ -480,8 +480,8 @@ export default function Login() {
                         SECURE WITH{" "}
                         <strong className="  font-weight-bold">2FA</strong>{" "}
                         <i className="fa fa-shield" aria-hidden="true"></i>
-                        <i class="fa fa-brands-google"></i>
-                        <i class="fa fa-brands-microsoft"></i>
+                        <i className="fa fa-brands-google"></i>
+                        <i className="fa fa-brands-microsoft"></i>
                       </span>
                     </Card.Footer>
                   </div>

@@ -330,7 +330,7 @@ const ManageClient = (props) => {
                         to={`/assignreport/${row.id}`}
                       >
                         <div style={{ width: "100%" }}>
-                          <i class="ph ph-files me-2" />
+                          <i className="ph ph-files me-2" />
                           <span>Report Assign</span>
                         </div>
                       </Link>
