@@ -28,6 +28,7 @@ import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
 import StockDetailFilterModal from "../pages/Filtermodal/StockDetailFilterModal";
 import { Bounce, toast } from "react-toastify";
+import { statistic } from "antd/es/theme/internal";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -67,6 +68,8 @@ const CeoDashBoard = (props) => {
 
   const formik = useFormik({
     initialValues: {
+      client_id: '',
+      company_id: '',
       selectedSite: '',
       selectedSiteDetails: '',
       selectedMonth: '',
@@ -110,6 +113,8 @@ const CeoDashBoard = (props) => {
 
 
   const handleApplyFilters = async (values) => {
+    formik.setFieldValue("client_id", values.client_id)
+    formik.setFieldValue("company_id", values.company_id)
     try {
       // Check if 'Sites' is missing and user has client role
       if (!values?.sites && isClientRole) {
@@ -181,12 +186,12 @@ const CeoDashBoard = (props) => {
         setData: setShrinkagestats,
         setLoading: setShrinkagestatsloading,
       },
-      {
-        name: "itemstock",
-        url: "ceo-dashboard/department-item-stocks",
-        setData: setItemstockstats,
-        setLoading: setItemstockstatsloading,
-      },
+      // {
+      //   name: "itemstock",
+      //   url: "ceo-dashboard/department-item-stocks",
+      //   setData: setItemstockstats,
+      //   setLoading: setItemstockstatsloading,
+      // },
       // {
       //   name: "tankanalysis",
       //   url: "dashboard/get-site-stats",
@@ -301,7 +306,7 @@ const CeoDashBoard = (props) => {
       const currentDate = new Date();
       const day = '01'
       const formattedDate = `${String(day)}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
-   
+
       queryParams.append("drs_date", formattedDate);
 
       const queryString = queryParams.toString();
@@ -316,7 +321,31 @@ const CeoDashBoard = (props) => {
     }
 
   };
+  // {
+  //   name: "itemstock",
+  //   url: "ceo-dashboard/department-item-stocks",
+  //   setData: setItemstockstats,
+  //   setLoading: setItemstockstatsloading,
+  // },
+  const FetchStockDetails = async () => {
+    try {
+      setItemstockstatsloading(true);
+      const queryParams = new URLSearchParams();
+      if (formik?.values?.client_id) queryParams.append("client_id", formik?.values?.client_id);
+      if (formik?.values?.company_id) queryParams.append("company_id", formik?.values?.company_id);
+      if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+      const queryString = queryParams.toString();
+      const response = await getData(`ceo-dashboard/department-item-stocks?${queryString}`);
+      if (response && response.data && response.data.data) {
+        setItemstockstats(response?.data?.data)
+      }
+    } catch (error) {
+      // handleError(error);
+    } finally {
+      setItemstockstatsloading(false);
+    }
 
+  };
   const FetchTankDetails = async () => {
     try {
       setGetSiteStatsloading(true);
@@ -382,6 +411,7 @@ const CeoDashBoard = (props) => {
   useEffect(() => {
     if (formik?.values?.selectedSite) {
       FetchPriceLogs();
+      FetchStockDetails();
       if (userPermissions?.includes("dashboard-site-stats")) {
         FetchTankDetails()
       }
@@ -425,8 +455,6 @@ const CeoDashBoard = (props) => {
         let clientIDCondition = superiorRole !== "Client"
           ? `client_id=${filters.client_id}&`
           : `client_id=${filters.client_id}&`;
-
-
 
         // Construct commonParams basedd on toggleValue
         const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value}`;
@@ -500,45 +528,41 @@ const CeoDashBoard = (props) => {
 
     });
   const StockDeatils = () => {
-    setstockDetailModal(true)
+    navigate(`/dashboard-details/${formik?.values?.selectedSite}`, {
+      state: { isCeoDashboard: true }, // Pass the key-value pair in the state
+    });
+    // setstockDetailModal(true)
   };
   const navigate = useNavigate()
-
-  // const handleSiteChange = (selectedId) => {
-  //   const selectedItem = filters?.sites.find((item) => item.id == (selectedId));
-  //   formik.setFieldValue("selectedSite", selectedId,)
-  //   formik.setFieldValue("selectedSiteDetails", selectedItem,)
-
-  // };
-
   const handleSiteChange = async (selectedId) => {
     const handleConfirmedAction = async (selectedId) => {
       try {
         const selectedItem = await filters?.sites.find((item) => item.id === selectedId);
         filters.site_id = selectedId;
         filters.site_name = selectedItem?.site_name;
-  
+
         handleApplyFilters(filters)
-     
+
       } catch (error) {
         console.error("Error in handleConfirmedAction:", error);
       }
     };
-  
+
     const handleCancelledAction = async (selectedId) => {
       try {
         const selectedItem = await filters?.sites.find((item) => item.id === selectedId);
-     
+
         await formik.setFieldValue("selectedSite", selectedId);
         await formik.setFieldValue("selectedSiteDetails", selectedItem);
       } catch (error) {
         console.error("Error in handleCancelledAction:", error);
       }
     };
-  
+
     Swal.fire({
-      title: 'Apply filter to all data or only to this statistic?',
-      icon: 'success',
+      title: "",
+      text: 'Apply this change on   whole dashboard or  below statistics only?',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Apply to All',
       cancelButtonText: 'Apply to This Only',
@@ -546,19 +570,19 @@ const CeoDashBoard = (props) => {
       if (result.isConfirmed) {
         await handleConfirmedAction(selectedId);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-       
+
         await handleCancelledAction(selectedId);
       }
     });
   };
-  
 
 
-  const handleStockApplyFilters = (values) => {
-    navigate(`/dashboard-details/${values?.site_id}`, {
-      state: { isCeoDashboard: true }, // Pass the key-value pair in the state
-    });
-  }
+
+  // const handleStockApplyFilters = (values) => {
+  //   navigate(`/dashboard-details/${values?.site_id}`, {
+  //     state: { isCeoDashboard: true }, // Pass the key-value pair in the state
+  //   });
+  // }
 
 
   return (
@@ -940,7 +964,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                 <div className="w-100">
 
                   <div className="spacebetweenend">
-                    <h4>
+                    <h4 className="card-title">
                       Reports({formik.values?.selectedSiteDetails?.site_name})
 
                     </h4>
@@ -981,9 +1005,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                       className=" all-center-flex  smallNoDataimg "
                     />
                   )}</>}
-
                 </div>
-
               </Card.Body>
             </Card>
           </Col></Row>
@@ -1043,7 +1065,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
               <Card className="h-100">
                 <Card.Header className="p-4 w-100 flexspacebetween">
                   <h4 className="card-title" > <div className="lableWithsmall">
-                    Stock Details
+                    Stock Details ({formik.values?.selectedSiteDetails?.site_name})
 
                   </div></h4>
                   {userPermissions?.includes("report-type-list") ?
