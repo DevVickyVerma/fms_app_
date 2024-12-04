@@ -2219,3 +2219,7 @@ td.middayModal-td.time-input-fuel-sell {
 :focus-visible {
   border: 1px solid #4663ac !important;
 }
+
+.c-w-per-25{
+  width: 25%;
+}

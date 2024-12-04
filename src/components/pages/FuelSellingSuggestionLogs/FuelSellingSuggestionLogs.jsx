@@ -178,94 +178,166 @@ const FuelSellingSuggestionLogs = (props) => {
     setData(null);
   };
 
+  // const dummyData = [
+  //   {
+  //     site_name: "Site A",
+  //     data: [
+  //       {
+  //         date: "2024-12-01",
+  //         time: "08:00 AM",
+  //         fuels: {
+  //           Unleaded: "500 L",
+  //           "Super Unleaded": "600 L",
+  //           Diesel: "450 L",
+  //           "Super Diesel": "300 L",
+  //           Adblue: "100 L",
+  //           "Manual Fuel": "200 L",
+  //           Other: "50 L",
+  //           LPG: "80 L",
+  //           LRP: "90 L",
+  //         },
+  //       },
+  //       {
+  //         date: "2024-12-01",
+  //         time: "09:00 AM",
+  //         fuels: {
+  //           Unleaded: "50 L",
+  //           "Super Unleaded": "620 L",
+  //           Diesel: "470 L",
+  //           "Super Diesel": "310 L",
+  //           Adblue: "110 L",
+  //           "Manual Fuel": "210 L",
+  //           Other: "60 L",
+  //           LPG: "90 L",
+  //           LRP: "100 L",
+  //         },
+  //       },
+  //       {
+  //         date: "2024-12-01",
+  //         time: "10:00 AM",
+  //         fuels: {
+  //           Unleaded: "530 L",
+  //           "Super Unleaded": "610 L",
+  //           Diesel: "460 L",
+  //           "Super Diesel": "305 L",
+  //           Adblue: "105 L",
+  //           "Manual Fuel": "205 L",
+  //           Other: "55 L",
+  //           LPG: "85 L",
+  //           LRP: "95 L",
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     site_name: "Site B",
+  //     data: [
+  //       {
+  //         date: "2024-12-01",
+  //         time: "08:00 AM",
+  //         fuels: {
+  //           Unleaded: "450 L",
+  //           "Super Unleaded": "580 L",
+  //           Diesel: "420 L",
+  //           "Super Diesel": "280 L",
+  //           Adblue: "120 L",
+  //           "Manual Fuel": "190 L",
+  //           Other: "40 L",
+  //           LPG: "70 L",
+  //           LRP: "80 L",
+  //         },
+  //       },
+  //       {
+  //         date: "2024-12-01",
+  //         time: "09:00 AM",
+  //         fuels: {
+  //           Unleaded: "480 L",
+  //           "Super Unleaded": "600 L",
+  //           Diesel: "440 L",
+  //           "Super Diesel": "290 L",
+  //           Adblue: "130 L",
+  //           "Manual Fuel": "200 L",
+  //           Other: "50 L",
+  //           LPG: "75 L",
+  //           LRP: "85 L",
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ];
+
   const dummyData = [
     {
       site_name: "Site A",
       data: [
         {
           date: "2024-12-01",
-          time: "08:00 AM",
-          fuels: {
-              Unleaded: "500 L",
-              "Super Unleaded": "600 L",
-              Diesel: "450 L",
-              "Super Diesel": "300 L",
-            Adblue: "100 L",
-            "Manual Fuel": "200 L",
-            Other: "50 L",
-            LPG: "80 L",
-            LRP: "90 L"
-          }
-        },
-        {
-          date: "2024-12-01",
-          time: "09:00 AM",
-          fuels: {
-            Unleaded: "50 L",
-            "Super Unleaded": "620 L",
-            Diesel: "470 L",
-            "Super Diesel": "310 L",
-            Adblue: "110 L",
-            "Manual Fuel": "210 L",
-            Other: "60 L",
-            LPG: "90 L",
-            LRP: "100 L"
-          }
-        },
-        {
-          date: "2024-12-01",
           time: "10:00 AM",
-          fuels: {
-            Unleaded: "530 L",
-            "Super Unleaded": "610 L",
-            Diesel: "460 L",
-            "Super Diesel": "305 L",
-            Adblue: "105 L",
-            "Manual Fuel": "205 L",
-            Other: "55 L",
-            LPG: "85 L",
-            LRP: "95 L"
-          }
-        }
-      ]
+          fuels: [
+            {
+              fuelType: "Unleaded",
+              oldPrice: "1.543",
+              newPrice: "1.593",
+              status: "text-success", // Price increased
+            },
+            {
+              fuelType: "Diesel",
+              oldPrice: "1.423",
+              newPrice: "1.379",
+              status: "text-danger", // Price decreased
+            },
+            {
+              fuelType: "Super Unleaded",
+              oldPrice: "1.623",
+              newPrice: "No Change",
+              status: "", // No change
+            },
+          ],
+        },
+        {
+          date: "2024-12-02",
+          time: "12:00 PM",
+          fuels: [
+            {
+              fuelType: "Adblue",
+              oldPrice: "1.249",
+              newPrice: "No Change",
+              status: "", // No change
+            },
+            {
+              fuelType: "LPG",
+              oldPrice: "1.312",
+              newPrice: "1.452",
+              status: "text-success", // Price increased
+            },
+          ],
+        },
+      ],
     },
     {
       site_name: "Site B",
       data: [
         {
-          date: "2024-12-01",
-          time: "08:00 AM",
-          fuels: {
-            Unleaded: "450 L",
-            "Super Unleaded": "580 L",
-            Diesel: "420 L",
-            "Super Diesel": "280 L",
-            Adblue: "120 L",
-            "Manual Fuel": "190 L",
-            Other: "40 L",
-            LPG: "70 L",
-            LRP: "80 L"
-          }
+          date: "2024-12-03",
+          time: "9:30 AM",
+          fuels: [
+            {
+              fuelType: "Unleaded",
+              oldPrice: "1.564",
+              newPrice: "1.489",
+              status: "text-danger", // Price decreased
+            },
+            {
+              fuelType: "Diesel",
+              oldPrice: "1.532",
+              newPrice: "No Change",
+              status: "", // No change
+            },
+          ],
         },
-        {
-          date: "2024-12-01",
-          time: "09:00 AM",
-          fuels: {
-            Unleaded: "480 L",
-            "Super Unleaded": "600 L",
-            Diesel: "440 L",
-            "Super Diesel": "290 L",
-            Adblue: "130 L",
-            "Manual Fuel": "200 L",
-            Other: "50 L",
-            LPG: "75 L",
-            LRP: "85 L"
-          }
-        }
-      ]
-    }
+      ],
+    },
   ];
-
 
   return (
     <>
@@ -342,18 +414,78 @@ const FuelSellingSuggestionLogs = (props) => {
                 </h3>
               </Card.Header>
               <Card.Body>
-                {data ? (
+                {dummyData?.map((site, siteIndex) => (
+                  <div key={siteIndex} className="mt-2">
+                    <Collapse accordion>
+                      <Panel
+                        header={
+                          <div className="d-flex justify-content-between">
+                            <div>
+                              {site.site_name}
+
+                              <span className=" fw-bold ms-2">
+                                ({site?.data?.length})
+                              </span>
+                            </div>
+                          </div>
+                        }
+                        key={siteIndex}
+                      >
+                        {site.data.length > 0 ? (
+                          site.data.map((entry, entryIndex) => (
+                            <div key={entryIndex} className="mb-5">
+                              <h6 className=" fw-bold">{`Date: ${entry.date}, Time: ${entry.time}`}</h6>
+                              <table className="table table-modern tracking-in-expand">
+                                <thead>
+                                  <tr>
+                                    <th>Fuel Type</th>
+                                    <th>Old Price</th>
+                                    <th>New Price</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {entry.fuels.map((fuel, fuelIndex) => (
+                                    <tr key={fuelIndex}>
+                                      <td className="c-w-per-25">
+                                        {fuel.fuelType}
+                                      </td>
+                                      <td className="c-w-per-25">
+                                        {fuel.oldPrice}
+                                      </td>
+                                      <td
+                                        className={`${fuel.status} c-w-per-25`}
+                                      >
+                                        {fuel.newPrice}
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          ))
+                        ) : (
+                          <p>No Fuel Prices Available</p>
+                        )}
+                      </Panel>
+                    </Collapse>
+                  </div>
+                ))}
+
+                {/* {data ? (
                   <div>
                     <div>
                       {dummyData.map((site) => (
                         <div key={site.site_name} className="mt-2">
                           <Collapse accordion>
                             <Panel
-                              header={<div>{site.site_name} 
-                              <span className=" fw-600 ms-2">
-                              ({site?.data?.length})
-                              </span>
-                               </div>}
+                              header={
+                                <div>
+                                  {site.site_name}
+                                  <span className=" fw-600 ms-2">
+                                    ({site?.data?.length})
+                                  </span>
+                                </div>
+                              }
                               key={site.site_name}
                             >
                               {site.data.length > 0 ? (
@@ -362,7 +494,6 @@ const FuelSellingSuggestionLogs = (props) => {
                                     <tr>
                                       <th>Date</th>
                                       <th>Time</th>
-                                      {/* Dynamically render fuel types based on the keys in the first data entry */}
                                       {Object.keys(site.data[0].fuels).map(
                                         (fuel, index) => (
                                           <th key={index}>{fuel}</th>
@@ -375,7 +506,6 @@ const FuelSellingSuggestionLogs = (props) => {
                                       <tr key={index}>
                                         <td>{entry.date}</td>
                                         <td>{entry.time}</td>
-                                        {/* Dynamically render the fuel data based on the keys */}
                                         {Object.keys(entry.fuels).map(
                                           (fuel, i) => (
                                             <td key={i}>{entry.fuels[fuel]}</td>
@@ -394,53 +524,6 @@ const FuelSellingSuggestionLogs = (props) => {
                       ))}
                     </div>
 
-                    {/* {data &&
-                      data?.listing?.map((site) => (
-                        <div key={site.id} className="mt-2">
-                          <Collapse accordion>
-                            <Panel
-                              header={
-                                <>
-                                  <div className=" d-flex justify-content-between ">
-                                    <div>{site?.site_name}</div>
-                                  </div>
-                                </>
-                              }
-                              key={site.id}
-                            >
-                              {site?.competitors.length > 0 ? (
-                                // Render the table
-                                <>
-                                  <table className="table table-modern tracking-in-expand">
-                                    <thead>
-                                      <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        {fuelTypes.map((fuel, index) => (
-                                          <th key={index}>{fuel}</th>
-                                        ))}
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {dummyData.map((data, index) => (
-                                        <tr key={index}>
-                                          <td>{data.date}</td>
-                                          <td>{data.time}</td>
-                                          {fuelTypes.map((fuel, i) => (
-                                            <td key={i}>{data[fuel]}</td>
-                                          ))}
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
-                                </>
-                              ) : (
-                                <p>No Price available</p>
-                              )}
-                            </Panel>
-                          </Collapse>
-                        </div>
-                      ))} */}
                   </div>
                 ) : (
                   <>
@@ -450,7 +533,7 @@ const FuelSellingSuggestionLogs = (props) => {
                       className="all-center-flex nodata-image"
                     />
                   </>
-                )}
+                )} */}
               </Card.Body>
             </Card>
           </Col>
