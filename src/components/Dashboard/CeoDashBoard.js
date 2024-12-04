@@ -301,7 +301,7 @@ const CeoDashBoard = (props) => {
       const currentDate = new Date();
       const day = '01'
       const formattedDate = `${String(day)}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
-      console.log(formattedDate, "formattedDate");
+   
       queryParams.append("drs_date", formattedDate);
 
       const queryString = queryParams.toString();
@@ -510,7 +510,7 @@ const CeoDashBoard = (props) => {
   //   formik.setFieldValue("selectedSiteDetails", selectedItem,)
 
   // };
-  console.log(filters, "filters");
+
   const handleSiteChange = async (selectedId) => {
     const handleConfirmedAction = async (selectedId) => {
       try {
@@ -518,7 +518,6 @@ const CeoDashBoard = (props) => {
         filters.site_id = selectedId;
         filters.site_name = selectedItem?.site_name;
   
-        console.log(filters, "filters after update");
         handleApplyFilters(filters)
      
       } catch (error) {
@@ -529,8 +528,7 @@ const CeoDashBoard = (props) => {
     const handleCancelledAction = async (selectedId) => {
       try {
         const selectedItem = await filters?.sites.find((item) => item.id === selectedId);
-        console.log(selectedItem, "CancelledAction selectedItem");
-  
+     
         await formik.setFieldValue("selectedSite", selectedId);
         await formik.setFieldValue("selectedSiteDetails", selectedItem);
       } catch (error) {
@@ -546,10 +544,9 @@ const CeoDashBoard = (props) => {
       cancelButtonText: 'Apply to This Only',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log(selectedId, "User clicked Submit");
         await handleConfirmedAction(selectedId);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        console.log('User clicked Cancel', selectedId);
+       
         await handleCancelledAction(selectedId);
       }
     });

@@ -41,7 +41,7 @@ const SearchBar = ({ onSearch, onReset, placeholder, hideReset }) => {
                     className="btn btn-primary  addclientbtn all-center-flex"
                     onClick={handleSearch}
                 >
-                    <i class="ph ph-magnifying-glass d-flex ph-search-icons"></i>
+                    <i className="ph ph-magnifying-glass d-flex ph-search-icons"></i>
                 </Link>
             </span>
 

@@ -251,7 +251,7 @@ const DashSubChild = ({
 
         <>
 
-          <div class="d-flex justify-content-between align-items-center flex-wrap bg-white text-black mb-5 py-3 px-3 primary-shadow gap-1">
+          <div className="d-flex justify-content-between align-items-center flex-wrap bg-white text-black mb-5 py-3 px-3 primary-shadow gap-1">
             <div className=" d-flex align-items-center">
               {showSmallLoader ? (<span className="Smallloader"></span>) : <>
                 <div className="">
@@ -262,7 +262,7 @@ const DashSubChild = ({
                   />
                 </div>
                 <div>
-                  <span class="fs-5 fw-light ms-2">{getSiteStats?.data?.site_name || ""}</span>
+                  <span className="fs-5 fw-light ms-2">{getSiteStats?.data?.site_name || ""}</span>
                 </div>
               </>}
             </div>
@@ -271,8 +271,8 @@ const DashSubChild = ({
             {/* RIGHT side heading title */}
             <div className=" d-flex gap-5 ">
               <div className=" d-flex flex-column bg-light-gray">
-                <div class="my-1 text-dark d-flex justify-content-between align-items-center px-2">
-                  <span class="fs-7-5">Cash Tracker</span>
+                <div className="my-1 text-dark d-flex justify-content-between align-items-center px-2">
+                  <span className="fs-7-5">Cash Tracker</span>
                   <span onClick={handleModalOpen} className="pointer">
                     <OverlayTrigger
                       placement="top"
@@ -292,10 +292,10 @@ const DashSubChild = ({
                   </span>
                 </div>
 
-                <div class="d-flex">
+                <div className="d-flex">
                   <div>
                     <div
-                      class="text-center py-1 all-center-flex position-relative fs-7-5 color-light-gray bg-dark-green"
+                      className="text-center py-1 all-center-flex position-relative fs-7-5 color-light-gray bg-dark-green"
                       style={{
                         height: "48px",
                         width: "140px",

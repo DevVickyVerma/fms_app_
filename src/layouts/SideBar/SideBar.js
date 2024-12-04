@@ -247,14 +247,14 @@ const Sidebar = () => {
                 id="sidebar-main"
                 style={{ marginBottom: "61px" }}
               >
-                {MENUITEMS?.map((Item,) => (
-                  <Fragment key={Item?.id}>
-                    {Item.Items.map((menuItem,) =>
+                {MENUITEMS?.map((Item, parentIndex) => (
+                  <Fragment key={Item?.id || `parent-${parentIndex}`}>
+                    {Item.Items.map((menuItem, menuIndex) =>
                       menuItem.visibility ? (
                         <li
                           className={`slide ${menuItem.active ? "is-expanded" : ""
                             }`}
-                          key={menuItem?.id}
+                          key={menuItem?.id || `menu-${parentIndex}-${menuIndex}`}
                         >
                           {menuItem.type === "link" ? (
                             <NavLink
@@ -340,8 +340,11 @@ const Sidebar = () => {
                             //     }
                             // }
                             >
-                              {menuItem.children.map((childrenItem) => childrenItem.visibility ? (
-                                <li key={childrenItem?.id}>
+                              {menuItem.children.map((childrenItem, childIndex) => childrenItem.visibility ? (
+                                <li key={
+                                  childrenItem?.id ||
+                                  `child-${parentIndex}-${menuIndex}-${childIndex}`
+                                }>
                                   {childrenItem.type === "sub" ? (
                                     <a
                                       href="javascript"
@@ -392,8 +395,11 @@ const Sidebar = () => {
                                       }
                                     >
                                       {childrenItem.children.map(
-                                        (childrenSubItem) => (
-                                          <li key={childrenSubItem?.id}>
+                                        (childrenSubItem, subIndex) => (
+                                          <li key={
+                                            childrenSubItem?.id ||
+                                            `sub-child-${parentIndex}-${menuIndex}-${childIndex}-${subIndex}`
+                                          }>
                                             {childrenSubItem.type ===
                                               "link" ? (
                                               <NavLink
