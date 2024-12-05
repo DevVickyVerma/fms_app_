@@ -359,50 +359,7 @@ const ManageDsr = (props) => {
   };
 
 console.log(UploadList, "UploadList");
-const uploadListt = [
-  {
-      "id": 1,
-      "name": "Upload Sales Summary",
-      "code": "sales",
-      "bgColor": "green"
-  },
-  {
-      "id": 2,
-      "name": "Upload Payment",
-      "code": "payments",
-      "bgColor": "green"
-  },
-  {
-      "id": 3,
-      "name": "Upload PaidOut",
-      "code": "paid",
-      "bgColor": "green"
-  },
-  {
-      "id": 4,
-      "name": "Upload Tank Reco",
-      "code": "tanks",
-      "bgColor": "green"
-  },
-  {
-      "id": 5,
-      "name": "Upload Vat Summary",
-      "code": "vat",
-      "bgColor": "green"
-  },
-  {
-      "id": 4,
-      "name": "Upload Shop Margin",
-      "code": "margin",
-      "bgColor": "green"
-  },
-  {
-      "id": 5,
-      "name": "Upload Shop Item Stock",
-      "code": "stock",
-      "bgColor": "blue"
-  }
-]
+
 const apikey = "1"
   return (
     <>
@@ -478,8 +435,8 @@ const apikey = "1"
                       Uploadtitle?.b_mdl === "HTECH" ||
                       Uploadtitle?.b_mdl === "EDGEPoS" ||
                       (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1)  ? (
-                      uploadListt && uploadListt.length > 0 ? (
-                        uploadListt.map((item) => (
+                      UploadList && UploadList.length > 0 ? (
+                        UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
                             <Card
                               className={`text-white ${item.bgColor === "blue"
@@ -559,7 +516,7 @@ const apikey = "1"
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn?.showBtn === true &&
                   isAssignPermissionAvailable &&
-                  DataEnteryList &&
+                  DataEnteryList && apikey == 0 &&
                   DataEnteryList.length > 0 ? (
                   <>
                     <Link
