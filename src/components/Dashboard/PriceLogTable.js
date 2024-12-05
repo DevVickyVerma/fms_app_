@@ -23,7 +23,7 @@ const PriceLogTable = ({ priceLogs }) => {
             <td>£{log.prev_price}</td>
             <td>£{log.price}</td>
             <td>{log.user}</td>
-            <td>{log.created}</td>
+            <td>02-12-2024</td>
           </tr>
         ))}
       </tbody>
