@@ -9,7 +9,7 @@ import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import { Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
+import { Bardata, Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -809,24 +809,14 @@ const CeoDashBoard = (props) => {
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
-
-
-        <CeoDashboardCharts
-          Salesstatsloading={Salesstatsloading} // Simulate loading
-          BarGraphSalesStats={BarGraphSalesStats} // Data for the charts
-          Baroptions={Baroptions} // Pass the Baroptions directly
+      <CeoDashboardCharts
+          Salesstatsloading={Salesstatsloading}
+          BarGraphSalesStats={BarGraphSalesStats} 
+          Baroptions={Baroptions}
         />
 
 
-
-
-
-
-
-
         <Card className="h-100 mt-4">
-
-
           <Card.Header className="flexspacebetween">
             <h4 className="card-title"> Selling Price Logs/Reports   </h4>
             <div className="flexspacebetween">
@@ -856,7 +846,6 @@ onChange={(e) => handleSiteChange(e.target.value)}
 
             </div>
           </Card.Header>
-
         </Card>
         {userPermissions?.includes("dashboard-site-stats") ?
           <>
@@ -946,11 +935,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                 )}
 
 
-
-
-
-
-              </Card.Body>
+           </Card.Body>
             </Card>
 
 

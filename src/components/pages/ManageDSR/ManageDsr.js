@@ -232,7 +232,6 @@ const ManageDsr = (props) => {
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
     setShowModal(true); // Toggle the value of showModal
-
     handleShowModal();
   };
 
@@ -263,7 +262,7 @@ const ManageDsr = (props) => {
       let parshedData = JSON.parse(storedData);
       GetDataWithClient(parshedData);
     }
-    
+
     return () => clearInterval(timer);
   }, [isTimerRunning, timeLeft]);
 
@@ -359,7 +358,52 @@ const ManageDsr = (props) => {
     setUploadtitle();
   };
 
-
+console.log(UploadList, "UploadList");
+const uploadListt = [
+  {
+      "id": 1,
+      "name": "Upload Sales Summary",
+      "code": "sales",
+      "bgColor": "green"
+  },
+  {
+      "id": 2,
+      "name": "Upload Payment",
+      "code": "payments",
+      "bgColor": "green"
+  },
+  {
+      "id": 3,
+      "name": "Upload PaidOut",
+      "code": "paid",
+      "bgColor": "green"
+  },
+  {
+      "id": 4,
+      "name": "Upload Tank Reco",
+      "code": "tanks",
+      "bgColor": "green"
+  },
+  {
+      "id": 5,
+      "name": "Upload Vat Summary",
+      "code": "vat",
+      "bgColor": "green"
+  },
+  {
+      "id": 4,
+      "name": "Upload Shop Margin",
+      "code": "margin",
+      "bgColor": "green"
+  },
+  {
+      "id": 5,
+      "name": "Upload Shop Item Stock",
+      "code": "stock",
+      "bgColor": "blue"
+  }
+]
+const apikey = "1"
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -389,9 +433,9 @@ const ManageDsr = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
-            <Card.Header>
-            <h3 className="card-title">Filter</h3>
-            </Card.Header>
+              <Card.Header>
+                <h3 className="card-title">Filter</h3>
+              </Card.Header>
               <NewFilterTab
                 getData={getData}
                 isLoading={isLoading}
@@ -418,7 +462,8 @@ const ManageDsr = (props) => {
 
         {Uploadtitle?.b_mdl === "PRISM" ||
           Uploadtitle?.b_mdl === "HTECH" ||
-          Uploadtitle?.b_mdl === "EDGEPoS" ? (
+          Uploadtitle?.b_mdl === "EDGEPoS" ||
+          (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1) ? (
           <Row>
             <Col md={12} xl={12}>
               <Card>
@@ -431,9 +476,10 @@ const ManageDsr = (props) => {
                   <Row>
                     {Uploadtitle?.b_mdl === "PRISM" ||
                       Uploadtitle?.b_mdl === "HTECH" ||
-                      Uploadtitle?.b_mdl === "EDGEPoS" ? (
-                      UploadList && UploadList.length > 0 ? (
-                        UploadList.map((item) => (
+                      Uploadtitle?.b_mdl === "EDGEPoS" ||
+                      (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1)  ? (
+                      uploadListt && uploadListt.length > 0 ? (
+                        uploadListt.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
                             <Card
                               className={`text-white ${item.bgColor === "blue"
