@@ -505,22 +505,20 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
 
                         <p>
                           <span className=" fw-bold">
-                            *TLM POS Confirmation Required -
+                            *Update with Confirmation -
                           </span>
                           <span className="ms-2">
-                            Selecting "TLM POS Confirmation Required" will
-                            prompt a pop-up on the POS system, where the
-                            operator must confirm the price change to proceed.
+                            Selecting "Update with Confirmation" will prompt a
+                            pop-up on the POS system, where the operator must
+                            confirm the price change to proceed.
                           </span>
                         </p>
                         <p>
-                          <span className=" fw-bold">
-                            *Forcefully Update TLM Price -
-                          </span>
+                          <span className=" fw-bold">*Update Forcefully -</span>
                           <span className="ms-2">
-                            Enabling "Forcefully Update TLM Price" will
-                            automatically update prices on the POS, till, and
-                            pole sign, if the POS and pole are connected.
+                            Selecting "Update Forcefully" will automatically
+                            update prices on the POS, till, and pole sign, if
+                            the POS and pole are connected.
                           </span>
                         </p>
                       </>
