@@ -119,7 +119,7 @@ const CeoDashboardFilterModal = ({
     const fetchCompanyList = async (clientId) => {
         try {
             const response = await getData(`common/company-list?client_id=${clientId}`);
-            FetchReportList(clientId)
+            // FetchReportList(clientId)
             formik.setFieldValue('companies', response?.data?.data);
         } catch (error) {
             handleError(error);
@@ -309,7 +309,7 @@ const CeoDashboardFilterModal = ({
                                     )
                                 }
 
-                          
+
 
 
                             </Row>

@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import FiltersComponent from "../DashboardHeader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import UpercardsCeoDashboardStatsBox from '../DashboardStatsBox/UpercardsCeoDashboardStatsBox';
+import SecondFiltersComponent from '../SecondFiltersComponent';
 
 
 
@@ -207,7 +208,7 @@ const CeoDashBoardChild = (props) => {
                     </Breadcrumb>
                 </div>
 
-                <FiltersComponent
+                <SecondFiltersComponent
                     filters={filters}
                     handleToggleSidebar1={handleToggleSidebar1}
                 />

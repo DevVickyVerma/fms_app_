@@ -120,7 +120,7 @@ const CeoDashBoard = (props) => {
         const response = await getData(`common/site-list?company_id=${values?.company_id}`);
         values.sites = response?.data?.data || [];
       }
-      if (!values?.reports && isClientRole) {
+      if (values) {
         const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
         values.reports = response?.data?.data?.reports || [];
         values.reportmonths = response?.data?.data?.months || [];
@@ -270,18 +270,12 @@ const CeoDashBoard = (props) => {
     if (client_id) {
       try {
         if (setLoading) setLoading(true);
-
         const queryParams = new URLSearchParams();
         if (client_id) queryParams.append("client_id", client_id);
         if (company_id) queryParams.append("company_id", company_id);
         if (site_id) queryParams.append("site_id", site_id);
-
-
-
         const queryString = queryParams.toString();
         const response = await getData(`${endpoint}?${queryString}`);
-
-
         setFilters(updatedFilters);
         setCenterFilterModalOpen(false);
         if (response && response.data && response.data.data) {
@@ -572,11 +566,6 @@ const CeoDashBoard = (props) => {
 
 
 
-  // const handleStockApplyFilters = (values) => {
-  //   navigate(`/dashboard-details/${values?.site_id}`, {
-  //     state: { isCeoDashboard: true }, // Pass the key-value pair in the state
-  //   });
-  // }
 
 
   return (

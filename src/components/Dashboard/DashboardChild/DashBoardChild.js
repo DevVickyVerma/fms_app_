@@ -9,6 +9,7 @@ import NewDashboardFilterModal from "../../pages/Filtermodal/NewDashboardFilterM
 import * as Yup from 'yup';
 import FiltersComponent from "../DashboardHeader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import SecondFiltersComponent from '../SecondFiltersComponent';
 
 
 
@@ -205,7 +206,7 @@ const DashBoardChild = (props) => {
           </Breadcrumb>
         </div>
 
-        <FiltersComponent
+        <SecondFiltersComponent
           filters={filters}
           handleToggleSidebar1={handleToggleSidebar1}
         />
