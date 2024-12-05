@@ -2220,6 +2220,11 @@ td.middayModal-td.time-input-fuel-sell {
   border: 1px solid #4663ac !important;
 }
 
-.c-w-per-25{
+.c-w-per-25 {
   width: 25%;
+}
+.hcenter {
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }

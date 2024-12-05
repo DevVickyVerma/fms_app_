@@ -8,7 +8,7 @@ import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import { Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
+import { Baroptions, SiteDetails, Tankcolors } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -29,6 +29,7 @@ import StockDetailFilterModal from "../pages/Filtermodal/StockDetailFilterModal"
 import { Bounce, toast } from "react-toastify";
 import CEODashboardCompetitor from "./CEODashboardCompetitor";
 import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
+import CeoDashSitetable from "./CeoDashSitetable";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -469,13 +470,10 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${
-          report?.report_code
-        }?${clientIDCondition}company_id=${
-          filters.company_id
-        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
-          formik?.values?.selectedMonthDetails?.value
-        }`;
+        const commonParams = `/download-report/${report?.report_code
+          }?${clientIDCondition}company_id=${filters.company_id
+          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
+          }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -497,8 +495,7 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${
-              errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -628,7 +625,7 @@ const CeoDashBoard = (props) => {
         if (response && response.data && response.data.data) {
           setGetCompetitorsPrice(response?.data?.data);
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -842,6 +839,15 @@ const CeoDashBoard = (props) => {
           Baroptions={Baroptions}
         />
 
+        <Row>
+          <Col lg={6} md={6}>
+            <CeoDashSitetable data={SiteDetails} title={" Top Performar Sites"} />
+          </Col>
+          <Col lg={6} md={6}>
+            <CeoDashSitetable data={SiteDetails} title={"Top Losse Sites"} />
+          </Col>
+        </Row>
+
         <Card className="h-100 mt-4">
           <Card.Header className="flexspacebetween">
             <h4 className="card-title"> Selling Price Logs/Reports </h4>
@@ -893,8 +899,8 @@ const CeoDashBoard = (props) => {
               <Card.Body className="overflow-auto">
                 <CEODashboardCompetitor
                   getCompetitorsPrice={getCompetitorsPrice}
-                  // Mopstatsloading={Mopstatsloading}
-                  // callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+                // Mopstatsloading={Mopstatsloading}
+                // callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
                 />
               </Card.Body>
             </Card>
