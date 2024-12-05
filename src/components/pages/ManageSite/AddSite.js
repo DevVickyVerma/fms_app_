@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
@@ -6,12 +6,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-import FormikSelect from '../../Formik/FormikSelect';
-import FormikInput from '../../Formik/FormikInput';
+import FormikSelect from "../../Formik/FormikSelect";
+import FormikInput from "../../Formik/FormikInput";
 import { ReactMultiEmail } from "react-multi-email";
 import * as Yup from "yup";
-import { activeInactiveOptions, AutomaticManualOptions, SalesSummary, StartEndDate, yesNoOptions } from '../../../Utils/commonFunctions/commonFunction';
-import { useSelector } from 'react-redux';
+import {
+  activeInactiveOptions,
+  AutomaticManualOptions,
+  EVOBOSOptions,
+  SalesSummary,
+  StartEndDate,
+  yesNoOptions,
+} from "../../../Utils/commonFunctions/commonFunction";
+import { useSelector } from "react-redux";
 const AddSite = (props) => {
   const { isLoading, postData, getData } = props;
 
@@ -19,7 +26,9 @@ const AddSite = (props) => {
   const { handleError } = useErrorHandler();
   const [AddSiteData, setAddSiteData] = useState([]);
   const [showToEmailError, setShowToEmailError] = useState(true);
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const GetSiteData = async () => {
     try {
       const response = await getData("site/common-data-list");
@@ -104,9 +113,15 @@ const AddSite = (props) => {
       ),
       supplier: Yup.string().required("Supplier is required"),
       DRS_Start_Date: Yup.string().required("DRS Start Date is required"),
-      data_import_type_id: Yup.string().required("Data Import Types is required"),
-      Saga_department_code: Yup.string().required("Sage Department Code is required"),
-      Saga_department_name: Yup.string().required("Saga Department Name is required"),
+      data_import_type_id: Yup.string().required(
+        "Data Import Types is required"
+      ),
+      Saga_department_code: Yup.string().required(
+        "Sage Department Code is required"
+      ),
+      Saga_department_name: Yup.string().required(
+        "Saga Department Name is required"
+      ),
       Drs_upload_status: Yup.string().required("Drs Upload Status is required"),
       Bp_nctt_site_no: Yup.string().required("Bp Nctt Site No is required"),
       bank_ref: Yup.string().required("Bank Reference is required"),
@@ -124,21 +139,19 @@ const AddSite = (props) => {
       //   .min(1, "At least one email is required"),
     }),
     onSubmit: (values) => {
-      handleSubmit1(values)
+      handleSubmit1(values);
     },
   });
 
-  const handleSubmit1 = async (values,) => {
+  const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
-
 
       if (localStorage.getItem("superiorRole") === "Client") {
         formData.append("client_id", ReduxFullData?.superiorId);
       } else {
         formData.append("client_id", values.client_id);
       }
-
 
       formData.append("business_type_id", values.bussiness_Type);
       formData.append("data_import_type_id", values.data_import_type_id);
@@ -196,7 +209,6 @@ const AddSite = (props) => {
       formData.append("cashback_enable", values.cashback_enable);
       formData.append("e_code", values.e_code);
 
-
       if (values?.to_emails && values?.to_emails.length > 0) {
         values?.to_emails.forEach((client, index) => {
           formData.append(`to_emails[${index}]`, client);
@@ -222,8 +234,6 @@ const AddSite = (props) => {
     }
   };
 
-
-
   const fetchCommonListData = async () => {
     try {
       const response = await getData("/common/client-list");
@@ -231,15 +241,11 @@ const AddSite = (props) => {
       const { data } = response;
 
       if (response?.data?.data) {
-
-
-        formik.setFieldValue('clients', response?.data?.data);
+        formik.setFieldValue("clients", response?.data?.data);
       }
       if (data) {
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
-
-
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
@@ -262,8 +268,7 @@ const AddSite = (props) => {
         );
 
         if (response) {
-
-          formik.setFieldValue('companies', response?.data?.data);
+          formik.setFieldValue("companies", response?.data?.data);
         } else {
           throw new Error("No data available in the response");
         }
@@ -277,69 +282,74 @@ const AddSite = (props) => {
 
   const handleClientChange = (e) => {
     const clientId = e.target.value;
-    formik.setFieldValue('client_id', clientId);
+    formik.setFieldValue("client_id", clientId);
 
     if (clientId) {
       GetCompanyList(clientId);
 
-      const selectedClient = formik.values.clients.find(client => client?.id === clientId);
-      formik.setFieldValue('client_name', selectedClient?.client_name || "");
-      formik.setFieldValue('companies', selectedClient?.companies || []);
-      formik.setFieldValue('company_id', "");
-
+      const selectedClient = formik.values.clients.find(
+        (client) => client?.id === clientId
+      );
+      formik.setFieldValue("client_name", selectedClient?.client_name || "");
+      formik.setFieldValue("companies", selectedClient?.companies || []);
+      formik.setFieldValue("company_id", "");
     } else {
-      formik.setFieldValue('client_name', "");
-      formik.setFieldValue('companies', []);
-      formik.setFieldValue('company_id', "");
-
-
+      formik.setFieldValue("client_name", "");
+      formik.setFieldValue("companies", []);
+      formik.setFieldValue("company_id", "");
     }
   };
 
   const handleCompanyChange = (e) => {
     const companyId = e.target.value;
-    formik.setFieldValue('company_id', companyId);
+    formik.setFieldValue("company_id", companyId);
 
     if (companyId) {
-      const selectedCompany = formik.values.companies.find(company => company?.id === companyId);
-      formik.setFieldValue('company_name', selectedCompany?.company_name || "");
+      const selectedCompany = formik.values.companies.find(
+        (company) => company?.id === companyId
+      );
+      formik.setFieldValue("company_name", selectedCompany?.company_name || "");
     } else {
-      formik.setFieldValue('company_name', "");
+      formik.setFieldValue("company_name", "");
     }
   };
   let storedKeyName = "localFilterModalData";
 
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
-    GetSiteData()
+    GetSiteData();
     if (storedDataString) {
       const parsedData = JSON.parse(storedDataString);
       // formik.setValues(parsedData);
 
       if (!parsedData?.report) {
-        formik?.setFieldValue("report", "")
+        formik?.setFieldValue("report", "");
       }
       if (!parsedData?.selectedSites) {
-        formik?.setFieldValue("selectedSites", [])
+        formik?.setFieldValue("selectedSites", []);
       }
 
       if (parsedData?.client_id) {
         GetCompanyList(parsedData?.client_id);
-
       }
     }
 
-    if (!storedDataString && localStorage.getItem("superiorRole") === "Client") {
+    if (
+      !storedDataString &&
+      localStorage.getItem("superiorRole") === "Client"
+    ) {
       const clientId = localStorage.getItem("superiorId");
       if (clientId) {
         handleClientChange({ target: { value: clientId } });
       }
     }
-    if (!storedDataString && localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+    if (
+      !storedDataString &&
+      localStorage.getItem("superiorRole") !== "Client"
+    ) {
+      fetchCommonListData();
     }
   }, []);
-
 
   const handleTLMPriceChange = (e) => {
     const value = e.target.value;
@@ -381,8 +391,6 @@ const AddSite = (props) => {
       </span>
     </div>
   );
-
-
 
   return (
     <>
@@ -429,60 +437,87 @@ const AddSite = (props) => {
                 <Card.Body>
                   <form onSubmit={formik.handleSubmit}>
                     <Row>
-                      {localStorage.getItem('superiorRole') !== 'Client' && (
-                        <Col lg={4} md={6} >
+                      {localStorage.getItem("superiorRole") !== "Client" && (
+                        <Col lg={4} md={6}>
                           <FormikSelect
                             formik={formik}
                             name="client_id"
                             label="Client"
-                            options={formik?.values?.clients?.map((item) => ({ id: item?.id, name: item?.full_name }))}
+                            options={formik?.values?.clients?.map((item) => ({
+                              id: item?.id,
+                              name: item?.full_name,
+                            }))}
                             className="form-input "
                             onChange={handleClientChange}
                           />
                         </Col>
                       )}
 
-
-                      <Col lg={4} md={6} >
+                      <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
                           name="company_id"
                           label="Company"
-                          options={formik?.values?.companies?.map((item) => ({ id: item?.id, name: item?.company_name }))}
+                          options={formik?.values?.companies?.map((item) => ({
+                            id: item?.id,
+                            name: item?.company_name,
+                          }))}
                           className="form-input"
                           onChange={handleCompanyChange}
                         />
                       </Col>
-                      <Col lg={4} md={6} >
+                      <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
                           name="supplier"
                           label="supplier"
-                          options={AddSiteData?.suppliers?.map((item) => ({ id: item?.id, name: item?.supplier_name }))}
+                          options={AddSiteData?.suppliers?.map((item) => ({
+                            id: item?.id,
+                            name: item?.supplier_name,
+                          }))}
                           className="form-input"
-                        // onChange={handleCompanyChange}
+                          // onChange={handleCompanyChange}
                         />
                       </Col>
                       <Col lg={4}>
-                        <FormikInput formik={formik} type="text" name="site_code" />
+                        <FormikInput
+                          formik={formik}
+                          type="text"
+                          name="site_code"
+                        />
                       </Col>
                       <Col lg={4}>
-                        <FormikInput formik={formik} type="text" name="site_name" />
+                        <FormikInput
+                          formik={formik}
+                          type="text"
+                          name="site_name"
+                        />
                       </Col>
                       <Col lg={4}>
-                        <FormikInput formik={formik} type="text" label='Site Id' name="e_code" />
+                        <FormikInput
+                          formik={formik}
+                          type="text"
+                          label="Site Id"
+                          name="e_code"
+                        />
                       </Col>
                       <Col lg={4}>
-                        <FormikInput formik={formik} type="text" name="display_name" />
+                        <FormikInput
+                          formik={formik}
+                          type="text"
+                          name="display_name"
+                        />
                       </Col>
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
                           name="site_status"
                           label="Site Status"
-                          options={AddSiteData.site_status?.map((item) => ({ id: item?.value, name: item?.name }))}
+                          options={AddSiteData.site_status?.map((item) => ({
+                            id: item?.value,
+                            name: item?.name,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -490,32 +525,63 @@ const AddSite = (props) => {
                           formik={formik}
                           name="bussiness_Type"
                           label="Bussiness Type"
-                          options={AddSiteData.busines_types?.map((item) => ({ id: item?.id, name: item?.name }))}
+                          options={AddSiteData.busines_types?.map((item) => ({
+                            id: item?.id,
+                            name: item?.name,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='Saga Department Code' name="Saga_department_code" />
+                        <FormikInput
+                          formik={formik}
+                          type="number"
+                          label="Saga Department Code"
+                          name="Saga_department_code"
+                        />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="text" label='Saga Department Name' name="Saga_department_name" />
+                        <FormikInput
+                          formik={formik}
+                          type="text"
+                          label="Saga Department Name"
+                          name="Saga_department_name"
+                        />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='Bp_nctt_site_no' name="Bp_nctt_site_no" />
+                        <FormikInput
+                          formik={formik}
+                          type="number"
+                          label="Bp_nctt_site_no"
+                          name="Bp_nctt_site_no"
+                        />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="text" label='bank_ref' name="bank_ref" />
+                        <FormikInput
+                          formik={formik}
+                          type="text"
+                          label="bank_ref"
+                          name="bank_ref"
+                        />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} min={"2023-01-01"} type="date" label='DRS_Start_Date' name="DRS_Start_Date" />
+                        <FormikInput
+                          formik={formik}
+                          min={"2023-01-01"}
+                          type="date"
+                          label="DRS_Start_Date"
+                          name="DRS_Start_Date"
+                        />
                       </Col>
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
                           name="site_report_status"
                           label="Report Generation Status"
-                          options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={activeInactiveOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
                         />
@@ -525,9 +591,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="Report_date_type"
                           label="Report_date_type"
-                          options={StartEndDate?.map((item) => ({ id: item?.id, name: item?.name }))}
+                          options={StartEndDate?.map((item) => ({
+                            id: item?.id,
+                            name: item?.name,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -535,9 +603,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="consider_keyfules_cards"
                           label="consider_keyfules_cards"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -545,10 +615,12 @@ const AddSite = (props) => {
                           formik={formik}
                           name="Fuel_commission_type"
                           label="Fuel_commission_type"
-                          options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={activeInactiveOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -556,10 +628,12 @@ const AddSite = (props) => {
                           formik={formik}
                           name="Paper_work_status"
                           label="Paper_work_status"
-                          options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={activeInactiveOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -567,7 +641,10 @@ const AddSite = (props) => {
                           formik={formik}
                           name="Bunkered_sale_status"
                           label="Bunkered_sale_status"
-                          options={activeInactiveOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={activeInactiveOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
                         />
@@ -577,51 +654,136 @@ const AddSite = (props) => {
                           formik={formik}
                           name="Drs_upload_status"
                           label="Drs_upload_status"
-                          options={AutomaticManualOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={AutomaticManualOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="textarea" label='site_Address' name="site_Address" />
+                        <FormikInput
+                          formik={formik}
+                          type="textarea"
+                          label="site_Address"
+                          name="site_Address"
+                        />
                       </Col>
+
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
                           name="data_import_type_id"
                           label="Select Data Import Types"
-                          options={AddSiteData.data_import_types?.map((item) => ({ id: item?.id, name: item?.import_type_name }))}
-                          className="form-input"
+                          options={AddSiteData.data_import_types?.map(
+                            (item) => ({
+                              id: item?.id,
+                              name: item?.import_type_name,
+                            })
+                          )}
+                          onChange={(e) => {
+                            const selectedId = e.target.value;
 
+                            // Find the selected import type from AddSiteData
+                            const selectedImportType =
+                              AddSiteData?.data_import_types?.find(
+                                (item) => item.id === selectedId
+                              );
+
+                            // Update the formik value for 'data_import_type_id'
+                            formik.setFieldValue(
+                              "data_import_type_id",
+                              selectedId
+                            );
+
+                            // Check if the selected type is EVOBOS
+                            if (
+                              selectedImportType?.import_type_code === "EVOBOS"
+                            ) {
+                              // Add the 'show_evobos_type' field to formik if EVOBOS is selected
+                              formik.setFieldValue("show_evobos_type", true); // Default to
+                              formik.setFieldValue("evobos_type", 0); // Default to
+                            } else {
+                              // Reset 'show_evobos_type' if it's not EVOBOS
+                              formik.setFieldValue("show_evobos_type", false);
+                            }
+                          }}
+                          className="form-input"
+                        />
+                      </Col>
+
+                      {formik?.values?.show_evobos_type && (
+                        <>
+                          <Col lg={4} md={6}>
+                            <FormikSelect
+                              formik={formik}
+                              name="evobos_type"
+                              label="EVOBOS Type"
+                              options={EVOBOSOptions?.map((item) => ({
+                                id: item?.value,
+                                name: item?.label,
+                              }))}
+                              className="form-input"
+                              isHideDefaultSelectOption={true}
+                            />
+                          </Col>
+                        </>
+                      )}
+
+                      <Col lg={4} md={6}>
+                        <FormikInput
+                          formik={formik}
+                          type="number"
+                          label="security_amount"
+                          name="security_amount"
                         />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='security_amount' name="security_amount" />
+                        <FormikInput
+                          formik={formik}
+                          type="number"
+                          label="shop_commission"
+                          name="shop_commission"
+                          isRequired={false}
+                        />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='shop_commission' name="shop_commission"
-                          isRequired={false} />
+                        <FormikInput
+                          formik={formik}
+                          type="number"
+                          label="lottery_commission"
+                          name="lottery_commission"
+                          isRequired={false}
+                        />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='lottery_commission' name="lottery_commission"
-                          isRequired={false} />
+                        <FormikInput
+                          formik={formik}
+                          type="number"
+                          label="instant_lottery_commission"
+                          name="instant_lottery_commission"
+                          isRequired={false}
+                        />
                       </Col>
                       <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='instant_lottery_commission' name="instant_lottery_commission"
-                          isRequired={false} />
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormikInput formik={formik} type="number" label='paypoint_commission' name="paypoint_commission"
-                          isRequired={false} />
+                        <FormikInput
+                          formik={formik}
+                          type="number"
+                          label="paypoint_commission"
+                          name="paypoint_commission"
+                          isRequired={false}
+                        />
                       </Col>
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
                           name="apply_sc"
                           label="apply_sc"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -629,9 +791,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="is_reconciled"
                           label="is_reconciled"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -639,9 +803,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="paidout"
                           label="paidout"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                           isRequired={false}
                         />
                       </Col>
@@ -650,9 +816,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="loomis_status"
                           label="loomis_status"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -660,9 +828,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="cashback_status"
                           label="cashback_status"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -670,10 +840,12 @@ const AddSite = (props) => {
                           formik={formik}
                           name="auto_dayend"
                           label="auto_dayend"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -681,10 +853,12 @@ const AddSite = (props) => {
                           formik={formik}
                           name="ignore_tolerance"
                           label="ignore_tolerance"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -692,9 +866,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="d_deduction"
                           label="d_deduction"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -702,9 +878,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="display_all_sales"
                           label="display_all_sales"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -712,7 +890,10 @@ const AddSite = (props) => {
                           formik={formik}
                           name="fuel_discount"
                           label="fuel_discount"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
                         />
@@ -722,9 +903,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="vat_summary"
                           label="vat_summary"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                           isRequired={false}
                         />
                       </Col>
@@ -733,10 +916,12 @@ const AddSite = (props) => {
                           formik={formik}
                           name="include_bunkered_sales"
                           label="include_bunkered_sales"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -744,9 +929,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="show_admin_sale"
                           label="Select Show Owner Shop Sales(in CLDO)"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                           isRequired={false}
                         />
                       </Col>
@@ -755,9 +942,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="send_auto_report"
                           label="send_auto_report"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                           isRequired={false}
                         />
                       </Col>
@@ -766,9 +955,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="cashback_enable"
                           label="cashback_enable"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -776,10 +967,12 @@ const AddSite = (props) => {
                           formik={formik}
                           name="consider_fuel_sales"
                           label="consider_fuel_sales"
-                          options={SalesSummary?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={SalesSummary?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -787,10 +980,12 @@ const AddSite = (props) => {
                           formik={formik}
                           name="shop_sale_file_upload"
                           label="shop_sale_file_upload"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           isRequired={false}
-
                         />
                       </Col>
                       <Col lg={4} md={6}>
@@ -798,9 +993,11 @@ const AddSite = (props) => {
                           formik={formik}
                           name="change_back_date_price"
                           label="Update Previous Date Price"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
-
                           isRequired={false}
                         />
                       </Col>
@@ -809,29 +1006,30 @@ const AddSite = (props) => {
                           formik={formik}
                           name="update_tlm_price"
                           label="update_tlm_price"
-                          options={yesNoOptions?.map((item) => ({ id: item?.value, name: item?.label }))}
+                          options={yesNoOptions?.map((item) => ({
+                            id: item?.value,
+                            name: item?.label,
+                          }))}
                           className="form-input"
                           onChange={handleTLMPriceChange}
-
                           isRequired={false}
                         />
                       </Col>
 
-
-
-
                       {formik.values.update_tlm_price == "1" && (
                         <>
                           <Col lg={4} md={6}>
-                            <FormikInput formik={formik} isRequired={false} type="number" label="Mobile" name="mobile" />
+                            <FormikInput
+                              formik={formik}
+                              isRequired={false}
+                              type="number"
+                              label="Mobile"
+                              name="mobile"
+                            />
                           </Col>
 
                           <Col lg={4} md={6}>
-                            <label
-                              htmlFor="to_emails"
-                            >
-                              To Email
-                            </label>
+                            <label htmlFor="to_emails">To Email</label>
                             <div className="email-input">
                               <ReactMultiEmail
                                 emails={formik.values?.to_emails}
@@ -841,12 +1039,10 @@ const AddSite = (props) => {
                                 onBlur={() =>
                                   formik.setFieldTouched("to_emails", true)
                                 }
-
                               />
-
                             </div>
                             {formik.touched.to_emails &&
-                              formik.errors.to_emails ? (
+                            formik.errors.to_emails ? (
                               <div className="error invalid-feedback">
                                 {formik.errors.to_emails}
                               </div>
@@ -858,13 +1054,8 @@ const AddSite = (props) => {
                             </span>
                           </Col>
 
-
                           <Col lg={4} md={6}>
-                            <label
-                              htmlFor="cc_emails"
-                            >
-                              CC Email
-                            </label>
+                            <label htmlFor="cc_emails">CC Email</label>
                             <div className="email-input">
                               <ReactMultiEmail
                                 emails={formik.values?.cc_emails}
@@ -876,7 +1067,7 @@ const AddSite = (props) => {
                                 }
                               />
                               {formik.touched.cc_emails &&
-                                formik.errors.cc_emails ? (
+                              formik.errors.cc_emails ? (
                                 <div className="error">
                                   {formik.errors.cc_emails}
                                 </div>
@@ -890,10 +1081,6 @@ const AddSite = (props) => {
                           </Col>
                         </>
                       )}
-
-
-
-
                     </Row>
                     <Card.Footer className="text-end">
                       <Link
@@ -907,21 +1094,18 @@ const AddSite = (props) => {
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
-                      // disabled={Object.keys(errors).length > 0}
+                        // disabled={Object.keys(errors).length > 0}
                       >
                         Save
                       </button>
                     </Card.Footer>
                   </form>
                 </Card.Body>
-
               </Card>
-
             </Col>
           </Row>
         </>
-      )
-      }
+      )}
     </>
   );
 };
