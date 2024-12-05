@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -28,6 +27,8 @@ import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
 import StockDetailFilterModal from "../pages/Filtermodal/StockDetailFilterModal";
 import { Bounce, toast } from "react-toastify";
+import CEODashboardCompetitor from "./CEODashboardCompetitor";
+import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -61,18 +62,21 @@ const CeoDashBoard = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
 
+  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
 
   const { handleError } = useErrorHandler();
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
 
   const formik = useFormik({
     initialValues: {
-      client_id: '',
-      company_id: '',
-      selectedSite: '',
-      selectedSiteDetails: '',
-      selectedMonth: '',
-      selectedMonthDetails: '',
+      client_id: "",
+      company_id: "",
+      selectedSite: "",
+      selectedSiteDetails: "",
+      selectedMonth: "",
+      selectedMonthDetails: "",
     },
     onSubmit: (values) => {
       console.log(values);
@@ -84,7 +88,10 @@ const CeoDashBoard = (props) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("Dashboardsitestats", permissionsArray?.includes("dashboard-site-stats"));
+    localStorage.setItem(
+      "Dashboardsitestats",
+      permissionsArray?.includes("dashboard-site-stats")
+    );
     if (ReduxFullData?.company_id) {
       localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
       localStorage.setItem("PresetCompanyName", ReduxFullData?.company_name);
@@ -98,8 +105,9 @@ const CeoDashBoard = (props) => {
     // ;
   }, [ReduxFullData, permissionsArray]);
 
-
-  var [isClientRole] = useState(localStorage.getItem("superiorRole") == "Client");
+  var [isClientRole] = useState(
+    localStorage.getItem("superiorRole") == "Client"
+  );
 
   const getCeoDashBoardFilterValidation = () =>
     Yup.object({
@@ -110,26 +118,28 @@ const CeoDashBoard = (props) => {
       //   : Yup.string(), // Optional if `applyFilterOvell` is true
     });
 
-
   const handleApplyFilters = async (values) => {
-    formik.setFieldValue("client_id", values.client_id)
-    formik.setFieldValue("company_id", values.company_id)
+    formik.setFieldValue("client_id", values.client_id);
+    formik.setFieldValue("company_id", values.company_id);
     try {
       // Check if 'Sites' is missing and user has client role
       if (!values?.sites && isClientRole) {
-        const response = await getData(`common/site-list?company_id=${values?.company_id}`);
+        const response = await getData(
+          `common/site-list?company_id=${values?.company_id}`
+        );
         values.sites = response?.data?.data || [];
       }
       if (values) {
-        const response = await getData(`client/reportlist?client_id=${values?.client_id}`);
+        const response = await getData(
+          `client/reportlist?client_id=${values?.client_id}`
+        );
         values.reports = response?.data?.data?.reports || [];
         values.reportmonths = response?.data?.data?.months || [];
       }
 
-
       // Ensure 'start_date' is set
       if (!values?.start_date) {
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         values.start_date = currentDate;
       }
 
@@ -138,7 +148,6 @@ const CeoDashBoard = (props) => {
 
       // Fetch dashboard stats if the user has the required permission
       if (permissionsArray?.includes("dashboard-view")) {
-
         // console.log(storedKeyName, "storedKeyName");
         FetchDashboardStats(values);
       }
@@ -148,9 +157,6 @@ const CeoDashBoard = (props) => {
   };
 
   const FetchDashboardStats = async (filters) => {
-
-
-
     const endpoints = [
       {
         name: "dashboard",
@@ -199,7 +205,6 @@ const CeoDashBoard = (props) => {
       // }
     ];
 
-
     // Split the endpoints into two halves
     const firstHalf = endpoints.slice(0, Math.ceil(endpoints.length / 3));
     const secondHalf = endpoints.slice(Math.ceil(endpoints.length / 3));
@@ -219,10 +224,9 @@ const CeoDashBoard = (props) => {
     }
   };
 
-
-
   const updateFilters = (filters) => {
-    let { client_id, company_id, site_id, client_name, company_name, sites } = filters;
+    let { client_id, company_id, site_id, client_name, company_name, sites } =
+      filters;
 
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = ReduxFullData?.superiorId;
@@ -237,33 +241,50 @@ const CeoDashBoard = (props) => {
     return { ...filters, client_id, client_name, company_id, company_name };
   };
 
-  const fetchData = async (filters, endpoint, setData, setLoading, callback) => {
+  const fetchData = async (
+    filters,
+    endpoint,
+    setData,
+    setLoading,
+    callback
+  ) => {
     const updatedFilters = updateFilters(filters);
     const { client_id, company_id, site_id } = updatedFilters;
 
-    if (!formik?.values?.selectedMonth && !formik?.values?.selectedMonthDetails && updatedFilters?.reportmonths) {
+    if (
+      !formik?.values?.selectedMonth &&
+      !formik?.values?.selectedMonthDetails &&
+      updatedFilters?.reportmonths
+    ) {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
       const currentMonth = currentDate.getMonth() + 1;
-      const currentMonthFormatted = `${currentYear}${currentMonth.toString().padStart(2, '0')}`;
-      const currentMonthObject = updatedFilters?.reportmonths.find(item => item.values === currentMonthFormatted);
+      const currentMonthFormatted = `${currentYear}${currentMonth
+        .toString()
+        .padStart(2, "0")}`;
+      const currentMonthObject = updatedFilters?.reportmonths.find(
+        (item) => item.values === currentMonthFormatted
+      );
       if (currentMonthObject) {
         formik.setFieldValue("selectedMonth", currentMonthObject.display);
         formik.setFieldValue("selectedMonthDetails", currentMonthObject);
-
       }
     }
 
-
-    if (updatedFilters?.company_id && updatedFilters?.sites && !updatedFilters?.site_id) {
-
+    if (
+      updatedFilters?.company_id &&
+      updatedFilters?.sites &&
+      !updatedFilters?.site_id
+    ) {
       const firstSiteDetails = updatedFilters?.sites?.[0];
       if (firstSiteDetails) {
         formik.setFieldValue("selectedSite", firstSiteDetails?.id);
         formik.setFieldValue("selectedSiteDetails", firstSiteDetails);
       }
     } else if (updatedFilters?.sites && updatedFilters?.site_id) {
-      const selectedItem = filters?.sites.find((item) => item.id == (updatedFilters?.site_id));
+      const selectedItem = filters?.sites.find(
+        (item) => item.id == updatedFilters?.site_id
+      );
       formik.setFieldValue("selectedSite", updatedFilters?.site_id);
       formik.setFieldValue("selectedSiteDetails", selectedItem);
     }
@@ -295,24 +316,28 @@ const CeoDashBoard = (props) => {
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
-      if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+      if (formik?.values?.selectedSite)
+        queryParams.append("site_id", formik?.values?.selectedSite);
       const currentDate = new Date();
-      const day = '01'
-      const formattedDate = `${String(day)}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
+      const day = "01";
+      const formattedDate = `${String(day)}-${String(
+        currentDate.getMonth() + 1
+      ).padStart(2, "0")}-${currentDate.getFullYear()}`;
 
       queryParams.append("drs_date", formattedDate);
 
       const queryString = queryParams.toString();
-      const response = await getData(`ceo-dashboard/selling-price?${queryString}`);
+      const response = await getData(
+        `ceo-dashboard/selling-price?${queryString}`
+      );
       if (response && response.data && response.data.data) {
-        setPriceLogs(response?.data?.data)
+        setPriceLogs(response?.data?.data);
       }
     } catch (error) {
       // handleError(error);
     } finally {
       setPriceLogssloading(false);
     }
-
   };
   // {
   //   name: "itemstock",
@@ -324,38 +349,42 @@ const CeoDashBoard = (props) => {
     try {
       setItemstockstatsloading(true);
       const queryParams = new URLSearchParams();
-      if (formik?.values?.client_id) queryParams.append("client_id", formik?.values?.client_id);
-      if (formik?.values?.company_id) queryParams.append("company_id", formik?.values?.company_id);
-      if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+      if (formik?.values?.client_id)
+        queryParams.append("client_id", formik?.values?.client_id);
+      if (formik?.values?.company_id)
+        queryParams.append("company_id", formik?.values?.company_id);
+      if (formik?.values?.selectedSite)
+        queryParams.append("site_id", formik?.values?.selectedSite);
       const queryString = queryParams.toString();
-      const response = await getData(`ceo-dashboard/department-item-stocks?${queryString}`);
+      const response = await getData(
+        `ceo-dashboard/department-item-stocks?${queryString}`
+      );
       if (response && response.data && response.data.data) {
-        setItemstockstats(response?.data?.data)
+        setItemstockstats(response?.data?.data);
       }
     } catch (error) {
       // handleError(error);
     } finally {
       setItemstockstatsloading(false);
     }
-
   };
   const FetchTankDetails = async () => {
     try {
       setGetSiteStatsloading(true);
       const queryParams = new URLSearchParams();
-      if (formik?.values?.selectedSite) queryParams.append("site_id", formik?.values?.selectedSite);
+      if (formik?.values?.selectedSite)
+        queryParams.append("site_id", formik?.values?.selectedSite);
 
       const queryString = queryParams.toString();
       const response = await getData(`dashboard/get-site-stats?${queryString}`);
       if (response && response.data && response.data.data) {
-        setGetSiteStats(response?.data?.data)
+        setGetSiteStats(response?.data?.data);
       }
     } catch (error) {
       // handleError(error);
     } finally {
       setGetSiteStatsloading(false);
     }
-
   };
 
   const handleResetFilters = async () => {
@@ -369,11 +398,11 @@ const CeoDashBoard = (props) => {
     setBarGraphStockStats(null);
     setShrinkagestats(null);
     setPriceLogs(null);
-    formik.resetForm()
+    formik.resetForm();
   };
 
   useEffect(() => {
-    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+    handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, [permissionsArray?.includes("dashboard-view")]);
 
   const handleShowLive = () => {
@@ -381,29 +410,26 @@ const CeoDashBoard = (props) => {
     // setLiveMarginModal((prevState) => !prevState);
   };
 
-
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
   };
   const [pdfisLoading, setpdfisLoading] = useState(false);
   const handleMonthChange = (selectedId) => {
-    const selectedItem = filters.reportmonths.find((item) => item.display == (selectedId));
-    formik.setFieldValue("selectedMonth", selectedId,)
-    formik.setFieldValue("selectedMonthDetails", selectedItem,)
+    const selectedItem = filters.reportmonths.find(
+      (item) => item.display == selectedId
+    );
+    formik.setFieldValue("selectedMonth", selectedId);
+    formik.setFieldValue("selectedMonthDetails", selectedItem);
   };
-
-
-
-
 
   useEffect(() => {
     if (formik?.values?.selectedSite) {
       FetchPriceLogs();
       FetchStockDetails();
       if (userPermissions?.includes("dashboard-site-stats")) {
-        FetchTankDetails()
+        FetchTankDetails();
       }
-
+      GetCompititor(filters);
     }
   }, [formik?.values?.selectedSite]);
 
@@ -416,12 +442,10 @@ const CeoDashBoard = (props) => {
     });
   };
   const handleDownload = async (report) => {
-
-
     if (!formik?.values?.selectedMonthDetails?.value) {
-      ErrorToast("Please select Month For Reports")
+      ErrorToast("Please select Month For Reports");
     } else {
-      setpdfisLoading(true)
+      setpdfisLoading(true);
       try {
         const formData = new FormData();
 
@@ -438,14 +462,20 @@ const CeoDashBoard = (props) => {
         // Add other necessary form values
         formData.append("company_id", filters.company_id);
 
-
         // Prepare client ID condition for the query params
-        let clientIDCondition = superiorRole !== "Client"
-          ? `client_id=${filters.client_id}&`
-          : `client_id=${filters.client_id}&`;
+        let clientIDCondition =
+          superiorRole !== "Client"
+            ? `client_id=${filters.client_id}&`
+            : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code}?${clientIDCondition}company_id=${filters.company_id}&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value}`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filters.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -453,35 +483,42 @@ const CeoDashBoard = (props) => {
         // Fetch the data
         const token = localStorage.getItem("token");
         const response = await fetch(apiUrl, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
 
         // Check if the response is OK
         if (!response.ok) {
-          // 
+          //
           // Await the response body parsing first to get the actual JSON data
           const errorData = await response.json();
-          ErrorToast(errorData?.message)
-          throw new Error(`Errorsss ${response.status}: ${errorData?.message || 'Something went wrong!'}`);
+          ErrorToast(errorData?.message);
+          throw new Error(
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
+            }`
+          );
         }
-
 
         // Handle the file download
         const blob = await response.blob();
-        const contentType = response.headers.get('Content-Type');
-        let fileExtension = 'xlsx'; // Default to xlsx
+        const contentType = response.headers.get("Content-Type");
+        let fileExtension = "xlsx"; // Default to xlsx
 
         if (contentType) {
-          if (contentType.includes('application/pdf')) {
-            fileExtension = 'pdf';
-          } else if (contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) {
-            fileExtension = 'xlsx';
-          } else if (contentType.includes('text/csv')) {
-            fileExtension = 'csv';
+          if (contentType.includes("application/pdf")) {
+            fileExtension = "pdf";
+          } else if (
+            contentType.includes(
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+          ) {
+            fileExtension = "xlsx";
+          } else if (contentType.includes("text/csv")) {
+            fileExtension = "csv";
           }
         }
 
@@ -489,23 +526,23 @@ const CeoDashBoard = (props) => {
         const url = window.URL.createObjectURL(new Blob([blob]));
 
         // Create a link element and trigger the download
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = url;
-        link.setAttribute('download', `${report?.report_name}.${fileExtension}`);
+        link.setAttribute(
+          "download",
+          `${report?.report_name}.${fileExtension}`
+        );
         document.body.appendChild(link);
         link.click();
 
         // Cleanup
         link.parentNode.removeChild(link);
-
       } catch (error) {
-        console.error('Error downloading the file:', error);
+        console.error("Error downloading the file:", error);
       } finally {
-        setpdfisLoading(false)
+        setpdfisLoading(false);
       }
     }
-
-
   };
 
   const StockDetailvalidation = () =>
@@ -513,7 +550,6 @@ const CeoDashBoard = (props) => {
       client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
       site_id: Yup.string().required("Site is required"),
-
     });
   const StockDeatils = () => {
     navigate(`/dashboard-details/${formik?.values?.selectedSite}`, {
@@ -521,16 +557,17 @@ const CeoDashBoard = (props) => {
     });
     // setstockDetailModal(true)
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSiteChange = async (selectedId) => {
     const handleConfirmedAction = async (selectedId) => {
       try {
-        const selectedItem = await filters?.sites.find((item) => item.id === selectedId);
+        const selectedItem = await filters?.sites.find(
+          (item) => item.id === selectedId
+        );
         filters.site_id = selectedId;
         filters.site_name = selectedItem?.site_name;
 
-        handleApplyFilters(filters)
-
+        handleApplyFilters(filters);
       } catch (error) {
         console.error("Error in handleConfirmedAction:", error);
       }
@@ -538,7 +575,9 @@ const CeoDashBoard = (props) => {
 
     const handleCancelledAction = async (selectedId) => {
       try {
-        const selectedItem = await filters?.sites.find((item) => item.id === selectedId);
+        const selectedItem = await filters?.sites.find(
+          (item) => item.id === selectedId
+        );
 
         await formik.setFieldValue("selectedSite", selectedId);
         await formik.setFieldValue("selectedSiteDetails", selectedItem);
@@ -549,47 +588,56 @@ const CeoDashBoard = (props) => {
 
     Swal.fire({
       title: "",
-      text: 'Apply this change on   whole dashboard or  below statistics only?',
-      icon: 'question',
+      text: "Apply this change on   whole dashboard or  below statistics only?",
+      icon: "question",
       showCancelButton: true,
-      confirmButtonText: 'Apply to All',
-      cancelButtonText: 'Apply to This Only',
+      confirmButtonText: "Apply to All",
+      cancelButtonText: "Apply to This Only",
     }).then(async (result) => {
       if (result.isConfirmed) {
         await handleConfirmedAction(selectedId);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-
         await handleCancelledAction(selectedId);
       }
     });
   };
 
+  useEffect(() => {
+    if (filters?.client_id && filters?.start_date && filters?.site_id) {
+      GetCompititor(filters);
+    }
+  }, [filters]);
 
+  const GetCompititor = async (filters) => {
+    console.log(filters, "filtersfiltersfiltersfiltersfilters");
+    let { client_id, start_date, site_id } = filters;
 
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = localStorage.getItem("superiorId");
+    }
+    if (client_id) {
+      try {
+        const queryParams = new URLSearchParams();
+        queryParams.append("site_id", site_id);
+        if (start_date) queryParams.append("drs_date", start_date);
 
+        const queryString = queryParams.toString();
+        const response = await getData(
+          `site/competitor-price/stats?${queryString}`
+        );
+        if (response && response.data && response.data.data) {
+          setGetCompetitorsPrice(response?.data?.data);
+        }
+      } catch (error) {}
+    }
+  };
+
+  console.log(filters, "filerer");
 
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
 
-      {stockDetailModal && (
-        <div className="">
-          <StockDetailFilterModal
-            isOpen={stockDetailModal}
-            onClose={() => setstockDetailModal(false)}
-            getData={getData}
-            isLoading={isLoading}
-            isStatic={true}
-            onApplyFilters={handleStockApplyFilters}
-            validationSchema={StockDetailvalidation}
-            storedKeyName={storedKeyName}
-            layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
-            showStationValidation={false}
-            showMonthInput={false}
-            showDateInput={false}
-          />
-        </div>
-      )}
       {centerFilterModalOpen && (
         <div className="">
           <CeoDashboardFilterModal
@@ -605,13 +653,11 @@ const CeoDashBoard = (props) => {
             showStationValidation={false}
             showMonthInput={false}
             showDateInput={false}
-
           />
         </div>
       )}
 
-      {!ReduxFullData?.role == "Client" &&
-        !ReduxFullData?.sms_balance < 3 ? (
+      {!ReduxFullData?.role == "Client" && !ReduxFullData?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -641,14 +687,13 @@ const CeoDashBoard = (props) => {
       )}
 
       {/* Showing error message for gross margin */}
-      {dashboardData?.gross_margin?.is_ppl == 1 && (<>
-        <div className="balance-alert head-alert-show">
-          <div>
-            {dashboardData?.gross_margin?.ppl_msg}
+      {dashboardData?.gross_margin?.is_ppl == 1 && (
+        <>
+          <div className="balance-alert head-alert-show">
+            <div>{dashboardData?.gross_margin?.ppl_msg}</div>
           </div>
-        </div>
-      </>)}
-
+        </>
+      )}
 
       <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
         {!ShowLiveData && (
@@ -664,7 +709,6 @@ const CeoDashBoard = (props) => {
         )}
         <div></div>
 
-
         <FiltersComponent
           filters={filters}
           handleToggleSidebar1={handleToggleSidebar1}
@@ -673,8 +717,7 @@ const CeoDashBoard = (props) => {
         />
       </div>
 
-      {!ReduxFullData?.role == "Client" &&
-        !ReduxFullData?.sms_balance < 3 ? (
+      {!ReduxFullData?.role == "Client" && !ReduxFullData?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -703,37 +746,36 @@ const CeoDashBoard = (props) => {
         ""
       )}
 
-
-
       <div className="mb-2 ">
-        {filters?.client_id && filters.company_id && (<>
-          <div className="text-end " >
-            <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
-              Live Margin
-            </button>
-          </div>
+        {filters?.client_id && filters.company_id && (
+          <>
+            <div className="text-end ">
+              <button
+                className=" mb-2 btn btn-primary"
+                onClick={handleShowLive}
+              >
+                Live Margin
+              </button>
+            </div>
 
-
-          {ShowLiveData && (
-            <DashboardStatCard
-              isLoading={isLoading}
-              getData={getData}
-              parentFilters={filters}
-
-              isOpen={ShowLiveData}
-              // onClose={() => setShowLiveData(false)}
-              onClose={() => handlelivemaringclosemodal()}
-              title="Total Sales"
-              value="2323"
-              percentageChange="3%"
-              iconClass="icon icon-rocket text-white mb-5"
-              iconBgColor="bg-danger-gradient"
-              trendColor="text-primary"
-            />
-          )}
-        </>
+            {ShowLiveData && (
+              <DashboardStatCard
+                isLoading={isLoading}
+                getData={getData}
+                parentFilters={filters}
+                isOpen={ShowLiveData}
+                // onClose={() => setShowLiveData(false)}
+                onClose={() => handlelivemaringclosemodal()}
+                title="Total Sales"
+                value="2323"
+                percentageChange="3%"
+                iconClass="icon icon-rocket text-white mb-5"
+                iconBgColor="bg-danger-gradient"
+                trendColor="text-primary"
+              />
+            )}
+          </>
         )}
-
 
         {ShowLiveData && (
           <h2 className=" d-flex justify-content-start mb-4  page-title dashboard-page-title">
@@ -745,46 +787,48 @@ const CeoDashBoard = (props) => {
           </h2>
         )}
 
+        {isLoading ? (
+          <SmallLoader title="Stats Cards" />
+        ) : (
+          <UpercardsCeoDashboardStatsBox
+            GrossVolume={dashboardData?.gross_volume}
+            shopmargin={dashboardData?.shop_profit}
+            GrossProfitValue={dashboardData?.gross_profit}
+            GrossMarginValue={dashboardData?.gross_margin}
+            FuelValue={dashboardData?.fuel_sales}
+            shopsale={dashboardData?.shop_sales}
+            shop_fees={dashboardData?.shop_fees}
+            dashboardData={dashboardData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+          />
+        )}
 
-        {isLoading ? <SmallLoader title="Stats Cards" /> : <UpercardsCeoDashboardStatsBox
-          GrossVolume={dashboardData?.gross_volume}
-          shopmargin={dashboardData?.shop_profit}
-          GrossProfitValue={dashboardData?.gross_profit}
-          GrossMarginValue={dashboardData?.gross_margin}
-          FuelValue={dashboardData?.fuel_sales}
-          shopsale={dashboardData?.shop_sales}
-          shop_fees={dashboardData?.shop_fees}
-          dashboardData={dashboardData}
-          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-        />}
-
-
-
-        {isLoading ? <SmallLoader title="Total Day Wise Sales" /> : <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
-          <ChartCard
-            title="Total Day Wise Sales"
-            chartType="full"
-            chartData={dashboardData?.d_line_graph}
-            CeoDashBoard={true}
-            noChartMessage=""
-          >
-            <DashboardMultiLineChart
-              LinechartValues={dashboardData?.d_line_graph?.series || []}
-              LinechartOption={dashboardData?.d_line_graph?.option?.labels || []}
-            />
-          </ChartCard>
-        </Row>}
-
-
-
-
+        {isLoading ? (
+          <SmallLoader title="Total Day Wise Sales" />
+        ) : (
+          <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
+            <ChartCard
+              title="Total Day Wise Sales"
+              chartType="full"
+              chartData={dashboardData?.d_line_graph}
+              CeoDashBoard={true}
+              noChartMessage=""
+            >
+              <DashboardMultiLineChart
+                LinechartValues={dashboardData?.d_line_graph?.series || []}
+                LinechartOption={
+                  dashboardData?.d_line_graph?.option?.labels || []
+                }
+              />
+            </ChartCard>
+          </Row>
+        )}
 
         <Card className="h-100">
           <Card.Header className="p-4">
             <h4 className="card-title"> MOP BreakDown </h4>
           </Card.Header>
         </Card>
-
 
         <CeoDashboardStatsBox
           dashboardData={MopstatsData}
@@ -798,32 +842,86 @@ const CeoDashBoard = (props) => {
           Baroptions={Baroptions}
         />
 
-
         <Card className="h-100 mt-4">
           <Card.Header className="flexspacebetween">
-            <h4 className="card-title"> Selling Price Logs/Reports   </h4>
+            <h4 className="card-title"> Selling Price Logs/Reports </h4>
             <div className="flexspacebetween">
-              {filters?.sites ? <div>
-                <select
-                  id="selectedSite"
-                  name="selectedSite"
-                  value={formik.values.selectedSite}
-                  onChange={(e) => handleSiteChange(e.target.value)}
-                  className="selectedMonth"
-                >
-                  <option value="">--Select a Site--</option>
-                  {filters?.sites?.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.site_name}
-                    </option>
-                  ))}
-                </select>
-              </div> : ""}
-
+              {filters?.sites ? (
+                <div>
+                  <select
+                    id="selectedSite"
+                    name="selectedSite"
+                    value={formik.values.selectedSite}
+                    onChange={(e) => handleSiteChange(e.target.value)}
+                    className="selectedMonth"
+                  >
+                    <option value="">--Select a Site--</option>
+                    {filters?.sites?.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.site_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </Card.Header>
         </Card>
-        {userPermissions?.includes("dashboard-site-stats") ?
+
+        <Row
+          style={{
+            marginBottom: "10px",
+            marginTop: "20px",
+          }}
+        >
+          <Col lg={7} md={7} className="">
+            <Card className="">
+              <Card.Header className=" my-cardd card-header ">
+                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
+                  <h4 className="card-title">
+                    {" "}
+                    {getCompetitorsPrice
+                      ? getCompetitorsPrice?.siteName
+                      : ""}{" "}
+                    Competitors Stats
+                    {/* ({showDate}) */}
+                  </h4>
+                </div>
+              </Card.Header>
+              <Card.Body className="overflow-auto">
+                <CEODashboardCompetitor
+                  getCompetitorsPrice={getCompetitorsPrice}
+                  // Mopstatsloading={Mopstatsloading}
+                  // callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+                />
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col lg={5} md={5} className="">
+            <Card className="">
+              <Card.Header className=" my-cardd card-header ">
+                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
+                  <h4 className="card-title">
+                    {" "}
+                    {getCompetitorsPrice
+                      ? getCompetitorsPrice?.siteName
+                      : ""}{" "}
+                    Competitors Chart
+                    {/* ({showDate}) */}
+                  </h4>
+                </div>
+              </Card.Header>
+              <Card.Body className="overflow-auto">
+                <CEODashboardCompetitorChart />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        {userPermissions?.includes("dashboard-site-stats") ? (
           <>
             {getSiteStatsloading ? (
               <SmallLoader title="Tank Analysis" />
@@ -833,7 +931,10 @@ const CeoDashBoard = (props) => {
                   <Card>
                     <Card.Header className="card-header">
                       <div className="Tank-Details d-flex">
-                        <h4 className="card-title">Tank Analysis ({formik.values?.selectedSiteDetails?.site_name})</h4>
+                        <h4 className="card-title">
+                          Tank Analysis (
+                          {formik.values?.selectedSiteDetails?.site_name})
+                        </h4>
                         <div className="Tank-Details-icon">
                           <OverlayTrigger
                             placement="right"
@@ -842,7 +943,10 @@ const CeoDashBoard = (props) => {
                               <Tooltip style={{ width: "200px" }}>
                                 <div>
                                   {Tankcolors?.map((color, index) => (
-                                    <div key={index} className=" d-flex align-items-center py-1 px-3 text-white">
+                                    <div
+                                      key={index}
+                                      className=" d-flex align-items-center py-1 px-3 text-white"
+                                    >
                                       <div
                                         style={{
                                           width: "20px", // Set the width for the color circle
@@ -851,7 +955,9 @@ const CeoDashBoard = (props) => {
                                           backgroundColor: color?.color,
                                         }}
                                       ></div>
-                                      <span className=" text-white ms-2">{color?.name}</span>
+                                      <span className=" text-white ms-2">
+                                        {color?.name}
+                                      </span>
                                     </div>
                                   ))}
                                 </div>
@@ -877,27 +983,41 @@ const CeoDashBoard = (props) => {
                   </Card>
                 </Col>
               </Row>
-
             ) : (
               <NoDataComponent title="Tank Analysis" />
             )}
           </>
-          : ""}
+        ) : (
+          ""
+        )}
 
         <Row className="d-flex align-items-stretch mt-5 ">
           <Col sm={12} md={8} key={Math.random()}>
-            <Card className="h-100" >
+            <Card className="h-100">
               <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
-                  <h4 className="card-title"> Selling Price Logs ({formik.values?.selectedSiteDetails?.site_name})
+                  <h4 className="card-title">
+                    {" "}
+                    Selling Price Logs (
+                    {formik.values?.selectedSiteDetails?.site_name})
                     {/* <br></br><span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span> */}
                   </h4>
-                  {userPermissions?.includes("fuel-price-logs") ? <span><Link to="/fuel-selling-price-logs/">
-                    View All
-                  </Link></span> : ""}
+                  {userPermissions?.includes("fuel-price-logs") ? (
+                    <span>
+                      <Link to="/fuel-selling-price-logs/">View All</Link>
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
+              <Card.Body
+                style={{
+                  maxHeight: "250px",
+                  overflowX: "auto",
+                  overflowY: "auto",
+                }}
+              >
                 {PriceLogsloading ? (
                   <SmallLoader />
                 ) : PriceLogs?.priceLogs?.length > 0 ? (
@@ -909,70 +1029,89 @@ const CeoDashBoard = (props) => {
                     className="all-center-flex smallNoDataimg"
                   />
                 )}
-
-
               </Card.Body>
             </Card>
-
-
-
           </Col>
           <Col sm={12} md={4} key={Math.random()}>
-            <Card className="h-100" >
-
-
+            <Card className="h-100">
               <Card.Header className="p-4 w-100  ">
                 <div className="w-100">
-
                   <div className="spacebetweenend">
                     <h4 className="card-title">
                       Reports({formik.values?.selectedSiteDetails?.site_name})
-
                     </h4>
-                    {userPermissions?.includes("report-type-list") ?
-                      <span className="textend"><Link to="/reports">
-                        View All
-                      </Link></span> : ""}
+                    {userPermissions?.includes("report-type-list") ? (
+                      <span className="textend">
+                        <Link to="/reports">View All</Link>
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="spacebetweenend">
-                    <span className="smalltitle">{(formik?.values?.selectedMonthDetails?.display)}</span>
+                    <span className="smalltitle">
+                      {formik?.values?.selectedMonthDetails?.display}
+                    </span>
 
-
-                    {filters?.reportmonths ? <Col lg={6} className="textend p-0">
-                      <select
-                        id="selectedMonth"
-                        name="selectedMonth"
-                        value={formik.values.selectedMonth}
-                        onChange={(e) => handleMonthChange(e.target.value)}
-                        className="selectedMonth"
-                      >
-                        <option value="">--Select a Month--</option>
-                        {filters?.reportmonths?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.display}
-                          </option>
-                        ))}
-                      </select>
-                    </Col> : ""}
+                    {filters?.reportmonths ? (
+                      <Col lg={6} className="textend p-0">
+                        <select
+                          id="selectedMonth"
+                          name="selectedMonth"
+                          value={formik.values.selectedMonth}
+                          onChange={(e) => handleMonthChange(e.target.value)}
+                          className="selectedMonth"
+                        >
+                          <option value="">--Select a Month--</option>
+                          {filters?.reportmonths?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.display}
+                            </option>
+                          ))}
+                        </select>
+                      </Col>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </Card.Header>
-              <Card.Body style={{ maxHeight: "250px", overflowX: "auto", overflowY: "auto", }}>
-                <div >
-                  {PriceLogsloading ? <SmallLoader /> : <> {filters?.reports?.length > 0 ? (<ReportTable reports={filters?.reports} pdfisLoading={pdfisLoading} handleDownload={handleDownload} />) : (
-                    <img
-                      src={require("../../assets/images/commonimages/no_data.png")}
-                      alt="MyChartImage"
-                      className=" all-center-flex  smallNoDataimg "
-                    />
-                  )}</>}
+              <Card.Body
+                style={{
+                  maxHeight: "250px",
+                  overflowX: "auto",
+                  overflowY: "auto",
+                }}
+              >
+                <div>
+                  {PriceLogsloading ? (
+                    <SmallLoader />
+                  ) : (
+                    <>
+                      {" "}
+                      {filters?.reports?.length > 0 ? (
+                        <ReportTable
+                          reports={filters?.reports}
+                          pdfisLoading={pdfisLoading}
+                          handleDownload={handleDownload}
+                        />
+                      ) : (
+                        <img
+                          src={require("../../assets/images/commonimages/no_data.png")}
+                          alt="MyChartImage"
+                          className=" all-center-flex  smallNoDataimg "
+                        />
+                      )}
+                    </>
+                  )}
                 </div>
               </Card.Body>
             </Card>
-          </Col></Row>
+          </Col>
+        </Row>
 
-        <Row className="mt-5 d-flex align-items-stretch" >
-          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
+        <Row className="mt-5 d-flex align-items-stretch">
+          <Col sm={12} md={4} xl={4} key={Math.random()} className="">
             {Stockstatsloading ? (
               <SmallLoader title="Stocks" />
             ) : BarGraphStockStats?.stock_graph_data ? (
@@ -980,7 +1119,13 @@ const CeoDashBoard = (props) => {
                 <Card.Header className="p-4">
                   <h4 className="card-title">Stocks</h4>
                 </Card.Header>
-                <Card.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Card.Body
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <div style={{ width: "300px", height: "300px" }}>
                     <Doughnut
                       data={BarGraphStockStats?.stock_graph_data}
@@ -990,14 +1135,11 @@ const CeoDashBoard = (props) => {
                   </div>
                 </Card.Body>
               </Card>
-
             ) : (
               <NoDataComponent title="Stocks" />
             )}
-
-
           </Col>
-          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
+          <Col sm={12} md={4} xl={4} key={Math.random()} className="">
             {Shrinkagestatsloading ? (
               <SmallLoader title="Shrinkage" />
             ) : Shrinkagestats?.shrinkage_graph_data ? (
@@ -1011,49 +1153,72 @@ const CeoDashBoard = (props) => {
             ) : (
               <NoDataComponent title="Shrinkage" />
             )}
-
-
           </Col>
 
-
-
-          <Col sm={12} md={4} xl={4} key={Math.random()} className=''>
-
-
+          <Col sm={12} md={4} xl={4} key={Math.random()} className="">
             {Itemstockstatsloading ? (
               <SmallLoader title="Stock Details" />
             ) : Itemstockstats?.length > 0 ? (
               <Card className="h-100">
                 <Card.Header className="p-4 w-100 flexspacebetween">
-                  <h4 className="card-title" > <div className="lableWithsmall">
-                    Stock Details ({formik.values?.selectedSiteDetails?.site_name})
-
-                  </div></h4>
-                  {userPermissions?.includes("report-type-list") ?
-                    <span style={{ color: "#4663ac", cursor: "pointer" }} onClick={StockDeatils}>
+                  <h4 className="card-title">
+                    {" "}
+                    <div className="lableWithsmall">
+                      Stock Details (
+                      {formik.values?.selectedSiteDetails?.site_name})
+                    </div>
+                  </h4>
+                  {userPermissions?.includes("report-type-list") ? (
+                    <span
+                      style={{ color: "#4663ac", cursor: "pointer" }}
+                      onClick={StockDeatils}
+                    >
                       View Details
-                    </span> : ""}
-
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </Card.Header>
                 <Card.Body style={{ maxHeight: "350px" }}>
-                  <div style={{ maxHeight: "300px", overflowY: "auto", }}>
-                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                      <thead style={{ position: "sticky", top: 0, backgroundColor: "#fff", zIndex: 1 }}>
+                  <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                    <table
+                      style={{ width: "100%", borderCollapse: "collapse" }}
+                    >
+                      <thead
+                        style={{
+                          position: "sticky",
+                          top: 0,
+                          backgroundColor: "#fff",
+                          zIndex: 1,
+                        }}
+                      >
                         <tr>
-                          <th style={{ textAlign: "left", padding: "8px", }}>Name</th>
-                          <th style={{ textAlign: "left", padding: "8px", }}>Gross Sales</th>
-                          <th style={{ textAlign: "left", padding: "8px", }}>Nett Sales</th>
-                          <th style={{ textAlign: "left", padding: "8px", }}>Profit</th>
+                          <th style={{ textAlign: "left", padding: "8px" }}>
+                            Name
+                          </th>
+                          <th style={{ textAlign: "left", padding: "8px" }}>
+                            Gross Sales
+                          </th>
+                          <th style={{ textAlign: "left", padding: "8px" }}>
+                            Nett Sales
+                          </th>
+                          <th style={{ textAlign: "left", padding: "8px" }}>
+                            Profit
+                          </th>
                           {/* <th style={{ textAlign: "left", padding: "8px", }}>Total Transactions</th> */}
                         </tr>
                       </thead>
                       <tbody>
                         {Itemstockstats?.map((stock) => (
                           <tr key={stock?.id}>
-                            <td style={{ padding: "8px", }}>{stock?.name}</td>
-                            <td style={{ padding: "8px", }}>{stock?.gross_sales}</td>
-                            <td style={{ padding: "8px", }}>{stock?.nett_sales}</td>
-                            <td style={{ padding: "8px", }}>{stock?.profit}</td>
+                            <td style={{ padding: "8px" }}>{stock?.name}</td>
+                            <td style={{ padding: "8px" }}>
+                              {stock?.gross_sales}
+                            </td>
+                            <td style={{ padding: "8px" }}>
+                              {stock?.nett_sales}
+                            </td>
+                            <td style={{ padding: "8px" }}>{stock?.profit}</td>
                             {/* <td style={{ padding: "8px", }}>{stock?.total_transactions}</td> */}
                           </tr>
                         ))}
@@ -1061,16 +1226,13 @@ const CeoDashBoard = (props) => {
                     </table>
                   </div>
                 </Card.Body>
-
-
               </Card>
             ) : (
-              <div className="h-100" >
+              <div className="h-100">
                 <NoDataComponent title="Stock Details" />
               </div>
-
-            )}</Col>
-
+            )}
+          </Col>
         </Row>
       </div>
     </>
