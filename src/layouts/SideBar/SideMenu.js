@@ -37,7 +37,7 @@ export const MENUITEMS = [
         icon: "graduation-cap",
         type: "sub",
         active: false,
-        permission: "user-list",
+        permission: "level-list",
         visibility: false,
         children: [
           {
