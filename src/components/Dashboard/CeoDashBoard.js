@@ -9,7 +9,7 @@ import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import { Bardata, Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
+import { Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -28,7 +28,6 @@ import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
 import StockDetailFilterModal from "../pages/Filtermodal/StockDetailFilterModal";
 import { Bounce, toast } from "react-toastify";
-import { statistic } from "antd/es/theme/internal";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -367,11 +366,6 @@ const CeoDashBoard = (props) => {
 
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
-    // setPriceLogssloading(true)
-    // setShrinkagestatsloading(true)
-    // setStockstatsloading(true)
-    // setSalesstatsloading(true)
-    // setMopstatsloading(true)
     setGetSiteStats(null);
     setFilters(null);
     setDashboardData(null);
@@ -809,9 +803,9 @@ const CeoDashBoard = (props) => {
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
-      <CeoDashboardCharts
+        <CeoDashboardCharts
           Salesstatsloading={Salesstatsloading}
-          BarGraphSalesStats={BarGraphSalesStats} 
+          BarGraphSalesStats={BarGraphSalesStats}
           Baroptions={Baroptions}
         />
 
@@ -835,13 +829,6 @@ const CeoDashBoard = (props) => {
                     </option>
                   ))}
                 </select>
-                {/* <FormikSelect
-formik={formik}
-name="selectedSite"
-options={filters?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
-className="selectedMonth"
-onChange={(e) => handleSiteChange(e.target.value)}
-/> */}
               </div> : ""}
 
             </div>
@@ -935,7 +922,7 @@ onChange={(e) => handleSiteChange(e.target.value)}
                 )}
 
 
-           </Card.Body>
+              </Card.Body>
             </Card>
 
 
