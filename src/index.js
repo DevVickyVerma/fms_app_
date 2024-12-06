@@ -55,6 +55,7 @@ const Custompages = React.lazy(() => import("./components/custompages"));
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
 const CeoDashBoard = React.lazy(() => import("./components/Dashboard/CeoDashBoard"));
+const CEOCompetitorView = React.lazy(() => import("./components/Dashboard/CEOCompitiorview"));
 const EditProfile = React.lazy(() =>
   import("./components/pages/EditProfile/EditProfile")
 );
@@ -613,6 +614,7 @@ const Root = () => {
   const WrappedManageAddon = withApi(ManageAddon);
   const WrappedAddAddon = withApi(AddAddon);
   const WrappeAddEditAddon = withApi(EditAddon);
+  const WrappeCEOCompetitorView = withApi(CEOCompetitorView);
   // const WrappeHeader = withApi(Header);
   const WrappedManageCharges = withApi(ManageCharges);
   const WrappedAddCharges = withApi(AddCharges);
@@ -759,6 +761,7 @@ const Root = () => {
                     <Route index={true} element={<Dashboard />} />
 
                     <Route path={`/dashboard`} element={<WrappedDashboard />} />
+                    <Route path={`/competitor-view`} element={<WrappeCEOCompetitorView />} />
                     <Route path={`/ceodashboard`} element={<WrappedCeoDashBoard />} />
                     {/* client  Components Start */}
                     <Route path={`/clients`} element={<WrappedManageClient />} />

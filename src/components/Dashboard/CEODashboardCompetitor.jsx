@@ -71,11 +71,6 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                             <div className="d-flex  align-items-center">
                               <div>
 
-                                {console.log(
-
-                                  // Convert string to number and multiply
-                                  (Number(getCompetitorsPrice?.competitorListing?.[fuelType]?.[rowIndex]?.price.replace('£', '')) || 0) * 2000, "dadad")
-                                }
 
 
                                 <OverlayTrigger
@@ -98,10 +93,7 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                                       ]?.[rowIndex]?.price
                                     }
 
-                                    <i
-                                      className="fa fa-info-circle ms-1"
-                                      aria-hidden="true"
-                                    />
+
                                   </span>
                                 </OverlayTrigger>
                                 {!getCompetitorsPrice?.competitorListing?.[
