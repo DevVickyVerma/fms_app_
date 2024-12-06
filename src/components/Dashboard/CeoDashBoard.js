@@ -929,7 +929,7 @@ const CeoDashBoard = (props) => {
             </Card>
           </Col>
           <Col lg={5} md={5} className="">
-            <Card className="">
+            <Card className="dash-card-default-height ">
               <Card.Header className="  ">
                 <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
                   <h4 className="card-title">

@@ -1,19 +1,6 @@
-import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import {
-  AiFillCaretDown,
-  AiFillCaretRight,
-  AiOutlineArrowRight,
-} from "react-icons/ai";
-import { BsFuelPumpFill } from "react-icons/bs";
 
 const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
-  console.log(
-    Object.keys(getCompetitorsPrice?.competitorListing),
-    "Object.keys(getCompetitorsPrice?.competitorListing)",
-    getCompetitorsPrice?.competitorListing
-  );
-
   return (
     <>
       {getCompetitorsPrice && (
