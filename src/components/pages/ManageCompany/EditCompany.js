@@ -10,7 +10,7 @@ import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditCompany = (props) => {
   const { handleError } = useErrorHandler();
-  const { isLoading, getData,postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
   const [dropdownValue, setDropdownValue] = useState([]);
 
@@ -30,7 +30,6 @@ const EditCompany = (props) => {
         if (response) {
           // formik.setFieldValue("company_code", response?.data?.data?.company_code);
           formik.setValues(response?.data);
-          console.log(response?.data, "response?.data?.data");
         }
       } catch (error) {
         handleError(error);
@@ -42,7 +41,7 @@ const EditCompany = (props) => {
     } catch (error) {
       handleError(error);
     }
-    
+
   }, []);
 
 
@@ -51,7 +50,7 @@ const EditCompany = (props) => {
       handleFetchData();
     }
 
-    
+
   }, []);
 
 

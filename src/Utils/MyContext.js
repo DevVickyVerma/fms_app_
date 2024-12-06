@@ -16,7 +16,7 @@ const MyProvider = ({ children }) => {
       const baseUrl = process.env.REACT_APP_BASE_URL;
 
       if (!token) {
-        
+
         return;
       }
 
@@ -30,7 +30,7 @@ const MyProvider = ({ children }) => {
         setcontextClients(response?.data?.data || []); // Assuming the client list is in `response.data.data`
       } catch (err) {
         console.log(err.response ? err.response.data.message : 'Error fetching clients');
-      } 
+      }
     };
 
     fetchClientList();

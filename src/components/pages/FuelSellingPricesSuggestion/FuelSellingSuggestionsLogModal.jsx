@@ -153,14 +153,8 @@ const FuelSellingSuggestionsLogModal = ({
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend);
   };
-  const handleFormSubmit = (values) => {
-    console.log(values, "submited");
 
-    // const dataToSend = "Data from child 123";
-    // onDataFromChild(dataToSend);
-  };
 
-  console.log(selectedItem, "selectedItem");
 
   // Dummy data for approval timeline
   const approvalTimelineData = [
@@ -253,13 +247,12 @@ const FuelSellingSuggestionsLogModal = ({
                         {approvalTimelineData?.map((item) => (
                           <div
                             key={item.id}
-                            className={`timeline-wrapper timeline-inverted ${
-                              item.status === "Pending"
-                                ? "timeline-wrapper-warning"
-                                : item.status === "Approved"
-                                  ? "timeline-wrapper-success"
-                                  : "timeline-wrapper-danger"
-                            }`}
+                            className={`timeline-wrapper timeline-inverted ${item.status === "Pending"
+                              ? "timeline-wrapper-warning"
+                              : item.status === "Approved"
+                                ? "timeline-wrapper-success"
+                                : "timeline-wrapper-danger"
+                              }`}
                           >
                             <div className="timeline-badge"></div>
                             <div className="timeline-panel">
@@ -271,13 +264,12 @@ const FuelSellingSuggestionsLogModal = ({
                               </div>
                               <div className="timeline-footer d-flex align-items-center flex-wrap">
                                 <i
-                                  className={` ${
-                                    item.status === "Pending"
-                                      ? " ph ph-hourglass-medium text-warning"
-                                      : item.status === "Approved"
-                                        ? "ph ph-check-circle text-success"
-                                        : "ph ph-smiley-sad text-danger"
-                                  } c-fs-18 me-2`}
+                                  className={` ${item.status === "Pending"
+                                    ? " ph ph-hourglass-medium text-warning"
+                                    : item.status === "Approved"
+                                      ? "ph ph-check-circle text-success"
+                                      : "ph ph-smiley-sad text-danger"
+                                    } c-fs-18 me-2`}
                                 ></i>
                                 <span>
                                   {item.status} by {item?.updatedBy}

@@ -81,7 +81,6 @@ const ManageAddEditUser = (props) => {
 
 
 
-    console.log(formik.values, "closeicon");
 
     return (
         <>

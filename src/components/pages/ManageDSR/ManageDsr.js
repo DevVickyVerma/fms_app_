@@ -358,9 +358,8 @@ const ManageDsr = (props) => {
     setUploadtitle();
   };
 
-console.log(UploadList, "UploadList");
 
-const apikey = "1"
+  const apikey = "1"
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -434,7 +433,7 @@ const apikey = "1"
                     {Uploadtitle?.b_mdl === "PRISM" ||
                       Uploadtitle?.b_mdl === "HTECH" ||
                       Uploadtitle?.b_mdl === "EDGEPoS" ||
-                      (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1)  ? (
+                      (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1) ? (
                       UploadList && UploadList.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
