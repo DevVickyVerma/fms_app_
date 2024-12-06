@@ -41,32 +41,37 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                 (competitorsName, rowIndex) => (
                   <tr key={rowIndex}>
                     <td>
-                      <div className="single-Competitor-heading d-flex w-99.9 cardd">
+                      <div className="single-Competitor-heading d-flex w-99.9 cardd gap-0 px-1">
                         <p className=" m-0 d-flex align-items-center">
                           <span>
                             <img
                               src={competitorsName?.supplierImage}
-                              alt="supplierImage"
+                              // alt="supplierImage"
                               className=" mx-3"
                               style={{
-                                width: "36px",
-                                height: "36px",
+                                width: "25px",
+                                height: "25px",
                               }}
                             />
                           </span>
                         </p>
 
                         <p
-                          className=" d-flex flex-column m-0"
+                          className=" d-flex flex-column m-0 c-line-height-normal"
                           style={{ minWidth: "55px" }}
                         >
-                          <span className="single-Competitor-distance">
+                          <span
+                            className="single-Competitor-distance c-fs-10"
+                            style={{ minWidth: "100px" }}
+                          >
                             <AiOutlineArrowRight />{" "}
                             {competitorsName?.station
                               ? "My station"
                               : `${competitorsName?.dist_miles} miles away`}
                           </span>
-                          <span style={{ minWidth: "200px" }}>
+                          <span
+                          //  style={{ minWidth: "200px" }}
+                          >
                             {competitorsName?.name}
                           </span>
                         </p>
