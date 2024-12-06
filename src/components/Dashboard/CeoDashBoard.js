@@ -480,10 +480,13 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filters.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filters.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -505,7 +508,8 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -629,7 +633,7 @@ const CeoDashBoard = (props) => {
         if (response && response.data && response.data.data) {
           setGetCompetitorsPrice(response?.data?.data);
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   };
 
@@ -863,7 +867,11 @@ const CeoDashBoard = (props) => {
             {PriceLogsloading ? (
               <SmallLoader title="Top Losing Sites" />
             ) : PriceLogs?.priceLogs?.length > 0 ? (
-              <CeoDashSitetable data={Losers} tootiptitle={"Lose"} title={"Top Losing Sites"} />
+              <CeoDashSitetable
+                data={Losers}
+                tootiptitle={"Lose"}
+                title={"Top Losing Sites"}
+              />
             ) : (
               <NoDataComponent title="Top Losing Sites" />
             )}
@@ -941,7 +949,7 @@ const CeoDashBoard = (props) => {
                     {formik.values?.selectedSiteDetails?.site_name &&
                       ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
-                  {PriceLogs?.priceLogs?.length > 0 ?
+                  {/* {PriceLogs?.priceLogs?.length > 0 ?
                     <div style={{ display: "flex", justifyContent: "flex-end" }}>
                       <div style={{ display: "flex", width: "200px" }}>
                         <FormControl fullWidth>
@@ -965,8 +973,7 @@ const CeoDashBoard = (props) => {
                           </Select>
                         </FormControl>
                       </div>
-                    </div> : ""}
-
+                    </div> : ""} */}
                 </div>
               </Card.Header>
               <Card.Body className="px-0">
