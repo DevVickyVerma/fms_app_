@@ -5,7 +5,10 @@ import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
-import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import {
+  handleFilterData,
+  staticCompiCEOValues,
+} from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
 import {
@@ -67,7 +70,8 @@ const CeoDashBoard = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
 
-  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
+  const [getCompetitorsPrice, setGetCompetitorsPrice] =
+    useState(staticCompiCEOValues);
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector(
@@ -434,7 +438,6 @@ const CeoDashBoard = (props) => {
       if (userPermissions?.includes("dashboard-site-stats")) {
         FetchTankDetails();
       }
-      GetCompititor(filters);
     }
   }, [formik?.values?.selectedSite]);
 
@@ -609,12 +612,11 @@ const CeoDashBoard = (props) => {
 
   useEffect(() => {
     if (filters?.client_id && filters?.start_date && filters?.site_id) {
-      GetCompititor(filters);
+      // GetCompetitor(filters);
     }
   }, [filters]);
 
-  const GetCompititor = async (filters) => {
-    console.log(filters, "filtersfiltersfiltersfiltersfilters");
+  const GetCompetitor = async (filters) => {
     let { client_id, start_date, site_id } = filters;
 
     if (localStorage.getItem("superiorRole") === "Client") {
@@ -930,8 +932,6 @@ const CeoDashBoard = (props) => {
               <Card.Body className="overflow-auto ceo-compi-body">
                 <CEODashboardCompetitor
                   getCompetitorsPrice={getCompetitorsPrice}
-                  // Mopstatsloading={Mopstatsloading}
-                  // callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
                 />
               </Card.Body>
             </Card>
