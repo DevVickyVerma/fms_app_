@@ -128,8 +128,13 @@ export const staticCompiCEOValues = {
     "2024-11-30": {
       Unleaded: [
         {
-          name: "Amersham ",
+          name: "Volume",
           graph: "bar",
+          price: 21.399,
+        },
+        {
+          name: "Amersham",
+          graph: "line",
           price: 1.399,
         },
         {
@@ -160,8 +165,13 @@ export const staticCompiCEOValues = {
       ],
       "Super Unleaded": [
         {
-          name: "Amersham ",
+          name: "Volume",
           graph: "bar",
+          price: 43.399,
+        },
+        {
+          name: "Amersham ",
+          graph: "line",
           price: 1.599,
         },
         {
@@ -192,8 +202,13 @@ export const staticCompiCEOValues = {
       ],
       Diesel: [
         {
-          name: "Amersham ",
+          name: "Volume",
           graph: "bar",
+          price: 81.399,
+        },
+        {
+          name: "Amersham ",
+          graph: "line",
           price: 1.459,
         },
         {
@@ -224,8 +239,13 @@ export const staticCompiCEOValues = {
       ],
       "Super Diesel": [
         {
-          name: "Amersham ",
+          name: "Volume",
           graph: "bar",
+          price: 76.399,
+        },
+        {
+          name: "Amersham ",
+          graph: "line",
           price: 1.659,
         },
         {
@@ -256,8 +276,13 @@ export const staticCompiCEOValues = {
       ],
       Adblue: [
         {
-          name: "Amersham ",
+          name: "Volume",
           graph: "bar",
+          price: 77.399,
+        },
+        {
+          name: "Amersham ",
+          graph: "line",
           price: 1.799,
         },
         {

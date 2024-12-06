@@ -32,11 +32,13 @@ import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
 import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
-import StockDetailFilterModal from "../pages/Filtermodal/StockDetailFilterModal";
 import { Bounce, toast } from "react-toastify";
 import CEODashboardCompetitor from "./CEODashboardCompetitor";
 import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
 import CeoDashSitetable from "./CeoDashSitetable";
+
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import CompetitorSingleGraph from "../pages/Competitor/CompetitorSingleGraph";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -61,7 +63,7 @@ const CeoDashBoard = (props) => {
   const [Itemstockstatsloading, setItemstockstatsloading] = useState(false);
   const [PriceLogsloading, setPriceLogssloading] = useState(false);
   const [getSiteStatsloading, setGetSiteStatsloading] = useState(false);
-
+  const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
@@ -634,6 +636,10 @@ const CeoDashBoard = (props) => {
     }
   };
 
+  const handleChange = (event) => {
+    setSelectedFuelIndex(event.target.value); // Update the selected index
+  };
+
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -937,14 +943,46 @@ const CeoDashBoard = (props) => {
                     {formik.values?.selectedSiteDetails?.site_name &&
                       ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
+
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <div style={{ display: "flex", width: "200px" }}>
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                          Fuel Type
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={selectedFuelIndex} // Use selectedFuelIndex as the selected value
+                          label="Fuel Type"
+                          onChange={handleChange}
+                        >
+                          {getCompetitorsPrice?.fuelTypes?.map(
+                            (fuelType, index) => (
+                              <MenuItem key={index} value={index}>
+                                {fuelType}
+                              </MenuItem>
+                            )
+                          )}
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </div>
                 </div>
               </Card.Header>
               <Card.Body className="px-0">
                 {PriceLogsloading ? (
                   <SmallLoader />
                 ) : PriceLogs?.priceLogs?.length > 0 ? (
-                  <CEODashboardCompetitorChart />
+                  <CEODashboardCompetitorChart
+                    getCompetitorsPrice={getCompetitorsPrice}
+                    setGetCompetitorsPrice={setGetCompetitorsPrice}
+                  />
                 ) : (
+                  // <CompetitorSingleGraph
+                  //   getCompetitorsPrice={getCompetitorsPrice}
+                  //   setGetCompetitorsPrice={setGetCompetitorsPrice}
+                  // />
                   <img
                     src={require("../../assets/images/commonimages/no_data.png")}
                     alt="No data available"
