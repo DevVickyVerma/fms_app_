@@ -42,16 +42,7 @@ const CEODashboardCompetitorChart = () => {
       },
       {
         fuelType: "Diesel",
-        // primaryYaxis: {
-        //   title: "Volume",
-        //   min: 0,
-        //   max: 200,
-        // },
-        // secondaryYaxis: {
-        //   title: "Growth",
-        //   min: 50,
-        //   max: 200,
-        // },
+
         competitors: [
           { name: "Volume", price: [15430, 13330, 13385], type: "bar" },
           { name: "Yourself", price: [130, 135, 140], type: "line" },
@@ -71,16 +62,7 @@ const CEODashboardCompetitorChart = () => {
       },
       {
         fuelType: "Super Diesel",
-        // primaryYaxis: {
-        //   title: "Volume",
-        //   min: 0,
-        //   max: 200,
-        // },
-        // secondaryYaxis: {
-        //   title: "Growth",
-        //   min: 50,
-        //   max: 200,
-        // },
+
         competitors: [
           { name: "Volume", price: [16110, 14110, 11190], type: "bar" },
           { name: "Yourself", price: [140, 145, 150], type: "line" },
@@ -100,16 +82,7 @@ const CEODashboardCompetitorChart = () => {
       },
       {
         fuelType: "Super Unleaded",
-        // primaryYaxis: {
-        //   title: "Volume",
-        //   min: 0,
-        //   max: 200,
-        // },
-        // secondaryYaxis: {
-        //   title: "Growth",
-        //   min: 50,
-        //   max: 200,
-        // },
+
         competitors: [
           { name: "Volume", price: [1710, 1510, 1915], type: "bar" },
           { name: "Yourself", price: [150, 155, 160], type: "line" },
@@ -129,16 +102,7 @@ const CEODashboardCompetitorChart = () => {
       },
       {
         fuelType: "Unleaded",
-        // primaryYaxis: {
-        //   title: "Volume",
-        //   min: 0,
-        //   max: 200,
-        // },
-        // secondaryYaxis: {
-        //   title: "Growth",
-        //   min: 50,
-        //   max: 200,
-        // },
+
         competitors: [
           { name: "Volume", price: [18220, 16022, 20022], type: "bar" },
           { name: "Yourself", price: [160, 165, 170], type: "line" },
