@@ -17,7 +17,7 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
             <tbody>
               <tr>
                 <th className="font-500">
-                  <span className="single-Competitor-heading cardd  d-flex justify-content-between w-99">
+                  <span className="single-Competitor-heading ceo-compi-head cardd  d-flex justify-content-between w-99">
                     <span>
                       Competitors Name <AiFillCaretDown />
                     </span>
@@ -30,7 +30,7 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                 {Object?.keys(getCompetitorsPrice?.competitorListing)?.map(
                   (fuelType) => (
                     <th key={fuelType} className="font-500">
-                      <span className="single-Competitor-heading cardd block w-99 ">
+                      <span className="single-Competitor-heading ceo-compi-head cardd block w-99 ">
                         <BsFuelPumpFill /> {fuelType}
                       </span>
                     </th>
@@ -41,7 +41,7 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                 (competitorsName, rowIndex) => (
                   <tr key={rowIndex}>
                     <td>
-                      <div className="single-Competitor-heading d-flex w-99.9 cardd gap-0 px-1">
+                      <div className="single-Competitor-heading ceo-compi-head d-flex w-99.9 cardd gap-0 px-1">
                         <p className=" m-0 d-flex align-items-center">
                           <span>
                             <img
@@ -80,7 +80,7 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                     {Object.keys(getCompetitorsPrice?.competitorListing).map(
                       (fuelType, colIndex) => (
                         <td key={colIndex}>
-                          <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
+                          <span className="single-Competitor-body single-Competitor-heading ceo-compi-head cardd block w-99.9 ">
                             {getCompetitorsPrice?.competitorListing?.[
                               fuelType
                             ]?.[rowIndex]?.price === "-" ? (
