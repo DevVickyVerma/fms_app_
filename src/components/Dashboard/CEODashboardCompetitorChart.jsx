@@ -15,147 +15,145 @@ const CEODashboardCompetitorChart = () => {
     fuelStats: [
       {
         fuelType: "Adblue",
-        primaryYaxis: {
-          title: "Volume",
-          min: 0,
-          // max: 200,
-        },
-        secondaryYaxis: {
-          title: "Growth",
-          min: 50,
-          // max: 220,
-        },
+        // primaryYaxis: {
+        //   title: "Volume",
+        //   min: 0,
+        // },
+        // secondaryYaxis: {
+        //   title: "Growth",
+        //   min: 50,
+        // },
         competitors: [
-          { name: "Yourself", growth: [120, 125, 130], type: "line" },
+          { name: "Volume", price: [127652, 126727, 127281], type: "bar" },
+          { name: "Yourself", price: [120, 125, 130], type: "line" },
           {
             name: "Chalfonts Way Sf Connect",
-            growth: [100, 102, 105],
+            price: [100, 102, 105],
             type: "line",
           },
-          { name: "Tesco Amersham", growth: [170, 142, 145], type: "line" },
-          { name: "Mfg Chesham", growth: [110, 112, 115], type: "line" },
+          { name: "Tesco Amersham", price: [170, 142, 145], type: "line" },
+          { name: "Mfg Chesham", price: [110, 112, 115], type: "line" },
           {
             name: "Fitchs Service Station",
-            growth: [145, 127, 181],
+            price: [145, 127, 181],
             type: "line",
           },
-          { name: "Volume", growth: [152, 127, 121], type: "bar" },
         ],
       },
       {
         fuelType: "Diesel",
-        primaryYaxis: {
-          title: "Volume",
-          min: 0,
-          max: 200,
-        },
-        secondaryYaxis: {
-          title: "Growth",
-          min: 50,
-          max: 200,
-        },
+        // primaryYaxis: {
+        //   title: "Volume",
+        //   min: 0,
+        //   max: 200,
+        // },
+        // secondaryYaxis: {
+        //   title: "Growth",
+        //   min: 50,
+        //   max: 200,
+        // },
         competitors: [
-          { name: "Yourself", growth: [130, 135, 140], type: "line" },
+          { name: "Volume", price: [15430, 13330, 13385], type: "bar" },
+          { name: "Yourself", price: [130, 135, 140], type: "line" },
           {
             name: "Chalfonts Way Sf Connect",
-            growth: [110, 115, 120],
+            price: [110, 115, 120],
             type: "line",
           },
-          { name: "Tesco Amersham", growth: [180, 150, 155], type: "line" },
-          { name: "Mfg Chesham", growth: [120, 125, 130], type: "line" },
+          { name: "Tesco Amersham", price: [180, 150, 155], type: "line" },
+          { name: "Mfg Chesham", price: [120, 125, 130], type: "line" },
           {
             name: "Fitchs Service Station",
-            growth: [150, 130, 185],
+            price: [150, 130, 185],
             type: "line",
           },
-          { name: "Volume", growth: [150, 130, 185], type: "bar" },
         ],
       },
       {
         fuelType: "Super Diesel",
-        primaryYaxis: {
-          title: "Volume",
-          min: 0,
-          max: 200,
-        },
-        secondaryYaxis: {
-          title: "Growth",
-          min: 50,
-          max: 200,
-        },
+        // primaryYaxis: {
+        //   title: "Volume",
+        //   min: 0,
+        //   max: 200,
+        // },
+        // secondaryYaxis: {
+        //   title: "Growth",
+        //   min: 50,
+        //   max: 200,
+        // },
         competitors: [
-          { name: "Yourself", growth: [140, 145, 150], type: "line" },
+          { name: "Volume", price: [16110, 14110, 11190], type: "bar" },
+          { name: "Yourself", price: [140, 145, 150], type: "line" },
           {
             name: "Chalfonts Way Sf Connect",
-            growth: [120, 125, 130],
+            price: [120, 125, 130],
             type: "line",
           },
-          { name: "Tesco Amersham", growth: [190, 160, 165], type: "line" },
-          { name: "Mfg Chesham", growth: [130, 135, 140], type: "line" },
+          { name: "Tesco Amersham", price: [190, 160, 165], type: "line" },
+          { name: "Mfg Chesham", price: [130, 135, 140], type: "line" },
           {
             name: "Fitchs Service Station",
-            growth: [160, 140, 190],
+            price: [160, 140, 190],
             type: "line",
           },
-          { name: "Volume", growth: [160, 140, 190], type: "bar" },
         ],
       },
       {
         fuelType: "Super Unleaded",
-        primaryYaxis: {
-          title: "Volume",
-          min: 0,
-          max: 200,
-        },
-        secondaryYaxis: {
-          title: "Growth",
-          min: 50,
-          max: 200,
-        },
+        // primaryYaxis: {
+        //   title: "Volume",
+        //   min: 0,
+        //   max: 200,
+        // },
+        // secondaryYaxis: {
+        //   title: "Growth",
+        //   min: 50,
+        //   max: 200,
+        // },
         competitors: [
-          { name: "Yourself", growth: [150, 155, 160], type: "line" },
+          { name: "Volume", price: [1710, 1510, 1915], type: "bar" },
+          { name: "Yourself", price: [150, 155, 160], type: "line" },
           {
             name: "Chalfonts Way Sf Connect",
-            growth: [130, 135, 140],
+            price: [130, 135, 140],
             type: "line",
           },
-          { name: "Tesco Amersham", growth: [200, 170, 175], type: "line" },
-          { name: "Mfg Chesham", growth: [140, 145, 150], type: "line" },
+          { name: "Tesco Amersham", price: [200, 170, 175], type: "line" },
+          { name: "Mfg Chesham", price: [140, 145, 150], type: "line" },
           {
             name: "Fitchs Service Station",
-            growth: [170, 150, 195],
+            price: [170, 150, 195],
             type: "line",
           },
-          { name: "Volume", growth: [170, 150, 195], type: "bar" },
         ],
       },
       {
         fuelType: "Unleaded",
-        primaryYaxis: {
-          title: "Volume",
-          min: 0,
-          max: 200,
-        },
-        secondaryYaxis: {
-          title: "Growth",
-          min: 50,
-          max: 200,
-        },
+        // primaryYaxis: {
+        //   title: "Volume",
+        //   min: 0,
+        //   max: 200,
+        // },
+        // secondaryYaxis: {
+        //   title: "Growth",
+        //   min: 50,
+        //   max: 200,
+        // },
         competitors: [
-          { name: "Yourself", growth: [160, 165, 170], type: "line" },
+          { name: "Volume", price: [18220, 16022, 20022], type: "bar" },
+          { name: "Yourself", price: [160, 165, 170], type: "line" },
           {
             name: "Chalfonts Way Sf Connect",
-            growth: [140, 145, 150],
+            price: [140, 145, 150],
             type: "line",
           },
-          { name: "Tesco Amersham", growth: [210, 180, 185], type: "line" },
-          { name: "Mfg Chesham", growth: [150, 155, 160], type: "line" },
+          { name: "Tesco Amersham", price: [210, 180, 185], type: "line" },
+          { name: "Mfg Chesham", price: [150, 155, 160], type: "line" },
           {
             name: "Fitchs Service Station",
-            growth: [180, 160, 200],
+            price: [180, 160, 200],
             type: "line",
           },
-          { name: "Volume", growth: [180, 160, 200], type: "bar" },
         ],
       },
     ],
@@ -173,9 +171,9 @@ const CEODashboardCompetitorChart = () => {
     series: [
       ...selectedFuelType?.competitors.map((competitor) => ({
         name: competitor.name,
-        data: competitor.growth,
+        data: competitor.price,
         type: competitor.type,
-        // type: "line", // Competitors are represented as lines
+        yAxisIndex: (competitor.type = "line" ? 1 : 0), // Competitors are represented as lines
       })),
     ],
     colors: [
@@ -190,18 +188,8 @@ const CEODashboardCompetitorChart = () => {
     categories: ["06-12-2024", "07-12-2024", "08-12-2024"], // Days of the month from 1 to 30
   };
 
-  // Dynamically separate competitors into line and bar charts
-  const lineSeries = chartData.series.filter(
-    (competitor) => competitor.type === "line"
-  );
-  const barSeries = chartData.series.filter(
-    (competitor) => competitor.type === "bar"
-  );
-
   const lineChart = {
-    // series: chartData?.series || [],
-    series: [...lineSeries, ...barSeries], // Bar data comes after line data
-
+    series: chartData?.series || [],
     options: {
       chart: {
         height: 300,
@@ -281,7 +269,7 @@ const CEODashboardCompetitorChart = () => {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div style={{ display: "flex", width: "200px" }}>
+        <div style={{ display: "flex", width: "200px", marginRight: "30px" }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Fuel Type</InputLabel>
             <Select
