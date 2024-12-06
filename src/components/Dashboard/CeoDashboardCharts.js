@@ -5,7 +5,6 @@ import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 
 const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions }) => {
 
-    // Helper function to render either chart or loader
     const renderChartOrLoader = (data, title) => {
         if (Salesstatsloading) {
             return <SmallLoader />;

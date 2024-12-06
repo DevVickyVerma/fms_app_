@@ -1,8 +1,11 @@
 import ReactApexChart from "react-apexcharts";
 import React, { useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Card } from "react-bootstrap";
 
-const CEODashboardCompetitorChart = () => {
+const CEODashboardCompetitorChart = (props) => {
+  const { sitename } = props;
+
   // Dummy getCompetitorsPrice response with different statistics for each fuel type
   const getCompetitorsPrice = {
     fuelTypes: [
@@ -15,14 +18,6 @@ const CEODashboardCompetitorChart = () => {
     fuelStats: [
       {
         fuelType: "Adblue",
-        // primaryYaxis: {
-        //   title: "Volume",
-        //   min: 0,
-        // },
-        // secondaryYaxis: {
-        //   title: "Growth",
-        //   min: 50,
-        // },
         competitors: [
           { name: "Volume", price: [127652, 126727, 127281], type: "bar" },
           { name: "Yourself", price: [120, 125, 130], type: "line" },
@@ -127,9 +122,7 @@ const CEODashboardCompetitorChart = () => {
   const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
   const selectedFuelType = getCompetitorsPrice?.fuelStats[selectedFuelIndex];
 
-  const handleChange = (event) => {
-    setSelectedFuelIndex(event.target.value);
-  };
+
 
   const chartData = {
     series: [
@@ -228,38 +221,42 @@ const CEODashboardCompetitorChart = () => {
     },
   };
 
-  console.log(getCompetitorsPrice, "getCompetitorsPrice");
 
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <div style={{ display: "flex", width: "200px", marginRight: "30px" }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Fuel Type</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedFuelIndex}
-              label="Fuel Type"
-              onChange={handleChange}
-            >
-              {getCompetitorsPrice?.fuelTypes?.map((fuelType, index) => (
-                <MenuItem key={index} value={index}>
-                  {fuelType}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+
+    <Card className="dash-card-default-height ">
+      <Card.Header className="  ">
+        <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
+          <h4 className="card-title">
+            Competitors Chart
+            {sitename &&
+              ` (${sitename})`}
+          </h4>
+          <select
+            id="demo-simple-select"
+            name="demo-simple-select"
+            value={selectedFuelIndex}
+            onChange={(e) => setSelectedFuelIndex(e.target.value)}
+            className="selectedMonth"
+          >
+            {getCompetitorsPrice?.fuelTypes?.map((fuelType, index) => (
+              <option key={index} value={index}>
+                {fuelType}
+              </option>
+            ))}
+          </select>
         </div>
-      </div>
-      <ReactApexChart
-        series={lineChart?.series}
-        options={lineChart?.options}
-        className="rounded-lg bg-white dark:bg-black overflow-hidden"
-        type="line"
-        height={500}
-      />
-    </div>
+      </Card.Header>
+      <Card.Body className="px-0">
+        <ReactApexChart
+          series={lineChart?.series}
+          options={lineChart?.options}
+          className="rounded-lg bg-white dark:bg-black overflow-hidden"
+          type="line"
+          height={500}
+        />
+      </Card.Body>
+    </Card>
   );
 };
 

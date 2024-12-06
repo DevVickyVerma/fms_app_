@@ -11,13 +11,7 @@ import {
 } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import {
-  Baroptions,
-  Losers,
-  SiteDetails,
-  Tankcolors,
-  TopPerformers,
-} from "../../Utils/commonFunctions/CommonData";
+import { Baroptions, Losers, Tankcolors, TopPerformers } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -38,8 +32,6 @@ import { Bounce, toast } from "react-toastify";
 import CEODashboardCompetitor from "./CEODashboardCompetitor";
 import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
 import CeoDashSitetable from "./CeoDashSitetable";
-
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -954,58 +946,22 @@ const CeoDashBoard = (props) => {
             </Card>
           </Col>
           <Col lg={5} md={5} className="">
-            <Card className="dash-card-default-height ">
-              <Card.Header className="  ">
-                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
-                  <h4 className="card-title">
-                    Competitors Chart
-                    {formik.values?.selectedSiteDetails?.site_name &&
-                      ` (${formik.values.selectedSiteDetails.site_name})`}
-                  </h4>
-                  {/* {PriceLogs?.priceLogs?.length > 0 ?
-                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                      <div style={{ display: "flex", width: "200px" }}>
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            Fuel Type
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={selectedFuelIndex} // Use selectedFuelIndex as the selected value
-                            label="Fuel Type"
-                            onChange={handleChange}
-                          >
-                            {getCompetitorsPrice?.fuelTypes?.map(
-                              (fuelType, index) => (
-                                <MenuItem key={index} value={index}>
-                                  {fuelType}
-                                </MenuItem>
-                              )
-                            )}
-                          </Select>
-                        </FormControl>
-                      </div>
-                    </div> : ""} */}
-                </div>
-              </Card.Header>
-              <Card.Body className="px-0">
-                {PriceLogsloading ? (
-                  <SmallLoader />
-                ) : PriceLogs?.priceLogs?.length > 0 ? (
-                  <CEODashboardCompetitorChart
-                    getCompetitorsPrice={getCompetitorsPrice}
-                    setGetCompetitorsPrice={setGetCompetitorsPrice}
-                  />
-                ) : (
-                  <img
-                    src={require("../../assets/images/commonimages/no_data.png")}
-                    alt="No data available"
-                    className="all-center-flex smallNoDataimg"
-                  />
-                )}
-              </Card.Body>
-            </Card>
+            {PriceLogsloading ? (
+              <SmallLoader />
+            ) : PriceLogs?.priceLogs?.length > 0 ? (
+              <CEODashboardCompetitorChart
+                getCompetitorsPrice={getCompetitorsPrice}
+                setGetCompetitorsPrice={setGetCompetitorsPrice}
+                sitename={formik.values?.selectedSiteDetails?.site_name}
+              />
+            ) : (
+              <img
+                src={require("../../assets/images/commonimages/no_data.png")}
+                alt="No data available"
+                className="all-center-flex smallNoDataimg"
+              />
+            )}
+
           </Col>
         </Row>
 
