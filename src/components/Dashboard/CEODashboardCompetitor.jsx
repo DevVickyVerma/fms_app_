@@ -67,64 +67,87 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                         <div className="text-center">-</div>
                       ) : (
                         <>
-                          <div className="d-flex  align-items-center">
-                            <span>
-                              {
-                                getCompetitorsPrice?.competitorListing?.[
-                                  fuelType
-                                ]?.[rowIndex]?.price
-                              }
-                            </span>
-                            <OverlayTrigger
-                              placement="top"
-                              overlay={
-                                <Tooltip>
-                                  {
-                                    getCompetitorsPrice?.competitorListing?.[
-                                      fuelType
-                                    ]?.[rowIndex]?.last_date
+                          <div>
+                            <div className="d-flex  align-items-center">
+                              <div>
+
+                                {console.log(
+
+                                  // Convert string to number and multiply
+                                  (Number(getCompetitorsPrice?.competitorListing?.[fuelType]?.[rowIndex]?.price.replace('£', '')) || 0) * 2000, "dadad")
+                                }
+
+
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip>
+                                      {
+                                        getCompetitorsPrice?.competitorListing?.[
+                                          fuelType
+                                        ]?.[rowIndex]?.last_date
+                                      }
+                                    </Tooltip>
                                   }
-                                </Tooltip>
-                              }
-                            >
-                              <span style={{ cursor: "pointer" }}>
-                                <i
-                                  className="fa fa-info-circle ms-1"
-                                  aria-hidden="true"
-                                />
-                              </span>
-                            </OverlayTrigger>
-                            {!getCompetitorsPrice?.competitorListing?.[
-                              fuelType
-                            ]?.[rowIndex]?.station && (
-                              <OverlayTrigger
-                                placement="top"
-                                overlay={
-                                  <Tooltip>
+                                >
+                                  <span style={{ cursor: "pointer" }}>
+
                                     {
                                       getCompetitorsPrice?.competitorListing?.[
                                         fuelType
-                                      ]?.[rowIndex]?.logo_tip
+                                      ]?.[rowIndex]?.price
                                     }
-                                  </Tooltip>
-                                }
-                              >
-                                <img
-                                  src={
-                                    getCompetitorsPrice?.competitorListing?.[
-                                      fuelType
-                                    ]?.[rowIndex]?.logo
-                                  }
-                                  // alt="logo"
-                                  style={{
-                                    width: "17px",
-                                    height: "17px",
-                                    marginLeft: "4px",
-                                  }}
-                                />
-                              </OverlayTrigger>
-                            )}
+
+                                    <i
+                                      className="fa fa-info-circle ms-1"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                </OverlayTrigger>
+                                {!getCompetitorsPrice?.competitorListing?.[
+                                  fuelType
+                                ]?.[rowIndex]?.station && (
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip>
+                                          {
+                                            getCompetitorsPrice?.competitorListing?.[
+                                              fuelType
+                                            ]?.[rowIndex]?.logo_tip
+                                          }
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <img
+                                        src={
+                                          getCompetitorsPrice?.competitorListing?.[
+                                            fuelType
+                                          ]?.[rowIndex]?.logo
+                                        }
+                                        // alt="logo"
+                                        style={{
+                                          width: "17px",
+                                          height: "17px",
+                                          marginLeft: "4px",
+                                        }}
+                                      />
+                                    </OverlayTrigger>
+                                  )}
+                              </div>
+                            </div>
+                            <span>
+                              <span className="l-sign">ℓ</span> {(Number(getCompetitorsPrice?.competitorListing?.[fuelType]?.[rowIndex]?.price.replace('£', '')) || 0) * 2000}
+                            </span>
+                            <br></br>
+                            <span>
+                              £ {(Number(getCompetitorsPrice?.competitorListing?.[fuelType]?.[rowIndex]?.price.replace('£', '')) || 0) * 2000}
+                            </span>
+
+
+
                           </div>
+
                         </>
                       )}
                     </td>

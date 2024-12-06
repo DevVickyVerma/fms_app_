@@ -151,8 +151,6 @@ const CeoDashBoardChild = (props) => {
 
     }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
 
-    const location = useLocation();
-    const { isCeoDashboard } = location.state || {}; // Destructure state and default to an empty object
     return (
         <>
             {isLoading ? <Loaderimg /> : null}

@@ -1,23 +1,19 @@
 import React from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import LoaderImg from "../../Utils/Loader";
 
 const CeoDashSitetable = (props) => {
-    const { isLoading, data, title } = props;
+    const { isLoading, data, title, tootiptitle } = props;
     const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-
-
-
-
 
     const renderTableHeader = () => (
         <tr className="" style={{ padding: "0px" }}>
             <th className="">Sites</th>
-            <th className="">This Month</th>
-            <th className="">Last Month</th>
+            <th className="">Previous Month</th>
+            <th className="">Current Month</th>
+
 
         </tr>
     );
@@ -39,8 +35,30 @@ const CeoDashSitetable = (props) => {
                     </td>
 
                     <td className="">
-                        <h6 className="mb-0 fs-14 fw-semibold">
-                            ℓ{item.fuel_volume.gross_volume}
+                        <h6 className="mb-0 fs-14 fw-semibold d-flex">
+                            <span className="l-sign">£ {" "}</span>{item.fuel_volume.total_volume}
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip
+
+                                    >
+                                        Fuel {tootiptitle} : £ {item.fuel_volume.gross_volume}
+                                    </Tooltip>
+                                }
+                            >
+                                <p
+                                    className=" m-0"
+                                >
+                                    {" "}
+                                    <i
+                                        className="fa fa-info-circle ms-1"
+                                        aria-hidden="true"
+                                        style={{ fontSize: "15px" }}
+                                    />{" "}
+                                    <span />
+                                </p>
+                            </OverlayTrigger>
                         </h6>
                         <p
                             className={`m-0 ${item.fuel_volume.status === "up" ? "text-success" : "text-danger"
@@ -57,8 +75,30 @@ const CeoDashSitetable = (props) => {
                     </td>
 
                     <td className="">
-                        <h6 className="mb-0 fs-14 fw-semibold">
-                            £{item.fuel_sales.gross_value}
+                        <h6 className="mb-0 fs-14 fw-semibold d-flex">
+                            £{item.fuel_sales.total_value}
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip
+
+                                    >
+                                        Fuel {tootiptitle} : £ {item.fuel_sales.gross_value}
+                                    </Tooltip>
+                                }
+                            >
+                                <p
+                                    className=" m-0"
+                                >
+                                    {" "}
+                                    <i
+                                        className="fa fa-info-circle ms-1"
+                                        aria-hidden="true"
+                                        style={{ fontSize: "15px" }}
+                                    />{" "}
+                                    <span />
+                                </p>
+                            </OverlayTrigger>
                         </h6>
                         <p
                             className={`m-0 ${item.fuel_sales.status === "up" ? "text-success" : "text-danger"

@@ -1006,107 +1006,164 @@ export const Tankcolors = [
 ];
 
 
-export const SiteDetails =
-  [
-    {
-      "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-      "name": "Amersham ",
-      "image": "https://apis-l.credentia.uk/splr/shell-logo.png",
-      "fuel_volume": {
-        "gross_volume": "17493.09",
-        "bunkered_volume": "0.0",
-        "total_volume": "17493.09",
-        "status": "up",
-        "percentage": "5.98"
-      },
-      "fuel_sales": {
-        "gross_value": "21305.02",
-        "bunkered_value": "0.0",
-        "total_value": "21305.02",
-        "status": "up",
-        "percentage": "9.39"
-      },
-      "gross_profit": {
-        "gross_profit": 3419.35,
-        "gross_margin": 19.55,
-        "status": "up",
-        "percentage": "13.76"
-      },
-      "gross_margin": {
-        "gross_margin": 19.55,
-        "is_ppl": 0,
-        "ppl_msg": "",
-        "status": "up",
-        "percentage": "7.36"
-      },
-      "shop_sales": {
-        "shop_sales": "4306.84",
-        "shop_margin": "2358.7",
-        "status": "down",
-        "percentage": "-13.62",
-        "p_status": "down",
-        "p_percentage": "-10.08"
-      },
-      "shop_profit": {
-        "shop_profit": "2358.7",
-        "status": "down",
-        "percentage": "-10.08"
-      },
-      "shop_fees": {
-        "shop_fee": "393.6",
-        "status": "up",
-        "percentage": "0.0"
-      }
+export const TopPerformers = [
+  {
+    "id": "U2wrWHB3T0FOSXRvV2lDUXg3cktUdz09",
+    "name": "Girton",
+    "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+    "fuel_volume": {
+      "gross_volume": "21961.03",
+      "bunkered_volume": "0.0",
+      "total_volume": "21961.03",
+      "status": "up",
+      "percentage": "6.81"
     },
-    {
-      "id": "VEttejdBRlRMWDRnUTdlRkdLK1hrZz09",
-      "name": "Belgrave ",
-      "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
-      "fuel_volume": {
-        "gross_volume": "14634.16",
-        "bunkered_volume": "0.0",
-        "total_volume": "14634.16",
-        "status": "down",
-        "percentage": "-5.66"
-      },
-      "fuel_sales": {
-        "gross_value": "17249.99",
-        "bunkered_value": "0.0",
-        "total_value": "17249.99",
-        "status": "down",
-        "percentage": "-4.34"
-      },
-      "gross_profit": {
-        "gross_profit": 1721.31,
-        "gross_margin": 11.76,
-        "status": "down",
-        "percentage": "-43.17"
-      },
-      "gross_margin": {
-        "gross_margin": 11.76,
-        "is_ppl": 0,
-        "ppl_msg": "",
-        "status": "down",
-        "percentage": "-39.78"
-      },
-      "shop_sales": {
-        "shop_sales": "1775.81",
-        "shop_margin": "813.01",
-        "status": "down",
-        "percentage": "-12.86",
-        "p_status": "down",
-        "p_percentage": "-15.49"
-      },
-      "shop_profit": {
-        "shop_profit": "813.01",
-        "status": "down",
-        "percentage": "-15.49"
-      },
-      "shop_fees": {
-        "shop_fee": "150.4",
-        "status": "up",
-        "percentage": "0.0"
-      }
+    "fuel_sales": {
+      "gross_value": "26188.62",
+      "bunkered_value": "0.0",
+      "total_value": "26188.62",
+      "status": "up",
+      "percentage": "7.93"
     },
+    "gross_profit": {
+      "gross_profit": 3886.49,
+      "gross_margin": 17.7,
+      "status": "up",
+      "percentage": "15.7"
+    },
+    "shop_sales": {
+      "shop_sales": "4871.26",
+      "shop_margin": "2472.16",
+      "status": "up",
+      "percentage": "4.06"
+    }
+  },
+  {
+    "id": "Y1BYWW83YmxDSWhYNkNXQ0lwZFJRUT09",
+    "name": "Swanley",
+    "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+    "fuel_volume": {
+      "gross_volume": "17056.51",
+      "bunkered_volume": "0.0",
+      "total_volume": "17056.51",
+      "status": "up",
+      "percentage": "20.34"
+    },
+    "fuel_sales": {
+      "gross_value": "20288.74",
+      "bunkered_value": "0.0",
+      "total_value": "20288.74",
+      "status": "up",
+      "percentage": "22.66"
+    },
+    "gross_profit": {
+      "gross_profit": 2931.82,
+      "gross_margin": 17.19,
+      "status": "up",
+      "percentage": "38.58"
+    },
+    "shop_sales": {
+      "shop_sales": "1929.5",
+      "shop_margin": "817.24",
+      "status": "up",
+      "percentage": "6.88"
+    }
+  },
+  {
+    "id": "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
+    "name": "Patcham",
+    "image": "https://apis-l.credentia.uk/splr/greenergy-logo.png",
+    "fuel_volume": {
+      "gross_volume": "18921.14",
+      "bunkered_volume": "709.43",
+      "total_volume": "19630.57",
+      "status": "up",
+      "percentage": "9.92"
+    },
+    "fuel_sales": {
+      "gross_value": "23663.7",
+      "bunkered_value": "1028.59",
+      "total_value": "23663.7",
+      "status": "up",
+      "percentage": "11.3"
+    },
+    "gross_profit": {
+      "gross_profit": 3818.99,
+      "gross_margin": 19.45,
+      "status": "up",
+      "percentage": "25.72"
+    },
+    "shop_sales": {
+      "shop_sales": "2378.53",
+      "shop_margin": "1632.03",
+      "status": "down",
+      "percentage": "-12.76"
+    }
+  }
+];
 
-  ]
+export const Losers = [
+  {
+    "id": "SERQa05pZktwNTVFL2RCMCtxdWQrdz09",
+    "name": "Wexham",
+    "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+    "fuel_volume": {
+      "gross_volume": "17453.42",
+      "bunkered_volume": "0.0",
+      "total_volume": "17453.42",
+      "status": "down",
+      "percentage": "-47.73"
+    },
+    "fuel_sales": {
+      "gross_value": "20998.55",
+      "bunkered_value": "0.0",
+      "total_value": "20998.55",
+      "status": "down",
+      "percentage": "-46.59"
+    },
+    "gross_profit": {
+      "gross_profit": 2742.37,
+      "gross_margin": 15.71,
+      "status": "down",
+      "percentage": "-47.09"
+    },
+    "shop_sales": {
+      "shop_sales": "3122.3",
+      "shop_margin": "1449.06",
+      "status": "down",
+      "percentage": "-50.66"
+    }
+  },
+  {
+    "id": "VEttejdBRlRMWDRnUTdlRkdLK1hrZz09",
+    "name": "Belgrave",
+    "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+    "fuel_volume": {
+      "gross_volume": "12034.84",
+      "bunkered_volume": "0.0",
+      "total_volume": "12034.84",
+      "status": "down",
+      "percentage": "-35.29"
+    },
+    "fuel_sales": {
+      "gross_value": "14555.3",
+      "bunkered_value": "0.0",
+      "total_value": "14555.3",
+      "status": "down",
+      "percentage": "-33.44"
+    },
+    "gross_profit": {
+      "gross_profit": 1834.79,
+      "gross_margin": 12.61,
+      "status": "down",
+      "percentage": "-34.55"
+    },
+    "shop_sales": {
+      "shop_sales": "2134.87",
+      "shop_margin": "1012.45",
+      "status": "down",
+      "percentage": "-38.92"
+    }
+  }
+];
+

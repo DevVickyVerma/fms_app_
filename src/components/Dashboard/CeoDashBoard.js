@@ -13,8 +13,10 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
 import {
   Baroptions,
+  Losers,
   SiteDetails,
   Tankcolors,
+  TopPerformers,
 } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
@@ -38,7 +40,6 @@ import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
 import CeoDashSitetable from "./CeoDashSitetable";
 
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import CompetitorSingleGraph from "../pages/Competitor/CompetitorSingleGraph";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -479,13 +480,10 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${
-          report?.report_code
-        }?${clientIDCondition}company_id=${
-          filters.company_id
-        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
-          formik?.values?.selectedMonthDetails?.value
-        }`;
+        const commonParams = `/download-report/${report?.report_code
+          }?${clientIDCondition}company_id=${filters.company_id
+          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
+          }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -507,8 +505,7 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${
-              errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -632,7 +629,7 @@ const CeoDashBoard = (props) => {
         if (response && response.data && response.data.data) {
           setGetCompetitorsPrice(response?.data?.data);
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   };
 
@@ -851,23 +848,24 @@ const CeoDashBoard = (props) => {
         <Row>
           <Col lg={6} md={6}>
             {PriceLogsloading ? (
-              <SmallLoader title="Top Performar Sites" />
+              <SmallLoader title="Top Leading Sites" />
             ) : PriceLogs?.priceLogs?.length > 0 ? (
               <CeoDashSitetable
-                data={SiteDetails}
-                title={" Top Performar Sites"}
+                data={TopPerformers}
+                tootiptitle={"Profit"}
+                title={" Top Leading Sites "}
               />
             ) : (
-              <NoDataComponent title="Top Performar Sites" />
+              <NoDataComponent title="Top Leading Sites" />
             )}
           </Col>
           <Col lg={6} md={6}>
             {PriceLogsloading ? (
-              <SmallLoader title="Top Losse Sites" />
+              <SmallLoader title="Top Losing Sites" />
             ) : PriceLogs?.priceLogs?.length > 0 ? (
-              <CeoDashSitetable data={SiteDetails} title={"Top Losse Sites"} />
+              <CeoDashSitetable data={Losers} tootiptitle={"Lose"} title={"Top Losing Sites"} />
             ) : (
-              <NoDataComponent title="Top Losse Sites" />
+              <NoDataComponent title="Top Losing Sites" />
             )}
           </Col>
         </Row>
@@ -943,31 +941,32 @@ const CeoDashBoard = (props) => {
                     {formik.values?.selectedSiteDetails?.site_name &&
                       ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
+                  {PriceLogs?.priceLogs?.length > 0 ?
+                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                      <div style={{ display: "flex", width: "200px" }}>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Fuel Type
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={selectedFuelIndex} // Use selectedFuelIndex as the selected value
+                            label="Fuel Type"
+                            onChange={handleChange}
+                          >
+                            {getCompetitorsPrice?.fuelTypes?.map(
+                              (fuelType, index) => (
+                                <MenuItem key={index} value={index}>
+                                  {fuelType}
+                                </MenuItem>
+                              )
+                            )}
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </div> : ""}
 
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <div style={{ display: "flex", width: "200px" }}>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          Fuel Type
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={selectedFuelIndex} // Use selectedFuelIndex as the selected value
-                          label="Fuel Type"
-                          onChange={handleChange}
-                        >
-                          {getCompetitorsPrice?.fuelTypes?.map(
-                            (fuelType, index) => (
-                              <MenuItem key={index} value={index}>
-                                {fuelType}
-                              </MenuItem>
-                            )
-                          )}
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </div>
                 </div>
               </Card.Header>
               <Card.Body className="px-0">
@@ -979,10 +978,6 @@ const CeoDashBoard = (props) => {
                     setGetCompetitorsPrice={setGetCompetitorsPrice}
                   />
                 ) : (
-                  // <CompetitorSingleGraph
-                  //   getCompetitorsPrice={getCompetitorsPrice}
-                  //   setGetCompetitorsPrice={setGetCompetitorsPrice}
-                  // />
                   <img
                     src={require("../../assets/images/commonimages/no_data.png")}
                     alt="No data available"
