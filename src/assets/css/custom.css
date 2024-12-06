@@ -2223,8 +2223,13 @@ td.middayModal-td.time-input-fuel-sell {
 .c-w-per-25 {
   width: 25%;
 }
+
 .hcenter {
   display: flex;
   justify-content: start;
   align-items: center;
+}
+
+.ceo-compi-body {
+  max-height: 565px;
 }

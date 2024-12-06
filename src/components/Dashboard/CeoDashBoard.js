@@ -8,7 +8,11 @@ import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import { Baroptions, SiteDetails, Tankcolors } from "../../Utils/commonFunctions/CommonData";
+import {
+  Baroptions,
+  SiteDetails,
+  Tankcolors,
+} from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -470,10 +474,13 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filters.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filters.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -495,7 +502,8 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -625,7 +633,7 @@ const CeoDashBoard = (props) => {
         if (response && response.data && response.data.data) {
           setGetCompetitorsPrice(response?.data?.data);
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   };
 
@@ -841,7 +849,10 @@ const CeoDashBoard = (props) => {
 
         <Row>
           <Col lg={6} md={6}>
-            <CeoDashSitetable data={SiteDetails} title={" Top Performar Sites"} />
+            <CeoDashSitetable
+              data={SiteDetails}
+              title={" Top Performar Sites"}
+            />
           </Col>
           <Col lg={6} md={6}>
             <CeoDashSitetable data={SiteDetails} title={"Top Losse Sites"} />
@@ -884,31 +895,7 @@ const CeoDashBoard = (props) => {
         >
           <Col lg={7} md={7} className="">
             <Card className="">
-              <Card.Header className=" my-cardd card-header ">
-                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
-                  <h4 className="card-title">
-                    {" "}
-                    {getCompetitorsPrice
-                      ? getCompetitorsPrice?.siteName
-                      : ""}{" "}
-                    Competitors Stats
-                    {/* ({showDate}) */}
-                  </h4>
-                </div>
-              </Card.Header>
-              <Card.Body className="overflow-auto">
-                <CEODashboardCompetitor
-                  getCompetitorsPrice={getCompetitorsPrice}
-                // Mopstatsloading={Mopstatsloading}
-                // callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-                />
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col lg={5} md={5} className="">
-            <Card className="">
-              <Card.Header className=" my-cardd card-header ">
+              <Card.Header className="  ">
                 <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
                   <h4 className="card-title">
                     {" "}
@@ -920,8 +907,32 @@ const CeoDashBoard = (props) => {
                   </h4>
                 </div>
               </Card.Header>
-              <Card.Body className="overflow-auto">
+              <Card.Body className="px-0">
                 <CEODashboardCompetitorChart />
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col lg={5} md={5} className="">
+            <Card className="">
+              <Card.Header>
+                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
+                  <h4 className="card-title">
+                    {" "}
+                    {getCompetitorsPrice
+                      ? getCompetitorsPrice?.siteName
+                      : ""}{" "}
+                    Competitors Stats
+                    {/* ({showDate}) */}
+                  </h4>
+                </div>
+              </Card.Header>
+              <Card.Body className="overflow-auto ceo-compi-body">
+                <CEODashboardCompetitor
+                  getCompetitorsPrice={getCompetitorsPrice}
+                  // Mopstatsloading={Mopstatsloading}
+                  // callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+                />
               </Card.Body>
             </Card>
           </Col>
