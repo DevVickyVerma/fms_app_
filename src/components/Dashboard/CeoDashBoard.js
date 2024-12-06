@@ -904,36 +904,6 @@ const CeoDashBoard = (props) => {
         >
           <Col lg={7} md={7} className="">
             <Card className="">
-              <Card.Header className="  ">
-                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
-                  <h4 className="card-title">
-                    Competitors Chart
-                    {formik.values?.selectedSiteDetails?.site_name && (
-                      ` (${formik.values.selectedSiteDetails.site_name})`
-                    )}
-                  </h4>
-                </div>
-              </Card.Header>
-              <Card.Body className="px-0">
-                {PriceLogsloading ? (
-                  <SmallLoader />
-                ) : PriceLogs?.priceLogs?.length > 0 ? (
-                  <CEODashboardCompetitorChart />
-                ) : (
-                  <img
-                    src={require("../../assets/images/commonimages/no_data.png")}
-                    alt="No data available"
-                    className="all-center-flex smallNoDataimg"
-                  />
-                )}
-
-
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col lg={5} md={5} className="">
-            <Card className="">
               <Card.Header>
                 <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
                   <h4 className="card-title">
@@ -964,6 +934,37 @@ const CeoDashBoard = (props) => {
               </Card.Body>
             </Card>
           </Col>
+          <Col lg={5} md={5} className="">
+            <Card className="">
+              <Card.Header className="  ">
+                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
+                  <h4 className="card-title">
+                    Competitors Chart
+                    {formik.values?.selectedSiteDetails?.site_name && (
+                      ` (${formik.values.selectedSiteDetails.site_name})`
+                    )}
+                  </h4>
+                </div>
+              </Card.Header>
+              <Card.Body className="px-0">
+                {PriceLogsloading ? (
+                  <SmallLoader />
+                ) : PriceLogs?.priceLogs?.length > 0 ? (
+                  <CEODashboardCompetitorChart />
+                ) : (
+                  <img
+                    src={require("../../assets/images/commonimages/no_data.png")}
+                    alt="No data available"
+                    className="all-center-flex smallNoDataimg"
+                  />
+                )}
+
+
+              </Card.Body>
+            </Card>
+          </Col>
+
+
         </Row>
 
         {userPermissions?.includes("dashboard-site-stats") ? (
