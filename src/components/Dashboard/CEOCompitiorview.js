@@ -12,6 +12,8 @@ import {
 } from "../../Utils/commonFunctions/commonFunction";
 import CEODashboardCompetitor from "./CEODashboardCompetitor";
 import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
+import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
+import AccordionComponent from "./AccordionComponent";
 
 export default function CEOCompitiorview(props) {
   const { isLoading, getData, postData } = props;
@@ -36,8 +38,14 @@ export default function CEOCompitiorview(props) {
       .max(new Date(), "Start Date cannot be after the current date"),
   });
   let storedKeyName = "localFilterModalData";
-
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
   const handleApplyFilters = (values) => {
+
+    setFilters(values);
     if (!values?.start_date) {
       const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
@@ -46,10 +54,40 @@ export default function CEOCompitiorview(props) {
     console.log(values, "values");
   };
 
-  const handleClearForm = async (values) => {
-    console.log(values, "values");
+  const handleClearForm = () => {
+    setFilters(null);
   };
+  const currentMonth = new Date().getMonth(); // Get the current month (0-based index, December = 11)
 
+  const renderContentForMonth = () => {
+    // Conditionally render content based on the month (December in this case)
+    switch (currentMonth) {
+      case 11: // December
+        return (
+          <>
+            <h3>December Content</h3>
+            <p>This is the content for December.</p>
+            {/* You can add more specific components or content for December here */}
+          </>
+        );
+      case 10: // November
+        return (
+          <>
+            <h3>November Content</h3>
+            <p>This is the content for November.</p>
+            {/* You can add more specific components or content for November here */}
+          </>
+        );
+      // Add more cases for other months if needed
+      default:
+        return (
+          <>
+            <h3>Default Content</h3>
+            <p>This is the default content, displayed for months other than December and November.</p>
+          </>
+        );
+    }
+  };
   return (
     <>
       {isLoading ? <LoaderImg /> : null}
@@ -91,8 +129,8 @@ export default function CEOCompitiorview(props) {
                 layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
                 lg="3"
                 showStationValidation={true}
-                showMonthInput={false}
-                showDateInput={true}
+                showMonthInput={true}
+                showDateInput={false}
                 showStationInput={true}
                 ClearForm={handleClearForm}
                 parentMaxDate={getCurrentDate()}
@@ -101,49 +139,43 @@ export default function CEOCompitiorview(props) {
           </Col>
         </Row>
 
-        <Row
+        {filters?.site_name ? <Row
           style={{
             marginBottom: "10px",
             marginTop: "20px",
           }}
         >
-          <Col lg={12} md={12} className="">
-            <Card className="">
-              <Card.Header>
-                <div className="w-100">
-                  <div className="spacebetweenend">
-                    <h4 className="card-title">Competitors Stats</h4>
-                  </div>
-                </div>
-              </Card.Header>
 
-              <Card.Body className="overflow-auto ">
-                <CEODashboardCompetitor
-                  getCompetitorsPrice={getCompetitorsPrice}
-                />
-              </Card.Body>
-            </Card>
-          </Col>
+
 
           <Col lg={12} md={12} className="">
             <Card className="">
               <Card.Header>
                 <div className="w-100">
                   <div className="spacebetweenend">
-                    <h4 className="card-title">Competitors Chart</h4>
+                    <h4 className="card-title">Competitors Stats ({(filters?.site_name)})</h4>
                   </div>
                 </div>
               </Card.Header>
 
               <Card.Body className="overflow-auto ">
-                <CEODashboardCompetitorChart
-                  getCompetitorsPrice={getCompetitorsPrice}
-                  setGetCompetitorsPrice={setGetCompetitorsPrice}
-                />
+                <AccordionComponent />
+
               </Card.Body>
             </Card>
           </Col>
-        </Row>
+
+          <Col lg={12} md={12} className="">
+            <CEODashboardCompetitorChart
+              getCompetitorsPrice={getCompetitorsPrice}
+              setGetCompetitorsPrice={setGetCompetitorsPrice}
+              sitename={filters?.site_name}
+
+            />
+          </Col>
+        </Row> : <NoDataComponent title={"Competitors View"} />}
+
+
       </>
     </>
   );
