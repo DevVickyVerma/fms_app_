@@ -70,7 +70,8 @@ const CeoDashBoard = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
 
-  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(staticCompiCEOValues);
+  const [getCompetitorsPrice, setGetCompetitorsPrice] =
+    useState(staticCompiCEOValues);
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector(
@@ -476,10 +477,13 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filters.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filters.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -501,7 +505,8 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -547,7 +552,6 @@ const CeoDashBoard = (props) => {
       }
     }
   };
-
 
   const StockDeatils = () => {
     navigate(`/dashboard-details/${formik?.values?.selectedSite}`, {
@@ -626,10 +630,9 @@ const CeoDashBoard = (props) => {
         if (response && response.data && response.data.data) {
           setGetCompetitorsPrice(response?.data?.data);
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   };
-
 
   return (
     <>
@@ -841,7 +844,6 @@ const CeoDashBoard = (props) => {
 
         <Row>
           <Col lg={6} md={6}>
-
             {PriceLogsloading ? (
               <SmallLoader title="Top Performar Sites" />
             ) : PriceLogs?.priceLogs?.length > 0 ? (
@@ -852,11 +854,8 @@ const CeoDashBoard = (props) => {
             ) : (
               <NoDataComponent title="Top Performar Sites" />
             )}
-
-
           </Col>
           <Col lg={6} md={6}>
-
             {PriceLogsloading ? (
               <SmallLoader title="Top Losse Sites" />
             ) : PriceLogs?.priceLogs?.length > 0 ? (
@@ -864,7 +863,6 @@ const CeoDashBoard = (props) => {
             ) : (
               <NoDataComponent title="Top Losse Sites" />
             )}
-
           </Col>
         </Row>
 
@@ -903,19 +901,17 @@ const CeoDashBoard = (props) => {
           }}
         >
           <Col lg={7} md={7} className="">
-            <Card className="">
+            <Card className="dash-card-default-height">
               <Card.Header>
                 <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
                   <h4 className="card-title">
                     Competitors Stats
-                    {formik.values?.selectedSiteDetails?.site_name && (
-                      ` (${formik.values.selectedSiteDetails.site_name})`
-                    )}
+                    {formik.values?.selectedSiteDetails?.site_name &&
+                      ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
                 </div>
               </Card.Header>
-              <Card.Body className="overflow-auto ceo-compi-body">
-
+              <Card.Body className="overflow-auto ">
                 {PriceLogsloading ? (
                   <SmallLoader />
                 ) : PriceLogs?.priceLogs?.length > 0 ? (
@@ -929,8 +925,6 @@ const CeoDashBoard = (props) => {
                     className="all-center-flex smallNoDataimg"
                   />
                 )}
-
-
               </Card.Body>
             </Card>
           </Col>
@@ -940,9 +934,8 @@ const CeoDashBoard = (props) => {
                 <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
                   <h4 className="card-title">
                     Competitors Chart
-                    {formik.values?.selectedSiteDetails?.site_name && (
-                      ` (${formik.values.selectedSiteDetails.site_name})`
-                    )}
+                    {formik.values?.selectedSiteDetails?.site_name &&
+                      ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
                 </div>
               </Card.Header>
@@ -958,13 +951,9 @@ const CeoDashBoard = (props) => {
                     className="all-center-flex smallNoDataimg"
                   />
                 )}
-
-
               </Card.Body>
             </Card>
           </Col>
-
-
         </Row>
 
         {userPermissions?.includes("dashboard-site-stats") ? (
@@ -1044,9 +1033,9 @@ const CeoDashBoard = (props) => {
                 <div className="spacebetween" style={{ width: "100%" }}>
                   <h4 className="card-title">
                     {" "}
-                    Selling Price Logs  {formik.values?.selectedSiteDetails?.site_name && (
-                      ` (${formik.values.selectedSiteDetails.site_name})`
-                    )}
+                    Selling Price Logs{" "}
+                    {formik.values?.selectedSiteDetails?.site_name &&
+                      ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
                   {userPermissions?.includes("fuel-price-logs") ? (
                     <span>
@@ -1084,9 +1073,9 @@ const CeoDashBoard = (props) => {
                 <div className="w-100">
                   <div className="spacebetweenend">
                     <h4 className="card-title">
-                      Reports {formik.values?.selectedSiteDetails?.site_name && (
-                        ` (${formik.values.selectedSiteDetails.site_name})`
-                      )}
+                      Reports{" "}
+                      {formik.values?.selectedSiteDetails?.site_name &&
+                        ` (${formik.values.selectedSiteDetails.site_name})`}
                     </h4>
                     {userPermissions?.includes("report-type-list") ? (
                       <span className="textend">
