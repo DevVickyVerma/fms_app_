@@ -2242,3 +2242,7 @@ td.middayModal-td.time-input-fuel-sell {
   font-size: 12px;
   line-height: normal;
 }
+
+.c-width-150 {
+  min-width: 150px !important;
+}

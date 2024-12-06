@@ -11,7 +11,12 @@ import {
 } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import { Baroptions, Losers, Tankcolors, TopPerformers } from "../../Utils/commonFunctions/CommonData";
+import {
+  Baroptions,
+  Losers,
+  Tankcolors,
+  TopPerformers,
+} from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
@@ -472,10 +477,13 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filters.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filters.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -497,7 +505,8 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -621,7 +630,7 @@ const CeoDashBoard = (props) => {
         if (response && response.data && response.data.data) {
           setGetCompetitorsPrice(response?.data?.data);
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   };
 
@@ -922,8 +931,6 @@ const CeoDashBoard = (props) => {
                     <span className="smalltitle">
                       {formik?.values?.selectedMonthDetails?.display}
                     </span>
-
-
                   </div>
                 </div>
               </Card.Header>
@@ -961,7 +968,6 @@ const CeoDashBoard = (props) => {
                 className="all-center-flex smallNoDataimg"
               />
             )}
-
           </Col>
         </Row>
 
