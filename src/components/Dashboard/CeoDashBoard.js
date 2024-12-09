@@ -971,7 +971,7 @@ const CeoDashBoard = (props) => {
               <Card.Body className="overflow-auto ">
                 {PriceLogsloading ? (
                   <SmallLoader />
-                ) : !PriceLogs?.priceLogs?.length > 0 ? (
+                ) : PriceLogs?.priceLogs?.length > 0 ? (
                   <CEODashboardCompetitor
                     getCompetitorsPrice={getCompetitorsPrice}
                   />
