@@ -11,15 +11,15 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
-      // {
-      //   path: `/ceodashboard`,
-      //   icon: "house",
-      //   type: "link",
-      //   active: false,
-      //   permission: "ceodashboard-view",
-      //   visibility: false,
-      //   title: "CEO Dashboard",
-      // },
+      {
+        path: `/ceodashboard`,
+        icon: "house",
+        type: "link",
+        active: false,
+        permission: "ceodashboard-view",
+        visibility: false,
+        title: "CEO Dashboard",
+      },
 
       // {
       //   path: `/fuelprice`,
@@ -32,30 +32,30 @@ export const MENUITEMS = [
       //   title: "Fuel Selling Price",
       // },
 
-      // {
-      //   title: "Manage Levels",
-      //   icon: "graduation-cap",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "level-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/manage-levels`,
-      //       type: "link",
-      //       title: "Manage Levels",
-      //       permission: "user-list",
-      //       visibility: false,
-      //     },
-      //     {
-      //       path: `/manage-levels/add-level`,
-      //       type: "link",
-      //       title: "Add Level",
-      //       permission: "user-create",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
+      {
+        title: "Manage Levels",
+        icon: "graduation-cap",
+        type: "sub",
+        active: false,
+        permission: "level-list",
+        visibility: false,
+        children: [
+          {
+            path: `/manage-levels`,
+            type: "link",
+            title: "Manage Levels",
+            permission: "user-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-levels/add-level`,
+            type: "link",
+            title: "Add Level",
+            permission: "user-create",
+            visibility: false,
+          },
+        ],
+      },
       {
         title: "Manage Users",
         icon: "users",
@@ -404,14 +404,14 @@ export const MENUITEMS = [
             permission: "competitor-price-update",
             visibility: false,
           },
-          // {
-          //   path: `/fuel-selling-prices-suggestion`,
-          //   title: "Fuel Selling Prices Suggestion",
-          //   type: "link",
-          //   permission: "competitor-price-update",
-          //   // permission: "fuel-suggestion-list",
-          //   visibility: false,
-          // },
+          {
+            path: `/fuel-selling-prices-suggestion`,
+            title: "Fuel Selling Prices Suggestion",
+            type: "link",
+            permission: "competitor-price-update",
+            // permission: "fuel-suggestion-list",
+            visibility: false,
+          },
         ],
       },
       //Tolerances
@@ -795,13 +795,13 @@ export const MENUITEMS = [
             permission: "fuel-price-history",
             visibility: false,
           },
-          // {
-          //   path: `/fuel-selling-price-logs`,
-          //   title: "Fuel Selling Price Suggestion Logs",
-          //   type: "link",
-          //   permission: "fuel-price-history",
-          //   visibility: false,
-          // },
+          {
+            path: `/fuel-selling-price-logs`,
+            title: "Fuel Selling Price Suggestion Logs",
+            type: "link",
+            permission: "fuel-price-history",
+            visibility: false,
+          },
         ],
       },
       //Sms
