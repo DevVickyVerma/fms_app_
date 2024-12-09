@@ -13,7 +13,7 @@ const CeoDashSitetable = (props) => {
 
   const renderTableHeader = () => (
     <tr className="fuelprice-tr " style={{ padding: "0px" }}>
-      <th className="dashboard-child-thead c-width-430 overflow-wrap-anywhere">
+      <th className="dashboard-child-thead c-width-500 overflow-wrap-anywhere">
         Sites
       </th>
       <th className="dashboard-child-thead">Gross Volume</th>
@@ -30,7 +30,7 @@ const CeoDashSitetable = (props) => {
     data?.map((item, index) => (
       <React.Fragment key={index}>
         <tr className={`fuelprice-tr p-0  `} key={item.id}>
-          <td className="dashboard-child-tdata c-width-430 overflow-wrap-anywhere">
+          <td className="dashboard-child-tdata c-width-500 overflow-wrap-anywhere">
             <div className="d-flex align-items-center justify-center h-100">
               <div>
                 <img
@@ -48,7 +48,6 @@ const CeoDashSitetable = (props) => {
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-15 fw-semibold">{item?.name}</h6>
                   <small>{item.date ? `(${item.date})` : ""}</small>
-
                 </div>
               </div>
             </div>
@@ -65,10 +64,11 @@ const CeoDashSitetable = (props) => {
                 </h6>
 
                 <p
-                  className={`me-1 ${item.fuel_volume?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 ${
+                    item.fuel_volume?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${item?.fuel_volume?.percentage}%`}
                 >
                   {item?.fuel_volume?.status === "up" ? (
@@ -101,10 +101,11 @@ const CeoDashSitetable = (props) => {
                     : "0"}
                 </h6>
                 <p
-                  className={`me-1 ${item?.fuel_sales?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 ${
+                    item?.fuel_sales?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${item?.fuel_sales?.percentage}%`}
                 >
                   {item?.fuel_sales?.status === "up" ? (
@@ -137,10 +138,11 @@ const CeoDashSitetable = (props) => {
                     : "0"}
                 </h6>
                 <p
-                  className={`me-1 ${item?.gross_profit?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 ${
+                    item?.gross_profit?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${item?.gross_profit?.percentage}%`}
                 >
                   {item?.gross_profit?.status === "up" ? (
@@ -185,10 +187,11 @@ const CeoDashSitetable = (props) => {
                   )}
                 </h6>
                 <p
-                  className={`me-1 ${item?.gross_margin?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 ${
+                    item?.gross_margin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${item?.gross_margin?.percentage}%`}
                 >
                   {item?.gross_margin?.status === "up" ? (
@@ -221,10 +224,11 @@ const CeoDashSitetable = (props) => {
                     : "0"}
                 </h6>
                 <p
-                  className={`me-1 ${item?.shop_sales?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 ${
+                    item?.shop_sales?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${item?.shop_sales?.percentage}%`}
                 >
                   {item?.shop_sales?.status === "up" ? (
@@ -257,10 +261,11 @@ const CeoDashSitetable = (props) => {
                   {/* {item?.shop_fees?.shop_fees || "0.00"} */}
                 </h6>
                 <p
-                  className={`me-1 ${item?.shop_fees?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 ${
+                    item?.shop_fees?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${item?.shop_fees?.percentage}%`}
                 >
                   {item?.shop_fees?.status === "up" ? (
@@ -293,10 +298,11 @@ const CeoDashSitetable = (props) => {
                   {/* {item?.shop_profit?.shop_profit || "0.00"} */}
                 </h6>
                 <p
-                  className={`me-1 ${item?.shop_profit?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 ${
+                    item?.shop_profit?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${item?.shop_profit?.percentage}%`}
                 >
                   {item?.shop_profit?.status === "up" ? (
