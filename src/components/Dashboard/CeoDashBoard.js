@@ -1088,9 +1088,9 @@ const CeoDashBoard = (props) => {
                 <div className="spacebetween" style={{ width: "100%" }}>
                   <h4 className="card-title">
                     {" "}
-                    Selling Price Logs{" "}
-                    {/* {formik.values?.selectedSiteDetails?.site_name &&
-                      ` (${formik.values.selectedSiteDetails.site_name})`} */}
+                    Fuel Price Logs{" "}
+                    {formik.values?.selectedSiteDetails?.site_name &&
+                      ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
                   {userPermissions?.includes("fuel-price-logs") ? (
                     <span>
