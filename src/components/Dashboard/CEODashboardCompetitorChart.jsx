@@ -1,9 +1,15 @@
 import ReactApexChart from "react-apexcharts";
 import { useState } from "react";
 import { Card } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CEODashboardCompetitorChart = (props) => {
   const { sitename } = props;
+
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
 
   // Dummy getCompetitorsPrice response with different statistics for each fuel type
   const getCompetitorsPrice = {
@@ -313,6 +319,13 @@ const CEODashboardCompetitorChart = (props) => {
           <h4 className="card-title">
             Competitors Chart
             {sitename && ` (${sitename})`}
+            {userPermissions?.includes("report-type-list") ? (
+              <span className="textend">
+                <Link to="/competitor-view">View All</Link>
+              </span>
+            ) : (
+              ""
+            )}
           </h4>
           <select
             id="demo-simple-select"
