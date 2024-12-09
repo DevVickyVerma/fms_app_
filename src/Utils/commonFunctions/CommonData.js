@@ -1029,14 +1029,14 @@ export const TopPerformers = [
       shop_sales: "4306.84",
       shop_margin: "2358.7",
       status: "up",
-      percentage: "-13.62",
+      percentage: "13.62",
       p_status: "up",
-      p_percentage: "-10.08",
+      p_percentage: "10.08",
     },
     shop_profit: {
       shop_profit: "2358.7",
-      status: "down",
-      percentage: "-10.08",
+      status: "up",
+      percentage: "10.08",
     },
     shop_fees: {
       shop_fee: "393.6",

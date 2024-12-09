@@ -1,6 +1,5 @@
 import ReactApexChart from "react-apexcharts";
-import React, { useState } from "react";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useState } from "react";
 import { Card } from "react-bootstrap";
 
 const CEODashboardCompetitorChart = (props) => {
@@ -122,8 +121,6 @@ const CEODashboardCompetitorChart = (props) => {
   const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
   const selectedFuelType = getCompetitorsPrice?.fuelStats[selectedFuelIndex];
 
-
-
   const chartData = {
     series: [
       ...selectedFuelType?.competitors.map((competitor) => ({
@@ -221,16 +218,13 @@ const CEODashboardCompetitorChart = (props) => {
     },
   };
 
-
   return (
-
     <Card className="dash-card-default-height ">
       <Card.Header className="  ">
         <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
           <h4 className="card-title">
             Competitors Chart
-            {sitename &&
-              ` (${sitename})`}
+            {sitename && ` (${sitename})`}
           </h4>
           <select
             id="demo-simple-select"

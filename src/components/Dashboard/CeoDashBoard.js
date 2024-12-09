@@ -909,7 +909,7 @@ const CeoDashBoard = (props) => {
             marginTop: "20px",
           }}
         >
-          <Col lg={7} md={7} className="">
+          {/* <Col lg={7} md={7} className="">
             <Card className="dash-card-default-height">
               <Card.Header>
                 <div className="w-100">
@@ -951,8 +951,8 @@ const CeoDashBoard = (props) => {
                 )}
               </Card.Body>
             </Card>
-          </Col>
-          <Col lg={5} md={5} className="">
+          </Col> */}
+          <Col lg={12} md={12} className="">
             {PriceLogsloading ? (
               <SmallLoader />
             ) : !PriceLogs?.priceLogs?.length > 0 ? (
