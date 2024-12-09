@@ -293,7 +293,7 @@ thead {
 tbody {
   max-width: 100% !important;
   width: 100% !important;
-  line-height: 30px;
+  /* line-height: 30px; */
 }
 
 .table th,
@@ -2249,4 +2249,8 @@ td.middayModal-td.time-input-fuel-sell {
 
 .overflow-wrap-anywhere {
   overflow-wrap: anywhere;
+}
+
+.hyper-link {
+  color: var(--primary-bg-color) !important;
 }

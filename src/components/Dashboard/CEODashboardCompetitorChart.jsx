@@ -316,17 +316,19 @@ const CEODashboardCompetitorChart = (props) => {
     <Card className="dash-card-default-height ">
       <Card.Header className="  ">
         <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
-          <h4 className="card-title">
-            Competitors Chart
-            {sitename && ` (${sitename})`}
+          <div className=" d-flex flex-column">
+            <h4 className="card-title">
+              Competitors Chart
+              {sitename && ` (${sitename})`}
+            </h4>
             {userPermissions?.includes("report-type-list") ? (
-              <span className="textend">
+              <span className="text-muted hyper-link">
                 <Link to="/competitor-view">View All</Link>
               </span>
             ) : (
               ""
             )}
-          </h4>
+          </div>
           <select
             id="demo-simple-select"
             name="demo-simple-select"
