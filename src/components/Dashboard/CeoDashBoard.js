@@ -850,7 +850,7 @@ const CeoDashBoard = (props) => {
           <Col lg={6} md={6}>
             {PriceLogsloading ? (
               <SmallLoader title="Top Leading Sites" />
-            ) : PriceLogs?.priceLogs?.length > 0 ? (
+            ) : !PriceLogs?.priceLogs?.length > 0 ? (
               <CeoDashSitetable
                 data={TopPerformers}
                 tootiptitle={"Profit"}

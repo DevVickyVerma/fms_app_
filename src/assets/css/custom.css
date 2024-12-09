@@ -2243,6 +2243,10 @@ td.middayModal-td.time-input-fuel-sell {
   line-height: normal;
 }
 
-.c-width-150 {
-  min-width: 150px !important;
+.c-width-430 {
+  width: 430px !important;
+}
+
+.overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
 }

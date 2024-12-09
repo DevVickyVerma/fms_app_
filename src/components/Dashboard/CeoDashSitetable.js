@@ -13,7 +13,9 @@ const CeoDashSitetable = (props) => {
 
   const renderTableHeader = () => (
     <tr className="fuelprice-tr " style={{ padding: "0px" }}>
-      <th className="dashboard-child-thead c-width-150">Sites</th>
+      <th className="dashboard-child-thead c-width-430 overflow-wrap-anywhere">
+        Sites
+      </th>
       <th className="dashboard-child-thead">Gross Volume</th>
       <th className="dashboard-child-thead">Fuel Sales</th>
       <th className="dashboard-child-thead">Gross Profit</th>
@@ -28,7 +30,7 @@ const CeoDashSitetable = (props) => {
     data?.map((item, index) => (
       <React.Fragment key={index}>
         <tr className={`fuelprice-tr p-0  `} key={item.id}>
-          <td className="dashboard-child-tdata c-width-150">
+          <td className="dashboard-child-tdata c-width-430 overflow-wrap-anywhere">
             <div className="d-flex align-items-center justify-center h-100">
               <div>
                 <img
