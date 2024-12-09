@@ -32,30 +32,30 @@ export const MENUITEMS = [
       //   title: "Fuel Selling Price",
       // },
 
-      {
-        title: "Manage Levels",
-        icon: "graduation-cap",
-        type: "sub",
-        active: false,
-        permission: "level-list",
-        visibility: false,
-        children: [
-          {
-            path: `/manage-levels`,
-            type: "link",
-            title: "Manage Levels",
-            permission: "user-list",
-            visibility: false,
-          },
-          {
-            path: `/manage-levels/add-level`,
-            type: "link",
-            title: "Add Level",
-            permission: "user-create",
-            visibility: false,
-          },
-        ],
-      },
+      // {
+      //   title: "Manage Levels",
+      //   icon: "graduation-cap",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "level-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/manage-levels`,
+      //       type: "link",
+      //       title: "Manage Levels",
+      //       permission: "user-list",
+      //       visibility: false,
+      //     },
+      //     {
+      //       path: `/manage-levels/add-level`,
+      //       type: "link",
+      //       title: "Add Level",
+      //       permission: "user-create",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
       {
         title: "Manage Users",
         icon: "users",
