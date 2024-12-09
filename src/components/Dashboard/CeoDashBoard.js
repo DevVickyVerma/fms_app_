@@ -917,31 +917,35 @@ const CeoDashBoard = (props) => {
             marginTop: "20px",
           }}
         >
-          <Card>
-            <Card.Header>
-              <div className="w-100">
-                <div className="spacebetweenend">
-                  <h4 className="card-title">
-                    Competitors
-                    {formik.values?.selectedSiteDetails?.site_name &&
-                      ` (${formik.values.selectedSiteDetails.site_name})`}
-                  </h4>
-                  <h4 className="card-title all-center-flex">
-                    Competitors Chart  {" "} <Switch
-                      id="customToggle"
-                      className="ms-2 "
-                      uncheckedIcon={false} // Removes the unchecked icon
-                      checkedIcon={false}   // Removes the checked icon
-                      checked={toggleValue}
-                      onChange={handleToggleChange}
-                    />  {" "} <span className="ms-2">Competitors Stats</span>
-                  </h4>
-                </div>
+          <Row>
+            <Col lg={12}>
+              <Card>
+                <Card.Header>
+                  <div className="w-100">
+                    <div className="spacebetweenend">
+                      <h4 className="card-title">
+                        Competitors
+                        {formik.values?.selectedSiteDetails?.site_name &&
+                          ` (${formik.values.selectedSiteDetails.site_name})`}
+                      </h4>
+                      <h4 className="card-title all-center-flex">
+                        Competitors Chart  {" "} <Switch
+                          id="customToggle"
+                          className="ms-2 "
+                          uncheckedIcon={false} // Removes the unchecked icon
+                          checkedIcon={false}   // Removes the checked icon
+                          checked={toggleValue}
+                          onChange={handleToggleChange}
+                        />  {" "} <span className="ms-2">Competitors Stats</span>
+                      </h4>
+                    </div>
 
-              </div>
+                  </div>
 
-            </Card.Header>
-          </Card>
+                </Card.Header>
+              </Card>
+            </Col>
+          </Row>
           {toggleValue ? (<Col lg={12} md={12} className="">
             <Card className="dash-card-default-height">
               <Card.Header>
