@@ -2254,3 +2254,7 @@ td.middayModal-td.time-input-fuel-sell {
 .hyper-link {
   color: var(--primary-bg-color) !important;
 }
+
+.c-fs-18 {
+  font-size: 18px !important;
+}

@@ -162,7 +162,7 @@ const CEODashCommonCard = ({
                   </>
                 )}
               </h6>
-              <h2 className="mb-2 number-font">
+              <h2 className="mb-2 number-font c-fs-18">
                 {leftSideData ? formatNumber(leftSideData) : "0.0"}{" "}
                 {showPPL ? "ppl" : ""}
                 <span className="ms-1">
@@ -191,7 +191,7 @@ const CEODashCommonCard = ({
                   <h6 className="mt-4 mb-2 boxtitle">{RightSideTitle}</h6>
                   <h2
                     // style={{ fontSize: "18px" }}
-                    className="mb-0 number-font "
+                    className="mb-0 number-font c-fs-18"
                   >
                     {" "}
                     <span className="l-sign">{icon}</span>{" "}
