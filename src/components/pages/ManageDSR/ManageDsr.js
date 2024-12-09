@@ -30,9 +30,7 @@ import useErrorHandler from '../../CommonComponent/useErrorHandler';
 const ManageDsr = (props) => {
   const { isLoading, getData, postData } = props;
   const { handleError } = useErrorHandler();
-
   const [permissionsArray, setPermissionsArray] = useState([]);
-
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const [UploadTabname, setUploadTabname] = useState();
@@ -176,8 +174,6 @@ const ManageDsr = (props) => {
   };
 
   const GetDataWithClient = async (values) => {
-    // localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values));
-
     if (!values?.site_id) return;
     try {
       const formData = new FormData();
@@ -415,11 +411,14 @@ const ManageDsr = (props) => {
             </Card>
           </Col>
         </Row>
+        {/* {Uploadtitle?.b_mdl === "PRISM" ||
+          Uploadtitle?.b_mdl === "HTECH" ||
+          Uploadtitle?.b_mdl === "EDGEPoS" ||
+          (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1) ? ( */}
 
         {Uploadtitle?.b_mdl === "PRISM" ||
           Uploadtitle?.b_mdl === "HTECH" ||
-          Uploadtitle?.b_mdl === "EDGEPoS" ||
-          (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1) ? (
+          Uploadtitle?.b_mdl === "EDGEPoS" ? (
           <Row>
             <Col md={12} xl={12}>
               <Card>
@@ -432,8 +431,7 @@ const ManageDsr = (props) => {
                   <Row>
                     {Uploadtitle?.b_mdl === "PRISM" ||
                       Uploadtitle?.b_mdl === "HTECH" ||
-                      Uploadtitle?.b_mdl === "EDGEPoS" ||
-                      (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1) ? (
+                      Uploadtitle?.b_mdl === "EDGEPoS" ? (
                       UploadList && UploadList.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
@@ -515,7 +513,6 @@ const ManageDsr = (props) => {
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn?.showBtn === true &&
                   isAssignPermissionAvailable &&
-                  DataEnteryList && apikey == 0 &&
                   DataEnteryList.length > 0 ? (
                   <>
                     <Link

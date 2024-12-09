@@ -404,14 +404,14 @@ export const MENUITEMS = [
             permission: "competitor-price-update",
             visibility: false,
           },
-          {
-            path: `/fuel-selling-prices-suggestion`,
-            title: "Fuel Selling Prices Suggestion",
-            type: "link",
-            permission: "competitor-price-update",
-            // permission: "fuel-suggestion-list",
-            visibility: false,
-          },
+          // {
+          //   path: `/fuel-selling-prices-suggestion`,
+          //   title: "Fuel Selling Prices Suggestion",
+          //   type: "link",
+          //   permission: "competitor-price-update",
+          //   // permission: "fuel-suggestion-list",
+          //   visibility: false,
+          // },
         ],
       },
       //Tolerances
@@ -795,13 +795,13 @@ export const MENUITEMS = [
             permission: "fuel-price-history",
             visibility: false,
           },
-          {
-            path: `/fuel-selling-price-logs`,
-            title: "Fuel Selling Price Suggestion Logs",
-            type: "link",
-            permission: "fuel-price-history",
-            visibility: false,
-          },
+          // {
+          //   path: `/fuel-selling-price-logs`,
+          //   title: "Fuel Selling Price Suggestion Logs",
+          //   type: "link",
+          //   permission: "fuel-price-history",
+          //   visibility: false,
+          // },
         ],
       },
       //Sms
