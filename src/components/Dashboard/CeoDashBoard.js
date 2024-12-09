@@ -927,12 +927,14 @@ const CeoDashBoard = (props) => {
                       ` (${formik.values.selectedSiteDetails.site_name})`}
                   </h4>
                   <h4 className="card-title all-center-flex">
-                    Competitors Stats {" "} <Switch
+                    Competitors Chart  {" "} <Switch
                       id="customToggle"
                       className="ms-2 "
+                      uncheckedIcon={false} // Removes the unchecked icon
+                      checkedIcon={false}   // Removes the checked icon
                       checked={toggleValue}
                       onChange={handleToggleChange}
-                    />  {" "} <span className="ms-2">Competitors Chart</span>
+                    />  {" "} <span className="ms-2">Competitors Stats</span>
                   </h4>
                 </div>
 
