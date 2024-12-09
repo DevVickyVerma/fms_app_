@@ -6,8 +6,6 @@ import Scrollbars from "react-custom-scrollbars";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../Utils/Loader";
 
-
-
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
 
@@ -252,15 +250,19 @@ const Sidebar = () => {
                     {Item.Items.map((menuItem, menuIndex) =>
                       menuItem.visibility ? (
                         <li
-                          className={`slide ${menuItem.active ? "is-expanded" : ""
-                            }`}
-                          key={menuItem?.id || `menu-${parentIndex}-${menuIndex}`}
+                          className={`slide ${
+                            menuItem.active ? "is-expanded" : ""
+                          }`}
+                          key={
+                            menuItem?.id || `menu-${parentIndex}-${menuIndex}`
+                          }
                         >
                           {menuItem.type === "link" ? (
                             <NavLink
                               to={menuItem.path + "/"}
-                              className={`side-menu__item   ${menuItem.active ? "active " : ""
-                                }`}
+                              className={`side-menu__item   ${
+                                menuItem.active ? "active " : ""
+                              }`}
                               onClick={() => {
                                 setNavActive(menuItem);
                                 toggletNavActive(menuItem);
@@ -290,8 +292,9 @@ const Sidebar = () => {
                           {menuItem.type === "sub" ? (
                             <div
                               to={menuItem.path + "/"}
-                              className={`side-menu__item  ${menuItem.active ? "active" : ""
-                                }`}
+                              className={`side-menu__item  ${
+                                menuItem.active ? "active" : ""
+                              }`}
                               onClick={(event) => {
                                 event.preventDefault();
                                 setNavActive(menuItem);
@@ -303,9 +306,9 @@ const Sidebar = () => {
                               />
                               <span className="side-menu__label">
                                 {menuItem.title}
-                                {menuItem.title === "Manage Site Fuels" ? <>
+                                {/* {menuItem.title === "Manage Site Fuels" ? <>
                                   <span className="ms-2  btn-danger btn-sm p-1">10</span>
-                                </> : ""}
+                                </> : ""} */}
                               </span>
                               {menuItem.badge ? (
                                 <label
@@ -326,107 +329,119 @@ const Sidebar = () => {
                           {menuItem.children ? (
                             <ul
                               className={`slide-menu `}
-                            // style={
-                            //   menuItem.active
-                            //     ? {
-                            //       opacity: 1,
-                            //       transition: "opacity 500ms ease-in",
-                            //       display: "block",
-                            //     }
-                            //     : {
-                            //       opacity: 1,
-                            //       transition: "opacity 500222ms ease-out",
-                            //       // display: "none"
-                            //     }
-                            // }
+                              // style={
+                              //   menuItem.active
+                              //     ? {
+                              //       opacity: 1,
+                              //       transition: "opacity 500ms ease-in",
+                              //       display: "block",
+                              //     }
+                              //     : {
+                              //       opacity: 1,
+                              //       transition: "opacity 500222ms ease-out",
+                              //       // display: "none"
+                              //     }
+                              // }
                             >
-                              {menuItem.children.map((childrenItem, childIndex) => childrenItem.visibility ? (
-                                <li key={
-                                  childrenItem?.id ||
-                                  `child-${parentIndex}-${menuIndex}-${childIndex}`
-                                }>
-                                  {childrenItem.type === "sub" ? (
-                                    <a
-                                      href="javascript"
-                                      className="sub-side-menu__item"
-                                      onClick={(event) => {
-                                        event.preventDefault();
-                                        toggletNavActive(childrenItem);
-                                      }}
+                              {menuItem.children.map(
+                                (childrenItem, childIndex) =>
+                                  childrenItem.visibility ? (
+                                    <li
+                                      key={
+                                        childrenItem?.id ||
+                                        `child-${parentIndex}-${menuIndex}-${childIndex}`
+                                      }
                                     >
-                                      <span className="sub-side-menu__label">
-                                        {childrenItem.title}
-                                      </span>
-                                      {childrenItem.active ? (
-                                        <i className="sub-angle  fa fa-angle-down" />
+                                      {childrenItem.type === "sub" ? (
+                                        <a
+                                          href="javascript"
+                                          className="sub-side-menu__item"
+                                          onClick={(event) => {
+                                            event.preventDefault();
+                                            toggletNavActive(childrenItem);
+                                          }}
+                                        >
+                                          <span className="sub-side-menu__label">
+                                            {childrenItem.title}
+                                          </span>
+                                          {childrenItem.active ? (
+                                            <i className="sub-angle  fa fa-angle-down" />
+                                          ) : (
+                                            <i className="sub-angle fa fa-angle-right" />
+                                          )}
+                                        </a>
                                       ) : (
-                                        <i className="sub-angle fa fa-angle-right" />
+                                        ""
                                       )}
-                                    </a>
-                                  ) : (
-                                    ""
-                                  )}
-                                  {childrenItem.type === "link" ? (
-                                    <NavLink
-                                      to={childrenItem.path + "/"}
-                                      className="slide-item"
-                                      onClick={() =>
-                                        toggletNavActive(childrenItem)
-                                      }
-                                    >
-                                      {childrenItem.title}
+                                      {childrenItem.type === "link" ? (
+                                        <NavLink
+                                          to={childrenItem.path + "/"}
+                                          className="slide-item"
+                                          onClick={() =>
+                                            toggletNavActive(childrenItem)
+                                          }
+                                        >
+                                          {childrenItem.title}
 
-                                      {childrenItem.title === "Fuel Selling Prices Suggestion" ? <>
-                                        <span className="btn-danger btn-sm p-1 d-flex justify-content-center align-items-center">10</span>
-                                      </> : ""}
-
-
-                                    </NavLink>
-                                  ) : (
-                                    ""
-                                  )}
-                                  {childrenItem.children ? (
-                                    <ul
-                                      className="sub-slide-menu"
-                                      style={
-                                        childrenItem.active
-                                          ? { display: "block" }
-                                          : { display: "none" }
-                                      }
-                                    >
-                                      {childrenItem.children.map(
-                                        (childrenSubItem, subIndex) => (
-                                          <li key={
-                                            childrenSubItem?.id ||
-                                            `sub-child-${parentIndex}-${menuIndex}-${childIndex}-${subIndex}`
-                                          }>
-                                            {childrenSubItem.type ===
-                                              "link" ? (
-                                              <NavLink
-                                                to={
-                                                  childrenSubItem.path + "/"
-                                                }
-                                                className={`${"sub-slide-item"}`}
-                                                onClick={() =>
-                                                  toggletNavActive(
-                                                    childrenSubItem
-                                                  )
+                                          {childrenItem.title ===
+                                          "Fuel Selling Prices Suggestion" ? (
+                                            <>
+                                              <span className="btn-danger btn-sm p-1 d-flex justify-content-center align-items-center">
+                                                10
+                                              </span>
+                                            </>
+                                          ) : (
+                                            ""
+                                          )}
+                                        </NavLink>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {childrenItem.children ? (
+                                        <ul
+                                          className="sub-slide-menu"
+                                          style={
+                                            childrenItem.active
+                                              ? { display: "block" }
+                                              : { display: "none" }
+                                          }
+                                        >
+                                          {childrenItem.children.map(
+                                            (childrenSubItem, subIndex) => (
+                                              <li
+                                                key={
+                                                  childrenSubItem?.id ||
+                                                  `sub-child-${parentIndex}-${menuIndex}-${childIndex}-${subIndex}`
                                                 }
                                               >
-                                                {childrenSubItem.title}
-                                              </NavLink>
-                                            ) : (
-                                              ""
-                                            )}
-                                          </li>
-                                        )
+                                                {childrenSubItem.type ===
+                                                "link" ? (
+                                                  <NavLink
+                                                    to={
+                                                      childrenSubItem.path + "/"
+                                                    }
+                                                    className={`${"sub-slide-item"}`}
+                                                    onClick={() =>
+                                                      toggletNavActive(
+                                                        childrenSubItem
+                                                      )
+                                                    }
+                                                  >
+                                                    {childrenSubItem.title}
+                                                  </NavLink>
+                                                ) : (
+                                                  ""
+                                                )}
+                                              </li>
+                                            )
+                                          )}
+                                        </ul>
+                                      ) : (
+                                        ""
                                       )}
-                                    </ul>
-                                  ) : (
-                                    ""
-                                  )}
-                                </li>
-                              ) : null)}
+                                    </li>
+                                  ) : null
+                              )}
                             </ul>
                           ) : (
                             ""
@@ -462,7 +477,7 @@ const Sidebar = () => {
             </div>
           </Scrollbars>
         </aside>
-      </div >
+      </div>
     </>
   );
 };
