@@ -27,34 +27,42 @@ const CEODashboardCompetitorChart = (props) => {
           {
             name: "Volume",
             price: [
-              127652, 126727, 127281, 127500, 127600, 127550, 127450, 127430,
-              127400, 127370,
+              "1200L",
+              "1450L",
+              "1358L",
+              "1541L",
+              "1684l",
+              1045,
+              1487,
+              1685,
+              1400,
+              1273,
             ],
             type: "bar",
           },
           {
-            name: "Yourself",
-            price: [120, 125, 130, 132, 134, 136, 138, 137, 139, 140],
+            name: "Ramsey Service Station G401",
+            price: [1.2, 1.25, 1.3, 1.32, 1.34, 1.36, 1.38, 1.37, 1.39, 1.4],
             type: "line",
           },
           {
             name: "Chalfonts Way Sf Connect",
-            price: [100, 102, 105, 107, 108, 110, 111, 112, 114, 115],
+            price: [1.0, 1.02, 1.05, 1.07, 1.08, 1.1, 1.11, 1.12, 1.14, 1.15],
             type: "line",
           },
           {
             name: "Tesco Amersham",
-            price: [170, 142, 145, 148, 150, 152, 155, 157, 158, 160],
+            price: [1.7, 1.42, 1.45, 1.48, 1.5, 1.52, 1.55, 1.57, 1.58, 1.6],
             type: "line",
           },
           {
             name: "Mfg Chesham",
-            price: [110, 112, 115, 117, 119, 120, 121, 122, 123, 125],
+            price: [1.1, 1.12, 1.15, 1.17, 1.19, 1.2, 1.21, 1.22, 1.23, 1.25],
             type: "line",
           },
           {
             name: "Fitchs Service Station",
-            price: [145, 127, 181, 185, 190, 192, 195, 200, 205, 210],
+            price: [1.45, 1.27, 1.81, 1.85, 1.9, 1.92, 1.95, 2.0, 2.05, 2.1],
             type: "line",
           },
         ],
@@ -71,7 +79,7 @@ const CEODashboardCompetitorChart = (props) => {
             type: "bar",
           },
           {
-            name: "Yourself",
+            name: "Ramsey Service Station G401",
             price: [130, 135, 140, 142, 144, 146, 147, 148, 149, 150],
             type: "line",
           },
@@ -109,7 +117,7 @@ const CEODashboardCompetitorChart = (props) => {
             type: "bar",
           },
           {
-            name: "Yourself",
+            name: "Ramsey Service Station G401",
             price: [140, 145, 150, 152, 155, 158, 160, 162, 165, 168],
             type: "line",
           },
@@ -144,7 +152,7 @@ const CEODashboardCompetitorChart = (props) => {
             type: "bar",
           },
           {
-            name: "Yourself",
+            name: "Ramsey Service Station G401",
             price: [150, 155, 160, 162, 164, 166, 167, 168, 169, 170],
             type: "line",
           },
@@ -182,7 +190,7 @@ const CEODashboardCompetitorChart = (props) => {
             type: "bar",
           },
           {
-            name: "Yourself",
+            name: "Ramsey Service Station G401",
             price: [160, 165, 170, 172, 174, 176, 177, 178, 179, 180],
             type: "line",
           },
@@ -288,7 +296,7 @@ const CEODashboardCompetitorChart = (props) => {
         {
           // Left side for the bar chart (primary y-axis)
           title: {
-            text: "Volume",
+            text: "Volume in L",
           },
           min: 0,
           // max: 130,
@@ -299,7 +307,7 @@ const CEODashboardCompetitorChart = (props) => {
           title: {
             text: "Prices",
           },
-          min: 70,
+          // min: 70,
           // max: 180,
         },
       ],
