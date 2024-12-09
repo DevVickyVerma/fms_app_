@@ -1028,9 +1028,9 @@ export const TopPerformers = [
     shop_sales: {
       shop_sales: "4306.84",
       shop_margin: "2358.7",
-      status: "down",
+      status: "up",
       percentage: "-13.62",
-      p_status: "down",
+      p_status: "up",
       p_percentage: "-10.08",
     },
     shop_profit: {

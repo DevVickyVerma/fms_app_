@@ -344,8 +344,8 @@ const CeoDashSitetable = (props) => {
                   className="table-container table-responsive"
                   style={{
                     overflowY: "auto",
-                    maxHeight: "calc(100vh - 376px )",
-                    minHeight: "300px",
+                    // maxHeight: "calc(100vh - 376px )",
+                    height: "300px",
                   }}
                 >
                   <table className="table">
