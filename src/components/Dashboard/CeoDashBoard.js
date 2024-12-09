@@ -73,8 +73,7 @@ const CeoDashBoard = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
   const [toggleValue, setToggleValue] = useState(false);
-  const [getCompetitorsPrice, setGetCompetitorsPrice] =
-    useState(staticCompiCEOValues);
+  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState();
 
   const { handleError } = useErrorHandler();
   const userPermissions = useSelector(
@@ -444,6 +443,7 @@ const CeoDashBoard = (props) => {
     if (formik?.values?.selectedSite) {
       FetchPriceLogs();
       FetchStockDetails();
+      GetCompetitor();
       if (userPermissions?.includes("dashboard-site-stats")) {
         FetchTankDetails();
       }
@@ -486,10 +486,13 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filters.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filters.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -511,7 +514,8 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -616,27 +620,20 @@ const CeoDashBoard = (props) => {
   //   }
   // }, [filters]);
 
-  const GetCompetitor = async (filters) => {
-    let { client_id, start_date, site_id } = filters;
+  const GetCompetitor = async () => {
+    try {
+      const queryParams = new URLSearchParams();
+      queryParams.append("site_id", formik?.values?.selectedSite);
+      // if (start_date) queryParams.append("drs_date", start_date);
 
-    if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = localStorage.getItem("superiorId");
-    }
-    if (client_id) {
-      try {
-        const queryParams = new URLSearchParams();
-        queryParams.append("site_id", site_id);
-        if (start_date) queryParams.append("drs_date", start_date);
-
-        const queryString = queryParams.toString();
-        const response = await getData(
-          `site/competitor-price/stats?${queryString}`
-        );
-        if (response && response.data && response.data.data) {
-          setGetCompetitorsPrice(response?.data?.data);
-        }
-      } catch (error) { }
-    }
+      const queryString = queryParams.toString();
+      const response = await getData(
+        `ceo-dashboard/competitor-stats?${queryString}`
+      );
+      if (response && response.data && response.data.data) {
+        setGetCompetitorsPrice(response?.data?.data);
+      }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -644,7 +641,6 @@ const CeoDashBoard = (props) => {
   };
   const handleToggleChange = (checked) => {
     setToggleValue(checked);
-
   };
   return (
     <>
@@ -929,66 +925,67 @@ const CeoDashBoard = (props) => {
                           ` (${formik.values.selectedSiteDetails.site_name})`}
                       </h4>
                       <h4 className="card-title all-center-flex">
-                        Competitors Chart  {" "} <Switch
+                        Competitors Chart{" "}
+                        <Switch
                           id="customToggle"
                           className="ms-2 "
                           uncheckedIcon={false} // Removes the unchecked icon
-                          checkedIcon={false}   // Removes the checked icon
+                          checkedIcon={false} // Removes the checked icon
                           checked={toggleValue}
                           onChange={handleToggleChange}
-                        />  {" "} <span className="ms-2">Competitors Stats</span>
+                        />{" "}
+                        <span className="ms-2">Competitors Stats</span>
                       </h4>
                     </div>
-
                   </div>
-
                 </Card.Header>
               </Card>
             </Col>
           </Row>
-          {toggleValue ? (<Col lg={12} md={12} className="">
-            <Card className="dash-card-default-height">
-              <Card.Header>
-                <div className="w-100">
-                  <div className="spacebetweenend">
-                    <h4 className="card-title">
-                      Competitors Stats
-                      {formik.values?.selectedSiteDetails?.site_name &&
-                        ` (${formik.values.selectedSiteDetails.site_name})`}
-                    </h4>
-                    {userPermissions?.includes("report-type-list") ? (
-                      <span className="textend">
-                        <Link to="/competitor-view">View All</Link>
+          {toggleValue ? (
+            <Col lg={12} md={12} className="">
+              <Card className="dash-card-default-height">
+                <Card.Header>
+                  <div className="w-100">
+                    <div className="spacebetweenend">
+                      <h4 className="card-title">
+                        Competitors Stats
+                        {formik.values?.selectedSiteDetails?.site_name &&
+                          ` (${formik.values.selectedSiteDetails.site_name})`}
+                      </h4>
+                      {userPermissions?.includes("report-type-list") ? (
+                        <span className="textend">
+                          <Link to="/competitor-view">View All</Link>
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div className="spacebetweenend">
+                      <span className="smalltitle">
+                        {formik?.values?.selectedMonthDetails?.display}
                       </span>
-                    ) : (
-                      ""
-                    )}
+                    </div>
                   </div>
-                  <div className="spacebetweenend">
-                    <span className="smalltitle">
-                      {formik?.values?.selectedMonthDetails?.display}
-                    </span>
-                  </div>
-                </div>
-              </Card.Header>
+                </Card.Header>
 
-              <Card.Body className="overflow-auto ">
-                {PriceLogsloading ? (
-                  <SmallLoader />
-                ) : PriceLogs?.priceLogs?.length > 0 ? (
-                  <CEODashboardCompetitor
-                    getCompetitorsPrice={getCompetitorsPrice}
-                  />
-                ) : (
-                  <img
-                    src={require("../../assets/images/commonimages/no_data.png")}
-                    alt="No data available"
-                    className="all-center-flex smallNoDataimg"
-                  />
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
+                <Card.Body className="overflow-auto ">
+                  {PriceLogsloading ? (
+                    <SmallLoader />
+                  ) : PriceLogs?.priceLogs?.length > 0 ? (
+                    <CEODashboardCompetitor
+                      getCompetitorsPrice={getCompetitorsPrice}
+                    />
+                  ) : (
+                    <img
+                      src={require("../../assets/images/commonimages/no_data.png")}
+                      alt="No data available"
+                      className="all-center-flex smallNoDataimg"
+                    />
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
           ) : (
             ""
           )}
