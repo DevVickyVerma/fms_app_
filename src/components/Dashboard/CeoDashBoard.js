@@ -919,14 +919,25 @@ const CeoDashBoard = (props) => {
         >
           <Card>
             <Card.Header>
-              <h4 className="card-title all-center-flex">
-                Competitors Stats {" "} <Switch
-                  id="customToggle"
-                  className="ms-2 mr-2"
-                  checked={toggleValue}
-                  onChange={handleToggleChange}
-                />  {" "} Competitors Chart
-              </h4>
+              <div className="w-100">
+                <div className="spacebetweenend">
+                  <h4 className="card-title">
+                    Competitors
+                    {formik.values?.selectedSiteDetails?.site_name &&
+                      ` (${formik.values.selectedSiteDetails.site_name})`}
+                  </h4>
+                  <h4 className="card-title all-center-flex">
+                    Competitors Stats {" "} <Switch
+                      id="customToggle"
+                      className="ms-2 "
+                      checked={toggleValue}
+                      onChange={handleToggleChange}
+                    />  {" "} <span className="ms-2">Competitors Chart</span>
+                  </h4>
+                </div>
+
+              </div>
+
             </Card.Header>
           </Card>
           {toggleValue ? (<Col lg={12} md={12} className="">
