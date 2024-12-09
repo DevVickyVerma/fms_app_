@@ -58,7 +58,7 @@ const ManageClient = (props) => {
 
   useEffect(() => {
     handleFetchData();
-    
+
   }, [currentPage, searchTerm]);
 
   const handleFetchData = async () => {

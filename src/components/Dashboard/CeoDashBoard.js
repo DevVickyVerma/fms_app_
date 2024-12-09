@@ -37,6 +37,7 @@ import { Bounce, toast } from "react-toastify";
 import CEODashboardCompetitor from "./CEODashboardCompetitor";
 import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
 import CeoDashSitetable from "./CeoDashSitetable";
+import Switch from "react-switch";
 
 const CeoDashBoard = (props) => {
   const { isLoading, getData } = props;
@@ -71,7 +72,7 @@ const CeoDashBoard = (props) => {
   const [Itemstockstats, setItemstockstats] = useState();
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
-
+  const [toggleValue, setToggleValue] = useState(false);
   const [getCompetitorsPrice, setGetCompetitorsPrice] =
     useState(staticCompiCEOValues);
 
@@ -641,7 +642,10 @@ const CeoDashBoard = (props) => {
   const handleChange = (event) => {
     setSelectedFuelIndex(event.target.value); // Update the selected index
   };
-  console.log(siteperformance, "siteperformance");
+  const handleToggleChange = (checked) => {
+    setToggleValue(checked);
+
+  };
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -913,7 +917,19 @@ const CeoDashBoard = (props) => {
             marginTop: "20px",
           }}
         >
-          {/* <Col lg={7} md={7} className="">
+          <Card>
+            <Card.Header>
+              <h4 className="card-title all-center-flex">
+                Competitors Stats {" "} <Switch
+                  id="customToggle"
+                  className="ms-2 mr-2"
+                  checked={toggleValue}
+                  onChange={handleToggleChange}
+                />  {" "} Competitors Chart
+              </h4>
+            </Card.Header>
+          </Card>
+          {toggleValue ? (<Col lg={12} md={12} className="">
             <Card className="dash-card-default-height">
               <Card.Header>
                 <div className="w-100">
@@ -955,21 +971,27 @@ const CeoDashBoard = (props) => {
                 )}
               </Card.Body>
             </Card>
-          </Col> */}
-
-          <Col lg={12} md={12} className="">
-            {PriceLogsloading ? (
-              <SmallLoader />
-            ) : filters?.reports?.length > 0 ? (
-              <CEODashboardCompetitorChart
-                getCompetitorsPrice={getCompetitorsPrice}
-                setGetCompetitorsPrice={setGetCompetitorsPrice}
-                sitename={formik.values?.selectedSiteDetails?.site_name}
-              />
-            ) : (
-              <NoDataComponent title=" Competitors Chart" />
-            )}
           </Col>
+          ) : (
+            ""
+          )}
+          {!toggleValue ? (
+            <Col lg={12} md={12} className="">
+              {PriceLogsloading ? (
+                <SmallLoader />
+              ) : filters?.reports?.length > 0 ? (
+                <CEODashboardCompetitorChart
+                  getCompetitorsPrice={getCompetitorsPrice}
+                  setGetCompetitorsPrice={setGetCompetitorsPrice}
+                  sitename={formik.values?.selectedSiteDetails?.site_name}
+                />
+              ) : (
+                <NoDataComponent title=" Competitors Chart" />
+              )}
+            </Col>
+          ) : (
+            ""
+          )}
         </Row>
 
         {userPermissions?.includes("dashboard-site-stats") ? (
@@ -1050,8 +1072,8 @@ const CeoDashBoard = (props) => {
                   <h4 className="card-title">
                     {" "}
                     Selling Price Logs{" "}
-                    {formik.values?.selectedSiteDetails?.site_name &&
-                      ` (${formik.values.selectedSiteDetails.site_name})`}
+                    {/* {formik.values?.selectedSiteDetails?.site_name &&
+                      ` (${formik.values.selectedSiteDetails.site_name})`} */}
                   </h4>
                   {userPermissions?.includes("fuel-price-logs") ? (
                     <span>
