@@ -129,7 +129,7 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                               </div>
                             </div>
                             <span>
-                              <span className="l-sign">ℓ</span> {(Number(getCompetitorsPrice?.competitorListing?.[fuelType]?.[rowIndex]?.price.replace('£', '')) || 0) * 2000}
+                              <span className="l-sign">ℓ</span> 2000
                             </span>
                             <br></br>
                             <span>
