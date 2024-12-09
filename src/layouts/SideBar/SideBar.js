@@ -306,9 +306,15 @@ const Sidebar = () => {
                               />
                               <span className="side-menu__label">
                                 {menuItem.title}
-                                {/* {menuItem.title === "Manage Site Fuels" ? <>
-                                  <span className="ms-2  btn-danger btn-sm p-1">10</span>
-                                </> : ""} */}
+                                {menuItem.title === "Manage Site Fuels" ? (
+                                  <>
+                                    <span className="ms-2  btn-danger btn-sm p-1">
+                                      10
+                                    </span>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
                               </span>
                               {menuItem.badge ? (
                                 <label

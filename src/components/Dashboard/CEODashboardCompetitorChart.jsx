@@ -233,7 +233,18 @@ const CEODashboardCompetitorChart = (props) => {
       "#22cc44",
       "#fa8072",
     ],
-    categories: ["06-12-2024", "07-12-2024", "08-12-2024"], // Days of the month from 1 to 30
+    categories: [
+      "06-12-2024",
+      "07-12-2024",
+      "08-12-2024",
+      "09-12-2024",
+      "10-12-2024",
+      "11-12-2024",
+      "12-12-2024",
+      "13-12-2024",
+      "14-12-2024",
+      "15-12-2024",
+    ], // Days of the month from 1 to 30
   };
 
   const lineChart = {
@@ -286,7 +297,7 @@ const CEODashboardCompetitorChart = (props) => {
           // Right side for the line chart (secondary y-axis)
           opposite: true,
           title: {
-            text: "Growth",
+            text: "Prices",
           },
           min: 70,
           // max: 180,
