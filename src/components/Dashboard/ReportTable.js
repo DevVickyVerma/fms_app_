@@ -2,7 +2,7 @@ const ReportTable = ({ reports, handleDownload }) => {
 
 
   return (
-    <table style={{ width: "100%" }}>
+    <table className="table" style={{ width: "100%" }}>
       <thead>
         <tr>
           <th>Reports</th>
@@ -14,12 +14,12 @@ const ReportTable = ({ reports, handleDownload }) => {
           <tr key={report.id} style={{ marginBottom: '10px' }}>
             <td>{report.report_name}</td>
             <td>
-             <button onClick={() => handleDownload(report)}>
-                    <i
-                      className="fa fa-download"
-                      style={{ fontSize: "18px", color: "#4663ac" }}
-                    ></i>
-                  </button>
+              <button onClick={() => handleDownload(report)}>
+                <i
+                  className="fa fa-download"
+                  style={{ fontSize: "18px", color: "#4663ac" }}
+                ></i>
+              </button>
             </td>
           </tr>
         ))}
