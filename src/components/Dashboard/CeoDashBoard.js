@@ -61,11 +61,13 @@ const CeoDashBoard = (props) => {
   const [Itemstockstatsloading, setItemstockstatsloading] = useState(false);
   const [PriceLogsloading, setPriceLogssloading] = useState(false);
   const [getSiteStatsloading, setGetSiteStatsloading] = useState(false);
+  const [performanceLoading, siteperformanceLoading] = useState(false);
   const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
   const [MopstatsData, setMopstatsData] = useState();
   const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
   const [BarGraphStockStats, setBarGraphStockStats] = useState();
   const [Shrinkagestats, setShrinkagestats] = useState();
+  const [siteperformance, setsiteperformance] = useState();
   const [Itemstockstats, setItemstockstats] = useState();
   const [PriceLogs, setPriceLogs] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
@@ -199,6 +201,12 @@ const CeoDashBoard = (props) => {
         url: "ceo-dashboard/shrinkage-stats",
         setData: setShrinkagestats,
         setLoading: setShrinkagestatsloading,
+      },
+      {
+        name: "siteperformance",
+        url: "ceo-dashboard/site-performance",
+        setData: setsiteperformance,
+        setLoading: siteperformanceLoading,
       },
       // {
       //   name: "itemstock",
@@ -633,7 +641,7 @@ const CeoDashBoard = (props) => {
   const handleChange = (event) => {
     setSelectedFuelIndex(event.target.value); // Update the selected index
   };
-
+  console.log(siteperformance, "siteperformance");
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -844,11 +852,11 @@ const CeoDashBoard = (props) => {
 
         <Row>
           <Col lg={6} md={6}>
-            {PriceLogsloading ? (
+            {performanceLoading ? (
               <SmallLoader title="Top Leading Sites" />
-            ) : filters?.reports?.length > 0 ? (
+            ) : siteperformance?.top?.length > 0 ? (
               <CeoDashSitetable
-                data={TopPerformers}
+                data={siteperformance?.top}
                 tootiptitle={"Profit"}
                 title={" Top Leading Sites "}
               />
@@ -857,11 +865,11 @@ const CeoDashBoard = (props) => {
             )}
           </Col>
           <Col lg={6} md={6}>
-            {PriceLogsloading ? (
+            {performanceLoading ? (
               <SmallLoader title="Top Losing Sites" />
-            ) : filters?.reports?.length > 0 ? (
+            ) : siteperformance?.bottom?.length > 0 ? (
               <CeoDashSitetable
-                data={Losers}
+                data={siteperformance?.bottom}
                 tootiptitle={"Lose"}
                 title={"Top Losing Sites"}
               />
