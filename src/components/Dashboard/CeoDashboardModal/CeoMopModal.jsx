@@ -7,7 +7,7 @@ const CeoMopModal = (props) => {
 
   return (
     <div
-      className={`common-sidebar   ${
+      className={`common-sidebar ceo-xl-sidebar   ${
         visible ? "visible slide-in-right " : "slide-out-right"
       }`}
     >

@@ -2387,3 +2387,7 @@ td.middayModal-td.time-input-fuel-sell {
 .ceocard-hover .fa {
   font-size: 40px;
 }
+
+.ceo-xl-sidebar {
+  width: 70% !important;
+}
