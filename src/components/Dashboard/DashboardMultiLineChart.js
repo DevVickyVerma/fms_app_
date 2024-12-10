@@ -1,11 +1,8 @@
-
 import { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
 
 const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
-
-
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null
 
@@ -48,7 +45,6 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
     datasets: datasets,
   };
 
-
   const options = {
     interaction: {
       mode: "index",
@@ -67,7 +63,7 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
           font: {
             size: 14,
           },
-          color: '#6c757d', // Add color to scale labels
+          color: "#6c757d", // Add color to scale labels
         },
       },
       y1: {
@@ -82,24 +78,23 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
           font: {
             size: 14,
           },
-          color: '#6c757d', // Add color to right scale labels
+          color: "#6c757d", // Add color to right scale labels
         },
       },
     },
     plugins: {
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Dark background for tooltips
-        titleColor: '#fff',
-        bodyColor: '#fff',
-        borderColor: '#ccc',
+        backgroundColor: "rgba(0, 0, 0, 0.8)", // Dark background for tooltips
+        titleColor: "#fff",
+        bodyColor: "#fff",
+        borderColor: "#ccc",
         borderWidth: 1,
         padding: 10,
         callbacks: {
-           
           label: function (context) {
-            let label = context?.dataset?.label || '';
+            let label = context?.dataset?.label || "";
             if (label) {
-              label += ': ';
+              label += ": ";
             }
             if (context.parsed.y !== null) {
               label += formatNumber(context?.parsed?.y);
@@ -114,39 +109,36 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
           font: {
             size: 14,
           },
-          color: '#333',
+          color: "#333",
         },
       },
     },
     animation: {
       duration: 1000, // Smooth animation on update
-      easing: 'easeOutBounce',
+      easing: "easeOutBounce",
     },
     elements: {
       line: {
         tension: 0.4, // Makes lines curvier
         borderWidth: 3,
-        borderColor: '#007bff',
-        backgroundColor: 'rgba(0, 123, 255, 0.3)', // Add background color to lines
+        borderColor: "#007bff",
+        backgroundColor: "rgba(0, 123, 255, 0.3)", // Add background color to lines
       },
       point: {
         radius: 5,
-        backgroundColor: '#007bff',
+        backgroundColor: "#007bff",
         hoverRadius: 7, // Slight hover effect on points
         hoverBorderWidth: 3,
       },
     },
   };
 
-
-
-
   return (
     <div
-      style={{ height: '60vh', width: '100%' }}
+    // style={{ height: "60vh", width: "100%" }}
     //  className="d-flex chart-items"
     >
-      <Line data={data} options={options} />
+      <Line data={data} options={options} height={450} />
       {/* <ReactApexChart series={revenueChart?.series} options={revenueChart?.options} type="area" /> */}
     </div>
   );

@@ -159,7 +159,7 @@ const CEODashboardCompetitorChart = (props) => {
           options={lineChart?.options}
           className="rounded-lg bg-white dark:bg-black overflow-hidden"
           type="line"
-          height={500}
+          height={350}
         />
       </Card.Body>
     </Card>

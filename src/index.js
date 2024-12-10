@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import 'phosphor-icons/src/css/icons.css'; // Import Phosphor Icons CSS
+import "phosphor-icons/src/css/icons.css"; // Import Phosphor Icons CSS
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import { Provider } from "react-redux";
@@ -54,8 +54,15 @@ const Custompages = React.lazy(() => import("./components/custompages"));
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
-const CeoDashBoard = React.lazy(() => import("./components/Dashboard/CeoDashBoard"));
-const CEOCompetitorView = React.lazy(() => import("./components/Dashboard/CEOCompitiorview"));
+const CeoDashBoard = React.lazy(() =>
+  import("./components/Dashboard/CeoDashBoard")
+);
+const CeoDashBoardTest = React.lazy(() =>
+  import("./components/Dashboard/CeoDashBoardTest")
+);
+const CEOCompetitorView = React.lazy(() =>
+  import("./components/Dashboard/CEOCompitiorview")
+);
 const EditProfile = React.lazy(() =>
   import("./components/pages/EditProfile/EditProfile")
 );
@@ -421,14 +428,10 @@ const HideBusinessCategories = React.lazy(() =>
   import("./components/pages/HideBusinessCategories/HideBusinessCategories")
 );
 const AddHideBusinessCategories = React.lazy(() =>
-  import(
-    "./components/pages/HideBusinessCategories/AddHideBusinessCategories"
-  )
+  import("./components/pages/HideBusinessCategories/AddHideBusinessCategories")
 );
 const EditAddHideBusinessCategories = React.lazy(() =>
-  import(
-    "./components/pages/HideBusinessCategories/EditHideBusinessCategories"
-  )
+  import("./components/pages/HideBusinessCategories/EditHideBusinessCategories")
 );
 
 const Tolerances = React.lazy(() =>
@@ -529,8 +532,12 @@ const DailyFacilityFees = React.lazy(() =>
 );
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
-const Sitecardopening = React.lazy(() => import("./components/pages/ManageSite/SiteCardOpening"));
-const SiteCardAdjustment = React.lazy(() => import("./components/pages/ManageSite/SiteCardAdjustment"));
+const Sitecardopening = React.lazy(() =>
+  import("./components/pages/ManageSite/SiteCardOpening")
+);
+const SiteCardAdjustment = React.lazy(() =>
+  import("./components/pages/ManageSite/SiteCardAdjustment")
+);
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
@@ -575,9 +582,7 @@ const managesms = React.lazy(() =>
 const setuppayroll = React.lazy(() =>
   import("./components/pages/ManageClient/SetupPayroll")
 );
-const canvaseditor = React.lazy(() =>
-  import("./components/pages/Canvas")
-);
+const canvaseditor = React.lazy(() => import("./components/pages/Canvas"));
 
 const Root = () => {
   const store = configureStore({
@@ -588,6 +593,7 @@ const Root = () => {
   const [token] = useState(localStorage.getItem("token"));
   const WrappedDashboard = withApi(Dashboard);
   const WrappedCeoDashBoard = withApi(CeoDashBoard);
+  const WrappedCeoDashBoardTest = withApi(CeoDashBoardTest);
   const Wrappedcanvaseditor = withApi(canvaseditor);
   const WrappedManageBusinessSubTypes = withApi(ManageBusinessSubTypes);
   const WrappeAddBusinessSubTypes = withApi(AddBusinessSubTypes);
@@ -659,7 +665,9 @@ const Root = () => {
   const WrappedEditAssignbusiness = withApi(EditAssignbusiness);
   const WrappedHideBusinessCategories = withApi(HideBusinessCategories);
   const WrappedAddHideBusinessCategoriess = withApi(AddHideBusinessCategories);
-  const WrappedEditAddHideBusinessCategories = withApi(EditAddHideBusinessCategories);
+  const WrappedEditAddHideBusinessCategories = withApi(
+    EditAddHideBusinessCategories
+  );
   const WrappedTolerances = withApi(Tolerances);
 
   const WrappedManageSitePump = withApi(ManageSitePump);
@@ -746,7 +754,9 @@ const Root = () => {
   const WrappedDailyDue = withApi(DailyDue);
   const WrappedManageLevels = withApi(ManageLevels);
   const WrappedManageAddLevel = withApi(ManageAddEditLevel);
-  const WrappedFuelSellingPricesSuggestion = withApi(FuelSellingPricesSuggestion);
+  const WrappedFuelSellingPricesSuggestion = withApi(
+    FuelSellingPricesSuggestion
+  );
   const WrappedFuelSellingSuggestionLogs = withApi(FuelSellingSuggestionLogs);
 
   return (
@@ -761,16 +771,32 @@ const Root = () => {
                     <Route index={true} element={<Dashboard />} />
 
                     <Route path={`/dashboard`} element={<WrappedDashboard />} />
-                    <Route path={`/competitor-view`} element={<WrappeCEOCompetitorView />} />
-                    <Route path={`/ceodashboard`} element={<WrappedCeoDashBoard />} />
+                    <Route
+                      path={`/competitor-view`}
+                      element={<WrappeCEOCompetitorView />}
+                    />
+                    <Route
+                      path={`/ceodashboard`}
+                      element={<WrappedCeoDashBoard />}
+                    />
+                    <Route
+                      path={`/ceodashboard-test`}
+                      element={<WrappedCeoDashBoardTest />}
+                    />
                     {/* client  Components Start */}
-                    <Route path={`/clients`} element={<WrappedManageClient />} />
+                    <Route
+                      path={`/clients`}
+                      element={<WrappedManageClient />}
+                    />
                     <Route
                       path={`editclient/:id`}
                       element={<WrappeAddEditClient />}
                     />
                     <Route path={`addclient`} element={<WrappedAddClient />} />
-                    <Route path={`/wet-stock-dashboard/`} element={<WrappedDashboardWetStock />} />
+                    <Route
+                      path={`/wet-stock-dashboard/`}
+                      element={<WrappedDashboardWetStock />}
+                    />
 
                     {/* client  Components End */}
 
@@ -784,15 +810,33 @@ const Root = () => {
                       path={`/editusers/:id`}
                       element={<WrappeAddEditUser />}
                     />
-                    <Route path={`/daily-due/:id`} element={<WrappedDailyDue />} />
-                    <Route path={`/manage-levels`} element={<WrappedManageLevels />} />
-                    <Route path={`/manage-levels/add-level`} element={<WrappedManageAddLevel />} />
-                    <Route path={`/manage-levels/edit-level/:id`} element={<WrappedManageAddLevel />} />
+                    <Route
+                      path={`/daily-due/:id`}
+                      element={<WrappedDailyDue />}
+                    />
+                    <Route
+                      path={`/manage-levels`}
+                      element={<WrappedManageLevels />}
+                    />
+                    <Route
+                      path={`/manage-levels/add-level`}
+                      element={<WrappedManageAddLevel />}
+                    />
+                    <Route
+                      path={`/manage-levels/edit-level/:id`}
+                      element={<WrappedManageAddLevel />}
+                    />
 
                     <Route path={`addusers`} element={<WrappedAddUser />} />
 
-                    <Route path={`/competitor`} element={<WrappedCompetitor />} />
-                    <Route path={`/fuel-selling-price-logs`} element={<WrappedFuelSellingSuggestionLogs />} />
+                    <Route
+                      path={`/competitor`}
+                      element={<WrappedCompetitor />}
+                    />
+                    <Route
+                      path={`/fuel-selling-price-logs`}
+                      element={<WrappedFuelSellingSuggestionLogs />}
+                    />
                     <Route
                       path={`/addCompetitor`}
                       element={<WrappedAddCompetitor />}
@@ -910,7 +954,10 @@ const Root = () => {
                     {/* sites  Components End */}
 
                     {/* Company  Components Start */}
-                    <Route path={`/addcompany`} element={<WrappedAddCompany />} />
+                    <Route
+                      path={`/addcompany`}
+                      element={<WrappedAddCompany />}
+                    />
                     <Route
                       path={`/managecompany`}
                       element={<WrappedManageCompany />}
@@ -1012,7 +1059,10 @@ const Root = () => {
                     />
 
                     {/* Addon  Components End */}
-                    <Route path={`/email-logs`} element={<WrappedEmaillogs />} />
+                    <Route
+                      path={`/email-logs`}
+                      element={<WrappedEmaillogs />}
+                    />
                     <Route
                       path={`/fuel-price-logs`}
                       element={<WrappedFuelPriceslogs />}
@@ -1043,7 +1093,10 @@ const Root = () => {
                     {/* Header  Components End */}
 
                     {/* DSR  Components Start */}
-                    <Route path={`/data-entry`} element={<WrappedManageDsr />} />
+                    <Route
+                      path={`/data-entry`}
+                      element={<WrappedManageDsr />}
+                    />
                     <Route
                       path={`/dsr-exception`}
                       element={<WrappedManageManageDsrList />}
@@ -1059,11 +1112,17 @@ const Root = () => {
                     {/* Others  Components End */}
 
                     {/* Reports  Components Start */}
-                    <Route path={`/reports`} element={<WrappedManageReports />} />
+                    <Route
+                      path={`/reports`}
+                      element={<WrappedManageReports />}
+                    />
                     {/* Reports  Components End */}
                     {/* Reports  Components Start */}
 
-                    <Route path={`/tolerances`} element={<WrappedTolerances />} />
+                    <Route
+                      path={`/tolerances`}
+                      element={<WrappedTolerances />}
+                    />
                     {/* Reports  Components End */}
                     {/* Charges  Components Start  */}
                     <Route
@@ -1071,7 +1130,10 @@ const Root = () => {
                       element={<WrappedManageCharges />}
                     />
 
-                    <Route path={`/addcharges`} element={<WrappedAddCharges />} />
+                    <Route
+                      path={`/addcharges`}
+                      element={<WrappedAddCharges />}
+                    />
                     <Route
                       path={`/editcharges/:id`}
                       element={<WrappedEditCharges />}
@@ -1109,10 +1171,7 @@ const Root = () => {
                       path={`/managecards`}
                       element={<WrappedManageCards />}
                     />
-                    <Route
-                      path={`/editor`}
-                      element={<Wrappedcanvaseditor />}
-                    />
+                    <Route path={`/editor`} element={<Wrappedcanvaseditor />} />
                     <Route
                       path={`/fuel-selling-prices-suggestion`}
                       element={<WrappedFuelSellingPricesSuggestion />}
@@ -1123,7 +1182,10 @@ const Root = () => {
                       path={`/editcard/:id`}
                       element={<WrappedEditCards />}
                     />
-                    <Route path={`/card-group`} element={<WrappedCardGroup />} />
+                    <Route
+                      path={`/card-group`}
+                      element={<WrappedCardGroup />}
+                    />
                     <Route
                       path={`/card-group/:id`}
                       element={<WrappedUpdateCardGroup />}
@@ -1133,10 +1195,7 @@ const Root = () => {
                       path={`/add-group`}
                       element={<WrappedAddCardGroup />}
                     />
-                    <Route
-                      path={`/dummy-page`}
-                      element={<DummyPage />}
-                    />
+                    <Route path={`/dummy-page`} element={<DummyPage />} />
 
                     <Route
                       path={`/department-item-group`}
@@ -1201,7 +1260,10 @@ const Root = () => {
                     {/* SitePump components start */}
 
                     <Route path={`/fuelprice`} element={<WrappedFUELPRICE />} />
-                    <Route path={`/update-fuel-price/:id`} element={<WrappedUpdateFuelPrices />} />
+                    <Route
+                      path={`/update-fuel-price/:id`}
+                      element={<WrappedUpdateFuelPrices />}
+                    />
 
                     <Route
                       path={`/competitor-fuel-price`}
@@ -1408,7 +1470,10 @@ const Root = () => {
                       path={`/nominal-tax-code`}
                       element={<WrappedNominalTaxCode />}
                     />
-                    <Route path={`/manage-sms`} element={<Wrappedmanagesms />} />
+                    <Route
+                      path={`/manage-sms`}
+                      element={<Wrappedmanagesms />}
+                    />
                     <Route>
                       <Route path={`/editprofile`} element={<EditProfile />} />
 
@@ -1455,7 +1520,10 @@ const Root = () => {
                     path={`/reset-password/:token`}
                     element={<ResetPassword />}
                   />
-                  <Route path={`/custompages/register`} element={<Register />} />
+                  <Route
+                    path={`/custompages/register`}
+                    element={<Register />}
+                  />
                   <Route
                     path={`/custompages/forgotPassword`}
                     element={<ForgotPassword />}

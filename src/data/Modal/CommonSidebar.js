@@ -6,7 +6,8 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 const CommonSidebar = (props) => {
   const { title, sidebarContent, visible, onClose } = props;
 
-  const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  const capitalizeFirstLetter = (str) =>
+    str.charAt(0).toUpperCase() + str.slice(1);
 
   const formatKey = (key) => {
     const words = key.split(/[ _]/);
@@ -15,7 +16,7 @@ const CommonSidebar = (props) => {
   };
 
   return (
-    <div className={`common-sidebar ${visible ? "visible" : ""}`}>
+    <div className={`common-sidebar visible  ${visible ? "" : ""}`}>
       <div className="card">
         <div className="card-header text-center SidebarSearchheader">
           <h3 className="SidebarSearch-title m-0">{title}</h3>

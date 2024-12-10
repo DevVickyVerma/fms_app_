@@ -132,19 +132,19 @@ const CEODashCommonCard = ({
             </Card>
         </Col> */}
 
-    <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
+    <Col sm={12} md={6} lg={lg} xl={xl} key={Math.random()}>
       <Card onClick={handleNavigateClick}>
         <Card.Body
           className={`text-center ${
             isParentComponent ? "pointer" : "default-pointer"
-          }`}
+          } d-flex c-p-15`}
         >
-          <span className="iconborder">
+          <span className="vertical-iconborder">
             <i className={`text-white fa-3x l-sign`}>{icon ? icon : "ppl"}</i>
           </span>
           <div className={showRightSide ? "spacebetween" : ""}>
             <div>
-              <h6 className="mt-4 mb-2 boxtitle">
+              <h6 className=" mb-2 boxtitle">
                 {leftSideTitle}
                 {tooltipContent && (
                   <>
@@ -200,19 +200,19 @@ const CEODashCommonCard = ({
                 </>
               )}
             </h6>
-          </div>
 
-          {statusValue === "up" ? (
-            <>
-              <i className="fa fa-chevron-circle-up text-success me-1"></i>
-              <span className="">{percentageValue}% Last Month</span>
-            </>
-          ) : (
-            <>
-              <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-              <span className="">{percentageValue}% Last Month</span>
-            </>
-          )}
+            {statusValue === "up" ? (
+              <>
+                <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                <span className="">{percentageValue}% Last Month</span>
+              </>
+            ) : (
+              <>
+                <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                <span className="">{percentageValue}% Last Month</span>
+              </>
+            )}
+          </div>
         </Card.Body>
       </Card>
     </Col>

@@ -20,6 +20,15 @@ export const MENUITEMS = [
         visibility: false,
         title: "CEO Dashboard",
       },
+      {
+        path: `/ceodashboard-test`,
+        icon: "house",
+        type: "link",
+        active: false,
+        permission: "ceodashboard-view",
+        visibility: false,
+        title: "CEO Dashboard Test",
+      },
 
       // {
       //   path: `/fuelprice`,
