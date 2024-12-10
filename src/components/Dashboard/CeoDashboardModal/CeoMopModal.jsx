@@ -3,13 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import CeoDashboardCharts from "../CeoDashboardCharts";
-import { Baroptions, cardConfigs, MopData, PerformanceData, ReportList, salesGraphData, Shrinkage, StockData, StockDetail } from "../../../Utils/commonFunctions/CommonData";
+import { Baroptions, cardConfigs, DashboardData, MopData, PerformanceData, ReportList, salesGraphData, Shrinkage, StockData, StockDetail } from "../../../Utils/commonFunctions/CommonData";
 import CEODashCommonCard from "../CEODashCommonCard";
 import { Card, Col, Row } from "react-bootstrap";
 import CeoDashSitetable from "../CeoDashSitetable";
 import ReportTable from "../ReportTable";
 import { Doughnut } from "react-chartjs-2";
 import CeoDashboardBarChart from "../CeoDashboardBarChart";
+import DashboardMultiLineChart from "../DashboardMultiLineChart";
 
 const CeoMopModal = (props) => {
   const { title, sidebarContent, visible, onClose } = props;
@@ -118,6 +119,19 @@ const CeoMopModal = (props) => {
                     </div>
                   </Card.Body>
                 </Card>
+              </Col>
+
+            </>
+          )}
+          {title == "Daily Wise Sales" && (
+            <>
+              <Col sm={12} md={12} key={Math.random()}>
+                <DashboardMultiLineChart
+                  LinechartValues={DashboardData?.d_line_graph?.series || []}
+                  LinechartOption={
+                    DashboardData?.d_line_graph?.option?.labels || []
+                  }
+                />
               </Col>
 
             </>

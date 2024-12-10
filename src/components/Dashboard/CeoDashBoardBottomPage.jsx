@@ -15,28 +15,26 @@ import CeoMopModal from "../../components/Dashboard/CeoDashboardModal/CeoMopModa
 const CeoDashBoardBottomPage = () => {
   const [showCeoMopModal, setShowCeoMopModal] = useState(false);
 
-  const handleMopModal = () => {
-    setShowCeoMopModal(true);
-  };
+
   const handleCloseSidebar = () => {
     console.log("closed called in parent ");
     setShowCeoMopModal(false);
   };
-
+  // Assuming modalTitle is set in state
+  const [modalTitle, setModalTitle] = useState("");
   const handleCardClick = (cardName) => {
     console.log(`Card clicked: ${cardName}`);
-
-    if (cardName === "MOP Comparison") {
-      handleMopModal();
-    }
+    setModalTitle(cardName);
+    setShowCeoMopModal(true);
   };
+
 
   return (
     <>
       {showCeoMopModal && (
         <>
           <CeoMopModal
-            title={"MOP Comparison"}
+            title={modalTitle}
             sidebarContent={"sidebardataobject"}
             visible={showCeoMopModal}
             onClose={handleCloseSidebar}
@@ -49,6 +47,7 @@ const CeoDashBoardBottomPage = () => {
           <Row className="slide-in-right">
             <Col
               md={9}
+              onClick={() => handleCardClick("Daily Wise Sales")}
               style={{
                 backgroundColor: "#5bc0de", // Blue background
                 color: "#fff",
@@ -81,14 +80,14 @@ const CeoDashBoardBottomPage = () => {
               </h3>
             </Col>
           </Row>
-        </Col>
+        </Col >
       </>
 
       {/* {/ Second Row /} */}
-      <Row className="my-2">
+      <Row Row className="my-2" >
         <Col
           md={3}
-          onClick={() => handleCardClick("MOP Comparison")}
+          onClick={() => handleCardClick("MOP Breakdown")}
           className="slide-in-left"
         >
           <div
@@ -106,7 +105,7 @@ const CeoDashBoardBottomPage = () => {
             }}
           >
             <FaChartLine size={40} />
-            <h5 className="m-0 mt-2">MOP Comparison</h5>
+            <h5 className="m-0 mt-2">MOP Breakdown</h5>
           </div>
         </Col>
         <Col
@@ -178,10 +177,10 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Reports</h5>
           </div>
         </Col>
-      </Row>
+      </Row >
 
       {/* {/ Fourth Row with Cards /} */}
-      <Row className="my-2">
+      <Row Row className="my-2" >
         <Col sm={12} md={8} onClick={() => handleCardClick("Fuel Price Logs")}>
           <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
             <Card.Header className="p-4">
@@ -220,10 +219,10 @@ const CeoDashBoardBottomPage = () => {
             </Card.Body>
           </Card>
         </Col>
-      </Row>
+      </Row >
 
       {/* {/ Stock, Shrinkage, and Stock Details /} */}
-      <Row className="my-2">
+      <Row Row className="my-2" >
         <Col
           md={4}
           onClick={() => handleCardClick("Stock")}
@@ -293,7 +292,7 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Stock Details</h5>
           </div>
         </Col>
-      </Row>
+      </Row >
     </>
   );
 };
