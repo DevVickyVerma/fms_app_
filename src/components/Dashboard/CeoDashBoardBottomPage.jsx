@@ -55,6 +55,7 @@ const CeoDashBoardBottomPage = () => {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+              className="ceo-sats-card-hover"
             >
               <FaChartLine size={25} />
               <h3 style={{ fontSize: "18px" }} className="m-0 ms-2">
@@ -72,6 +73,7 @@ const CeoDashBoardBottomPage = () => {
                 alignItems: "center",
                 justifyContent: "center",
               }}
+              className="ceo-sats-card-hover"
             >
               <h3 style={{ fontSize: "18px" }} className="m-0">
                 Live Margin
