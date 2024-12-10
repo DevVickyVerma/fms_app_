@@ -15,7 +15,6 @@ import CeoMopModal from "../../components/Dashboard/CeoDashboardModal/CeoMopModa
 const CeoDashBoardBottomPage = () => {
   const [showCeoMopModal, setShowCeoMopModal] = useState(false);
 
-
   const handleCloseSidebar = () => {
     console.log("closed called in parent ");
     setShowCeoMopModal(false);
@@ -27,7 +26,6 @@ const CeoDashBoardBottomPage = () => {
     setModalTitle(cardName);
     setShowCeoMopModal(true);
   };
-
 
   return (
     <>
@@ -80,11 +78,11 @@ const CeoDashBoardBottomPage = () => {
               </h3>
             </Col>
           </Row>
-        </Col >
+        </Col>
       </>
 
       {/* {/ Second Row /} */}
-      <Row Row className="my-2" >
+      <Row Row className="my-2">
         <Col
           md={3}
           onClick={() => handleCardClick("MOP Breakdown")}
@@ -177,10 +175,10 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Reports</h5>
           </div>
         </Col>
-      </Row >
+      </Row>
 
       {/* {/ Fourth Row with Cards /} */}
-      <Row Row className="my-2" >
+      <Row Row className="my-2">
         <Col sm={12} md={8} onClick={() => handleCardClick("Fuel Price Logs")}>
           <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
             <Card.Header className="p-4">
@@ -219,10 +217,10 @@ const CeoDashBoardBottomPage = () => {
             </Card.Body>
           </Card>
         </Col>
-      </Row >
+      </Row>
 
       {/* {/ Stock, Shrinkage, and Stock Details /} */}
-      <Row Row className="my-2" >
+      <Row Row className="my-2">
         <Col
           md={4}
           onClick={() => handleCardClick("Stock")}
@@ -292,7 +290,7 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Stock Details</h5>
           </div>
         </Col>
-      </Row >
+      </Row>
     </>
   );
 };

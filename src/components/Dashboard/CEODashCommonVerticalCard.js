@@ -22,7 +22,10 @@ const CEODashCommonVerticalCard = ({
 }) => (
   <>
     <React.Fragment sm={12} md={6} lg={lg} xl={xl} key={Math.random()}>
-      <Card onClick={handleNavigateClick} className="pie-card-default-height ">
+      <Card
+        onClick={handleNavigateClick}
+        className="pie-card-default-height ceo-sats-card-hover"
+      >
         <Card.Body
           className={`text-center ${
             isParentComponent ? "pointer" : "default-pointer"
