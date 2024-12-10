@@ -2298,3 +2298,732 @@ export const Losers = [
     },
   },
 ];
+
+export const ReportList = [
+  {
+    "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+    "report_name": "Monthly Sales Report (DRS)",
+    "report_code": "msr"
+  },
+  {
+    "id": "OUNrS016Ym93czZsVzlMOHNkSE9hZz09",
+    "report_name": "Fuel Deliveries Report",
+    "report_code": "dfdr"
+  },
+  {
+    "id": "MkJWd25aSTlDekVwcWg4azgrNVh3UT09",
+    "report_name": "Stock Loss Report",
+    "report_code": "dsmr"
+  },
+  {
+    "id": "L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09",
+    "report_name": "Credit Card Reconciliation Report",
+    "report_code": "htccrr"
+  },
+  {
+    "id": "U2dXNXN4OG5rSkdsOGZ0TXhTR0ZQZz09",
+    "report_name": "Fuel Margin Report",
+    "report_code": "fmmrfas"
+  },
+  {
+    "id": "NnFJaGVzRGlwaGtQY3FKTTJYUkhJZz09",
+    "report_name": "DRS Vs Fairbank Report",
+    "report_code": "fbr"
+  },
+  {
+    "id": "YmxmOHE4VTRYNitkaHQwQ29QYmQ1QT09",
+    "report_name": "Phonecard Report",
+    "report_code": "dpcr"
+  },
+  {
+    "id": "VEttejdBRlRMWDRnUTdlRkdLK1hrZz09",
+    "report_name": "Lottery Reconciliation Report",
+    "report_code": "lrr"
+  },
+  {
+    "id": "NnRMWitrM2srMXBXT25GSEVzYjY3dz09",
+    "report_name": "Valet Commission Report",
+    "report_code": "vcr"
+  },
+  {
+    "id": "eWNRc01TcTRKaVdRZTVtQzZ3WjZoZz09",
+    "report_name": "Combined Monthly Sales Report",
+    "report_code": "cmsr"
+  },
+  {
+    "id": "cDd2VGlMRzRYUE5vdEFLcEJpZVY1Zz09",
+    "report_name": "Coffee Reconciliation Report",
+    "report_code": "hsrlcrr"
+  },
+  {
+    "id": "TjlpY21FU2kzc2kyTHVJMFJUR0FPZz09",
+    "report_name": "Car Wash Reconciliation Report",
+    "report_code": "hsrlcwrr"
+  },
+  {
+    "id": "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
+    "report_name": "Management Accounts Report",
+    "report_code": "hmar"
+  },
+  {
+    "id": "U2wrWHB3T0FOSXRvV2lDUXg3cktUdz09",
+    "report_name": "Scheduled Report",
+    "report_code": "hsr"
+  },
+  {
+    "id": "SERQa05pZktwNTVFL2RCMCtxdWQrdz09",
+    "report_name": "VAT Return Report",
+    "report_code": "pvrr"
+  },
+  {
+    "id": "Zm1qRXhGeW5aQTI2YnNzMm5wekE4QT09",
+    "report_name": "Draft Bank Copy Report",
+    "report_code": "dbcr"
+  },
+  {
+    "id": "RlI4SisyaWlNaExQV3ZSYVoyOGFYUT09",
+    "report_name": "Cash Monitoring Monthly Report",
+    "report_code": "htcmmr"
+  },
+  {
+    "id": "Y1BYWW83YmxDSWhYNkNXQ0lwZFJRUT09",
+    "report_name": "Monthly Department Shop Sales Report",
+    "report_code": "mdssr"
+  },
+  {
+    "id": "YzhQcFZPRzJGcjJKQTdNV3Q0YWJQQT09",
+    "report_name": "Sales Comparison Report",
+    "report_code": "scr"
+  },
+  {
+    "id": "Q0hXRGNkeTllN1JSVWg1NFdDNjJodz09",
+    "report_name": "Daily Summary Sale (CLDO)",
+    "report_code": "dsrr"
+  },
+  {
+    "id": "anJ4dUNUZjdQOXdRK1ErcVFwM3pUUT09",
+    "report_name": "Sage Stock Movement Report",
+    "report_code": "ssmr"
+  },
+  {
+    "id": "V2Z4dC9FRGp3VzRFNGZQYnlSTVpkZz09",
+    "report_name": "Sage Petty Cash Report(Fuels,Valet Summary etc.)",
+    "report_code": "mspcr"
+  }
+];
+export const DashboardData = {
+  "gross_volume": {
+    "gross_volume": "266003.86",
+    "bunkered_volume": "15280.96",
+    "total_volume": "281284.82",
+    "status": "up",
+    "percentage": "0.68"
+  },
+  "fuel_sales": {
+    "gross_value": "319024.48",
+    "bunkered_value": "22851.78",
+    "total_value": "341876.26",
+    "status": "up",
+    "percentage": "2.24"
+  },
+  "gross_profit": {
+    "gross_profit": 50537.88,
+    "gross_margin": 17.97,
+    "status": "up",
+    "percentage": "7.72"
+  },
+  "gross_margin": {
+    "gross_margin": 17.97,
+    "is_ppl": 0,
+    "ppl_msg": "",
+    "status": "up",
+    "percentage": "7.41"
+  },
+  "shop_sales": {
+    "shop_sales": "51156.63",
+    "shop_margin": "25178.95",
+    "status": "down",
+    "percentage": "-15.98",
+    "p_status": "down",
+    "p_percentage": "-18.88"
+  },
+  "line_graph": {
+    "labels": [
+      "Nov 2024",
+      "Dec 2024"
+    ],
+    "datasets": [
+      {
+        "label": "Fuel Volume (ℓ)",
+        "data": [
+          "4240786.1",
+          "266003.86"
+        ],
+        "borderColor": "#7e95e4",
+        "backgroundColor": "#7e95e4",
+        "type": "line",
+        "yAxisID": "y1"
+      },
+      {
+        "label": "Gross Margin (ppl)",
+        "data": [
+          "16.81",
+          "17.97"
+        ],
+        "borderColor": "#3b60ac",
+        "backgroundColor": "#3b60ac",
+        "type": "bar",
+        "yAxisID": "y"
+      },
+      {
+        "label": "Shop Sales (£)",
+        "data": [
+          "870812.62",
+          "51156.63"
+        ],
+        "borderColor": "#938ddf",
+        "backgroundColor": "#938ddf",
+        "type": "line",
+        "yAxisID": "y1"
+      }
+    ]
+  },
+  "pi_graph": {
+    "label": [
+      "Shop Sales",
+      "Fuel Sales",
+      "Bunkered Sales"
+    ],
+    "colors": [
+      "rgba(126, 149, 228, 1)",
+      "rgba(59, 96, 172, 1)",
+      "rgba(147, 141, 223, 1)"
+    ],
+    "series": [
+      "51156.63",
+      "319024.48",
+      "22851.78"
+    ]
+  },
+  "shop_fees": {
+    "shop_fee": "5106.4",
+    "status": "down",
+    "percentage": "-0.37"
+  },
+  "dateString": "01 Dec - 02 Dec",
+  "d_line_graph": {
+    "series": [
+      {
+        "name": "Fuel Volume (ℓ)",
+        "type": "line",
+        "data": [
+          "117403.57",
+          "148600.29"
+        ],
+        "borderColor": "#7e95e4",
+        "backgroundColor": "#7e95e4"
+      },
+      {
+        "name": "Gross Margin (ppl)",
+        "type": "line",
+        "data": [
+          "18.02",
+          "17.92"
+        ],
+        "borderColor": "#3b60ac",
+        "backgroundColor": "#3b60ac"
+      },
+      {
+        "name": "Shop Sales (£)",
+        "type": "line",
+        "data": [
+          "24656.53",
+          "26500.1"
+        ],
+        "borderColor": "#938ddf",
+        "backgroundColor": "#938ddf"
+      }
+    ],
+    "option": {
+      "labels": [
+        "01 Dec 2024",
+        "02 Dec 2024"
+      ]
+    }
+  },
+  "shop_profit": {
+    "shop_profit": "25178.95",
+    "status": "down",
+    "percentage": "-18.88"
+  }
+}
+export const StockData = {
+  "stock_graph_data": {
+    "labels": [
+      "Ramsey Service Station G401",
+      "Brewster Street Service Station G400",
+      "S. and G.L. Aswat and Sons Ltd."
+    ],
+    "datasets": [
+      {
+        "label": "Votes",
+        "data": [
+          46,
+          79,
+          15
+        ],
+        "backgroundColor": [
+          "#92C5F9",
+          "#AFDC8F",
+          "#B6A6E9"
+        ],
+        "borderColor": [
+          "#92C5F9",
+          "#AFDC8F",
+          "#B6A6E9"
+        ],
+        "borderWidth": 1
+      }
+    ]
+  },
+  "stock_graph_options": {
+    "responsive": true,
+    "maintainAspectRatio": false,  // Allow custom height and width
+    "plugins": {
+      "legend": {
+        "position": "bottom"
+      },
+      "tooltip": {
+        "enabled": true
+      }
+    },
+    "cutout": "80%", // Inner cutout for the donut chart
+    "layout": {
+      "padding": {
+        "left": 10,
+        "right": 10,
+        "top": 10,
+        "bottom": 10
+      }
+    }
+  },
+  "stock_details": [
+    {
+      "id": "1",
+      "stock": "Ramsey Service Station G401",
+      "quantiry": "175",
+      "aging": "40 days"
+    },
+    {
+      "id": "2",
+      "stock": "Brewster Street Service Station G400",
+      "quantiry": "145",
+      "aging": "60 days"
+    },
+    {
+      "id": "3",
+      "stock": "S. and G.L. Aswat and Sons Ltd.",
+      "quantiry": "115",
+      "aging": "20 days"
+    },
+    {
+      "id": "4",
+      "stock": "UK Fast Fuels Ltd.",
+      "quantiry": "215",
+      "aging": "39 days"
+    },
+    {
+      "id": "5",
+      "stock": "Oakham Service Station",
+      "quantiry": "86",
+      "aging": "52 days"
+    },
+    {
+      "id": "6",
+      "stock": "SPALDING SERVICE STATION",
+      "quantiry": "132",
+      "aging": "25 days"
+    },
+    {
+      "id": "7",
+      "stock": "Wali`s Enterprises Ltd.",
+      "quantiry": "40",
+      "aging": "10 days"
+    }
+  ]
+}
+
+export const PerformanceData = {
+  "top": [
+    {
+      "id": 16,
+      "name": "Vineyard ",
+      "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+      "fuel_volume": {
+        "gross_volume": "22035.78",
+        "bunkered_volume": "0.0",
+        "total_volume": "22035.78",
+        "status": "up",
+        "percentage": "6.9"
+      },
+      "fuel_sales": {
+        "gross_value": "26821.35",
+        "bunkered_value": "0.0",
+        "total_value": "26821.35",
+        "status": "up",
+        "percentage": "10.76"
+      },
+      "gross_profit": {
+        "gross_profit": 4203.13,
+        "gross_margin": 19.07,
+        "status": "up",
+        "percentage": "48.69"
+      },
+      "gross_margin": {
+        "gross_margin": 19.07,
+        "is_ppl": 0,
+        "ppl_msg": "",
+        "status": "up",
+        "percentage": "39.1"
+      },
+      "shop_sales": {
+        "shop_sales": "2465.18",
+        "shop_margin": "2346.56",
+        "status": "up",
+        "percentage": "7.57",
+        "p_status": "up",
+        "p_percentage": "8.97"
+      },
+      "shop_profit": {
+        "shop_profit": "2346.56",
+        "status": "up",
+        "percentage": "8.97"
+      },
+      "shop_fees": {
+        "shop_fee": "163.2",
+        "status": "up",
+        "percentage": "0.0"
+      },
+      "date": "2024-12-02"
+    },
+    {
+      "id": 18,
+      "name": "Swanley",
+      "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+      "fuel_volume": {
+        "gross_volume": "17056.51",
+        "bunkered_volume": "0.0",
+        "total_volume": "17056.51",
+        "status": "up",
+        "percentage": "20.34"
+      },
+      "fuel_sales": {
+        "gross_value": "20288.74",
+        "bunkered_value": "0.0",
+        "total_value": "20288.74",
+        "status": "up",
+        "percentage": "22.66"
+      },
+      "gross_profit": {
+        "gross_profit": 2931.82,
+        "gross_margin": 17.19,
+        "status": "up",
+        "percentage": "38.58"
+      },
+      "gross_margin": {
+        "gross_margin": 17.19,
+        "is_ppl": 0,
+        "ppl_msg": "",
+        "status": "up",
+        "percentage": "15.14"
+      },
+      "shop_sales": {
+        "shop_sales": "5432.73",
+        "shop_margin": "2499.43",
+        "status": "down",
+        "percentage": "-8.38",
+        "p_status": "down",
+        "p_percentage": "-14.36"
+      },
+      "shop_profit": {
+        "shop_profit": "2499.43",
+        "status": "down",
+        "percentage": "-14.36"
+      },
+      "shop_fees": {
+        "shop_fee": "560.0",
+        "status": "up",
+        "percentage": "0.0"
+      },
+      "date": "2024-12-02"
+    },
+    {
+      "id": 13,
+      "name": "Patcham ",
+      "image": "https://apis-l.credentia.uk/splr/greenergy-logo.png",
+      "fuel_volume": {
+        "gross_volume": "18921.14",
+        "bunkered_volume": "709.43",
+        "total_volume": "19630.57",
+        "status": "up",
+        "percentage": "9.92"
+      },
+      "fuel_sales": {
+        "gross_value": "22635.11",
+        "bunkered_value": "1028.59",
+        "total_value": "23663.7",
+        "status": "up",
+        "percentage": "11.3"
+      },
+      "gross_profit": {
+        "gross_profit": 3818.99,
+        "gross_margin": 19.45,
+        "status": "up",
+        "percentage": "25.72"
+      },
+      "gross_margin": {
+        "gross_margin": 19.45,
+        "is_ppl": 0,
+        "ppl_msg": "",
+        "status": "up",
+        "percentage": "19.69"
+      },
+      "shop_sales": {
+        "shop_sales": "2378.53",
+        "shop_margin": "1632.03",
+        "status": "down",
+        "percentage": "-12.76",
+        "p_status": "down",
+        "p_percentage": "-11.76"
+      },
+      "shop_profit": {
+        "shop_profit": "1632.03",
+        "status": "down",
+        "percentage": "-11.76"
+      },
+      "shop_fees": {
+        "shop_fee": "268.8",
+        "status": "up",
+        "percentage": "0.0"
+      },
+      "date": "2024-12-02"
+    }
+  ],
+  "bottom": [
+    {
+      "id": 15,
+      "name": "Wexham ",
+      "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+      "fuel_volume": {
+        "gross_volume": "17453.42",
+        "bunkered_volume": "0.0",
+        "total_volume": "17453.42",
+        "status": "down",
+        "percentage": "-47.73"
+      },
+      "fuel_sales": {
+        "gross_value": "20998.55",
+        "bunkered_value": "0.0",
+        "total_value": "20998.55",
+        "status": "down",
+        "percentage": "-46.59"
+      },
+      "gross_profit": {
+        "gross_profit": 2742.37,
+        "gross_margin": 15.71,
+        "status": "down",
+        "percentage": "-47.09"
+      },
+      "gross_margin": {
+        "gross_margin": 15.71,
+        "is_ppl": 0,
+        "ppl_msg": "",
+        "status": "up",
+        "percentage": "1.22"
+      },
+      "shop_sales": {
+        "shop_sales": "3122.3",
+        "shop_margin": "1449.06",
+        "status": "down",
+        "percentage": "-50.66",
+        "p_status": "down",
+        "p_percentage": "-55.41"
+      },
+      "shop_profit": {
+        "shop_profit": "1449.06",
+        "status": "down",
+        "percentage": "-55.41"
+      },
+      "shop_fees": {
+        "shop_fee": "288.0",
+        "status": "down",
+        "percentage": "-50.0"
+      },
+      "date": "2024-12-02"
+    },
+    {
+      "id": 4,
+      "name": "Astwick ",
+      "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+      "fuel_volume": {
+        "gross_volume": "15855.06",
+        "bunkered_volume": "5444.89",
+        "total_volume": "21299.95",
+        "status": "down",
+        "percentage": "-15.0"
+      },
+      "fuel_sales": {
+        "gross_value": "20210.96",
+        "bunkered_value": "8543.01",
+        "total_value": "28753.97",
+        "status": "down",
+        "percentage": "-13.99"
+      },
+      "gross_profit": {
+        "gross_profit": 5226.09,
+        "gross_margin": 24.54,
+        "status": "down",
+        "percentage": "-5.88"
+      },
+      "gross_margin": {
+        "gross_margin": 24.54,
+        "is_ppl": 0,
+        "ppl_msg": "",
+        "status": "up",
+        "percentage": "6.19"
+      },
+      "shop_sales": {
+        "shop_sales": "4128.02",
+        "shop_margin": "2089.66",
+        "status": "down",
+        "percentage": "-25.19",
+        "p_status": "down",
+        "p_percentage": "-23.78"
+      },
+      "shop_profit": {
+        "shop_profit": "2089.66",
+        "status": "down",
+        "percentage": "-23.78"
+      },
+      "shop_fees": {
+        "shop_fee": "460.8",
+        "status": "up",
+        "percentage": "0.0"
+      },
+      "date": "2024-12-02"
+    },
+    {
+      "id": 2,
+      "name": "Erith ",
+      "image": "https://apis-l.credentia.uk/splr/bp-logo.png",
+      "fuel_volume": {
+        "gross_volume": "23326.54",
+        "bunkered_volume": "1016.21",
+        "total_volume": "24342.75",
+        "status": "down",
+        "percentage": "-7.23"
+      },
+      "fuel_sales": {
+        "gross_value": "27939.36",
+        "bunkered_value": "1472.5",
+        "total_value": "29411.86",
+        "status": "down",
+        "percentage": "-5.87"
+      },
+      "gross_profit": {
+        "gross_profit": 4219.15,
+        "gross_margin": 17.33,
+        "status": "down",
+        "percentage": "-4.81"
+      },
+      "gross_margin": {
+        "gross_margin": 17.33,
+        "is_ppl": 0,
+        "ppl_msg": "",
+        "status": "up",
+        "percentage": "6.84"
+      },
+      "shop_sales": {
+        "shop_sales": "4394.48",
+        "shop_margin": "1330.35",
+        "status": "down",
+        "percentage": "-48.13",
+        "p_status": "down",
+        "p_percentage": "-68.2"
+      },
+      "shop_profit": {
+        "shop_profit": "1330.35",
+        "status": "down",
+        "percentage": "-68.2"
+      },
+      "shop_fees": {
+        "shop_fee": "518.4",
+        "status": "up",
+        "percentage": "0.0"
+      },
+      "date": "2024-12-02"
+    }
+  ]
+}
+export const PriceLogsData = [
+  {
+    "id": "RGxodzg4MXY0UXNBZmtVc2pxSy8yQT09",
+    "user": "Tony Head",
+    "site": "Amersham ",
+    "type": "Created",
+    "name": "Adblue",
+    "price": 1.799,
+    "prev_price": 0,
+    "is_checked": "Forcefully",
+    "date": "2024-03-27 00:00:00",
+    "created": "2024-03-26 14:59:52"
+  },
+  {
+    "id": "cWpuQmJrWGVIRDZpZzV3RDNLOFZRUT09",
+    "user": "Tony Head",
+    "site": "Amersham ",
+    "type": "Created",
+    "name": "Super Diesel",
+    "price": 1.759,
+    "prev_price": 0,
+    "is_checked": "Forcefully",
+    "date": "2024-03-27 00:00:00",
+    "created": "2024-03-26 14:59:52"
+  },
+  {
+    "id": "RTZHcGUxSFZEUHBETzBrL2RYQW1iUT09",
+    "user": "Tony Head",
+    "site": "Amersham ",
+    "type": "Created",
+    "name": "Diesel",
+    "price": 1.559,
+    "prev_price": 0,
+    "is_checked": "Forcefully",
+    "date": "2024-03-27 00:00:00",
+    "created": "2024-03-26 14:59:52"
+  },
+  {
+    "id": "eE5FWWdrUGhoMlFqeHdMaWxKMExaQT09",
+    "user": "Tony Head",
+    "site": "Amersham ",
+    "type": "Created",
+    "name": "Super Unleaded",
+    "price": 1.669,
+    "prev_price": 0,
+    "is_checked": "Forcefully",
+    "date": "2024-03-27 00:00:00",
+    "created": "2024-03-26 14:59:52"
+  },
+  {
+    "id": "SjByWjFFTE8wcFhrSW12MUN1OHEyUT09",
+    "user": "Tony Head",
+    "site": "Amersham ",
+    "type": "Created",
+    "name": "Unleaded",
+    "price": 1.469,
+    "prev_price": 0,
+    "is_checked": "Forcefully",
+    "date": "2024-03-27 00:00:00",
+    "created": "2024-03-26 14:59:52"
+  }
+] 
