@@ -3026,4 +3026,482 @@ export const PriceLogsData = [
     "date": "2024-03-27 00:00:00",
     "created": "2024-03-26 14:59:52"
   }
-] 
+]
+export const MopData = {
+  "cash_fuel_sales": {
+    "total_sales": "797",
+    "percentage": "9.78",
+    "status": "up"
+  },
+  "card_fuel_sales": {
+    "total_sales": "11215",
+    "percentage": "-0.37",
+    "status": "down"
+  },
+  "cash_shop_sales": {
+    "total_sales": "15737",
+    "percentage": "-3.58",
+    "status": "down"
+  },
+  "card_shop_sales": {
+    "total_sales": "64855",
+    "percentage": "1.67",
+    "status": "up"
+  },
+  "bunkered_card_fuel_sales": {
+    "total_sales": "1761.542",
+    "percentage": "-7.14",
+    "status": "down"
+  },
+  "bunkered_card_shop_sales": {
+    "total_sales": "0.00",
+    "percentage": "0.00",
+    "status": "up"
+  }
+}
+export const salesGraphData = {
+  "sales_mom": {
+    "labels": [
+      "Fuel Sales"
+    ],
+    "datasets": [
+      {
+        "label": "Fuel Sales (Nov 2024)",
+        "data": [
+          "1547444.0"
+        ],
+        "backgroundColor": "#AFDC8F",
+        "borderColor": "#AFDC8F",
+        "borderWidth": 1
+      },
+      {
+        "label": "Fuel Sales (Dec 2024)",
+        "data": [
+          "319024.5"
+        ],
+        "backgroundColor": "#92C5F9",
+        "borderColor": "#92C5F9",
+        "borderWidth": 1
+      }
+    ]
+  },
+  "sales_actual_budgeted": {
+    "labels": [
+      "Nov 2024",
+      "Dec 2024"
+    ],
+    "datasets": [
+      {
+        "label": "Actual Sales",
+        "data": [
+          "0.00",
+          "0.00"
+        ],
+        "backgroundColor": "#AFDC8F",
+        "borderColor": "#AFDC8F",
+        "borderWidth": 1
+      },
+      {
+        "label": "Budgeted Sales",
+        "data": [
+          "0.00",
+          "0.00"
+        ],
+        "backgroundColor": "#92C5F9",
+        "borderColor": "#92C5F9",
+        "borderWidth": 1
+      }
+    ]
+  },
+  "sales_yoy": {
+    "labels": [
+      "Fuel Sales"
+    ],
+    "datasets": [
+      {
+        "label": "Fuel Sales (Dec 2023)",
+        "data": [
+          "2134636.3"
+        ],
+        "backgroundColor": "#AFDC8F",
+        "borderColor": "#AFDC8F",
+        "borderWidth": 1
+      },
+      {
+        "label": "Fuel Sales (Dec 2024)",
+        "data": [
+          "319024.5"
+        ],
+        "backgroundColor": "#92C5F9",
+        "borderColor": "#92C5F9",
+        "borderWidth": 1
+      }
+    ]
+  }
+}
+export const cardConfigs = [
+  {
+    dataKey: "cash_fuel_sales",
+    title: "Cash Fuel Sales",
+    icon: "ℓ",
+    containerStyle: "dash-plates-1",
+  },
+  {
+    dataKey: "cash_shop_sales",
+    title: "Cash Shop Sales",
+    icon: "£",
+    containerStyle: "dash-plates-3",
+  },
+  {
+    dataKey: "card_fuel_sales",
+    title: "Card Fuel Sales",
+    icon: "£",
+    containerStyle: "dash-plates-5",
+    tooltip: "Gross Profit = Total Sales - Opening Stock - Purchases(Deliveries) + Closing Stock",
+  },
+  {
+    dataKey: "card_shop_sales",
+    title: "Card Shop Sales",
+    containerStyle: "dash-plates-2",
+  },
+  {
+    dataKey: "bunkered_card_fuel_sales",
+    title: "Keyfuel Card Fuel Sales",
+    icon: "£",
+    containerStyle: "dash-plates-4",
+  },
+  {
+    dataKey: "bunkered_card_shop_sales",
+    title: "Keyfuel Card Shop Sales",
+    icon: "£",
+    containerStyle: "dash-plates-6",
+  },
+];
+export const Shrinkage = {
+  "shrinkage_graph_data": {
+    "labels": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June"
+    ],
+    "datasets": [
+      {
+        "label": "Site 1",
+        "data": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60
+        ],
+        "backgroundColor": "#92C5F9"
+      },
+      {
+        "label": "Site 2",
+        "data": [
+          15,
+          25,
+          35,
+          45,
+          55,
+          65
+        ],
+        "backgroundColor": "#AFDC8F"
+      },
+      {
+        "label": "Site 3",
+        "data": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30
+        ],
+        "backgroundColor": "#B6A6E9"
+      }
+    ]
+  },
+  "shrinkage_graph_options": {
+    "responsive": true,
+    "plugins": {
+      "legend": {
+        "position": "bottom"
+      },
+      "tooltip": {
+        "enabled": true
+      }
+    },
+    "scales": {
+      "x": {
+        "stacked": true
+      },
+      "y": {
+        "stacked": true,
+        "beginAtZero": true
+      }
+    }
+  }
+}
+export const StockDetail = [
+  {
+    "id": "SWNlIENyZWFt",
+    "name": "Ice Cream",
+    "gross_sales": "£367.82",
+    "nett_sales": "£306.66",
+    "profit": "£152.47",
+    "total_transactions": 138
+  },
+  {
+    "id": "Q29uZmVjdGlvbmVyeQ==",
+    "name": "Confectionery",
+    "gross_sales": "£5950.6",
+    "nett_sales": "£4957.1",
+    "profit": "£2637.24",
+    "total_transactions": 3297
+  },
+  {
+    "id": "VG9iYWNjbw==",
+    "name": "Tobacco",
+    "gross_sales": "£15241.69",
+    "nett_sales": "£12701.54",
+    "profit": "£5338.88",
+    "total_transactions": 1131
+  },
+  {
+    "id": "Q2FyIENhcmU=",
+    "name": "Car Care",
+    "gross_sales": "£2647.86",
+    "nett_sales": "£2205.89",
+    "profit": "£1645.82",
+    "total_transactions": 311
+  },
+  {
+    "id": "R3JvY2VyeSBWYXQ=",
+    "name": "Grocery Vat",
+    "gross_sales": "£1660.96",
+    "nett_sales": "£1383.96",
+    "profit": "£944.09",
+    "total_transactions": 687
+  },
+  {
+    "id": "R3JvY2VyeSBaZXJv",
+    "name": "Grocery Zero",
+    "gross_sales": "£7779.85",
+    "nett_sales": "£7779.85",
+    "profit": "£4491.83",
+    "total_transactions": 2534
+  },
+  {
+    "id": "T2ZmIExpY2VuY2U=",
+    "name": "Off Licence",
+    "gross_sales": "£8278.34",
+    "nett_sales": "£6897.68",
+    "profit": "£4729.42",
+    "total_transactions": 1025
+  },
+  {
+    "id": "Q29zdGEgQ29mZmVl",
+    "name": "Costa Coffee",
+    "gross_sales": "£6358.69",
+    "nett_sales": "£5300.52",
+    "profit": "£3089.0",
+    "total_transactions": 1905
+  },
+  {
+    "id": "RS1DSUdBUkVUVEVT",
+    "name": "E-CIGARETTES",
+    "gross_sales": "£7694.18",
+    "nett_sales": "£6410.38",
+    "profit": "£6299.98",
+    "total_transactions": 754
+  },
+  {
+    "id": "UGF5IFBvaW50",
+    "name": "Pay Point",
+    "gross_sales": "£5837.28",
+    "nett_sales": "£5837.28",
+    "profit": "£0.0",
+    "total_transactions": 143
+  },
+  {
+    "id": "Rmxvd2Vycw==",
+    "name": "Flowers",
+    "gross_sales": "£175.82",
+    "nett_sales": "£146.46",
+    "profit": "£146.46",
+    "total_transactions": 16
+  },
+  {
+    "id": "RHJpbmtz",
+    "name": "Drinks",
+    "gross_sales": "£8351.37",
+    "nett_sales": "£6959.9",
+    "profit": "£4700.84",
+    "total_transactions": 3878
+  },
+  {
+    "id": "U25hY2tzIFZhdA==",
+    "name": "Snacks Vat",
+    "gross_sales": "£2725.27",
+    "nett_sales": "£2270.76",
+    "profit": "£1351.39",
+    "total_transactions": 1748
+  },
+  {
+    "id": "TmV3cyAmIE1hZ3MgKFZhbHVlKQ==",
+    "name": "News & Mags (Value)",
+    "gross_sales": "£1288.09",
+    "nett_sales": "£1288.09",
+    "profit": "£1288.09",
+    "total_transactions": 557
+  },
+  {
+    "id": "U2FuZHdpY2hlcw==",
+    "name": "Sandwiches",
+    "gross_sales": "£794.41",
+    "nett_sales": "£794.41",
+    "profit": "£466.73",
+    "total_transactions": 229
+  },
+  {
+    "id": "TmF0aW9uYWwgTG90dGVyeQ==",
+    "name": "National Lottery",
+    "gross_sales": "£1112.0",
+    "nett_sales": "£1112.0",
+    "profit": "£1112.0",
+    "total_transactions": 232
+  },
+  {
+    "id": "SW5zdGFudCBMb3R0ZXJ5",
+    "name": "Instant Lottery",
+    "gross_sales": "£1164.0",
+    "nett_sales": "£1164.0",
+    "profit": "£1164.0",
+    "total_transactions": 229
+  },
+  {
+    "id": "QWlyIExpbmU=",
+    "name": "Air Line",
+    "gross_sales": "£538.0",
+    "nett_sales": "£448.32",
+    "profit": "£405.28",
+    "total_transactions": 46
+  },
+  {
+    "id": "Q2hpbGxlcg==",
+    "name": "Chiller",
+    "gross_sales": "£2479.77",
+    "nett_sales": "£2476.83",
+    "profit": "£1540.87",
+    "total_transactions": 1273
+  },
+  {
+    "id": "RnJ1aXQgJiBWZWc=",
+    "name": "Fruit & Veg",
+    "gross_sales": "£44.71",
+    "nett_sales": "£44.71",
+    "profit": "£30.02",
+    "total_transactions": 22
+  },
+  {
+    "id": "NSUgVmF0",
+    "name": "5% Vat",
+    "gross_sales": "£671.59",
+    "nett_sales": "£639.55",
+    "profit": "£356.76",
+    "total_transactions": 46
+  },
+  {
+    "id": "RmVtLiBIeWdpZW5lL0NvbmRvbXM=",
+    "name": "Fem. Hygiene\\/Condoms",
+    "gross_sales": "£24.36",
+    "nett_sales": "£23.19",
+    "profit": "£7.49",
+    "total_transactions": 6
+  },
+  {
+    "id": "TWVyY2hhbnQgVmF0",
+    "name": "Merchant Vat",
+    "gross_sales": "£198.99",
+    "nett_sales": "£165.83",
+    "profit": "£99.06",
+    "total_transactions": 43
+  },
+  {
+    "id": "QWRibHVlIFBhY2thZ2Vk",
+    "name": "Adblue Packaged",
+    "gross_sales": "£559.78",
+    "nett_sales": "£466.43",
+    "profit": "£236.94",
+    "total_transactions": 25
+  },
+  {
+    "id": "TWFudWFsIEZ1ZWw=",
+    "name": "Manual Fuel",
+    "gross_sales": "£0.0",
+    "nett_sales": "£0.0",
+    "profit": "£0.0",
+    "total_transactions": 4
+  },
+  {
+    "id": "Um9sbCBPdmVy",
+    "name": "Roll Over",
+    "gross_sales": "£593.42",
+    "nett_sales": "£494.18",
+    "profit": "£494.18",
+    "total_transactions": 194
+  },
+  {
+    "id": "RnJlc2ggT3JhbmdlIEp1aWNl",
+    "name": "Fresh Orange Juice",
+    "gross_sales": "£431.1",
+    "nett_sales": "£359.17",
+    "profit": "£14.29",
+    "total_transactions": 124
+  },
+  {
+    "id": "RGVsaWNlIGRlIEZyYW5jZQ==",
+    "name": "Delice de France",
+    "gross_sales": "£1305.2",
+    "nett_sales": "£1087.39",
+    "profit": "£1087.39",
+    "total_transactions": 677
+  },
+  {
+    "id": "TWlsayBTaGFrZQ==",
+    "name": "Milk Shake",
+    "gross_sales": "£19.6",
+    "nett_sales": "£16.31",
+    "profit": "£16.31",
+    "total_transactions": 0
+  },
+  {
+    "id": "UyBTICBQcm9kdWN0cw==",
+    "name": "S S  Products",
+    "gross_sales": "£245.22",
+    "nett_sales": "£206.67",
+    "profit": "£206.67",
+    "total_transactions": 0
+  },
+  {
+    "id": "UEVSRlVNRVM=",
+    "name": "PERFUMES",
+    "gross_sales": "£59.96",
+    "nett_sales": "£49.96",
+    "profit": "£49.96",
+    "total_transactions": 0
+  },
+  {
+    "id": "UyBTIFByb2R1Y3RzIChaZXJvKQ==",
+    "name": "S S Products (Zero)",
+    "gross_sales": "£2.99",
+    "nett_sales": "£2.99",
+    "profit": "£1.0",
+    "total_transactions": 0
+  }
+]

@@ -1,52 +1,20 @@
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
-import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
-import ChartCard from "./ChartCard";
-import {
-  handleFilterData,
-  staticCompiCEOValues,
-} from "../../Utils/commonFunctions/commonFunction";
-import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import {
-  Baroptions,
-  DashboardData,
-  Losers,
-  Tankcolors,
-  TopPerformers,
-} from "../../Utils/commonFunctions/CommonData";
-import CeoDashboardBarChart from "./CeoDashboardBarChart";
-import { Doughnut } from "react-chartjs-2";
+import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import { Col, Row } from "react-bootstrap";
+import { DashboardData } from "../../Utils/commonFunctions/CommonData";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
 import { useFormik } from "formik";
-import SmallLoader from "../../Utils/SmallLoader";
-import CeoDashboardCharts from "./CeoDashboardCharts";
-import { Link, useNavigate } from "react-router-dom";
-import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
-import PriceLogTable from "./PriceLogTable";
-import ReportTable from "./ReportTable";
+import { useNavigate } from "react-router-dom";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
-import CeoDashTankAnalysis from "./CeoDashTankAnalysis";
 import Swal from "sweetalert2";
 import { Bounce, toast } from "react-toastify";
-import CEODashboardCompetitor from "./CEODashboardCompetitor";
-import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
-import CeoDashSitetable from "./CeoDashSitetable";
-import Switch from "react-switch";
-import {
-  FaChartLine,
-  FaRegChartBar,
-  FaGasPump,
-  FaFileAlt,
-  FaChartPie,
-  FaClipboardList,
-} from "react-icons/fa";
 import CeoDashBoardBottomPage from "./CeoDashBoardBottomPage";
 
 const CeoDashBoardTest = (props) => {
@@ -496,13 +464,10 @@ const CeoDashBoardTest = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${
-          report?.report_code
-        }?${clientIDCondition}company_id=${
-          filters.company_id
-        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
-          formik?.values?.selectedMonthDetails?.value
-        }`;
+        const commonParams = `/download-report/${report?.report_code
+          }?${clientIDCondition}company_id=${filters.company_id
+          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
+          }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -524,8 +489,7 @@ const CeoDashBoardTest = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${
-              errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -643,7 +607,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleChange = (event) => {
