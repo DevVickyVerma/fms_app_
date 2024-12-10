@@ -44,45 +44,53 @@ const CeoDashBoardBottomPage = () => {
         </>
       )}
 
-      <Row className="my-2">
-        <Col
-          md={9}
-          style={{
-            backgroundColor: "#5bc0de", // Blue background
-            color: "#fff",
-            height: "40px",
-            fontSize: "10px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <FaChartLine size={25} />
-          <h3 style={{ fontSize: "18px" }} className="m-0 ms-2">
-            Daily Wise Sales
-          </h3>
+      <>
+        <Col lg={12} className="mb-4">
+          <Row className="slide-in-right">
+            <Col
+              md={9}
+              style={{
+                backgroundColor: "#5bc0de", // Blue background
+                color: "#fff",
+                height: "40px",
+                fontSize: "10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <FaChartLine size={25} />
+              <h3 style={{ fontSize: "18px" }} className="m-0 ms-2">
+                Daily Wise Sales
+              </h3>
+            </Col>
+            <Col
+              md={3}
+              style={{
+                backgroundColor: "#f0ad4e", // Yellow background
+                color: "#fff",
+                height: "40px",
+                fontSize: "10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <h3 style={{ fontSize: "18px" }} className="m-0">
+                Live Margin
+              </h3>
+            </Col>
+          </Row>
         </Col>
-        <Col
-          md={3}
-          style={{
-            backgroundColor: "#f0ad4e", // Yellow background
-            color: "#fff",
-            height: "40px",
-            fontSize: "10px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <h3 style={{ fontSize: "18px" }} className="m-0">
-            Live Margin
-          </h3>
-        </Col>
-      </Row>
+      </>
 
       {/* {/ Second Row /} */}
       <Row className="my-2">
-        <Col md={3} onClick={() => handleCardClick("MOP Comparison")}>
+        <Col
+          md={3}
+          onClick={() => handleCardClick("MOP Comparison")}
+          className="slide-in-left"
+        >
           <div
             className="ceocard-hover"
             style={{
@@ -101,7 +109,11 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">MOP Comparison</h5>
           </div>
         </Col>
-        <Col md={3} onClick={() => handleCardClick("Comparison")}>
+        <Col
+          md={3}
+          onClick={() => handleCardClick("Comparison")}
+          className="slide-in-left"
+        >
           <div
             className="ceocard-hover"
             style={{
@@ -120,7 +132,11 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Comparison</h5>
           </div>
         </Col>
-        <Col md={3} onClick={() => handleCardClick("Performance")}>
+        <Col
+          md={3}
+          onClick={() => handleCardClick("Performance")}
+          className="slide-in-right"
+        >
           <div
             className="ceocard-hover"
             style={{
@@ -139,7 +155,11 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Performance</h5>
           </div>
         </Col>
-        <Col md={3} onClick={() => handleCardClick("Reports")}>
+        <Col
+          md={3}
+          onClick={() => handleCardClick("Reports")}
+          className="slide-in-right"
+        >
           <div
             className="ceocard-hover"
             style={{
@@ -204,7 +224,11 @@ const CeoDashBoardBottomPage = () => {
 
       {/* {/ Stock, Shrinkage, and Stock Details /} */}
       <Row className="my-2">
-        <Col md={4} onClick={() => handleCardClick("Stock")}>
+        <Col
+          md={4}
+          onClick={() => handleCardClick("Stock")}
+          className="slide-in-bottom"
+        >
           <div
             className="ceocard-hover"
             style={{
@@ -223,7 +247,11 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Stock</h5>
           </div>
         </Col>
-        <Col md={4} onClick={() => handleCardClick("Shrinkage")}>
+        <Col
+          md={4}
+          onClick={() => handleCardClick("Shrinkage")}
+          className="slide-in-bottom"
+        >
           <div
             className="ceocard-hover"
             style={{
@@ -242,7 +270,11 @@ const CeoDashBoardBottomPage = () => {
             <h5 className="m-0 mt-2">Shrinkage</h5>
           </div>
         </Col>
-        <Col md={4} onClick={() => handleCardClick("Stock Details")}>
+        <Col
+          md={4}
+          onClick={() => handleCardClick("Stock Details")}
+          className="slide-in-bottom"
+        >
           <div
             className="ceocard-hover"
             style={{

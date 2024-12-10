@@ -95,8 +95,8 @@ export const EVOBOSOptions = [
   { value: "1", label: "EVOBOS Manual" },
 ];
 export const StartEndDate = [
-  { value: "1", name: "Start Date" },
-  { value: "2", name: "End Date" },
+  { value: "1", label: "Start Date" },
+  { value: "2", label: "End Date" },
 ];
 export const SalesSummary = [
   { value: "1", label: "Sales Summary" },

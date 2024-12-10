@@ -133,7 +133,7 @@ const CEODashCommonCard = ({
         </Col> */}
 
     <Col sm={12} md={6} lg={lg} xl={xl} key={Math.random()}>
-      <Card onClick={handleNavigateClick}>
+      <Card onClick={handleNavigateClick} className="">
         <Card.Body
           className={`text-center ${
             isParentComponent ? "pointer" : "default-pointer"

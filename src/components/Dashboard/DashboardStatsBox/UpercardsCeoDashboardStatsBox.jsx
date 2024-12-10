@@ -66,7 +66,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
   return (
     <div>
       {GrossVolume ? (
-        <Row className="">
+        <Row className="scale-in-center">
           <Col lg={2}>
             <CEODashCommonVerticalCard
               isParentComponent={parentComponent}

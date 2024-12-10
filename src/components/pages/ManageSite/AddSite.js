@@ -55,7 +55,7 @@ const AddSite = (props) => {
     Bp_nctt_site_no: "",
     bank_ref: "",
     site_report_status: "",
-    Report_date_type: "",
+    site_report_date_type: "",
     consider_keyfules_cards: "",
     Fuel_commission_type: "",
     Paper_work_status: "",
@@ -165,7 +165,7 @@ const AddSite = (props) => {
       formData.append("bank_ref", values.bank_ref);
       formData.append("supplier_id", values.supplier);
       formData.append("site_report_status", values.site_report_status);
-      formData.append("site_report_date_type", values.Report_date_type);
+      formData.append("site_report_date_type", values.site_report_date_type);
       formData.append(
         "consider_keyfules_cards",
         values.consider_keyfules_cards
@@ -392,6 +392,8 @@ const AddSite = (props) => {
     </div>
   );
 
+  console.log(formik?.values, "formik valuess");
+
   return (
     <>
       {isLoading ? (
@@ -589,13 +591,14 @@ const AddSite = (props) => {
                       <Col lg={4} md={6}>
                         <FormikSelect
                           formik={formik}
-                          name="Report_date_type"
-                          label="Report_date_type"
+                          name="site_report_date_type"
+                          label="site_report_date_type"
                           options={StartEndDate?.map((item) => ({
-                            id: item?.id,
-                            name: item?.name,
+                            id: item?.value,
+                            name: item?.label,
                           }))}
                           className="form-input"
+                          isRequired={false}
                         />
                       </Col>
                       <Col lg={4} md={6}>

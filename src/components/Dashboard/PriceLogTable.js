@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 
 const PriceLogTable = ({ priceLogs }) => {
   return (
-    <table className='table' style={{ width: "100%" }}>
+    <table className="table" style={{ width: "100%" }}>
       <thead>
         <tr>
-
           <th>Fuel</th>
           <th>Checked</th>
           <th>Old Price</th>
@@ -17,11 +16,10 @@ const PriceLogTable = ({ priceLogs }) => {
       <tbody>
         {priceLogs?.map((log) => (
           <tr key={log.id}>
-
             <td>{log.name}</td>
             <td>{log.is_checked}</td>
             <td>£{log.prev_price}</td>
-            <td>£{log.price}</td>
+            <td className={log?.status}>£{log.price}</td>
             <td>{log.user}</td>
             <td>02-12-2024</td>
           </tr>
