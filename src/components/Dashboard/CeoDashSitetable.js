@@ -64,11 +64,10 @@ const CeoDashSitetable = (props) => {
                 </h6>
 
                 <p
-                  className={`me-1 ${
-                    item.fuel_volume?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 ${item.fuel_volume?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${item?.fuel_volume?.percentage}%`}
                 >
                   {item?.fuel_volume?.status === "up" ? (
@@ -101,11 +100,10 @@ const CeoDashSitetable = (props) => {
                     : "0"}
                 </h6>
                 <p
-                  className={`me-1 ${
-                    item?.fuel_sales?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 ${item?.fuel_sales?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${item?.fuel_sales?.percentage}%`}
                 >
                   {item?.fuel_sales?.status === "up" ? (
@@ -138,11 +136,10 @@ const CeoDashSitetable = (props) => {
                     : "0"}
                 </h6>
                 <p
-                  className={`me-1 ${
-                    item?.gross_profit?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 ${item?.gross_profit?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${item?.gross_profit?.percentage}%`}
                 >
                   {item?.gross_profit?.status === "up" ? (
@@ -187,11 +184,10 @@ const CeoDashSitetable = (props) => {
                   )}
                 </h6>
                 <p
-                  className={`me-1 ${
-                    item?.gross_margin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 ${item?.gross_margin?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${item?.gross_margin?.percentage}%`}
                 >
                   {item?.gross_margin?.status === "up" ? (
@@ -224,11 +220,10 @@ const CeoDashSitetable = (props) => {
                     : "0"}
                 </h6>
                 <p
-                  className={`me-1 ${
-                    item?.shop_sales?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 ${item?.shop_sales?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${item?.shop_sales?.percentage}%`}
                 >
                   {item?.shop_sales?.status === "up" ? (
@@ -261,11 +256,10 @@ const CeoDashSitetable = (props) => {
                   {/* {item?.shop_fees?.shop_fees || "0.00"} */}
                 </h6>
                 <p
-                  className={`me-1 ${
-                    item?.shop_fees?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 ${item?.shop_fees?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${item?.shop_fees?.percentage}%`}
                 >
                   {item?.shop_fees?.status === "up" ? (
@@ -298,11 +292,10 @@ const CeoDashSitetable = (props) => {
                   {/* {item?.shop_profit?.shop_profit || "0.00"} */}
                 </h6>
                 <p
-                  className={`me-1 ${
-                    item?.shop_profit?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 ${item?.shop_profit?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${item?.shop_profit?.percentage}%`}
                 >
                   {item?.shop_profit?.status === "up" ? (
@@ -345,8 +338,8 @@ const CeoDashSitetable = (props) => {
                   className="table-container table-responsive"
                   style={{
                     overflowY: "auto",
-                    // maxHeight: "calc(100vh - 376px )",
-                    // height: "300px",
+                    maxHeight: "calc(100vh - 176px )",
+
                   }}
                 >
                   <table className="table">
