@@ -56,12 +56,6 @@ const CeoDashBoardBottomPage = () => {
   const priceLogAndGraphPermission =
     priceLogsPermission && priceGraphPermission;
 
-  console.log(
-    mopComparisonPerformanceReportsPermission,
-    "mopComparisonPerformanceReportsPermission",
-    dailyWiseSalesPermission
-  );
-
   const handleCloseSidebar = () => {
     console.log("closed called in parent ");
     setShowCeoMopModal(false);
