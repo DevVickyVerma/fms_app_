@@ -1,12 +1,10 @@
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import CeoDashboardCharts from "../CeoDashboardCharts";
 import {
   Baroptions,
   cardConfigs,
   DashboardData,
+  intialfilterData,
   MopData,
   PerformanceData,
   ReportList,
@@ -22,12 +20,44 @@ import ReportTable from "../ReportTable";
 import { Doughnut } from "react-chartjs-2";
 import CeoDashboardBarChart from "../CeoDashboardBarChart";
 import DashboardMultiLineChart from "../DashboardMultiLineChart";
+import { useState } from "react";
+import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CeoMopModal = (props) => {
   const { title, sidebarContent, visible, onClose } = props;
+  const [filters, setFilters] = useState(intialfilterData);
   const CeohandleNavigateClick = () => {
     console.log("CeohandleNavigateClick");
   };
+
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+
+  const handleMonthChange = (selectedId) => {
+    const selectedItem = filters.reportmonths.find(
+      (item) => item.display == selectedId
+    );
+    formik.setFieldValue("selectedMonth", selectedId);
+    formik.setFieldValue("selectedMonthDetails", selectedItem);
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      client_id: "",
+      company_id: "",
+      selectedSite: "",
+      selectedSiteDetails: "",
+      selectedMonth: "",
+      selectedMonthDetails: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
   const handleDownload = () => {
     console.log("CeohandleNavigateClick");
   };
@@ -109,9 +139,40 @@ const CeoMopModal = (props) => {
                   <Card.Header className="p-4 w-100  ">
                     <div className="w-100">
                       <div className="spacebetweenend">
-                        <h4 className="card-title">Reports </h4>
+                        <div>
+                          <h4 className="card-title">Reports </h4>
 
-                        <span className="textend">View All</span>
+                          {userPermissions?.includes("report-type-list") ? (
+                            <span className="text-muted hyper-link">
+                              <Link to="/reports">View All</Link>
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+
+                        {filters?.reportmonths ? (
+                          <Col lg={6} className="textend p-0">
+                            <select
+                              id="selectedMonth"
+                              name="selectedMonth"
+                              value={formik.values.selectedMonth}
+                              onChange={(e) =>
+                                handleMonthChange(e.target.value)
+                              }
+                              className="selectedMonth"
+                            >
+                              <option value="">--Select a Month--</option>
+                              {filters?.reportmonths?.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.display}
+                                </option>
+                              ))}
+                            </select>
+                          </Col>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div className="spacebetweenend"></div>
                     </div>

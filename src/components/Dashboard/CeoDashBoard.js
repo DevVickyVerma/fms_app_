@@ -356,6 +356,9 @@ const CeoDashBoard = (props) => {
       setPriceLogssloading(false);
     }
   };
+
+  console.log(filters, "filtersss");
+
   // {
   //   name: "itemstock",
   //   url: "ceo-dashboard/department-item-stocks",

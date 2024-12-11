@@ -3419,3 +3419,360 @@ export const StockDetail = [
     total_transactions: 0,
   },
 ];
+
+export const intialfilterData = {
+  client_id: "MkJWd25aSTlDekVwcWg4azgrNVh3UT09",
+  client_name: "Shilan Raja",
+  company_id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+  company_name: "HIGHWAY STOPS RETAIL LIMITED",
+  start_month: "",
+  report_month: "",
+  report_monthvalue: "",
+  site_id: "",
+  site_name: "",
+  clients: [
+    {
+      id: "MkJWd25aSTlDekVwcWg4azgrNVh3UT09",
+      full_name: "Shilan Raja",
+      client_name: "Shilan Raja",
+      client_code: "HSRL",
+    },
+    {
+      id: "L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09",
+      full_name: " Essar Oil  Ltd",
+      client_name: " Essar Oil  Ltd",
+      client_code: "EOUL",
+    },
+    {
+      id: "OUFuemREbDhlcFBnVkg0bEM3c2ZkUT09",
+      full_name: "Scott Williams",
+      client_name: "Scott Williams",
+      client_code: "DFL",
+    },
+    {
+      id: "WGRObVJmY2JENWtib3FqdDROYzgydz09",
+      full_name: "Luxman Selvarajah",
+      client_name: "Luxman Selvarajah",
+      client_code: "Luxman",
+    },
+    {
+      id: "YnA2YjB4Vm9aNkFlbldsdWdKL0lRUT09",
+      full_name: "Emma Gardner",
+      client_name: "Emma Gardner",
+      client_code: "Emma Gardner",
+    },
+    {
+      id: "eGN2eU5nd2YrMTdya3BRM3pKbGMrUT09",
+      full_name: "Khalid Mohammad",
+      client_name: "Khalid Mohammad",
+      client_code: "Mohammad",
+    },
+    {
+      id: "bzJoS1k0R08zK0pyajlwL1FWZVZSQT09",
+      full_name: "Shailesh Parekh",
+      client_name: "Shailesh Parekh",
+      client_code: "Shailesh Shailesh",
+    },
+    {
+      id: "VEUreDM4eW5nOG9taHc4bU9KQ0NyUT09",
+      full_name: "Amar Tanna",
+      client_name: "Amar Tanna",
+      client_code: "10004",
+    },
+    {
+      id: "a24rdjRlNzlpQWhkZ2o3SWd6TnZYQT09",
+      full_name: "Nazar Zokiuddin",
+      client_name: "Nazar Zokiuddin",
+      client_code: "10005",
+    },
+    {
+      id: "ODZDdUkwY2g0NURhUyttaXpGeHlndz09",
+      full_name: "S R Sejpal",
+      client_name: "S R Sejpal",
+      client_code: "PRL",
+    },
+    {
+      id: "L0tKTUJsekFoOHh3OVpPQTZwTUhIQT09",
+      full_name: "TLM Demo Client",
+      client_name: "TLM Demo Client",
+      client_code: "1111",
+    },
+    {
+      id: "VjBLMWpVTFhKYStsVC9zWmduNUphZz09",
+      full_name: "Tom Buckley",
+      client_name: "Tom Buckley",
+      client_code: "TOM",
+    },
+    {
+      id: "a3psZ0w5VXprNTZiYnFrczNWa0trdz09",
+      full_name: "Lee Mohammad",
+      client_name: "Lee Mohammad",
+      client_code: "Lee",
+    },
+  ],
+  companies: [
+    {
+      id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+      company_name: "HIGHWAY STOPS RETAIL LIMITED",
+    },
+  ],
+  sites: [
+    {
+      id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+      site_name: "Amersham ",
+      supplierImage: "http://192.168.1.112:4001/splr/shell-logo.png",
+    },
+    {
+      id: "OUNrS016Ym93czZsVzlMOHNkSE9hZz09",
+      site_name: "Erith ",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "MkJWd25aSTlDekVwcWg4azgrNVh3UT09",
+      site_name: "Anson ",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09",
+      site_name: "Astwick ",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "VEttejdBRlRMWDRnUTdlRkdLK1hrZz09",
+      site_name: "Belgrave ",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "cDd2VGlMRzRYUE5vdEFLcEJpZVY1Zz09",
+      site_name: "Park Royal",
+      supplierImage: "http://192.168.1.112:4001/splr/greenergy-logo.png",
+    },
+    {
+      id: "TjlpY21FU2kzc2kyTHVJMFJUR0FPZz09",
+      site_name: "Gravesend ",
+      supplierImage: "http://192.168.1.112:4001/splr/greenergy-logo.png",
+    },
+    {
+      id: "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
+      site_name: "Patcham ",
+      supplierImage: "http://192.168.1.112:4001/splr/greenergy-logo.png",
+    },
+    {
+      id: "U2wrWHB3T0FOSXRvV2lDUXg3cktUdz09",
+      site_name: "Girton",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "SERQa05pZktwNTVFL2RCMCtxdWQrdz09",
+      site_name: "Wexham ",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "Zm1qRXhGeW5aQTI2YnNzMm5wekE4QT09",
+      site_name: "Vineyard ",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "Y1BYWW83YmxDSWhYNkNXQ0lwZFJRUT09",
+      site_name: "Swanley",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "YzhQcFZPRzJGcjJKQTdNV3Q0YWJQQT09",
+      site_name: "Baddesley",
+      supplierImage: "http://192.168.1.112:4001/splr/bp-logo.png",
+    },
+    {
+      id: "S0pTTXhNNFRhZ0xPTzM2L214RWg3Zz09",
+      site_name: "sadsad",
+      supplierImage: "http://192.168.1.112:4001/splr/gulf-gb-logo.png",
+    },
+  ],
+  reportmonths: [
+    {
+      values: "202412",
+      value: "12-2024",
+      display: "Dec (2024)",
+      full_display: "December (2024)",
+    },
+    {
+      values: "202411",
+      value: "11-2024",
+      display: "Nov (2024)",
+      full_display: "November (2024)",
+    },
+    {
+      values: "202410",
+      value: "10-2024",
+      display: "Oct (2024)",
+      full_display: "October (2024)",
+    },
+    {
+      values: "202409",
+      value: "09-2024",
+      display: "Sep (2024)",
+      full_display: "September (2024)",
+    },
+    {
+      values: "202408",
+      value: "08-2024",
+      display: "Aug (2024)",
+      full_display: "August (2024)",
+    },
+    {
+      values: "202407",
+      value: "07-2024",
+      display: "Jul (2024)",
+      full_display: "July (2024)",
+    },
+    {
+      values: "202406",
+      value: "06-2024",
+      display: "Jun (2024)",
+      full_display: "June (2024)",
+    },
+    {
+      values: "202405",
+      value: "05-2024",
+      display: "May (2024)",
+      full_display: "May (2024)",
+    },
+    {
+      values: "202404",
+      value: "04-2024",
+      display: "Apr (2024)",
+      full_display: "April (2024)",
+    },
+    {
+      values: "202403",
+      value: "03-2024",
+      display: "Mar (2024)",
+      full_display: "March (2024)",
+    },
+    {
+      values: "202402",
+      value: "02-2024",
+      display: "Feb (2024)",
+      full_display: "February (2024)",
+    },
+    {
+      values: "202401",
+      value: "01-2024",
+      display: "Jan (2024)",
+      full_display: "January (2024)",
+    },
+  ],
+  reports: [
+    {
+      id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+      report_name: "Monthly Sales Report (DRS)",
+      report_code: "msr",
+    },
+    {
+      id: "OUNrS016Ym93czZsVzlMOHNkSE9hZz09",
+      report_name: "Fuel Deliveries Report",
+      report_code: "dfdr",
+    },
+    {
+      id: "MkJWd25aSTlDekVwcWg4azgrNVh3UT09",
+      report_name: "Stock Loss Report",
+      report_code: "dsmr",
+    },
+    {
+      id: "L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09",
+      report_name: "Credit Card Reconciliation Report",
+      report_code: "htccrr",
+    },
+    {
+      id: "U2dXNXN4OG5rSkdsOGZ0TXhTR0ZQZz09",
+      report_name: "Fuel Margin Report",
+      report_code: "fmmrfas",
+    },
+    {
+      id: "NnFJaGVzRGlwaGtQY3FKTTJYUkhJZz09",
+      report_name: "DRS Vs Fairbank Report",
+      report_code: "fbr",
+    },
+    {
+      id: "YmxmOHE4VTRYNitkaHQwQ29QYmQ1QT09",
+      report_name: "Phonecard Report",
+      report_code: "dpcr",
+    },
+    {
+      id: "VEttejdBRlRMWDRnUTdlRkdLK1hrZz09",
+      report_name: "Lottery Reconciliation Report",
+      report_code: "lrr",
+    },
+    {
+      id: "NnRMWitrM2srMXBXT25GSEVzYjY3dz09",
+      report_name: "Valet Commission Report",
+      report_code: "vcr",
+    },
+    {
+      id: "eWNRc01TcTRKaVdRZTVtQzZ3WjZoZz09",
+      report_name: "Combined Monthly Sales Report",
+      report_code: "cmsr",
+    },
+    {
+      id: "cDd2VGlMRzRYUE5vdEFLcEJpZVY1Zz09",
+      report_name: "Coffee Reconciliation Report",
+      report_code: "hsrlcrr",
+    },
+    {
+      id: "TjlpY21FU2kzc2kyTHVJMFJUR0FPZz09",
+      report_name: "Car Wash Reconciliation Report",
+      report_code: "hsrlcwrr",
+    },
+    {
+      id: "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
+      report_name: "Management Accounts Report",
+      report_code: "hmar",
+    },
+    {
+      id: "U2wrWHB3T0FOSXRvV2lDUXg3cktUdz09",
+      report_name: "Scheduled Report",
+      report_code: "hsr",
+    },
+    {
+      id: "SERQa05pZktwNTVFL2RCMCtxdWQrdz09",
+      report_name: "VAT Return Report",
+      report_code: "pvrr",
+    },
+    {
+      id: "Zm1qRXhGeW5aQTI2YnNzMm5wekE4QT09",
+      report_name: "Draft Bank Copy Report",
+      report_code: "dbcr",
+    },
+    {
+      id: "RlI4SisyaWlNaExQV3ZSYVoyOGFYUT09",
+      report_name: "Cash Monitoring Monthly Report",
+      report_code: "htcmmr",
+    },
+    {
+      id: "Y1BYWW83YmxDSWhYNkNXQ0lwZFJRUT09",
+      report_name: "Monthly Department Shop Sales Report",
+      report_code: "mdssr",
+    },
+    {
+      id: "YzhQcFZPRzJGcjJKQTdNV3Q0YWJQQT09",
+      report_name: "Sales Comparison Report",
+      report_code: "scr",
+    },
+    {
+      id: "Q0hXRGNkeTllN1JSVWg1NFdDNjJodz09",
+      report_name: "Daily Summary Sale (CLDO)",
+      report_code: "dsrr",
+    },
+    {
+      id: "anJ4dUNUZjdQOXdRK1ErcVFwM3pUUT09",
+      report_name: "Sage Stock Movement Report",
+      report_code: "ssmr",
+    },
+    {
+      id: "V2Z4dC9FRGp3VzRFNGZQYnlSTVpkZz09",
+      report_name: "Sage Petty Cash Report(Fuels,Valet Summary etc.)",
+      report_code: "mspcr",
+    },
+  ],
+  start_date: "2024-12-11",
+};
