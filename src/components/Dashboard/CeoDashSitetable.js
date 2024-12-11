@@ -378,27 +378,33 @@ const CeoDashSitetable = (props) => {
   return (
     <>
       {isLoading ? <LoaderImg /> : null}
-      <button
-        className={`btn btn-primary ${activeSort === "fuelVolume" ? "btn-active" : ""}`}
-        onClick={sortDataByFuelVolume}
-      >
-        Sort by Gross Volume
-      </button>
-      <button
-        className={`btn btn-primary ms-2 ${activeSort === "fuelValue" ? "btn-active" : ""}`}
-        onClick={sortDataByFuelValue}
-      >
-        Sort by Fuel Value
-      </button>
-      <button
-        className={`btn btn-primary ms-2 ${activeSort === "grossMargin" ? "btn-active" : ""}`}
-        onClick={sortDataByGrossMargin}
-      >
-        Sort by Gross Margin
-      </button>
-      <button className="btn btn-danger ms-2" onClick={resetData}>
-        Reset Data
-      </button>
+      {data?.length > 0 ? (
+        <>
+          <button
+            className={`btn btn-primary ${activeSort === "fuelVolume" ? "btn-active" : ""}`}
+            onClick={sortDataByFuelVolume}
+          >
+            Sort by Gross Volume
+          </button>
+          <button
+            className={`btn btn-primary ms-2 ${activeSort === "fuelValue" ? "btn-active" : ""}`}
+            onClick={sortDataByFuelValue}
+          >
+            Sort by Fuel Value
+          </button>
+          <button
+            className={`btn btn-primary ms-2 ${activeSort === "grossMargin" ? "btn-active" : ""}`}
+            onClick={sortDataByGrossMargin}
+          >
+            Sort by Gross Margin
+          </button>
+          <button className="btn btn-danger ms-2" onClick={resetData}>
+            Reset Data
+          </button>
+        </>
+      ) : (
+        <p></p>
+      )}
 
 
       <Row className="h-100">
