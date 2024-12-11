@@ -20,14 +20,17 @@ const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions 
 
     return (
         <Row className="mb-4">
-            <Col sm={12} md={4} xl={4} key="chart-1">
+            <Col sm={12} md={6} xl={6} key="chart-1">
                 {renderChartOrLoader(BarGraphSalesStats?.sales_mom, "Current Month vs Previous Month")}
             </Col>
-            <Col sm={12} md={4} xl={4} key="chart-2">
+            <Col sm={12} md={6} xl={6} key="chart-2">
                 {renderChartOrLoader(BarGraphSalesStats?.sales_actual_budgeted, "Actual Sales vs Budgeted Sales")}
             </Col>
-            <Col sm={12} md={4} xl={4} key="chart-3">
+            <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
                 {renderChartOrLoader(BarGraphSalesStats?.sales_yoy, "Same Month Sales vs Previous Year’s Month Sales")}
+            </Col>
+            <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
+                {renderChartOrLoader(BarGraphSalesStats?.sales_yoy, "Same Year Sales vs Previous Year’s  Sales")}
             </Col>
         </Row>
     );

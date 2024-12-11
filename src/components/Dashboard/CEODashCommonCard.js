@@ -16,8 +16,8 @@ const CEODashCommonCard = ({
   showPPL = false,
   ppl_msg = null,
   containerStyle = "dash-plates-1",
-  lg = 6,
-  xl = 3,
+  lg = 4,
+  xl = 4,
 }) => (
   <>
     {/* <Col sm={12} md={6} lg={lg || 6} xl={xl || 3} key={Math.random()} className=''>
@@ -132,12 +132,11 @@ const CEODashCommonCard = ({
             </Card>
         </Col> */}
 
-    <Col sm={12} md={6} lg={lg} xl={xl} key={Math.random()}>
+    <Col sm={12} md={4} lg={lg} xl={xl} key={Math.random()}>
       <Card onClick={handleNavigateClick} className="ceo-sats-card-hover">
         <Card.Body
-          className={`text-center ${
-            isParentComponent ? "pointer" : "default-pointer"
-          } d-flex c-p-15`}
+          className={`text-center ${isParentComponent ? "pointer" : "default-pointer"
+            } d-flex c-p-15`}
         >
           <span className="vertical-iconborder">
             <i className={`text-white fa-3x l-sign`}>{icon ? icon : "ppl"}</i>

@@ -23,8 +23,9 @@ const CeoMopModal = (props) => {
   console.log(title, "title");
   return (
     <div
-      className={`common-sidebar ceo-xl-sidebar   ${visible ? "visible slide-in-right " : "slide-out-right"
+      className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
         }`}
+      style={{ width: title == "MOP Breakdown" ? "50%" : title == "Comparison" ? "70%" : "70%" }}
     >
       <div className="card">
         <div className="card-header text-center SidebarSearchheader">
@@ -62,16 +63,16 @@ const CeoMopModal = (props) => {
                 })}
               </Row>
 
+
+            </>
+          )}
+          {title == "Comparison" && (
+            <>
               <CeoDashboardCharts
                 Salesstatsloading={false}
                 BarGraphSalesStats={salesGraphData}
                 Baroptions={Baroptions}
               />
-            </>
-          )}
-          {title == "Comparison" && (
-            <>
-              Comparison content goes here.
             </>
           )}
           {title == "Performance" && (
@@ -126,13 +127,35 @@ const CeoMopModal = (props) => {
           {title == "Daily Wise Sales" && (
             <>
               <Col sm={12} md={12} key={Math.random()}>
-                <DashboardMultiLineChart
-                  LinechartValues={DashboardData?.d_line_graph?.series || []}
-                  LinechartOption={
-                    DashboardData?.d_line_graph?.option?.labels || []
-                  }
-                />
+                <Card className="">
+                  <Card.Header className="p-4 w-100  ">
+                    <div className="w-100">
+                      <div className="spacebetweenend">
+                        <h4 className="card-title">
+                          Daily Wise Sales{" "}
+
+                        </h4>
+
+
+                      </div>
+
+                    </div>
+                  </Card.Header>
+                  <Card.Body
+
+                  >
+                    <div>
+                      <DashboardMultiLineChart
+                        LinechartValues={DashboardData?.d_line_graph?.series || []}
+                        LinechartOption={
+                          DashboardData?.d_line_graph?.option?.labels || []
+                        }
+                      />
+                    </div>
+                  </Card.Body>
+                </Card>
               </Col>
+
 
             </>
           )}
