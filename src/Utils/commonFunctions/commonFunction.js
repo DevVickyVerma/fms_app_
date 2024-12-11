@@ -1626,3 +1626,48 @@ export const staticCompiCEOValues = {
   last_dayend: "2024-12-02",
   firstTrans: "2024-12-06 00:00:00",
 };
+
+export const request = [
+  {
+    id: 1,
+    data: "ℓ 23,536",
+    data1: "Gross Volume",
+    color: "primary",
+    icon: "fa-bar-chart",
+  },
+  {
+    id: 2,
+    data: "£ 45,789",
+    data1: "Fuel Sales",
+    color: "secondary",
+    icon: "fa-bar-chart",
+  },
+  {
+    id: 3,
+    data: "£ 89,786",
+    data1: "Gross profit",
+    color: "success",
+    icon: "fa-bar-chart",
+  },
+  {
+    id: 4,
+    data: "PPl 43,336",
+    data1: "Gross Margin",
+    color: "info",
+    icon: "fa-bar-chart",
+  },
+  {
+    id: 5,
+    data: "£ 23,536",
+    data1: "Shop Sales",
+    color: "primary",
+    icon: "fa-bar-chart",
+  },
+  {
+    id: 6, // Fixed duplicate id for the last item
+    data: " £ 23,536",
+    data1: " Shop Profit",
+    color: "primary",
+    icon: "fa-bar-chart",
+  },
+];

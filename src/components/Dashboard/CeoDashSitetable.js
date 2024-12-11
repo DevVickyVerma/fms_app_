@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -321,9 +321,34 @@ const CeoDashSitetable = (props) => {
       </React.Fragment>
     ));
 
+  const sortDataByFuelVolume = () => {
+    const sortedData = [...sortedData].sort((a, b) => {
+      const volumeA = parseFloat(a.fuel_volume.gross_volume);
+      const volumeB = parseFloat(b.fuel_volume.gross_volume);
+      return volumeB - volumeA; // Descending order
+    });
+    console.log(sortedData, "FuelVolume");
+
+  };
+  const sortDataByFuelValue = () => {
+    const sortedData = [...sortedData].sort((a, b) => {
+      const volumeA = parseFloat(a.fuel_sales.gross_value);
+      const volumeB = parseFloat(b.fuel_sales.gross_value);
+      return volumeB - volumeA; // Descending order
+    });
+    console.log(sortedData, "FuelValue");
+
+  };
+
+  console.log(sortedData, "sortedData");
+
+
   return (
     <>
       {isLoading ? <LoaderImg /> : null}
+      <button className="btn btn-primary" onClick={sortDataByFuelVolume}>Sort by Fuel Volume</button>
+      <button className="btn btn-primary ms-2" onClick={sortDataByFuelValue}>Sort by Fuel Value</button>
+
 
       <Row className="h-100">
         <Col lg={12} className="h-100">
