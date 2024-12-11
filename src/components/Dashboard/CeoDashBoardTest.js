@@ -380,7 +380,9 @@ const CeoDashBoardTest = (props) => {
         queryParams.append("site_id", formik?.values?.selectedSite);
 
       const queryString = queryParams.toString();
-      const response = await getData(`dashboard/get-site-stats?${queryString}`);
+      const response = await getData(
+        `ceo-dashboard/get-site-stats?${queryString}`
+      );
       if (response && response.data && response.data.data) {
         setGetSiteStats(response?.data?.data);
       }
@@ -408,7 +410,7 @@ const CeoDashBoardTest = (props) => {
 
   useEffect(() => {
     handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
-  }, [permissionsArray?.includes("dashboard-view")]);
+  }, [permissionsArray?.includes("ceodashboard-view")]);
 
   const handleShowLive = () => {
     setShowLiveData((prevState) => !prevState); // Toggle the state
