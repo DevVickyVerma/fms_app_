@@ -1,7 +1,6 @@
 import CeoDashboardCharts from "../CeoDashboardCharts";
 import {
   Baroptions,
-  PerformanceData,
   salesGraphData,
   Shrinkage,
   StockData,
@@ -44,6 +43,8 @@ const CeoDetailModal = (props) => {
       selectedSiteDetails: "",
       selectedMonth: "",
       selectedMonthDetails: "",
+      startDate: null,
+      endDate: null,
     },
     onSubmit: (values) => {
       console.log(values);
