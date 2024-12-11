@@ -297,13 +297,13 @@ const CeoDashBoardBottomPage = () => {
               </div>
             </Card.Header>
             <Card.Body
-              style={{
-                maxHeight: "250px",
-                overflowX: "auto",
-                overflowY: "auto",
-              }}
+
             >
-              {/* {/ <PriceLogTable priceLogs={PriceLogs?.priceLogs} /> /} */}
+              <img
+                src={require("../../assets/images/commonimages/dotGraph.png")}
+                alt="dotGraph"
+                className="dotGraph"
+              />
             </Card.Body>
           </Card>
         </Col>
