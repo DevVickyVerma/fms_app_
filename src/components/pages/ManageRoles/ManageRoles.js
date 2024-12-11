@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -15,22 +15,21 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
-import useCustomDelete from '../../../Utils/useCustomDelete';
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const ManageRoles = (props) => {
   const { getData, isLoading, postData } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
   const isEditPermissionAvailable = userPermissions?.includes("role-edit");
   const isAddPermissionAvailable = userPermissions?.includes("role-create");
   const isDeletePermissionAvailable = userPermissions?.includes("role-delete");
-
-
-
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -41,33 +40,24 @@ const ManageRoles = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
-
 
   const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('role_id', id);
-    customDelete(postData, 'role/delete', formData, handleSuccess);
+    formData.append("role_id", id);
+    customDelete(postData, "role/delete", formData, handleSuccess);
   };
 
-
-
-
   const handleSuccess = () => {
-    FetchTableData()
-  }
-
-
-
+    FetchTableData();
+  };
 
   useEffect(() => {
     FetchTableData();
-    
   }, [searchTerm, currentPage]);
-
 
   const handleEdit = (row) => {
     localStorage.setItem("EditRole_name", row.name);
@@ -92,7 +82,6 @@ const ManageRoles = (props) => {
       console.error("API error:", error);
     }
   };
-
 
   const columns = [
     {
@@ -126,10 +115,7 @@ const ManageRoles = (props) => {
       sortable: false,
       width: "30%",
       cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-        >
+        <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
           </div>
@@ -171,8 +157,6 @@ const ManageRoles = (props) => {
     },
   ];
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -200,7 +184,7 @@ const ManageRoles = (props) => {
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
-                  to="/addroles"
+                  to="/addrole"
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
@@ -221,7 +205,11 @@ const ManageRoles = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Roles</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -238,7 +226,6 @@ const ManageRoles = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                         responsive={true}
                       />
                     </div>
