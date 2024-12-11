@@ -13,7 +13,8 @@ import PriceLogTable from "./PriceLogTable";
 import CeoMopModal from "../../components/Dashboard/CeoDashboardModal/CeoMopModal";
 import { Link } from "react-router-dom";
 
-const CeoDashBoardBottomPage = () => {
+const CeoDashBoardBottomPage = (props) => {
+  const { getData, filters } = props;
   const [showCeoMopModal, setShowCeoMopModal] = useState(false);
 
   const handleCloseSidebar = () => {
@@ -34,6 +35,7 @@ const CeoDashBoardBottomPage = () => {
         <>
           <CeoMopModal
             title={modalTitle}
+            filterData={filters}
             sidebarContent={"sidebardataobject"}
             visible={showCeoMopModal}
             onClose={handleCloseSidebar}
@@ -268,46 +270,7 @@ const CeoDashBoardBottomPage = () => {
       <Row className="my-2"></Row>
 
       {/* {/ Fourth Row with Cards /} */}
-      <Row Row className="my-2">
-        <Col sm={12} md={8} >
-          <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
-            <Card.Header className="p-4">
-              <div className="spacebetween" style={{ width: "100%" }}>
-                <h4 className="card-title">Fuel Price Logs</h4>
-                <span> <Link to="/fuel-selling-price-logs/">View All</Link></span>
-              </div>
-            </Card.Header>
-            <Card.Body
-              style={{
-                maxHeight: "250px",
-                overflowX: "auto",
-                overflowY: "auto",
-              }}
-            >
-              <PriceLogTable priceLogs={PriceLogsData} />
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col sm={12} md={4} >
-          <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
-            <Card.Header className="p-4">
-              <div className="spacebetween" style={{ width: "100%" }}>
-                <h4 className="card-title">Price Graph</h4>
-                <span>View All</span>
-              </div>
-            </Card.Header>
-            <Card.Body
 
-            >
-              <img
-                src={require("../../assets/images/commonimages/dotGraph.png")}
-                alt="dotGraph"
-                className="dotGraph"
-              />
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
     </>
   );
 };

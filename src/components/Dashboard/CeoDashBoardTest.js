@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
-import { Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { DashboardData } from "../../Utils/commonFunctions/CommonData";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import { Bounce, toast } from "react-toastify";
 import CeoDashBoardBottomPage from "./CeoDashBoardBottomPage";
 import SmallLoader from "../../Utils/SmallLoader";
+import PriceLogTable from "./PriceLogTable";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -418,16 +419,11 @@ const CeoDashBoardTest = (props) => {
     formik.setFieldValue("selectedMonthDetails", selectedItem);
   };
 
-  // useEffect(() => {
-  //   if (formik?.values?.selectedSite) {
-  //     FetchPriceLogs();
-  //     FetchStockDetails();
-  //     GetCompetitor();
-  //     if (userPermissions?.includes("dashboard-site-stats")) {
-  //       FetchTankDetails();
-  //     }
-  //   }
-  // }, [formik?.values?.selectedSite]);
+  useEffect(() => {
+    if (formik?.values?.selectedSite) {
+      FetchPriceLogs();
+    }
+  }, [formik?.values?.selectedSite]);
 
   const ErrorToast = (message) => {
     toast.error(message, {
@@ -701,6 +697,91 @@ const CeoDashBoardTest = (props) => {
           </Col>
         </Row>
       </div>
+      <Row Row className="my-2">
+        <Col sm={12} md={8} key={Math.random()}>
+          <Card className="h-100">
+            <Card.Header className="p-4">
+              <div className="spacebetween" style={{ width: "100%" }}>
+                <h4 className="card-title">
+                  {" "}
+                  Fuel Price Logs{" "}
+                  {formik.values?.selectedSiteDetails?.site_name &&
+                    ` (${formik.values.selectedSiteDetails.site_name})`}
+                  <br></br>
+                  {userPermissions?.includes("fuel-price-logs") ? (
+                    <span style={{ color: "blue" }}>
+                      <Link to="/fuel-selling-price-logs/">View All</Link>
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </h4>
+
+              </div>
+              <div className="flexspacebetween">
+                {filters?.sites ? (
+                  <div>
+                    <select
+                      id="selectedSite"
+                      name="selectedSite"
+                      value={formik.values.selectedSite}
+                      onChange={(e) => handleSiteChange(e.target.value)}
+                      className="selectedMonth"
+                    >
+                      <option value="">--Select a Site--</option>
+                      {filters?.sites?.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.site_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </Card.Header>
+            <Card.Body
+              style={{
+                maxHeight: "250px",
+                overflowX: "auto",
+                overflowY: "auto",
+              }}
+            >
+              {PriceLogsloading ? (
+                <SmallLoader />
+              ) : PriceLogs?.priceLogs?.length > 0 ? (
+                <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
+              ) : (
+                <img
+                  src={require("../../assets/images/commonimages/no_data.png")}
+                  alt="No data available"
+                  className="all-center-flex smallNoDataimg"
+                />
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col sm={12} md={4} >
+          <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
+            <Card.Header className="p-4">
+              <div className="spacebetween" style={{ width: "100%" }}>
+                <h4 className="card-title">Price Graph</h4>
+                <span>View All</span>
+              </div>
+            </Card.Header>
+            <Card.Body
+
+            >
+              <img
+                src={require("../../assets/images/commonimages/dotGraph.png")}
+                alt="dotGraph"
+                className="dotGraph"
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 };
