@@ -29,7 +29,7 @@ const CeoDashSitetable = (props) => {
   const renderTableData = () =>
     data?.map((item, index) => (
       <React.Fragment key={index}>
-        <tr className={`fuelprice-tr p-0  `} key={item.id}>
+        <tr className={`fuelprice-tr p-0  ceo-sats-table-hover`} key={item.id}>
           <td className="dashboard-child-tdata c-width-500 overflow-wrap-anywhere">
             <div className="d-flex align-items-center justify-center h-100">
               <div>
@@ -332,21 +332,21 @@ const CeoDashSitetable = (props) => {
     <>
       {isLoading ? <LoaderImg /> : null}
 
-      <Row>
-        <Col lg={12}>
-          <Card>
-            <Card.Header>
+      <Row className="h-100">
+        <Col lg={12} className="h-100">
+          <Card className="h-100">
+            {/* <Card.Header>
               <b>{title} </b>
-            </Card.Header>
+            </Card.Header> */}
 
-            <Card.Body>
+            <Card.Body className="h-100">
               {data ? (
                 <div
                   className="table-container table-responsive"
                   style={{
                     overflowY: "auto",
                     // maxHeight: "calc(100vh - 376px )",
-                    height: "300px",
+                    // height: "300px",
                   }}
                 >
                   <table className="table">

@@ -92,9 +92,9 @@ const DashboardChildTable = (props) => {
               </div>
             </div> */}
             <tr
-              className={`fuelprice-tr p-0  ${
+              className={`fuelprice-tr p-0  ceo-sats-table-hover ${
                 isSitePermissionAvailable || isSiteSecondPermissionAvailable
-                  ? "pointer"
+                  ? "pointer "
                   : ""
               }`}
               key={item.id}
@@ -415,7 +415,7 @@ const DashboardChildTable = (props) => {
           </>
         ) : (
           <tr
-            className="fuelprice-tr"
+            className="fuelprice-tr ceo-sats-table-hover"
             key={item?.id}
             style={{ padding: "0px" }}
           >

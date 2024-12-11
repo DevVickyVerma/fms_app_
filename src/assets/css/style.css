@@ -55695,7 +55695,7 @@ h3.Sidebar-title {
 }
 
 .scrollview {
-  height: 100vh;
+  height: calc(100vh - 60px);
   overflow-y: scroll;
 }
 
