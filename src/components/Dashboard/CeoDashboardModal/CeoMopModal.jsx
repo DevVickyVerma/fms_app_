@@ -65,6 +65,9 @@ const CeoMopModal = (props) => {
         case "Performance":
           response = await getData(`ceo-dashboard/site-performance?${queryString}`);
           break;
+        case "Reports":
+          response = await getData(`client/reportlist?client_id=${filterData?.client_id}`);
+          break;
         case "Daily Wise Sales":
           response = await getData(`dashboard/stats?${queryString}`);
           break;
@@ -109,13 +112,6 @@ const CeoMopModal = (props) => {
     (state) => state?.data?.data?.permissions || []
   );
 
-  const handleMonthChange = (selectedId) => {
-    const selectedItem = filters.reportmonths.find(
-      (item) => item.display == selectedId
-    );
-    formik.setFieldValue("selectedMonth", selectedId);
-    formik.setFieldValue("selectedMonthDetails", selectedItem);
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -130,14 +126,117 @@ const CeoMopModal = (props) => {
       console.log(values);
     },
   });
-
-  const handleDownload = () => {
-    console.log("CeohandleNavigateClick");
+  const handleMonthChange = (selectedId) => {
+    const selectedItem = filters.reportmonths.find(
+      (item) => item.display == selectedId
+    );
+    formik.setFieldValue("selectedMonth", selectedId);
+    formik.setFieldValue("selectedMonthDetails", selectedItem);
   };
-  console.log(apiData, "apiData");
+  const [pdfisLoading, setpdfisLoading] = useState(false);
+  const handleDownload = async (report) => {
+    if (!formik?.values?.selectedMonthDetails?.value) {
+      ErrorToast("Please select Month For Reports");
+    } else {
+      setpdfisLoading(true);
+      try {
+        const formData = new FormData();
+
+        formData.append("report", report);
+
+        // Add client_id based on superiorRole
+        const superiorRole = localStorage.getItem("superiorRole");
+        if (superiorRole !== "Client") {
+          formData.append("client_id", filters.client_id);
+        } else {
+          formData.append("client_id", filters.client_id);
+        }
+
+        // Add other necessary form values
+        formData.append("company_id", filters.company_id);
+
+        // Prepare client ID condition for the query params
+        let clientIDCondition =
+          superiorRole !== "Client"
+            ? `client_id=${filters.client_id}&`
+            : `client_id=${filters.client_id}&`;
+
+        // Construct commonParams basedd on toggleValue
+        const commonParams = `/download-report/${report?.report_code
+          }?${clientIDCondition}company_id=${filters.company_id
+          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
+          }`;
+
+        // API URL for the fetch request
+        const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
+
+        // Fetch the data
+        const token = localStorage.getItem("token");
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Check if the response is OK
+        if (!response.ok) {
+          //
+          // Await the response body parsing first to get the actual JSON data
+          const errorData = await response.json();
+          ErrorToast(errorData?.message);
+          throw new Error(
+            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            }`
+          );
+        }
+
+        // Handle the file download
+        const blob = await response.blob();
+        const contentType = response.headers.get("Content-Type");
+        let fileExtension = "xlsx"; // Default to xlsx
+
+        if (contentType) {
+          if (contentType.includes("application/pdf")) {
+            fileExtension = "pdf";
+          } else if (
+            contentType.includes(
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+          ) {
+            fileExtension = "xlsx";
+          } else if (contentType.includes("text/csv")) {
+            fileExtension = "csv";
+          }
+        }
+
+        // Create a temporary URL for the Blob
+        const url = window.URL.createObjectURL(new Blob([blob]));
+
+        // Create a link element and trigger the download
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          `${report?.report_name}.${fileExtension}`
+        );
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        link.parentNode.removeChild(link);
+      } catch (error) {
+        console.error("Error downloading the file:", error);
+      } finally {
+        setpdfisLoading(false);
+      }
+    }
+  };
+
   return (
     <>
-      {isLoading ? <LoaderImg /> : ""}
+      {isLoading || pdfisLoading ? <LoaderImg /> : ""}
 
       <div
         className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
@@ -212,7 +311,7 @@ const CeoMopModal = (props) => {
                             )}
                           </div>
 
-                          {filters?.reportmonths ? (
+                          {apiData?.data?.months ? (
                             <Col lg={6} className="textend p-0">
                               <select
                                 id="selectedMonth"
@@ -224,7 +323,7 @@ const CeoMopModal = (props) => {
                                 className="selectedMonth"
                               >
                                 <option value="">--Select a Month--</option>
-                                {filters?.reportmonths?.map((item) => (
+                                {apiData?.data?.months?.map((item) => (
                                   <option key={item.id} value={item.id}>
                                     {item.display}
                                   </option>
@@ -241,8 +340,8 @@ const CeoMopModal = (props) => {
                     <Card.Body>
                       <div>
                         <ReportTable
-                          reports={ReportList}
-                          pdfisLoading={false}
+                          reports={apiData?.data?.reports}
+                          pdfisLoading={pdfisLoading}
                           handleDownload={handleDownload}
                         />
                       </div>
