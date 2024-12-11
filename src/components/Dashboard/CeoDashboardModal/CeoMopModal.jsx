@@ -28,6 +28,7 @@ import LoaderImg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper"; useEffect
 import axios from "axios";
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
+import { Bounce, toast } from "react-toastify";
 
 const CeoMopModal = (props) => {
 
@@ -39,74 +40,10 @@ const CeoMopModal = (props) => {
   const [loading, setLoading] = useState(false);
   console.log(isLoading, "isLoading");
 
-  const fetchData = async () => {
-
-
-    setLoading(true); // Start loading indicator
-
-    try {
-      let response;
-      // Dynamically build query parameters
-      const queryParams = new URLSearchParams();
-      if (filterData?.client_id) queryParams.append("client_id", filterData.client_id);
-      if (filterData?.company_id) queryParams.append("company_id", filterData.company_id);
-      if (filterData?.site_id) queryParams.append("site_id", filterData.site_id);
-      const queryString = queryParams.toString(); // Construct the query string
-
-      // Check the title and fetch data accordingly
-      switch (title) {
-        case "MOP Breakdown":
-          response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
-          break;
-        case "Comparison":
-          response = await getData(`ceo-dashboard/sales-stats?${queryString}`);
-          break;
-        // Add other cases for additional titles
-        case "Performance":
-          response = await getData(`ceo-dashboard/site-performance?${queryString}`);
-          break;
-        case "Reports":
-          response = await getData(`client/reportlist?client_id=${filterData?.client_id}`);
-          break;
-        case "Daily Wise Sales":
-          response = await getData(`dashboard/stats?${queryString}`);
-          break;
-        case "Stock":
-          response = await getData(`client/stock?${queryString}`);
-          break;
-        case "Shrinkage":
-          response = await getData(`client/shrinkage?${queryString}`);
-          break;
-        case "Stock Details":
-          response = await getData(`client/stock-details?${queryString}`);
-          break;
-        // Add more titles as needed
-        default:
-          console.log("Title not recognized");
-      }
-
-      // Check if response exists and process it
-      if (response) {
-        console.log(response, "response");
-        setApiData(response.data); // Assuming response has a 'data' field
-      }
-    } catch (error) {
-      console.error("API call failed:", error);
-    } finally {
-      setLoading(false); // Stop loading indicator
-    }
-  };
-
-
-  useEffect(() => {
-    fetchData(); // Trigger the fetchData function on component mount or title change
-  }, [title]); // Dependencies: title and filterData
 
 
 
-  const CeohandleNavigateClick = () => {
-    console.log("CeohandleNavigateClick");
-  };
+
 
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
@@ -134,6 +71,14 @@ const CeoMopModal = (props) => {
     formik.setFieldValue("selectedMonthDetails", selectedItem);
   };
   const [pdfisLoading, setpdfisLoading] = useState(false);
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      autoClose: 2000,
+      hideProgressBar: false,
+      transition: Bounce,
+      theme: "colored",
+    });
+  };
   const handleDownload = async (report) => {
     if (!formik?.values?.selectedMonthDetails?.value) {
       ErrorToast("Please select Month For Reports");
@@ -233,6 +178,76 @@ const CeoMopModal = (props) => {
       }
     }
   };
+  const handleSiteChange = async (selectedId) => {
+    try {
+      const selectedItem = await filterData?.sites.find(
+        (item) => item.id === selectedId
+      );
+
+      await formik.setFieldValue("selectedSite", selectedId);
+      await formik.setFieldValue("selectedSiteDetails", selectedItem);
+    } catch (error) {
+      console.error("Error in handleCancelledAction:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData(); // Trigger the fetchData function on component mount or title change
+  }, [title]); // Dependencies: title and selectedSite
+
+  const fetchData = async () => {
+    try {
+
+
+      setLoading(true); // Start loading indicator
+
+      // Dynamically build query parameters
+      const queryParams = new URLSearchParams();
+      if (filterData?.client_id) queryParams.append("client_id", filterData.client_id);
+      if (filterData?.company_id) queryParams.append("company_id", filterData.company_id);
+      if (filterData?.site_id) queryParams.append("site_id", filterData.site_id);
+      const queryString = queryParams.toString(); // Construct the query string
+
+      let response;
+      // Dynamically handle API calls based on the title
+      switch (title) {
+        case "MOP Breakdown":
+          response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
+          break;
+        case "Comparison":
+          response = await getData(`ceo-dashboard/sales-stats?${queryString}`);
+          break;
+        case "Performance":
+          response = await getData(`ceo-dashboard/site-performance?${queryString}`);
+          break;
+        case "Reports":
+          response = await getData(`client/reportlist?client_id=${filterData?.client_id}`);
+          break;
+        case "Daily Wise Sales":
+          response = await getData(`dashboard/stats?${queryString}`);
+          break;
+        case "Stock":
+          response = await getData(`ceo-dashboard/stock-stats?${queryString}`);
+          break;
+        case "Shrinkage":
+          response = await getData(`ceo-dashboard/shrinkage-stats?${queryString}`);
+          break;
+        case "Stock Details":
+          response = await getData(`ceo-dashboard/department-item-stocks?${queryString}`);
+          break;
+        default:
+          console.log("Title not recognized");
+      }
+
+      if (response) {
+        console.log(response, "response");
+        setApiData(response.data); // Assuming response has a 'data' field
+      }
+    } catch (error) {
+      console.error("API call failed:", error);
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
+  };
 
   return (
     <>
@@ -295,27 +310,42 @@ const CeoMopModal = (props) => {
             {title == "Reports" && (
               <>
                 <Col sm={12} md={12} key={Math.random()}>
+
                   <Card className="">
                     <Card.Header className="p-4 w-100  ">
+                      <h4 className="card-title">Filter </h4>
+
+                    </Card.Header>
+                    <Card.Body className="p-4">
                       <div className="w-100">
                         <div className="spacebetweenend">
-                          <div>
-                            <h4 className="card-title">Reports </h4>
 
-                            {userPermissions?.includes("report-type-list") ? (
-                              <span className="text-muted hyper-link">
-                                <Link to="/reports">View All</Link>
-                              </span>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-
+                          {filterData?.sites ? (
+                            <Col lg={6} className="textend">           <select
+                              id="selectedSite"
+                              name="selectedSite"
+                              value={formik.values.selectedSite}
+                              style={{ width: "100%" }}
+                              onChange={(e) => handleSiteChange(e.target.value)}
+                              className="selectedMonth"
+                            >
+                              <option value="">--Select a Site--</option>
+                              {filters?.sites?.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.site_name}
+                                </option>
+                              ))}
+                            </select>
+                            </Col>
+                          ) : (
+                            ""
+                          )}
                           {apiData?.data?.months ? (
-                            <Col lg={6} className="textend p-0">
+                            <Col lg={6} className="textend">
                               <select
                                 id="selectedMonth"
                                 name="selectedMonth"
+                                style={{ width: "100%" }}
                                 value={formik.values.selectedMonth}
                                 onChange={(e) =>
                                   handleMonthChange(e.target.value)
@@ -333,9 +363,33 @@ const CeoMopModal = (props) => {
                           ) : (
                             ""
                           )}
+
                         </div>
                         <div className="spacebetweenend"></div>
                       </div>
+                    </Card.Body>
+                  </Card>
+                  <Card className="">
+                    <Card.Header className="p-4 w-100  ">
+
+                      <div className="spacebetweenend">
+                        <h4 className="card-title">
+                          Reports{" "}
+                          {formik.values?.selectedSiteDetails?.site_name &&
+                            ` (${formik.values.selectedSiteDetails.site_name})`}
+                        </h4>
+                        {userPermissions?.includes("report-type-list") ? (
+                          <span className="textend">
+                            <Link to="/reports">View All</Link>
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+
+
+
+
                     </Card.Header>
                     <Card.Body>
                       <div>
