@@ -47,7 +47,7 @@ const CeoDashBoardBottomPage = () => {
               md={9}
               onClick={() => handleCardClick("Daily Wise Sales")}
               style={{
-                backgroundColor: "#5bc0de", // Blue background
+                backgroundColor: "#8563b6", // Blue background
                 color: "#fff",
                 height: "40px",
                 fontSize: "10px",
@@ -65,7 +65,7 @@ const CeoDashBoardBottomPage = () => {
             <Col
               md={3}
               style={{
-                backgroundColor: "#f0ad4e", // Yellow background
+                backgroundColor: "#6764b3", // Yellow background
                 color: "#fff",
                 height: "40px",
                 fontSize: "10px",
@@ -95,7 +95,7 @@ const CeoDashBoardBottomPage = () => {
               <div
                 className="ceocard-hover"
                 style={{
-                  backgroundColor: "#d9534f", // Red background
+                  backgroundColor: "#4663ac", // Red background
                   color: "#fff",
                   height: "120px",
                   display: "flex",
@@ -119,7 +119,7 @@ const CeoDashBoardBottomPage = () => {
               <div
                 className="ceocard-hover"
                 style={{
-                  backgroundColor: "#0275d8", // Dark Blue background
+                  backgroundColor: "#6764b3", // Dark Blue background
                   color: "#fff",
                   height: "120px",
                   display: "flex",
@@ -143,7 +143,7 @@ const CeoDashBoardBottomPage = () => {
               <div
                 className="ceocard-hover"
                 style={{
-                  backgroundColor: "#5bc0de", // Light Blue background
+                  backgroundColor: "#8563b6", // Light Blue background
                   color: "#fff",
                   height: "120px",
                   display: "flex",
@@ -166,7 +166,7 @@ const CeoDashBoardBottomPage = () => {
               <div
                 className="ceocard-hover"
                 style={{
-                  backgroundColor: "#f0ad4e", // Yellow background
+                  backgroundColor: "#7e95e4", // Yellow background
                   color: "#fff",
                   height: "120px",
                   display: "flex",
@@ -192,7 +192,7 @@ const CeoDashBoardBottomPage = () => {
           <Card
             className="ceocard-hover pie-card-default-height"
             style={{
-              backgroundColor: "#5bc0de", // Light Blue background
+              backgroundColor: "#8563b6", // Light Blue background
               color: "#fff",
               height: "100%",
               display: "flex",
@@ -218,7 +218,7 @@ const CeoDashBoardBottomPage = () => {
           <div
             className="ceocard-hover pie-card-default-height"
             style={{
-              backgroundColor: "#0275d8", // Dark Blue background
+              backgroundColor: "#7e95e4", // Dark Blue background
               color: "#fff",
               height: "100%",
               display: "flex",
@@ -241,7 +241,7 @@ const CeoDashBoardBottomPage = () => {
           <div
             className="ceocard-hover pie-card-default-height"
             style={{
-              backgroundColor: "#d9534f", // Red background
+              backgroundColor: "#4663ac", // Red background
               color: "#fff",
               height: "100%",
               display: "flex",

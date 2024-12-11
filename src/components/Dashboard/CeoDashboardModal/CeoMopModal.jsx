@@ -41,6 +41,8 @@ const CeoMopModal = (props) => {
         width:
           title == "MOP Breakdown"
             ? "50%"
+            : title == "Reports"
+            ? "40"
             : title == "Comparison"
             ? "70%"
             : "70%",
