@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import Swal from "sweetalert2";
 import { Bounce, toast } from "react-toastify";
 import CeoDashBoardBottomPage from "./CeoDashBoardBottomPage";
+import SmallLoader from "../../Utils/SmallLoader";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -23,7 +24,7 @@ const CeoDashBoardTest = (props) => {
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [stockDetailModal, setstockDetailModal] = useState(false);
 
-  const [dashboardData, setDashboardData] = useState(DashboardData);
+  const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
     client_id: "",
     company_id: "",
@@ -118,13 +119,13 @@ const CeoDashBoardTest = (props) => {
         );
         values.sites = response?.data?.data || [];
       }
-      if (values) {
-        const response = await getData(
-          `client/reportlist?client_id=${values?.client_id}`
-        );
-        values.reports = response?.data?.data?.reports || [];
-        values.reportmonths = response?.data?.data?.months || [];
-      }
+      // if (values) {
+      //   const response = await getData(
+      //     `client/reportlist?client_id=${values?.client_id}`
+      //   );
+      //   values.reports = response?.data?.data?.reports || [];
+      //   values.reportmonths = response?.data?.data?.months || [];
+      // }
 
       // Ensure 'start_date' is set
       if (!values?.start_date) {
@@ -138,7 +139,7 @@ const CeoDashBoardTest = (props) => {
       // Fetch dashboard stats if the user has the required permission
       if (permissionsArray?.includes("dashboard-view")) {
         // console.log(storedKeyName, "storedKeyName");
-        // FetchDashboardStats(values);
+        FetchDashboardStats(values);
       }
     } catch (error) {
       handleError(error); // Handle errors from API or other logic
@@ -156,36 +157,36 @@ const CeoDashBoardTest = (props) => {
           setCenterFilterModalOpen(false);
         },
       },
-      {
-        name: "mop",
-        url: "ceo-dashboard/mop-stats",
-        setData: setMopstatsData,
-        setLoading: setMopstatsloading,
-      },
-      {
-        name: "sales",
-        url: "ceo-dashboard/sales-stats",
-        setData: setBarGraphSalesStats,
-        setLoading: setSalesstatsloading,
-      },
-      {
-        name: "stock",
-        url: "ceo-dashboard/stock-stats",
-        setData: setBarGraphStockStats,
-        setLoading: setStockstatsloading,
-      },
-      {
-        name: "shrinkage",
-        url: "ceo-dashboard/shrinkage-stats",
-        setData: setShrinkagestats,
-        setLoading: setShrinkagestatsloading,
-      },
-      {
-        name: "siteperformance",
-        url: "ceo-dashboard/site-performance",
-        setData: setsiteperformance,
-        setLoading: siteperformanceLoading,
-      },
+      // {
+      //   name: "mop",
+      //   url: "ceo-dashboard/mop-stats",
+      //   setData: setMopstatsData,
+      //   setLoading: setMopstatsloading,
+      // },
+      // {
+      //   name: "sales",
+      //   url: "ceo-dashboard/sales-stats",
+      //   setData: setBarGraphSalesStats,
+      //   setLoading: setSalesstatsloading,
+      // },
+      // {
+      //   name: "stock",
+      //   url: "ceo-dashboard/stock-stats",
+      //   setData: setBarGraphStockStats,
+      //   setLoading: setStockstatsloading,
+      // },
+      // {
+      //   name: "shrinkage",
+      //   url: "ceo-dashboard/shrinkage-stats",
+      //   setData: setShrinkagestats,
+      //   setLoading: setShrinkagestatsloading,
+      // },
+      // {
+      //   name: "siteperformance",
+      //   url: "ceo-dashboard/site-performance",
+      //   setData: setsiteperformance,
+      //   setLoading: siteperformanceLoading,
+      // },
       // {
       //   name: "itemstock",
       //   url: "ceo-dashboard/department-item-stocks",
@@ -417,16 +418,16 @@ const CeoDashBoardTest = (props) => {
     formik.setFieldValue("selectedMonthDetails", selectedItem);
   };
 
-  useEffect(() => {
-    if (formik?.values?.selectedSite) {
-      FetchPriceLogs();
-      FetchStockDetails();
-      GetCompetitor();
-      if (userPermissions?.includes("dashboard-site-stats")) {
-        FetchTankDetails();
-      }
-    }
-  }, [formik?.values?.selectedSite]);
+  // useEffect(() => {
+  //   if (formik?.values?.selectedSite) {
+  //     FetchPriceLogs();
+  //     FetchStockDetails();
+  //     GetCompetitor();
+  //     if (userPermissions?.includes("dashboard-site-stats")) {
+  //       FetchTankDetails();
+  //     }
+  //   }
+  // }, [formik?.values?.selectedSite]);
 
   const ErrorToast = (message) => {
     toast.error(message, {
@@ -436,105 +437,7 @@ const CeoDashBoardTest = (props) => {
       theme: "colored",
     });
   };
-  const handleDownload = async (report) => {
-    if (!formik?.values?.selectedMonthDetails?.value) {
-      ErrorToast("Please select Month For Reports");
-    } else {
-      setpdfisLoading(true);
-      try {
-        const formData = new FormData();
 
-        formData.append("report", report);
-
-        // Add client_id based on superiorRole
-        const superiorRole = localStorage.getItem("superiorRole");
-        if (superiorRole !== "Client") {
-          formData.append("client_id", filters.client_id);
-        } else {
-          formData.append("client_id", filters.client_id);
-        }
-
-        // Add other necessary form values
-        formData.append("company_id", filters.company_id);
-
-        // Prepare client ID condition for the query params
-        let clientIDCondition =
-          superiorRole !== "Client"
-            ? `client_id=${filters.client_id}&`
-            : `client_id=${filters.client_id}&`;
-
-        // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filters.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
-
-        // API URL for the fetch request
-        const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
-
-        // Fetch the data
-        const token = localStorage.getItem("token");
-        const response = await fetch(apiUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        // Check if the response is OK
-        if (!response.ok) {
-          //
-          // Await the response body parsing first to get the actual JSON data
-          const errorData = await response.json();
-          ErrorToast(errorData?.message);
-          throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
-            }`
-          );
-        }
-
-        // Handle the file download
-        const blob = await response.blob();
-        const contentType = response.headers.get("Content-Type");
-        let fileExtension = "xlsx"; // Default to xlsx
-
-        if (contentType) {
-          if (contentType.includes("application/pdf")) {
-            fileExtension = "pdf";
-          } else if (
-            contentType.includes(
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
-          ) {
-            fileExtension = "xlsx";
-          } else if (contentType.includes("text/csv")) {
-            fileExtension = "csv";
-          }
-        }
-
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(new Blob([blob]));
-
-        // Create a link element and trigger the download
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute(
-          "download",
-          `${report?.report_name}.${fileExtension}`
-        );
-        document.body.appendChild(link);
-        link.click();
-
-        // Cleanup
-        link.parentNode.removeChild(link);
-      } catch (error) {
-        console.error("Error downloading the file:", error);
-      } finally {
-        setpdfisLoading(false);
-      }
-    }
-  };
 
   const StockDeatils = () => {
     navigate(`/dashboard-details/${formik?.values?.selectedSite}`, {
@@ -769,29 +672,32 @@ const CeoDashBoardTest = (props) => {
           </h2>
         )}
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <SmallLoader title="Stats Cards" />
         ) : (
-         
-        )} */}
+          <UpercardsCeoDashboardStatsBox
+            GrossVolume={dashboardData?.gross_volume}
+            shopmargin={dashboardData?.shop_profit}
+            GrossProfitValue={dashboardData?.gross_profit}
+            GrossMarginValue={dashboardData?.gross_margin}
+            FuelValue={dashboardData?.fuel_sales}
+            shopsale={dashboardData?.shop_sales}
+            shop_fees={dashboardData?.shop_fees}
+            dashboardData={dashboardData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+          />
+        )}
 
-        <UpercardsCeoDashboardStatsBox
-          GrossVolume={dashboardData?.gross_volume}
-          shopmargin={dashboardData?.shop_profit}
-          GrossProfitValue={dashboardData?.gross_profit}
-          GrossMarginValue={dashboardData?.gross_margin}
-          FuelValue={dashboardData?.fuel_sales}
-          shopsale={dashboardData?.shop_sales}
-          shop_fees={dashboardData?.shop_fees}
-          dashboardData={dashboardData}
-          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-        />
+
       </div>
 
       <div>
         <Row>
           <Col lg={12}>
-            <CeoDashBoardBottomPage />
+            <CeoDashBoardBottomPage
+              filters={filters}
+              getData={getData}
+            />
           </Col>
         </Row>
       </div>
