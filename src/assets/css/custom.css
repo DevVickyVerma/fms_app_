@@ -2529,8 +2529,24 @@ td.middayModal-td.time-input-fuel-sell {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   opacity: 0.9;
   z-index: 111;
+  cursor: pointer;
+}
+
+.ceo-sats-table-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.ceo-sats-table-hover:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
+  z-index: 111;
 }
 
 .card-default-height {
   height: calc(100% - 25px);
+}
+
+.c-fs-25 {
+  font-size: 25px !important;
 }
