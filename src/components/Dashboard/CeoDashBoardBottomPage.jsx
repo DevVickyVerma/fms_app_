@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const CeoDashBoardBottomPage = (props) => {
-  const { getData, filters } = props;
+  const { getData, filters, applyNavigate } = props;
   const [showCeoMopModal, setShowCeoMopModal] = useState(false);
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
@@ -64,9 +64,11 @@ const CeoDashBoardBottomPage = (props) => {
   // Assuming modalTitle is set in state
   const [modalTitle, setModalTitle] = useState("");
   const handleCardClick = (cardName) => {
-    console.log(`Card clicked: ${cardName}`);
-    setModalTitle(cardName);
-    setShowCeoMopModal(true);
+    if (applyNavigate) {
+      console.log(`Card clicked: ${cardName}`);
+      setModalTitle(cardName);
+      setShowCeoMopModal(true);
+    }
   };
 
   return (
@@ -100,7 +102,9 @@ const CeoDashBoardBottomPage = (props) => {
                     alignItems: "center",
                     justifyContent: "center",
                   }}
-                  className="ceo-sats-card-hover"
+                  className={` ${
+                    applyNavigate ? "pointer ceo-sats-card-hover" : ""
+                  }`}
                 >
                   <FaChartLine size={25} />
                   <h3 style={{ fontSize: "18px" }} className="m-0 ms-2">
@@ -122,7 +126,9 @@ const CeoDashBoardBottomPage = (props) => {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                className="ceo-sats-card-hover"
+                className={` ${
+                  applyNavigate ? "pointer ceo-sats-card-hover" : ""
+                }`}
               >
                 <h3 style={{ fontSize: "18px" }} className="m-0">
                   <img
@@ -152,7 +158,9 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-left "
                     >
                       <Card
-                        className="ceocard-hover"
+                        className={` ${
+                          applyNavigate ? "pointer ceocard-hover" : ""
+                        }`}
                         style={{
                           backgroundColor: "#4663ac", // Red background
                           color: "#fff",
@@ -180,7 +188,9 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-left "
                     >
                       <Card
-                        className="ceocard-hover"
+                        className={` ${
+                          applyNavigate ? "pointer ceocard-hover" : ""
+                        }`}
                         style={{
                           backgroundColor: "#6764b3", // Dark Blue background
                           color: "#fff",
@@ -208,7 +218,9 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-right"
                     >
                       <Card
-                        className="ceocard-hover"
+                        className={` ${
+                          applyNavigate ? "pointer ceocard-hover" : ""
+                        }`}
                         style={{
                           backgroundColor: "#8563b6", // Light Blue background
                           color: "#fff",
@@ -236,7 +248,9 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-right"
                     >
                       <Card
-                        className="ceocard-hover"
+                        className={` ${
+                          applyNavigate ? "pointer ceocard-hover" : ""
+                        }`}
                         style={{
                           backgroundColor: "#7e95e4", // Yellow background
                           color: "#fff",
@@ -268,7 +282,9 @@ const CeoDashBoardBottomPage = (props) => {
               className="slide-in-bottom"
             >
               <Card
-                className="ceocard-hover card-default-height"
+                className={`card-default-height ${
+                  applyNavigate ? "pointer ceocard-hover" : ""
+                }`}
                 style={{
                   backgroundColor: "#8563b6", // Light Blue background
                   color: "#fff",
@@ -295,7 +311,9 @@ const CeoDashBoardBottomPage = (props) => {
               className="slide-in-bottom"
             >
               <Card
-                className="ceocard-hover card-default-height"
+                className={`card-default-height ${
+                  applyNavigate ? "pointer ceocard-hover" : ""
+                }`}
                 style={{
                   backgroundColor: "#7e95e4", // Dark Blue background
                   color: "#fff",
@@ -320,7 +338,9 @@ const CeoDashBoardBottomPage = (props) => {
               className="slide-in-bottom"
             >
               <Card
-                className="ceocard-hover card-default-height"
+                className={`card-default-height ${
+                  applyNavigate ? "pointer ceocard-hover" : ""
+                }`}
                 style={{
                   backgroundColor: "#4663ac", // Red background
                   color: "#fff",
@@ -344,8 +364,6 @@ const CeoDashBoardBottomPage = (props) => {
 
       {/* {/ Stock, Shrinkage, and Stock Details /} */}
       <Row className="my-2"></Row>
-
-
     </>
   );
 };

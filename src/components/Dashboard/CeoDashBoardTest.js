@@ -51,6 +51,7 @@ const CeoDashBoardTest = (props) => {
   const [siteperformance, setsiteperformance] = useState();
   const [Itemstockstats, setItemstockstats] = useState();
   const [PriceLogs, setPriceLogs] = useState();
+  const [applyNavigate, setApplyNavigate] = useState(false);
   const [getSiteStats, setGetSiteStats] = useState(null);
   const [toggleValue, setToggleValue] = useState(false);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState();
@@ -292,6 +293,12 @@ const CeoDashBoardTest = (props) => {
         if (client_id) queryParams.append("client_id", client_id);
         if (company_id) queryParams.append("company_id", company_id);
         if (site_id) queryParams.append("site_id", site_id);
+
+        if (client_id && company_id) {
+          setApplyNavigate(true);
+        } else {
+          setApplyNavigate(false);
+        }
         const queryString = queryParams.toString();
         const response = await getData(`${endpoint}?${queryString}`);
         setFilters(updatedFilters);
@@ -395,6 +402,7 @@ const CeoDashBoardTest = (props) => {
     setBarGraphStockStats(null);
     setShrinkagestats(null);
     setPriceLogs(null);
+    setApplyNavigate(false);
     formik.resetForm();
   };
 
@@ -433,7 +441,6 @@ const CeoDashBoardTest = (props) => {
       theme: "colored",
     });
   };
-
 
   const StockDeatils = () => {
     navigate(`/dashboard-details/${formik?.values?.selectedSite}`, {
@@ -487,11 +494,13 @@ const CeoDashBoardTest = (props) => {
     });
   };
 
-  // useEffect(() => {
-  //   if (filters?.client_id && filters?.start_date && filters?.site_id) {
-  //     // GetCompetitor(filters);
-  //   }
-  // }, [filters]);
+  useEffect(() => {
+    if (filters?.client_id && filters?.start_date && filters?.site_id) {
+      // GetCompetitor(filters);
+    }
+
+    console.log(filters, "filtersfilters");
+  }, [filters]);
 
   const GetCompetitor = async () => {
     try {
@@ -506,7 +515,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -515,6 +524,9 @@ const CeoDashBoardTest = (props) => {
   const handleToggleChange = (checked) => {
     setToggleValue(checked);
   };
+
+  console.log(applyNavigate, "applyNavigate");
+
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -683,8 +695,6 @@ const CeoDashBoardTest = (props) => {
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           />
         )}
-
-
       </div>
 
       <div>
@@ -693,10 +703,12 @@ const CeoDashBoardTest = (props) => {
             <CeoDashBoardBottomPage
               filters={filters}
               getData={getData}
+              applyNavigate={applyNavigate}
             />
           </Col>
         </Row>
       </div>
+
       <Row Row className="my-2">
         <Col sm={12} md={8} key={Math.random()}>
           <Card className="h-100">
@@ -716,7 +728,6 @@ const CeoDashBoardTest = (props) => {
                     ""
                   )}
                 </h4>
-
               </div>
               <div className="flexspacebetween">
                 {filters?.sites ? (
@@ -762,7 +773,7 @@ const CeoDashBoardTest = (props) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col sm={12} md={4} >
+        <Col sm={12} md={4}>
           <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
             <Card.Header className="p-4">
               <div className="spacebetween" style={{ width: "100%" }}>
@@ -770,9 +781,7 @@ const CeoDashBoardTest = (props) => {
                 <span>View All</span>
               </div>
             </Card.Header>
-            <Card.Body
-
-            >
+            <Card.Body>
               <img
                 src={require("../../assets/images/commonimages/dotGraph.png")}
                 alt="dotGraph"
