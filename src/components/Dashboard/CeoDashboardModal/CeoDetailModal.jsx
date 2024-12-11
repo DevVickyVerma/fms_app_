@@ -21,7 +21,10 @@ import withApi from "../../../Utils/ApiHelper";
 useEffect;
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
-import { Comparisongraphfilter, request } from "../../../Utils/commonFunctions/commonFunction";
+import {
+  Comparisongraphfilter,
+  request,
+} from "../../../Utils/commonFunctions/commonFunction";
 import MultiDateRangePicker from "../../../Utils/MultiDateRangePicker";
 
 const CeoDetailModal = (props) => {
@@ -34,6 +37,7 @@ const CeoDetailModal = (props) => {
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
+
   useEffect(() => {
     if (visible && filterData?.sites) {
       if (filterData?.site_id) {
@@ -45,11 +49,14 @@ const CeoDetailModal = (props) => {
       }
     }
   }, [visible]);
+
   const formik = useFormik({
     initialValues: {
       client_id: "",
       company_id: "",
+      comparison_value: "0",
       selectedSite: "",
+      site_name: "",
       selectedSiteDetails: "",
       selectedMonth: "",
       selectedMonthDetails: "",
@@ -79,6 +86,8 @@ const CeoDetailModal = (props) => {
       formik.setFieldValue("endDate", null);
     }
   };
+
+  console.log(filterData, "filterData");
 
   const [pdfisLoading, setpdfisLoading] = useState(false);
   const ErrorToast = (message) => {
@@ -117,10 +126,13 @@ const CeoDetailModal = (props) => {
             : `client_id=${filterData.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filterData.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filterData.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -142,7 +154,8 @@ const CeoDetailModal = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -200,8 +213,9 @@ const CeoDetailModal = (props) => {
       console.error("Error in handleCancelledAction:", error);
     }
   };
+
   useEffect(() => {
-    fetchData(); // Trigger the fetchData function on component mount or title change
+    // fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title]); // Dependencies: title and selectedSite
 
   const fetchData = async () => {
@@ -238,9 +252,7 @@ const CeoDetailModal = (props) => {
           );
           break;
         case "Live Margin":
-          response = await getData(
-            `dashboard/get-live-margin?${queryString}`
-          );
+          response = await getData(`dashboard/get-live-margin?${queryString}`);
           break;
         case "Daily Wise Sales":
           response = await getData(`dashboard/stats?${queryString}`);
@@ -278,23 +290,23 @@ const CeoDetailModal = (props) => {
     console.log(e.target.value); // You can replace this with any logic for each option
   };
 
-
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
 
       <div
-        className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
-          }`}
+        className={`common-sidebar    ${
+          visible ? "visible slide-in-right " : "slide-out-right"
+        }`}
         style={{
           width:
             title == "MOP Breakdown"
               ? "50%"
               : title == "Reports"
-                ? "40"
-                : title == "Comparison"
-                  ? "70%"
-                  : "70%",
+              ? "40"
+              : title == "Comparison"
+              ? "70%"
+              : "70%",
         }}
       >
         <div className="card">
@@ -308,12 +320,12 @@ const CeoDetailModal = (props) => {
                     src={require("../../../assets/images/commonimages/LiveIMg.gif")}
                     alt="Live Img"
                     className="Liveimage"
-                  />
-                  {" "} Margins   <span> Last Updated On  {apiData?.data?.last_updated}</span>
+                  />{" "}
+                  Margins{" "}
+                  <span> Last Updated On {apiData?.data?.last_updated}</span>
                 </>
               )}
             </h3>
-
 
             <button className="close-button" onClick={onClose}>
               {/* <FontAwesomeIcon icon={faTimes} /> */}
@@ -388,7 +400,8 @@ const CeoDetailModal = (props) => {
                       ) : (
                         ""
                       )}
-                      {filterData?.sites && selectedOption === "5" ? (
+                      {filterData?.sites &&
+                      formik?.values?.comparison_value === "5" ? (
                         <Col lg={4} className="">
                           <label className=" form-label" htmlFor="Site">
                             Select Custom Date Range
@@ -418,7 +431,6 @@ const CeoDetailModal = (props) => {
             {title == "Live Margin" && (
               <>
                 <Card className="">
-
                   <Card.Body className="">
                     <Row>
                       {filterData?.sites ? (
@@ -447,20 +459,12 @@ const CeoDetailModal = (props) => {
                       ) : (
                         ""
                       )}
-
                     </Row>
                   </Card.Body>
                 </Card>
                 <Card className="">
-
                   <Card.Body className="">
                     <Row>
-
-
-
-
-
-
                       <Col sm={12} md={6} lg={6} xl={4}>
                         <Card
                           className={`card dash-plates-1 img-card box-${request[0].color}-shadow`}
@@ -468,7 +472,10 @@ const CeoDetailModal = (props) => {
                           <Card.Body>
                             <div className="d-flex">
                               <div className="text-white">
-                                <h2 className="mb-0 number-font"><span className="l-sign">ℓ</span>  {apiData?.data?.gross_volume}</h2>
+                                <h2 className="mb-0 number-font">
+                                  <span className="l-sign">ℓ</span>{" "}
+                                  {apiData?.data?.gross_volume}
+                                </h2>
                                 <p className="text-white mb-0">Gross Volume</p>
                               </div>
                               <div className="ms-auto">
@@ -486,11 +493,13 @@ const CeoDetailModal = (props) => {
                           <Card.Body>
                             <div className="d-flex">
                               <div className="text-white">
-                                <h2 className="mb-0 number-font"> £  {apiData?.data?.fuel_sales}</h2>
+                                <h2 className="mb-0 number-font">
+                                  {" "}
+                                  £ {apiData?.data?.fuel_sales}
+                                </h2>
                                 <p className="text-white mb-0">Fuel Sales</p>
                               </div>
                               <div className="ms-auto">
-
                                 <i className="ph ph-shopping-bag text-white fs-30"></i>
                               </div>
                             </div>
@@ -505,11 +514,12 @@ const CeoDetailModal = (props) => {
                           <Card.Body>
                             <div className="d-flex">
                               <div className="text-white">
-                                <h2 className="mb-0 number-font">£  {apiData?.data?.gross_profit}</h2>
+                                <h2 className="mb-0 number-font">
+                                  £ {apiData?.data?.gross_profit}
+                                </h2>
                                 <p className="text-white mb-0">Gross Profit</p>
                               </div>
                               <div className="ms-auto">
-
                                 <i className="ph ph-currency-gbp text-white fs-30"></i>
                               </div>
                             </div>
@@ -524,7 +534,10 @@ const CeoDetailModal = (props) => {
                           <Card.Body>
                             <div className="d-flex">
                               <div className="text-white">
-                                <h2 className="mb-0 number-font">   {apiData?.data?.gross_margin} ppl</h2>
+                                <h2 className="mb-0 number-font">
+                                  {" "}
+                                  {apiData?.data?.gross_margin} ppl
+                                </h2>
                                 <p className="text-white mb-0">Gross Margin</p>
                               </div>
                               <div className="ms-auto">
@@ -542,7 +555,9 @@ const CeoDetailModal = (props) => {
                           <Card.Body>
                             <div className="d-flex">
                               <div className="text-white">
-                                <h2 className="mb-0 number-font">£  {apiData?.data?.shop_sales}</h2>
+                                <h2 className="mb-0 number-font">
+                                  £ {apiData?.data?.shop_sales}
+                                </h2>
                                 <p className="text-white mb-0">Shop Sales</p>
                               </div>
                               <div className="ms-auto">
@@ -560,7 +575,9 @@ const CeoDetailModal = (props) => {
                           <Card.Body>
                             <div className="d-flex">
                               <div className="text-white">
-                                <h2 className="mb-0 number-font">£  {apiData?.data?.shop_profit}</h2>
+                                <h2 className="mb-0 number-font">
+                                  £ {apiData?.data?.shop_profit}
+                                </h2>
                                 <p className="text-white mb-0">Shop Profit</p>
                               </div>
                               <div className="ms-auto">
@@ -573,7 +590,6 @@ const CeoDetailModal = (props) => {
                     </Row>
                   </Card.Body>
                 </Card>
-
               </>
             )}
             {title == "Performance" && (
@@ -589,7 +605,6 @@ const CeoDetailModal = (props) => {
               <>
                 <Col sm={12} md={12} key={Math.random()}>
                   <Card className="">
-
                     <Card.Body className="">
                       <div className="w-100">
                         <div className="spacebetweenend">
@@ -712,127 +727,127 @@ const CeoDetailModal = (props) => {
             {(title === "Stock" ||
               title === "Shrinkage" ||
               title === "Stock Details") && (
-                <>
-                  <Row className=" d-flex align-items-stretch">
-                    <Col
-                      sm={12}
-                      md={6}
-                      xl={6}
-                      key={Math.random()}
-                      className="mb-6"
-                    >
-                      <Card className="h-100">
-                        <Card.Header className="p-4">
-                          <h4 className="card-title">Stocks</h4>
-                        </Card.Header>
-                        <Card.Body
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div style={{ width: "300px", height: "300px" }}>
-                            <Doughnut
-                              data={StockData?.stock_graph_data}
-                              options={StockData?.stock_graph_options}
-                              height="100px"
-                            />
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                    <Col
-                      sm={12}
-                      md={6}
-                      xl={6}
-                      key={Math.random()}
-                      className="mb-6"
-                    >
-                      <CeoDashboardBarChart
-                        data={Shrinkage?.shrinkage_graph_data}
-                        options={Shrinkage?.shrinkage_graph_options}
-                        title="Shrinkage"
-                        width="300px"
-                        height="200px"
-                      />
-                    </Col>
-                    <Col sm={12} md={12} xl={12} key={Math.random()} className="">
-                      <Card className="h-100">
-                        <Card.Header className="p-4 w-100 flexspacebetween">
-                          <h4 className="card-title">
-                            {" "}
-                            <div className="lableWithsmall">Stock Details</div>
-                          </h4>
-                          <span style={{ color: "#4663ac", cursor: "pointer" }}>
-                            View Details
-                          </span>
-                        </Card.Header>
-                        <Card.Body style={{ maxHeight: "350px" }}>
-                          <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                            <table
+              <>
+                <Row className=" d-flex align-items-stretch">
+                  <Col
+                    sm={12}
+                    md={6}
+                    xl={6}
+                    key={Math.random()}
+                    className="mb-6"
+                  >
+                    <Card className="h-100">
+                      <Card.Header className="p-4">
+                        <h4 className="card-title">Stocks</h4>
+                      </Card.Header>
+                      <Card.Body
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div style={{ width: "300px", height: "300px" }}>
+                          <Doughnut
+                            data={StockData?.stock_graph_data}
+                            options={StockData?.stock_graph_options}
+                            height="100px"
+                          />
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col
+                    sm={12}
+                    md={6}
+                    xl={6}
+                    key={Math.random()}
+                    className="mb-6"
+                  >
+                    <CeoDashboardBarChart
+                      data={Shrinkage?.shrinkage_graph_data}
+                      options={Shrinkage?.shrinkage_graph_options}
+                      title="Shrinkage"
+                      width="300px"
+                      height="200px"
+                    />
+                  </Col>
+                  <Col sm={12} md={12} xl={12} key={Math.random()} className="">
+                    <Card className="h-100">
+                      <Card.Header className="p-4 w-100 flexspacebetween">
+                        <h4 className="card-title">
+                          {" "}
+                          <div className="lableWithsmall">Stock Details</div>
+                        </h4>
+                        <span style={{ color: "#4663ac", cursor: "pointer" }}>
+                          View Details
+                        </span>
+                      </Card.Header>
+                      <Card.Body style={{ maxHeight: "350px" }}>
+                        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                          <table
+                            style={{
+                              width: "100%",
+                              borderCollapse: "collapse",
+                            }}
+                          >
+                            <thead
                               style={{
-                                width: "100%",
-                                borderCollapse: "collapse",
+                                position: "sticky",
+                                top: 0,
+                                backgroundColor: "#fff",
+                                zIndex: 1,
                               }}
                             >
-                              <thead
-                                style={{
-                                  position: "sticky",
-                                  top: 0,
-                                  backgroundColor: "#fff",
-                                  zIndex: 1,
-                                }}
-                              >
-                                <tr>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Name
-                                  </th>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Gross Sales
-                                  </th>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Nett Sales
-                                  </th>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Profit
-                                  </th>
+                              <tr>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Name
+                                </th>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Gross Sales
+                                </th>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Nett Sales
+                                </th>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Profit
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {StockDetail?.map((stock) => (
+                                <tr key={stock?.id}>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.name}
+                                  </td>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.gross_sales}
+                                  </td>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.nett_sales}
+                                  </td>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.profit}
+                                  </td>
                                 </tr>
-                              </thead>
-                              <tbody>
-                                {StockDetail?.map((stock) => (
-                                  <tr key={stock?.id}>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.name}
-                                    </td>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.gross_sales}
-                                    </td>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.nett_sales}
-                                    </td>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.profit}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  </Row>
-                </>
-              )}
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+              </>
+            )}
           </div>
         </div>
       </div>
