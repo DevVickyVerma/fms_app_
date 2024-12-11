@@ -85,6 +85,11 @@ export const activeInactiveOptions = [
   { value: "0", label: "Inactive" },
 ];
 
+export const Comparisongraphfilter = [
+  { value: "1", label: "Fuel" },
+  { value: "2", label: "Margin" },
+
+];
 export const AutomaticManualOptions = [
   { value: "1", label: "Automatic" },
   { value: "2", label: "manual" },
