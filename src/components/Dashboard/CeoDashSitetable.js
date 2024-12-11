@@ -1,18 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import LoaderImg from "../../Utils/Loader";
-import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
+import { formatNumber, formatNusortedDatamber } from "../../Utils/commonFunctions/commonFunction";
 
 const CeoDashSitetable = (props) => {
   const { isLoading, data, title, tootiptitle } = props;
+
+  const [sortedData, setSortedData] = useState(data);
+  const [initialData, setInitialData] = useState(data);
+  const [activeSort, setActiveSort] = useState(""); // State to track the active sort button
+
+  useEffect(() => {
+    setSortedData(data);
+    setInitialData(data);
+  }, [data]);
+
+  const sortDataByFuelVolume = () => {
+    const sorted = [...data].sort((a, b) => {
+      const volumeA = parseFloat(a.fuel_volume.gross_volume);
+      const volumeB = parseFloat(b.fuel_volume.gross_volume);
+      return volumeB - volumeA;
+    });
+    setSortedData(sorted);
+    setActiveSort("fuelVolume"); // Set the active sort button
+    console.log(sorted, "FuelVolume");
+  };
+
+  const sortDataByFuelValue = () => {
+    const sorted = [...data].sort((a, b) => {
+      const valueA = parseFloat(a.fuel_sales.gross_value);
+      const valueB = parseFloat(b.fuel_sales.gross_value);
+      return valueB - valueA;
+    });
+    setSortedData(sorted);
+    setActiveSort("fuelValue"); // Set the active sort button
+    console.log(sorted, "FuelValue");
+  };
+
+  const sortDataByGrossMargin = () => {
+    const sorted = [...data].sort((a, b) => {
+      const valueA = parseFloat(a.gross_margin.gross_margin);
+      const valueB = parseFloat(b.gross_margin.gross_margin);
+      return valueB - valueA;
+    });
+    setSortedData(sorted);
+    setActiveSort("grossMargin"); // Set the active sort button
+    console.log(sorted, "GrossMargin");
+  };
+
+  const resetData = () => {
+    setSortedData(initialData);
+    setActiveSort(""); // Reset the active button when data is reset
+  };
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
 
   const renderTableHeader = () => (
     <tr className="fuelprice-tr " style={{ padding: "0px" }}>
+
       <th className="dashboard-child-thead c-width-500 overflow-wrap-anywhere">
         Sites
       </th>
@@ -27,8 +75,9 @@ const CeoDashSitetable = (props) => {
   );
 
   const renderTableData = () =>
-    data?.map((item, index) => (
+    sortedData?.map((item, index) => (
       <React.Fragment key={index}>
+
         <tr className={`fuelprice-tr p-0  ceo-sats-table-hover`} key={item.id}>
           <td className="dashboard-child-tdata c-width-500 overflow-wrap-anywhere">
             <div className="d-flex align-items-center justify-center h-100">
@@ -321,24 +370,7 @@ const CeoDashSitetable = (props) => {
       </React.Fragment>
     ));
 
-  const sortDataByFuelVolume = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const volumeA = parseFloat(a.fuel_volume.gross_volume);
-      const volumeB = parseFloat(b.fuel_volume.gross_volume);
-      return volumeB - volumeA; // Descending order
-    });
-    console.log(sortedData, "FuelVolume");
 
-  };
-  const sortDataByFuelValue = () => {
-    const sortedData = [...data].sort((a, b) => {
-      const volumeA = parseFloat(a.fuel_sales.gross_value);
-      const volumeB = parseFloat(b.fuel_sales.gross_value);
-      return volumeB - volumeA; // Descending order
-    });
-    console.log(sortedData, "FuelValue");
-
-  };
 
 
 
@@ -346,8 +378,27 @@ const CeoDashSitetable = (props) => {
   return (
     <>
       {isLoading ? <LoaderImg /> : null}
-      <button className="btn btn-primary" onClick={sortDataByFuelVolume}>Sort by Fuel Volume</button>
-      <button className="btn btn-primary ms-2" onClick={sortDataByFuelValue}>Sort by Fuel Value</button>
+      <button
+        className={`btn btn-primary ${activeSort === "fuelVolume" ? "btn-active" : ""}`}
+        onClick={sortDataByFuelVolume}
+      >
+        Sort by Gross Volume
+      </button>
+      <button
+        className={`btn btn-primary ms-2 ${activeSort === "fuelValue" ? "btn-active" : ""}`}
+        onClick={sortDataByFuelValue}
+      >
+        Sort by Fuel Value
+      </button>
+      <button
+        className={`btn btn-primary ms-2 ${activeSort === "grossMargin" ? "btn-active" : ""}`}
+        onClick={sortDataByGrossMargin}
+      >
+        Sort by Gross Margin
+      </button>
+      <button className="btn btn-danger ms-2" onClick={resetData}>
+        Reset Data
+      </button>
 
 
       <Row className="h-100">
