@@ -11,6 +11,7 @@ import {
 import { PriceLogsData } from "../../Utils/commonFunctions/CommonData";
 import PriceLogTable from "./PriceLogTable";
 import CeoMopModal from "../../components/Dashboard/CeoDashboardModal/CeoMopModal";
+import { Link } from "react-router-dom";
 
 const CeoDashBoardBottomPage = () => {
   const [showCeoMopModal, setShowCeoMopModal] = useState(false);
@@ -65,7 +66,7 @@ const CeoDashBoardBottomPage = () => {
             <Col
               md={3}
               style={{
-                backgroundColor: "#6764b3", // Yellow background
+                backgroundColor: "red", // Yellow background
                 color: "#fff",
                 height: "40px",
                 fontSize: "10px",
@@ -75,8 +76,13 @@ const CeoDashBoardBottomPage = () => {
               }}
               className="ceo-sats-card-hover"
             >
+
               <h3 style={{ fontSize: "18px" }} className="m-0">
-                Live Margin
+                <img
+                  src={require("../../assets/images/commonimages/LiveIMg.gif")}
+                  alt="Live Img"
+                  className="Liveimage"
+                />{" "}{" "}    Margins
               </h3>
             </Col>
           </Row>
@@ -268,7 +274,7 @@ const CeoDashBoardBottomPage = () => {
             <Card.Header className="p-4">
               <div className="spacebetween" style={{ width: "100%" }}>
                 <h4 className="card-title">Fuel Price Logs</h4>
-                <span>View All</span>
+                <span> <Link to="/fuel-selling-price-logs/">View All</Link></span>
               </div>
             </Card.Header>
             <Card.Body
