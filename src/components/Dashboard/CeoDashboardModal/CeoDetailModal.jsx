@@ -1,19 +1,12 @@
-import PropTypes from "prop-types";
 import CeoDashboardCharts from "../CeoDashboardCharts";
 import {
   Baroptions,
-  cardConfigs,
-  DashboardData,
-  intialfilterData,
-  MopData,
   PerformanceData,
-  ReportList,
   salesGraphData,
   Shrinkage,
   StockData,
   StockDetail,
 } from "../../../Utils/commonFunctions/CommonData";
-import CEODashCommonCard from "../CEODashCommonCard";
 import { Card, Col, Row } from "react-bootstrap";
 import CeoDashSitetable from "../CeoDashSitetable";
 import ReportTable from "../ReportTable";
@@ -26,7 +19,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoaderImg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper"; useEffect
-import axios from "axios";
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
 import { Comparisongraphfilter } from "../../../Utils/commonFunctions/commonFunction";
@@ -370,7 +362,7 @@ const CeoDetailModal = (props) => {
             {title == "Performance" && (
               <>
                 <CeoDashSitetable
-                  data={PerformanceData?.top}
+                  data={apiData?.data}
                   tootiptitle={"Profit"}
                   title={"Sites "}
                 />
