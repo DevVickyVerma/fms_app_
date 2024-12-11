@@ -322,7 +322,7 @@ const CeoDashSitetable = (props) => {
     ));
 
   const sortDataByFuelVolume = () => {
-    const sortedData = [...sortedData].sort((a, b) => {
+    const sortedData = [...data].sort((a, b) => {
       const volumeA = parseFloat(a.fuel_volume.gross_volume);
       const volumeB = parseFloat(b.fuel_volume.gross_volume);
       return volumeB - volumeA; // Descending order
@@ -331,7 +331,7 @@ const CeoDashSitetable = (props) => {
 
   };
   const sortDataByFuelValue = () => {
-    const sortedData = [...sortedData].sort((a, b) => {
+    const sortedData = [...data].sort((a, b) => {
       const volumeA = parseFloat(a.fuel_sales.gross_value);
       const volumeB = parseFloat(b.fuel_sales.gross_value);
       return volumeB - volumeA; // Descending order
@@ -340,7 +340,7 @@ const CeoDashSitetable = (props) => {
 
   };
 
-  console.log(sortedData, "sortedData");
+
 
 
   return (
