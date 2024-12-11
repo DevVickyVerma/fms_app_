@@ -39,7 +39,7 @@ const CEODashCommonVerticalCard = ({
             className={showRightSide ? "" : ""}
             style={{
               flexDirection: "column",
-              //   height: "75%",
+              height: "75%",
               display: "flex",
               justifyContent: "space-around",
               marginTop: "10px",
