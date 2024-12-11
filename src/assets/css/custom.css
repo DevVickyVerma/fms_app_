@@ -2554,3 +2554,7 @@ td.middayModal-td.time-input-fuel-sell {
 .ceo-card-default-height {
   height: calc(100% - 15px);
 }
+.flexcolumn {
+  display: flex;
+  flex-direction: column;
+}

@@ -29,6 +29,7 @@ import withApi from "../../../Utils/ApiHelper"; useEffect
 import axios from "axios";
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
+import { Comparisongraphfilter } from "../../../Utils/commonFunctions/commonFunction";
 
 const CeoMopModal = (props) => {
 
@@ -248,7 +249,11 @@ const CeoMopModal = (props) => {
       setLoading(false); // Stop loading indicator
     }
   };
-
+  const [selectedOption, setSelectedOption] = useState('');
+  const handleDropdownChange = (e) => {
+    setSelectedOption(e.target.value);
+    console.log(e.target.value); // You can replace this with any logic for each option
+  };
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
@@ -291,7 +296,75 @@ const CeoMopModal = (props) => {
             )}
             {title == "Comparison" && (
               <>
+                <Card className="">
+                  <Card.Header className="w-100  ">
+                    <h4 className="card-title">Apply Filter </h4>
+
+                  </Card.Header>
+                  <Card.Body className="">
+                    <div className="w-100">
+                      <div className="spacebetweenend">
+
+                        {filterData?.sites ? (
+                          <Col lg={6} className="textend flexcolumn">
+                            <label className=" form-label" htmlFor="Site">
+                              Site
+                              <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              id="selectedSite"
+                              name="selectedSite"
+                              value={formik.values.selectedSite}
+                              style={{ width: "100%" }}
+                              onChange={(e) => handleSiteChange(e.target.value)}
+                              className="selectedMonth"
+                            >
+                              <option value="">--Select a Site--</option>
+                              {filters?.sites?.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.site_name}
+                                </option>
+                              ))}
+                            </select>
+                          </Col>
+                        ) : (
+                          ""
+                        )}
+
+                        {filterData?.sites ? (
+                          <Col lg={6} className="textend flexcolumn">
+                            <label className=" form-label" htmlFor="Site">
+                              filter
+                              <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              id="filterDropdown"
+                              name="filterDropdown"
+                              value={selectedOption}
+                              onChange={handleDropdownChange}
+                              className="selectedMonth"
+                            >
+
+                              {Comparisongraphfilter?.map((item) => (
+                                <option key={item.value} value={item.value}>
+                                  {item.label}
+                                </option>
+                              ))}
+                            </select>
+                          </Col>
+                        ) : (
+                          ""
+                        )}
+
+
+                      </div>
+                      <div className="spacebetweenend"></div>
+                    </div>
+                  </Card.Body>
+                </Card>
                 <CeoDashboardCharts
+
+                  selectedOption={selectedOption}
                   Salesstatsloading={false}
                   BarGraphSalesStats={salesGraphData}
                   Baroptions={Baroptions}
@@ -312,36 +385,47 @@ const CeoMopModal = (props) => {
                 <Col sm={12} md={12} key={Math.random()}>
 
                   <Card className="">
-                    <Card.Header className="p-4 w-100  ">
-                      <h4 className="card-title">Filter </h4>
+                    <Card.Header className="w-100  ">
+                      <h4 className="card-title">Apply Filter </h4>
 
                     </Card.Header>
-                    <Card.Body className="p-4">
+                    <Card.Body className="">
                       <div className="w-100">
                         <div className="spacebetweenend">
 
                           {filterData?.sites ? (
-                            <Col lg={6} className="textend">           <select
-                              id="selectedSite"
-                              name="selectedSite"
-                              value={formik.values.selectedSite}
-                              style={{ width: "100%" }}
-                              onChange={(e) => handleSiteChange(e.target.value)}
-                              className="selectedMonth"
-                            >
-                              <option value="">--Select a Site--</option>
-                              {filters?.sites?.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.site_name}
-                                </option>
-                              ))}
-                            </select>
+                            <Col lg={6} className="textend flexcolumn">
+                              <label className=" form-label" htmlFor="report">
+                                Site
+                                <span className="text-danger">*</span>
+                              </label>
+                              <select
+                                id="selectedSite"
+                                name="selectedSite"
+                                value={formik.values.selectedSite}
+                                style={{ width: "100%" }}
+                                onChange={(e) => handleSiteChange(e.target.value)}
+                                className="selectedMonth"
+                              >
+                                <option value="">--Select a Site--</option>
+                                {filters?.sites?.map((item) => (
+                                  <option key={item.id} value={item.id}>
+                                    {item.site_name}
+                                  </option>
+                                ))}
+                              </select>
                             </Col>
                           ) : (
                             ""
                           )}
                           {apiData?.data?.months ? (
-                            <Col lg={6} className="textend">
+
+                            <Col lg={6} className="textend flexcolumn">
+
+                              <label className=" form-label" htmlFor="report">
+                                Month
+                                <span className="text-danger">*</span>
+                              </label>
                               <select
                                 id="selectedMonth"
                                 name="selectedMonth"

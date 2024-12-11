@@ -3,7 +3,7 @@ import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import SmallLoader from "../../Utils/SmallLoader";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 
-const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions }) => {
+const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions, selectedOption }) => {
 
     const renderChartOrLoader = (data, title) => {
         if (Salesstatsloading) {
@@ -14,7 +14,7 @@ const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions 
             return <NoDataComponent title={title} />; // Display a message or fallback when data is empty
         }
 
-        return <CeoDashboardBarChart data={data} options={Baroptions} title={title} />;
+        return <CeoDashboardBarChart data={data} options={Baroptions} title={title} selectedOption={selectedOption} />;
     };
 
 
@@ -29,9 +29,7 @@ const CeoDashboardCharts = ({ Salesstatsloading, BarGraphSalesStats, Baroptions 
             <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
                 {renderChartOrLoader(BarGraphSalesStats?.sales_yoy, "Same Month Sales vs Previous Year’s Month Sales")}
             </Col>
-            <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
-                {renderChartOrLoader(BarGraphSalesStats?.sales_yoy, "Same Year Sales vs Previous Year’s  Sales")}
-            </Col>
+
         </Row>
     );
 };
