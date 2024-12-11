@@ -24,7 +24,7 @@ const CEODashCommonVerticalCard = ({
     <React.Fragment sm={12} md={6} lg={lg} xl={xl} key={Math.random()}>
       <Card
         onClick={handleNavigateClick}
-        className="pie-card-default-height ceo-sats-card-hover"
+        className="ceo-card-default-height ceo-sats-card-hover"
       >
         <Card.Body
           className={`text-center ${
@@ -39,10 +39,10 @@ const CEODashCommonVerticalCard = ({
             className={showRightSide ? "" : ""}
             style={{
               flexDirection: "column",
-              height: "75%",
+              height: "80%",
               display: "flex",
               justifyContent: "space-around",
-              marginTop: "10px",
+              // marginTop: "10px",
             }}
           >
             <div>

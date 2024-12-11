@@ -2550,3 +2550,7 @@ td.middayModal-td.time-input-fuel-sell {
 .c-fs-25 {
   font-size: 25px !important;
 }
+
+.ceo-card-default-height {
+  height: calc(100% - 15px);
+}
