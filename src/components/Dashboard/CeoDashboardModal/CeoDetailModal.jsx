@@ -31,7 +31,7 @@ import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
 import { Comparisongraphfilter } from "../../../Utils/commonFunctions/commonFunction";
 
-const CeoMopModal = (props) => {
+const CeoDetailModal = (props) => {
 
   const { title, getData, visible, onClose, values, isLoading, filterData } = props; // Ensure `values` is passed correctly
   const [filters, setFilters] = useState(intialfilterData);
@@ -624,5 +624,5 @@ const CeoMopModal = (props) => {
 };
 
 
-export default withApi(CeoMopModal);
+export default withApi(CeoDetailModal);
 
