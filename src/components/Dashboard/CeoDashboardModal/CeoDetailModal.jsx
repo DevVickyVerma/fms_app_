@@ -34,14 +34,10 @@ import { Comparisongraphfilter } from "../../../Utils/commonFunctions/commonFunc
 const CeoDetailModal = (props) => {
 
   const { title, getData, visible, onClose, values, isLoading, filterData } = props; // Ensure `values` is passed correctly
-  const [filters, setFilters] = useState(intialfilterData);
 
 
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
-  console.log(isLoading, "isLoading");
-
-
 
 
 
@@ -65,7 +61,7 @@ const CeoDetailModal = (props) => {
     },
   });
   const handleMonthChange = (selectedId) => {
-    const selectedItem = filters.reportmonths.find(
+    const selectedItem = filterData.reportmonths.find(
       (item) => item.display == selectedId
     );
     formik.setFieldValue("selectedMonth", selectedId);
@@ -93,23 +89,23 @@ const CeoDetailModal = (props) => {
         // Add client_id based on superiorRole
         const superiorRole = localStorage.getItem("superiorRole");
         if (superiorRole !== "Client") {
-          formData.append("client_id", filters.client_id);
+          formData.append("client_id", filterData.client_id);
         } else {
-          formData.append("client_id", filters.client_id);
+          formData.append("client_id", filterData.client_id);
         }
 
         // Add other necessary form values
-        formData.append("company_id", filters.company_id);
+        formData.append("company_id", filterData.company_id);
 
         // Prepare client ID condition for the query params
         let clientIDCondition =
           superiorRole !== "Client"
-            ? `client_id=${filters.client_id}&`
-            : `client_id=${filters.client_id}&`;
+            ? `client_id=${filterData.client_id}&`
+            : `client_id=${filterData.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
         const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filters.company_id
+          }?${clientIDCondition}company_id=${filterData.company_id
           }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
           }`;
 
@@ -320,7 +316,7 @@ const CeoDetailModal = (props) => {
                               className="selectedMonth"
                             >
                               <option value="">--Select a Site--</option>
-                              {filters?.sites?.map((item) => (
+                              {filterData?.sites?.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.site_name}
                                 </option>
@@ -408,7 +404,7 @@ const CeoDetailModal = (props) => {
                                 className="selectedMonth"
                               >
                                 <option value="">--Select a Site--</option>
-                                {filters?.sites?.map((item) => (
+                                {filterData?.sites?.map((item) => (
                                   <option key={item.id} value={item.id}>
                                     {item.site_name}
                                   </option>

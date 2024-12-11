@@ -8,10 +8,7 @@ import {
   FaChartPie,
   FaClipboardList,
 } from "react-icons/fa";
-import { PriceLogsData } from "../../Utils/commonFunctions/CommonData";
-import PriceLogTable from "./PriceLogTable";
 import CeoDetailModal from "../../components/Dashboard/CeoDashboardModal/CeoDetailModal";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const CeoDashBoardBottomPage = (props) => {
