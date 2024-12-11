@@ -194,7 +194,7 @@ const CeoDashBoardBottomPage = () => {
             style={{
               backgroundColor: "#5bc0de", // Light Blue background
               color: "#fff",
-              height: "100px",
+              height: "100%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -220,7 +220,7 @@ const CeoDashBoardBottomPage = () => {
             style={{
               backgroundColor: "#0275d8", // Dark Blue background
               color: "#fff",
-              height: "100px",
+              height: "100%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -243,7 +243,7 @@ const CeoDashBoardBottomPage = () => {
             style={{
               backgroundColor: "#d9534f", // Red background
               color: "#fff",
-              height: "100px",
+              height: "100%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
