@@ -269,7 +269,7 @@ const CeoDashBoardBottomPage = () => {
 
       {/* {/ Fourth Row with Cards /} */}
       <Row Row className="my-2">
-        <Col sm={12} md={8} onClick={() => handleCardClick("Fuel Price Logs")}>
+        <Col sm={12} md={8} >
           <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
             <Card.Header className="p-4">
               <div className="spacebetween" style={{ width: "100%" }}>
@@ -288,7 +288,7 @@ const CeoDashBoardBottomPage = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col sm={12} md={4} onClick={() => handleCardClick("Price Graph")}>
+        <Col sm={12} md={4} >
           <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
             <Card.Header className="p-4">
               <div className="spacebetween" style={{ width: "100%" }}>
