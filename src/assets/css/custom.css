@@ -2530,3 +2530,7 @@ td.middayModal-td.time-input-fuel-sell {
   opacity: 0.9;
   z-index: 111;
 }
+
+.card-default-height {
+  height: calc(100% - 25px);
+}

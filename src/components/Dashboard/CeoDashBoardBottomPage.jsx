@@ -85,63 +85,165 @@ const CeoDashBoardBottomPage = () => {
 
       {/* {/ Second Row /} */}
       <Row Row className="my-2">
-        <Col
-          md={3}
-          onClick={() => handleCardClick("MOP Breakdown")}
-          className="slide-in-left"
-        >
-          <div
-            className="ceocard-hover"
-            style={{
-              backgroundColor: "#d9534f", // Red background
-              color: "#fff",
-              height: "120px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              transition: "all 0.3s ease", // Smooth opacity transition
-            }}
-          >
-            <FaChartLine size={40} />
-            <h5 className="m-0 mt-2">MOP Breakdown</h5>
-          </div>
+        <Col lg={6}>
+          <Row>
+            <Col
+              md={6}
+              onClick={() => handleCardClick("MOP Breakdown")}
+              className="slide-in-left mb-4"
+            >
+              <div
+                className="ceocard-hover"
+                style={{
+                  backgroundColor: "#d9534f", // Red background
+                  color: "#fff",
+                  height: "120px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "all 0.3s ease", // Smooth opacity transition
+                }}
+              >
+                <FaChartLine size={40} />
+                <h5 className="m-0 mt-2">MOP Breakdown</h5>
+              </div>
+            </Col>
+
+            <Col
+              md={6}
+              onClick={() => handleCardClick("Comparison")}
+              className="slide-in-left mb-4"
+            >
+              <div
+                className="ceocard-hover"
+                style={{
+                  backgroundColor: "#0275d8", // Dark Blue background
+                  color: "#fff",
+                  height: "120px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "all 0.3s ease", // Smooth opacity transition
+                }}
+              >
+                <FaRegChartBar size={40} />
+                <h5 className="m-0 mt-2">Comparison</h5>
+              </div>
+            </Col>
+
+            <Col
+              md={6}
+              onClick={() => handleCardClick("Performance")}
+              className="slide-in-right"
+            >
+              <div
+                className="ceocard-hover"
+                style={{
+                  backgroundColor: "#5bc0de", // Light Blue background
+                  color: "#fff",
+                  height: "120px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "all 0.3s ease", // Smooth opacity transition
+                }}
+              >
+                <FaGasPump size={40} />
+                <h5 className="m-0 mt-2">Performance</h5>
+              </div>
+            </Col>
+            <Col
+              md={6}
+              onClick={() => handleCardClick("Reports")}
+              className="slide-in-right"
+            >
+              <div
+                className="ceocard-hover"
+                style={{
+                  backgroundColor: "#f0ad4e", // Yellow background
+                  color: "#fff",
+                  height: "120px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "all 0.3s ease", // Smooth opacity transition
+                }}
+              >
+                <FaFileAlt size={40} />
+                <h5 className="m-0 mt-2">Reports</h5>
+              </div>
+            </Col>
+          </Row>
         </Col>
+
         <Col
-          md={3}
-          onClick={() => handleCardClick("Comparison")}
-          className="slide-in-left"
+          md={2}
+          onClick={() => handleCardClick("Stock")}
+          className="slide-in-bottom"
         >
-          <div
-            className="ceocard-hover"
-            style={{
-              backgroundColor: "#0275d8", // Dark Blue background
-              color: "#fff",
-              height: "120px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              transition: "all 0.3s ease", // Smooth opacity transition
-            }}
-          >
-            <FaRegChartBar size={40} />
-            <h5 className="m-0 mt-2">Comparison</h5>
-          </div>
-        </Col>
-        <Col
-          md={3}
-          onClick={() => handleCardClick("Performance")}
-          className="slide-in-right"
-        >
-          <div
-            className="ceocard-hover"
+          <Card
+            className="ceocard-hover pie-card-default-height"
             style={{
               backgroundColor: "#5bc0de", // Light Blue background
               color: "#fff",
-              height: "120px",
+              height: "100px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              transition: "all 0.3s ease", // Smooth opacity transition
+            }}
+          >
+            <div>
+              <FaChartPie size={40} />
+              <h5 className="m-0 mt-2">Stock</h5>
+            </div>
+          </Card>
+        </Col>
+
+        <Col
+          md={2}
+          onClick={() => handleCardClick("Shrinkage")}
+          className="slide-in-bottom"
+        >
+          <div
+            className="ceocard-hover pie-card-default-height"
+            style={{
+              backgroundColor: "#0275d8", // Dark Blue background
+              color: "#fff",
+              height: "100px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              transition: "all 0.3s ease", // Smooth opacity transition
+            }}
+          >
+            <FaClipboardList size={40} />
+            <h5 className="m-0 mt-2">Shrinkage</h5>
+          </div>
+        </Col>
+        <Col
+          md={2}
+          onClick={() => handleCardClick("Stock Details")}
+          className="slide-in-bottom"
+        >
+          <div
+            className="ceocard-hover pie-card-default-height"
+            style={{
+              backgroundColor: "#d9534f", // Red background
+              color: "#fff",
+              height: "100px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -151,33 +253,13 @@ const CeoDashBoardBottomPage = () => {
             }}
           >
             <FaGasPump size={40} />
-            <h5 className="m-0 mt-2">Performance</h5>
-          </div>
-        </Col>
-        <Col
-          md={3}
-          onClick={() => handleCardClick("Reports")}
-          className="slide-in-right"
-        >
-          <div
-            className="ceocard-hover"
-            style={{
-              backgroundColor: "#f0ad4e", // Yellow background
-              color: "#fff",
-              height: "120px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              transition: "all 0.3s ease", // Smooth opacity transition
-            }}
-          >
-            <FaFileAlt size={40} />
-            <h5 className="m-0 mt-2">Reports</h5>
+            <h5 className="m-0 mt-2">Stock Details</h5>
           </div>
         </Col>
       </Row>
+
+      {/* {/ Stock, Shrinkage, and Stock Details /} */}
+      <Row className="my-2"></Row>
 
       {/* {/ Fourth Row with Cards /} */}
       <Row Row className="my-2">
@@ -218,79 +300,6 @@ const CeoDashBoardBottomPage = () => {
               {/* {/ <PriceLogTable priceLogs={PriceLogs?.priceLogs} /> /} */}
             </Card.Body>
           </Card>
-        </Col>
-      </Row>
-
-      {/* {/ Stock, Shrinkage, and Stock Details /} */}
-      <Row Row className="my-2">
-        <Col
-          md={4}
-          onClick={() => handleCardClick("Stock")}
-          className="slide-in-bottom"
-        >
-          <div
-            className="ceocard-hover"
-            style={{
-              backgroundColor: "#5bc0de", // Light Blue background
-              color: "#fff",
-              height: "100px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              transition: "all 0.3s ease", // Smooth opacity transition
-            }}
-          >
-            <FaChartPie size={40} />
-            <h5 className="m-0 mt-2">Stock</h5>
-          </div>
-        </Col>
-        <Col
-          md={4}
-          onClick={() => handleCardClick("Shrinkage")}
-          className="slide-in-bottom"
-        >
-          <div
-            className="ceocard-hover"
-            style={{
-              backgroundColor: "#0275d8", // Dark Blue background
-              color: "#fff",
-              height: "100px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              transition: "all 0.3s ease", // Smooth opacity transition
-            }}
-          >
-            <FaClipboardList size={40} />
-            <h5 className="m-0 mt-2">Shrinkage</h5>
-          </div>
-        </Col>
-        <Col
-          md={4}
-          onClick={() => handleCardClick("Stock Details")}
-          className="slide-in-bottom"
-        >
-          <div
-            className="ceocard-hover"
-            style={{
-              backgroundColor: "#d9534f", // Red background
-              color: "#fff",
-              height: "100px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              transition: "all 0.3s ease", // Smooth opacity transition
-            }}
-          >
-            <FaGasPump size={40} />
-            <h5 className="m-0 mt-2">Stock Details</h5>
-          </div>
         </Col>
       </Row>
     </>
