@@ -48,6 +48,7 @@ import ManageLevels from "./components/pages/ManageLevels/ManageLevels";
 import ManageAddEditLevel from "./components/pages/ManageLevels/ManageAddEditLevel";
 import FuelSellingPricesSuggestion from "./components/pages/FuelSellingPricesSuggestion/FuelSellingPricesSuggestion";
 import FuelSellingSuggestionLogs from "./components/pages/FuelSellingSuggestionLogs/FuelSellingSuggestionLogs";
+import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild/CeoDashSubChildBaseAPIS";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -713,6 +714,7 @@ const Root = () => {
   const WrappedCeoDashBoardChild = withApi(CeoDashBoardChild);
   const WrappedDashBoardSubChild = withApi(DashSubChild);
   const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
+  const WrappedCeoDashBoardSiteDetail = withApi(CeoDashSubChildBaseAPIS);
   const WrappedEmaillogs = withApi(Emaillogs);
   const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
   const WrappedFuturePricelogs = withApi(FuturePriceLogs);
@@ -1411,6 +1413,10 @@ const Root = () => {
                     <Route
                       path={`/dashboard-details/:id`}
                       element={<WrappedDashBoardSiteDetail />}
+                    />
+                    <Route
+                      path={`/ceodashboard-details/:id`}
+                      element={<WrappedCeoDashBoardSiteDetail />}
                     />
 
                     <Route
