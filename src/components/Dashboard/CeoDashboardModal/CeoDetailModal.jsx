@@ -281,13 +281,21 @@ const CeoDetailModal = (props) => {
 
   const handleSiteChange = async (selectedId) => {
     try {
-      const selectedItem = filterData?.sites.find(
-        (item) => item.id === selectedId
-      );
 
-      await formik.setFieldValue("selectedSite", selectedId);
-      await formik.setFieldValue("selectedSiteDetails", selectedItem);
-      await fetchData(selectedId, "site"); // Fetch data for site change
+      if (selectedId) {
+        const selectedItem = filterData?.sites.find(
+          (item) => item.id === selectedId
+        );
+        await formik.setFieldValue("selectedSite", selectedId);
+        await formik.setFieldValue("selectedSiteDetails", selectedItem);
+        await fetchData(selectedId, "site"); // Fetch data for site change
+      } else if (!selectedId) {
+
+        await formik.setFieldValue("selectedSite", "");
+        await formik.setFieldValue("selectedSiteDetails", "");
+        await fetchData("", "site"); // Fetch data for site change
+        filterData.site_id = ""
+      }
     } catch (error) {
       console.error("Error in handleSiteChange:", error);
     }
@@ -312,7 +320,7 @@ const CeoDetailModal = (props) => {
       } else if (filterData?.company_id) {
         queryParams.append("company_id", filterData.company_id); // Use default company ID
       }
-
+      console.log(filterData, "filterData.site_id");
       if (type === "site" && customId) {
         queryParams.append("site_id", customId); // Use custom site ID
       } else if (filterData?.site_id) {

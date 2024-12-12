@@ -528,7 +528,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleChange = (event) => {
@@ -538,7 +538,7 @@ const CeoDashBoardTest = (props) => {
     setToggleValue(checked);
   };
 
-  console.log(applyNavigate, "applyNavigate");
+  console.log(filters, "filterDatafilters");
 
   return (
     <>
