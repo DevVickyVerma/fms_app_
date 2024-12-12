@@ -356,12 +356,17 @@ const CeoDetailModal = (props) => {
       if (filterData?.client_id) {
         queryParams.append("client_id", filterData.client_id);
       }
+      const shouldSkipCompanyId = type === "no-company";
 
-      if (type === "company" && customId) {
-        queryParams.append("company_id", customId); // Use custom company ID
-      } else if (filterData?.company_id) {
-        queryParams.append("company_id", filterData.company_id); // Use default company ID
+      if (!shouldSkipCompanyId) {
+        if (type === "company" && customId) {
+          queryParams.append("company_id", customId); // Use custom company ID
+        } else if (filterData?.company_id) {
+          queryParams.append("company_id", filterData.company_id); // Use default company ID
+        }
       }
+
+
       const shouldSkipSiteId = title === "Reports" || type === "no-site" || type === "company";
 
       if (!shouldSkipSiteId) {
@@ -445,6 +450,23 @@ const CeoDetailModal = (props) => {
     }
   };
 
+  const handleRemoveFilter = async (filterName) => {
+    console.log(filterName, "filterName");
+    if (filterName == "company_name") {
+      await formik.setFieldValue("selectedCompany", "");
+      await formik.setFieldValue("selectedCompanyDetails", "");
+      await formik.setFieldValue("selectedSite", "");
+      await formik.setFieldValue("selectedSiteDetails", "");
+      filterData.sites = []; // Clear sites
+      await fetchData(null, "no-company");
+    } else if (filterName == "site_name") {
+      await formik.setFieldValue("selectedSite", "");
+      await formik.setFieldValue("selectedSiteDetails", "");
+      await fetchData(null, "no-site");
+    }
+
+
+  };
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
@@ -492,15 +514,22 @@ const CeoDetailModal = (props) => {
           >
             {title == "MOP Breakdown" && (
               <>
-                <div className="m-4 textend"> <CeoFilterBadge
-                  filters={{
-                    client_name: filterData.client_name,
-                    company_name: formik?.values?.selectedCompanyDetails?.company_name,
-                    site_name: formik?.values?.selectedSiteDetails?.site_name,
-                    start_date: "",
-                  }}
-                  showResetBtn={true}
-                /></div>
+                <div className="m-4 textend">
+                  <CeoFilterBadge
+                    filters={{
+                      client_name: filterData.client_name,
+                      company_name: formik?.values?.selectedCompanyDetails?.company_name,
+                      site_name: formik?.values?.selectedSiteDetails?.site_name,
+                      start_date: "",
+                    }}
+                    onRemoveFilter={handleRemoveFilter}
+                    showResetBtn={true}
+                    showStartDate={false}
+                  />
+
+
+
+                </div>
                 <Card className="">
                   <Card.Body className="">
                     <Row>
@@ -516,6 +545,7 @@ const CeoDetailModal = (props) => {
                           options={filterData.companies}
                           onChange={handleCompanyChange}
                           required={true}
+                          placeholder="--Select a Company--"
                         />
                       )}
 
@@ -591,9 +621,6 @@ const CeoDetailModal = (props) => {
               <>
                 <Card className="mt-5">
                   <Card.Body className="">
-
-
-
                     <Row>
                       {filterData?.sites ? (
                         <Col lg={4} className="">
