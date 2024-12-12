@@ -10,7 +10,7 @@ const CeoDashboardCharts = ({
   Salesstatsloading,
   BarGraphSalesStats,
   Baroptions,
-  selectedOption,
+
   formik,
   getData,
   isLoading,
@@ -57,7 +57,7 @@ const CeoDashboardCharts = ({
         data={data}
         options={Baroptions}
         title={title}
-        selectedOption={selectedOption}
+
       />
     );
   };
