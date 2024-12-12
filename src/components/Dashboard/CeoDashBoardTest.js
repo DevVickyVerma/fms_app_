@@ -355,12 +355,7 @@ const CeoDashBoardTest = (props) => {
       setPriceLogssloading(false);
     }
   };
-  // {
-  //   name: "itemstock",
-  //   url: "ceo-dashboard/department-item-stocks",
-  //   setData: setItemstockstats,
-  //   setLoading: setItemstockstatsloading,
-  // },
+
   const FetchStockDetails = async () => {
     try {
       setItemstockstatsloading(true);
@@ -529,7 +524,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleChange = (event) => {

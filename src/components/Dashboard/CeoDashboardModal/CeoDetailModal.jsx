@@ -18,7 +18,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoaderImg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-useEffect;
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
 import {
@@ -31,9 +30,8 @@ import CeoFilterBadge from "../CeoFilterBadge";
 import SelectField from "./SelectField";
 
 const CeoDetailModal = (props) => {
-  const { title, getData, visible, onClose, values, isLoading, filterData } =
+  const { title, getData, visible, onClose, filterDataAll, isLoading, filterData } =
     props;
-  console.log(filterData, "filterData");
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
 
@@ -310,7 +308,6 @@ const CeoDetailModal = (props) => {
         await formik.setFieldValue("selectedSite", "");
         await formik.setFieldValue("selectedSiteDetails", "");
 
-        filterData.sites = []; // Clear sites
       }
     } catch (error) {
       console.error("Error in handleCompanyChange:", error);
@@ -326,7 +323,6 @@ const CeoDetailModal = (props) => {
         await fetchData(selectedId, "site");
       } else {
         console.log("No site selected, skipping site_id");
-        // Fetch data without site_id, indicating no site selection
         await fetchData(null, "no-site");
       }
 
@@ -369,7 +365,7 @@ const CeoDetailModal = (props) => {
 
       const shouldSkipSiteId = title === "Reports" || type === "no-site" || type === "company";
 
-      if (!shouldSkipSiteId) {
+      if (!shouldSkipSiteId && !shouldSkipCompanyId) {
         if (type === "site" && customId) {
           console.log("Condition met: Custom site ID provided");
           queryParams.append("site_id", customId); // Use custom site ID
@@ -449,7 +445,7 @@ const CeoDetailModal = (props) => {
       setLoading(false); // Stop loading indicator
     }
   };
-
+  console.log(filterData, filterDataAll, "filterDataAll");
   const handleRemoveFilter = async (filterName) => {
     console.log(filterName, "filterName");
     if (filterName == "company_name") {
@@ -457,7 +453,6 @@ const CeoDetailModal = (props) => {
       await formik.setFieldValue("selectedCompanyDetails", "");
       await formik.setFieldValue("selectedSite", "");
       await formik.setFieldValue("selectedSiteDetails", "");
-      filterData.sites = []; // Clear sites
       await fetchData(null, "no-company");
     } else if (filterName == "site_name") {
       await formik.setFieldValue("selectedSite", "");
@@ -555,7 +550,7 @@ const CeoDetailModal = (props) => {
                           id="selectedSite"
                           name="selectedSite"
                           value={formik.values.selectedSite}
-                          options={filterData.sites}
+                          options={formik.values.selectedCompany ? filterData.sites : []}
                           onChange={handleSiteChange}
                           placeholder="--Select a Site--"
                         />
