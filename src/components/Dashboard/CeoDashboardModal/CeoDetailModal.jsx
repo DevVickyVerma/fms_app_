@@ -589,7 +589,7 @@ const CeoDetailModal = (props) => {
             )}
             {title == "Comparison" && (
               <>
-                <Card className="">
+                <Card className="mt-5">
                   <Card.Body className="">
 
 
