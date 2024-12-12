@@ -46,8 +46,12 @@ const CeoDetailModal = (props) => {
         formik.setFieldValue("selectedSite", filterData?.site_id);
         formik.setFieldValue("site_name", filterData?.site_name);
       } else if (filterData?.company_id) {
+        const selectedItem = filterData?.companies.find(
+          (item) => item.id === filterData?.company_id
+        );
         formik.setFieldValue("company_id", filterData?.company_id);
         formik.setFieldValue("selectedCompany", filterData?.company_id);
+        formik.setFieldValue("selectedCompanyDetails", selectedItem);
       } else if (title == "Live Margin") {
         formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
         formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
@@ -59,6 +63,7 @@ const CeoDetailModal = (props) => {
     initialValues: {
       client_id: "",
       company_id: "",
+      company_name: "",
       comparison_value: "0",
       selectedSite: "",
       selectedCompany: "",
@@ -403,10 +408,13 @@ const CeoDetailModal = (props) => {
                   <Card.Body className="">
                     <Row>
                       <CeoFilterBadge
-                        filters={filterData}
-                        // handleToggleSidebar1={handleToggleSidebar1}
-                        // handleResetFilters={handleResetFilters}
-                        showResetBtn={false}
+                        filters={{
+                          client_name: filterData.client_name,
+                          company_name: formik?.values?.selectedCompanyDetails?.company_name,
+                          site_name: formik?.values?.selectedSiteDetails?.site_name,
+                          start_date: "",
+                        }}
+                        showResetBtn={true}
                       />
                       {filterData?.companies ? (
                         <Col lg={6} className="">
