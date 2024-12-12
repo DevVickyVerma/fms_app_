@@ -164,7 +164,7 @@ const CeoDashBoardTest = (props) => {
     const endpoints = [
       {
         name: "dashboard",
-        url: "dashboard/stats",
+        url: "eodashboard-site-stats",
         setData: setDashboardData,
         callback: (response, updatedFilters) => {
           setFilters(updatedFilters);
@@ -529,7 +529,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleChange = (event) => {
