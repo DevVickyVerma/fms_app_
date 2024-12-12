@@ -730,6 +730,36 @@ const CeoDetailModal = (props) => {
             )}
             {title == "Daily Wise Sales" && (
               <>
+                <Card className="">
+                  <Card.Body className="">
+                    <Row>
+                      {filterData?.sites ? (
+                        <Col lg={6} className="">
+                          <label className=" form-label" htmlFor="Site">
+                            Site
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            id="selectedSite"
+                            name="selectedSite"
+                            value={formik.values.selectedSite}
+                            onChange={(e) => handleSiteChange(e.target.value)}
+                            class="input101 "
+                          >
+                            <option value="">--Select a Site--</option>
+                            {filterData?.sites?.map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.site_name}
+                              </option>
+                            ))}
+                          </select>
+                        </Col>
+                      ) : (
+                        ""
+                      )}
+                    </Row>
+                  </Card.Body>
+                </Card>
                 <Col sm={12} md={12} key={Math.random()}>
                   <Card className="">
                     <Card.Header className="p-4 w-100  ">
