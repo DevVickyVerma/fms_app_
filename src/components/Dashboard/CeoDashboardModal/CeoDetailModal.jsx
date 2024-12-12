@@ -69,6 +69,27 @@ const CeoDetailModal = (props) => {
   }, [isClientRole])
 
   useEffect(() => {
+
+    if (title == "Reports") {
+      const selectedItem = filterData?.sites?.find(
+        (item) => item.id === filterData?.sites?.[0]?.id
+      );
+      formik.setFieldValue("selectedSiteDetails", selectedItem);
+      formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
+      formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
+
+      const currentMonthObject = {
+        "values": "202412",
+        "value": "12-2024",
+        "display": "Dec (2024)",
+        "full_display": "December (2024)"
+      }
+      if (currentMonthObject) {
+        formik.setFieldValue("selectedMonth", currentMonthObject.display);
+        formik.setFieldValue("selectedMonthDetails", currentMonthObject);
+      }
+    }
+
     if (visible && filterData) {
 
 
@@ -324,8 +345,6 @@ const CeoDetailModal = (props) => {
   };
 
 
-
-
   useEffect(() => {
     fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title]); // Dependencies: title and selectedSite
@@ -365,17 +384,6 @@ const CeoDetailModal = (props) => {
       }
 
 
-      // Use customSiteId if provided; otherwise, fallback to filterData.site_id
-      // if (filterData?.client_id)
-      //   queryParams.append("client_id", filterData.client_id);
-      // if (filterData?.company_id)
-      //   queryParams.append("company_id", filterData.company_id);
-      // if (customSiteId) queryParams.append("site_id", customSiteId);
-      // else if (filterData?.site_id)
-      //   queryParams.append("site_id", filterData.site_id);
-      // else if (title == "Live Margin" && filterData?.sites?.[0]?.id) {
-      //   queryParams.append("site_id", filterData.sites[0].id);
-      // }
 
       const queryString = queryParams.toString(); // Construct the query string
 
@@ -422,7 +430,12 @@ const CeoDetailModal = (props) => {
       }
 
       if (response) {
-        console.log(response, "response");
+
+        if (response.data?.data?.months) {
+
+          console.log(response.data?.data?.months, "response.data?.data?.months");
+        }
+        console.log(response.data?.data?.months, "response.data");
         setApiData(response.data); // Assuming response has a 'data' field
       }
     } catch (error) {
