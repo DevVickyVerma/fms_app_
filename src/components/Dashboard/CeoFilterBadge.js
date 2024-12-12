@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button"; // Adjust if you use a different UI library
 import { useSelector } from "react-redux";
 
-const FiltersComponent = ({
+const CeoFilterBadge = ({
   filters,
   handleToggleSidebar1,
   handleResetFilters,
@@ -59,7 +59,7 @@ const FiltersComponent = ({
         </div>
       )}
 
-      <Button
+      {/* <Button
         onClick={handleToggleSidebar1}
         type="button"
         className="btn btn-primary"
@@ -68,7 +68,7 @@ const FiltersComponent = ({
         <span>
           <i className="ph ph-funnel ms-1" />
         </span>
-      </Button>
+      </Button> */}
 
       {(filters?.client_id ||
         filters?.company_id ||
@@ -83,4 +83,4 @@ const FiltersComponent = ({
   );
 };
 
-export default FiltersComponent;
+export default CeoFilterBadge;
