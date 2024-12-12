@@ -20,7 +20,7 @@ const CeoDashboardCharts = ({
 
   useEffect(() => {
     if (formik?.values?.selectedSite && formik?.values?.comparison_value) {
-      fetchComparisonData();
+      // fetchComparisonData();
     }
   }, [formik?.values]);
 
