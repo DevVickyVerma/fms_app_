@@ -591,7 +591,7 @@ const CeoDetailModal = (props) => {
                       client_name: filterData.client_name,
                       company_name:
                         formik?.values?.selectedCompanyDetails?.company_name,
-                      site_name: formik?.values?.selectedSiteDetails?.site_name ? formik?.values?.selectedCompanyDetails?.company_name : filterData?.sites[0]?.site_name, // Pass "yes" if it has a value, "no" otherwise
+                      site_name: formik?.values?.selectedSiteDetails?.site_name ? formik?.values?.selectedCompanyDetails?.site_name : filterData?.sites[0]?.site_name, // Pass "yes" if it has a value, "no" otherwise
                     }}
                     showResetBtn={false}
                   />
