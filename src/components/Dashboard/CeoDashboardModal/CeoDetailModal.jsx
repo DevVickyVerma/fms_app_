@@ -68,14 +68,16 @@ const CeoDetailModal = (props) => {
   }, [isClientRole])
 
   useEffect(() => {
-    if (visible && filterData?.sites) {
+    if (visible && filterData) {
+
+
       if (filterData?.site_id) {
         const selectedItem = filterData?.sites.find(
           (item) => item.id === filterData?.site_id
         );
         formik.setFieldValue("selectedSite", filterData?.site_id);
         formik.setFieldValue("selectedSiteDetails", selectedItem);
-        formik.setFieldValue("site_name", selectedItem?.site_name);
+        formik.setFieldValue("site_name", filterData?.site_name);
       } else if (filterData?.company_id) {
         const selectedItem = filterData?.companies?.find(
           (item) => item.id === filterData?.company_id
@@ -83,9 +85,23 @@ const CeoDetailModal = (props) => {
         formik.setFieldValue("company_id", filterData?.company_id);
         formik.setFieldValue("selectedCompany", filterData?.company_id);
         formik.setFieldValue("selectedCompanyDetails", selectedItem);
-      } else if (title == "Live Margin") {
+      }
+      if (title == "Live Margin") {
+
+        const selectedItem = filterData?.sites?.find(
+          (item) => item.id === filterData?.sites?.[0]?.id
+        );
+        formik.setFieldValue("selectedSiteDetails", selectedItem);
         formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
         formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
+      }
+      if (filterData?.company_id) {
+        const selectedItem = filterData?.companies?.find(
+          (item) => item.id === filterData?.company_id
+        );
+        formik.setFieldValue("company_id", filterData?.company_id);
+        formik.setFieldValue("selectedCompany", filterData?.company_id);
+        formik.setFieldValue("selectedCompanyDetails", selectedItem);
       }
     }
   }, [visible]);
@@ -281,25 +297,31 @@ const CeoDetailModal = (props) => {
 
   const handleSiteChange = async (selectedId) => {
     try {
-
+      // Check if a site is selected (selectedId is not null or undefined)
       if (selectedId) {
-        const selectedItem = filterData?.sites.find(
-          (item) => item.id === selectedId
-        );
-        await formik.setFieldValue("selectedSite", selectedId);
-        await formik.setFieldValue("selectedSiteDetails", selectedItem);
-        await fetchData(selectedId, "site"); // Fetch data for site change
-      } else if (!selectedId) {
-
-        await formik.setFieldValue("selectedSite", "");
-        await formik.setFieldValue("selectedSiteDetails", "");
-        await fetchData("", "site"); // Fetch data for site change
-        filterData.site_id = ""
+        console.log("Site selected, fetching data for site ID:", selectedId);
+        // Fetch data for site change with the custom selected site ID
+        await fetchData(selectedId, "site");
+      } else {
+        console.log("No site selected, skipping site_id");
+        // Fetch data without site_id, indicating no site selection
+        await fetchData(null, "no-site");
       }
+
+      // Find the selected site details from filterData
+      const selectedItem = filterData?.sites.find(
+        (item) => item.id === selectedId
+      );
+
+      // Update Formik state with selected site and its details
+      await formik.setFieldValue("selectedSite", selectedId);
+      await formik.setFieldValue("selectedSiteDetails", selectedItem);
+
     } catch (error) {
       console.error("Error in handleSiteChange:", error);
     }
   };
+
 
 
 
@@ -320,14 +342,27 @@ const CeoDetailModal = (props) => {
       } else if (filterData?.company_id) {
         queryParams.append("company_id", filterData.company_id); // Use default company ID
       }
-      console.log(filterData, "filterData.site_id");
-      if (type === "site" && customId) {
-        queryParams.append("site_id", customId); // Use custom site ID
-      } else if (filterData?.site_id) {
-        queryParams.append("site_id", filterData.site_id); // Use default site ID
-      } else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
-        queryParams.append("site_id", filterData.sites[0].id); // Use the first site ID as fallback
+      const shouldSkipSiteId = title === "Reports" || type === "no-site" || type === "company";
+
+      if (!shouldSkipSiteId) {
+        if (type === "site" && customId) {
+          console.log("Condition met: Custom site ID provided");
+          queryParams.append("site_id", customId); // Use custom site ID
+        } else if (filterData?.site_id) {
+          console.log("Condition met: Default site ID from filterData used");
+          queryParams.append("site_id", filterData.site_id); // Use default site ID
+        } else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
+          console.log(
+            "Condition met: Fallback to the first site ID for Live Margin"
+          );
+          queryParams.append("site_id", filterData.sites[0].id); // Use the first site ID as fallback
+        } else {
+          console.log("Condition met: No site ID could be determined");
+        }
+      } else {
+        console.log("Condition met: site_id is skipped");
       }
+
 
       // Use customSiteId if provided; otherwise, fallback to filterData.site_id
       // if (filterData?.client_id)
