@@ -529,7 +529,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -540,7 +540,9 @@ const CeoDashBoardTest = (props) => {
   };
 
   const openCenterFilterModal = () => {
-    setCenterFilterModalOpen(true);
+    if (!filters?.company_id) {
+      setCenterFilterModalOpen(true);
+    }
   };
 
   console.log(filters, "filters");
@@ -657,7 +659,7 @@ const CeoDashBoardTest = (props) => {
         ""
       )}
 
-      <div className="mb-2 ">
+      <div className="mb-2 " onClick={() => openCenterFilterModal()}>
         {filters?.client_id && filters.company_id && (
           <>
             {/* <div className="text-end ">
@@ -724,7 +726,7 @@ const CeoDashBoardTest = (props) => {
         )}
       </div>
 
-      <div>
+      <div onClick={() => openCenterFilterModal()}>
         <Row>
           <Col lg={12}>
             <CeoDashBoardBottomPage
