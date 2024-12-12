@@ -31,6 +31,7 @@
 @import "./assets/switcher/demo.css";
 //Custom styles
 @import "./assets/css/custom.css";
+@import "./assets/css/card-loading-animation.css";
 
 //Maps
 .leaflet-container {
@@ -162,7 +163,7 @@
   border-radius: 4px;
 }
 
-.fc-direction-ltr .fc-toolbar>*> :not(:first-child) {
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
   margin-left: 0.75em;
   margin-top: 2px;
 }
@@ -187,7 +188,7 @@
 }
 
 //breadcrumb
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
   float: initial;
 }
 
@@ -275,7 +276,6 @@
 
 //dropdown
 .btn-group {
-
   .btn-warning,
   .btn-danger {
     border: none;
@@ -298,7 +298,6 @@
   }
 
   .btn-pill {
-
     .caret,
     .fa-ellipsis-h,
     .fa-ellipsis-v,
@@ -630,7 +629,6 @@
   border-radius: unset !important;
   border: 1px solid #d4d4d4 !important;
 }
-
 
 .input-group {
   .form-control {
@@ -987,7 +985,6 @@ ol.progtrckr li.progtrckr-done:before {
 
 // .MuiStepper-horizontal{
 .Paymentdetails {
-
   .float-start,
   .float-end {
     margin-top: 10px;
@@ -1162,7 +1159,6 @@ form.richText {
 }
 
 .rtl {
-
   .rdw-dropdown-optionwrapper,
   .rdw-emoji-modal,
   .rdw-image-modal,
@@ -1281,7 +1277,6 @@ form.richText {
 
   //editprofile
   .farms {
-
     .icon_cancel,
     .icon_down_dir {
       display: none;
@@ -1290,7 +1285,7 @@ form.richText {
 
   .app-sidebar,
   .custom-card {
-    >div {
+    > div {
       div:last-child {
         background: transparent !important;
       }
@@ -1298,10 +1293,9 @@ form.richText {
   }
 
   .custom-card {
-
     #ChatList,
     .main-chat-body {
-      >div {
+      > div {
         div:last-child {
           background: transparent !important;
         }
@@ -1314,7 +1308,7 @@ form.richText {
       margin-right: 9px;
     }
 
-    >div {
+    > div {
       div:last-child {
         background: transparent !important;
       }
@@ -1538,7 +1532,6 @@ form.richText {
 
 //darkmode
 .dark-mode {
-
   //dashbord
   .apexcharts-element-hidden {
     svg {
@@ -1551,8 +1544,8 @@ form.richText {
     background: $dark-theme;
   }
 
-  .data-table-extensions>.data-table-extensions-filter {
-    >.filter-text {
+  .data-table-extensions > .data-table-extensions-filter {
+    > .filter-text {
       border: 1px solid $border-dark !important;
       border-bottom: 1px solid $border-dark !important;
     }
@@ -1610,7 +1603,6 @@ form.richText {
   }
 
   .navbar-collapse {
-
     .notifications,
     .message,
     .profile-1 {
@@ -1655,7 +1647,6 @@ form.richText {
   }
 
   .c3-tooltip {
-
     th,
     td {
       background-color: $dark-theme;
@@ -1714,7 +1705,7 @@ form.richText {
     }
   }
 
-  .expanel-default>.expanel-heading {
+  .expanel-default > .expanel-heading {
     border-bottom: 1px solid $border-dark !important;
   }
 
@@ -1741,11 +1732,14 @@ form.richText {
   }
 
   //treeview
-  .deni-react-treeview-container.classic .deni-react-treeview-item-container.classic .expand-button {
+  .deni-react-treeview-container.classic
+    .deni-react-treeview-item-container.classic
+    .expand-button {
     color: $dark-color !important;
   }
 
-  .deni-react-treeview-container.classic .deni-react-treeview-item-container.classic {
+  .deni-react-treeview-container.classic
+    .deni-react-treeview-item-container.classic {
     color: $dark-color !important;
   }
 
@@ -1856,7 +1850,6 @@ form.richText {
   }
 
   .multiSelectContainer {
-
     .optionContainer,
     .searchWrapper {
       border: 0px solid $white-2 !important;
@@ -2108,7 +2101,6 @@ form.richText {
 }
 
 .horizontal.rtl.color-menu {
-
   .slide-rightRTL,
   .slide-leftRTL {
     background: $transparent-theme !important;
@@ -2121,7 +2113,6 @@ form.richText {
 }
 
 .horizontal.rtl.gradient-menu {
-
   .slide-rightRTL,
   .slide-leftRTL {
     background: $transparent-theme !important;
@@ -2134,7 +2125,6 @@ form.richText {
 }
 
 .horizontal.rtl.dark-menu {
-
   .slide-rightRTL,
   .slide-leftRTL {
     background: $dark-theme !important;
@@ -2148,7 +2138,6 @@ form.richText {
 
 //transparent
 .transparent-mode {
-
   //dashbord
   .apexcharts-element-hidden {
     svg {
@@ -2168,8 +2157,8 @@ form.richText {
     }
   }
 
-  .data-table-extensions>.data-table-extensions-filter {
-    >.filter-text {
+  .data-table-extensions > .data-table-extensions-filter {
+    > .filter-text {
       border: 1px solid $transparent-border !important;
       border-bottom: 1px solid $transparent-border !important;
     }
@@ -2224,7 +2213,8 @@ form.richText {
     background: $transparent-body !important;
   }
 
-  @supports (-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px)) {
+  @supports (-webkit-backdrop-filter: blur(20px)) or
+    (backdrop-filter: blur(20px)) {
     .side-header {
       background-color: transparent !important;
       backdrop-filter: blur(20px);
@@ -2254,7 +2244,6 @@ form.richText {
 
   //header
   .navbar-collapse {
-
     .notifications,
     .message,
     .profile-1 {
@@ -2341,7 +2330,6 @@ form.richText {
 
   //charts
   .c3-tooltip {
-
     th,
     td {
       background-color: $transparent-primary;
@@ -2407,7 +2395,9 @@ form.richText {
     background-color: #452293 !important;
   }
 
-  .deni-react-treeview-container.classic .deni-react-treeview-item-container.classic .expand-button {
+  .deni-react-treeview-container.classic
+    .deni-react-treeview-item-container.classic
+    .expand-button {
     color: $transparent-color !important;
   }
 
@@ -2415,7 +2405,8 @@ form.richText {
     color: $primary-1;
   }
 
-  .deni-react-treeview-container.classic .deni-react-treeview-item-container.classic {
+  .deni-react-treeview-container.classic
+    .deni-react-treeview-item-container.classic {
     color: $transparent-color !important;
   }
 
@@ -2862,8 +2853,8 @@ form.richText {
   }
 
   .horizontal.horizontal-hover {
-    .slide>.slide-menu>li:hover {
-      >.sub-slide-menu {
+    .slide > .slide-menu > li:hover {
+      > .sub-slide-menu {
         display: block !important;
       }
     }
@@ -2904,8 +2895,6 @@ form.richText {
   }
 
   .sidebar-mini.sidenav-toggled.sidenav-toggled-open {
-
-
     .side-badge {
       top: 10px !important;
     }
@@ -2961,13 +2950,13 @@ form.richText {
   .data-table-extensions {
     padding-right: 0px !important;
 
-    >.data-table-extensions-filter>.filter-text {
+    > .data-table-extensions-filter > .filter-text {
       float: right !important;
       width: 90% !important;
     }
   }
 
-  .data-table-extensions>.data-table-extensions-filter>.filter-text {
+  .data-table-extensions > .data-table-extensions-filter > .filter-text {
     margin-left: -8px !important;
   }
 }
@@ -2991,7 +2980,6 @@ form.richText {
 }
 
 @media only screen and (min-width: 320px) {
-
   //header
   .header-2 .animated-arrow {
     margin: 0px 0 0 -11px;
@@ -3059,13 +3047,16 @@ form.richText {
       transform: translate3d(7px, -2px, 0px) !important;
     }
 
-    .css-1ay6ak0-MuiDialogActions-root> :not(:first-of-type) {
+    .css-1ay6ak0-MuiDialogActions-root > :not(:first-of-type) {
       margin-left: auto;
       margin-right: 8px;
     }
 
     .file-browser {
-      &.input-group> :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+      &.input-group
+        > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(
+          .valid-feedback
+        ):not(.invalid-tooltip):not(.invalid-feedback) {
         border-top-left-radius: 7px !important;
         border-bottom-left-radius: 7px !important;
       }
@@ -3101,7 +3092,6 @@ form.richText {
 
 @media (max-width: 767.98px) {
   .vtimeline {
-
     .timeline-wrapper-primary,
     .timeline-wrapper-dark,
     .timeline-wrapper-success,
@@ -3116,7 +3106,7 @@ form.richText {
   .example {
     padding: 1.5rem;
 
-    .breadcrumb-item+.breadcrumb-item {
+    .breadcrumb-item + .breadcrumb-item {
       padding: 0px;
     }
   }
@@ -3127,7 +3117,6 @@ form.richText {
 
   .tab-menu-heading {
     .tabs-menu1 {
-
       .nav-link,
       & .active {
         padding: 5px;
@@ -3231,7 +3220,6 @@ form.richText {
 }
 
 @media (min-width: 768px) {
-
   //dashbord
   .apexcharts-element-hidden {
     display: contents;
@@ -3277,7 +3265,6 @@ form.richText {
 }
 
 @media (max-width: 991.98px) {
-
   //timeline
   .responsive-navbar .header-search .input-group .input-group-text.btn {
     top: 0px !important;
@@ -3288,7 +3275,6 @@ form.richText {
     top: 70px !important;
   }
 
-
   .transparent-mode .navresponsive-toggler span {
     background-color: transparent !important;
 
@@ -3298,7 +3284,7 @@ form.richText {
   }
 
   aside.horizontal-main {
-    >div {
+    > div {
       overflow: inherit !important;
     }
   }
@@ -3323,7 +3309,6 @@ form.richText {
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-
   .dark-mode,
   .transparent-mode {
     .vtimeline .timeline-wrapper-primary .timeline-panel:after {
@@ -3428,7 +3413,6 @@ form.richText {
     }
 
     &.horizontal.layout-boxed {
-
       .slide-right,
       .slide-left {
         display: none !important;
@@ -3498,7 +3482,6 @@ form.richText {
   }
 
   .countdown {
-
     .seconds,
     .minutes,
     .days {
@@ -3570,7 +3553,6 @@ form.richText {
   }
 
   #carouselExampleControls {
-
     .carousel-control-next-icon,
     .carousel-control-prev-icon {
       display: none;
@@ -3778,8 +3760,8 @@ form.richText {
   }
 }
 
-.data-table-extensions>.data-table-extensions-filter {
-  >.filter-text {
+.data-table-extensions > .data-table-extensions-filter {
+  > .filter-text {
     border: 1px solid $border !important;
     border-bottom: 1px solid $border !important;
     outline: none !important;
@@ -3787,7 +3769,7 @@ form.richText {
     margin-left: -11px !important;
   }
 
-  >.icon {
+  > .icon {
     display: none !important;
   }
 }
@@ -3884,7 +3866,7 @@ form.richText {
     }
   }
 
-  .breadcrumb-item+.breadcrumb-item {
+  .breadcrumb-item + .breadcrumb-item {
     padding-left: inherit;
     padding-right: 0.5rem;
   }
@@ -4044,7 +4026,6 @@ form.richText {
 }
 
 .rtl {
-
   .form-control.is-valid,
   .was-validated .form-control:valid {
     padding-right: 0.75rem;
@@ -4195,7 +4176,6 @@ ol.progtrckr li.progtrckr-done span {
 }
 
 @media (max-width: 991px) {
-
   .horizontal.app .main-sidemenu .slide-leftRTL,
   .horizontal.app .main-sidemenu .slide-rightRTL {
     display: none !important;
@@ -4264,7 +4244,6 @@ ol.progtrckr li.progtrckr-done span {
   }
 
   .horizontal {
-
     .header .message .dropdown-menu-arrow,
     .header .notifications .dropdown-menu {
       transform: translate(1px, 42px) !important;
@@ -4334,7 +4313,7 @@ ol.progtrckr li.progtrckr-done span {
     right: 0 !important;
   }
 
-  .data-table-extensions>.data-table-extensions-filter {
+  .data-table-extensions > .data-table-extensions-filter {
     float: left !important;
   }
 }
@@ -4392,7 +4371,7 @@ ol.progtrckr li.progtrckr-done span {
   color: #6d7596;
 }
 
-.icons-list>li {
+.icons-list > li {
   flex: 1 0 3rem;
 }
 
@@ -4414,9 +4393,8 @@ ol.progtrckr li.progtrckr-done span {
 }
 
 @media screen and (min-width: 992px) {
-
-  .app-header.header.navbar>.container,
-  .app-header.header.navbar>.container-fluid {
+  .app-header.header.navbar > .container,
+  .app-header.header.navbar > .container-fluid {
     display: block !important;
   }
 
@@ -4431,26 +4409,23 @@ ol.progtrckr li.progtrckr-done span {
       padding-top: 0px !important;
     }
   }
-
 }
 
 .horizontal {
-
-  .app-header.header.navbar>.container,
-  .app-header.header.navbar>.container-fluid {
+  .app-header.header.navbar > .container,
+  .app-header.header.navbar > .container-fluid {
     display: block !important;
   }
 }
 
-.header.navbar>.container,
-.navbar>.container-fluid {
+.header.navbar > .container,
+.navbar > .container-fluid {
   display: block;
 }
 
 @media screen and (max-width: 992px) {
-
-  .app-header.header.navbar>.container,
-  .app-header.header.navbar>.container-fluid {
+  .app-header.header.navbar > .container,
+  .app-header.header.navbar > .container-fluid {
     display: block;
   }
 
@@ -4494,7 +4469,6 @@ ol.progtrckr li.progtrckr-done span {
 }
 
 .rtl {
-
   .form-control.is-valid,
   .was-validated .form-control:valid {
     background-position: left calc(0.375em + 0.1875rem);
@@ -4546,7 +4520,6 @@ ol.progtrckr li.progtrckr-done span {
 
 @media (min-width: 992px) {
   .horizontal-main {
-
     .main-sidemenu .slide-left,
     .main-sidemenu .slide-right {
       position: absolute !important;
@@ -4554,11 +4527,11 @@ ol.progtrckr li.progtrckr-done span {
   }
 
   aside.horizontal-main {
-    >div {
+    > div {
       overflow: inherit !important;
       height: auto !important;
 
-      >div:first-child {
+      > div:first-child {
         position: relative !important;
         overflow: inherit !important;
         margin-bottom: 0px !important;
@@ -4602,7 +4575,7 @@ ol.progtrckr li.progtrckr-done span {
 }
 
 .sidebar-right1 {
-  >div {
+  > div {
     div {
       background: transparent !important;
     }
@@ -4610,7 +4583,7 @@ ol.progtrckr li.progtrckr-done span {
 }
 
 .horizontal-main {
-  >div {
+  > div {
     div {
       background: transparent !important;
     }
@@ -4637,9 +4610,9 @@ ol.progtrckr li.progtrckr-done span {
 
 .rtl {
   .app-sidebar {
-    >div {
-      >div {
-        >div>div {
+    > div {
+      > div {
+        > div > div {
           background: transparent !important;
         }
       }
@@ -4865,7 +4838,7 @@ ol.progtrckr li.progtrckr-done span {
 
 .rtl.layout-boxed {
   .app-sidebar {
-    >div {
+    > div {
       div {
         margin-right: 0px !important;
       }
@@ -4917,7 +4890,8 @@ ol.progtrckr li.progtrckr-done span {
     background-color: $transparent-body !important;
   }
 
-  @supports (-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px)) {
+  @supports (-webkit-backdrop-filter: blur(20px)) or
+    (backdrop-filter: blur(20px)) {
     .transparent-mode .app-sidebar {
       background-color: transparent !important;
       backdrop-filter: blur(20px);
@@ -4969,7 +4943,6 @@ ol.progtrckr li.progtrckr-done span {
 }
 
 .dark-mode {
-
   .counter-minus,
   .counter-plus {
     border: 1px solid $border-dark;
@@ -4982,7 +4955,6 @@ ol.progtrckr li.progtrckr-done span {
 
 .dark-mode,
 .transparent-mode {
-
   .rdw-option-wrapper,
   .search-wrapper,
   .rdw-dropdown-selectedtext {
