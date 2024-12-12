@@ -297,11 +297,10 @@ const CeoDetailModal = (props) => {
         await fetchData(selectedId, "company"); // Fetch data for company change
         await formik.setFieldValue("selectedCompany", selectedId);
         await formik.setFieldValue("selectedCompanyDetails", selectedItem);
-
-        // Reset site selection
         await formik.setFieldValue("selectedSite", "");
         await formik.setFieldValue("selectedSiteDetails", "");
       } else {
+        await fetchData(null, "no-company");
         // Clear fields if no company is selected
         await formik.setFieldValue("selectedCompany", "");
         await formik.setFieldValue("selectedCompanyDetails", "");
@@ -507,6 +506,258 @@ const CeoDetailModal = (props) => {
             className="card-body scrollview pt-0"
             style={{ background: "#f2f3f9" }}
           >
+
+            {title == "Daily Wise Sales" && (
+              <>
+                <div className="m-4 textend"> <CeoFilterBadge
+                  filters={{
+                    client_name: filterData.client_name,
+                    company_name: formik?.values?.selectedCompanyDetails?.company_name,
+                    site_name: formik?.values?.selectedSiteDetails?.site_name,
+                    start_date: "",
+                  }}
+                  onRemoveFilter={handleRemoveFilter}
+                  showResetBtn={true}
+                  showStartDate={false}
+                /></div>
+                <Card className="">
+                  <Card.Body className="">
+                    <Row>
+
+
+
+                      {filterData?.companies && (
+                        <SelectField
+                          label="Company"
+                          id="selectedCompany"
+                          name="selectedCompany"
+                          value={formik.values.selectedCompany}
+                          options={filterData.companies}
+                          onChange={handleCompanyChange}
+                          required={true}
+                          placeholder="--Select a Company--"
+                        />
+                      )}
+
+                      {filterData?.sites && (
+                        <SelectField
+                          label="Site"
+                          id="selectedSite"
+                          name="selectedSite"
+                          value={formik.values.selectedSite}
+                          options={filterData.sites}
+                          onChange={handleSiteChange}
+                          placeholder="--Select a Site--"
+                        />
+                      )}
+
+
+                    </Row>
+                  </Card.Body>
+                </Card>
+
+
+
+
+                <Card className="">
+                  <Card.Header className="p-4 w-100  ">
+                    <div className="w-100">
+                      <div className="spacebetweenend">
+                        <h4 className="card-title">Daily Wise Sales </h4>
+                      </div>
+                    </div>
+                  </Card.Header>
+                  <Card.Body>
+                    <div>
+                      <DashboardMultiLineChart
+                        LinechartValues={
+                          apiData?.data?.d_line_graph?.series || []
+                        }
+                        LinechartOption={
+                          apiData?.data?.d_line_graph?.option?.labels || []
+                        }
+                      />
+                    </div>
+                  </Card.Body>
+                </Card>
+              </>
+            )}
+            {title == "Live Margin" && (
+              <>
+                <div className="m-4 textend"> <CeoFilterBadge
+                  filters={{
+                    client_name: filterData.client_name,
+                    company_name: formik?.values?.selectedCompanyDetails?.company_name,
+                    site_name: formik?.values?.selectedSiteDetails?.site_name,
+                    start_date: "",
+                  }}
+                  showResetBtn={false}
+                /></div>
+                <Card className="">
+                  <Card.Body className="">
+                    <Row>
+
+
+
+                      {filterData?.companies && (
+                        <SelectField
+                          label="Company"
+                          id="selectedCompany"
+                          name="selectedCompany"
+                          value={formik.values.selectedCompany}
+                          options={filterData.companies}
+                          onChange={handleCompanyChange}
+                          required={true}
+                        />
+                      )}
+
+                      {filterData?.sites && (
+                        <SelectField
+                          label="Site"
+                          id="selectedSite"
+                          name="selectedSite"
+                          value={formik.values.selectedSite}
+                          options={filterData.sites}
+                          onChange={handleSiteChange}
+                        />
+                      )}
+
+
+                    </Row>
+                  </Card.Body>
+                </Card>
+
+
+                <Card className="">
+                  <Card.Body className="">
+                    <Row>
+                      <Col sm={12} md={6} lg={6} xl={4}>
+                        <Card
+                          className={`card dash-plates-1 img-card box-${request[0].color}-shadow`}
+                        >
+                          <Card.Body>
+                            <div className="d-flex">
+                              <div className="text-white">
+                                <h2 className="mb-0 number-font">
+                                  <span className="l-sign">ℓ</span>{" "}
+                                  {apiData?.data?.gross_volume}
+                                </h2>
+                                <p className="text-white mb-0">Gross Volume</p>
+                              </div>
+                              <div className="ms-auto">
+                                <i className="ph ph-drop text-white fs-30"></i>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+
+                      <Col sm={12} md={6} lg={6} xl={4}>
+                        <Card
+                          className={`card  dash-plates-2 img-card box-${request[1].color}-shadow`}
+                        >
+                          <Card.Body>
+                            <div className="d-flex">
+                              <div className="text-white">
+                                <h2 className="mb-0 number-font">
+                                  {" "}
+                                  £ {apiData?.data?.fuel_sales}
+                                </h2>
+                                <p className="text-white mb-0">Fuel Sales</p>
+                              </div>
+                              <div className="ms-auto">
+                                <i className="ph ph-shopping-bag text-white fs-30"></i>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+
+                      <Col sm={12} md={6} lg={6} xl={4}>
+                        <Card
+                          className={`card  dash-plates-3 img-card box-${request[2].color}-shadow`}
+                        >
+                          <Card.Body>
+                            <div className="d-flex">
+                              <div className="text-white">
+                                <h2 className="mb-0 number-font">
+                                  £ {apiData?.data?.gross_profit}
+                                </h2>
+                                <p className="text-white mb-0">Gross Profit</p>
+                              </div>
+                              <div className="ms-auto">
+                                <i className="ph ph-currency-gbp text-white fs-30"></i>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+
+                      <Col sm={12} md={6} lg={6} xl={4}>
+                        <Card
+                          className={`card  dash-plates-1 img-card box-${request[3].color}-shadow`}
+                        >
+                          <Card.Body>
+                            <div className="d-flex">
+                              <div className="text-white">
+                                <h2 className="mb-0 number-font">
+                                  {" "}
+                                  {apiData?.data?.gross_margin} ppl
+                                </h2>
+                                <p className="text-white mb-0">Gross Margin</p>
+                              </div>
+                              <div className="ms-auto">
+                                <i className="ph ph-lightning text-white fs-30"></i>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+
+                      <Col sm={12} md={6} lg={6} xl={4}>
+                        <Card
+                          className={`card  dash-plates-2 img-card box-${request[4].color}-shadow`}
+                        >
+                          <Card.Body>
+                            <div className="d-flex">
+                              <div className="text-white">
+                                <h2 className="mb-0 number-font">
+                                  £ {apiData?.data?.shop_sales}
+                                </h2>
+                                <p className="text-white mb-0">Shop Sales</p>
+                              </div>
+                              <div className="ms-auto">
+                                <i className="ph ph-shopping-bag text-white fs-30"></i>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+
+                      <Col sm={12} md={6} lg={6} xl={4}>
+                        <Card
+                          className={`card  dash-plates-3 img-card box-${request[5].color}-shadow`}
+                        >
+                          <Card.Body>
+                            <div className="d-flex">
+                              <div className="text-white">
+                                <h2 className="mb-0 number-font">
+                                  £ {apiData?.data?.shop_profit}
+                                </h2>
+                                <p className="text-white mb-0">Shop Profit</p>
+                              </div>
+                              <div className="ms-auto">
+                                <i className="ph ph-currency-gbp text-white fs-30"></i>
+                              </div>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </>
+            )}
             {title == "MOP Breakdown" && (
               <>
                 <div className="m-4 textend">
@@ -694,183 +945,7 @@ const CeoDetailModal = (props) => {
                 />
               </>
             )}
-            {title == "Live Margin" && (
-              <>
-                <div className="m-4 textend"> <CeoFilterBadge
-                  filters={{
-                    client_name: filterData.client_name,
-                    company_name: formik?.values?.selectedCompanyDetails?.company_name,
-                    site_name: formik?.values?.selectedSiteDetails?.site_name,
-                    start_date: "",
-                  }}
-                  showResetBtn={true}
-                /></div>
-                <Card className="">
-                  <Card.Body className="">
-                    <Row>
 
-
-
-                      {filterData?.companies && (
-                        <SelectField
-                          label="Company"
-                          id="selectedCompany"
-                          name="selectedCompany"
-                          value={formik.values.selectedCompany}
-                          options={filterData.companies}
-                          onChange={handleCompanyChange}
-                          required={true}
-                        />
-                      )}
-
-                      {filterData?.sites && (
-                        <SelectField
-                          label="Site"
-                          id="selectedSite"
-                          name="selectedSite"
-                          value={formik.values.selectedSite}
-                          options={filterData.sites}
-                          onChange={handleSiteChange}
-                          placeholder="--Select a Site--"
-                        />
-                      )}
-
-
-                    </Row>
-                  </Card.Body>
-                </Card>
-
-
-                <Card className="">
-                  <Card.Body className="">
-                    <Row>
-                      <Col sm={12} md={6} lg={6} xl={4}>
-                        <Card
-                          className={`card dash-plates-1 img-card box-${request[0].color}-shadow`}
-                        >
-                          <Card.Body>
-                            <div className="d-flex">
-                              <div className="text-white">
-                                <h2 className="mb-0 number-font">
-                                  <span className="l-sign">ℓ</span>{" "}
-                                  {apiData?.data?.gross_volume}
-                                </h2>
-                                <p className="text-white mb-0">Gross Volume</p>
-                              </div>
-                              <div className="ms-auto">
-                                <i className="ph ph-drop text-white fs-30"></i>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-
-                      <Col sm={12} md={6} lg={6} xl={4}>
-                        <Card
-                          className={`card  dash-plates-2 img-card box-${request[1].color}-shadow`}
-                        >
-                          <Card.Body>
-                            <div className="d-flex">
-                              <div className="text-white">
-                                <h2 className="mb-0 number-font">
-                                  {" "}
-                                  £ {apiData?.data?.fuel_sales}
-                                </h2>
-                                <p className="text-white mb-0">Fuel Sales</p>
-                              </div>
-                              <div className="ms-auto">
-                                <i className="ph ph-shopping-bag text-white fs-30"></i>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-
-                      <Col sm={12} md={6} lg={6} xl={4}>
-                        <Card
-                          className={`card  dash-plates-3 img-card box-${request[2].color}-shadow`}
-                        >
-                          <Card.Body>
-                            <div className="d-flex">
-                              <div className="text-white">
-                                <h2 className="mb-0 number-font">
-                                  £ {apiData?.data?.gross_profit}
-                                </h2>
-                                <p className="text-white mb-0">Gross Profit</p>
-                              </div>
-                              <div className="ms-auto">
-                                <i className="ph ph-currency-gbp text-white fs-30"></i>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-
-                      <Col sm={12} md={6} lg={6} xl={4}>
-                        <Card
-                          className={`card  dash-plates-1 img-card box-${request[3].color}-shadow`}
-                        >
-                          <Card.Body>
-                            <div className="d-flex">
-                              <div className="text-white">
-                                <h2 className="mb-0 number-font">
-                                  {" "}
-                                  {apiData?.data?.gross_margin} ppl
-                                </h2>
-                                <p className="text-white mb-0">Gross Margin</p>
-                              </div>
-                              <div className="ms-auto">
-                                <i className="ph ph-lightning text-white fs-30"></i>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-
-                      <Col sm={12} md={6} lg={6} xl={4}>
-                        <Card
-                          className={`card  dash-plates-2 img-card box-${request[4].color}-shadow`}
-                        >
-                          <Card.Body>
-                            <div className="d-flex">
-                              <div className="text-white">
-                                <h2 className="mb-0 number-font">
-                                  £ {apiData?.data?.shop_sales}
-                                </h2>
-                                <p className="text-white mb-0">Shop Sales</p>
-                              </div>
-                              <div className="ms-auto">
-                                <i className="ph ph-shopping-bag text-white fs-30"></i>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-
-                      <Col sm={12} md={6} lg={6} xl={4}>
-                        <Card
-                          className={`card  dash-plates-3 img-card box-${request[5].color}-shadow`}
-                        >
-                          <Card.Body>
-                            <div className="d-flex">
-                              <div className="text-white">
-                                <h2 className="mb-0 number-font">
-                                  £ {apiData?.data?.shop_profit}
-                                </h2>
-                                <p className="text-white mb-0">Shop Profit</p>
-                              </div>
-                              <div className="ms-auto">
-                                <i className="ph ph-currency-gbp text-white fs-30"></i>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </>
-            )}
             {title == "Performance" && (
               <>
 
@@ -977,78 +1052,7 @@ const CeoDetailModal = (props) => {
                 </Col>
               </>
             )}
-            {title == "Daily Wise Sales" && (
-              <>
-                <div className="m-4 textend"> <CeoFilterBadge
-                  filters={{
-                    client_name: filterData.client_name,
-                    company_name: formik?.values?.selectedCompanyDetails?.company_name,
-                    site_name: formik?.values?.selectedSiteDetails?.site_name,
-                    start_date: "",
-                  }}
-                  showResetBtn={true}
-                /></div>
-                <Card className="">
-                  <Card.Body className="">
-                    <Row>
 
-
-
-                      {filterData?.companies && (
-                        <SelectField
-                          label="Company"
-                          id="selectedCompany"
-                          name="selectedCompany"
-                          value={formik.values.selectedCompany}
-                          options={filterData.companies}
-                          onChange={handleCompanyChange}
-                          required={true}
-                        />
-                      )}
-
-                      {filterData?.sites && (
-                        <SelectField
-                          label="Site"
-                          id="selectedSite"
-                          name="selectedSite"
-                          value={formik.values.selectedSite}
-                          options={filterData.sites}
-                          onChange={handleSiteChange}
-                          placeholder="--Select a Site--"
-                        />
-                      )}
-
-
-                    </Row>
-                  </Card.Body>
-                </Card>
-
-
-
-
-                <Card className="">
-                  <Card.Header className="p-4 w-100  ">
-                    <div className="w-100">
-                      <div className="spacebetweenend">
-                        <h4 className="card-title">Daily Wise Sales </h4>
-                      </div>
-                    </div>
-                  </Card.Header>
-                  <Card.Body>
-                    <div>
-                      <DashboardMultiLineChart
-                        LinechartValues={
-                          apiData?.data?.d_line_graph?.series || []
-                        }
-                        LinechartOption={
-                          apiData?.data?.d_line_graph?.option?.labels || []
-                        }
-                      />
-                    </div>
-                  </Card.Body>
-                </Card>
-              </>
-            )}
             {(title === "Stock" ||
               title === "Shrinkage" ||
               title === "Stock Details") && (
@@ -1060,7 +1064,9 @@ const CeoDetailModal = (props) => {
                       site_name: formik?.values?.selectedSiteDetails?.site_name,
                       start_date: "",
                     }}
+                    onRemoveFilter={handleRemoveFilter}
                     showResetBtn={true}
+                    showStartDate={false}
                   /></div>
                   <Card className="">
                     <Card.Body className="">
