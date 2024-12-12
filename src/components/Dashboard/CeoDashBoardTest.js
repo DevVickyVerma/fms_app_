@@ -164,7 +164,7 @@ const CeoDashBoardTest = (props) => {
     const endpoints = [
       {
         name: "dashboard",
-        url: "eodashboard-site-stats",
+        url: "ceodashboard-site-stats",
         setData: setDashboardData,
         callback: (response, updatedFilters) => {
           setFilters(updatedFilters);

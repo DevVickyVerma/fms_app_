@@ -849,7 +849,7 @@ const CeoDetailModal = (props) => {
             {title == "Reports" && (
               <>
                 <Col sm={12} md={12} key={Math.random()}>
-                  <Card className="">
+                  <Card className="mt-5">
                     <Card.Body className="">
                       <div className="w-100">
                         <div className="spacebetweenend">
