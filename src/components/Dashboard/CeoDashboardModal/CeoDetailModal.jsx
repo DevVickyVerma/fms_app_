@@ -352,12 +352,6 @@ const CeoDetailModal = (props) => {
     }
   };
 
-  const [selectedOption, setSelectedOption] = useState("");
-  const handleDropdownChange = (e) => {
-    setSelectedOption(e.target.value);
-    console.log(e.target.value); // You can replace this with any logic for each option
-  };
-
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
@@ -544,7 +538,7 @@ const CeoDetailModal = (props) => {
                   </Card.Body>
                 </Card>
                 <CeoDashboardCharts
-                  selectedOption={selectedOption}
+
                   Salesstatsloading={false}
                   BarGraphSalesStats={salesGraphData}
                   Baroptions={Baroptions}
