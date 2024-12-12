@@ -760,29 +760,28 @@ const CeoDetailModal = (props) => {
                     </Row>
                   </Card.Body>
                 </Card>
-                <Col sm={12} md={12} key={Math.random()}>
-                  <Card className="">
-                    <Card.Header className="p-4 w-100  ">
-                      <div className="w-100">
-                        <div className="spacebetweenend">
-                          <h4 className="card-title">Daily Wise Sales </h4>
-                        </div>
+
+                <Card className="">
+                  <Card.Header className="p-4 w-100  ">
+                    <div className="w-100">
+                      <div className="spacebetweenend">
+                        <h4 className="card-title">Daily Wise Sales </h4>
                       </div>
-                    </Card.Header>
-                    <Card.Body>
-                      <div>
-                        <DashboardMultiLineChart
-                          LinechartValues={
-                            apiData?.data?.d_line_graph?.series || []
-                          }
-                          LinechartOption={
-                            apiData?.data?.d_line_graph?.option?.labels || []
-                          }
-                        />
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                    </div>
+                  </Card.Header>
+                  <Card.Body>
+                    <div>
+                      <DashboardMultiLineChart
+                        LinechartValues={
+                          apiData?.data?.d_line_graph?.series || []
+                        }
+                        LinechartOption={
+                          apiData?.data?.d_line_graph?.option?.labels || []
+                        }
+                      />
+                    </div>
+                  </Card.Body>
+                </Card>
               </>
             )}
             {(title === "Stock" ||
