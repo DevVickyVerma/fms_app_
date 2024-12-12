@@ -2571,3 +2571,12 @@ td.middayModal-td.time-input-fuel-sell {
   transform: translate(-50%, -50%);
   z-index: 1;
 }
+
+.ceo-cross-icon {
+  top: -8px;
+  right: -5px;
+  border-radius: 50%;
+  padding: 0px;
+  max-width: 2px;
+  min-width: 15px;
+}
