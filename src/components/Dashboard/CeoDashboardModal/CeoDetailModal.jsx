@@ -28,8 +28,7 @@ import {
 import MultiDateRangePicker from "../../../Utils/MultiDateRangePicker";
 
 const CeoDetailModal = (props) => {
-  const { title, getData, visible, onClose, values, isLoading, filterData } =
-    props; // Ensure `values` is passed correctly
+  const { title, getData, visible, onClose, values, isLoading, filterData } = props;
 
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
@@ -43,9 +42,6 @@ const CeoDetailModal = (props) => {
       if (filterData?.site_id) {
         formik.setFieldValue("selectedSite", filterData?.site_id);
         formik.setFieldValue("site_name", filterData?.site_name);
-      } else {
-        formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
-        formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
       }
     }
   }, [visible]);
@@ -67,6 +63,7 @@ const CeoDetailModal = (props) => {
       console.log(values);
     },
   });
+
   const handleMonthChange = (selectedId) => {
     const selectedItem = apiData?.data?.months?.find(
       (item) => item.display == selectedId
@@ -86,9 +83,6 @@ const CeoDetailModal = (props) => {
       formik.setFieldValue("endDate", null);
     }
   };
-
-  console.log(filterData, "filterData");
-
   const [pdfisLoading, setpdfisLoading] = useState(false);
   const ErrorToast = (message) => {
     toast.error(message, {
@@ -126,13 +120,10 @@ const CeoDetailModal = (props) => {
             : `client_id=${filterData.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${
-          report?.report_code
-        }?${clientIDCondition}company_id=${
-          filterData.company_id
-        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
-          formik?.values?.selectedMonthDetails?.value
-        }`;
+        const commonParams = `/download-report/${report?.report_code
+          }?${clientIDCondition}company_id=${filterData.company_id
+          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
+          }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -154,8 +145,7 @@ const CeoDetailModal = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${
-              errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -203,33 +193,38 @@ const CeoDetailModal = (props) => {
   };
   const handleSiteChange = async (selectedId) => {
     try {
-      const selectedItem = await filterData?.sites.find(
-        (item) => item.id === selectedId
-      );
+      const selectedItem = filterData?.sites.find((item) => item.id === selectedId);
 
       await formik.setFieldValue("selectedSite", selectedId);
       await formik.setFieldValue("selectedSiteDetails", selectedItem);
+
+      // Call fetchData with the selected site ID
+      await fetchData(selectedId);
     } catch (error) {
-      console.error("Error in handleCancelledAction:", error);
+      console.error("Error in handleSiteChange:", error);
     }
   };
+
 
   useEffect(() => {
     fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title]); // Dependencies: title and selectedSite
 
-  const fetchData = async () => {
+  const fetchData = async (customSiteId) => {
     try {
       setLoading(true); // Start loading indicator
-
-      // Dynamically build query parameters
       const queryParams = new URLSearchParams();
+
+      // Use customSiteId if provided; otherwise, fallback to filterData.site_id
       if (filterData?.client_id)
         queryParams.append("client_id", filterData.client_id);
       if (filterData?.company_id)
         queryParams.append("company_id", filterData.company_id);
-      if (filterData?.site_id)
+      if (customSiteId)
+        queryParams.append("site_id", customSiteId);
+      else if (filterData?.site_id)
         queryParams.append("site_id", filterData.site_id);
+
       const queryString = queryParams.toString(); // Construct the query string
 
       let response;
@@ -284,6 +279,7 @@ const CeoDetailModal = (props) => {
       setLoading(false); // Stop loading indicator
     }
   };
+
   const [selectedOption, setSelectedOption] = useState("");
   const handleDropdownChange = (e) => {
     setSelectedOption(e.target.value);
@@ -295,18 +291,17 @@ const CeoDetailModal = (props) => {
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
 
       <div
-        className={`common-sidebar    ${
-          visible ? "visible slide-in-right " : "slide-out-right"
-        }`}
+        className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
+          }`}
         style={{
           width:
             title == "MOP Breakdown"
               ? "50%"
               : title == "Reports"
-              ? "40"
-              : title == "Comparison"
-              ? "70%"
-              : "70%",
+                ? "40"
+                : title == "Comparison"
+                  ? "70%"
+                  : "70%",
         }}
       >
         <div className="card">
@@ -432,7 +427,7 @@ const CeoDetailModal = (props) => {
                         ""
                       )}
                       {filterData?.sites &&
-                      formik?.values?.comparison_value === "5" ? (
+                        formik?.values?.comparison_value === "5" ? (
                         <Col lg={4} className="">
                           <label className=" form-label" htmlFor="Site">
                             Select Custom Date Range
@@ -787,127 +782,127 @@ const CeoDetailModal = (props) => {
             {(title === "Stock" ||
               title === "Shrinkage" ||
               title === "Stock Details") && (
-              <>
-                <Row className=" d-flex align-items-stretch">
-                  <Col
-                    sm={12}
-                    md={6}
-                    xl={6}
-                    key={Math.random()}
-                    className="mb-6"
-                  >
-                    <Card className="h-100">
-                      <Card.Header className="p-4">
-                        <h4 className="card-title">Stocks</h4>
-                      </Card.Header>
-                      <Card.Body
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <div style={{ width: "300px", height: "300px" }}>
-                          <Doughnut
-                            data={StockData?.stock_graph_data}
-                            options={StockData?.stock_graph_options}
-                            height="100px"
-                          />
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col
-                    sm={12}
-                    md={6}
-                    xl={6}
-                    key={Math.random()}
-                    className="mb-6"
-                  >
-                    <CeoDashboardBarChart
-                      data={Shrinkage?.shrinkage_graph_data}
-                      options={Shrinkage?.shrinkage_graph_options}
-                      title="Shrinkage"
-                      width="300px"
-                      height="200px"
-                    />
-                  </Col>
-                  <Col sm={12} md={12} xl={12} key={Math.random()} className="">
-                    <Card className="h-100">
-                      <Card.Header className="p-4 w-100 flexspacebetween">
-                        <h4 className="card-title">
-                          {" "}
-                          <div className="lableWithsmall">Stock Details</div>
-                        </h4>
-                        <span style={{ color: "#4663ac", cursor: "pointer" }}>
-                          View Details
-                        </span>
-                      </Card.Header>
-                      <Card.Body style={{ maxHeight: "350px" }}>
-                        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                          <table
-                            style={{
-                              width: "100%",
-                              borderCollapse: "collapse",
-                            }}
-                          >
-                            <thead
+                <>
+                  <Row className=" d-flex align-items-stretch">
+                    <Col
+                      sm={12}
+                      md={6}
+                      xl={6}
+                      key={Math.random()}
+                      className="mb-6"
+                    >
+                      <Card className="h-100">
+                        <Card.Header className="p-4">
+                          <h4 className="card-title">Stocks</h4>
+                        </Card.Header>
+                        <Card.Body
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <div style={{ width: "300px", height: "300px" }}>
+                            <Doughnut
+                              data={StockData?.stock_graph_data}
+                              options={StockData?.stock_graph_options}
+                              height="100px"
+                            />
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      sm={12}
+                      md={6}
+                      xl={6}
+                      key={Math.random()}
+                      className="mb-6"
+                    >
+                      <CeoDashboardBarChart
+                        data={Shrinkage?.shrinkage_graph_data}
+                        options={Shrinkage?.shrinkage_graph_options}
+                        title="Shrinkage"
+                        width="300px"
+                        height="200px"
+                      />
+                    </Col>
+                    <Col sm={12} md={12} xl={12} key={Math.random()} className="">
+                      <Card className="h-100">
+                        <Card.Header className="p-4 w-100 flexspacebetween">
+                          <h4 className="card-title">
+                            {" "}
+                            <div className="lableWithsmall">Stock Details</div>
+                          </h4>
+                          <span style={{ color: "#4663ac", cursor: "pointer" }}>
+                            View Details
+                          </span>
+                        </Card.Header>
+                        <Card.Body style={{ maxHeight: "350px" }}>
+                          <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                            <table
                               style={{
-                                position: "sticky",
-                                top: 0,
-                                backgroundColor: "#fff",
-                                zIndex: 1,
+                                width: "100%",
+                                borderCollapse: "collapse",
                               }}
                             >
-                              <tr>
-                                <th
-                                  style={{ textAlign: "left", padding: "8px" }}
-                                >
-                                  Name
-                                </th>
-                                <th
-                                  style={{ textAlign: "left", padding: "8px" }}
-                                >
-                                  Gross Sales
-                                </th>
-                                <th
-                                  style={{ textAlign: "left", padding: "8px" }}
-                                >
-                                  Nett Sales
-                                </th>
-                                <th
-                                  style={{ textAlign: "left", padding: "8px" }}
-                                >
-                                  Profit
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {StockDetail?.map((stock) => (
-                                <tr key={stock?.id}>
-                                  <td style={{ padding: "8px" }}>
-                                    {stock?.name}
-                                  </td>
-                                  <td style={{ padding: "8px" }}>
-                                    {stock?.gross_sales}
-                                  </td>
-                                  <td style={{ padding: "8px" }}>
-                                    {stock?.nett_sales}
-                                  </td>
-                                  <td style={{ padding: "8px" }}>
-                                    {stock?.profit}
-                                  </td>
+                              <thead
+                                style={{
+                                  position: "sticky",
+                                  top: 0,
+                                  backgroundColor: "#fff",
+                                  zIndex: 1,
+                                }}
+                              >
+                                <tr>
+                                  <th
+                                    style={{ textAlign: "left", padding: "8px" }}
+                                  >
+                                    Name
+                                  </th>
+                                  <th
+                                    style={{ textAlign: "left", padding: "8px" }}
+                                  >
+                                    Gross Sales
+                                  </th>
+                                  <th
+                                    style={{ textAlign: "left", padding: "8px" }}
+                                  >
+                                    Nett Sales
+                                  </th>
+                                  <th
+                                    style={{ textAlign: "left", padding: "8px" }}
+                                  >
+                                    Profit
+                                  </th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
-              </>
-            )}
+                              </thead>
+                              <tbody>
+                                {StockDetail?.map((stock) => (
+                                  <tr key={stock?.id}>
+                                    <td style={{ padding: "8px" }}>
+                                      {stock?.name}
+                                    </td>
+                                    <td style={{ padding: "8px" }}>
+                                      {stock?.gross_sales}
+                                    </td>
+                                    <td style={{ padding: "8px" }}>
+                                      {stock?.nett_sales}
+                                    </td>
+                                    <td style={{ padding: "8px" }}>
+                                      {stock?.profit}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+                </>
+              )}
           </div>
         </div>
       </div>
