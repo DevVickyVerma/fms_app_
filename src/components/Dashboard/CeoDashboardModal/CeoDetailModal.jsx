@@ -42,6 +42,9 @@ const CeoDetailModal = (props) => {
       if (filterData?.site_id) {
         formik.setFieldValue("selectedSite", filterData?.site_id);
         formik.setFieldValue("site_name", filterData?.site_name);
+      } else if (title == "Live Margin") {
+        formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
+        formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
       }
     }
   }, [visible]);
@@ -224,6 +227,9 @@ const CeoDetailModal = (props) => {
         queryParams.append("site_id", customSiteId);
       else if (filterData?.site_id)
         queryParams.append("site_id", filterData.site_id);
+      else if (title == "Live Margin" && filterData?.sites?.[0]?.id) {
+        queryParams.append("site_id", filterData.sites[0].id);
+      }
 
       const queryString = queryParams.toString(); // Construct the query string
 
