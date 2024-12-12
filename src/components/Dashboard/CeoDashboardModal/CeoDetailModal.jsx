@@ -639,16 +639,16 @@ const CeoDetailModal = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+                        <tr className="">
                           <td>
-                            <h2 className="mb-0 number-font">
+                            <h2 className="my-2 number-font">
                               <span className="l-sign">ℓ</span>{" "}
                               {apiData?.data?.gross_volume}
                             </h2>
                           </td>
                           <td>
                             <div className="">
-                              <h2 className="mb-0 number-font">
+                              <h2 className="my-2 number-font">
                                 {" "}
                                 £ {apiData?.data?.fuel_sales}
                               </h2>
@@ -656,14 +656,14 @@ const CeoDetailModal = (props) => {
                           </td>
                           <td>
                             <div className="">
-                              <h2 className="mb-0 number-font">
+                              <h2 className="my-2 number-font">
                                 £ {apiData?.data?.gross_profit}
                               </h2>
                             </div>
                           </td>
                           <td>
                             <div className="">
-                              <h2 className="mb-0 number-font">
+                              <h2 className="my-2 number-font">
                                 {" "}
                                 {apiData?.data?.gross_margin} ppl
                               </h2>
@@ -671,14 +671,14 @@ const CeoDetailModal = (props) => {
                           </td>
                           <td>
                             <div className="">
-                              <h2 className="mb-0 number-font">
+                              <h2 className="my-2 number-font">
                                 £ {apiData?.data?.shop_sales}
                               </h2>
                             </div>
                           </td>
                           <td>
                             <div className="">
-                              <h2 className="mb-0 number-font">
+                              <h2 className="my-2 number-font">
                                 £ {apiData?.data?.shop_profit}
                               </h2>
                             </div>
