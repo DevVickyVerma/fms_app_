@@ -285,6 +285,7 @@ const CeoDetailModal = (props) => {
       );
       filterData.sites = response?.data?.data;
       if (title == "Live Margin") {
+
         await fetchData(response?.data?.data[0]?.id, "site"); // Fetch data for company change
       }
     } catch (error) {
@@ -377,6 +378,7 @@ const CeoDetailModal = (props) => {
           console.log("Condition met: Default site ID from filterData used");
           queryParams.append("site_id", filterData.site_id); // Use default site ID
         } else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
+
           console.log(
             "Condition met: Fallback to the first site ID for Live Margin"
           );
@@ -589,8 +591,7 @@ const CeoDetailModal = (props) => {
                       client_name: filterData.client_name,
                       company_name:
                         formik?.values?.selectedCompanyDetails?.company_name,
-                      site_name: formik?.values?.selectedSiteDetails?.site_name,
-                      start_date: "",
+                      site_name: formik?.values?.selectedSiteDetails?.site_name ? formik?.values?.selectedCompanyDetails?.company_name : filterData?.sites[0]?.site_name, // Pass "yes" if it has a value, "no" otherwise
                     }}
                     showResetBtn={false}
                   />
