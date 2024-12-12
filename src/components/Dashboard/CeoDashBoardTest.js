@@ -18,6 +18,7 @@ import { Bounce, toast } from "react-toastify";
 import CeoDashBoardBottomPage from "./CeoDashBoardBottomPage";
 import SmallLoader from "../../Utils/SmallLoader";
 import PriceLogTable from "./PriceLogTable";
+import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -538,7 +539,7 @@ const CeoDashBoardTest = (props) => {
     setToggleValue(checked);
   };
 
-  console.log(filters, "filterDatafilters");
+  console.log(applyNavigate, "applyNavigate");
 
   return (
     <>
@@ -694,16 +695,25 @@ const CeoDashBoardTest = (props) => {
         )}
 
         {isLoading ? (
-          <SmallLoader title="Stats Cards" />
+          <>
+            <Row>
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+            </Row>
+          </>
         ) : (
           <UpercardsCeoDashboardStatsBox
-            GrossVolume={dashboardData?.gross_volume}
-            shopmargin={dashboardData?.shop_profit}
-            GrossProfitValue={dashboardData?.gross_profit}
-            GrossMarginValue={dashboardData?.gross_margin}
-            FuelValue={dashboardData?.fuel_sales}
-            shopsale={dashboardData?.shop_sales}
-            shop_fees={dashboardData?.shop_fees}
+            GrossVolume={dashboardData?.gross_volume || 0}
+            shopmargin={dashboardData?.shop_profit || 0}
+            GrossProfitValue={dashboardData?.gross_profit || 0}
+            GrossMarginValue={dashboardData?.gross_margin || 0}
+            FuelValue={dashboardData?.fuel_sales || 0}
+            shopsale={dashboardData?.shop_sales || 0}
+            shop_fees={dashboardData?.shop_fees || 0}
             dashboardData={dashboardData}
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           />
