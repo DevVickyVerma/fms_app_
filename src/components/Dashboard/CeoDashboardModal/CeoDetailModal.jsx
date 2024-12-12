@@ -410,7 +410,7 @@ const CeoDetailModal = (props) => {
           response = await getData(`ceo-dashboard/get-live-margin?${queryString}`);
           break;
         case "Daily Wise Sales":
-          response = await getData(`dashboard/stats?${queryString}`);
+          response = await getData(`ceo-dashboard/stats?${queryString}`);
           break;
         case "Stock":
           response = await getData(`ceo-dashboard/stock-stats?${queryString}`);
