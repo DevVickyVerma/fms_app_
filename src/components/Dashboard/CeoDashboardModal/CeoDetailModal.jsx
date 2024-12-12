@@ -45,6 +45,9 @@ const CeoDetailModal = (props) => {
       if (filterData?.site_id) {
         formik.setFieldValue("selectedSite", filterData?.site_id);
         formik.setFieldValue("site_name", filterData?.site_name);
+      } else if (filterData?.company_id) {
+        formik.setFieldValue("company_id", filterData?.company_id);
+        formik.setFieldValue("selectedCompany", filterData?.company_id);
       } else if (title == "Live Margin") {
         formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
         formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
@@ -58,6 +61,8 @@ const CeoDetailModal = (props) => {
       company_id: "",
       comparison_value: "0",
       selectedSite: "",
+      selectedCompany: "",
+      selectedCompanyDetails: "",
       site_name: "",
       selectedSiteDetails: "",
       selectedMonth: "",
@@ -197,6 +202,47 @@ const CeoDetailModal = (props) => {
       }
     }
   };
+
+
+  const fetchSiteList = async (companyId) => {
+    try {
+      const response = await getData(`common/site-list?company_id=${companyId}`);
+      filterData.sites = response?.data?.data;
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  const handleCompanyChange = async (selectedId) => {
+    console.log(filterData, "filterData");
+    try {
+      if (selectedId) {
+        // Find the selected company details
+        const selectedItem = filterData?.companies.find(
+          (item) => item.id === selectedId
+        );
+
+        await fetchSiteList(selectedId); // Fetch and update sites dynamically
+        await fetchData(selectedId, "company"); // Fetch data for company change
+        await formik.setFieldValue("selectedCompany", selectedId);
+        await formik.setFieldValue("selectedCompanyDetails", selectedItem);
+
+        // Reset site selection
+        await formik.setFieldValue("selectedSite", "");
+        await formik.setFieldValue("selectedSiteDetails", "");
+      } else {
+        // Clear fields if no company is selected
+        await formik.setFieldValue("selectedCompany", "");
+        await formik.setFieldValue("selectedCompanyDetails", "");
+        await formik.setFieldValue("selectedSite", "");
+        await formik.setFieldValue("selectedSiteDetails", "");
+
+        filterData.sites = []; // Clear sites
+      }
+    } catch (error) {
+      console.error("Error in handleCompanyChange:", error);
+    }
+  };
+
   const handleSiteChange = async (selectedId) => {
     try {
       const selectedItem = filterData?.sites.find(
@@ -205,34 +251,51 @@ const CeoDetailModal = (props) => {
 
       await formik.setFieldValue("selectedSite", selectedId);
       await formik.setFieldValue("selectedSiteDetails", selectedItem);
-      if (title !== "Reports") {
-        await fetchData(selectedId);
-      }
+      await fetchData(selectedId, "site"); // Fetch data for site change
     } catch (error) {
       console.error("Error in handleSiteChange:", error);
     }
   };
 
+
+
   useEffect(() => {
     fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title]); // Dependencies: title and selectedSite
 
-  const fetchData = async (customSiteId) => {
+  const fetchData = async (customId, type) => {
     try {
       setLoading(true); // Start loading indicator
       const queryParams = new URLSearchParams();
+      if (filterData?.client_id) {
+        queryParams.append("client_id", filterData.client_id);
+      }
+
+      if (type === "company" && customId) {
+        queryParams.append("company_id", customId); // Use custom company ID
+      } else if (filterData?.company_id) {
+        queryParams.append("company_id", filterData.company_id); // Use default company ID
+      }
+
+      if (type === "site" && customId) {
+        queryParams.append("site_id", customId); // Use custom site ID
+      } else if (filterData?.site_id) {
+        queryParams.append("site_id", filterData.site_id); // Use default site ID
+      } else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
+        queryParams.append("site_id", filterData.sites[0].id); // Use the first site ID as fallback
+      }
 
       // Use customSiteId if provided; otherwise, fallback to filterData.site_id
-      if (filterData?.client_id)
-        queryParams.append("client_id", filterData.client_id);
-      if (filterData?.company_id)
-        queryParams.append("company_id", filterData.company_id);
-      if (customSiteId) queryParams.append("site_id", customSiteId);
-      else if (filterData?.site_id)
-        queryParams.append("site_id", filterData.site_id);
-      else if (title == "Live Margin" && filterData?.sites?.[0]?.id) {
-        queryParams.append("site_id", filterData.sites[0].id);
-      }
+      // if (filterData?.client_id)
+      //   queryParams.append("client_id", filterData.client_id);
+      // if (filterData?.company_id)
+      //   queryParams.append("company_id", filterData.company_id);
+      // if (customSiteId) queryParams.append("site_id", customSiteId);
+      // else if (filterData?.site_id)
+      //   queryParams.append("site_id", filterData.site_id);
+      // else if (title == "Live Margin" && filterData?.sites?.[0]?.id) {
+      //   queryParams.append("site_id", filterData.sites[0].id);
+      // }
 
       const queryString = queryParams.toString(); // Construct the query string
 
@@ -295,8 +358,6 @@ const CeoDetailModal = (props) => {
     console.log(e.target.value); // You can replace this with any logic for each option
   };
 
-  console.log(filterData, "filterDatafilterData", formik?.values);
-
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
@@ -353,23 +414,23 @@ const CeoDetailModal = (props) => {
                         // handleResetFilters={handleResetFilters}
                         showResetBtn={false}
                       />
-                      {filterData?.sites ? (
+                      {filterData?.companies ? (
                         <Col lg={6} className="">
                           <label className=" form-label" htmlFor="Site">
-                            Site
+                            Company
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            id="selectedSite"
-                            name="selectedSite"
-                            value={formik.values.selectedSite}
-                            onChange={(e) => handleSiteChange(e.target.value)}
+                            id="selectedCompany"
+                            name="selectedCompany"
+                            value={formik.values.selectedCompany}
+                            onChange={(e) => handleCompanyChange(e.target.value)}
                             class="input101 "
                           >
-                            <option value="">--Select a Site--</option>
-                            {filterData?.sites?.map((item) => (
+
+                            {filterData?.companies?.map((item) => (
                               <option key={item.id} value={item.id}>
-                                {item.site_name}
+                                {item.company_name}
                               </option>
                             ))}
                           </select>
@@ -377,6 +438,26 @@ const CeoDetailModal = (props) => {
                       ) : (
                         ""
                       )}
+                      <Col lg={6} className="">
+                        <label className=" form-label" htmlFor="Site">
+                          Site
+
+                        </label>
+                        <select
+                          id="selectedSite"
+                          name="selectedSite"
+                          value={formik.values.selectedSite}
+                          onChange={(e) => handleSiteChange(e.target.value)}
+                          class="input101 "
+                        >
+                          <option value="">--Select a Site--</option>
+                          {filterData?.sites?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.site_name}
+                            </option>
+                          ))}
+                        </select>
+                      </Col>
                     </Row>
                   </Card.Body>
                 </Card>
