@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto"; // its very impotent to import this auto chart
+import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
 
 const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
   if (!stackedLineBarLabels || !stackedLineBarData) {
@@ -22,16 +23,6 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
   const data = {
     labels: stackedLineBarLabels ? stackedLineBarLabels : [],
     datasets: datasets,
-  };
-
-  const formatNumber = (num) => {
-    if (Math.abs(num) > 999999) {
-      return (num / 1000000).toFixed(1) + "m";
-    } else if (Math.abs(num) > 999) {
-      return (num / 1000).toFixed(1) + "k";
-    } else {
-      return num;
-    }
   };
 
   const options = {

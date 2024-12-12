@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import { formatNumber } from "../../../Utils/commonFunctions/commonFunction";
 
 const DashboardChildTable = (props) => {
   const { isLoading, data, ceo } = props;
@@ -24,16 +25,6 @@ const DashboardChildTable = (props) => {
     const rowDataString = JSON.stringify(row);
     localStorage.setItem("singleSiteData", rowDataString);
   }
-
-  const formatNumber = (num) => {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + "m";
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + "k";
-    } else {
-      return num;
-    }
-  };
 
   const renderTableHeader = () => (
     <tr className="fuelprice-tr " style={{ padding: "0px" }}>
