@@ -32,7 +32,7 @@ import CeoFilterBadge from "../CeoFilterBadge";
 const CeoDetailModal = (props) => {
   const { title, getData, visible, onClose, values, isLoading, filterData } =
     props;
-
+  console.log(filterData, "filterData");
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
 
@@ -40,13 +40,44 @@ const CeoDetailModal = (props) => {
     (state) => state?.data?.data?.permissions || []
   );
 
+  var [isClientRole] = useState(
+    localStorage.getItem("superiorRole") == "Client"
+  );
+  const fetchCompanyList = async (companyId) => {
+    try {
+      const response = await getData(
+        `common/company-list?client_id=${companyId}`
+      );
+
+      filterData.companies = response?.data?.data;
+      const selectedItem = response?.data?.data?.find(
+        (item) => item.id === filterData?.company_id
+      );
+
+      await formik.setFieldValue("selectedCompanyDetails", selectedItem);
+      await fetchSiteList(filterData?.company_id);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  useEffect(() => {
+    if (visible && isClientRole) {
+      fetchCompanyList(filterData?.client_id)
+    }
+  }, [isClientRole])
+
   useEffect(() => {
     if (visible && filterData?.sites) {
       if (filterData?.site_id) {
+        const selectedItem = filterData?.sites.find(
+          (item) => item.id === filterData?.site_id
+        );
         formik.setFieldValue("selectedSite", filterData?.site_id);
-        formik.setFieldValue("site_name", filterData?.site_name);
+        formik.setFieldValue("selectedSiteDetails", selectedItem);
+        formik.setFieldValue("site_name", selectedItem?.site_name);
       } else if (filterData?.company_id) {
-        const selectedItem = filterData?.companies.find(
+        const selectedItem = filterData?.companies?.find(
           (item) => item.id === filterData?.company_id
         );
         formik.setFieldValue("company_id", filterData?.company_id);
@@ -218,7 +249,7 @@ const CeoDetailModal = (props) => {
     }
   };
   const handleCompanyChange = async (selectedId) => {
-    console.log(filterData, "filterData");
+
     try {
       if (selectedId) {
         // Find the selected company details
