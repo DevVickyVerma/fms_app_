@@ -53,12 +53,7 @@ const CeoDashboardCharts = ({
     }
 
     return (
-      <CeoDashboardBarChart
-        data={data}
-        options={Baroptions}
-        title={title}
-
-      />
+      <CeoDashboardBarChart data={data} options={Baroptions} title={title} />
     );
   };
 
@@ -67,22 +62,13 @@ const CeoDashboardCharts = ({
       {isLoading ? <LoaderImg /> : null}
       <Row className="mb-4">
         <Col sm={12} md={6} xl={6} key="chart-1">
-          {renderChartOrLoader(
-            data?.sales_mom,
-            "Current Month vs Previous Month"
-          )}
+          {renderChartOrLoader(data?.sales_mom, "Volume")}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-2">
-          {renderChartOrLoader(
-            data?.sales_actual_budgeted,
-            "Actual Sales vs Budgeted Sales"
-          )}
+          {renderChartOrLoader(data?.sales_actual_budgeted, "Margin")}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
-          {renderChartOrLoader(
-            data?.sales_yoy,
-            "Same Month Sales vs Previous Year’s Month Sales"
-          )}
+          {renderChartOrLoader(data?.sales_yoy, "Shop")}
         </Col>
       </Row>
     </>

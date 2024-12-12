@@ -218,6 +218,7 @@ const CeoDashBoardChild = (props) => {
           shopsale={dashboardData?.shop_sales}
           shop_fees={dashboardData?.shop_fees}
           parentComponent={false}
+          dashboardData={dashboardData}
         />
       </Row>
 

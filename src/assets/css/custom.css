@@ -2558,3 +2558,16 @@ td.middayModal-td.time-input-fuel-sell {
   display: flex;
   flex-direction: column;
 }
+
+.ceo-stats-blur {
+  background: #eeeeee;
+  filter: blur(4px);
+}
+.no-blue-text {
+  color: red; /* Or any color you prefer */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
