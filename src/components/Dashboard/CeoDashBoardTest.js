@@ -56,10 +56,21 @@ const CeoDashBoardTest = (props) => {
   const [toggleValue, setToggleValue] = useState(false);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState();
 
-  const { handleError } = useErrorHandler();
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
+
+  const priceLogsPermission = userPermissions?.includes(
+    "ceodashboard-price-logs"
+  );
+  const priceGraphPermission = userPermissions?.includes(
+    "ceodashboard-price-graph"
+  );
+
+  const priceLogAndGraphPermission =
+    priceLogsPermission && priceGraphPermission;
+
+  const { handleError } = useErrorHandler();
 
   const formik = useFormik({
     initialValues: {
@@ -82,7 +93,7 @@ const CeoDashBoardTest = (props) => {
   useEffect(() => {
     localStorage.setItem(
       "Dashboardsitestats",
-      permissionsArray?.includes("dashboard-site-stats")
+      permissionsArray?.includes("ceodashboard-site-stats")
     );
     if (ReduxFullData?.company_id) {
       localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
@@ -139,7 +150,7 @@ const CeoDashBoardTest = (props) => {
       localStorage.setItem(storedKeyName, JSON.stringify(values));
 
       // Fetch dashboard stats if the user has the required permission
-      if (permissionsArray?.includes("dashboard-view")) {
+      if (permissionsArray?.includes("ceodashboard-view")) {
         // console.log(storedKeyName, "storedKeyName");
         FetchDashboardStats(values);
       }
@@ -430,10 +441,10 @@ const CeoDashBoardTest = (props) => {
   };
 
   useEffect(() => {
-    if (formik?.values?.selectedSite) {
+    if (formik?.values?.selectedSite && priceLogsPermission) {
       FetchPriceLogs();
     }
-  }, [formik?.values?.selectedSite]);
+  }, [formik?.values?.selectedSite, priceLogsPermission]);
 
   const ErrorToast = (message) => {
     toast.error(message, {
@@ -517,7 +528,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -594,7 +605,7 @@ const CeoDashBoardTest = (props) => {
         {!ShowLiveData && (
           <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
-              Dashboard (
+              CEO Dashboard (
               {dashboardData?.dateString
                 ? dashboardData?.dateString
                 : ReduxFullData?.dates}
@@ -674,7 +685,7 @@ const CeoDashBoardTest = (props) => {
 
         {ShowLiveData && (
           <h2 className=" d-flex justify-content-start mb-4  page-title dashboard-page-title">
-            Dashboard (
+            CEO Dashboard (
             {dashboardData?.dateString
               ? dashboardData?.dateString
               : ReduxFullData?.dates}
@@ -712,86 +723,101 @@ const CeoDashBoardTest = (props) => {
       </div>
 
       <Row Row className="my-2">
-        <Col sm={12} md={8} key={Math.random()}>
-          <Card className="h-100">
-            <Card.Header className="p-4">
-              <div className="spacebetween" style={{ width: "100%" }}>
-                <h4 className="card-title">
-                  {" "}
-                  Fuel Price Logs{" "}
-                  {formik.values?.selectedSiteDetails?.site_name &&
-                    ` (${formik.values.selectedSiteDetails.site_name})`}
-                  <br></br>
-                  {userPermissions?.includes("fuel-price-logs") ? (
-                    <span style={{ color: "blue" }}>
-                      <Link to="/fuel-selling-price-logs/">View All</Link>
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                </h4>
-              </div>
-              <div className="flexspacebetween">
-                {filters?.sites ? (
-                  <div>
-                    <select
-                      id="selectedSite"
-                      name="selectedSite"
-                      value={formik.values.selectedSite}
-                      onChange={(e) => handleSiteChange(e.target.value)}
-                      className="selectedMonth"
-                    >
-                      <option value="">--Select a Site--</option>
-                      {filters?.sites?.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.site_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            </Card.Header>
-            <Card.Body
-              style={{
-                maxHeight: "250px",
-                overflowX: "auto",
-                overflowY: "auto",
-              }}
+        {priceLogsPermission && (
+          <>
+            <Col
+              sm={12}
+              md={priceLogAndGraphPermission ? 8 : 12}
+              key={Math.random()}
             >
-              {PriceLogsloading ? (
-                <SmallLoader />
-              ) : PriceLogs?.priceLogs?.length > 0 ? (
-                <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
-              ) : (
-                <img
-                  src={require("../../assets/images/commonimages/no_data.png")}
-                  alt="No data available"
-                  className="all-center-flex smallNoDataimg"
-                />
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col sm={12} md={4}>
-          <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
-            <Card.Header className="p-4">
-              <div className="spacebetween" style={{ width: "100%" }}>
-                <h4 className="card-title">Price Graph</h4>
-                <span>View All</span>
-              </div>
-            </Card.Header>
-            <Card.Body>
-              <img
-                src={require("../../assets/images/commonimages/dotGraph.png")}
-                alt="dotGraph"
-                className="dotGraph"
-              />
-            </Card.Body>
-          </Card>
-        </Col>
+              <Card className="h-100">
+                <Card.Header className="p-4">
+                  <div className="spacebetween" style={{ width: "100%" }}>
+                    <h4 className="card-title">
+                      {" "}
+                      Fuel Price Logs{" "}
+                      {formik.values?.selectedSiteDetails?.site_name &&
+                        ` (${formik.values.selectedSiteDetails.site_name})`}
+                      <br></br>
+                      {userPermissions?.includes("fuel-price-logs") ? (
+                        <span style={{ color: "blue" }}>
+                          <Link to="/fuel-selling-price-logs/">View All</Link>
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </h4>
+                  </div>
+                  <div className="flexspacebetween">
+                    {filters?.sites ? (
+                      <div>
+                        <select
+                          id="selectedSite"
+                          name="selectedSite"
+                          value={formik.values.selectedSite}
+                          onChange={(e) => handleSiteChange(e.target.value)}
+                          className="selectedMonth"
+                        >
+                          <option value="">--Select a Site--</option>
+                          {filters?.sites?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.site_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </Card.Header>
+                <Card.Body
+                  style={{
+                    maxHeight: "250px",
+                    overflowX: "auto",
+                    overflowY: "auto",
+                  }}
+                >
+                  {PriceLogsloading ? (
+                    <SmallLoader />
+                  ) : PriceLogs?.priceLogs?.length > 0 ? (
+                    <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
+                  ) : (
+                    <img
+                      src={require("../../assets/images/commonimages/no_data.png")}
+                      alt="No data available"
+                      className="all-center-flex smallNoDataimg"
+                    />
+                  )}
+                </Card.Body>
+              </Card>
+            </Col>
+          </>
+        )}
+        {priceGraphPermission && (
+          <>
+            <Col sm={12} md={priceLogAndGraphPermission ? 4 : 12}>
+              <Card
+                className="h-100"
+                style={{ transition: "opacity 0.3s ease" }}
+              >
+                <Card.Header className="p-4">
+                  <div className="spacebetween" style={{ width: "100%" }}>
+                    <h4 className="card-title">Price Graph</h4>
+                    <span>View All</span>
+                  </div>
+                </Card.Header>
+                <Card.Body>
+                  <img
+                    src={require("../../assets/images/commonimages/dotGraph.png")}
+                    alt="dotGraph"
+                    className="dotGraph"
+                  />
+                </Card.Body>
+              </Card>
+            </Col>
+          </>
+        )}
       </Row>
     </>
   );

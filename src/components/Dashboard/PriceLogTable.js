@@ -22,7 +22,17 @@ const PriceLogTable = ({ priceLogs }) => {
             <td>{log.name}</td>
             <td>{log.is_checked}</td>
             <td>£{log.prev_price}</td>
-            <td className={log?.status}>£{log.price}</td>
+            <td
+              className={
+                log?.status === "UP"
+                  ? "text-success"
+                  : log?.status === "DOWN"
+                  ? "text-danger"
+                  : undefined
+              }
+            >
+              £{log.price}
+            </td>
             <td>{log.user}</td>
             <td>02-12-2024</td>
           </tr>
