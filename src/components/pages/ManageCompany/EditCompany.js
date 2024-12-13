@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -23,7 +23,6 @@ const EditCompany = (props) => {
     formData.append("client_id", Company_Client_id);
     formData.append("company_id", Company_id);
 
-
     const fetchData = async () => {
       try {
         const response = await postData("/company/detail", formData);
@@ -41,18 +40,13 @@ const EditCompany = (props) => {
     } catch (error) {
       handleError(error);
     }
-
   }, []);
-
 
   useEffect(() => {
     if (localStorage.getItem("superiorRole") !== "Client") {
       handleFetchData();
     }
-
-
   }, []);
-
 
   const handleFetchData = async () => {
     try {
@@ -125,6 +119,7 @@ const EditCompany = (props) => {
       address: "",
       end_month: "",
       start_month: "",
+      week_start: "",
       pc_code: "",
       sm_add_code: "",
       sm_sub_code: "",
@@ -135,33 +130,20 @@ const EditCompany = (props) => {
       company_details: "",
     },
     validationSchema: Yup.object({
-      company_code: Yup.string()
-
-        .required("Company Code is required"),
+      company_code: Yup.string().required("Company Code is required"),
       company_details: Yup.string().required("Company Details is required"),
-      company_name: Yup.string()
-
-        .required("Company Name is required"),
+      company_name: Yup.string().required("Company Name is required"),
 
       address: Yup.string().required("Address is required"),
 
       website: Yup.string().required("website is required"),
-      end_month: Yup.string().required(
-        " End Month is required"
-      ),
-      start_month: Yup.string().required(
-        " Start Month is required"
-      ),
+      end_month: Yup.string().required(" End Month is required"),
+      start_month: Yup.string().required(" Start Month is required"),
+      week_start: Yup.string().required(" Start Week is required"),
       pc_code: Yup.string().required("Pc Code is required"),
-      sm_add_code: Yup.string().required(
-        "  Sm Add Code is required"
-      ),
-      sm_sub_code: Yup.string().required(
-        "  Sm Sub Code is required"
-      ),
-      bunkering_code: Yup.string().required(
-        " Bunkering Code is required"
-      ),
+      sm_add_code: Yup.string().required("  Sm Add Code is required"),
+      sm_sub_code: Yup.string().required("  Sm Sub Code is required"),
+      bunkering_code: Yup.string().required(" Bunkering Code is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -224,11 +206,12 @@ const EditCompany = (props) => {
                             name="company_code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.company_code &&
+                            className={`input101 ${
+                              formik.errors.company_code &&
                               formik.touched.company_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             placeholder="Company Code"
                             onChange={formik.handleChange}
                             value={formik.values?.company_code}
@@ -252,11 +235,12 @@ const EditCompany = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.company_name &&
+                            className={`input101 ${
+                              formik.errors.company_name &&
                               formik.touched.company_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="company_name"
                             name="company_name"
                             placeholder="Company Name"
@@ -281,11 +265,12 @@ const EditCompany = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.company_details &&
+                          className={`input101 ${
+                            formik.errors.company_details &&
                             formik.touched.company_details
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_details"
                           name="company_details"
                           placeholder=" Company Details"
@@ -309,11 +294,12 @@ const EditCompany = (props) => {
                               Client <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.client_id &&
+                              className={`input101 ${
+                                formik.errors.client_id &&
                                 formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_id"
                               name="client_id"
                               onChange={formik.handleChange}
@@ -321,7 +307,7 @@ const EditCompany = (props) => {
                             >
                               <option value=""> Select Client</option>
                               {dropdownValue.clients &&
-                                dropdownValue.clients.length > 0 ? (
+                              dropdownValue.clients.length > 0 ? (
                                 dropdownValue.clients.map((item) => (
                                   <option key={item.id} value={item.id}>
                                     {item.client_name}
@@ -346,10 +332,11 @@ const EditCompany = (props) => {
                             Address<span className="text-danger">*</span>
                           </label>
                           <textarea
-                            className={`input101 ${formik.errors.address && formik.touched.address
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.address && formik.touched.address
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="address"
                             name="address"
                             onChange={formik.handleChange}
@@ -372,10 +359,11 @@ const EditCompany = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.website && formik.touched.website
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.website && formik.touched.website
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="website"
                             name="website"
                             placeholder="website"
@@ -393,6 +381,44 @@ const EditCompany = (props) => {
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
+                            htmlFor="week_start"
+                            className="form-label mt-4"
+                          >
+                            Start Month
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.week_start &&
+                              formik.touched.week_start
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="week_start"
+                            name="week_start"
+                            onChange={formik.handleChange}
+                            value={formik.values?.week_start}
+                          >
+                            <option value="">Select a Start Week</option>
+                            <option value="1">Sunday</option>
+                            <option value="2">Monday</option>
+                            <option value="3">Tuesday</option>
+                            <option value="4">Wednesday</option>
+                            <option value="5">Thursday</option>
+                            <option value="6">Friday</option>
+                            <option value="7">Saturday</option>
+                          </select>
+                          {formik.errors.week_start &&
+                            formik.touched.week_start && (
+                              <div className="invalid-feedback">
+                                {formik.errors.week_start}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
                             htmlFor="start_month"
                             className="form-label mt-4"
                           >
@@ -400,19 +426,18 @@ const EditCompany = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.start_month &&
+                            className={`input101 ${
+                              formik.errors.start_month &&
                               formik.touched.start_month
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="start_month"
                             name="start_month"
                             onChange={formik.handleChange}
                             value={formik.values?.start_month}
                           >
-                            <option value="">
-                              Select a  Start Month
-                            </option>
+                            <option value="">Select a Start Month</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -444,19 +469,18 @@ const EditCompany = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.end_month &&
+                            className={`input101 ${
+                              formik.errors.end_month &&
                               formik.touched.end_month
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="end_month"
                             name="end_month"
                             onChange={formik.handleChange}
                             value={formik.values?.end_month}
                           >
-                            <option value="">
-                              Select a  End Month
-                            </option>
+                            <option value="">Select a End Month</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -481,32 +505,28 @@ const EditCompany = (props) => {
 
                       <Col lg={4} md={6}>
                         <div className="form-group">
-                          <label
-                            className="form-label mt-4"
-                            htmlFor="pc_code"
-                          >
+                          <label className="form-label mt-4" htmlFor="pc_code">
                             Pc Code<span className="text-danger">*</span>
                           </label>
                           <input
                             type="number"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.pc_code &&
-                              formik.touched.pc_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.pc_code && formik.touched.pc_code
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="pc_code"
                             name="pc_code"
                             placeholder="Pc Code"
                             onChange={formik.handleChange}
                             value={formik.values?.pc_code}
                           />
-                          {formik.errors.pc_code &&
-                            formik.touched.pc_code && (
-                              <div className="invalid-feedback">
-                                {formik.errors.pc_code}
-                              </div>
-                            )}
+                          {formik.errors.pc_code && formik.touched.pc_code && (
+                            <div className="invalid-feedback">
+                              {formik.errors.pc_code}
+                            </div>
+                          )}
                         </div>
                       </Col>
                       <Col lg={4} md={6}>
@@ -520,11 +540,12 @@ const EditCompany = (props) => {
                           <input
                             type="number"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.sm_add_code &&
+                            className={`input101 ${
+                              formik.errors.sm_add_code &&
                               formik.touched.sm_add_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="sm_add_code"
                             name="sm_add_code"
                             placeholder="Sm Add Code"
@@ -550,11 +571,12 @@ const EditCompany = (props) => {
                           <input
                             type="number"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.sm_sub_code &&
+                            className={`input101 ${
+                              formik.errors.sm_sub_code &&
                               formik.touched.sm_sub_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="sm_sub_code"
                             name="sm_sub_code"
                             placeholder="Sm Sub Code"
@@ -580,11 +602,12 @@ const EditCompany = (props) => {
                           <input
                             type="number"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.bunkering_code &&
+                            className={`input101 ${
+                              formik.errors.bunkering_code &&
                               formik.touched.bunkering_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="bunkering_code"
                             name="bunkering_code"
                             placeholder="bunkering_code"
@@ -615,7 +638,9 @@ const EditCompany = (props) => {
                                 type="checkbox"
                                 name="ma_option"
                                 value="1"
-                                checked={formik.values?.ma_option?.includes("1")}
+                                checked={formik.values?.ma_option?.includes(
+                                  "1"
+                                )}
                                 onChange={() => handleMaOptionChange("1")}
                                 className="form-check-input"
                               />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -8,18 +8,16 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
-import { useNavigation } from '../../../Utils/NavigationProvider';
-import { Bounce, toast } from 'react-toastify';
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import { useNavigation } from "../../../Utils/NavigationProvider";
+import { Bounce, toast } from "react-toastify";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const AddCompany = (props) => {
   const { isLoading, postData, getData } = props;
 
   const navigate = useNavigate();
   const [dropdownValue, setDropdownValue] = useState([]);
-  const [clientIDLocalStorage,] = useState(
-    localStorage.getItem("superiorId")
-  );
+  const [clientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
   const { handleError } = useErrorHandler();
 
   const { lastPath } = useNavigation();
@@ -37,18 +35,16 @@ const AddCompany = (props) => {
     if (localStorage.getItem("superiorRole") !== "Client") {
       fetchClientList();
     }
-
-    
   }, []);
-      const ErrorToast = (message) => {
-      toast.error(message, {
-        // // position: toast.POSITION.TOP_RIGHT,
-        hideProgressBar: false,
-        transition: Bounce,
-        autoClose: 2000,
-        theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-      });
-    };
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      // // position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: false,
+      transition: Bounce,
+      autoClose: 2000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
   const fetchClientList = async () => {
     try {
       const response = await getData("/client/list");
@@ -63,16 +59,16 @@ const AddCompany = (props) => {
         navigate("/login");
         ErrorAlert("Invalid access token");
         localStorage.clear();
-      }    else if (error.response && error.response.data.status_code === "403") {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
+      } else if (error.response && error.response.data.status_code === "403") {
+        const errorMessage = Array.isArray(error.response.data.message)
+          ? error.response.data.message.join(" ")
+          : error.response.data.message;
 
-      if (errorMessage) {
-        navigate(lastPath); 
-        ErrorToast(errorMessage);
+        if (errorMessage) {
+          navigate(lastPath);
+          ErrorToast(errorMessage);
+        }
       }
-    }
     }
   };
 
@@ -82,8 +78,9 @@ const AddCompany = (props) => {
 
       const formData = new FormData();
 
+      formData.append("week_start", values.week_start);
       formData.append("start_month", values.start_month);
-      formData.append("end_month", values.start_month);
+      formData.append("end_month", values.end_month);
       formData.append("website", values.website);
       formData.append("company_name", values.company_name);
       formData.append("company_details", values.company_details);
@@ -191,6 +188,7 @@ const AddCompany = (props) => {
                     company_name: "",
 
                     address: "",
+                    week_start: "",
                     start_month: "",
                     end_month: "",
 
@@ -206,15 +204,15 @@ const AddCompany = (props) => {
                     bunkering_code: "",
                   }}
                   validationSchema={Yup.object({
-                    company_code: Yup.string()
-
-                      .required("Company Code is required"),
+                    company_code: Yup.string().required(
+                      "Company Code is required"
+                    ),
                     company_details: Yup.string().required(
                       "Company Details is required"
                     ),
-                    company_name: Yup.string()
-
-                      .required("Company Name is required"),
+                    company_name: Yup.string().required(
+                      "Company Name is required"
+                    ),
 
                     address: Yup.string().required("Address is required"),
 
@@ -230,23 +228,20 @@ const AddCompany = (props) => {
                     bunkering_code: Yup.string().required(
                       " Bunkering Code is required"
                     ),
-                    end_month: Yup.string().required(
-                      " End Month is required"
-                    ),
+                    end_month: Yup.string().required(" End Month is required"),
 
                     start_month: Yup.string().required(
                       " Start Month is required"
+                    ),
+                    week_start: Yup.string().required(
+                      " Start Week is required"
                     ),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSubmit1(values, setSubmitting);
                   }}
                 >
-                  {({
-                    handleSubmit,
-                    errors,
-                    touched,
-                  }) => (
+                  {({ handleSubmit, errors, touched }) => (
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
@@ -263,10 +258,11 @@ const AddCompany = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${errors.company_code && touched.company_code
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.company_code && touched.company_code
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="company_code"
                                 name="company_code"
                                 placeholder="Company Code"
@@ -290,10 +286,11 @@ const AddCompany = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${errors.company_name && touched.company_name
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.company_name && touched.company_name
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="company_name"
                                 name="company_name"
                                 placeholder="Company Name"
@@ -316,10 +313,11 @@ const AddCompany = (props) => {
                               <Field
                                 as="textarea"
                                 type="textarea"
-                                className={`input101 ${errors.address && touched.address
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.address && touched.address
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="address"
                                 name="address"
                                 placeholder="Address"
@@ -342,10 +340,11 @@ const AddCompany = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${errors.website && touched.website
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.website && touched.website
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="website"
                                 name="website"
                                 placeholder="Website"
@@ -359,43 +358,44 @@ const AddCompany = (props) => {
                           </Col>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                              <Col lg={4} md={6}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client<span className="text-danger">*</span>
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
+                            <Col lg={4} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client<span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                  >
-                                    <option value=""> Select Client</option>
-                                    {dropdownValue.clients &&
-                                      dropdownValue.clients.length > 0 ? (
-                                      dropdownValue.clients.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled={true}>No clients</option>
-                                    )}
-                                  </Field>
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                >
+                                  <option value=""> Select Client</option>
+                                  {dropdownValue.clients &&
+                                  dropdownValue.clients.length > 0 ? (
+                                    dropdownValue.clients.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled={true}>No clients</option>
+                                  )}
+                                </Field>
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -408,11 +408,12 @@ const AddCompany = (props) => {
                               <Field
                                 as="textarea"
                                 type="textarea"
-                                className={`input101 ${errors.company_details &&
+                                className={`input101 ${
+                                  errors.company_details &&
                                   touched.company_details
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="company_details"
                                 name="company_details"
                                 placeholder="Company Details"
@@ -421,6 +422,42 @@ const AddCompany = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="company_details"
+                              />
+                            </FormGroup>
+                          </Col>
+
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="week_start"
+                                className=" form-label mt-4"
+                              >
+                                Start Week
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.week_start && touched.week_start
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="week_start"
+                                name="week_start"
+                              >
+                                <option value="">Select a Start Week</option>
+                                <option value="1">Sunday</option>
+                                <option value="2">Monday</option>
+                                <option value="3">Tuesday</option>
+                                <option value="4">Wednesday</option>
+                                <option value="5">Thursday</option>
+                                <option value="6">Friday</option>
+                                <option value="7">Saturday</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="week_start"
                               />
                             </FormGroup>
                           </Col>
@@ -435,17 +472,15 @@ const AddCompany = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.start_month &&
-                                  touched.start_month
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.start_month && touched.start_month
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="start_month"
                                 name="start_month"
                               >
-                                <option value="">
-                                  Select a  Start Month
-                                </option>
+                                <option value="">Select a Start Month</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -477,17 +512,15 @@ const AddCompany = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.end_month &&
-                                  touched.end_month
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.end_month && touched.end_month
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="end_month"
                                 name="end_month"
                               >
-                                <option value="">
-                                  Select a  End Month
-                                </option>
+                                <option value="">Select a End Month</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -520,11 +553,12 @@ const AddCompany = (props) => {
                               <Field
                                 type="number"
                                 autoComplete="off"
-                                className={`input101 ${errors.bunkering_code &&
+                                className={`input101 ${
+                                  errors.bunkering_code &&
                                   touched.bunkering_code
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="bunkering_code"
                                 name="bunkering_code"
                                 placeholder=" Bunkering Code"
@@ -548,10 +582,11 @@ const AddCompany = (props) => {
                               <Field
                                 type="number"
                                 autoComplete="off"
-                                className={`input101 ${errors.sm_sub_code && touched.sm_sub_code
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.sm_sub_code && touched.sm_sub_code
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="sm_sub_code"
                                 name="sm_sub_code"
                                 placeholder="  Sm Sub Code"
@@ -575,10 +610,11 @@ const AddCompany = (props) => {
                               <Field
                                 type="number"
                                 autoComplete="off"
-                                className={`input101 ${errors.sm_add_code && touched.sm_add_code
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.sm_add_code && touched.sm_add_code
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="sm_add_code"
                                 name="sm_add_code"
                                 placeholder="  Sm Add Code"
@@ -602,10 +638,11 @@ const AddCompany = (props) => {
                               <Field
                                 type="number"
                                 autoComplete="off"
-                                className={`input101 ${errors.pc_code && touched.pc_code
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.pc_code && touched.pc_code
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="pc_code"
                                 name="pc_code"
                                 placeholder="Pc Code"
@@ -678,7 +715,7 @@ const AddCompany = (props) => {
                         <button
                           type="submit"
                           className="btn btn-primary me-2 "
-                        // disabled={Object.keys(errors).length > 0}
+                          // disabled={Object.keys(errors).length > 0}
                         >
                           Save
                         </button>
