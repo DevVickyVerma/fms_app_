@@ -19,7 +19,7 @@ const PriceLogTable = ({ priceLogs }) => {
       <tbody>
         {priceLogs?.map((log) => (
           <tr key={log.id}>
-            <td>{log.name}</td>
+            <td className="py-2">{log.name}</td>
             <td>{log.is_checked}</td>
             <td>£{log.prev_price}</td>
             <td
