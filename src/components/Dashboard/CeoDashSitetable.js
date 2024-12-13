@@ -11,7 +11,7 @@ const CeoDashSitetable = (props) => {
     {
       name: "Sites",
       selector: (row) => [row?.name],
-      sortable: true,
+      sortable: false,
       width: "16%",
       cell: (row) => (
         <div className="d-flex">
@@ -42,7 +42,10 @@ const CeoDashSitetable = (props) => {
     },
     {
       name: "Gross Volume",
-      selector: (row) => row.fuel_volume?.gross_volume || 0, // Ensure it's a single value
+      selector: (row) =>
+        row.fuel_volume?.gross_volume
+          ? parseFloat(row.fuel_volume.gross_volume)
+          : 0,
       sortable: true,
       width: "12%",
       cell: (row) => (
@@ -57,10 +60,11 @@ const CeoDashSitetable = (props) => {
               </h6>
 
               <p
-                className={`me-1 ${row.fuel_volume?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 ${
+                  row.fuel_volume?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.fuel_volume?.percentage}%`}
               >
                 {row?.fuel_volume?.status === "up" ? (
@@ -86,7 +90,10 @@ const CeoDashSitetable = (props) => {
     },
     {
       name: "Fuel Sales",
-      selector: (row) => row?.fuel_sales?.gross_value || 0, // Ensure it's a single value
+      selector: (row) =>
+        row?.fuel_sales?.gross_value
+          ? parseFloat(row?.fuel_sales?.gross_value)
+          : 0,
       sortable: true,
       width: "12%",
       cell: (row) => (
@@ -99,10 +106,11 @@ const CeoDashSitetable = (props) => {
                 : "0"}
             </h6>
             <p
-              className={`me-1 ${row?.fuel_sales?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
+              className={`me-1 ${
+                row?.fuel_sales?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
               data-tip={`${row?.fuel_sales?.percentage}%`}
             >
               {row?.fuel_sales?.status === "up" ? (
@@ -127,14 +135,17 @@ const CeoDashSitetable = (props) => {
     },
     {
       name: "Gross Profit",
-      selector: (row) => row?.gross_profit?.gross_profit || 0, // Ensure it's a single value
+      selector: (row) =>
+        row?.gross_profit?.gross_profit
+          ? parseFloat(row?.gross_profit?.gross_profit)
+          : 0,
       sortable: true,
       width: "12%",
       cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
@@ -144,10 +155,11 @@ const CeoDashSitetable = (props) => {
                 : "0"}
             </h6>
             <p
-              className={`me-1 ${row?.gross_profit?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
+              className={`me-1 ${
+                row?.gross_profit?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
               data-tip={`${row?.gross_profit?.percentage}%`}
             >
               {row?.gross_profit?.status === "up" ? (
@@ -172,7 +184,10 @@ const CeoDashSitetable = (props) => {
     },
     {
       name: "Gross Margin",
-      selector: (row) => row?.gross_margin?.gross_margin || 0,
+      selector: (row) =>
+        row?.gross_margin?.gross_margin
+          ? parseFloat(row?.gross_margin?.gross_margin)
+          : 0,
       sortable: true,
       width: "12%",
       cell: (row) => (
@@ -195,10 +210,11 @@ const CeoDashSitetable = (props) => {
               )}
             </h6>
             <p
-              className={`me-1 ${row?.gross_margin?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
+              className={`me-1 ${
+                row?.gross_margin?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
               data-tip={`${row?.gross_margin?.percentage}%`}
             >
               {row?.gross_margin?.status === "up" ? (
@@ -223,7 +239,10 @@ const CeoDashSitetable = (props) => {
     },
     {
       name: "Shop Sales",
-      selector: (row) => row?.shop_sales?.shop_sales || 0,
+      selector: (row) =>
+        row?.shop_sales?.shop_sales
+          ? parseFloat(row?.shop_sales?.shop_sales)
+          : 0,
       sortable: true,
       width: "12%",
       cell: (row) => (
@@ -236,10 +255,11 @@ const CeoDashSitetable = (props) => {
                 : "0"}
             </h6>
             <p
-              className={`me-1 ${row?.shop_sales?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
+              className={`me-1 ${
+                row?.shop_sales?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
               data-tip={`${row?.shop_sales?.percentage}%`}
             >
               {row?.shop_sales?.status === "up" ? (
@@ -264,7 +284,8 @@ const CeoDashSitetable = (props) => {
     },
     {
       name: "Shop Fees",
-      selector: (row) => row?.shop_fees?.shop_fee || 0,
+      selector: (row) =>
+        row?.shop_fees?.shop_fee ? parseFloat(row?.shop_fees?.shop_fee) : 0,
       sortable: true,
       width: "12%",
       cell: (row) => (
@@ -278,8 +299,9 @@ const CeoDashSitetable = (props) => {
               {/* {row?.shop_fees?.shop_fees || "0.00"} */}
             </h6>
             <p
-              className={`me-1 ${row?.shop_fees?.status === "up" ? "text-success" : "text-danger"
-                }`}
+              className={`me-1 ${
+                row?.shop_fees?.status === "up" ? "text-success" : "text-danger"
+              }`}
               data-tip={`${row?.shop_fees?.percentage}%`}
             >
               {row?.shop_fees?.status === "up" ? (
@@ -304,7 +326,10 @@ const CeoDashSitetable = (props) => {
     },
     {
       name: "Shop Profit",
-      selector: (row) => row?.shop_profit?.shop_profit || 0,
+      selector: (row) =>
+        row?.shop_profit?.shop_profit
+          ? parseFloat(row?.shop_profit?.shop_profit)
+          : 0,
       sortable: true,
       width: "12%",
       cell: (row) => (
@@ -318,10 +343,11 @@ const CeoDashSitetable = (props) => {
               {/* {row?.shop_profit?.shop_profit || "0.00"} */}
             </h6>
             <p
-              className={`me-1 ${row?.shop_profit?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
+              className={`me-1 ${
+                row?.shop_profit?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
               data-tip={`${row?.shop_profit?.percentage}%`}
             >
               {row?.shop_profit?.status === "up" ? (
