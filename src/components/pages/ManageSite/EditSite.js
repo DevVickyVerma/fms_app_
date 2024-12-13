@@ -13,6 +13,7 @@ import FormikSelect from "../../Formik/FormikSelect";
 export default function AddSite(props) {
   const { isLoading, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
+  let staticDropDownData = [];
 
   const { id } = useParams();
 
@@ -24,11 +25,12 @@ export default function AddSite(props) {
     try {
       const response = await getData(`/site/common-data-list?id=${id}`);
 
-      if (response) {
-        formik.setValues(response.data.data);
+      if (response && response.data && response.data.data) {
+        // formik.setValues(response.data.data);
+        setAddSiteData(response.data.data);
+        staticDropDownData = response?.data?.data;
 
         GetSiteData();
-        setAddSiteData(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -44,9 +46,18 @@ export default function AddSite(props) {
       if (response) {
         formik.setValues(response?.data?.data);
 
+        let checkData_import_type = staticDropDownData?.data_import_types?.find(
+          (item) => item?.id === response?.data?.data?.data_import_type_id
+        );
+
+        if (checkData_import_type?.import_type_code === "EVOBOS") {
+          formik.setFieldValue("show_evobos_type", true);
+        }
+
         if (response?.data?.data?.update_tlm_price == 1) {
           setShowToEmailError(true);
         }
+
         // setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -63,7 +74,7 @@ export default function AddSite(props) {
     for (const [key, value] of Object.entries(formik.values)) {
       const convertedValue = value === null ? "" : value;
 
-      if (key == "show_evobos_type" || key == "evobos_type") {
+      if (key == "show_evobos_type") {
       } else {
         formData.append(key, convertedValue);
       }
@@ -76,7 +87,7 @@ export default function AddSite(props) {
       for (const [key, value] of Object.entries(formik.values)) {
         const convertedValue = value === null ? "" : value;
 
-        if (key == "show_evobos_type" || key == "evobos_type") {
+        if (key == "show_evobos_type") {
         } else {
           formData.append(key, convertedValue);
         }
@@ -152,6 +163,8 @@ export default function AddSite(props) {
       shop_sale_file_upload: "",
       update_tlm_price: 0,
       change_back_date_price: 0,
+      manual_upload: 0,
+      show_evobos_type: false,
       cashback_enable: "",
       e_code: "",
       to_emails: [],
@@ -274,6 +287,8 @@ export default function AddSite(props) {
       </span>
     </div>
   );
+
+  console.log(formik?.values, "formik valuess");
 
   return (
     <>
@@ -1011,10 +1026,11 @@ export default function AddSite(props) {
                               ) {
                                 // Add the 'show_evobos_type' field to formik if EVOBOS is selected
                                 formik.setFieldValue("show_evobos_type", true); // Default to
-                                formik.setFieldValue("evobos_type", 0); // Default to
+                                formik.setFieldValue("manual_upload", 0); // Default to
                               } else {
                                 // Reset 'show_evobos_type' if it's not EVOBOS
                                 formik.setFieldValue("show_evobos_type", false);
+                                formik.setFieldValue("manual_upload", 0); // Default to
                               }
                             }}
                             onBlur={formik.handleBlur}
@@ -1046,31 +1062,31 @@ export default function AddSite(props) {
                           <Col lg={4} md={6}>
                             <div className="form-group">
                               <label
-                                htmlFor="evobos_type"
+                                htmlFor="manual_upload"
                                 className="form-label mt-4"
                               >
                                 EVOBOS Type
                               </label>
                               <select
                                 className={`input101 ${
-                                  formik.errors.evobos_type &&
-                                  formik.touched.evobos_type
+                                  formik.errors.manual_upload &&
+                                  formik.touched.manual_upload
                                     ? "is-invalid"
                                     : ""
                                 }`}
-                                id="evobos_type"
-                                name="evobos_type"
+                                id="manual_upload"
+                                name="manual_upload"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.evobos_type}
+                                value={formik.values.manual_upload}
                               >
                                 <option value="0"> EVOBOS API</option>
                                 <option value="1"> EVOBOS Manual</option>
                               </select>
-                              {formik.errors.evobos_type &&
-                                formik.touched.evobos_type && (
+                              {formik.errors.manual_upload &&
+                                formik.touched.manual_upload && (
                                   <div className="invalid-feedback">
-                                    {formik.errors.evobos_type}
+                                    {formik.errors.manual_upload}
                                   </div>
                                 )}
                             </div>

@@ -87,6 +87,8 @@ const AddSite = (props) => {
     consider_fuel_sales: 1,
     shop_sale_file_upload: 1,
     update_tlm_price: 0,
+    manual_upload: 0,
+    show_evobos_type: false,
     change_back_date_price: 0,
     to_emails: [],
     cc_emails: [],
@@ -179,6 +181,7 @@ const AddSite = (props) => {
         "fuel_commission_calc_status",
         values.Fuel_commission_type
       );
+      formData.append("manual_upload", values.manual_upload);
       formData.append("paperwork_status", values.Paper_work_status);
       formData.append("company_id", values.company_id);
       formData.append("lottery_commission", 0);
@@ -228,7 +231,7 @@ const AddSite = (props) => {
       const postDataUrl = "/site/add";
 
       const navigatePath = "/sites";
-      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.error(error); // Set the submission state to false if an error occurs
     }
@@ -705,10 +708,11 @@ const AddSite = (props) => {
                             ) {
                               // Add the 'show_evobos_type' field to formik if EVOBOS is selected
                               formik.setFieldValue("show_evobos_type", true); // Default to
-                              formik.setFieldValue("evobos_type", 0); // Default to
+                              formik.setFieldValue("manual_upload", 0); // Default to
                             } else {
                               // Reset 'show_evobos_type' if it's not EVOBOS
                               formik.setFieldValue("show_evobos_type", false);
+                              formik.setFieldValue("manual_upload", 0); // Default to
                             }
                           }}
                           className="form-input"
@@ -720,7 +724,7 @@ const AddSite = (props) => {
                           <Col lg={4} md={6}>
                             <FormikSelect
                               formik={formik}
-                              name="evobos_type"
+                              name="manual_upload"
                               label="EVOBOS Type"
                               options={EVOBOSOptions?.map((item) => ({
                                 id: item?.value,
