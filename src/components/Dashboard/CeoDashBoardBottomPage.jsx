@@ -288,7 +288,7 @@ const CeoDashBoardBottomPage = (props) => {
                   transition: "all 0.3s ease", // Smooth opacity transition
                 }}
               >
-                <div className=" d-flex flex-column justify-content-center align-items-center gap-3 py-3">
+                <div className=" d-flex flex-column justify-content-center align-items-center gap-5 py-3">
                   <div className="">
                     <div className=" d-flex flex-column justify-content-center align-items-center ">
                       <GiVendingMachine size={40} />
@@ -296,11 +296,11 @@ const CeoDashBoardBottomPage = (props) => {
                     </div>
                   </div>
                   <div className=" d-flex gap-5">
-                    <div>
+                    <div className="px-0 px-md-5">
                       <FaChartPie size={40} />
                       <h5 className="m-0 mt-2">Stock</h5>
                     </div>
-                    <div>
+                    <div className="px-0 px-md-5">
                       <FaClipboardList size={40} />
                       <h5 className="m-0 mt-2">Shrinkage</h5>
                     </div>
