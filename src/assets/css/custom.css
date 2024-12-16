@@ -2591,3 +2591,9 @@ td.middayModal-td.time-input-fuel-sell {
   opacity: 0.9;
   z-index: 111;
 }
+
+.performance-col .ddvZdT {
+  overflow: visible;
+  white-space: unset;
+  text-overflow: unset;
+}

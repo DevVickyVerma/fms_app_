@@ -10,7 +10,6 @@ const CeoDashboardCharts = ({
   Salesstatsloading,
   BarGraphSalesStats,
   Baroptions,
-
   formik,
   getData,
   isLoading,
@@ -61,16 +60,13 @@ const CeoDashboardCharts = ({
       {isLoading ? <LoaderImg /> : null}
       <Row className="mb-4">
         <Col sm={12} md={6} xl={6} key="chart-1">
-          {renderChartOrLoader(BarGraphSalesStats?.sales_mom, "Fuel")}
+          {renderChartOrLoader(BarGraphSalesStats?.fuel_sales, "Fuel")}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-2">
-          {renderChartOrLoader(
-            BarGraphSalesStats?.sales_actual_budgeted,
-            "Shop"
-          )}
+          {renderChartOrLoader(BarGraphSalesStats?.shop_sales, "Shop")}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
-          {renderChartOrLoader(BarGraphSalesStats?.sales_yoy, "Valet")}
+          {renderChartOrLoader(BarGraphSalesStats?.valet_sales, "Valet")}
         </Col>
       </Row>
     </>

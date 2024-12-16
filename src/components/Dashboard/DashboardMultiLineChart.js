@@ -138,7 +138,7 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
     // style={{ height: "60vh", width: "100%" }}
     //  className="d-flex chart-items"
     >
-      <Line data={data} options={options} height={450} />
+      <Line data={data} options={options} height={400} />
       {/* <ReactApexChart series={revenueChart?.series} options={revenueChart?.options} type="area" /> */}
     </div>
   );

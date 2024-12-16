@@ -388,7 +388,8 @@ const CeoDetailModal = (props) => {
             const customDateRange = `${formattedStartDate}/${formattedEndDate}`;
 
             // Append the custom date range to the query params
-            queryParams.append("filter_type", customDateRange);
+            queryParams.append("filter_type", formik?.values?.comparison_value);
+            queryParams.append("daterange", customDateRange);
           } else {
             console.log(
               "Custom date range requires both startDate and endDate."
@@ -1042,7 +1043,7 @@ const CeoDetailModal = (props) => {
                 </Card>
                 <CeoDashboardCharts
                   Salesstatsloading={false}
-                  BarGraphSalesStats={salesGraphData}
+                  BarGraphSalesStats={apiData?.data}
                   Baroptions={Baroptions}
                   formik={formik}
                 />

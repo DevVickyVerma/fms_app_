@@ -53,7 +53,7 @@ const CeoDashSitetable = (props) => {
       name: "Sites",
       selector: (row) => [row?.name],
       sortable: false,
-      width: "16%",
+      width: "20%",
       id: "1",
       cell: (row) => (
         <div
@@ -104,7 +104,7 @@ const CeoDashSitetable = (props) => {
           : 0,
       sortable: true,
       id: "gross_volume",
-      width: "12%",
+      width: "10%",
       cell: (row) => (
         <div
           className={`d-flex ${
@@ -160,7 +160,7 @@ const CeoDashSitetable = (props) => {
           : 0,
       sortable: true,
       id: "3",
-      width: "12%",
+      width: "10%",
       cell: (row) => (
         <div
           className={`d-flex ${
@@ -212,7 +212,7 @@ const CeoDashSitetable = (props) => {
           ? parseFloat(row?.gross_profit?.gross_profit)
           : 0,
       sortable: true,
-      width: "12%",
+      width: "10%",
       id: "4",
       cell: (row) => (
         <div
@@ -266,7 +266,7 @@ const CeoDashSitetable = (props) => {
           : 0,
       sortable: true,
       id: "5",
-      width: "12%",
+      width: "10%",
       cell: (row) => (
         <div
           className={`d-flex ${
@@ -329,7 +329,7 @@ const CeoDashSitetable = (props) => {
           : 0,
       sortable: true,
       id: "6",
-      width: "12%",
+      width: "10%",
       cell: (row) => (
         <div
           className={`d-flex ${
@@ -379,7 +379,7 @@ const CeoDashSitetable = (props) => {
       selector: (row) =>
         row?.shop_fees?.shop_fee ? parseFloat(row?.shop_fees?.shop_fee) : 0,
       sortable: true,
-      width: "12%",
+      width: "10%",
       id: "7",
       cell: (row) => (
         <div
@@ -431,7 +431,61 @@ const CeoDashSitetable = (props) => {
           ? parseFloat(row?.shop_profit?.shop_profit)
           : 0,
       sortable: true,
-      width: "12%",
+      width: "10%",
+      id: "8",
+      cell: (row) => (
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">
+              £
+              {row?.shop_profit?.shop_profit
+                ? formatNumber(row?.shop_profit?.shop_profit)
+                : "0"}
+              {/* {row?.shop_profit?.shop_profit || "0.00"} */}
+            </h6>
+            <p
+              className={`me-1 ${
+                row?.shop_profit?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
+              data-tip={`${row?.shop_profit?.percentage}%`}
+            >
+              {row?.shop_profit?.status === "up" ? (
+                <>
+                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                  <span className="text-success">
+                    {row?.shop_profit?.percentage}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                  <span className="text-danger">
+                    {row?.shop_profit?.percentage}%
+                  </span>
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Shop Margin",
+      selector: (row) =>
+        row?.shop_profit?.shop_profit
+          ? parseFloat(row?.shop_profit?.shop_profit)
+          : 0,
+      sortable: true,
+      width: "10%",
       id: "8",
       cell: (row) => (
         <div
@@ -491,7 +545,7 @@ const CeoDashSitetable = (props) => {
               {data?.length > 0 ? (
                 <>
                   <div
-                    className={`table-responsive deleted-table ${
+                    className={`table-responsive deleted-table performance-col ${
                       isSitePermissionAvailable ||
                       isSiteSecondPermissionAvailable
                         ? "show-ceo-hover-effect-data-table"

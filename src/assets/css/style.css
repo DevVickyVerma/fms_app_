@@ -55676,7 +55676,7 @@ svg.table-Details {
 
 @media screen and (max-width: 490px) {
   .common-sidebar {
-    width: 100%;
+    width: 100% !important;
   }
 }
 

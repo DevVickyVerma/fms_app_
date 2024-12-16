@@ -94,6 +94,7 @@ export const Comparisongraphfilter = [
   { value: "weekly", label: "Weekly" },
   { value: "monthly", label: "Current month" },
   { value: "yearly", label: "Year-to-Date (YTD)" },
+  { value: "yearly", label: "Actual Vs Previous Year Month" },
   { value: "custom", label: "Custom" },
 ];
 
