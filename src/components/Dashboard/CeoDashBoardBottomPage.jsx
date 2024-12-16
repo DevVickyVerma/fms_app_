@@ -52,7 +52,7 @@ const CeoDashBoardBottomPage = (props) => {
   // Assuming modalTitle is set in state
   const [modalTitle, setModalTitle] = useState("");
   const handleCardClick = (cardName) => {
-    if (applyNavigate) {
+    if (applyNavigate && filters?.company_id) {
       console.log(`Card clicked: ${cardName}`);
       setModalTitle(cardName);
       setShowCeoDetailModal(true);
