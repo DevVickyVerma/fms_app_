@@ -267,6 +267,49 @@ const CeoDashBoardBottomPage = (props) => {
         {stockDetailsPermission && (
           <>
             <Col
+              md={mopComparisonPerformanceReportsPermission ? 6 : 4}
+              onClick={() => handleCardClick("Stock")}
+              className="slide-in-bottom"
+            >
+              <Card
+                className={`card-default-height ${
+                  applyNavigate ? "pointer ceocard-hover" : ""
+                }`}
+                style={{
+                  backgroundColor: "#8563b6", // Light Blue background
+                  color: "#fff",
+                  // height: "100%",
+                  minHeight: "111px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "all 0.3s ease", // Smooth opacity transition
+                }}
+              >
+                <div className=" d-flex flex-column justify-content-center align-items-center gap-3 py-3">
+                  <div className="">
+                    <div className=" d-flex flex-column justify-content-center align-items-center ">
+                      <GiVendingMachine size={40} />
+                      <h5 className="m-0 mt-2">Stock Details</h5>
+                    </div>
+                  </div>
+                  <div className=" d-flex gap-5">
+                    <div>
+                      <FaChartPie size={40} />
+                      <h5 className="m-0 mt-2">Stock</h5>
+                    </div>
+                    <div>
+                      <FaClipboardList size={40} />
+                      <h5 className="m-0 mt-2">Shrinkage</h5>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+
+            {/* <Col
               md={mopComparisonPerformanceReportsPermission ? 2 : 4}
               onClick={() => handleCardClick("Stock")}
               className="slide-in-bottom"
@@ -347,7 +390,7 @@ const CeoDashBoardBottomPage = (props) => {
                 <GiVendingMachine size={40} />
                 <h5 className="m-0 mt-2">Stock Details</h5>
               </Card>
-            </Col>
+            </Col> */}
           </>
         )}
       </Row>

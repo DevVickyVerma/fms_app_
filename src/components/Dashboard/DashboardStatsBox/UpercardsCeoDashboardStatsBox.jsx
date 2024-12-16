@@ -184,7 +184,8 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 icon={"£"}
                 containerStyle={"dash-plates-5 "}
                 tooltipContent={
-                  "Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock"
+                  // "Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock"
+                  "Gross Profit = Sales Fuel Value - (Fuel Volume × Cost Price)"
                 }
                 xl={6}
                 // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
