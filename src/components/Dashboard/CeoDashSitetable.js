@@ -3,9 +3,50 @@ import withApi from "../../Utils/ApiHelper";
 import LoaderImg from "../../Utils/Loader";
 import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
 import DataTable from "react-data-table-component";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CeoDashSitetable = (props) => {
   const { isLoading, data, title, tootiptitle } = props;
+
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const navigate = useNavigate();
+
+  // ! Importent :- site permiossion is added one permission is needed to go into thrid screen
+  const isSitePermissionAvailable = UserPermissions?.includes(
+    "ceodashboard-site-detail"
+  );
+  const isSiteSecondPermissionAvailable = UserPermissions?.includes(
+    "ceodashboard-site-stats"
+  );
+
+  const handleFuelPriceLinkClick = (item) => {
+    // setting data for 3rd screen here with tha name of singleSiteData
+    const rowDataString = JSON.stringify(item);
+    localStorage.setItem("ceo-singleSiteData", rowDataString);
+
+    // handling state manage here
+    let storedKeyName = "localFilterModalData";
+    const storedData = localStorage.getItem(storedKeyName);
+
+    console.log("item", "itemitem", item);
+
+    if (
+      storedData &&
+      (isSitePermissionAvailable || isSiteSecondPermissionAvailable)
+    ) {
+      let updatedStoredData = JSON.parse(storedData);
+
+      updatedStoredData.site_id = item?.id; // Update the site_id here
+      updatedStoredData.site_name = item?.name; // Update the site_id here
+
+      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+
+      navigate(`/ceodashboard-details/${item?.id}`);
+    }
+  };
 
   const columns = [
     {
@@ -15,7 +56,14 @@ const CeoDashSitetable = (props) => {
       width: "16%",
       id: "1",
       cell: (row) => (
-        <div className="d-flex">
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
             <div className="d-flex align-items-center justify-center h-100">
               <div>
@@ -30,7 +78,14 @@ const CeoDashSitetable = (props) => {
                   }}
                 />
               </div>
-              <div className="d-flex">
+              <div
+                className={`d-flex ${
+                  isSitePermissionAvailable || isSiteSecondPermissionAvailable
+                    ? "pointer"
+                    : ""
+                }`}
+                onClick={() => handleFuelPriceLinkClick(row)}
+              >
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-15 fw-semibold">{row?.name}</h6>
                   <small>{row.date ? `(${row.date})` : ""}</small>
@@ -51,7 +106,14 @@ const CeoDashSitetable = (props) => {
       id: "gross_volume",
       width: "12%",
       cell: (row) => (
-        <div className="d-flex">
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
           <div className="d-flex align-items-center h-100 ">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold ">
@@ -100,7 +162,14 @@ const CeoDashSitetable = (props) => {
       id: "3",
       width: "12%",
       cell: (row) => (
-        <div className="d-flex">
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
               £{" "}
@@ -147,9 +216,12 @@ const CeoDashSitetable = (props) => {
       id: "4",
       cell: (row) => (
         <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
@@ -196,7 +268,14 @@ const CeoDashSitetable = (props) => {
       id: "5",
       width: "12%",
       cell: (row) => (
-        <div className="d-flex">
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
               {row?.gross_margin?.gross_margin
@@ -252,7 +331,14 @@ const CeoDashSitetable = (props) => {
       id: "6",
       width: "12%",
       cell: (row) => (
-        <div className="d-flex">
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
               £{/* {row?.shop_sales?.shop_sales} */}
@@ -296,7 +382,14 @@ const CeoDashSitetable = (props) => {
       width: "12%",
       id: "7",
       cell: (row) => (
-        <div className="d-flex">
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
               £
@@ -341,7 +434,14 @@ const CeoDashSitetable = (props) => {
       width: "12%",
       id: "8",
       cell: (row) => (
-        <div className="d-flex">
+        <div
+          className={`d-flex ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
+          onClick={() => handleFuelPriceLinkClick(row)}
+        >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
               £
@@ -390,7 +490,14 @@ const CeoDashSitetable = (props) => {
             <Card.Body>
               {data?.length > 0 ? (
                 <>
-                  <div className="table-responsive deleted-table ">
+                  <div
+                    className={`table-responsive deleted-table ${
+                      isSitePermissionAvailable ||
+                      isSiteSecondPermissionAvailable
+                        ? "show-ceo-hover-effect-data-table"
+                        : ""
+                    }`}
+                  >
                     <DataTable
                       columns={columns}
                       data={data}

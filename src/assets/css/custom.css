@@ -2580,3 +2580,14 @@ td.middayModal-td.time-input-fuel-sell {
   max-width: 2px;
   min-width: 15px;
 }
+
+.show-ceo-hover-effect-data-table .rdt_TableRow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.show-ceo-hover-effect-data-table .rdt_TableRow:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
+  z-index: 111;
+}
