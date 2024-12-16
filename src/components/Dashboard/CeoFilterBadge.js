@@ -2,6 +2,7 @@ const CeoFilterBadge = ({
   filters,
   handleResetFilters,
   showResetBtn = false,
+  showCompResetBtn = false,
   showStartDate = false,
   onRemoveFilter, // Add this prop
 }) => {
@@ -13,9 +14,9 @@ const CeoFilterBadge = ({
   return (
     <div className="d-flex gap-2 flex-wrap btn">
       {filters?.client_name ||
-        filters?.company_name ||
-        filters?.site_name ||
-        filters?.start_date ? (
+      filters?.company_name ||
+      filters?.site_name ||
+      filters?.start_date ? (
         <div
           className="badges-container d-flex flex-wrap align-items-center gap-2 px-4 py-sm-2 py-2 text-white"
           style={{ background: "#ddd" }}
@@ -30,7 +31,7 @@ const CeoFilterBadge = ({
             <div className="badge bg-green-600 d-flex align-items-center gap-2 p-3 position-relative">
               <span className="font-semibold">Company :</span>{" "}
               {filters?.company_name}
-              {showResetBtn && (
+              {showCompResetBtn && (
                 <button
                   className="btn btn-danger btn-sm position-absolute ceo-cross-icon"
                   // style={{ top: "-20px", right: "-20px", borderRadius: "50%" }}
@@ -44,7 +45,6 @@ const CeoFilterBadge = ({
           {filters?.site_name && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3 position-relative">
               <span className="font-semibold">Site :</span> {filters?.site_name}
-
               {showResetBtn && (
                 <button
                   className="btn btn-danger btn-sm position-absolute ceo-cross-icon"
@@ -53,7 +53,6 @@ const CeoFilterBadge = ({
                   <span>&times;</span>
                 </button>
               )}
-
             </div>
           )}
           {filters?.start_date && showStartDate && (

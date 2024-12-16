@@ -574,7 +574,7 @@ const CeoDetailModal = (props) => {
                           options={filterData.companies}
                           onChange={handleCompanyChange}
                           required={true}
-                          placeholder="--Select a Company--"
+                          // placeholder="--Select a Company--"
                         />
                       )}
 
@@ -864,6 +864,7 @@ const CeoDetailModal = (props) => {
                     }}
                     onRemoveFilter={handleRemoveFilter}
                     showResetBtn={true}
+                    showCompResetBtn={false}
                     showStartDate={false}
                   />
                 </div>
@@ -879,7 +880,7 @@ const CeoDetailModal = (props) => {
                           options={filterData.companies}
                           onChange={handleCompanyChange}
                           required={true}
-                          placeholder="--Select a Company--"
+                          // placeholder="--Select a Company--"
                         />
                       )}
 
