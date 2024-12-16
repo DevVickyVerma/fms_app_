@@ -3045,14 +3045,14 @@ export const salesGraphData = {
     labels: ["Nov 2024", "Dec 2024"],
     datasets: [
       {
-        label: "Actual Sales",
+        label: "Shop Sales",
         data: ["0.00", "0.00"],
         backgroundColor: "#AFDC8F",
         borderColor: "#AFDC8F",
         borderWidth: 1,
       },
       {
-        label: "Budgeted Sales",
+        label: "Shop Sales",
         data: ["0.00", "0.00"],
         backgroundColor: "#92C5F9",
         borderColor: "#92C5F9",
@@ -3061,17 +3061,17 @@ export const salesGraphData = {
     ],
   },
   sales_yoy: {
-    labels: ["Fuel Sales"],
+    labels: ["Valet Sales"],
     datasets: [
       {
-        label: "Fuel Sales (Dec 2023)",
+        label: "Valet Sales (Dec 2023)",
         data: ["2134636.3"],
         backgroundColor: "#AFDC8F",
         borderColor: "#AFDC8F",
         borderWidth: 1,
       },
       {
-        label: "Fuel Sales (Dec 2024)",
+        label: "Valet Sales (Dec 2024)",
         data: ["319024.5"],
         backgroundColor: "#92C5F9",
         borderColor: "#92C5F9",
