@@ -91,11 +91,10 @@ export const activeInactiveOptions = [
 //             ▪ Comparison with budget
 
 export const Comparisongraphfilter = [
-  { value: "1", label: "Weekly" },
-  { value: "2", label: "Current month" },
-  { value: "3", label: "Year-to-Date (YTD)" },
-  { value: "4", label: "Comparison with budget" },
-  { value: "5", label: "Custom" },
+  { value: "weekly", label: "Weekly" },
+  { value: "monthly", label: "Current month" },
+  { value: "yearly", label: "Year-to-Date (YTD)" },
+  { value: "custom", label: "Custom" },
 ];
 
 export const AutomaticManualOptions = [

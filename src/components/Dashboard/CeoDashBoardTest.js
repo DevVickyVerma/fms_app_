@@ -524,7 +524,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {

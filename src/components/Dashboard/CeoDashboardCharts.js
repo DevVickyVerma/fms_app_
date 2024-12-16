@@ -16,7 +16,6 @@ const CeoDashboardCharts = ({
   isLoading,
 }) => {
   const [data, setData] = useState();
-  console.log(formik?.values, "forasdasdasdmik");
 
   useEffect(() => {
     if (formik?.values?.selectedSite && formik?.values?.comparison_value) {
@@ -62,13 +61,16 @@ const CeoDashboardCharts = ({
       {isLoading ? <LoaderImg /> : null}
       <Row className="mb-4">
         <Col sm={12} md={6} xl={6} key="chart-1">
-          {renderChartOrLoader(data?.sales_mom, "Volume")}
+          {renderChartOrLoader(BarGraphSalesStats?.sales_mom, "Fuel")}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-2">
-          {renderChartOrLoader(data?.sales_actual_budgeted, "Margin")}
+          {renderChartOrLoader(
+            BarGraphSalesStats?.sales_actual_budgeted,
+            "Shop"
+          )}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
-          {renderChartOrLoader(data?.sales_yoy, "Shop")}
+          {renderChartOrLoader(BarGraphSalesStats?.sales_yoy, "Valet")}
         </Col>
       </Row>
     </>
