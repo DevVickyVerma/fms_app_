@@ -13,6 +13,7 @@ const CeoDashSitetable = (props) => {
       selector: (row) => [row?.name],
       sortable: false,
       width: "16%",
+      id: "1",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -47,6 +48,7 @@ const CeoDashSitetable = (props) => {
           ? parseFloat(row.fuel_volume.gross_volume)
           : 0,
       sortable: true,
+      id: "gross_volume",
       width: "12%",
       cell: (row) => (
         <div className="d-flex">
@@ -95,6 +97,7 @@ const CeoDashSitetable = (props) => {
           ? parseFloat(row?.fuel_sales?.gross_value)
           : 0,
       sortable: true,
+      id: "3",
       width: "12%",
       cell: (row) => (
         <div className="d-flex">
@@ -141,6 +144,7 @@ const CeoDashSitetable = (props) => {
           : 0,
       sortable: true,
       width: "12%",
+      id: "4",
       cell: (row) => (
         <div
           className="d-flex"
@@ -189,6 +193,7 @@ const CeoDashSitetable = (props) => {
           ? parseFloat(row?.gross_margin?.gross_margin)
           : 0,
       sortable: true,
+      id: "5",
       width: "12%",
       cell: (row) => (
         <div className="d-flex">
@@ -244,6 +249,7 @@ const CeoDashSitetable = (props) => {
           ? parseFloat(row?.shop_sales?.shop_sales)
           : 0,
       sortable: true,
+      id: "6",
       width: "12%",
       cell: (row) => (
         <div className="d-flex">
@@ -288,6 +294,7 @@ const CeoDashSitetable = (props) => {
         row?.shop_fees?.shop_fee ? parseFloat(row?.shop_fees?.shop_fee) : 0,
       sortable: true,
       width: "12%",
+      id: "7",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -332,6 +339,7 @@ const CeoDashSitetable = (props) => {
           : 0,
       sortable: true,
       width: "12%",
+      id: "8",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -386,8 +394,10 @@ const CeoDashSitetable = (props) => {
                     <DataTable
                       columns={columns}
                       data={data}
+                      defaultSortField="gross_volume"
                       noHeader={true}
-                      defaultSortField="id"
+                      defaultSortFieldId={"gross_volume"}
+                      // defaultSortField="id"
                       defaultSortAsc={false}
                       striped={true}
                       persistTableHead={true}
