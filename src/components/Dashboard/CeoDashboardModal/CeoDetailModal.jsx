@@ -28,6 +28,7 @@ import MultiDateRangePicker from "../../../Utils/MultiDateRangePicker";
 import FiltersComponent from "../DashboardHeader";
 import CeoFilterBadge from "../CeoFilterBadge";
 import SelectField from "./SelectField";
+import moment from "moment/moment";
 
 const CeoDetailModal = (props) => {
   const {
@@ -374,19 +375,29 @@ const CeoDetailModal = (props) => {
       }
 
       if (title === "Comparison") {
-        if (title === "custom") {
-          const formattedStartDate = moment(formik.values?.startDate).format(
-            "DD-MM-YYYY"
-          );
-          const formattedEndDate = moment(formik.values?.endDate).format(
-            "DD-MM-YYYY"
-          );
-          const customDateRange = `${formattedStartDate}/${formattedEndDate}`;
-          queryParams.append("custom", customDateRange);
-        } else {
-          if (formik?.values?.comparison_value) {
-            queryParams.append("filter_type", formik?.values?.comparison_value);
+        const isCustom = formik?.values?.comparison_value === "custom";
+
+        if (isCustom) {
+          const startDate = formik?.values?.startDate;
+          const endDate = formik?.values?.endDate;
+
+          // Check if both startDate and endDate are selected
+          if (startDate && endDate) {
+            const formattedStartDate = moment(startDate).format("DD-MM-YYYY");
+            const formattedEndDate = moment(endDate).format("DD-MM-YYYY");
+            const customDateRange = `${formattedStartDate}/${formattedEndDate}`;
+
+            // Append the custom date range to the query params
+            queryParams.append("filter_type", customDateRange);
+          } else {
+            console.log(
+              "Custom date range requires both startDate and endDate."
+            );
+            return; // Stop the API call if dates are not selected
           }
+        } else if (formik?.values?.comparison_value) {
+          // Append normal filter_type value if it's not custom
+          queryParams.append("filter_type", formik?.values?.comparison_value);
         }
       }
 
