@@ -778,11 +778,11 @@ const Root = () => {
                       element={<WrappeCEOCompetitorView />}
                     />
                     <Route
-                      path={`/ceodashboard`}
+                      path={`/ceodashboard-test`}
                       element={<WrappedCeoDashBoard />}
                     />
                     <Route
-                      path={`/ceodashboard-test`}
+                      path={`/ceodashboard`}
                       element={<WrappedCeoDashBoardTest />}
                     />
                     {/* client  Components Start */}
