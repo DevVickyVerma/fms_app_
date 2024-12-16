@@ -9,10 +9,14 @@ const UpercardsCeoDashboardStatsBox = (props) => {
   const {
     GrossVolume,
     shopmargin,
+    valet_sales,
     shop_fees,
     GrossProfitValue,
     GrossMarginValue,
     FuelValue,
+    gross_margin,
+    fuel_commission,
+    gross_margin_bunkered,
     shopsale,
     dashboardData,
     callStatsBoxParentFunc,
@@ -124,14 +128,12 @@ const UpercardsCeoDashboardStatsBox = (props) => {
             <CEODashCommonVerticalCard
               isParentComponent={parentComponent}
               showRightSide={true}
-              // leftSideData={FuelValue?.gross_value}
-              leftSideData={"867427"}
+              leftSideData={FuelValue?.gross_value}
               leftSideTitle={"Shop Fees"}
-              // RightSideData={FuelValue?.bunkered_value}
-              RightSideData={"250343"}
+              RightSideData={fuel_commission?.fuel_commission}
               RightSideTitle={"Fuel Commission"}
-              statusValue={FuelValue?.status}
-              percentageValue={FuelValue?.percentage}
+              // statusValue={fuel_commission?.status}
+              percentageValue={fuel_commission?.percentage}
               handleNavigateClick={handleNavigateClick}
               icon={"£"}
               containerStyle={"dash-plates-3 "}
@@ -146,18 +148,22 @@ const UpercardsCeoDashboardStatsBox = (props) => {
             <CEODashCommonVerticalCard
               isParentComponent={parentComponent}
               showRightSide={true}
-              leftSideData={17.6}
+              leftSideData={GrossMarginValue?.gross_margin}
               // leftSideData={FuelValue?.gross_value}
               leftSideTitle={"Gross Margin (Fuel)"}
               // RightSideData={FuelValue?.bunkered_value}
-              RightSideData={12.2}
-              RightSideTitle={"Gross (Bunkered )"}
-              statusValue={FuelValue?.status}
-              percentageValue={FuelValue?.percentage}
+              RightSideData={gross_margin_bunkered?.gross_margin_bunkered}
+              RightSideTitle={"Gross (Bunkered)"}
+              statusValue={GrossMarginValue?.status}
+              percentageValue={GrossMarginValue?.percentage}
               handleNavigateClick={handleNavigateClick}
               icon={"ppl"}
               containerStyle={"dash-plates-3 "}
               xl={12}
+              ppl_msg={
+                GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""
+              }
+              tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
               // tooltipContent={'dash-plates-1'}
               // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
             />
@@ -260,16 +266,16 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               <CEODashCommonCard
                 isParentComponent={parentComponent}
                 showRightSide={false}
-                leftSideData={shopmargin?.shop_profit}
+                leftSideData={valet_sales?.valet_sales}
                 leftSideTitle={"Valet Sales"}
-                RightSideData={shopmargin?.bunkered_value}
-                RightSideTitle={"Bunkered Sales"}
-                statusValue={shopmargin?.status}
-                percentageValue={shopmargin?.percentage}
+                RightSideData={valet_sales?.bunkered_value}
+                // RightSideTitle={"Bunkered Sales"}
+                statusValue={valet_sales?.status}
+                percentageValue={valet_sales?.percentage}
                 handleNavigateClick={handleNavigateClick}
                 icon={"£"}
                 containerStyle={"dash-plates-5"}
-                tooltipContent={`The data is accurately sourced from back-office system`}
+                // tooltipContent={`The data is accurately sourced from back-office system`}
                 // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
                 // showPPL={true}
                 xl={6}
