@@ -981,7 +981,7 @@ const CeoDetailModal = (props) => {
                         <Col lg={4} className="">
                           <label className=" form-label" htmlFor="Site">
                             Site
-                            <span className="text-danger">*</span>
+                            {/* <span className="text-danger">*</span> */}
                           </label>
                           <select
                             id="selectedSite"
@@ -1037,6 +1037,7 @@ const CeoDetailModal = (props) => {
                             startDate={formik.values.startDate}
                             endDate={formik.values.endDate}
                             onChange={handleDateChange}
+                            isClearable={false}
                           />
                         </Col>
                       ) : (

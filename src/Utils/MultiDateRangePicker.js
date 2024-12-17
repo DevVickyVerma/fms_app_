@@ -8,6 +8,7 @@ const MultiDateRangePicker = ({
   onChange,
   minDate = null,
   maxDate = null,
+  isClearable = true,
 }) => {
   const handleDateChange = (dates) => {
     onChange(dates, undefined); // Pass undefined as the second argument if event is not needed
@@ -22,7 +23,7 @@ const MultiDateRangePicker = ({
       selectsRange
       //   monthsShown={2}
       dateFormat="yyyy-MM-dd"
-      isClearable
+      isClearable={isClearable}
       placeholderText="Select Date Range"
       autoComplete="off"
       className="input101 "
