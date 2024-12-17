@@ -400,6 +400,7 @@ const CeoDetailModal = (props) => {
       }
 
       if (title === "Live Margin") {
+        // * "is_ceo" goes 1 when api is called with CEO live margin
         queryParams.append("is_ceo", 1);
       }
 
