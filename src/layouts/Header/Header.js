@@ -1,4 +1,3 @@
- 
 import { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -35,7 +34,9 @@ const Header = (props) => {
     }
   };
 
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
   const reduxData = useSelector((state) => state?.data?.data);
 
   const [twoFactorKey, setTwoFactorKey] = useState(
@@ -54,15 +55,12 @@ const Header = (props) => {
     return () => {
       clearInterval(interval);
     };
-
   }, [twoFactorKey]);
-
 
   const isProfileUpdatePermissionAvailable = UserPermissions?.includes(
     "profile-update-profile"
   );
-
-
+  const isSmSPermissionAvailable = UserPermissions?.includes("sms-list");
 
   const isSettingsPermissionAvailable =
     UserPermissions?.includes("config-setting");
@@ -70,14 +68,12 @@ const Header = (props) => {
   useEffect(() => {
     const isTwoFactorAvailable = JSON.parse(localStorage.getItem("two_factor"));
     setIsTwoFactorPermissionAvailable(isTwoFactorAvailable);
-    
   }, [isTwoFactorPermissionAvailable]);
 
   const openCloseSidebar = () => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
   const mybalance = String(reduxData?.smsCredit);
-
 
   return (
     <Navbar expand="md" className="app-header header sticky">
@@ -119,7 +115,6 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
-
                 <div className="d-flex order-lg-2 nav-header-box">
                   <Dropdown className=" d-md-flex profile-1 profile-drop-down">
                     <Dropdown.Toggle
@@ -131,7 +126,9 @@ const Header = (props) => {
                           {`Welcome,  ${" "}`}&nbsp;
                         </span>
                         <span className="header-welcome-text-title">
-                          {reduxData?.first_name ? reduxData?.first_name : " Admin"}
+                          {reduxData?.first_name
+                            ? reduxData?.first_name
+                            : " Admin"}
                         </span>
                       </h5>
                       <i className="ph ph-caret-circle-down ms-2" />
@@ -143,14 +140,21 @@ const Header = (props) => {
                       <div className="drop-heading">
                         <div className="">
                           <h5 className="text-dark mb-0">
-                            {reduxData?.full_name ? reduxData?.full_name : "Admin"} <br />{" "}
+                            {reduxData?.full_name
+                              ? reduxData?.full_name
+                              : "Admin"}{" "}
+                            <br />{" "}
                           </h5>
                         </div>
                       </div>
                       <div className="dropdown-divider m-0" />
-                      {localStorage.getItem("superiorRole") == "Client" ? (
+                      {isSmSPermissionAvailable &&
+                      localStorage.getItem("superiorRole") == "Client" ? (
                         <Dropdown.Item as={Link} to="/manage-sms">
-                          <i className="dropdown-icon ph ph-chat-text" /> MY SMS <span className="mybalance">{mybalance !== undefined ? mybalance : ""}</span>
+                          <i className="dropdown-icon ph ph-chat-text" /> MY SMS{" "}
+                          <span className="mybalance">
+                            {mybalance !== undefined ? mybalance : ""}
+                          </span>
                         </Dropdown.Item>
                       ) : null}
                       {isProfileUpdatePermissionAvailable ? (
@@ -159,7 +163,7 @@ const Header = (props) => {
                           Profile
                         </Dropdown.Item>
                       ) : null}
-                    
+
                       {isSettingsPermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/settings">
                           <i className="dropdown-icon ph ph-gear" />
