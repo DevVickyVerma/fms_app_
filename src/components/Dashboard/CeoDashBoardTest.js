@@ -5,7 +5,7 @@ import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, Row } from "react-bootstrap";
-import { DashboardData } from "../../Utils/commonFunctions/CommonData";
+import { DashboardData, dynamicData, dynamicLineConfig, stockGraphData } from "../../Utils/commonFunctions/CommonData";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
 import { useFormik } from "formik";
@@ -19,6 +19,8 @@ import CeoDashBoardBottomPage from "./CeoDashBoardBottomPage";
 import SmallLoader from "../../Utils/SmallLoader";
 import PriceLogTable from "./PriceLogTable";
 import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
+import LinesDotGraph from "./LinesDotGraph";
+import LinesDotGraphchart from "./LinesDotGraphchart";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -522,7 +524,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleChange = (event) => {
@@ -823,6 +825,27 @@ const CeoDashBoardTest = (props) => {
                     alt="dotGraph"
                     className="dotGraph"
                   />
+                </Card.Body>
+              </Card>
+            </Col>
+          </>
+        )}
+        {priceGraphPermission && (
+          <>
+            <Col className="mt-4" sm={12} md={priceLogAndGraphPermission ? 12 : 12}>
+              <Card
+                className="h-100"
+                style={{ transition: "opacity 0.3s ease" }}
+              >
+                <Card.Header className="p-4">
+                  <div className="spacebetween" style={{ width: "100%" }}>
+                    <h4 className="card-title">Price Graph</h4>
+                    <span>View All</span>
+                  </div>
+                </Card.Header>
+                <Card.Body>
+                  {/* <LinesDotGraph data={dynamicData} lineDataConfig={dynamicLineConfig} /> */}
+                  <LinesDotGraphchart stockGraphData={stockGraphData} />
                 </Card.Body>
               </Card>
             </Col>

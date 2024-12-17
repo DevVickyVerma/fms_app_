@@ -3776,3 +3776,94 @@ export const intialfilterData = {
   ],
   start_date: "2024-12-11",
 };
+
+export const dynamicData = [
+  { date: "01-Dec", ulSales: 2500, dieselSales: 2400, ulRSP: 1500, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
+  { date: "02-Dec", ulSales: 1800, dieselSales: 2300, ulRSP: 1500, dieselRSP: 1.40, price: 1000, newPrice: 2000 },
+  { date: "03-Dec", ulSales: 2400, dieselSales: 2500, ulRSP: 1.37, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
+  { date: "04-Dec", ulSales: 1900, dieselSales: 2600, ulRSP: 1.36, dieselRSP: 1.40, price: 1000, newPrice: 2000 },
+  { date: "05-Dec", ulSales: 2600, dieselSales: 2700, ulRSP: 1.38, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
+  { date: "06-Dec", ulSales: 1500, dieselSales: 2400, ulRSP: 1.35, dieselRSP: 1.39, price: 1000, newPrice: 2000 },
+  { date: "07-Dec", ulSales: 1700, dieselSales: 2200, ulRSP: 1.37, dieselRSP: 1.38, price: 1000, newPrice: 2000 },
+  { date: "08-Dec", ulSales: 2500, dieselSales: 2800, ulRSP: 1.37, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
+  { date: "09-Dec", ulSales: 2600, dieselSales: 2000, ulRSP: 1.35, dieselRSP: 1.40, price: 1000, newPrice: 2000 },
+  { date: "10-Dec", ulSales: 2000, dieselSales: 2300, ulRSP: 1500, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
+  { date: "11-Dec", ulSales: 2400, dieselSales: 2200, ulRSP: 1500, dieselRSP: 1.39, price: 1000, newPrice: 2000 },
+  { date: "12-Dec", ulSales: 2200, dieselSales: 2600, ulRSP: 1500, dieselRSP: 1.42, price: 1000, newPrice: 2000 }
+];
+export const dynamicLineConfig = [
+  { dataKey: "dieselSales", stroke: "#1f77b4", name: "Diesel Sales", dot: false, yAxisId: "left", strokeWidth: 4 },
+  { dataKey: "ulSales", stroke: "#2ca02c", name: "UL Sales", dot: false, yAxisId: "left", strokeWidth: 4 },
+  { dataKey: "ulRSP", stroke: "none", name: "UL RSP (Orange Dots)", dot: { r: 4, fill: "#ff7f0e" }, yAxisId: "right", strokeWidth: 2 },
+  { dataKey: "dieselRSP", stroke: "none", name: "Diesel RSP (Purple Dots)", dot: { r: 4, fill: "#9467bd" }, yAxisId: "right", strokeWidth: 2 },
+  { dataKey: "price", stroke: "#ff6347", name: "Price", dot: false, yAxisId: "left", strokeWidth: 2, strokeDasharray: "5 5" },
+  { dataKey: "newPrice", stroke: "#ff1493", name: "New Price", dot: false, yAxisId: "left", strokeWidth: 2, strokeDasharray: "5 5" },
+];
+export const stockGraphData = {
+  labels: [
+    "01-Dec", "02-Dec", "03-Dec", "04-Dec", "05-Dec", "06-Dec", "07-Dec", "08-Dec", "09-Dec", "10-Dec",
+    "11-Dec", "12-Dec", "13-Dec", "14-Dec", "15-Dec", "16-Dec", "17-Dec", "18-Dec", "19-Dec", "20-Dec",
+    "21-Dec", "22-Dec", "23-Dec", "24-Dec", "25-Dec", "26-Dec", "27-Dec", "28-Dec", "29-Dec", "30-Dec"
+  ],
+  datasets: [
+    {
+      label: "Diesel Sales (Dots Only)",
+      data: [
+        2400, 2300, 2500, 2600, 2550, 2400, 2450, 2350, 2650, 2750,
+        2800, 2900, 2850, 3100, 3000, 3300, 3200, 3400, 3350, 3700,
+        3600, 3800, 3900, 3750, 4100, 4000, 4200, 4300, 4400, 4500
+      ],
+      backgroundColor: "#1f77b4",
+      borderColor: "#1f77b4",
+      borderWidth: 0,  // No line, just dots
+      fill: false,  // Don't fill under the line
+      pointRadius: 6,  // Show dots
+      pointBackgroundColor: "#1f77b4", // Dot color
+      pointBorderColor: "#1f77b4", // Border color of the dots
+    },
+    {
+      label: "Diesel Sales 2 (Dots Only)",
+      data: [
+        2500, 2400, 2500, 2800, 2700, 2600, 2650, 2750, 2850, 2950,
+        3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900,
+        4000, 4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900
+      ],
+      backgroundColor: "#ff6347",
+      borderColor: "#ff6347",
+      borderWidth: 0,  // No line, just dots
+      fill: false,  // Don't fill under the line
+      pointRadius: 6,  // Show dots
+      pointBackgroundColor: "#ff6347", // Dot color
+      pointBorderColor: "#ff6347", // Border color of the dots
+    },
+    {
+      label: "UL Sales (Linear Line)",
+      data: [
+        2500, 1800, 2400, 1900, 2200, 2100, 2300, 2400, 2500, 2600,
+        2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600,
+        3700, 3800, 3900, 4000, 4100, 4200, 4300, 4400, 4500, 4600
+      ],
+      backgroundColor: "#2ca02c",
+      borderColor: "#2ca02c",
+      borderWidth: 2,
+      fill: false,  // Don't fill under the line
+      pointRadius: 0, // No dots
+      borderDash: [], // Regular line (no dashed)
+    },
+    {
+      label: "Price (Dashed Line)",
+      data: [
+        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
+        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
+        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000
+      ],
+      backgroundColor: "#ff1493",
+      borderColor: "#ff1493",
+      borderWidth: 2,
+      borderDash: [5, 5], // Dashed line
+      fill: false,  // Don't fill under the line
+      pointRadius: 0, // No dots
+    }
+  ]
+};
+
