@@ -885,6 +885,7 @@ const CeoDetailModal = (props) => {
                   </Card.Body>
                 </Card>
 
+                {/* Live Margin Separate component for Grades Analysis */}
                 <CeoDashLiveMarginTable
                   fuel_stats={apiData?.data?.fuel_stats}
                 />
