@@ -84,8 +84,6 @@ const DashSubChild = ({
   const { isCeoDashboard } = location.state || {}; // Destructure state and default to an empty object
   const { details } = location.state || {};
 
-  console.log(isCeoDashboard, "isCeoDashboard");
-
   return (
     <>
       {isLoading ? <LoaderImg /> : null}

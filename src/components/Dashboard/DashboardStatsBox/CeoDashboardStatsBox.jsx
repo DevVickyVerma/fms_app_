@@ -1,7 +1,11 @@
 import { Row } from "react-bootstrap";
 import CEODashCommonCard from "../CEODashCommonCard";
 
-const CeoDashboardStatsBox = ({ dashboardData, parentComponent = true,Mopstatsloading }) => {
+const CeoDashboardStatsBox = ({
+  dashboardData,
+  parentComponent = true,
+  Mopstatsloading,
+}) => {
   const CeohandleNavigateClick = () => {
     console.log("CeohandleNavigateClick");
   };
@@ -24,7 +28,8 @@ const CeoDashboardStatsBox = ({ dashboardData, parentComponent = true,Mopstatslo
       title: "Card Fuel Sales",
       icon: "£",
       containerStyle: "dash-plates-5",
-      tooltip: "Gross Profit = Total Sales - Opening Stock - Purchases(Deliveries) + Closing Stock",
+      tooltip:
+        "Gross Profit = Total Sales - Opening Stock - Purchases(Deliveries) + Closing Stock",
     },
     {
       dataKey: "card_shop_sales",
@@ -49,25 +54,27 @@ const CeoDashboardStatsBox = ({ dashboardData, parentComponent = true,Mopstatslo
     <div>
       {dashboardData ? (
         <Row>
-          {cardConfigs.map(({ dataKey, title, icon, containerStyle, tooltip }) => {
-            const cardData = dashboardData[dataKey];
+          {cardConfigs.map(
+            ({ dataKey, title, icon, containerStyle, tooltip }) => {
+              const cardData = dashboardData[dataKey];
 
-            return (
-              <CEODashCommonCard
-                key={dataKey}
-                isParentComponent={parentComponent}
-                showRightSide={false}
-                leftSideData={cardData?.total_sales}
-                leftSideTitle={title}
-                statusValue={cardData?.status}
-                percentageValue={cardData?.percentage}
-                handleNavigateClick={CeohandleNavigateClick}
-                icon={icon}
-                containerStyle={containerStyle}
-                tooltipContent={tooltip}
-              />
-            );
-          })}
+              return (
+                <CEODashCommonCard
+                  key={dataKey}
+                  isParentComponent={parentComponent}
+                  showRightSide={false}
+                  leftSideData={cardData?.total_sales}
+                  leftSideTitle={title}
+                  statusValue={cardData?.status}
+                  percentageValue={cardData?.percentage}
+                  handleNavigateClick={CeohandleNavigateClick}
+                  icon={icon}
+                  containerStyle={containerStyle}
+                  tooltipContent={tooltip}
+                />
+              );
+            }
+          )}
         </Row>
       ) : null}
     </div>

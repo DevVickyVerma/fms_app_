@@ -83,7 +83,7 @@ const CeoDashBoardTest = (props) => {
       selectedMonthDetails: "",
     },
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
     },
   });
   const handleToggleSidebar1 = () => {
@@ -507,8 +507,6 @@ const CeoDashBoardTest = (props) => {
     if (filters?.client_id && filters?.start_date && filters?.site_id) {
       // GetCompetitor(filters);
     }
-
-    console.log(filters, "filtersfilters");
   }, [filters]);
 
   const GetCompetitor = async () => {
@@ -539,8 +537,6 @@ const CeoDashBoardTest = (props) => {
       setCenterFilterModalOpen(true);
     }
   };
-
-  console.log(filters, "filters");
 
   return (
     <>

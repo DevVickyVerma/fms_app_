@@ -149,7 +149,7 @@ const CeoDetailModal = (props) => {
       endDate: null,
     },
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
     },
   });
 
@@ -331,7 +331,6 @@ const CeoDetailModal = (props) => {
     try {
       // Check if a site is selected (selectedId is not null or undefined)
       if (selectedId) {
-        console.log("Site selected, fetching data for site ID:", selectedId);
         // Fetch data for site change with the custom selected site ID
         await fetchData(selectedId, "site");
       } else {
@@ -355,8 +354,6 @@ const CeoDetailModal = (props) => {
     try {
       // Check if a site is selected (e is not null or undefined)
       if (e.target.value) {
-        console.log(e.target.value, "e.target.value");
-
         formik.setFieldValue("comparison_value", e.target.value);
       }
     } catch (error) {
@@ -419,10 +416,8 @@ const CeoDetailModal = (props) => {
 
       if (!shouldSkipSiteId && !shouldSkipCompanyId) {
         if (type === "site" && customId) {
-          console.log("Condition met: Custom site ID provided");
           queryParams.append("site_id", customId); // Use custom site ID
         } else if (filterData?.site_id) {
-          console.log("Condition met: Default site ID from filterData used");
           queryParams.append("site_id", filterData.site_id); // Use default site ID
         } else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
           console.log(
@@ -483,13 +478,6 @@ const CeoDetailModal = (props) => {
       }
 
       if (response) {
-        if (response.data?.data?.months) {
-          console.log(
-            response.data?.data?.months,
-            "response.data?.data?.months"
-          );
-        }
-        console.log(response.data?.data?.months, "response.data");
         setApiData(response.data); // Assuming response has a 'data' field
       }
     } catch (error) {
@@ -499,7 +487,6 @@ const CeoDetailModal = (props) => {
     }
   };
   const handleRemoveFilter = async (filterName) => {
-    console.log(filterName, "filterName");
     if (filterName == "company_name") {
       await formik.setFieldValue("selectedCompany", "");
       await formik.setFieldValue("selectedCompanyDetails", "");

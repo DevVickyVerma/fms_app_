@@ -158,7 +158,6 @@ const DailyDue = ({ isLoading, getData, postData }) => {
 
         // localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
         // handleApplyFilters(parsedData);
-        console.log(parsedData, "storedData");
       }
 
       handleApplyFilters(parsedData);
@@ -168,7 +167,6 @@ const DailyDue = ({ isLoading, getData, postData }) => {
       };
       handleApplyFilters(parsedData);
       //   localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
-      console.log(parsedData, "storedData no else");
     }
 
     // handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");

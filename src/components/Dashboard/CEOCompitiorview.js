@@ -44,14 +44,12 @@ export default function CEOCompitiorview(props) {
     site_id: "",
   });
   const handleApplyFilters = (values) => {
-
     setFilters(values);
     if (!values?.start_date) {
       const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
-    console.log(values, "values");
   };
 
   const handleClearForm = () => {
@@ -83,7 +81,10 @@ export default function CEOCompitiorview(props) {
         return (
           <>
             <h3>Default Content</h3>
-            <p>This is the default content, displayed for months other than December and November.</p>
+            <p>
+              This is the default content, displayed for months other than
+              December and November.
+            </p>
           </>
         );
     }
@@ -139,43 +140,42 @@ export default function CEOCompitiorview(props) {
           </Col>
         </Row>
 
-        {filters?.site_name ? <Row
-          style={{
-            marginBottom: "10px",
-            marginTop: "20px",
-          }}
-        >
-
-
-
-          <Col lg={12} md={12} className="">
-            <Card className="">
-              <Card.Header>
-                <div className="w-100">
-                  <div className="spacebetweenend">
-                    <h4 className="card-title">Competitors Stats ({(filters?.site_name)})</h4>
+        {filters?.site_name ? (
+          <Row
+            style={{
+              marginBottom: "10px",
+              marginTop: "20px",
+            }}
+          >
+            <Col lg={12} md={12} className="">
+              <Card className="">
+                <Card.Header>
+                  <div className="w-100">
+                    <div className="spacebetweenend">
+                      <h4 className="card-title">
+                        Competitors Stats ({filters?.site_name})
+                      </h4>
+                    </div>
                   </div>
-                </div>
-              </Card.Header>
+                </Card.Header>
 
-              <Card.Body className="overflow-auto ">
-                <AccordionComponent />
+                <Card.Body className="overflow-auto ">
+                  <AccordionComponent />
+                </Card.Body>
+              </Card>
+            </Col>
 
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col lg={12} md={12} className="">
-            <CEODashboardCompetitorChart
-              getCompetitorsPrice={getCompetitorsPrice}
-              setGetCompetitorsPrice={setGetCompetitorsPrice}
-              sitename={filters?.site_name}
-
-            />
-          </Col>
-        </Row> : <NoDataComponent title={"Competitors View"} />}
-
-
+            <Col lg={12} md={12} className="">
+              <CEODashboardCompetitorChart
+                getCompetitorsPrice={getCompetitorsPrice}
+                setGetCompetitorsPrice={setGetCompetitorsPrice}
+                sitename={filters?.site_name}
+              />
+            </Col>
+          </Row>
+        ) : (
+          <NoDataComponent title={"Competitors View"} />
+        )}
       </>
     </>
   );

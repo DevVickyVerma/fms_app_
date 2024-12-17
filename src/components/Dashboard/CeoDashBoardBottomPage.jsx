@@ -46,14 +46,12 @@ const CeoDashBoardBottomPage = (props) => {
     reportsPermission;
 
   const handleCloseSidebar = () => {
-    console.log("closed called in parent ");
     setShowCeoDetailModal(false);
   };
   // Assuming modalTitle is set in state
   const [modalTitle, setModalTitle] = useState("");
   const handleCardClick = (cardName) => {
     if (applyNavigate && filters?.company_id) {
-      console.log(`Card clicked: ${cardName}`);
       setModalTitle(cardName);
       setShowCeoDetailModal(true);
     }
@@ -135,7 +133,7 @@ const CeoDashBoardBottomPage = (props) => {
       </>
 
       {/* {/ Second Row /} */}
-      <Row Row className="my-2">
+      <Row className="my-2">
         {mopComparisonPerformanceReportsPermission && (
           <>
             <Col lg={stockDetailsPermission ? 6 : 12}>

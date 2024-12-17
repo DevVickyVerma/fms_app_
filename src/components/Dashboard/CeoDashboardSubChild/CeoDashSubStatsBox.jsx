@@ -3,8 +3,6 @@ import DashCommonCard from "../DashCommonCard";
 import CEODashCommonCard from "../CEODashCommonCard";
 
 const CeoDashSubStatsBox = ({ Ceo }) => {
-  console.log(Ceo, "CeoDashSubStatsBox");
-
   const singleSiteStoredData = localStorage.getItem("ceo-singleSiteData");
   const singleSiteParsedData = JSON.parse(singleSiteStoredData);
 

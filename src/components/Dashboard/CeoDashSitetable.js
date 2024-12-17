@@ -31,8 +31,6 @@ const CeoDashSitetable = (props) => {
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
-    console.log("item", "itemitem", item);
-
     if (
       storedData &&
       (isSitePermissionAvailable || isSiteSecondPermissionAvailable)

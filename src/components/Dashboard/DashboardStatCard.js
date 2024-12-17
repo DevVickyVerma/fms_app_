@@ -1,4 +1,3 @@
-
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -11,15 +10,16 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
   const [filters, setFilters] = useState();
 
   const FetchmannegerList = async (filters) => {
-
     if (!filters?.client_id || !filters?.company_id || !filters?.site_id) {
       setData(null);
       return;
     }
     try {
-      const response = await getData(`/dashboard/get-live-margin?client_id=${filters?.client_id}&company_id=${filters.company_id}&site_id=${filters.site_id}`);
+      const response = await getData(
+        `/dashboard/get-live-margin?client_id=${filters?.client_id}&company_id=${filters.company_id}&site_id=${filters.site_id}`
+      );
       if (response && response.data) {
-        setData(response?.data?.data)
+        setData(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -32,7 +32,7 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
     if (filters?.site_id && filters?.client_id && filters.company_id) {
       FetchmannegerList(filters);
     } else {
-      setData(null)
+      setData(null);
     }
   }, [filters?.site_id]);
 
@@ -81,20 +81,17 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
     },
   ];
 
-
-
-  const storedKeyName = 'localFilterModalData'
+  const storedKeyName = "localFilterModalData";
 
   useEffect(() => {
-
     const storedData = localStorage.getItem(storedKeyName);
     if (storedData) {
       let parsedData = JSON.parse(storedData);
-      formik.setValues(parsedData)
-      setFilters(parsedData)
+      formik.setValues(parsedData);
+      setFilters(parsedData);
       // handleApplyFilters(parsedData);
     }
-  }, [])
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -110,54 +107,56 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
       sites: [],
     },
     onSubmit: () => {
-      console.log("columnIndex");
-
+      // console.log("columnIndex");
     },
   });
 
   const handleSiteChange = (e) => {
     const selectedSiteId = e.target.value;
     formik.setFieldValue("site_id", selectedSiteId);
-    const selectedSiteData = formik?.values?.sites?.find(site => site?.id === selectedSiteId);
-    formik.setFieldValue('site_name', selectedSiteData?.site_name || "");
+    const selectedSiteData = formik?.values?.sites?.find(
+      (site) => site?.id === selectedSiteId
+    );
+    formik.setFieldValue("site_name", selectedSiteData?.site_name || "");
   };
 
-
   useEffect(() => {
-    setFilters(formik?.values)
-  }, [formik?.values?.site_id])
+    setFilters(formik?.values);
+  }, [formik?.values?.site_id]);
 
   return (
-
     <>
-      <Modal show={isOpen} onHide={onClose} centered className="custom-modal-width custom-modal-height big-modal ">
+      <Modal
+        show={isOpen}
+        onHide={onClose}
+        centered
+        className="custom-modal-width custom-modal-height big-modal "
+      >
         <div>
           <Modal.Header
             style={{
               color: "#fff",
             }}
-            className='p-0 m-0 d-flex justify-content-between align-items-center'
+            className="p-0 m-0 d-flex justify-content-between align-items-center"
           >
-
-            <span className="ModalTitle d-flex justify-content-between w-100  fw-normal"  >
+            <span className="ModalTitle d-flex justify-content-between w-100  fw-normal">
               <span>
                 <img
                   src={require("../../assets/images/commonimages/LiveIMg.gif")}
                   alt="Live Img"
                   className="Liveimage"
-                />{" "}{" "}
-
+                />{" "}
                 <small>
-                  <span> Last Updated On  {data?.last_updated}</span>
+                  <span> Last Updated On {data?.last_updated}</span>
                   <span className="text-mute">
                     {" "}
-                    {data?.last_updated_time && <>
-                      ({data?.last_updated_time})
-                    </>}
+                    {data?.last_updated_time && (
+                      <>({data?.last_updated_time})</>
+                    )}
                   </span>
                 </small>
               </span>
-              <span onClick={onClose} >
+              <span onClick={onClose}>
                 <button className="close-button">
                   <FontAwesomeIcon icon={faTimes} />
                 </button>
@@ -169,40 +168,42 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
             {isLoading ? <LoaderImg /> : null}
             <Card.Body className="card-body pb-0">
               <Row>
-                {formik?.values?.sites?.length > 0 && (<>
-                  <Col lg={12}>
-                    <div className={`form-group`}>
-                      <label htmlFor="site_id" className='mb-2'>
-                        Site <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        id="site_id"
-                        name="site_id"
-                        onChange={(e) => {
-                          formik.handleChange(e);
-                          handleSiteChange(e); // If you have additional logic to handle
-                        }}
-                        onBlur={formik.handleBlur}
-                        value={formik?.values?.site_id}
-                        className="input101 form-input"
-                      >
-                        <option key={""} value={''}>Please Select Site</option>
-                        {formik?.values?.sites?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.site_name}
+                {formik?.values?.sites?.length > 0 && (
+                  <>
+                    <Col lg={12}>
+                      <div className={`form-group`}>
+                        <label htmlFor="site_id" className="mb-2">
+                          Site <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          id="site_id"
+                          name="site_id"
+                          onChange={(e) => {
+                            formik.handleChange(e);
+                            handleSiteChange(e); // If you have additional logic to handle
+                          }}
+                          onBlur={formik.handleBlur}
+                          value={formik?.values?.site_id}
+                          className="input101 form-input"
+                        >
+                          <option key={""} value={""}>
+                            Please Select Site
                           </option>
-                        ))}
-                      </select>
-                      {formik.touched.site_id && formik.errors.site_id && (
-                        <div className="text-danger mt-1">{formik.errors.site_id}</div>
-                      )}
-                    </div>
-                  </Col>
-                </>)}
-
-
-
-
+                          {formik?.values?.sites?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.site_name}
+                            </option>
+                          ))}
+                        </select>
+                        {formik.touched.site_id && formik.errors.site_id && (
+                          <div className="text-danger mt-1">
+                            {formik.errors.site_id}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                  </>
+                )}
 
                 <Col sm={12} md={6} lg={6} xl={4}>
                   <Card
@@ -211,7 +212,10 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font"><span className="l-sign">ℓ</span>  {data?.gross_volume || 0}</h2>
+                          <h2 className="mb-0 number-font">
+                            <span className="l-sign">ℓ</span>{" "}
+                            {data?.gross_volume || 0}
+                          </h2>
                           <p className="text-white mb-0">Gross Volume</p>
                         </div>
                         <div className="ms-auto">
@@ -229,11 +233,13 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font"> £  {data?.fuel_sales || 0}</h2>
+                          <h2 className="mb-0 number-font">
+                            {" "}
+                            £ {data?.fuel_sales || 0}
+                          </h2>
                           <p className="text-white mb-0">Fuel Sales</p>
                         </div>
                         <div className="ms-auto">
-
                           <i className="ph ph-shopping-bag text-white fs-30"></i>
                         </div>
                       </div>
@@ -248,11 +254,12 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">£  {data?.gross_profit || 0}</h2>
+                          <h2 className="mb-0 number-font">
+                            £ {data?.gross_profit || 0}
+                          </h2>
                           <p className="text-white mb-0">Gross Profit</p>
                         </div>
                         <div className="ms-auto">
-
                           <i className="ph ph-currency-gbp text-white fs-30"></i>
                         </div>
                       </div>
@@ -267,7 +274,10 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">   {data?.gross_margin} ppl</h2>
+                          <h2 className="mb-0 number-font">
+                            {" "}
+                            {data?.gross_margin} ppl
+                          </h2>
                           <p className="text-white mb-0">Gross Margin</p>
                         </div>
                         <div className="ms-auto">
@@ -285,7 +295,9 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">£  {data?.shop_sales || 0}</h2>
+                          <h2 className="mb-0 number-font">
+                            £ {data?.shop_sales || 0}
+                          </h2>
                           <p className="text-white mb-0">Shop Sales</p>
                         </div>
                         <div className="ms-auto">
@@ -303,7 +315,9 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
                     <Card.Body>
                       <div className="d-flex">
                         <div className="text-white">
-                          <h2 className="mb-0 number-font">£  {data?.shop_profit || 0}</h2>
+                          <h2 className="mb-0 number-font">
+                            £ {data?.shop_profit || 0}
+                          </h2>
                           <p className="text-white mb-0">Shop Profit</p>
                         </div>
                         <div className="ms-auto">
@@ -319,7 +333,6 @@ const DashboardStatCard = ({ getData, isOpen, onClose, isLoading }) => {
         </div>
       </Modal>
     </>
-
   );
 };
 

@@ -357,8 +357,6 @@ const CeoDashBoard = (props) => {
     }
   };
 
-  console.log(filters, "filtersss");
-
   // {
   //   name: "itemstock",
   //   url: "ceo-dashboard/department-item-stocks",
