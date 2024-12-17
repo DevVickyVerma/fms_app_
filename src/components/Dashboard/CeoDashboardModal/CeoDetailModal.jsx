@@ -22,6 +22,7 @@ import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
 import {
   Comparisongraphfilter,
+  getSiteStats,
   request,
 } from "../../../Utils/commonFunctions/commonFunction";
 import MultiDateRangePicker from "../../../Utils/MultiDateRangePicker";
@@ -29,6 +30,7 @@ import FiltersComponent from "../DashboardHeader";
 import CeoFilterBadge from "../CeoFilterBadge";
 import SelectField from "./SelectField";
 import moment from "moment/moment";
+import DashSubChildGrads from "../DashboardSubChild/DashSubChildGrads";
 
 const CeoDetailModal = (props) => {
   const {
@@ -861,6 +863,8 @@ const CeoDetailModal = (props) => {
                     </Row> */}
                   </Card.Body>
                 </Card>
+
+                <DashSubChildGrads getSiteStats={getSiteStats} />
               </>
             )}
             {title == "MOP Breakdown" && (

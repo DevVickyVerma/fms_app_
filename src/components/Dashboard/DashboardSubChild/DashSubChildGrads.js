@@ -29,8 +29,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
-
-
 const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const { getGradsSiteDetails, setGradsGetSiteDetails, DashboardGradsLoading } =
     useMyContext();
@@ -41,8 +39,9 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
   const [ModalButtonName, setModalButtonName] = useState(false);
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
 
   const handleShowDate = () => {
     const inputDateElement = document.querySelector("#start_date");
@@ -100,7 +99,6 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const isButtonDisabled = !startDate || !endDate;
 
   const fetchData = async () => {
-
     if (!userPermissions?.includes("dashboard-site-stats")) {
       return; // Exit early if the user doesn't have permission
     }
@@ -113,7 +111,6 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
         try {
           // Attempt to parse JSON data from local storage
-
 
           // Use async/await to fetch data
           const response3 = await getData(
@@ -214,12 +211,9 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
     setGradsLoading(false);
   };
 
-
   return (
     <>
       {gradsLoading ? <Loaderimg /> : ""}
-
-
 
       {/* Grads with bootstrap */}
       <Row>
@@ -235,11 +229,11 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                     <MdOutlineCalendarMonth />{" "}
                     {showDate && getSiteStats?.data && !ModalButtonName
                       ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                        endDatePath
-                      ).format("Do MMM")}`
+                          endDatePath
+                        ).format("Do MMM")}`
                       : moment(getSiteStats?.data?.last_dayend).format(
-                        "MMM Do"
-                      )}
+                          "MMM Do"
+                        )}
                     <SortIcon />{" "}
                   </button>
                   {showDate && getSiteStats?.data && !ModalButtonName ? (
@@ -272,7 +266,6 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
               <>
                 <p className="all-center-flex" style={{ height: "150px" }}>
                   <span className="primary-loader"></span>
-
                 </p>
               </>
             ) : (
@@ -376,11 +369,14 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                               >
                                 <strong style={{ fontWeight: 700 }}>
                                   {" "}
-                                  Total Fuel Volume :{" "}  <span className="l-sign fw-normal">
-                                    {getGradsSiteDetails?.[gridIndex]?.fuel_volume}
+                                  Total Fuel Volume :{" "}
+                                  <span className="l-sign fw-normal">
+                                    {
+                                      getGradsSiteDetails?.[gridIndex]
+                                        ?.fuel_volume
+                                    }
                                   </span>
                                 </strong>
-
                               </span>
                             </Col>
                             {/* Total Fuel Sales */}
@@ -468,7 +464,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                             style={{ display: "flex", flexDirection: "column" }}
                           >
                             {getGradsSiteDetails?.[gridIndex]?.cards?.map(
-                              (cardDetail,) => (
+                              (cardDetail) => (
                                 <Col
                                   lg={12}
                                   md={12}
@@ -543,7 +539,12 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                                             {cardDetail?.total_fuel_sale_value}
                                             <br />
                                             Total Fuel Volume :{" "}
-                                            <span className="l-sign fw-normal">  {cardDetail?.total_fuel_sale_volume}</span>
+                                            <span className="l-sign fw-normal">
+                                              {" "}
+                                              {
+                                                cardDetail?.total_fuel_sale_volume
+                                              }
+                                            </span>
                                           </Tooltip>
                                         }
                                       >
@@ -576,14 +577,10 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
         centered
         className="custom-modal-width custom-modal-height big-modal "
       >
-        <div
-          className="modal-header"
-        >
-          <span className="ModalTitle d-flex justify-content-between w-100 p-0  fw-normal"  >
-            <span>
-              Grades Date wise Reports
-            </span>
-            <span onClick={handleCloseModal} >
+        <div className="modal-header">
+          <span className="ModalTitle d-flex justify-content-between w-100 p-0  fw-normal">
+            <span>Grades Date wise Reports</span>
+            <span onClick={handleCloseModal}>
               <button className="close-button">
                 <FontAwesomeIcon icon={faTimes} />
               </button>
@@ -618,7 +615,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                             .test(
                               "start_date",
                               "Start Date must be before End Date",
-                               
+
                               function (value) {
                                 const { start_date } = this.parent;
                                 return start_date <= value;
@@ -649,10 +646,11 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${errors.start_date && touched.start_date
-                                        ? "is-invalid"
-                                        : ""
-                                        }`}
+                                      className={`input101 ${
+                                        errors.start_date && touched.start_date
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -684,10 +682,11 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                                       min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${errors.end_date && touched.end_date
-                                        ? "is-invalid"
-                                        : ""
-                                        }`}
+                                      className={`input101 ${
+                                        errors.end_date && touched.end_date
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {
