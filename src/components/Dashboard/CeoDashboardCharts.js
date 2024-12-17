@@ -60,13 +60,22 @@ const CeoDashboardCharts = ({
       {isLoading ? <LoaderImg /> : null}
       <Row className="mb-4">
         <Col sm={12} md={6} xl={6} key="chart-1">
-          {renderChartOrLoader(BarGraphSalesStats?.fuel_sales, "Fuel")}
+          {renderChartOrLoader(
+            BarGraphSalesStats?.fuel_sales,
+            `Fuel (${formik?.values?.comparison_label})`
+          )}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-2">
-          {renderChartOrLoader(BarGraphSalesStats?.shop_sales, "Shop")}
+          {renderChartOrLoader(
+            BarGraphSalesStats?.shop_sales,
+            `Shop (${formik?.values?.comparison_label})`
+          )}
         </Col>
         <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
-          {renderChartOrLoader(BarGraphSalesStats?.valet_sales, "Valet")}
+          {renderChartOrLoader(
+            BarGraphSalesStats?.valet_sales,
+            `Valet (${formik?.values?.comparison_label})`
+          )}
         </Col>
       </Row>
     </>

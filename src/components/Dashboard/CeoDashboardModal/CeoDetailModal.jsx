@@ -138,6 +138,7 @@ const CeoDetailModal = (props) => {
       company_id: "",
       company_name: "",
       comparison_value: "weekly",
+      comparison_label: "Weekly",
       selectedSite: "",
       selectedCompany: "",
       selectedCompanyDetails: "",
@@ -350,14 +351,39 @@ const CeoDetailModal = (props) => {
       console.error("Error in handleSiteChange:", error);
     }
   };
+  // const handleComparisonChange = async (e) => {
+  //   try {
+  //     console.log(e.target, "eeeeeeee");
+
+  //     // Check if a site is selected (e is not null or undefined)
+  //     if (e.target.value) {
+  //       formik.setFieldValue("comparison_value", e.target.value);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in handleSiteChange:", error);
+  //   }
+  // };
+
   const handleComparisonChange = async (e) => {
     try {
-      // Check if a site is selected (e is not null or undefined)
-      if (e.target.value) {
-        formik.setFieldValue("comparison_value", e.target.value);
+      const selectedValue = e.target.value;
+      // Find the corresponding label (option name) based on the selected value
+      const selectedOption = Comparisongraphfilter?.find(
+        (item) => item.value === selectedValue
+      );
+
+      if (selectedOption) {
+        console.log("Selected value:", selectedValue);
+        console.log("Selected label:", selectedOption.label);
+
+        // Set the field value
+        formik.setFieldValue("comparison_value", selectedValue);
+
+        // You can also store the label if needed
+        formik.setFieldValue("comparison_label", selectedOption.label);
       }
     } catch (error) {
-      console.error("Error in handleSiteChange:", error);
+      console.error("Error in handleComparisonChange:", error);
     }
   };
 
