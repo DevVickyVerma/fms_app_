@@ -819,14 +819,14 @@ export const MENUITEMS = [
         icon: "chat-text",
         type: "sub",
         active: false,
-        permission: "sms-create",
+        permission: "sms-list",
         visibility: false,
         children: [
           {
             path: `/manage-sms`,
             title: "Manage SMS",
             type: "link",
-            permission: "sms-create",
+            permission: "sms-list",
             visibility: false,
           },
         ],
