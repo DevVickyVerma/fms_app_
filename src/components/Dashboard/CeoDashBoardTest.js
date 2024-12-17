@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -21,7 +20,6 @@ import PriceLogTable from "./PriceLogTable";
 import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
 import LinesDotGraphchart from "./LinesDotGraphchart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
-import { stockGraphData } from "../../Utils/commonFunctions/CommonData";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -875,7 +873,13 @@ const CeoDashBoardTest = (props) => {
                       {formik.values?.selectedSiteDetails?.site_name &&
                         ` (${formik.values.selectedSiteDetails.site_name})`}
                     </h4>
-                    <span>View All</span>
+                    {userPermissions?.includes("ceodashboard-price-graph") ? (
+                      <span className="textend">
+                        <Link to="/pricegraph-view">View All</Link>
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </Card.Header>
 
@@ -883,7 +887,7 @@ const CeoDashBoardTest = (props) => {
                   {PriceGraphloading ? (
                     <SmallLoader />
                   ) : PriceGraphData?.labels ? (
-                    <LinesDotGraphchart stockGraphData={stockGraphData} />
+                    <LinesDotGraphchart stockGraphData={PriceGraphData} />
                   ) : (
                     <NoDataComponent />
                   )}

@@ -64,6 +64,10 @@ const CeoDashBoardTest = React.lazy(() =>
 const CEOCompetitorView = React.lazy(() =>
   import("./components/Dashboard/CEOCompitiorview")
 );
+
+const PriceGraphView = React.lazy(() =>
+  import("./components/Dashboard/PriceGraphView")
+);
 const EditProfile = React.lazy(() =>
   import("./components/pages/EditProfile/EditProfile")
 );
@@ -776,6 +780,10 @@ const Root = () => {
                     <Route
                       path={`/competitor-view`}
                       element={<WrappeCEOCompetitorView />}
+                    />
+                    <Route
+                      path={`/pricegraph-view`}
+                      element={<PriceGraphView />}
                     />
                     <Route
                       path={`/ceodashboard-test`}
