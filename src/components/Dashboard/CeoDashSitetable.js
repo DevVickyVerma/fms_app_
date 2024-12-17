@@ -479,8 +479,8 @@ const CeoDashSitetable = (props) => {
     {
       name: "Shop Margin",
       selector: (row) =>
-        row?.shop_profit?.shop_profit
-          ? parseFloat(row?.shop_profit?.shop_profit)
+        row?.shop_margin?.shop_margin
+          ? parseFloat(row?.shop_margin?.shop_margin)
           : 0,
       sortable: true,
       width: "10%",
@@ -497,31 +497,31 @@ const CeoDashSitetable = (props) => {
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
               £
-              {row?.shop_profit?.shop_profit
-                ? formatNumber(row?.shop_profit?.shop_profit)
+              {row?.shop_margin?.shop_margin
+                ? formatNumber(row?.shop_margin?.shop_margin)
                 : "0"}
-              {/* {row?.shop_profit?.shop_profit || "0.00"} */}
+              {/* {row?.shop_margin?.shop_margin || "0.00"} */}
             </h6>
             <p
               className={`me-1 ${
-                row?.shop_profit?.status === "up"
+                row?.shop_margin?.status === "up"
                   ? "text-success"
                   : "text-danger"
               }`}
-              data-tip={`${row?.shop_profit?.percentage}%`}
+              data-tip={`${row?.shop_margin?.percentage}%`}
             >
-              {row?.shop_profit?.status === "up" ? (
+              {row?.shop_margin?.status === "up" ? (
                 <>
                   <i className="fa fa-chevron-circle-up text-success me-1"></i>
                   <span className="text-success">
-                    {row?.shop_profit?.percentage}%
+                    {row?.shop_margin?.percentage}%
                   </span>
                 </>
               ) : (
                 <>
                   <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                   <span className="text-danger">
-                    {row?.shop_profit?.percentage}%
+                    {row?.shop_margin?.percentage}%
                   </span>
                 </>
               )}

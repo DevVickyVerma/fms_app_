@@ -1029,8 +1029,11 @@ const CeoDetailModal = (props) => {
                             // className="selectedMonth"
                             className="input101"
                           >
-                            {Comparisongraphfilter?.map((item) => (
-                              <option key={item.value} value={item.value}>
+                            {Comparisongraphfilter?.map((item, index) => (
+                              <option
+                                key={`${item.value}-${index}`}
+                                value={item.value}
+                              >
                                 {item.label}
                               </option>
                             ))}
