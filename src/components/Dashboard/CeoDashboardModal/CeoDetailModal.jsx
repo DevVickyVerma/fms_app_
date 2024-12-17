@@ -914,7 +914,7 @@ const CeoDetailModal = (props) => {
                             name="selectedCompany"
                             value={formik.values.selectedCompany}
                             onChange={(e) => handleCompanyChange(e.target.value)}
-                            class="input101 "
+                            className="input101 "
                           >
 
                             {filterData?.companies?.map((item) => (
@@ -937,7 +937,7 @@ const CeoDetailModal = (props) => {
                           name="selectedSite"
                           value={formik.values.selectedSite}
                           onChange={(e) => handleSiteChange(e.target.value)}
-                          class="input101 "
+                          className="input101 "
                         >
                           <option value="">--Select a Site--</option>
                           {filterData?.sites?.map((item) => (
@@ -975,7 +975,7 @@ const CeoDetailModal = (props) => {
                             name="selectedSite"
                             value={formik.values.selectedSite}
                             onChange={(e) => handleSiteChange(e.target.value)}
-                            class="input101 "
+                            className="input101 "
                           >
                             <option value="">--Select a Site--</option>
                             {filterData?.sites?.map((item) => (
@@ -1001,7 +1001,7 @@ const CeoDetailModal = (props) => {
                             // onChange={formik.handleChange}
                             onChange={handleComparisonChange}
                             // className="selectedMonth"
-                            class="input101"
+                            className="input101"
                           >
                             {Comparisongraphfilter?.map((item) => (
                               <option key={item.value} value={item.value}>
