@@ -755,7 +755,9 @@ const CeoDetailModal = (props) => {
                       </tbody>
                     </table>
 
-                    {/* <Row>
+                    {/* 
+                    // ! Old table for live margin to be shown here
+                    <Row>
                       <Col sm={12} md={6} lg={6} xl={4}>
                         <Card
                           className={`card dash-plates-1 img-card box-${request[0].color}-shadow`}
