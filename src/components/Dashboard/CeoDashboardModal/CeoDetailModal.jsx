@@ -399,6 +399,10 @@ const CeoDetailModal = (props) => {
         queryParams.append("client_id", filterData.client_id);
       }
 
+      if (title === "Live Margin") {
+        queryParams.append("is_ceo", 1);
+      }
+
       if (title === "Comparison") {
         const isCustom = formik?.values?.comparison_value === "custom";
 
