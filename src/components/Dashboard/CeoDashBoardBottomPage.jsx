@@ -91,8 +91,8 @@ const CeoDashBoardBottomPage = (props) => {
                     alignItems: "center",
                     justifyContent: "center",
                   }}
-                  className={` ${
-                    applyNavigate ? "pointer ceo-sats-card-hover" : ""
+                  className={`pointer ceo-sats-card-hover ${
+                    applyNavigate ? "" : ""
                   }`}
                 >
                   <FaChartLine size={25} />
@@ -116,8 +116,8 @@ const CeoDashBoardBottomPage = (props) => {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                className={` ${
-                  applyNavigate ? "pointer ceo-sats-card-hover" : ""
+                className={`pointer ceo-sats-card-hover ${
+                  applyNavigate ? "" : ""
                 }`}
               >
                 <h3 style={{ fontSize: "18px" }} className="m-0">
@@ -148,8 +148,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-left "
                     >
                       <Card
-                        className={` ${
-                          applyNavigate ? "pointer ceocard-hover" : ""
+                        className={`pointer ceocard-hover ${
+                          applyNavigate ? "" : ""
                         }`}
                         style={{
                           backgroundColor: "#4663ac", // Red background
@@ -178,8 +178,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-left "
                     >
                       <Card
-                        className={` ${
-                          applyNavigate ? "pointer ceocard-hover" : ""
+                        className={`pointer ceocard-hover ${
+                          applyNavigate ? "" : ""
                         }`}
                         style={{
                           backgroundColor: "#6764b3", // Dark Blue background
@@ -208,8 +208,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-right"
                     >
                       <Card
-                        className={` ${
-                          applyNavigate ? "pointer ceocard-hover" : ""
+                        className={`pointer ceocard-hover ${
+                          applyNavigate ? "" : ""
                         }`}
                         style={{
                           backgroundColor: "#8563b6", // Light Blue background
@@ -238,8 +238,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-right"
                     >
                       <Card
-                        className={` ${
-                          applyNavigate ? "pointer ceocard-hover" : ""
+                        className={`pointer ceocard-hover ${
+                          applyNavigate ? "" : ""
                         }`}
                         style={{
                           backgroundColor: "#7e95e4", // Yellow background
@@ -272,8 +272,8 @@ const CeoDashBoardBottomPage = (props) => {
               className="slide-in-bottom"
             >
               <Card
-                className={`card-default-height ${
-                  applyNavigate ? "pointer ceocard-hover" : ""
+                className={`card-default-height pointer ceocard-hover ${
+                  applyNavigate ? "" : ""
                 }`}
                 style={{
                   backgroundColor: "#8563b6", // Light Blue background
