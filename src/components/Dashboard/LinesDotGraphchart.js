@@ -62,9 +62,9 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
                 position: 'right',
                 title: {
                     display: true,
-                    text: 'Price (Right)',
+                    text: '(€)',
                     font: {
-                        size: 14,
+                        size: 20,
                         weight: 'bold', // Make right Y-axis title bold
                     },
                 },
