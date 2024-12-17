@@ -535,7 +535,6 @@ const CeoDetailModal = (props) => {
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
-
       <div
         className={`common-sidebar    ${
           visible ? "visible slide-in-right " : "slide-out-right"
@@ -757,7 +756,8 @@ const CeoDetailModal = (props) => {
                     </table>
 
                     {/* 
-                    // ! Old table for live margin to be shown here
+                  
+                    // ** Old table for live margin to be shown here
                     <Row>
                       <Col sm={12} md={6} lg={6} xl={4}>
                         <Card
@@ -885,7 +885,7 @@ const CeoDetailModal = (props) => {
                   </Card.Body>
                 </Card>
 
-                {/* Live Margin Separate component for Grades Analysis */}
+                {/* // ** Live Margin Separate component for Grades Analysis */}
                 <CeoDashLiveMarginTable
                   fuel_stats={apiData?.data?.fuel_stats}
                 />
