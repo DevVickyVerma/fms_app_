@@ -3817,7 +3817,7 @@ export const stockGraphData = {
       borderColor: "#1f77b4",
       borderWidth: 0,  // No line, just dots
       fill: false,  // Don't fill under the line
-      pointRadius: 6,  // Show dots
+      pointRadius: 4,  // Show dots
       pointBackgroundColor: "#1f77b4", // Dot color
       pointBorderColor: "#1f77b4", // Border color of the dots
     },
@@ -3832,7 +3832,7 @@ export const stockGraphData = {
       borderColor: "#ff6347",
       borderWidth: 0,  // No line, just dots
       fill: false,  // Don't fill under the line
-      pointRadius: 6,  // Show dots
+      pointRadius: 4,  // Show dots
       pointBackgroundColor: "#ff6347", // Dot color
       pointBorderColor: "#ff6347", // Border color of the dots
     },

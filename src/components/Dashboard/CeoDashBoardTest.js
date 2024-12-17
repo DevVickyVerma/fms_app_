@@ -21,6 +21,7 @@ import PriceLogTable from "./PriceLogTable";
 import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
 import LinesDotGraphchart from "./LinesDotGraphchart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
+import { stockGraphData } from "../../Utils/commonFunctions/CommonData";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -554,7 +555,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleChange = (event) => {
@@ -769,7 +770,7 @@ const CeoDashBoardTest = (props) => {
           <>
             <Col
               sm={12}
-              md={priceLogAndGraphPermission ? 8 : 12}
+              md={priceLogAndGraphPermission ? 6 : 12}
               key={Math.random()}
             >
               <Card className="h-100">
@@ -862,7 +863,7 @@ const CeoDashBoardTest = (props) => {
         )} */}
         {priceGraphPermission && (
           <>
-            <Col className="" sm={12} md={priceLogAndGraphPermission ? 4 : 12}>
+            <Col className="" sm={12} md={priceLogAndGraphPermission ? 6 : 12}>
               <Card
                 className="h-100"
                 style={{ transition: "opacity 0.3s ease" }}
@@ -882,7 +883,7 @@ const CeoDashBoardTest = (props) => {
                   {PriceGraphloading ? (
                     <SmallLoader />
                   ) : PriceGraphData?.labels ? (
-                    <LinesDotGraphchart stockGraphData={PriceGraphData} />
+                    <LinesDotGraphchart stockGraphData={stockGraphData} />
                   ) : (
                     <NoDataComponent />
                   )}
