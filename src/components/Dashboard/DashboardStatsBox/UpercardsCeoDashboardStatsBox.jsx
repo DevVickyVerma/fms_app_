@@ -33,9 +33,10 @@ const UpercardsCeoDashboardStatsBox = (props) => {
     }
   }, [UserPermissions]);
 
-  // dashboard-details for card navigate
-  const isDetailPermissionAvailable =
-    permissionsArray?.includes("dashboard-details");
+  // ceodashboard-details for card navigate
+  const isDetailPermissionAvailable = permissionsArray?.includes(
+    "ceodashboard-details"
+  );
   const navigate = useNavigate();
 
   const handleNavigateClick = () => {
