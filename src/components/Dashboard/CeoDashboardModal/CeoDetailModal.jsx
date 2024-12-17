@@ -31,6 +31,7 @@ import CeoFilterBadge from "../CeoFilterBadge";
 import SelectField from "./SelectField";
 import moment from "moment/moment";
 import DashSubChildGrads from "../DashboardSubChild/DashSubChildGrads";
+import CeoDashLiveMarginTable from "./CeoDashLiveMarginTable";
 
 const CeoDetailModal = (props) => {
   const {
@@ -884,7 +885,9 @@ const CeoDetailModal = (props) => {
                   </Card.Body>
                 </Card>
 
-                <DashSubChildGrads getSiteStats={getSiteStats} />
+                <CeoDashLiveMarginTable
+                  fuel_stats={apiData?.data?.fuel_stats}
+                />
               </>
             )}
             {title == "MOP Breakdown" && (
