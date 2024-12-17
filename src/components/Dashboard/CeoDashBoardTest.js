@@ -553,7 +553,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -735,16 +735,17 @@ const CeoDashBoardTest = (props) => {
           </>
         ) : (
           <UpercardsCeoDashboardStatsBox
-            GrossVolume={dashboardData?.gross_volume || 0}
+            gross_volume={dashboardData?.gross_volume || 0}
             shopmargin={dashboardData?.shop_profit || 0}
             valet_sales={dashboardData?.valet_sales || 0}
-            GrossProfitValue={dashboardData?.gross_profit || 0}
-            GrossMarginValue={dashboardData?.gross_margin || 0}
-            FuelValue={dashboardData?.fuel_sales || 0}
+            gross_profit={dashboardData?.gross_profit || 0}
+            gross_margin={dashboardData?.gross_margin || 0}
+            fuel_sales={dashboardData?.fuel_sales || 0}
             fuel_commission={dashboardData?.fuel_commission || 0}
             gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
-            shopsale={dashboardData?.shop_sales || 0}
+            shop_sales={dashboardData?.shop_sales || 0}
             shop_fees={dashboardData?.shop_fees || 0}
+            shop_profit={dashboardData?.shop_profit || 0}
             dashboardData={dashboardData}
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           />
