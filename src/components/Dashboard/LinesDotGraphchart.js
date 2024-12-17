@@ -44,11 +44,11 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
             y: { // Left Y-axis
                 beginAtZero: true,
                 title: {
-                    display: false,
-                    text: 'Sales (Left)',
+                    display: true,
+                    text: '(€)',
                     font: {
-                        size: 14,
-                        weight: 'bold', // Make Y-axis title bold
+                        size: 20,
+                        weight: 'bold', // Make right Y-axis title bold
                     },
                 },
                 ticks: {
@@ -58,10 +58,10 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
                 },
             },
             y1: { // Right Y-axis
-                beginAtZero: true,
+                beginAtZero: false,
                 position: 'right',
                 title: {
-                    display: true,
+                    display: false,
                     text: '(€)',
                     font: {
                         size: 20,
