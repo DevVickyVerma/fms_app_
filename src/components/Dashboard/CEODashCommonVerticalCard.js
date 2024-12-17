@@ -21,7 +21,7 @@ const CEODashCommonVerticalCard = ({
   xl = 3,
 }) => (
   <>
-    <React.Fragment sm={12} md={6} lg={lg} xl={xl} key={Math.random()}>
+    <React.Fragment key={Math.random()}>
       <Card
         onClick={handleNavigateClick}
         className={`ceo-card-default-height   ${
