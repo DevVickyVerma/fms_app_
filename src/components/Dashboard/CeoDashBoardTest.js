@@ -44,6 +44,7 @@ const CeoDashBoardTest = (props) => {
   const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(false);
   const [Itemstockstatsloading, setItemstockstatsloading] = useState(false);
   const [PriceLogsloading, setPriceLogssloading] = useState(false);
+  const [PriceGraphloading, setPriceGraphloading] = useState(false);
   const [getSiteStatsloading, setGetSiteStatsloading] = useState(false);
   const [performanceLoading, siteperformanceLoading] = useState(false);
   const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
@@ -54,6 +55,7 @@ const CeoDashBoardTest = (props) => {
   const [siteperformance, setsiteperformance] = useState();
   const [Itemstockstats, setItemstockstats] = useState();
   const [PriceLogs, setPriceLogs] = useState();
+  const [PriceGraphData, setPriceGraphData] = useState();
   const [applyNavigate, setApplyNavigate] = useState(false);
   const [getSiteStats, setGetSiteStats] = useState(null);
   const [toggleValue, setToggleValue] = useState(false);
@@ -357,6 +359,33 @@ const CeoDashBoardTest = (props) => {
       setPriceLogssloading(false);
     }
   };
+  const FetchPriceGraph = async () => {
+    try {
+      setPriceGraphloading(true);
+      const queryParams = new URLSearchParams();
+      if (formik?.values?.selectedSite)
+        queryParams.append("site_id", formik?.values?.selectedSite);
+      const currentDate = new Date();
+      const day = "01";
+      const formattedDate = `${String(day)}-${String(
+        currentDate.getMonth() + 1
+      ).padStart(2, "0")}-${currentDate.getFullYear()}`;
+
+      queryParams.append("drs_date", formattedDate);
+
+      const queryString = queryParams.toString();
+      const response = await getData(
+        `ceo-dashboard/price-graph-stats?${queryString}`
+      );
+      if (response && response.data && response.data.data) {
+        setPriceGraphData(response?.data?.data);
+      }
+    } catch (error) {
+      // handleError(error);
+    } finally {
+      setPriceGraphloading(false);
+    }
+  };
 
   const FetchStockDetails = async () => {
     try {
@@ -441,6 +470,7 @@ const CeoDashBoardTest = (props) => {
   useEffect(() => {
     if (formik?.values?.selectedSite && priceLogsPermission) {
       FetchPriceLogs();
+      FetchPriceGraph();
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
 
@@ -539,7 +569,7 @@ const CeoDashBoardTest = (props) => {
       setCenterFilterModalOpen(true);
     }
   };
-
+  console.log(PriceGraphData, "PriceGraphData");
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -844,8 +874,16 @@ const CeoDashBoardTest = (props) => {
                   </div>
                 </Card.Header>
                 <Card.Body>
-                  {/* <LinesDotGraph data={dynamicData} lineDataConfig={dynamicLineConfig} /> */}
-                  <LinesDotGraphchart stockGraphData={stockGraphData} />
+                  {PriceGraphloading ? (
+                    <SmallLoader />
+                  ) : (
+                    PriceGraphData?.labels ? (
+                      <LinesDotGraphchart stockGraphData={PriceGraphData} />
+                    ) : (
+                      <div>No data available</div> // Display a message when there's no data
+                    )
+                  )}
+
                 </Card.Body>
               </Card>
             </Col>
