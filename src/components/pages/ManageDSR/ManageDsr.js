@@ -432,7 +432,7 @@ const ManageDsr = (props) => {
                     {Uploadtitle?.b_mdl === "PRISM" ||
                       Uploadtitle?.b_mdl === "HTECH" ||
                       Uploadtitle?.b_mdl === "EDGEPoS" ? (
-                      UploadList && UploadList.length > 0 ? (
+                      UploadList && UploadList?.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
                             <Card
@@ -513,7 +513,7 @@ const ManageDsr = (props) => {
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn?.showBtn === true &&
                   isAssignPermissionAvailable &&
-                  DataEnteryList.length > 0 ? (
+                  DataEnteryList?.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -531,7 +531,7 @@ const ManageDsr = (props) => {
               </Card.Header>
               <Card.Body>
                 <Row>
-                  {DataEnteryList && DataEnteryList.length > 0 ? (
+                  {DataEnteryList && DataEnteryList?.length > 0 ? (
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card

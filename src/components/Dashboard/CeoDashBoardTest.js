@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -5,7 +6,6 @@ import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, Row } from "react-bootstrap";
-import { DashboardData, dynamicData, dynamicLineConfig, stockGraphData } from "../../Utils/commonFunctions/CommonData";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
 import { useFormik } from "formik";
@@ -19,7 +19,6 @@ import CeoDashBoardBottomPage from "./CeoDashBoardBottomPage";
 import SmallLoader from "../../Utils/SmallLoader";
 import PriceLogTable from "./PriceLogTable";
 import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
-import LinesDotGraph from "./LinesDotGraph";
 import LinesDotGraphchart from "./LinesDotGraphchart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 
@@ -555,7 +554,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -870,8 +869,11 @@ const CeoDashBoardTest = (props) => {
               >
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
-                    <h4 className="card-title">Price Graph      {formik.values?.selectedSiteDetails?.site_name &&
-                      ` (${formik.values.selectedSiteDetails.site_name})`}</h4>
+                    <h4 className="card-title">
+                      Price Graph{" "}
+                      {formik.values?.selectedSiteDetails?.site_name &&
+                        ` (${formik.values.selectedSiteDetails.site_name})`}
+                    </h4>
                     <span>View All</span>
                   </div>
                 </Card.Header>
@@ -879,14 +881,11 @@ const CeoDashBoardTest = (props) => {
                 <Card.Body>
                   {PriceGraphloading ? (
                     <SmallLoader />
+                  ) : PriceGraphData?.labels ? (
+                    <LinesDotGraphchart stockGraphData={PriceGraphData} />
                   ) : (
-                    PriceGraphData?.labels ? (
-                      <LinesDotGraphchart stockGraphData={PriceGraphData} />
-                    ) : (
-                      <NoDataComponent />
-                    )
+                    <NoDataComponent />
                   )}
-
                 </Card.Body>
               </Card>
             </Col>
