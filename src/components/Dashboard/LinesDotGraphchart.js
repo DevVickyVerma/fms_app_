@@ -6,6 +6,8 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const LinesDotGraphchart = ({ stockGraphData }) => {
+
+
     const options = {
         responsive: true,
         plugins: {
@@ -15,21 +17,68 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
             },
             legend: {
                 position: 'top',
+                labels: {
+                    font: {
+                        weight: 'bold', // Make legend text bold
+                    },
+                },
             },
         },
         scales: {
-            x: {
+            x: { // X-axis configuration
                 type: 'category',
-                labels: stockGraphData.labels,  // Use the dates as labels
-            },
-            y: {
-
+                title: {
+                    display: false,
+                    text: 'Dates',
+                    font: {
+                        size: 14,
+                        weight: 'bold', // Make X-axis title bold
+                    },
+                },
                 ticks: {
-                    beginAtZero: true,
+                    font: {
+                        weight: 'bold', // Make X-axis tick labels bold
+                    },
+                },
+            },
+            y: { // Left Y-axis
+                beginAtZero: true,
+                title: {
+                    display: false,
+                    text: 'Sales (Left)',
+                    font: {
+                        size: 14,
+                        weight: 'bold', // Make Y-axis title bold
+                    },
+                },
+                ticks: {
+                    font: {
+                        weight: 'bold', // Make Y-axis tick labels bold
+                    },
+                },
+            },
+            y1: { // Right Y-axis
+                beginAtZero: true,
+                position: 'right',
+                title: {
+                    display: true,
+                    text: 'Price (Right)',
+                    font: {
+                        size: 14,
+                        weight: 'bold', // Make right Y-axis title bold
+                    },
+                },
+                ticks: {
+                    display: false, // Hide ticks but you can still style if needed
+                },
+                grid: {
+                    drawOnChartArea: false,
                 },
             },
         },
     };
+
+
 
     return (
         <div>

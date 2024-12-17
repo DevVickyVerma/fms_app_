@@ -3799,71 +3799,281 @@ export const dynamicLineConfig = [
   { dataKey: "price", stroke: "#ff6347", name: "Price", dot: false, yAxisId: "left", strokeWidth: 2, strokeDasharray: "5 5" },
   { dataKey: "newPrice", stroke: "#ff1493", name: "New Price", dot: false, yAxisId: "left", strokeWidth: 2, strokeDasharray: "5 5" },
 ];
+const startingPrice = 2400;
+const endingPrice = 3478;
+const totalDays = 30;
+
+// Create dynamic price data with linear progression
+const priceData = Array.from({ length: totalDays }, (_, i) =>
+  startingPrice + ((endingPrice - startingPrice) / (totalDays - 1)) * i
+);
+console.log(priceData, "priceData");
 export const stockGraphData = {
   labels: [
-    "01-Dec", "02-Dec", "03-Dec", "04-Dec", "05-Dec", "06-Dec", "07-Dec", "08-Dec", "09-Dec", "10-Dec",
-    "11-Dec", "12-Dec", "13-Dec", "14-Dec", "15-Dec", "16-Dec", "17-Dec", "18-Dec", "19-Dec", "20-Dec",
-    "21-Dec", "22-Dec", "23-Dec", "24-Dec", "25-Dec", "26-Dec", "27-Dec", "28-Dec", "29-Dec", "30-Dec"
+    "01-Dec", "02-Dec", "03-Dec", "04-Dec", "05-Dec", "06-Dec", "07-Dec",
+    "08-Dec", "09-Dec", "10-Dec", "11-Dec", "12-Dec", "13-Dec", "14-Dec", "15-Dec",
   ],
   datasets: [
     {
-      label: "Diesel Sales (Dots Only)",
-      data: [
-        2400, 2300, 2500, 2600, 2550, 2400, 2450, 2350, 2650, 2750,
-        2800, 2900, 2850, 3100, 3000, 3300, 3200, 3400, 3350, 3700,
-        3600, 3800, 3900, 3750, 4100, 4000, 4200, 4300, 4400, 4500
+      "label": "Diesel Sales",
+      "data": [
+        2400,
+        2300,
+        2500,
+        2100,
+        1850,
+        2100,
+        2450,
+        2350,
+        2650,
+        2750,
+        2800,
+        2500,
+        2550,
+        2600,
+        2200,
+        2300,
+        2400,
+        2658,
+        3350,
+        2570,
+        3100,
+        3000,
+        3100,
+        3250,
+        3600,
+        3400,
+        3350,
+        3300,
+        3354,
+        3478
       ],
-      backgroundColor: "#1f77b4",
-      borderColor: "#1f77b4",
-      borderWidth: 0,  // No line, just dots
-      fill: false,  // Don't fill under the line
-      pointRadius: 4,  // Show dots
-      pointBackgroundColor: "#1f77b4", // Dot color
-      pointBorderColor: "#1f77b4", // Border color of the dots
+      "backgroundColor": "#1f77b4",
+      "borderColor": "#1f77b4",
+      "borderWidth": 0,
+      "fill": false,
+      "pointRadius": 6,
+      "pointBackgroundColor": "#1f77b4",
+      "pointBorderColor": "#1f77b4"
     },
     {
-      label: "Diesel Sales 2 (Dots Only)",
-      data: [
-        2500, 2400, 2500, 2800, 2700, 2600, 2650, 2750, 2850, 2950,
-        3000, 3100, 3200, 3300, 3400, 3500, 3600, 3700, 3800, 3900,
-        4000, 4100, 4200, 4300, 4400, 4500, 4600, 4700, 4800, 4900
+      "label": "Diesel Sales (Doted)",
+      "data": [
+        2400,
+        2433.33,
+        2466.67,
+        2500,
+        2533.33,
+        2566.67,
+        2600,
+        2633.33,
+        2666.67,
+        2700,
+        2733.33,
+        2766.67,
+        2800,
+        2833.33,
+        2866.67,
+        2900,
+        2933.33,
+        2966.67,
+        3000,
+        3033.33,
+        3066.67,
+        3100,
+        3133.33,
+        3166.67,
+        3200,
+        3233.33,
+        3266.67,
+        3300,
+        3333.33,
+        3366.67,
+        3400
       ],
-      backgroundColor: "#ff6347",
-      borderColor: "#ff6347",
-      borderWidth: 0,  // No line, just dots
-      fill: false,  // Don't fill under the line
-      pointRadius: 4,  // Show dots
-      pointBackgroundColor: "#ff6347", // Dot color
-      pointBorderColor: "#ff6347", // Border color of the dots
+      "backgroundColor": "#1f77b4",
+      "borderColor": "#1f77b4",
+      "borderWidth": 2,
+      "fill": false,
+      "pointRadius": 0,
+      "borderDash": [
+        5,
+        5
+      ]
     },
     {
-      label: "UL Sales (Linear Line)",
-      data: [
-        2500, 1800, 2400, 1900, 2200, 2100, 2300, 2400, 2500, 2600,
-        2700, 2800, 2900, 3000, 3100, 3200, 3300, 3400, 3500, 3600,
-        3700, 3800, 3900, 4000, 4100, 4200, 4300, 4400, 4500, 4600
+      "label": "Diesel Sales (Linear Line)",
+      "data": [
+        2500,
+        1800,
+        2400,
+        1900,
+        2200,
+        2100,
+        2300,
+        2400,
+        2500,
+        2600,
+        2700,
+        2800,
+        2900,
+        3000,
+        3100,
+        3200,
+        2800,
+        3400,
+        2800,
+        2900,
+        3300,
+        3100,
+        3200,
+        3000,
+        3100,
+        3200,
+        3300,
+        2900,
+        3000,
+        3600
       ],
-      backgroundColor: "#2ca02c",
-      borderColor: "#2ca02c",
-      borderWidth: 2,
-      fill: false,  // Don't fill under the line
-      pointRadius: 0, // No dots
-      borderDash: [], // Regular line (no dashed)
+      "backgroundColor": "#2ca02c",
+      "borderColor": "#2ca02c",
+      "borderWidth": 2,
+      "fill": false,
+      "pointRadius": 0,
+      "borderDash": []
     },
     {
-      label: "Price (Dashed Line)",
-      data: [
-        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
-        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
-        1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000
+      "label": "Unleaded Sales",
+      "data": [
+        2100,
+        1800,
+        1400,
+        1900,
+        1200,
+        1100,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        1000,
+        1100,
+        1100,
+        1800,
+        1400,
+        1800,
+        1900,
+        1100,
+        1100,
+        1200,
+        1000,
+        1100,
+        1200,
+        1100,
+        1500,
+        1200,
+        1400
       ],
-      backgroundColor: "#ff1493",
-      borderColor: "#ff1493",
-      borderWidth: 2,
-      borderDash: [5, 5], // Dashed line
-      fill: false,  // Don't fill under the line
-      pointRadius: 0, // No dots
+      "backgroundColor": "#1f77b4",
+      "borderColor": "#1f77b4",
+      "borderWidth": 0,
+      "fill": false,
+      "pointRadius": 6,
+      "pointBackgroundColor": "#1f77b4",
+      "pointBorderColor": "#1f77b4"
+    },
+    {
+      "label": "Unleaded Sales (Doted)",
+      "data": [
+        2100,
+        2076.67,
+        2053.33,
+        2030,
+        2006.67,
+        1983.33,
+        1960,
+        1936.67,
+        1913.33,
+        1890,
+        1866.67,
+        1843.33,
+        1820,
+        1796.67,
+        1773.33,
+        1750,
+        1726.67,
+        1703.33,
+        1680,
+        1656.67,
+        1633.33,
+        1610,
+        1586.67,
+        1563.33,
+        1540,
+        1516.67,
+        1493.33,
+        1470,
+        1446.67,
+        1423.33,
+        1400
+      ],
+      "backgroundColor": "#1f77b4",
+      "borderColor": "#1f77b4",
+      "borderWidth": 2,
+      "fill": false,
+      "pointRadius": 0,
+      "borderDash": [
+        5,
+        5
+      ]
+    },
+    {
+      "label": "Unleaded Sales (Linear Line)",
+      "data": [
+        2100,
+        1800,
+        1400,
+        1900,
+        1200,
+        1100,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        1000,
+        1100,
+        1100,
+        1800,
+        1400,
+        1800,
+        1900,
+        1100,
+        1100,
+        1200,
+        1000,
+        1100,
+        1200,
+        1100,
+        1500,
+        1200,
+        1400
+      ],
+      "backgroundColor": "#2ca02c",
+      "borderColor": "#2ca02c",
+      "borderWidth": 2,
+      "fill": false,
+      "pointRadius": 0,
+      "borderDash": []
     }
-  ]
+  ],
 };
+
+
+
+
 
