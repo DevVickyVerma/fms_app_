@@ -21,6 +21,7 @@ import PriceLogTable from "./PriceLogTable";
 import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
 import LinesDotGraph from "./LinesDotGraph";
 import LinesDotGraphchart from "./LinesDotGraphchart";
+import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -836,7 +837,7 @@ const CeoDashBoardTest = (props) => {
             </Col>
           </>
         )}
-        {priceGraphPermission && (
+        {/* {priceGraphPermission && (
           <>
             <Col sm={12} md={priceLogAndGraphPermission ? 4 : 12}>
               <Card
@@ -859,20 +860,22 @@ const CeoDashBoardTest = (props) => {
               </Card>
             </Col>
           </>
-        )}
+        )} */}
         {priceGraphPermission && (
           <>
-            <Col className="mt-4" sm={12} md={priceLogAndGraphPermission ? 12 : 12}>
+            <Col className="" sm={12} md={priceLogAndGraphPermission ? 4 : 12}>
               <Card
                 className="h-100"
                 style={{ transition: "opacity 0.3s ease" }}
               >
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
-                    <h4 className="card-title">Price Graph</h4>
+                    <h4 className="card-title">Price Graph      {formik.values?.selectedSiteDetails?.site_name &&
+                      ` (${formik.values.selectedSiteDetails.site_name})`}</h4>
                     <span>View All</span>
                   </div>
                 </Card.Header>
+
                 <Card.Body>
                   {PriceGraphloading ? (
                     <SmallLoader />
@@ -880,7 +883,7 @@ const CeoDashBoardTest = (props) => {
                     PriceGraphData?.labels ? (
                       <LinesDotGraphchart stockGraphData={PriceGraphData} />
                     ) : (
-                      <div>No data available</div> // Display a message when there's no data
+                      <NoDataComponent />
                     )
                   )}
 
