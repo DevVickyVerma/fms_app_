@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -9,20 +9,17 @@ import { useFormik } from "formik";
 import { Collapse, Table } from "antd";
 import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-
-
+import StaticCompiPrice from "./StaticCompiPrice";
 
 const { Panel } = Collapse;
 
 const CompetitorFuelPrices = (props) => {
-  const { getData, isLoading, postData } =
-    props;
+  const { getData, isLoading, postData } = props;
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [accordionSiteID, setaccordionSiteID] = useState();
-
 
   const handleModalOpen = (item) => {
     setModalOpen(true);
@@ -35,7 +32,6 @@ const CompetitorFuelPrices = (props) => {
 
   const [data, setData] = useState(null);
 
-
   const handleSubmit1 = async (values) => {
     setSelectedDrsDate(values.start_date);
 
@@ -44,7 +40,6 @@ const CompetitorFuelPrices = (props) => {
       // formData.append("start_date", values.start_date);
       // formData.append("client_id", values.client_id);
       // formData.append("company_id", values.company_id);
-
 
       let { client_id, company_id, start_date } = values;
       if (localStorage.getItem("superiorRole") === "Client") {
@@ -58,7 +53,6 @@ const CompetitorFuelPrices = (props) => {
 
       const queryString = queryParams.toString();
       const response1 = await getData(`site/competitor-price?${queryString}`);
-
 
       const { data } = response1;
       if (data) {
@@ -111,11 +105,8 @@ const CompetitorFuelPrices = (props) => {
     }
   };
 
-
-
   const handleDataFromChild = async (dataFromChild) => {
     try {
-
       if (storedData) {
         let updatedStoredData = JSON.parse(storedData);
         handleSubmit1(updatedStoredData);
@@ -125,11 +116,9 @@ const CompetitorFuelPrices = (props) => {
     }
   };
 
-
-
-
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -143,7 +132,6 @@ const CompetitorFuelPrices = (props) => {
       ),
   });
 
-
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
 
@@ -154,7 +142,7 @@ const CompetitorFuelPrices = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -171,7 +159,7 @@ const CompetitorFuelPrices = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -184,35 +172,33 @@ const CompetitorFuelPrices = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.start_date) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
-
-  const handleClearForm = async (resetForm) => {
-    setData(null)
   };
 
-
-
-
-
+  const handleClearForm = async (resetForm) => {
+    setData(null);
+  };
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-
-        {modalOpen && (<>
-          <Compititormodal
-            open={modalOpen}
-            onClose={handleModalClose}
-            selectedItem={selectedItem}
-            accordionSiteID={accordionSiteID}
-            selectedDrsDate={selectedDrsDate}
-            onDataFromChild={handleDataFromChild}
-            postData={postData}
-          />
-        </>)}
+        {modalOpen && (
+          <>
+            {/* // *TODO - open modal based on competitor v1 or v2 */}
+            {/* <StaticCompiPrice */}
+            <Compititormodal
+              open={modalOpen}
+              onClose={handleModalClose}
+              selectedItem={selectedItem}
+              accordionSiteID={accordionSiteID}
+              selectedDrsDate={selectedDrsDate}
+              onDataFromChild={handleDataFromChild}
+              postData={postData}
+            />
+          </>
+        )}
 
         <div className="page-header ">
           <div>
@@ -257,10 +243,10 @@ const CompetitorFuelPrices = (props) => {
                 showStationInput={false}
                 ClearForm={handleClearForm}
               />
-
             </Card>
           </Col>
         </Row>
+
         <Row>
           <Col md={12} xl={12}>
             <Card>

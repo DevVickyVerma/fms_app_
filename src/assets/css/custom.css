@@ -437,6 +437,9 @@ tbody tr {
 .work-flow-sucess-status {
   color: #27a723;
 }
+.work-flow-gray-status {
+  color: var(--gray);
+}
 
 .d-flex.chart-items {
   width: 100%;
