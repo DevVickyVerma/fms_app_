@@ -149,27 +149,16 @@ const DailyDue = ({ isLoading, getData, postData }) => {
     if (storedData) {
       let parsedData = JSON.parse(storedData);
 
-      if (!parsedData.start_month) {
-        parsedData.start_month = currentMonth;
-        let parsedData = {
-          start_month: currentMonth,
-        };
+      if (!parsedData?.start_month) {
+        parsedData.start_month = currentMonth; // Update parsedData instead of redeclaring it
         handleApplyFilters(parsedData);
-
-        // localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
-        // handleApplyFilters(parsedData);
+      } else {
+        handleApplyFilters(parsedData); // Apply filters with existing parsedData
       }
-
-      handleApplyFilters(parsedData);
     } else {
-      let parsedData = {
-        start_month: currentMonth,
-      };
+      let parsedData = { start_month: currentMonth }; // Create parsedData if no storedData
       handleApplyFilters(parsedData);
-      //   localStorage.setItem(storedKeyName, JSON.stringify(parsedData));
     }
-
-    // handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, []);
 
   const handleApplyFilters = (values) => {
