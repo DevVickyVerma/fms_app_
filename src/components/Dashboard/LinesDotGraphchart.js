@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
@@ -6,7 +6,12 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const LinesDotGraphchart = ({ stockGraphData }) => {
+    const [selectedFuelType, setSelectedFuelType] = useState(stockGraphData?.fuel_type[0]); // Default to the first fuel type
 
+    // Handler for dropdown change
+    const handleFuelTypeChange = (event) => {
+        setSelectedFuelType(event.target.value);
+    };
 
     const options = {
         responsive: true,
@@ -19,70 +24,102 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
                 position: 'top',
                 labels: {
                     font: {
-                        weight: 'bold', // Make legend text bold
+                        weight: 'bold',
                     },
                 },
             },
         },
         scales: {
-            x: { // X-axis configuration
+            x: {
                 type: 'category',
                 title: {
                     display: false,
-                    text: 'Dates',
-                    font: {
-                        size: 14,
-                        weight: 'bold', // Make X-axis title bold
-                    },
                 },
                 ticks: {
                     font: {
-                        weight: 'bold', // Make X-axis tick labels bold
+                        weight: 'bold',
                     },
                 },
             },
-            y: { // Left Y-axis
+            y: {
                 beginAtZero: true,
                 title: {
                     display: true,
                     text: '(€)',
                     font: {
                         size: 20,
-                        weight: 'bold', // Make right Y-axis title bold
+                        weight: 'bold',
                     },
                 },
                 ticks: {
                     font: {
-                        weight: 'bold', // Make Y-axis tick labels bold
+                        weight: 'bold',
                     },
                 },
             },
-            y1: { // Right Y-axis
+            y1: {
                 beginAtZero: false,
                 position: 'right',
                 title: {
                     display: false,
-                    text: '(€)',
+                    text: '(€) ',
                     font: {
                         size: 20,
-                        weight: 'bold', // Make right Y-axis title bold
+                        weight: 'bold',
                     },
                 },
                 ticks: {
-                    display: false, // Hide ticks but you can still style if needed
+                    min: 2, // Set the minimum value for the y1 axis
+                    font: {
+                        weight: 'bold',
+                    },
                 },
                 grid: {
-                    drawOnChartArea: false,
+                    drawOnChartArea: false, // Avoid gridlines from overlapping
                 },
             },
         },
     };
 
-
-
+    // Get the datasets for the selected fuel type
+    const datasets = stockGraphData?.datasets[selectedFuelType]?.map((dataset) => ({
+        ...dataset,
+        yAxisID: dataset.yAxis || 'y', // Assign yAxis ID ('y' or 'y1')
+    }));
     return (
         <div>
-            <Line data={{ labels: stockGraphData.labels, datasets: stockGraphData.datasets }} options={options} />
+
+            <div className="flexspacebetween">
+                {stockGraphData?.fuel_type ? (
+                    <div>
+                        <select
+                            id="fuelType"
+                            name="fuelType"
+                            value={selectedFuelType}
+                            onChange={handleFuelTypeChange}
+                            className="selectedMonth"
+                        >
+
+                            {stockGraphData.fuel_type?.map((fuel) => (
+                                <option key={fuel} value={fuel}>
+                                    {fuel}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                ) : (
+                    ""
+                )}
+            </div>
+
+            {/* Line Chart */}
+            <Line
+                data={{
+                    labels: stockGraphData.labels,
+                    datasets: datasets,
+                }}
+                options={options}
+            />
         </div>
     );
 };

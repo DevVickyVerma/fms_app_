@@ -20,6 +20,7 @@ import PriceLogTable from "./PriceLogTable";
 import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
 import LinesDotGraphchart from "./LinesDotGraphchart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
+import PracticeJavaScript from "./PracticeJavaScript";
 
 const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
@@ -568,11 +569,13 @@ const CeoDashBoardTest = (props) => {
       setCenterFilterModalOpen(true);
     }
   };
-  console.log(PriceGraphData, "PriceGraphData");
+
+
+
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
-
+      <PracticeJavaScript />
       {centerFilterModalOpen && (
         <div className="">
           <CeoDashboardFilterModal
@@ -772,42 +775,24 @@ const CeoDashBoardTest = (props) => {
               md={priceLogAndGraphPermission ? 6 : 12}
               key={Math.random()}
             >
+
+
+
+
+
               <Card className="h-100">
+
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
-                      {" "}
                       Fuel Price Logs{" "}
                       {formik.values?.selectedSiteDetails?.site_name &&
                         ` (${formik.values.selectedSiteDetails.site_name})`}
-                      <br></br>
-                      {userPermissions?.includes("fuel-price-logs") ? (
-                        <span style={{ color: "blue" }}>
-                          <Link to="/fuel-selling-price-logs/">View All</Link>
-                        </span>
-                      ) : (
-                        ""
-                      )}
                     </h4>
-                  </div>
-                  <div className="flexspacebetween">
-                    {filters?.sites ? (
-                      <div>
-                        <select
-                          id="selectedSite"
-                          name="selectedSite"
-                          value={formik.values.selectedSite}
-                          onChange={(e) => handleSiteChange(e.target.value)}
-                          className="selectedMonth"
-                        >
-                          <option value="">--Select a Site--</option>
-                          {filters?.sites?.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.site_name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                    {userPermissions?.includes("fuel-price-logs") ? (
+                      <span style={{ color: "blue" }}>
+                        <Link to="/fuel-selling-price-logs/">View All</Link>
+                      </span>
                     ) : (
                       ""
                     )}
@@ -836,30 +821,7 @@ const CeoDashBoardTest = (props) => {
             </Col>
           </>
         )}
-        {/* {priceGraphPermission && (
-          <>
-            <Col sm={12} md={priceLogAndGraphPermission ? 4 : 12}>
-              <Card
-                className="h-100"
-                style={{ transition: "opacity 0.3s ease" }}
-              >
-                <Card.Header className="p-4">
-                  <div className="spacebetween" style={{ width: "100%" }}>
-                    <h4 className="card-title">Price Graph</h4>
-                    <span>View All</span>
-                  </div>
-                </Card.Header>
-                <Card.Body>
-                  <img
-                    src={require("../../assets/images/commonimages/dotGraph.png")}
-                    alt="dotGraph"
-                    className="dotGraph"
-                  />
-                </Card.Body>
-              </Card>
-            </Col>
-          </>
-        )} */}
+
         {priceGraphPermission && (
           <>
             <Col className="" sm={12} md={priceLogAndGraphPermission ? 6 : 12}>
@@ -867,17 +829,44 @@ const CeoDashBoardTest = (props) => {
                 className="h-100"
                 style={{ transition: "opacity 0.3s ease" }}
               >
+
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
+                      {" "}
                       Price Graph{" "}
                       {formik.values?.selectedSiteDetails?.site_name &&
                         ` (${formik.values.selectedSiteDetails.site_name})`}
+                      <br></br>
+
+                      {userPermissions?.includes("ceodashboard-price-graph") ? (
+                        <span style={{ color: "#4663ac" }}>
+                          <Link to="/pricegraph-view/">View All</Link>
+                        </span>
+                      ) : (
+                        ""
+                      )}
+
                     </h4>
-                    {userPermissions?.includes("ceodashboard-price-graph") ? (
-                      <span className="textend">
-                        <Link to="/pricegraph-view">View All</Link>
-                      </span>
+                  </div>
+                  <div className="flexspacebetween">
+                    {filters?.sites ? (
+                      <div>
+                        <select
+                          id="selectedSite"
+                          name="selectedSite"
+                          value={formik.values.selectedSite}
+                          onChange={(e) => handleSiteChange(e.target.value)}
+                          className="selectedMonth"
+                        >
+                          <option value="">--Select a Site--</option>
+                          {filters?.sites?.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.site_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     ) : (
                       ""
                     )}
