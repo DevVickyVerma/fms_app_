@@ -23,6 +23,7 @@ import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import PracticeJavaScript from "./PracticeJavaScript";
 
 const CeoDashBoardTest = (props) => {
+  const navigate = useNavigate();
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
@@ -490,7 +491,6 @@ const CeoDashBoardTest = (props) => {
     // setstockDetailModal(true)
   };
 
-  const navigate = useNavigate();
   const handleSiteChange = async (selectedId) => {
     const handleConfirmedAction = async (selectedId) => {
       try {
@@ -567,6 +567,26 @@ const CeoDashBoardTest = (props) => {
   const openCenterFilterModal = () => {
     if (!filters?.company_id) {
       setCenterFilterModalOpen(true);
+    }
+  };
+
+  const handleNavigateViewAllClick = (item) => {
+    // handling state manage here
+    let storedKeyName = "localFilterModalData";
+    const storedData = localStorage.getItem(storedKeyName);
+
+    console.log(formik.values, "formik.values.selectedSite");
+
+    if (storedData) {
+      let updatedStoredData = JSON.parse(storedData);
+
+      updatedStoredData.site_id = formik?.values?.selectedSiteDetails?.id; // Update the site_id here
+      updatedStoredData.site_name =
+        formik?.values?.selectedSiteDetails?.site_name; // Update the site_id here
+
+      localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
+
+      navigate(`/pricegraph-view/`);
     }
   };
 
@@ -831,8 +851,10 @@ const CeoDashBoardTest = (props) => {
                         ` (${formik.values.selectedSiteDetails.site_name})`}
                       <br></br>
                       {userPermissions?.includes("ceodashboard-price-graph") ? (
-                        <span style={{ color: "#4663ac" }}>
-                          <Link to="/pricegraph-view/">View All</Link>
+                        <span style={{ color: "#4663ac" }} className="pointer">
+                          <div onClick={() => handleNavigateViewAllClick()}>
+                            View All
+                          </div>
                         </span>
                       ) : (
                         ""
