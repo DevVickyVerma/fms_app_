@@ -210,7 +210,7 @@ const StaticCompiPrice = ({
                   </thead>
 
                   <tbody>
-                    <tr key={`competitor-name-self`}>
+                    <tr key={`competitor-name-self`} className="operator-tr">
                       <td
                         // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                         className="middayModal-td text-muted fs-15 fw-semibold p-4"
@@ -219,7 +219,7 @@ const StaticCompiPrice = ({
                           src={formik?.values?.supplier}
                           alt="Competitor"
                           width="30"
-                          class="me-2"
+                          className="me-2"
                         />
                         {formik?.values?.site_name}
                       </td>
@@ -257,14 +257,24 @@ const StaticCompiPrice = ({
                                 src={competitor?.supplier}
                                 alt="Competitor"
                                 width="30"
-                                class="me-2"
+                                className="me-2"
                               />
                               {competitor?.competitor_name}
                             </td>
                           </tr>
 
                           <tr className="middayModal-tr">
-                            <td className="middayModal-td">Gov</td>
+                            <td className="middayModal-td">
+                              <div className=" d-flex align-items-center mt-3">
+                                <img
+                                  src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
+                                  alt="Competitor"
+                                  width="20"
+                                  className="mx-2"
+                                />
+                                Gov
+                              </div>
+                            </td>
                             {/* // ** here i am iterating the GOV prices */}
                             {competitor?.fuels?.gov?.map((fuel, fuelIndex) => (
                               <>
@@ -303,7 +313,17 @@ const StaticCompiPrice = ({
                           </tr>
 
                           <tr className="middayModal-tr">
-                            <td className="middayModal-td">Petrol Price</td>
+                            <td className="middayModal-td">
+                              <div className=" d-flex align-items-center mt-3">
+                                <img
+                                  src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
+                                  alt="Competitor"
+                                  width="20"
+                                  className="mx-2"
+                                />
+                                Petrol Price
+                              </div>
+                            </td>
 
                             {/* // ** here i am iterating the Petrol Price prices */}
                             {competitor?.fuels?.pp?.map((fuel, fuelIndex) => (
@@ -344,9 +364,9 @@ const StaticCompiPrice = ({
                             </td>
                           </tr>
 
-                          <tr className="middayModal-tr">
+                          <tr className="middayModal-tr operator-tr">
                             <td className="middayModal-td">
-                              Operator Verified
+                              <div className="mt-2">Operator Verified</div>
                             </td>
 
                             {/* // ** here i am iterating the Operator Verified prices */}
@@ -380,7 +400,7 @@ const StaticCompiPrice = ({
                                   type="submit"
                                   // onClick={formik.handleSubmit}
                                 >
-                                  Accept{" "}
+                                  Submit{" "}
                                   <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                 </button>
                               )}

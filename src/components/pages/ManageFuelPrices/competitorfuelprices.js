@@ -187,8 +187,8 @@ const CompetitorFuelPrices = (props) => {
         {modalOpen && (
           <>
             {/* // *TODO - open modal based on competitor v1 or v2 */}
-            {/* <StaticCompiPrice */}
-            <Compititormodal
+            {/* <Compititormodal */}
+            <StaticCompiPrice
               open={modalOpen}
               onClose={handleModalClose}
               selectedItem={selectedItem}
