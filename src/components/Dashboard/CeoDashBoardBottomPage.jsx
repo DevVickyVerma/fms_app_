@@ -266,16 +266,19 @@ const CeoDashBoardBottomPage = (props) => {
           <>
             <Col
               md={mopComparisonPerformanceReportsPermission ? 6 : 4}
-              onClick={() => handleCardClick("Stock")}
+              // onClick={() => handleCardClick("Stock")}
+
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent parent onClick from firing
+              }}
               className="slide-in-bottom"
             >
               <Card
-                className={`card-default-height pointer ceocard-hover ${
-                  applyNavigate ? "" : ""
-                }`}
+                // TODO: "pointer ceocard-hover" class will come when stock detail will come
+                className={`card-default-height   ${applyNavigate ? "" : ""}`}
                 style={{
-                  backgroundColor: "#8563b6", // Light Blue background
-                  color: "#fff",
+                  // backgroundColor: "#8563b6", // Light Blue background
+                  color: "rgb(255 255 255 / 64%)",
                   // height: "100%",
                   minHeight: "111px",
                   display: "flex",
@@ -284,9 +287,10 @@ const CeoDashBoardBottomPage = (props) => {
                   justifyContent: "center",
                   gap: "10px",
                   transition: "all 0.3s ease", // Smooth opacity transition
+                  background: "#18222b",
                 }}
               >
-                <div className=" d-flex flex-column justify-content-center align-items-center gap-5 py-3">
+                <div className=" d-flex flex-column justify-content-center align-items-center gap-5 py-3 ceo-coming-soon-card">
                   <div className="">
                     <div className=" d-flex flex-column justify-content-center align-items-center ">
                       <GiVendingMachine size={40} />
