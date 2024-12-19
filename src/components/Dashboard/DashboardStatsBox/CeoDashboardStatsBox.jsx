@@ -14,7 +14,7 @@ const CeoDashboardStatsBox = ({
     {
       dataKey: "cash_fuel_sales",
       title: "Cash Fuel Sales",
-      icon: "ℓ",
+      icon: "£",
       containerStyle: "dash-plates-1",
     },
     {
@@ -35,6 +35,7 @@ const CeoDashboardStatsBox = ({
       dataKey: "card_shop_sales",
       title: "Card Shop Sales",
       containerStyle: "dash-plates-2",
+      icon: "£",
     },
     {
       dataKey: "bunkered_card_fuel_sales",
