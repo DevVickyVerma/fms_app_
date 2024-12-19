@@ -55,11 +55,10 @@ const CeoDashSitetable = (props) => {
       id: "1",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -77,11 +76,10 @@ const CeoDashSitetable = (props) => {
                 />
               </div>
               <div
-                className={`d-flex ${
-                  isSitePermissionAvailable || isSiteSecondPermissionAvailable
-                    ? "pointer"
-                    : ""
-                }`}
+                className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+                  ? "pointer"
+                  : ""
+                  }`}
                 onClick={() => handleFuelPriceLinkClick(row)}
               >
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -105,11 +103,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="d-flex align-items-center h-100 ">
@@ -122,11 +119,10 @@ const CeoDashSitetable = (props) => {
               </h6>
 
               <p
-                className={`me-1 ${
-                  row.fuel_volume?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                }`}
+                className={`me-1 ${row.fuel_volume?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
                 data-tip={`${row?.fuel_volume?.percentage}%`}
               >
                 {row?.fuel_volume?.status === "up" ? (
@@ -161,11 +157,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -176,11 +171,10 @@ const CeoDashSitetable = (props) => {
                 : "0"}
             </h6>
             <p
-              className={`me-1 ${
-                row?.fuel_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.fuel_sales?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.fuel_sales?.percentage}%`}
             >
               {row?.fuel_sales?.status === "up" ? (
@@ -214,11 +208,10 @@ const CeoDashSitetable = (props) => {
       id: "4",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -229,11 +222,10 @@ const CeoDashSitetable = (props) => {
                 : "0"}
             </h6>
             <p
-              className={`me-1 ${
-                row?.gross_profit?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.gross_profit?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.gross_profit?.percentage}%`}
             >
               {row?.gross_profit?.status === "up" ? (
@@ -267,11 +259,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -292,11 +283,10 @@ const CeoDashSitetable = (props) => {
               )}
             </h6>
             <p
-              className={`me-1 ${
-                row?.gross_margin?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.gross_margin?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.gross_margin?.percentage}%`}
             >
               {row?.gross_margin?.status === "up" ? (
@@ -330,11 +320,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -345,11 +334,10 @@ const CeoDashSitetable = (props) => {
                 : "0"}
             </h6>
             <p
-              className={`me-1 ${
-                row?.shop_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.shop_sales?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.shop_sales?.percentage}%`}
             >
               {row?.shop_sales?.status === "up" ? (
@@ -381,11 +369,10 @@ const CeoDashSitetable = (props) => {
       id: "7",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -397,9 +384,8 @@ const CeoDashSitetable = (props) => {
               {/* {row?.shop_fees?.shop_fees || "0.00"} */}
             </h6>
             <p
-              className={`me-1 ${
-                row?.shop_fees?.status === "up" ? "text-success" : "text-danger"
-              }`}
+              className={`me-1 ${row?.shop_fees?.status === "up" ? "text-success" : "text-danger"
+                }`}
               data-tip={`${row?.shop_fees?.percentage}%`}
             >
               {row?.shop_fees?.status === "up" ? (
@@ -433,11 +419,10 @@ const CeoDashSitetable = (props) => {
       id: "8",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -449,11 +434,10 @@ const CeoDashSitetable = (props) => {
               {/* {row?.shop_profit?.shop_profit || "0.00"} */}
             </h6>
             <p
-              className={`me-1 ${
-                row?.shop_profit?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.shop_profit?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.shop_profit?.percentage}%`}
             >
               {row?.shop_profit?.status === "up" ? (
@@ -487,11 +471,10 @@ const CeoDashSitetable = (props) => {
       id: "8",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -503,11 +486,10 @@ const CeoDashSitetable = (props) => {
               {/* {row?.shop_margin?.shop_margin || "0.00"} */}
             </h6>
             <p
-              className={`me-1 ${
-                row?.shop_margin?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.shop_margin?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.shop_margin?.percentage}%`}
             >
               {row?.shop_margin?.status === "up" ? (
@@ -538,17 +520,16 @@ const CeoDashSitetable = (props) => {
 
       <Row className=" row-sm">
         <Col lg={12}>
-          <Card className="mt-5">
+          <Card className="">
             <Card.Body>
               {data?.length > 0 ? (
                 <>
                   <div
-                    className={`table-responsive deleted-table performance-col ${
-                      isSitePermissionAvailable ||
+                    className={`table-responsive deleted-table performance-col ${isSitePermissionAvailable ||
                       isSiteSecondPermissionAvailable
-                        ? "show-ceo-hover-effect-data-table"
-                        : ""
-                    }`}
+                      ? "show-ceo-hover-effect-data-table"
+                      : ""
+                      }`}
                   >
                     <DataTable
                       columns={columns}

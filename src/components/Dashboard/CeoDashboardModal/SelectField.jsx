@@ -4,6 +4,7 @@ import { Col } from 'react-bootstrap'; // Or your preferred layout library
 const SelectField = ({
     label,
     id,
+    lg,
     name,
     value,
     options = [],
@@ -12,7 +13,7 @@ const SelectField = ({
     placeholder = ""
 }) => {
     return (
-        <Col lg={6}>
+        <Col lg={lg || 6}>
             <label className="form-label" htmlFor={id}>
                 {label} {required && <span className="text-danger">*</span>}
             </label>
