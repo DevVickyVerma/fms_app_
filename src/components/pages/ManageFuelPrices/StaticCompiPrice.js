@@ -301,9 +301,11 @@ const StaticCompiPrice = ({
                               <>
                                 <td key={fuel?.id} className="middayModal-td">
                                   <input
-                                    className={`table-input readonly`}
+                                    className={`table-input ${
+                                      fuel?.canUpdate ? "" : "readonly"
+                                    }`}
                                     type="number"
-                                    readOnly={true}
+                                    readOnly={!fuel?.canUpdate}
                                     step="0.010"
                                     name={`listing.competitors.[${competitorIndex}].fuels.gov.[${fuelIndex}].price`}
                                     value={
@@ -352,7 +354,7 @@ const StaticCompiPrice = ({
                                     </>
                                   ) : (
                                     <>
-                                      <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                                      <i class="ph ph-x work-flow-danger-status "></i>
                                     </>
                                   )}
                                 </>
@@ -399,9 +401,11 @@ const StaticCompiPrice = ({
                               <>
                                 <td key={fuel?.id} className="middayModal-td">
                                   <input
-                                    className={`table-input readonly`}
+                                    className={`table-input ${
+                                      fuel?.canUpdate ? "" : "readonly"
+                                    }`}
                                     type="number"
-                                    readOnly={true}
+                                    readOnly={!fuel?.canUpdate}
                                     step="0.010"
                                     name={`listing.competitors.[${competitorIndex}].fuels.pp.[${fuelIndex}].price`}
                                     // listing.competitors[0].fuels.pp[0].category_name
@@ -451,7 +455,7 @@ const StaticCompiPrice = ({
                                     </>
                                   ) : (
                                     <>
-                                      <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                                      <i class="ph ph-x work-flow-danger-status "></i>
                                     </>
                                   )}
                                 </>
@@ -502,8 +506,11 @@ const StaticCompiPrice = ({
                               <>
                                 <td key={fuel?.id} className="middayModal-td">
                                   <input
-                                    className={`table-input`}
+                                    className={`table-input ${
+                                      fuel?.canUpdate ? "" : "readonly"
+                                    }`}
                                     type="number"
+                                    readOnly={!fuel?.canUpdate}
                                     step="0.010"
                                     name={`listing.competitors.[${competitorIndex}].fuels.ov.[${fuelIndex}].price`}
                                     // listing.competitors[0].fuels.ov[0].category_name
@@ -553,7 +560,7 @@ const StaticCompiPrice = ({
                                     </>
                                   ) : (
                                     <>
-                                      <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                                      <i class="ph ph-x work-flow-danger-status "></i>
                                     </>
                                   )}
                                 </>
