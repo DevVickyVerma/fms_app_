@@ -30,7 +30,7 @@ const StaticCompiPrice = ({
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
-  const [data, setData] = useState(staticCompiPriceCommon); // Initialize data as null
+  const [data, setData] = useState(); // Initialize data as null
   const [isLoading, setIsLoading] = useState(false);
   const [hasListing, setHasListing] = useState(true);
 
