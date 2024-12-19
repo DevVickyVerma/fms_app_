@@ -234,7 +234,7 @@ const StaticCompiPrice = ({
                       {data?.head_array?.map((header, columnIndex) => (
                         <th key={columnIndex}>{header}</th>
                       ))}
-                      <th>Status</th>
+                      <th style={{ maxWidth: "15px" }}>Status</th>
                     </tr>
                   </thead>
 
