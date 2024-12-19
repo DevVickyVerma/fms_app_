@@ -165,6 +165,46 @@ const StaticCompiPrice = ({
 
   console.log(formik?.values, "formik values");
 
+  const handleSelectedPrice = async (competitor, index, key_name) => {
+    // here i will pass onclick submit btn
+    // 1.  selected
+    // 2. index which is selected
+    // 3. key_name which is selected
+    console.log(competitor, "competitor", index, "fuel", key_name);
+
+    try {
+      const formData = new FormData();
+
+      formData.append("site_id", accordionSiteID);
+      formData.append("competitor_id", competitor?.id);
+      formData.append("drs_date", selectedDrsDate);
+      formData.append("updated_from", key_name);
+
+      console.log(competitor?.fuels?.[key_name], "client");
+
+      competitor?.fuels?.[key_name].forEach((fuel) => {
+        formData.append(`fuels[${fuel?.id}]`, fuel?.price);
+      });
+
+      const postDataUrl = "/site/competitor-suggestion/accept";
+
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+
+      if (response.status === 200 && response.data.api_response === "success") {
+        // sendDataToParent();
+        // SuccessAlert(response.data.message);
+        // navigate("/competitor-fuel-price");
+        // onClose();
+      } else {
+        // Handle other cases or errors here
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -333,7 +373,13 @@ const StaticCompiPrice = ({
                                   <button
                                     className="btn btn-primary me-2"
                                     type="submit"
-                                    // onClick={formik.handleSubmit}
+                                    onClick={() =>
+                                      handleSelectedPrice(
+                                        competitor,
+                                        competitorIndex,
+                                        "gov"
+                                      )
+                                    }
                                   >
                                     Accept{" "}
                                     <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
@@ -346,7 +392,13 @@ const StaticCompiPrice = ({
                                       <button
                                         className="btn btn-primary me-2"
                                         type="submit"
-                                        // onClick={formik.handleSubmit}
+                                        onClick={() =>
+                                          handleSelectedPrice(
+                                            competitor,
+                                            competitorIndex,
+                                            "gov"
+                                          )
+                                        }
                                       >
                                         Accept{" "}
                                         <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
@@ -434,7 +486,13 @@ const StaticCompiPrice = ({
                                   <button
                                     className="btn btn-primary me-2"
                                     type="submit"
-                                    // onClick={formik.handleSubmit}
+                                    onClick={() =>
+                                      handleSelectedPrice(
+                                        competitor,
+                                        competitorIndex,
+                                        "pp"
+                                      )
+                                    }
                                   >
                                     Accept{" "}
                                     <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
@@ -447,7 +505,13 @@ const StaticCompiPrice = ({
                                       <button
                                         className="btn btn-primary me-2"
                                         type="submit"
-                                        // onClick={formik.handleSubmit}
+                                        onClick={() =>
+                                          handleSelectedPrice(
+                                            competitor,
+                                            competitorIndex,
+                                            "pp"
+                                          )
+                                        }
                                       >
                                         Accept{" "}
                                         <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
@@ -490,7 +554,7 @@ const StaticCompiPrice = ({
                                       <img
                                         src={require("../../../assets/images/SingleStatsCompetitor/wanna1.png")}
                                         alt="Competitor"
-                                        width="20"
+                                        width="30"
                                         className="mx-2"
                                         style={{ borderRadius: "50%" }}
                                       />
@@ -539,7 +603,13 @@ const StaticCompiPrice = ({
                                   <button
                                     className="btn btn-primary me-2"
                                     type="submit"
-                                    // onClick={formik.handleSubmit}
+                                    onClick={() =>
+                                      handleSelectedPrice(
+                                        competitor,
+                                        competitorIndex,
+                                        "ov"
+                                      )
+                                    }
                                   >
                                     Submit{" "}
                                     <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
@@ -552,7 +622,13 @@ const StaticCompiPrice = ({
                                       <button
                                         className="btn btn-primary me-2"
                                         type="submit"
-                                        // onClick={formik.handleSubmit}
+                                        onClick={() =>
+                                          handleSelectedPrice(
+                                            competitor,
+                                            competitorIndex,
+                                            "ov"
+                                          )
+                                        }
                                       >
                                         Submit{" "}
                                         <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
