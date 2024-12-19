@@ -89,7 +89,7 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
     return (
         <div>
 
-            <div className="flexspacebetween">
+            <div className="flexspacebetween textend pb-4 pt-0">
                 {stockGraphData?.fuel_type ? (
                     <div>
                         <select
@@ -111,7 +111,6 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
                     ""
                 )}
             </div>
-
             {/* Line Chart */}
             <Line
                 data={{
