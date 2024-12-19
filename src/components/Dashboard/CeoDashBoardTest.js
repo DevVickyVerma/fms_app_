@@ -554,7 +554,7 @@ const CeoDashBoardTest = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -569,8 +569,6 @@ const CeoDashBoardTest = (props) => {
       setCenterFilterModalOpen(true);
     }
   };
-
-
 
   return (
     <>
@@ -776,13 +774,7 @@ const CeoDashBoardTest = (props) => {
               md={priceLogAndGraphPermission ? 6 : 12}
               key={Math.random()}
             >
-
-
-
-
-
               <Card className="h-100">
-
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
@@ -830,7 +822,6 @@ const CeoDashBoardTest = (props) => {
                 className="h-100"
                 style={{ transition: "opacity 0.3s ease" }}
               >
-
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
@@ -839,7 +830,6 @@ const CeoDashBoardTest = (props) => {
                       {formik.values?.selectedSiteDetails?.site_name &&
                         ` (${formik.values.selectedSiteDetails.site_name})`}
                       <br></br>
-
                       {userPermissions?.includes("ceodashboard-price-graph") ? (
                         <span style={{ color: "#4663ac" }}>
                           <Link to="/pricegraph-view/">View All</Link>
@@ -847,7 +837,6 @@ const CeoDashBoardTest = (props) => {
                       ) : (
                         ""
                       )}
-
                     </h4>
                   </div>
                   <div className="flexspacebetween">
