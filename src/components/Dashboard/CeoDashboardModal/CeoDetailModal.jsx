@@ -593,6 +593,12 @@ const CeoDetailModal = (props) => {
                   />{" "}
                   Margins{" "}
                   <span> Last Updated On {apiData?.data?.last_updated}</span>
+                  <span className="text-mute">
+                    {" "}
+                    {apiData?.data?.last_updated_time && (
+                      <>({apiData.data?.last_updated_time})</>
+                    )}
+                  </span>
                 </>
               )}
             </h3>
