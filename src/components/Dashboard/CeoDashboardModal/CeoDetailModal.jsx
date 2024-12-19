@@ -21,7 +21,6 @@ import withApi from "../../../Utils/ApiHelper";
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
 import {
-  Comparisongraphfilter,
   getSiteStats,
   request,
 } from "../../../Utils/commonFunctions/commonFunction";
@@ -42,6 +41,7 @@ const CeoDetailModal = (props) => {
     filterDataAll,
     isLoading,
     filterData,
+    dashboardData,
   } = props;
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
@@ -386,10 +386,6 @@ const CeoDetailModal = (props) => {
       );
 
       if (selectedOption) {
-        console.log("Selected value:", selectedValue);
-        console.log("Selected label:", selectedOption.label);
-
-        // Set the field value
         formik.setFieldValue("comparison_value", selectedValue);
 
         // You can also store the label if needed
@@ -548,8 +544,24 @@ const CeoDetailModal = (props) => {
     }
   };
 
-  console.log(formik.values, "formik.valuesformik.valuesformik.values");
+  // onthly
+  // : 
+  // "Dec 2024"
+  // weekely
+  // : 
+  // "15 Dec - 22 Dec"
+  // ytd
+  // : 
+  // "2024"
 
+  console.log(dashboardData?.date_filter?.monthly, "dashboardData");
+  const Comparisongraphfilter = [
+    { value: "weekly", label: `Weekly  (${dashboardData?.date_filter?.weekely})` },
+    { value: "monthly", label: `Monthly  (${dashboardData?.date_filter?.monthly})` },
+    { value: "yearly", label: `Year To Date   (${dashboardData?.date_filter?.ytd})` },
+    { value: "yearly", label: "Actual Vs Previous Year Month" },
+    { value: "custom", label: "Custom" },
+  ];
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}

@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { GiVendingMachine } from "react-icons/gi";
 
 const CeoDashBoardBottomPage = (props) => {
-  const { getData, filters, applyNavigate } = props;
+  const { getData, filters, applyNavigate, dashboardData } = props;
   const [showCeoDetailModal, setShowCeoDetailModal] = useState(false);
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
@@ -67,6 +67,7 @@ const CeoDashBoardBottomPage = (props) => {
             filterData={filters}
             sidebarContent={"sidebardataobject"}
             visible={showCeoDetailModal}
+            dashboardData={dashboardData}
             onClose={handleCloseSidebar}
           />
         </>
@@ -285,13 +286,13 @@ const CeoDashBoardBottomPage = (props) => {
                   style={{
                     position: "absolute",
                     top: "21px", // Adjust the vertical offset
-                    left: "-70px", // Adjust the horizontal offset
+                    left: "-33px", // Adjust the horizontal offset
                     transform: "rotate(344deg)", // Rotate the image vertically
 
                   }}
                 >
                   <img src={require("../../assets/images/commonimages/c_soontransparent.png")}
-                    alt="Coommin soon" style={{ height: "118px", width: "330px" }} />
+                    alt="Coommin soon" style={{ height: "100px", }} />
 
                 </div>
 

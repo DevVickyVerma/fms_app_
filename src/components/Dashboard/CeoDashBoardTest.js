@@ -761,6 +761,7 @@ const CeoDashBoardTest = (props) => {
             <CeoDashBoardBottomPage
               filters={filters}
               getData={getData}
+              dashboardData={dashboardData}
               applyNavigate={applyNavigate}
             />
           </Col>
