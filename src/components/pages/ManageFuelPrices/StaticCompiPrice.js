@@ -24,6 +24,7 @@ const StaticCompiPrice = ({
   accordionSiteID,
   getData,
   postData,
+  apidata,
 }) => {
   const { handleError } = useErrorHandler();
 
@@ -37,56 +38,38 @@ const StaticCompiPrice = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (selectedItem && selectedDrsDate) {
-        try {
-          setIsLoading(true);
-
-          const response = await getData(
-            `/site/competitor-suggestion/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
-          );
-
-          if (response && response.data && response.data.data) {
-            setData(response.data.data);
-            formik.setValues(response?.data?.data);
-          }
-
-          const responseData = response?.data?.data;
-
-          if (responseData?.listing) {
-            setHasListing(true);
-          } else {
-            setHasListing(false);
-          }
-          // if (responseData?.listing) {
-          //   const initialValues = {
-          //     siteId: accordionSiteID,
-          //     siteName: selectedItem.competitorname,
-          //     listing: responseData.listing[0]?.competitors || [],
-          //   };
-          //   formik.setValues(initialValues);
-          // } else {
-          //   // Set initialValues to an empty object or your preferred default values
-          //   const initialValues = {
-          //     siteId: "",
-          //     siteName: "",
-          //     listing: [],
-          //   };
-          //   formik.setValues(initialValues);
-          // }
-
-          // Initialize the form with default values
-        } catch (error) {
-          console.error("API error:", error);
-          handleError(error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
     fetchData();
   }, [selectedItem, selectedDrsDate]);
+
+  const fetchData = async () => {
+    if (selectedItem && selectedDrsDate) {
+      try {
+        setIsLoading(true);
+
+        const response = await getData(
+          `/site/competitor-suggestion/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
+        );
+
+        if (response && response.data && response.data.data) {
+          setData(response.data.data);
+          formik.setValues(response?.data?.data);
+        }
+
+        const responseData = response?.data?.data;
+
+        if (responseData?.listing) {
+          setHasListing(true);
+        } else {
+          setHasListing(false);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
 
   const formik = useFormik({
     initialValues: staticCompiPriceCommon,
@@ -183,27 +166,33 @@ const StaticCompiPrice = ({
       console.log(competitor?.fuels?.[key_name], "client");
 
       competitor?.fuels?.[key_name].forEach((fuel) => {
-        formData.append(`fuels[${fuel?.id}]`, fuel?.price);
+        if (fuel?.price == "-") {
+          formData.append(`fuels[${fuel?.id}]`, 0);
+        } else {
+          formData.append(`fuels[${fuel?.id}]`, fuel?.price);
+        }
       });
 
       const postDataUrl = "/site/competitor-suggestion/accept";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
-      if (response.status === 200 && response.data.api_response === "success") {
+      if (apidata.api_response == 200) {
+        fetchData();
         // sendDataToParent();
         // SuccessAlert(response.data.message);
         // navigate("/competitor-fuel-price");
         // onClose();
       } else {
         // Handle other cases or errors here
+        fetchData();
       }
-    } catch (error) {
-      handleError(error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  console.log(apidata, "apidata");
 
   return (
     <>
@@ -245,7 +234,7 @@ const StaticCompiPrice = ({
                       {data?.head_array?.map((header, columnIndex) => (
                         <th key={columnIndex}>{header}</th>
                       ))}
-                      <th>Status</th>
+                      <th style={{ maxWidth: "15px" }}>Status</th>
                     </tr>
                   </thead>
 
@@ -389,7 +378,7 @@ const StaticCompiPrice = ({
                                 <>
                                   {competitor?.acceptedBy === "gov" ? (
                                     <>
-                                      <button
+                                      {/* <button
                                         className="btn btn-primary me-2"
                                         type="submit"
                                         onClick={() =>
@@ -401,8 +390,8 @@ const StaticCompiPrice = ({
                                         }
                                       >
                                         Accept{" "}
-                                        <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                      </button>
+                                      </button> */}
+                                      <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                     </>
                                   ) : (
                                     <>
@@ -502,7 +491,7 @@ const StaticCompiPrice = ({
                                 <>
                                   {competitor?.acceptedBy === "pp" ? (
                                     <>
-                                      <button
+                                      {/* <button
                                         className="btn btn-primary me-2"
                                         type="submit"
                                         onClick={() =>
@@ -515,7 +504,8 @@ const StaticCompiPrice = ({
                                       >
                                         Accept{" "}
                                         <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                      </button>
+                                      </button> */}
+                                      <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                     </>
                                   ) : (
                                     <>
@@ -619,7 +609,7 @@ const StaticCompiPrice = ({
                                 <>
                                   {competitor?.acceptedBy === "ov" ? (
                                     <>
-                                      <button
+                                      {/* <button
                                         className="btn btn-primary me-2"
                                         type="submit"
                                         onClick={() =>
@@ -632,7 +622,8 @@ const StaticCompiPrice = ({
                                       >
                                         Submit{" "}
                                         <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                      </button>
+                                      </button> */}
+                                      <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                     </>
                                   ) : (
                                     <>

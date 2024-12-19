@@ -394,8 +394,8 @@ const FuelSellingSuggestionLogs = (props) => {
                 storedKeyName={storedKeyName}
                 lg="4"
                 showStationValidation={true}
-                showMonthInput={false}
-                showDateRangeInput={true}
+                showMonthInput={true}
+                showDateRangeInput={false}
                 showDateInput={false}
                 showDateValidation={true}
                 showStationInput={false}
