@@ -302,7 +302,7 @@ const CeoDashBoardBottomPage = (props) => {
                       <FaChartPie size={40} />
                       <h5 className="m-0 mt-2">Stock</h5>
                     </div>
-                    <div className="px-0 px-md-5">
+                    <div className="px-0 px-md-5 d-flex flex-column align-items-center">
                       <FaClipboardList size={40} />
                       <h5 className="m-0 mt-2">Shrinkage</h5>
                     </div>

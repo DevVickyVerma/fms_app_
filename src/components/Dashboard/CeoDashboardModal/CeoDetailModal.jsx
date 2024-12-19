@@ -53,6 +53,7 @@ const CeoDetailModal = (props) => {
   var [isClientRole] = useState(
     localStorage.getItem("superiorRole") == "Client"
   );
+
   const fetchCompanyList = async (companyId) => {
     try {
       const response = await getData(
@@ -115,12 +116,22 @@ const CeoDetailModal = (props) => {
         formik.setFieldValue("selectedCompanyDetails", selectedItem);
       }
       if (title == "Live Margin") {
-        const selectedItem = filterData?.sites?.find(
-          (item) => item.id === filterData?.sites?.[0]?.id
-        );
-        formik.setFieldValue("selectedSiteDetails", selectedItem);
-        formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
-        formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
+        if (filterData?.site_id) {
+          // here i am finding the main filters sites object if there is site ID exist
+          const selectedItem = filterData?.sites?.find(
+            (item) => item.id === filterData?.site_id
+          );
+          formik.setFieldValue("selectedSiteDetails", selectedItem);
+          formik.setFieldValue("selectedSite", filterData?.id);
+          formik.setFieldValue("site_name", filterData?.site_name);
+        } else {
+          const selectedItem = filterData?.sites?.find(
+            (item) => item.id === filterData?.sites?.[0]?.id
+          );
+          formik.setFieldValue("selectedSiteDetails", selectedItem);
+          formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
+          formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
+        }
       }
       if (filterData?.company_id) {
         const selectedItem = filterData?.companies?.find(
@@ -293,9 +304,14 @@ const CeoDetailModal = (props) => {
         `common/site-list?company_id=${companyId}`
       );
       filterData.sites = response?.data?.data;
-      if (title == "Live Margin") {
-        await fetchData(response?.data?.data[0]?.id, "site"); // Fetch data for company change
-      }
+      // if (title == "Live Margin") {
+      //   await fetchData(
+      //     filterData?.site_id
+      //       ? filterData?.site_id
+      //       : response?.data?.data[0]?.id,
+      //     "site"
+      //   ); // Fetch data for company change
+      // }
     } catch (error) {
       handleError(error);
     }
@@ -403,6 +419,10 @@ const CeoDetailModal = (props) => {
       if (title === "Live Margin") {
         // * "is_ceo" goes 1 when api is called with CEO live margin
         queryParams.append("is_ceo", 1);
+
+        if (filterData?.site_id) {
+          formik.setFieldValue("selectedSite", filterData?.site_id);
+        }
       }
 
       if (title === "Comparison") {
@@ -531,6 +551,8 @@ const CeoDetailModal = (props) => {
       await fetchData(null, "no-site");
     }
   };
+
+  console.log(formik.values, "formik.valuesformik.valuesformik.values");
 
   return (
     <>
