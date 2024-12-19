@@ -55,11 +55,10 @@ const CeoDashSitetable = (props) => {
       id: "1",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -77,11 +76,10 @@ const CeoDashSitetable = (props) => {
                 />
               </div>
               <div
-                className={`d-flex ${
-                  isSitePermissionAvailable || isSiteSecondPermissionAvailable
-                    ? "pointer"
-                    : ""
-                }`}
+                className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+                  ? "pointer"
+                  : ""
+                  }`}
                 onClick={() => handleFuelPriceLinkClick(row)}
               >
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -105,11 +103,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="d-flex align-items-center h-100 ">
@@ -120,31 +117,86 @@ const CeoDashSitetable = (props) => {
                   ? formatNumber(row.fuel_volume?.gross_volume)
                   : "0"}
               </h6>
-
-              <p
-                className={`me-1 ${
-                  row.fuel_volume?.status === "up"
+              <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+                <p
+                  className={`me-1 ${row.fuel_volume?.status === "up"
                     ? "text-success"
                     : "text-danger"
-                }`}
-                data-tip={`${row?.fuel_volume?.percentage}%`}
-              >
-                {row?.fuel_volume?.status === "up" ? (
-                  <>
-                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                    <span className="text-success">
-                      {row?.fuel_volume?.percentage}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                    <span className="text-danger">
-                      {row?.fuel_volume?.percentage}%
-                    </span>
-                  </>
-                )}
-              </p>
+                    }`}
+                  data-tip={`${row?.fuel_volume?.percentage}%`}
+                >
+                  {row?.fuel_volume?.status === "up" ? (
+                    <>
+                      <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                      <span className="text-success">
+                        {row?.fuel_volume?.percentage}%
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                      <span className="text-danger">
+                        {row?.fuel_volume?.percentage}%
+                      </span>
+                    </>
+                  )}
+                </p>
+              </OverlayTrigger>
+
+              {/* //Weekly Status Show */}
+              <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+                <p
+                  className={`me-1 ${row.fuel_volume?.w_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
+                  data-tip={`${row?.fuel_volume?.w_percentage}%`}
+                >
+                  {row?.fuel_volume?.w_status === "up" ? (
+                    <>
+                      <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                      <span className="text-success">
+                        {row?.fuel_volume?.w_percentage}%
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                      <span className="text-danger">
+                        {row?.fuel_volume?.w_percentage}%
+                      </span>
+                    </>
+                  )}
+                </p>
+              </OverlayTrigger>
+
+              {/* //Yearly Status Show */}
+              <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+                <p
+                  className={`me-1 ${row.fuel_volume?.y_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
+                  data-tip={`${row?.fuel_volume?.y_percentage}%`}
+                >
+                  {row?.fuel_volume?.y_status === "up" ? (
+                    <>
+                      <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                      <span className="text-success">
+                        {row?.fuel_volume?.y_percentage}%
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                      <span className="text-danger">
+                        {row?.fuel_volume?.y_percentage}%
+                      </span>
+                    </>
+                  )}
+                </p>
+              </OverlayTrigger>
+
             </div>
           </div>
         </div>
@@ -161,11 +213,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -175,30 +226,84 @@ const CeoDashSitetable = (props) => {
                 ? formatNumber(row?.fuel_sales?.gross_value)
                 : "0"}
             </h6>
-            <p
-              className={`me-1 ${
-                row?.fuel_sales?.status === "up"
+            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+              <p
+                className={`me-1 ${row?.fuel_sales?.status === "up"
                   ? "text-success"
                   : "text-danger"
-              }`}
-              data-tip={`${row?.fuel_sales?.percentage}%`}
-            >
-              {row?.fuel_sales?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.fuel_sales?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.fuel_sales?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
+                  }`}
+                data-tip={`${row?.fuel_sales?.percentage}%`}
+              >
+                {row?.fuel_sales?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.fuel_sales?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.fuel_sales?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+            {/* //Weekly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <p
+                className={`me-1 ${row.fuel_sales?.w_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.fuel_sales?.w_percentage}%`}
+              >
+                {row?.fuel_sales?.w_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.fuel_sales?.w_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.fuel_sales?.w_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Yearly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <p
+                className={`me-1 ${row.fuel_sales?.y_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.fuel_sales?.y_percentage}%`}
+              >
+                {row?.fuel_sales?.y_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.fuel_sales?.y_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.fuel_sales?.y_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
           </div>
         </div>
       ),
@@ -214,11 +319,10 @@ const CeoDashSitetable = (props) => {
       id: "4",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -228,30 +332,86 @@ const CeoDashSitetable = (props) => {
                 ? formatNumber(row?.gross_profit?.gross_profit)
                 : "0"}
             </h6>
-            <p
-              className={`me-1 ${
-                row?.gross_profit?.status === "up"
+            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+              <p
+                className={`me-1 ${row?.gross_profit?.status === "up"
                   ? "text-success"
                   : "text-danger"
-              }`}
-              data-tip={`${row?.gross_profit?.percentage}%`}
-            >
-              {row?.gross_profit?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.gross_profit?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.gross_profit?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
+                  }`}
+                data-tip={`${row?.gross_profit?.percentage}%`}
+              >
+                {row?.gross_profit?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.gross_profit?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.gross_profit?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Weekly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <p
+                className={`me-1 ${row.gross_profit?.w_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.gross_profit?.w_percentage}%`}
+              >
+                {row?.gross_profit?.w_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.gross_profit?.w_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.gross_profit?.w_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Yearly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <p
+                className={`me-1 ${row.gross_profit?.y_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.gross_profit?.y_percentage}%`}
+              >
+                {row?.gross_profit?.y_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.gross_profit?.y_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.gross_profit?.y_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
           </div>
         </div>
       ),
@@ -267,11 +427,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -291,30 +450,87 @@ const CeoDashSitetable = (props) => {
                 ""
               )}
             </h6>
-            <p
-              className={`me-1 ${
-                row?.gross_margin?.status === "up"
+            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+              <p
+                className={`me-1 ${row?.gross_margin?.status === "up"
                   ? "text-success"
                   : "text-danger"
-              }`}
-              data-tip={`${row?.gross_margin?.percentage}%`}
-            >
-              {row?.gross_margin?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.gross_margin?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.gross_margin?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
+                  }`}
+                data-tip={`${row?.gross_margin?.percentage}%`}
+              >
+                {row?.gross_margin?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.gross_margin?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.gross_margin?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Weekly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <p
+                className={`me-1 ${row.gross_margin?.w_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.gross_margin?.w_percentage}%`}
+              >
+                {row?.gross_margin?.w_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.gross_margin?.w_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.gross_margin?.w_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Yearly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <p
+                className={`me-1 ${row.gross_margin?.y_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.gross_margin?.y_percentage}%`}
+              >
+                {row?.gross_margin?.y_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.gross_margin?.y_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.gross_margin?.y_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+
           </div>
         </div>
       ),
@@ -330,11 +546,10 @@ const CeoDashSitetable = (props) => {
       width: "10%",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -344,30 +559,85 @@ const CeoDashSitetable = (props) => {
                 ? formatNumber(row?.shop_sales?.shop_sales)
                 : "0"}
             </h6>
-            <p
-              className={`me-1 ${
-                row?.shop_sales?.status === "up"
+            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+
+              <p
+                className={`me-1 ${row?.shop_sales?.status === "up"
                   ? "text-success"
                   : "text-danger"
-              }`}
-              data-tip={`${row?.shop_sales?.percentage}%`}
-            >
-              {row?.shop_sales?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.shop_sales?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.shop_sales?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
+                  }`}
+                data-tip={`${row?.shop_sales?.percentage}%`}
+              >
+                {row?.shop_sales?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_sales?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_sales?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+            {/* //Weekly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <p
+                className={`me-1 ${row.shop_sales?.w_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.shop_sales?.w_percentage}%`}
+              >
+                {row?.shop_sales?.w_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_sales?.w_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_sales?.w_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Yearly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <p
+                className={`me-1 ${row.shop_sales?.y_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.shop_sales?.y_percentage}%`}
+              >
+                {row?.shop_sales?.y_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_sales?.y_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_sales?.y_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
           </div>
         </div>
       ),
@@ -381,11 +651,10 @@ const CeoDashSitetable = (props) => {
       id: "7",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -396,28 +665,83 @@ const CeoDashSitetable = (props) => {
                 : "0"}
               {/* {row?.shop_fees?.shop_fees || "0.00"} */}
             </h6>
-            <p
-              className={`me-1 ${
-                row?.shop_fees?.status === "up" ? "text-success" : "text-danger"
-              }`}
-              data-tip={`${row?.shop_fees?.percentage}%`}
-            >
-              {row?.shop_fees?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.shop_fees?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.shop_fees?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+
+              <p
+                className={`me-1 ${row?.shop_fees?.status === "up" ? "text-success" : "text-danger"
+                  }`}
+                data-tip={`${row?.shop_fees?.percentage}%`}
+              >
+                {row?.shop_fees?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_fees?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_fees?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+            {/* //Weekly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <p
+                className={`me-1 ${row.shop_fees?.w_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.shop_fees?.w_percentage}%`}
+              >
+                {row?.shop_fees?.w_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_fees?.w_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_fees?.w_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Yearly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <p
+                className={`me-1 ${row.shop_fees?.y_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.shop_fees?.y_percentage}%`}
+              >
+                {row?.shop_fees?.y_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_fees?.y_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_fees?.y_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
           </div>
         </div>
       ),
@@ -433,11 +757,10 @@ const CeoDashSitetable = (props) => {
       id: "8",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -448,30 +771,85 @@ const CeoDashSitetable = (props) => {
                 : "0"}
               {/* {row?.shop_profit?.shop_profit || "0.00"} */}
             </h6>
-            <p
-              className={`me-1 ${
-                row?.shop_profit?.status === "up"
+            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+
+              <p
+                className={`me-1 ${row?.shop_profit?.status === "up"
                   ? "text-success"
                   : "text-danger"
-              }`}
-              data-tip={`${row?.shop_profit?.percentage}%`}
-            >
-              {row?.shop_profit?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.shop_profit?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.shop_profit?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
+                  }`}
+                data-tip={`${row?.shop_profit?.percentage}%`}
+              >
+                {row?.shop_profit?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_profit?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_profit?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+            {/* //Weekly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <p
+                className={`me-1 ${row.shop_profit?.w_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.shop_profit?.w_percentage}%`}
+              >
+                {row?.shop_profit?.w_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_profit?.w_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_profit?.w_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Yearly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <p
+                className={`me-1 ${row.shop_profit?.y_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.shop_profit?.y_percentage}%`}
+              >
+                {row?.shop_profit?.y_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.shop_profit?.y_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.shop_profit?.y_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
           </div>
         </div>
       ),
@@ -487,11 +865,10 @@ const CeoDashSitetable = (props) => {
       id: "8",
       cell: (row) => (
         <div
-          className={`d-flex ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -502,36 +879,91 @@ const CeoDashSitetable = (props) => {
                 : "0"}
               {/* {row?.valet_sales?.valet_sales || "0.00"} */}
             </h6>
-            <p
-              className={`me-1 ${
-                row?.valet_sales?.status === "up"
+            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+
+              <p
+                className={`me-1 ${row?.valet_sales?.status === "up"
                   ? "text-success"
                   : "text-danger"
-              }`}
-              data-tip={`${row?.valet_sales?.percentage}%`}
-            >
-              {row?.valet_sales?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.valet_sales?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.valet_sales?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
+                  }`}
+                data-tip={`${row?.valet_sales?.percentage}%`}
+              >
+                {row?.valet_sales?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.valet_sales?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.valet_sales?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+            {/* //Weekly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <p
+                className={`me-1 ${row.valet_sales?.w_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.valet_sales?.w_percentage}%`}
+              >
+                {row?.valet_sales?.w_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.valet_sales?.w_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.valet_sales?.w_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
+
+            {/* //Yearly Status Show */}
+            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <p
+                className={`me-1 ${row.valet_sales?.y_status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${row?.valet_sales?.y_percentage}%`}
+              >
+                {row?.valet_sales?.y_status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {row?.valet_sales?.y_percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {row?.valet_sales?.y_percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </OverlayTrigger>
           </div>
         </div>
       ),
     },
   ];
-
+  console.log(data, "isLoading");
   return (
     <>
       {isLoading ? <LoaderImg /> : null}
@@ -543,12 +975,11 @@ const CeoDashSitetable = (props) => {
               {data?.length > 0 ? (
                 <>
                   <div
-                    className={`table-responsive deleted-table performance-col ${
-                      isSitePermissionAvailable ||
+                    className={`table-responsive deleted-table performance-col ${isSitePermissionAvailable ||
                       isSiteSecondPermissionAvailable
-                        ? "show-ceo-hover-effect-data-table"
-                        : ""
-                    }`}
+                      ? "show-ceo-hover-effect-data-table"
+                      : ""
+                      }`}
                   >
                     <DataTable
                       columns={columns}
