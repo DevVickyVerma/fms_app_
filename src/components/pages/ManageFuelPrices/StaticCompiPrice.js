@@ -315,24 +315,47 @@ const StaticCompiPrice = ({
                                   />
 
                                   <div className="small text-muted text-end">
-                                    Last Updated at - {fuel?.last_updated}{" "}
+                                    {fuel?.last_updated !== "-" ? (
+                                      <>Last Updated - {fuel?.last_updated} </>
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
                                 </td>
                               </>
                             ))}
 
                             <td className="middayModal-td">
-                              {competitor?.show_sign ? (
-                                <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                              {competitor?.canUpdate ? (
+                                <>
+                                  <button
+                                    className="btn btn-primary me-2"
+                                    type="submit"
+                                    // onClick={formik.handleSubmit}
+                                  >
+                                    Accept{" "}
+                                    <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                  </button>
+                                </>
                               ) : (
-                                <button
-                                  className="btn btn-primary me-2"
-                                  type="submit"
-                                  // onClick={formik.handleSubmit}
-                                >
-                                  Accept{" "}
-                                  <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                </button>
+                                <>
+                                  {competitor?.acceptedBy === "gov" ? (
+                                    <>
+                                      <button
+                                        className="btn btn-primary me-2"
+                                        type="submit"
+                                        // onClick={formik.handleSubmit}
+                                      >
+                                        Accept{" "}
+                                        <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                                    </>
+                                  )}
+                                </>
                               )}
                             </td>
                           </tr>
@@ -391,24 +414,47 @@ const StaticCompiPrice = ({
                                     onChange={formik.handleChange}
                                   />
                                   <div className="small text-muted text-end">
-                                    Last Updated at - {fuel?.last_updated}{" "}
+                                    {fuel?.last_updated !== "-" ? (
+                                      <>Last Updated - {fuel?.last_updated} </>
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
                                 </td>
                               </>
                             ))}
 
                             <td className="middayModal-td">
-                              {competitor?.show_sign ? (
-                                <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                              {competitor?.canUpdate ? (
+                                <>
+                                  <button
+                                    className="btn btn-primary me-2"
+                                    type="submit"
+                                    // onClick={formik.handleSubmit}
+                                  >
+                                    Accept{" "}
+                                    <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                  </button>
+                                </>
                               ) : (
-                                <button
-                                  className="btn btn-primary me-2"
-                                  type="submit"
-                                  // onClick={formik.handleSubmit}
-                                >
-                                  Accept{" "}
-                                  <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                </button>
+                                <>
+                                  {competitor?.acceptedBy === "pp" ? (
+                                    <>
+                                      <button
+                                        className="btn btn-primary me-2"
+                                        type="submit"
+                                        // onClick={formik.handleSubmit}
+                                      >
+                                        Accept{" "}
+                                        <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                                    </>
+                                  )}
+                                </>
                               )}
                             </td>
                           </tr>
@@ -470,24 +516,47 @@ const StaticCompiPrice = ({
                                     onChange={formik.handleChange}
                                   />
                                   <div className="small text-muted text-end">
-                                    Last Updated at - {fuel?.last_updated}{" "}
+                                    {fuel?.last_updated !== "-" ? (
+                                      <>Last Updated - {fuel?.last_updated} </>
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
                                 </td>
                               </>
                             ))}
 
                             <td className="middayModal-td">
-                              {competitor?.show_sign ? (
-                                <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                              {competitor?.canUpdate ? (
+                                <>
+                                  <button
+                                    className="btn btn-primary me-2"
+                                    type="submit"
+                                    // onClick={formik.handleSubmit}
+                                  >
+                                    Submit{" "}
+                                    <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                  </button>
+                                </>
                               ) : (
-                                <button
-                                  className="btn btn-primary me-2"
-                                  type="submit"
-                                  // onClick={formik.handleSubmit}
-                                >
-                                  Submit{" "}
-                                  <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                </button>
+                                <>
+                                  {competitor?.acceptedBy === "ov" ? (
+                                    <>
+                                      <button
+                                        className="btn btn-primary me-2"
+                                        type="submit"
+                                        // onClick={formik.handleSubmit}
+                                      >
+                                        Submit{" "}
+                                        <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <i class="ph ph-seal-check work-flow-sucess-status "></i>
+                                    </>
+                                  )}
+                                </>
                               )}
                             </td>
                           </tr>
