@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
-import { Card } from "react-bootstrap";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -200,7 +200,7 @@ const StaticCompiPrice = ({
                 <table className="table">
                   <thead>
                     <tr>
-                      <th>Competitor</th>
+                      <th style={{ maxWidth: "85px" }}>Competitor</th>
 
                       {data?.head_array?.map((header, columnIndex) => (
                         <th key={columnIndex}>{header}</th>
@@ -214,6 +214,8 @@ const StaticCompiPrice = ({
                       <td
                         // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                         className="middayModal-td text-muted fs-15 fw-semibold p-4"
+                        style={{ maxWidth: "50px" }}
+                        // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                       >
                         <img
                           src={formik?.values?.supplier}
@@ -227,7 +229,10 @@ const StaticCompiPrice = ({
                       {formik?.values?.fuels?.[0]?.map(
                         (competitor, competitorIndex) => (
                           <>
-                            <td key={competitor?.id} className="middayModal-td">
+                            <td
+                              key={competitor?.id}
+                              className="middayModal-td vertical-align-middle align-middle"
+                            >
                               <input
                                 className={`table-input fuel-readonly`}
                                 type="number"
@@ -266,13 +271,29 @@ const StaticCompiPrice = ({
                           <tr className="middayModal-tr">
                             <td className="middayModal-td">
                               <div className=" d-flex align-items-center mt-3">
-                                <img
-                                  src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
-                                  alt="Competitor"
-                                  width="20"
-                                  className="mx-2"
-                                />
-                                Gov
+                                <OverlayTrigger
+                                  placement="top"
+                                  className="Tank-Detailss"
+                                  overlay={
+                                    <Tooltip
+                                      style={{
+                                        // width: "200px",
+                                        zIndex: "111111111",
+                                      }}
+                                    >
+                                      <div className="pointer">Gov.uk</div>
+                                    </Tooltip>
+                                  }
+                                >
+                                  <div style={{ maxWidth: "30px" }}>
+                                    <img
+                                      src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
+                                      alt="Competitor"
+                                      width="20"
+                                      className="mx-2"
+                                    />
+                                  </div>
+                                </OverlayTrigger>
                               </div>
                             </td>
                             {/* // ** here i am iterating the GOV prices */}
@@ -292,6 +313,10 @@ const StaticCompiPrice = ({
                                     }
                                     onChange={formik.handleChange}
                                   />
+
+                                  <div className="small text-muted text-end">
+                                    Last Updated at - {fuel?.last_updated}{" "}
+                                  </div>
                                 </td>
                               </>
                             ))}
@@ -313,15 +338,36 @@ const StaticCompiPrice = ({
                           </tr>
 
                           <tr className="middayModal-tr">
-                            <td className="middayModal-td">
+                            <td
+                              className="middayModal-td"
+                              style={{ maxWidth: "30px" }}
+                            >
                               <div className=" d-flex align-items-center mt-3">
-                                <img
-                                  src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
-                                  alt="Competitor"
-                                  width="20"
-                                  className="mx-2"
-                                />
-                                Petrol Price
+                                <OverlayTrigger
+                                  placement="top"
+                                  className="Tank-Detailss"
+                                  overlay={
+                                    <Tooltip
+                                      style={{
+                                        // width: "200px",
+                                        zIndex: "111111111",
+                                      }}
+                                    >
+                                      <div className="pointer">
+                                        Petrol Price
+                                      </div>
+                                    </Tooltip>
+                                  }
+                                >
+                                  <div style={{ maxWidth: "30px" }}>
+                                    <img
+                                      src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
+                                      alt="Competitor"
+                                      width="20"
+                                      className="mx-2"
+                                    />
+                                  </div>
+                                </OverlayTrigger>
                               </div>
                             </td>
 
@@ -344,6 +390,9 @@ const StaticCompiPrice = ({
                                     }
                                     onChange={formik.handleChange}
                                   />
+                                  <div className="small text-muted text-end">
+                                    Last Updated at - {fuel?.last_updated}{" "}
+                                  </div>
                                 </td>
                               </>
                             ))}
@@ -365,8 +414,41 @@ const StaticCompiPrice = ({
                           </tr>
 
                           <tr className="middayModal-tr operator-tr">
-                            <td className="middayModal-td">
-                              <div className="mt-2">Operator Verified</div>
+                            <td
+                              className="middayModal-td"
+                              style={{ maxWidth: "30px" }}
+                            >
+                              <div className=" d-flex align-items-center mt-3">
+                                <OverlayTrigger
+                                  placement="top"
+                                  className="Tank-Detailss"
+                                  overlay={
+                                    <Tooltip
+                                      style={{
+                                        // width: "200px",
+                                        zIndex: "111111111",
+                                      }}
+                                    >
+                                      <div className="pointer">
+                                        Operator Verified
+                                      </div>
+                                    </Tooltip>
+                                  }
+                                >
+                                  <div>
+                                    <span>
+                                      <img
+                                        src={require("../../../assets/images/SingleStatsCompetitor/wanna1.png")}
+                                        alt="Competitor"
+                                        width="20"
+                                        className="mx-2"
+                                        style={{ borderRadius: "50%" }}
+                                      />
+                                      {/* <i className="ph ph-user mx-2"></i> */}
+                                    </span>
+                                  </div>
+                                </OverlayTrigger>
+                              </div>
                             </td>
 
                             {/* // ** here i am iterating the Operator Verified prices */}
@@ -387,6 +469,9 @@ const StaticCompiPrice = ({
                                     }
                                     onChange={formik.handleChange}
                                   />
+                                  <div className="small text-muted text-end">
+                                    Last Updated at - {fuel?.last_updated}{" "}
+                                  </div>
                                 </td>
                               </>
                             ))}

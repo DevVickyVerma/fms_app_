@@ -23,7 +23,7 @@ const competitorfuelpricesUpdate = ({
       head_array: [],
       update_tlm_price: false,
       notify_operator: false,
-      confirmation_required: false,
+      confirmation_required: true,
       pricedata: [],
     },
     enableReinitialize: true,
@@ -227,7 +227,9 @@ const competitorfuelpricesUpdate = ({
                                     formik?.values?.pricedata?.currentDate
                                   )
                                 } // Passing currentDate to the onClick handler
-                                className={`table-input ${!row?.[0]?.is_editable ? "readonly" : ""}`}
+                                className={`table-input ${
+                                  !row?.[0]?.is_editable ? "readonly" : ""
+                                }`}
                                 placeholder="Enter Date"
                               />
                               <ErrorMessage
@@ -255,7 +257,13 @@ const competitorfuelpricesUpdate = ({
                                   }
                                 }}
                                 disabled={!row?.[0]?.is_editable} // Disable if not editable
-                                className={`time-input-fuel-sell ${!row?.[0]?.is_editable ? "readonly" : ""}   ${row?.[0]?.is_editable ? "c-timeinput-default" : ""} `}
+                                className={`time-input-fuel-sell ${
+                                  !row?.[0]?.is_editable ? "readonly" : ""
+                                }   ${
+                                  row?.[0]?.is_editable
+                                    ? "c-timeinput-default"
+                                    : ""
+                                } `}
                               />
                             </>
                           </td>
@@ -266,7 +274,9 @@ const competitorfuelpricesUpdate = ({
                                 <Field
                                   name={`fuels[${rowIndex}][${itemIndex}].price`}
                                   type="number"
-                                  className={`table-input ${!item?.is_editable ? "readonly" : ""}`}
+                                  className={`table-input ${
+                                    !item?.is_editable ? "readonly" : ""
+                                  }`}
                                   disabled={!item?.is_editable}
                                   placeholder="Enter price"
                                   step="0.010"
@@ -309,35 +319,61 @@ const competitorfuelpricesUpdate = ({
 
                   {update_tlm_price == 1 ? (
                     <>
-                      {formik?.values?.update_tlm_price ? (
-                        <>
-                          <div className=" position-relative pointer">
-                            <input
-                              type="checkbox"
-                              id="confirmation_required"
-                              name="confirmation_required"
-                              checked={
-                                formik?.values?.confirmation_required === 1
-                              }
-                              onChange={(e) => {
-                                formik.setFieldValue(
-                                  "confirmation_required",
-                                  e.target.checked ? 1 : 0
-                                );
-                              }}
-                              className="mx-1 form-check-input form-check-input-updated pointer"
-                            />
-                            <label
-                              htmlFor="confirmation_required"
-                              className="p-0 m-0 pointer"
-                            >
-                              TLM POS Confirmation Required
-                            </label>
+                      <>
+                        {formik.values.update_tlm_price === 1 && (
+                          <div className="radio-section d-flex gap-lg-5 ">
+                            <div className="position-relative pointer">
+                              <input
+                                type="radio"
+                                id="confirmation_required"
+                                name="confirmation_required"
+                                value={1} // Set value as 1 for confirmation
+                                checked={
+                                  formik.values.confirmation_required === 1
+                                }
+                                onChange={() =>
+                                  formik.setFieldValue(
+                                    "confirmation_required",
+                                    1
+                                  )
+                                }
+                                className="mx-1 form-check-input form-check-input-updated pointer"
+                              />
+                              <label
+                                htmlFor="confirmation_required"
+                                className="p-0 m-0 pointer"
+                              >
+                                Update with Confirmation
+                              </label>
+                            </div>
+
+                            <div className="position-relative pointer">
+                              <input
+                                type="radio"
+                                id="update_forcefully"
+                                name="confirmation_required"
+                                value={0} // Set value as 0 for direct update
+                                checked={
+                                  formik.values.confirmation_required === 0
+                                }
+                                onChange={() =>
+                                  formik.setFieldValue(
+                                    "confirmation_required",
+                                    0
+                                  )
+                                }
+                                className="mx-1 form-check-input form-check-input-updated pointer"
+                              />
+                              <label
+                                htmlFor="update_forcefully"
+                                className="p-0 m-0 pointer"
+                              >
+                                Update Forcefully
+                              </label>
+                            </div>
                           </div>
-                        </>
-                      ) : (
-                        ""
-                      )}
+                        )}
+                      </>
 
                       <div className=" position-relative pointer  ms-4">
                         <input
@@ -358,7 +394,7 @@ const competitorfuelpricesUpdate = ({
                           className="p-0 m-0 pointer"
                         >
                           {" "}
-                          Forcefully Update TLM Price
+                          Update TLM Price
                         </label>
                       </div>
                     </>
@@ -377,22 +413,20 @@ const competitorfuelpricesUpdate = ({
 
                     <p>
                       <span className=" fw-bold">
-                        *TLM POS Confirmation Required -
+                        *Update with Confirmation -
                       </span>
                       <span className="ms-2">
-                        Selecting "TLM POS Confirmation Required" will prompt a
+                        Selecting "Update with Confirmation" will prompt a
                         pop-up on the POS system, where the operator must
                         confirm the price change to proceed.
                       </span>
                     </p>
                     <p>
-                      <span className=" fw-bold">
-                        *Forcefully Update TLM Price -
-                      </span>
+                      <span className=" fw-bold">*Update Forcefully -</span>
                       <span className="ms-2">
-                        Enabling "Forcefully Update TLM Price" will
-                        automatically update prices on the POS, till, and pole
-                        sign, if the POS and pole are connected.
+                        Selecting "Update Forcefully" will automatically update
+                        prices on the POS, till, and pole sign, if the POS and
+                        pole are connected.
                       </span>
                     </p>
                   </>
