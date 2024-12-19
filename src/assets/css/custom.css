@@ -2602,11 +2602,11 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .ceo-coming-soon-card {
-  background: url(https://img.freepik.com/free-vector/background-empty-room-with-text-coming-soon_1017-5068.jpg?t=st=1734584371~exp=1734587971~hmac=68ee51dcbe753d148ec989efbb57525f4f6ef64ed7ae01d9c30289a366760996&w=740)
-    no-repeat center center;
+  /* background: url(https://img.freepik.com/free-vector/background-empty-room-with-text-coming-soon_1017-5068.jpg?t=st=1734584371~exp=1734587971~hmac=68ee51dcbe753d148ec989efbb57525f4f6ef64ed7ae01d9c30289a366760996&w=740)
+    no-repeat center center; */
   background-size: cover;
   height: 100%;
-  background-color: #eee;
+  background-color: #6764b3;
 }
 
 .operator-tr {

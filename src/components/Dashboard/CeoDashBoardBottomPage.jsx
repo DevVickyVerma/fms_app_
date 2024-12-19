@@ -89,9 +89,8 @@ const CeoDashBoardBottomPage = (props) => {
                     alignItems: "center",
                     justifyContent: "center",
                   }}
-                  className={`pointer ceo-sats-card-hover ${
-                    applyNavigate ? "" : ""
-                  }`}
+                  className={`pointer ceo-sats-card-hover ${applyNavigate ? "" : ""
+                    }`}
                 >
                   <FaChartLine size={25} />
                   <h3 style={{ fontSize: "18px" }} className="m-0 ms-2">
@@ -114,9 +113,8 @@ const CeoDashBoardBottomPage = (props) => {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                className={`pointer ceo-sats-card-hover ${
-                  applyNavigate ? "" : ""
-                }`}
+                className={`pointer ceo-sats-card-hover ${applyNavigate ? "" : ""
+                  }`}
               >
                 <h3 style={{ fontSize: "18px" }} className="m-0">
                   <img
@@ -146,9 +144,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-left "
                     >
                       <Card
-                        className={`pointer ceocard-hover ${
-                          applyNavigate ? "" : ""
-                        }`}
+                        className={`pointer ceocard-hover ${applyNavigate ? "" : ""
+                          }`}
                         style={{
                           backgroundColor: "#4663ac", // Red background
                           color: "#fff",
@@ -176,9 +173,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-left "
                     >
                       <Card
-                        className={`pointer ceocard-hover ${
-                          applyNavigate ? "" : ""
-                        }`}
+                        className={`pointer ceocard-hover ${applyNavigate ? "" : ""
+                          }`}
                         style={{
                           backgroundColor: "#6764b3", // Dark Blue background
                           color: "#fff",
@@ -206,9 +202,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-right"
                     >
                       <Card
-                        className={`pointer ceocard-hover ${
-                          applyNavigate ? "" : ""
-                        }`}
+                        className={`pointer ceocard-hover ${applyNavigate ? "" : ""
+                          }`}
                         style={{
                           backgroundColor: "#8563b6", // Light Blue background
                           color: "#fff",
@@ -236,9 +231,8 @@ const CeoDashBoardBottomPage = (props) => {
                       className="slide-in-right"
                     >
                       <Card
-                        className={`pointer ceocard-hover ${
-                          applyNavigate ? "" : ""
-                        }`}
+                        className={`pointer ceocard-hover ${applyNavigate ? "" : ""
+                          }`}
                         style={{
                           backgroundColor: "#7e95e4", // Yellow background
                           color: "#fff",
@@ -266,38 +260,49 @@ const CeoDashBoardBottomPage = (props) => {
           <>
             <Col
               md={mopComparisonPerformanceReportsPermission ? 6 : 4}
-              // onClick={() => handleCardClick("Stock")}
-
               onClick={(e) => {
                 e.stopPropagation(); // Prevent parent onClick from firing
               }}
               className="slide-in-bottom"
             >
               <Card
-                // TODO: "pointer ceocard-hover" class will come when stock detail will come
-                className={`card-default-height   ${applyNavigate ? "" : ""}`}
+                className={`card-default-height ${applyNavigate ? "" : ""}`}
                 style={{
-                  // backgroundColor: "#8563b6", // Light Blue background
-                  color: "rgb(255 255 255 / 64%)",
-                  // height: "100%",
+                  color: "#fff",
                   minHeight: "111px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
                   gap: "10px",
-                  transition: "all 0.3s ease", // Smooth opacity transition
-                  background: "#18222b",
+                  transition: "all 0.3s ease",
+                  background: "#6764b3",
+                  position: "relative", // To enable positioning of child elements
                 }}
               >
-                <div className=" d-flex flex-column justify-content-center align-items-center gap-5 py-3 ceo-coming-soon-card">
+                {/* Top-left image */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "21px", // Adjust the vertical offset
+                    left: "-70px", // Adjust the horizontal offset
+                    transform: "rotate(344deg)", // Rotate the image vertically
+
+                  }}
+                >
+                  <img src={require("../../assets/images/commonimages/c_soontransparent.png")}
+                    alt="Coommin soon" style={{ height: "118px", width: "330px" }} />
+
+                </div>
+
+                <div className="d-flex flex-column justify-content-center align-items-center gap-5 py-3 ceo-coming-soon-card">
                   <div className="">
-                    <div className=" d-flex flex-column justify-content-center align-items-center ">
+                    <div className="d-flex flex-column justify-content-center align-items-center">
                       <GiVendingMachine size={40} />
                       <h5 className="m-0 mt-2">Stock Details</h5>
                     </div>
                   </div>
-                  <div className=" d-flex gap-5">
+                  <div className="d-flex gap-5">
                     <div className="px-0 px-md-5">
                       <FaChartPie size={40} />
                       <h5 className="m-0 mt-2">Stock</h5>
@@ -310,6 +315,7 @@ const CeoDashBoardBottomPage = (props) => {
                 </div>
               </Card>
             </Col>
+
 
             {/* <Col
               md={mopComparisonPerformanceReportsPermission ? 2 : 4}

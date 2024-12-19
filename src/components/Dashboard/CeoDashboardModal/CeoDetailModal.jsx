@@ -45,7 +45,7 @@ const CeoDetailModal = (props) => {
   } = props;
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
-
+  console.log(filterDataAll, "filterDataAll");
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
