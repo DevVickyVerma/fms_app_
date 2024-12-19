@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import LoaderImg from "../../Utils/Loader";
 import { Link } from "react-router-dom";
@@ -6,11 +6,13 @@ import * as Yup from "yup";
 import NewFilterTab from "../pages/Filtermodal/NewFilterTab";
 import {
     getCurrentDate,
+    handleFilterData,
     staticCompiCEOValues,
 } from "../../Utils/commonFunctions/commonFunction";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import withApi from "../../Utils/ApiHelper";
 import LinesDotGraphchart from "./LinesDotGraphchart";
+import { useSelector } from "react-redux";
 const PriceGraphView = (props) => {
 
     const { isLoading, getData, postData } = props;
@@ -32,7 +34,7 @@ const PriceGraphView = (props) => {
         company_id: "",
         site_id: "",
     });
-
+    const ReduxFullData = useSelector((state) => state?.data?.data);
 
     const handleClearForm = () => {
         setFilters(null);
@@ -43,20 +45,21 @@ const PriceGraphView = (props) => {
         try {
 
             const queryParams = new URLSearchParams();
-            if (values?.site_id)
+            if (values?.site_id) {
                 queryParams.append("site_id", values?.site_id);
-            const currentDate = new Date();
-            const day = "01";
-            const formattedDate = `${String(day)}-${String(
-                currentDate.getMonth() + 1
-            ).padStart(2, "0")}-${currentDate.getFullYear()}`;
-
-            queryParams.append("drs_date", formattedDate);
+            } else {
+                console.log(values, "values");
+                values.site_id = values?.sites[0]?.id;
+                values.site_name = values?.sites[0]?.site_name;
+                queryParams.append("site_id", values?.sites[0]?.id); // Replace 'default_value' as needed
+            }
 
             const queryString = queryParams.toString();
             const response = await getData(
                 `ceo-dashboard/price-graph-stats?${queryString}`
             );
+
+
             if (response && response.data && response.data.data) {
                 setPriceGraphData(response?.data?.data);
             }
@@ -64,7 +67,42 @@ const PriceGraphView = (props) => {
             // handleError(error);
         }
     };
+    const [permissionsArray, setPermissionsArray] = useState([ReduxFullData?.permissions]);
+    // useEffect(() => {
 
+
+    //     if (filters) {
+    //         if (filterData?.site_id) {
+    //             const selectedItem = filterData?.sites.find(
+    //                 (item) => item.id === filterData?.site_id
+    //             );
+    //             formik.setFieldValue("selectedSite", filterData?.site_id);
+    //             formik.setFieldValue("selectedSiteDetails", selectedItem);
+    //             formik.setFieldValue("site_name", filterData?.site_name);
+    //         } else if (filterData?.company_id) {
+    //             const selectedItem = filterData?.companies?.find(
+    //                 (item) => item.id === filterData?.company_id
+    //             );
+    //             formik.setFieldValue("company_id", filterData?.company_id);
+    //             formik.setFieldValue("selectedCompany", filterData?.company_id);
+    //             formik.setFieldValue("selectedCompanyDetails", selectedItem);
+    //         }
+
+    //         if (filterData?.company_id) {
+    //             const selectedItem = filterData?.companies?.find(
+    //                 (item) => item.id === filterData?.company_id
+    //             );
+    //             formik.setFieldValue("company_id", filterData?.company_id);
+    //             formik.setFieldValue("selectedCompany", filterData?.company_id);
+    //             formik.setFieldValue("selectedCompanyDetails", selectedItem);
+    //         }
+    //     }
+    // }, [visible]);
+
+    console.log(filters, "filters");
+    useEffect(() => {
+        handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
+    }, [permissionsArray?.includes("ceodashboard-view")]);
     return (
         <>
             {isLoading ? <LoaderImg /> : null}

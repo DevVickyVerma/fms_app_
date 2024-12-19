@@ -285,14 +285,17 @@ const CeoDashBoardBottomPage = (props) => {
                 <div
                   style={{
                     position: "absolute",
-                    top: "21px", // Adjust the vertical offset
-                    left: "-33px", // Adjust the horizontal offset
-                    transform: "rotate(344deg)", // Rotate the image vertically
+                    top: "46px", // Adjust the vertical offset
+                    left: "14px", // Adjust the horizontal offset
+                    transform: "rotate(327deg)", // Rotate the image vertically
 
                   }}
                 >
-                  <img src={require("../../assets/images/commonimages/c_soontransparent.png")}
-                    alt="Coommin soon" style={{ height: "100px", }} />
+                  <span style={{
+                    padding: "8px",
+                    background: "#f00",
+                    fontWeight: "700"
+                  }}>Coming Soon</span>
 
                 </div>
 
@@ -402,10 +405,9 @@ const CeoDashBoardBottomPage = (props) => {
             </Col> */}
           </>
         )}
-      </Row>
+      </Row >
 
-      {/* {/ Stock, Shrinkage, and Stock Details /} */}
-      <Row className="my-2"></Row>
+
     </>
   );
 };
