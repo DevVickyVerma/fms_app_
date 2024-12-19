@@ -82,10 +82,22 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
     };
 
     // Get the datasets for the selected fuel type
-    const datasets = stockGraphData?.datasets[selectedFuelType]?.map((dataset) => ({
-        ...dataset,
-        yAxisID: dataset.yAxis || 'y', // Assign yAxis ID ('y' or 'y1')
-    }));
+    const datasets = stockGraphData?.datasets[selectedFuelType]?.map((dataset) => {
+        // For the trend line dataset, ensure it's styled as a dashed line
+        if (dataset.label.includes("Trend")) {
+            return {
+                ...dataset,
+                yAxisID: dataset.yAxis || 'y1', // Assign yAxis ID ('y' or 'y1')
+                borderDash: [5, 5], // Add dashed line style
+                pointRadius: 0, // Hide points on the trend line
+                fill: false, // Don't fill the area under the trend line
+            };
+        }
+        return {
+            ...dataset,
+            yAxisID: dataset.yAxis || 'y', // Assign yAxis ID ('y' or 'y1')
+        };
+    });
     return (
         <div>
 

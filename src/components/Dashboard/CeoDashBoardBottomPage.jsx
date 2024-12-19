@@ -292,7 +292,7 @@ const CeoDashBoardBottomPage = (props) => {
                   }}
                 >
                   <div className="ribbon-2">
-                    <h4 className="m-0 p-2">Coming Soon <i class="ph ph-confetti"></i></h4>
+                    <h4 className="m-0 p-2" style={{ fontWeight: "500" }}>Coming Soon <i class="ph ph-confetti"></i></h4>
                   </div>
 
                 </div>
