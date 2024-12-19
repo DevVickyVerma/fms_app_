@@ -285,14 +285,14 @@ const CeoDashBoardBottomPage = (props) => {
                 <div
                   style={{
                     position: "absolute",
-                    top: "40px", // Adjust the vertical offset
-                    left: "-23px", // Adjust the horizontal offset
-                    transform: "rotate(327deg)", // Rotate the image vertically
+                    top: "2px", // Adjust the vertical offset
+                    right: "2px", // Adjust the horizontal offset
+                    transform: "rotate(359deg)", // Rotate the image vertically
 
                   }}
                 >
-                  <div className="coming-soon-card">
-                    <h4 className="m-0">Coming Soon <i class="ph ph-confetti"></i></h4>
+                  <div className="ribbon-2">
+                    <h4 className="m-0 p-2">Coming Soon <i class="ph ph-confetti"></i></h4>
                   </div>
 
                 </div>
