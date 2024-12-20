@@ -45,7 +45,7 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
                 beginAtZero: true,
                 title: {
                     display: true,
-                    text: '(€)',
+                    text: '( £)',
                     font: {
                         size: 20,
                         weight: 'bold',
