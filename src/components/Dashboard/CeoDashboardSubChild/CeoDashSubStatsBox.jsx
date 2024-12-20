@@ -60,7 +60,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
     ? singleSiteParsedData?.shop_profit
     : null;
 
-  const handleNavigateClick = () => {};
+  const handleNavigateClick = () => { };
 
   return (
     <div>
@@ -184,7 +184,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               isParentComponent={parentComponent}
               showRightSide={false}
               leftSideData={valet_sales?.valet_sales}
-              leftSideTitle={"Valet Sales"}
+              leftSideTitle={"Shop  Margin"}
               RightSideData={valet_sales?.bunkered_value}
               statusValue={valet_sales?.status}
               percentageValue={valet_sales?.percentage}

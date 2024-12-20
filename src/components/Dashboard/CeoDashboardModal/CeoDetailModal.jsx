@@ -544,17 +544,6 @@ const CeoDetailModal = (props) => {
     }
   };
 
-  // onthly
-  // : 
-  // "Dec 2024"
-  // weekely
-  // : 
-  // "15 Dec - 22 Dec"
-  // ytd
-  // : 
-  // "2024"
-
-  console.log(dashboardData?.date_filter?.monthly, "dashboardData");
   const Comparisongraphfilter = [
     { value: "weekly", label: `Weekly  (${dashboardData?.date_filter?.weekely})` },
     { value: "monthly", label: `Monthly  (${dashboardData?.date_filter?.monthly})` },

@@ -84,9 +84,8 @@ const UpercardsCeoDashboardStatsBox = (props) => {
         )}
 
         <Row
-          className={`scale-in-center ${
-            dashboardData ? "" : "ceo-stats-blur "
-          }`}
+          className={`scale-in-center ${dashboardData ? "" : "ceo-stats-blur "
+            }`}
         >
           <Col lg={2}>
             <CEODashCommonVerticalCard
@@ -207,7 +206,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 isParentComponent={parentComponent}
                 showRightSide={false}
                 leftSideData={valet_sales?.valet_sales}
-                leftSideTitle={"Valet Sales"}
+                leftSideTitle={"Shop  Margin"}
                 RightSideData={valet_sales?.bunkered_value}
                 statusValue={valet_sales?.status}
                 percentageValue={valet_sales?.percentage}
