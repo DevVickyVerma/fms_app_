@@ -14,6 +14,9 @@ import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPric
 import { useSelector } from "react-redux";
 import withApi from "../../../Utils/ApiHelper";
 import { staticCompiPriceCommon } from "../../../Utils/commonFunctions/commonFunction";
+import { Collapse, Table } from "antd";
+import Swal from "sweetalert2";
+const { Panel } = Collapse;
 
 const StaticCompiPrice = ({
   open,
@@ -53,14 +56,6 @@ const StaticCompiPrice = ({
         if (response && response.data && response.data.data) {
           setData(response.data.data);
           formik.setValues(response?.data?.data);
-        }
-
-        const responseData = response?.data?.data;
-
-        if (responseData?.listing) {
-          setHasListing(true);
-        } else {
-          setHasListing(false);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -153,49 +148,68 @@ const StaticCompiPrice = ({
     // 1.  selected
     // 2. index which is selected
     // 3. key_name which is selected
-    console.log(competitor, "competitor", index, "fuel", key_name);
+    // console.log(competitor, "competitor", index, "fuel", key_name);
 
-    try {
-      const formData = new FormData();
+    let messageKey = key_name;
 
-      formData.append("site_id", accordionSiteID);
-      formData.append("competitor_id", competitor?.id);
-      formData.append("drs_date", selectedDrsDate);
-      formData.append("updated_from", key_name);
-
-      console.log(competitor?.fuels?.[key_name], "client");
-
-      competitor?.fuels?.[key_name].forEach((fuel) => {
-        if (fuel?.price == "-") {
-          formData.append(`fuels[${fuel?.id}]`, 0);
-        } else {
-          formData.append(`fuels[${fuel?.id}]`, fuel?.price);
-        }
-      });
-
-      const postDataUrl = "/site/competitor-suggestion/accept";
-
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-
-      if (apidata.api_response == 200) {
-        fetchData();
-        // sendDataToParent();
-        // SuccessAlert(response.data.message);
-        // navigate("/competitor-fuel-price");
-        // onClose();
-      } else {
-        // Handle other cases or errors here
-        fetchData();
-      }
-    } finally {
-      setIsLoading(false);
+    if (messageKey === "gov") {
+      messageKey = "Gov.uk";
+    } else if (messageKey === "pp") {
+      messageKey = "Petrol Price";
+    } else if (messageKey === "ov") {
+      messageKey = "Operator Verified";
     }
-  };
 
-  console.log(apidata, "apidata");
+    Swal.fire({
+      title: "Are you sure?",
+      html: `You are about to update the price for the competitor <strong>"${competitor?.competitor_name}"</strong> in the service category <strong>"${messageKey}"</strong>.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Accept it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result?.isConfirmed) {
+        try {
+          const formData = new FormData();
+
+          formData.append("site_id", accordionSiteID);
+          formData.append("competitor_id", competitor?.id);
+          formData.append("drs_date", selectedDrsDate);
+          formData.append("updated_from", key_name);
+
+          console.log(competitor?.fuels?.[key_name], "client");
+
+          competitor?.fuels?.[key_name].forEach((fuel) => {
+            if (fuel?.price == "-") {
+              formData.append(`fuels[${fuel?.id}]`, 0);
+            } else {
+              formData.append(`fuels[${fuel?.id}]`, fuel?.price);
+            }
+          });
+
+          const postDataUrl = "/site/competitor-suggestion/accept";
+
+          await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+
+          if (apidata?.api_response == 200) {
+            fetchData();
+          } else {
+            handleError(error);
+            fetchData();
+          }
+        } catch (error) {
+        } finally {
+          fetchData();
+          setIsLoading(false);
+        }
+      }
+    });
+  };
 
   return (
     <>
+      {isLoading ? <Loaderimg /> : null}
       <Dialog
         open={open}
         onClose={onClose}
@@ -223,450 +237,411 @@ const StaticCompiPrice = ({
 
         <DialogContent>
           {isLoading ? <Loaderimg /> : null}
-          {hasListing ? (
-            <TableContainer>
-              <div className="table-container table-responsive">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th style={{ maxWidth: "85px" }}>Competitor</th>
+          <>
+            {formik?.values?.listing?.competitors?.map(
+              (competitor, competitorIndex) => (
+                <div key={competitorIndex} className="mt-2">
+                  <Collapse accordion>
+                    <Panel
+                      header={
+                        <div className="d-flex align-items-center">
+                          <img
+                            src={competitor?.supplier}
+                            alt="Competitor"
+                            width="30"
+                            className="me-2 object-fit-contain"
+                          />
+                          <span className=" fw-600">
+                            {" "}
+                            {competitor?.competitor_name}
+                          </span>
+                        </div>
+                      }
+                      // key={siteIndex}
+                    >
+                      <table className="table">
+                        <thead className="">
+                          <tr>
+                            <th scope="col" style={{ maxWidth: "85px" }}>
+                              Competitor
+                            </th>
 
-                      {data?.head_array?.map((header, columnIndex) => (
-                        <th key={columnIndex}>{header}</th>
-                      ))}
-                      <th style={{ maxWidth: "15px" }}>Status</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr key={`competitor-name-self`} className="operator-tr">
-                      <td
-                        // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
-                        className="middayModal-td text-muted fs-15 fw-semibold p-4"
-                        style={{ maxWidth: "50px" }}
-                        // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
-                      >
-                        <img
-                          src={formik?.values?.supplier}
-                          alt="Competitor"
-                          width="30"
-                          className="me-2"
-                        />
-                        {formik?.values?.site_name}
-                      </td>
-
-                      {formik?.values?.fuels?.[0]?.map(
-                        (competitor, competitorIndex) => (
+                            {data?.head_array?.map((header, columnIndex) => (
+                              <th scope="col" key={columnIndex}>
+                                {header}
+                              </th>
+                            ))}
+                            <th
+                              scope="col"
+                              //  style={{ maxWidth: "25px" }}
+                            >
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
                           <>
-                            <td
-                              key={competitor?.id}
-                              className="middayModal-td vertical-align-middle align-middle"
+                            <tr
+                              key={`competitor-name-self`}
+                              className="operator-tr"
                             >
-                              <input
-                                className={`table-input fuel-readonly`}
-                                type="number"
-                                readOnly={true}
-                                step="0.010"
-                                name={`listing.competitors.[${competitorIndex}].price`}
-                                value={competitor?.price}
-                                // onChange={formik.handleChange}
-                              />
-                            </td>
-                          </>
-                        )
-                      )}
+                              <td
+                                // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
+                                className="middayModal-td text-muted fs-15 fw-semibold p-4"
+                                style={{ maxWidth: "50px" }}
+                                // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
+                              >
+                                <img
+                                  src={formik?.values?.supplier}
+                                  alt="Competitor"
+                                  width="30"
+                                  className="me-2"
+                                />
+                                {formik?.values?.site_name}
+                              </td>
 
-                      <td></td>
-                    </tr>
-                    {formik?.values?.listing?.competitors?.map(
-                      (competitor, competitorIndex) => (
-                        <>
-                          {/* Full-row for competitor name */}
-                          <tr key={`competitor-name-${competitorIndex}`}>
-                            <td
-                              colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
-                              className="middayModal-td text-muted fs-15 fw-semibold p-4"
-                            >
-                              <img
-                                src={competitor?.supplier}
-                                alt="Competitor"
-                                width="30"
-                                className="me-2"
-                              />
-                              {competitor?.competitor_name}
-                            </td>
-                          </tr>
-
-                          <tr className="middayModal-tr">
-                            <td className="middayModal-td">
-                              <div className=" d-flex align-items-center mt-3">
-                                <OverlayTrigger
-                                  placement="top"
-                                  className="Tank-Detailss"
-                                  overlay={
-                                    <Tooltip
-                                      style={{
-                                        // width: "200px",
-                                        zIndex: "111111111",
-                                      }}
+                              {formik?.values?.fuels?.[0]?.map(
+                                (competitor, competitorIndex) => (
+                                  <>
+                                    <td
+                                      key={competitor?.id}
+                                      className="middayModal-td vertical-align-middle align-middle"
                                     >
-                                      <div className="pointer">Gov.uk</div>
-                                    </Tooltip>
-                                  }
-                                >
-                                  <div style={{ maxWidth: "30px" }}>
-                                    <img
-                                      src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
-                                      alt="Competitor"
-                                      width="20"
-                                      className="mx-2"
-                                    />
-                                  </div>
-                                </OverlayTrigger>
-                              </div>
-                            </td>
-                            {/* // ** here i am iterating the GOV prices */}
-                            {competitor?.fuels?.gov?.map((fuel, fuelIndex) => (
-                              <>
-                                <td key={fuel?.id} className="middayModal-td">
-                                  <input
-                                    className={`table-input ${
-                                      fuel?.canUpdate ? "" : "readonly"
-                                    }`}
-                                    type="number"
-                                    readOnly={!fuel?.canUpdate}
-                                    step="0.010"
-                                    name={`listing.competitors.[${competitorIndex}].fuels.gov.[${fuelIndex}].price`}
-                                    value={
-                                      formik.values.listing.competitors[
-                                        competitorIndex
-                                      ].fuels.gov[fuelIndex].price
-                                    }
-                                    onChange={formik.handleChange}
-                                  />
-
-                                  <div className="small text-muted text-end">
-                                    {fuel?.last_updated !== "-" ? (
-                                      <>Last Updated - {fuel?.last_updated} </>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </div>
-                                </td>
-                              </>
-                            ))}
-
-                            <td className="middayModal-td">
-                              {competitor?.canUpdate ? (
-                                <>
-                                  <button
-                                    className="btn btn-primary me-2"
-                                    type="submit"
-                                    onClick={() =>
-                                      handleSelectedPrice(
-                                        competitor,
-                                        competitorIndex,
-                                        "gov"
-                                      )
-                                    }
-                                  >
-                                    Accept{" "}
-                                    <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                  </button>
-                                </>
-                              ) : (
-                                <>
-                                  {competitor?.acceptedBy === "gov" ? (
-                                    <>
-                                      {/* <button
-                                        className="btn btn-primary me-2"
-                                        type="submit"
-                                        onClick={() =>
-                                          handleSelectedPrice(
-                                            competitor,
-                                            competitorIndex,
-                                            "gov"
-                                          )
-                                        }
-                                      >
-                                        Accept{" "}
-                                      </button> */}
-                                      <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <i class="ph ph-x work-flow-danger-status "></i>
-                                    </>
-                                  )}
-                                </>
-                              )}
-                            </td>
-                          </tr>
-
-                          <tr className="middayModal-tr">
-                            <td
-                              className="middayModal-td"
-                              style={{ maxWidth: "30px" }}
-                            >
-                              <div className=" d-flex align-items-center mt-3">
-                                <OverlayTrigger
-                                  placement="top"
-                                  className="Tank-Detailss"
-                                  overlay={
-                                    <Tooltip
-                                      style={{
-                                        // width: "200px",
-                                        zIndex: "111111111",
-                                      }}
-                                    >
-                                      <div className="pointer">
-                                        Petrol Price
-                                      </div>
-                                    </Tooltip>
-                                  }
-                                >
-                                  <div style={{ maxWidth: "30px" }}>
-                                    <img
-                                      src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
-                                      alt="Competitor"
-                                      width="20"
-                                      className="mx-2"
-                                    />
-                                  </div>
-                                </OverlayTrigger>
-                              </div>
-                            </td>
-
-                            {/* // ** here i am iterating the Petrol Price prices */}
-                            {competitor?.fuels?.pp?.map((fuel, fuelIndex) => (
-                              <>
-                                <td key={fuel?.id} className="middayModal-td">
-                                  <input
-                                    className={`table-input ${
-                                      fuel?.canUpdate ? "" : "readonly"
-                                    }`}
-                                    type="number"
-                                    readOnly={!fuel?.canUpdate}
-                                    step="0.010"
-                                    name={`listing.competitors.[${competitorIndex}].fuels.pp.[${fuelIndex}].price`}
-                                    // listing.competitors[0].fuels.pp[0].category_name
-                                    // value={fuel?.price ? fuel?.price : 0}
-                                    value={
-                                      formik.values.listing.competitors[
-                                        competitorIndex
-                                      ].fuels.pp[fuelIndex].price
-                                    }
-                                    onChange={formik.handleChange}
-                                  />
-                                  <div className="small text-muted text-end">
-                                    {fuel?.last_updated !== "-" ? (
-                                      <>Last Updated - {fuel?.last_updated} </>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </div>
-                                </td>
-                              </>
-                            ))}
-
-                            <td className="middayModal-td">
-                              {competitor?.canUpdate ? (
-                                <>
-                                  <button
-                                    className="btn btn-primary me-2"
-                                    type="submit"
-                                    onClick={() =>
-                                      handleSelectedPrice(
-                                        competitor,
-                                        competitorIndex,
-                                        "pp"
-                                      )
-                                    }
-                                  >
-                                    Accept{" "}
-                                    <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                  </button>
-                                </>
-                              ) : (
-                                <>
-                                  {competitor?.acceptedBy === "pp" ? (
-                                    <>
-                                      {/* <button
-                                        className="btn btn-primary me-2"
-                                        type="submit"
-                                        onClick={() =>
-                                          handleSelectedPrice(
-                                            competitor,
-                                            competitorIndex,
-                                            "pp"
-                                          )
-                                        }
-                                      >
-                                        Accept{" "}
-                                        <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                      </button> */}
-                                      <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <i class="ph ph-x work-flow-danger-status "></i>
-                                    </>
-                                  )}
-                                </>
-                              )}
-                            </td>
-                          </tr>
-
-                          <tr className="middayModal-tr operator-tr">
-                            <td
-                              className="middayModal-td"
-                              style={{ maxWidth: "30px" }}
-                            >
-                              <div className=" d-flex align-items-center mt-3">
-                                <OverlayTrigger
-                                  placement="top"
-                                  className="Tank-Detailss"
-                                  overlay={
-                                    <Tooltip
-                                      style={{
-                                        // width: "200px",
-                                        zIndex: "111111111",
-                                      }}
-                                    >
-                                      <div className="pointer">
-                                        Operator Verified
-                                      </div>
-                                    </Tooltip>
-                                  }
-                                >
-                                  <div>
-                                    <span>
-                                      <img
-                                        src={require("../../../assets/images/SingleStatsCompetitor/wanna1.png")}
-                                        alt="Competitor"
-                                        width="30"
-                                        className="mx-2"
-                                        style={{ borderRadius: "50%" }}
+                                      <input
+                                        className={`table-input fuel-readonly`}
+                                        type="number"
+                                        readOnly={true}
+                                        step="0.010"
+                                        name={`listing.competitors.[${competitorIndex}].price`}
+                                        value={competitor?.price}
+                                        // onChange={formik.handleChange}
                                       />
-                                      {/* <i className="ph ph-user mx-2"></i> */}
-                                    </span>
-                                  </div>
-                                </OverlayTrigger>
-                              </div>
-                            </td>
+                                    </td>
+                                  </>
+                                )
+                              )}
 
-                            {/* // ** here i am iterating the Operator Verified prices */}
-                            {competitor?.fuels?.ov?.map((fuel, fuelIndex) => (
-                              <>
-                                <td key={fuel?.id} className="middayModal-td">
-                                  <input
-                                    className={`table-input ${
-                                      fuel?.canUpdate ? "" : "readonly"
-                                    }`}
-                                    type="number"
-                                    readOnly={!fuel?.canUpdate}
-                                    step="0.010"
-                                    name={`listing.competitors.[${competitorIndex}].fuels.ov.[${fuelIndex}].price`}
-                                    // listing.competitors[0].fuels.ov[0].category_name
-                                    // value={fuel?.price ? fuel?.price : 0}
-                                    value={
-                                      formik.values.listing.competitors[
-                                        competitorIndex
-                                      ].fuels.ov[fuelIndex].price
-                                    }
-                                    onChange={formik.handleChange}
-                                  />
-                                  <div className="small text-muted text-end">
-                                    {fuel?.last_updated !== "-" ? (
-                                      <>Last Updated - {fuel?.last_updated} </>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </div>
-                                </td>
-                              </>
-                            ))}
+                              <td></td>
+                            </tr>
 
-                            <td className="middayModal-td">
-                              {competitor?.canUpdate ? (
-                                <>
-                                  <button
-                                    className="btn btn-primary me-2"
-                                    type="submit"
-                                    onClick={() =>
-                                      handleSelectedPrice(
-                                        competitor,
-                                        competitorIndex,
-                                        "ov"
-                                      )
+                            <tr className="middayModal-tr">
+                              <td className="middayModal-td">
+                                <div className=" d-flex align-items-center mt-3">
+                                  <OverlayTrigger
+                                    placement="top"
+                                    className="Tank-Detailss"
+                                    overlay={
+                                      <Tooltip
+                                        style={{
+                                          // width: "200px",
+                                          zIndex: "111111111",
+                                        }}
+                                      >
+                                        <div className="pointer">Gov.uk</div>
+                                      </Tooltip>
                                     }
                                   >
-                                    Submit{" "}
-                                    <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                  </button>
-                                </>
-                              ) : (
-                                <>
-                                  {competitor?.acceptedBy === "ov" ? (
-                                    <>
-                                      {/* <button
-                                        className="btn btn-primary me-2"
-                                        type="submit"
-                                        onClick={() =>
-                                          handleSelectedPrice(
-                                            competitor,
-                                            competitorIndex,
-                                            "ov"
-                                          )
+                                    <div style={{ maxWidth: "30px" }}>
+                                      <img
+                                        src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
+                                        alt="Competitor"
+                                        width="20"
+                                        className="mx-2"
+                                      />
+                                    </div>
+                                  </OverlayTrigger>
+                                </div>
+                              </td>
+
+                              {/* // ** here i am iterating the GOV prices */}
+                              {competitor?.fuels?.gov?.map(
+                                (fuel, fuelIndex) => (
+                                  <>
+                                    <td
+                                      key={fuel?.id}
+                                      className="middayModal-td"
+                                    >
+                                      <input
+                                        className={`table-input ${
+                                          fuel?.canUpdate ? "" : "readonly"
+                                        }`}
+                                        type="number"
+                                        readOnly={!fuel?.canUpdate}
+                                        step="0.010"
+                                        name={`listing.competitors.[${competitorIndex}].fuels.gov.[${fuelIndex}].price`}
+                                        value={
+                                          formik.values.listing.competitors[
+                                            competitorIndex
+                                          ].fuels.gov[fuelIndex].price
                                         }
-                                      >
-                                        Submit{" "}
-                                        <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                      </button> */}
-                                      <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <i class="ph ph-x work-flow-danger-status "></i>
-                                    </>
-                                  )}
-                                </>
+                                        onChange={formik.handleChange}
+                                      />
+
+                                      <div className="small text-muted text-end">
+                                        {fuel?.last_updated !== "-" ? (
+                                          <>
+                                            Last Updated - {fuel?.last_updated}{" "}
+                                          </>
+                                        ) : (
+                                          ""
+                                        )}
+                                      </div>
+                                    </td>
+                                  </>
+                                )
                               )}
-                            </td>
-                          </tr>
-                        </>
-                      )
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </TableContainer>
-          ) : (
-            <p>No Data...........</p>
-          )}
-        </DialogContent>
-        {/* <Card.Footer>
-          <div className="text-end notification-class">
-            <button
-              className="btn btn-danger me-2"
-              type="submit"
-              onClick={onClose}
-            >
-              Close
-            </button>
-            {hasListing ? (
-              <button
-                className="btn btn-primary me-2"
-                type="submit"
-                onClick={formik.handleSubmit}
-              >
-                Verify
-              </button>
-            ) : (
-              ""
+
+                              <td className="middayModal-td">
+                                {competitor?.canUpdate ? (
+                                  <>
+                                    <button
+                                      className="btn btn-primary me-2"
+                                      type="submit"
+                                      onClick={() =>
+                                        handleSelectedPrice(
+                                          competitor,
+                                          competitorIndex,
+                                          "gov"
+                                        )
+                                      }
+                                    >
+                                      Accept{" "}
+                                      <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    {competitor?.acceptedBy === "gov" ? (
+                                      <>
+                                        <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <i class="ph ph-x work-flow-danger-status "></i>
+                                      </>
+                                    )}
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+
+                            <tr className="middayModal-tr">
+                              <td
+                                className="middayModal-td"
+                                style={{ maxWidth: "30px" }}
+                              >
+                                <div className=" d-flex align-items-center mt-3">
+                                  <OverlayTrigger
+                                    placement="top"
+                                    className="Tank-Detailss"
+                                    overlay={
+                                      <Tooltip
+                                        style={{
+                                          // width: "200px",
+                                          zIndex: "111111111",
+                                        }}
+                                      >
+                                        <div className="pointer">
+                                          Petrol Price
+                                        </div>
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <div style={{ maxWidth: "30px" }}>
+                                      <img
+                                        src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
+                                        alt="Competitor"
+                                        width="20"
+                                        className="mx-2"
+                                      />
+                                    </div>
+                                  </OverlayTrigger>
+                                </div>
+                              </td>
+
+                              {/* // ** here i am iterating the Petrol Price prices */}
+                              {competitor?.fuels?.pp?.map((fuel, fuelIndex) => (
+                                <>
+                                  <td key={fuel?.id} className="middayModal-td">
+                                    <input
+                                      className={`table-input ${
+                                        fuel?.canUpdate ? "" : "readonly"
+                                      }`}
+                                      type="number"
+                                      readOnly={!fuel?.canUpdate}
+                                      step="0.010"
+                                      name={`listing.competitors.[${competitorIndex}].fuels.pp.[${fuelIndex}].price`}
+                                      // listing.competitors[0].fuels.pp[0].category_name
+                                      // value={fuel?.price ? fuel?.price : 0}
+                                      value={
+                                        formik.values.listing.competitors[
+                                          competitorIndex
+                                        ].fuels.pp[fuelIndex].price
+                                      }
+                                      onChange={formik.handleChange}
+                                    />
+                                    <div className="small text-muted text-end">
+                                      {fuel?.last_updated !== "-" ? (
+                                        <>
+                                          Last Updated - {fuel?.last_updated}{" "}
+                                        </>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </div>
+                                  </td>
+                                </>
+                              ))}
+
+                              <td className="middayModal-td">
+                                {competitor?.canUpdate ? (
+                                  <>
+                                    <button
+                                      className="btn btn-primary me-2"
+                                      type="submit"
+                                      onClick={() =>
+                                        handleSelectedPrice(
+                                          competitor,
+                                          competitorIndex,
+                                          "pp"
+                                        )
+                                      }
+                                    >
+                                      Accept{" "}
+                                      <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    {competitor?.acceptedBy === "pp" ? (
+                                      <>
+                                        <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <i class="ph ph-x work-flow-danger-status "></i>
+                                      </>
+                                    )}
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+
+                            <tr className="middayModal-tr operator-tr">
+                              <td
+                                className="middayModal-td"
+                                style={{ maxWidth: "30px" }}
+                              >
+                                <div className=" d-flex align-items-center mt-3">
+                                  <OverlayTrigger
+                                    placement="top"
+                                    className="Tank-Detailss"
+                                    overlay={
+                                      <Tooltip
+                                        style={{
+                                          // width: "200px",
+                                          zIndex: "111111111",
+                                        }}
+                                      >
+                                        <div className="pointer">
+                                          Operator Verified
+                                        </div>
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <div>
+                                      <span>
+                                        <img
+                                          src={require("../../../assets/images/SingleStatsCompetitor/wanna1.png")}
+                                          alt="Competitor"
+                                          width="30"
+                                          className="mx-2"
+                                          style={{ borderRadius: "50%" }}
+                                        />
+                                        {/* <i className="ph ph-user mx-2"></i> */}
+                                      </span>
+                                    </div>
+                                  </OverlayTrigger>
+                                </div>
+                              </td>
+
+                              {/* // ** here i am iterating the Operator Verified prices */}
+                              {competitor?.fuels?.ov?.map((fuel, fuelIndex) => (
+                                <>
+                                  <td key={fuel?.id} className="middayModal-td">
+                                    <input
+                                      className={`table-input ${
+                                        fuel?.canUpdate ? "" : "readonly"
+                                      }`}
+                                      type="number"
+                                      readOnly={!fuel?.canUpdate}
+                                      step="0.010"
+                                      name={`listing.competitors.[${competitorIndex}].fuels.ov.[${fuelIndex}].price`}
+                                      // listing.competitors[0].fuels.ov[0].category_name
+                                      // value={fuel?.price ? fuel?.price : 0}
+                                      value={
+                                        formik.values.listing.competitors[
+                                          competitorIndex
+                                        ].fuels.ov[fuelIndex].price
+                                      }
+                                      onChange={formik.handleChange}
+                                    />
+                                    <div className="small text-muted text-end">
+                                      {fuel?.last_updated !== "-" ? (
+                                        <>
+                                          Last Updated - {fuel?.last_updated}{" "}
+                                        </>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </div>
+                                  </td>
+                                </>
+                              ))}
+
+                              <td className="middayModal-td">
+                                {competitor?.canUpdate ? (
+                                  <>
+                                    <button
+                                      className="btn btn-primary me-2"
+                                      type="submit"
+                                      onClick={() =>
+                                        handleSelectedPrice(
+                                          competitor,
+                                          competitorIndex,
+                                          "ov"
+                                        )
+                                      }
+                                    >
+                                      Submit{" "}
+                                      <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    {competitor?.acceptedBy === "ov" ? (
+                                      <>
+                                        <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <i class="ph ph-x work-flow-danger-status "></i>
+                                      </>
+                                    )}
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+                          </>
+                        </tbody>
+                      </table>
+                    </Panel>
+                  </Collapse>
+                </div>
+              )
             )}
-          </div>
-        </Card.Footer> */}
+          </>
+        </DialogContent>
 
         {userPermissions?.includes("fuel-suggestion-create") && data ? (
           <>

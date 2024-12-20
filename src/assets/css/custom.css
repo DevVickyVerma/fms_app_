@@ -91,10 +91,11 @@ h3.SidebarSearch-title {
 }
 
 .readonly {
-  background-color: #dddddd !important;
+  background-color: #dddddd75 !important;
   cursor: default;
   opacity: 1;
-  -webkit-text-fill-color: rgba(0, 0, 0, 0.38) !important;
+  -webkit-text-fill-color: rgb(0 0 0 / 65%) !important;
+  user-select: none;
 }
 
 .card.card-none.card {
@@ -275,7 +276,7 @@ tbody td {
   border: 1px solid #aeb1bd29 !important;
 }
 
-.table thead th {
+/* .table thead th {
   vertical-align: middle;
   border-bottom-width: 1px;
   border-top: 0;
@@ -284,6 +285,17 @@ tbody td {
   min-width: 12.5% !important;
   background-color: #e6e7e9 !important;
   min-height: 48px;
+} */
+
+.table thead th {
+  position: relative;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  text-align: start;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+  border-right: 1px solid #f0f0f0 !important;
 }
 
 thead {
@@ -2219,8 +2231,13 @@ td.middayModal-td.time-input-fuel-sell {
   justify-content: space-between;
   width: 100%;
 }
+
 :focus-visible {
   border: 1px solid #4663ac !important;
+}
+
+.readonly:focus-visible {
+  border: 1px solid #cfcfcf !important;
 }
 
 .c-w-per-25 {
@@ -2644,4 +2661,8 @@ td.middayModal-td.time-input-fuel-sell {
   );
   background: #ff0000;
   box-shadow: 0 calc(-1 * var(--f)) 0 inset #0005;
+}
+
+.MuiDialog-root {
+  z-index: 1059 !important;
 }
