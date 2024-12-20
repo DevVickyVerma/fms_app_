@@ -28,6 +28,7 @@ const CeoDashBoardTest = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [stockDetailModal, setstockDetailModal] = useState(false);
+  const [statsLoading, setStatsLoading] = useState(false);
 
   const [dashboardData, setDashboardData] = useState();
   const [filters, setFilters] = useState({
@@ -171,6 +172,7 @@ const CeoDashBoardTest = (props) => {
         name: "dashboard",
         url: "ceo-dashboard/stats",
         setData: setDashboardData,
+        setLoading: setStatsLoading,
         callback: (response, updatedFilters) => {
           setFilters(updatedFilters);
           setCenterFilterModalOpen(false);
@@ -743,7 +745,7 @@ const CeoDashBoardTest = (props) => {
           </h2>
         )}
 
-        {isLoading ? (
+        {statsLoading ? (
           <>
             <Row>
               <LoadingAnimationCard />
