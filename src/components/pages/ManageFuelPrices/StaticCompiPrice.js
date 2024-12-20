@@ -216,14 +216,7 @@ const StaticCompiPrice = ({
         aria-labelledby="responsive-dialog-title"
         maxWidth="100px"
       >
-        <span
-          style={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-          className="ModalTitle"
-        >
+        <span className="ModalTitle d-flex w-100 justify-content-between">
           <div className="ModalTitle-date">
             <span> {selectedItem?.competitorname}</span>
             <span> ({selectedDrsDate})</span>

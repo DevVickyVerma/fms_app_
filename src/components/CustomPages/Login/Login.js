@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -10,10 +10,11 @@ import { BsCapslock } from "react-icons/bs";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import ReCAPTCHA from "react-google-recaptcha";
-import { getLocalStorageData, setLocalStorageData } from "../../../Utils/cryptoUtils";
+import {
+  getLocalStorageData,
+  setLocalStorageData,
+} from "../../../Utils/cryptoUtils";
 import CountdownTimer from "./CountdownTimer";
-
-
 
 export default function Login() {
   const [isLoading, setLoading] = useState(false);
@@ -25,8 +26,9 @@ export default function Login() {
   const [showTime, setshowTime] = useState(false);
   const [captchatoken, setcaptchatoken] = useState("");
   const recaptchaRef = useRef(); // Create a ref for ReCAPTCHA
-  const [backendTimer, setBackendTimer] = useState(localStorage.getItem("dynamicTime"));
-
+  const [backendTimer, setBackendTimer] = useState(
+    localStorage.getItem("dynamicTime")
+  );
 
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
@@ -35,16 +37,13 @@ export default function Login() {
     }
   }
 
-
-
-
   const handleKeyPress = (event) => {
     if (event.getModifierState("CapsLock")) {
       setCapsLockActive(true);
     } else {
       setCapsLockActive(false);
     }
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault(); // Prevent form submission on Enter key
     }
   };
@@ -56,9 +55,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Invalid email")
-      .required("Email is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
     // recaptcha: Yup.string().required("Please complete the CAPTCHA"),
   });
@@ -80,7 +77,8 @@ export default function Login() {
       });
 
       const data = await response.json();
-      if (response.ok && data) {      // Handle success
+      if (response.ok && data) {
+        // Handle success
         localStorage.setItem("token", data?.data?.access_token);
         localStorage.setItem("superiorId", data?.data?.superiorId);
         localStorage.setItem("superiorRole", data?.data?.superiorRole);
@@ -98,18 +96,18 @@ export default function Login() {
       } else {
         // Handle non-2xx responses
         if (data?.data?.show_captcha) {
-          setLocalStorageData('capCheck', data?.data?.show_captcha);
-          setshowCaptcha(data?.data?.show_captcha)
-          setshowStillCaptcha(data?.data?.show_captcha)
-          setshowStillCaptcha(true)
+          setLocalStorageData("capCheck", data?.data?.show_captcha);
+          setshowCaptcha(data?.data?.show_captcha);
+          setshowStillCaptcha(data?.data?.show_captcha);
+          setshowStillCaptcha(true);
           if (recaptchaRef.current) {
             recaptchaRef.current.reset();
           }
-          resetForm()
+          resetForm();
         }
         if (data?.data?.show_timer) {
           setLocalStorageData("timer", data?.data?.show_timer);
-          setshowTime(data?.data?.show_timer)
+          setshowTime(data?.data?.show_timer);
         }
         if (data?.data?.timer) {
           localStorage.setItem("dynamicTime", data?.data?.timer);
@@ -144,30 +142,27 @@ export default function Login() {
     setLoading(false);
   };
 
-
-
-
   const onRecaptchaChange = async (token, resetForm) => {
     setcaptchatoken(token);
     setLoading(true);
     const formData = new FormData();
-    formData.append('token', token);
+    formData.append("token", token);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/validate-captcha`, {
-        method: 'POST',
-        body: formData, // No need to set Content-Type manually
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/validate-captcha`,
+        {
+          method: "POST",
+          body: formData, // No need to set Content-Type manually
+        }
+      );
 
       const result = await response.json();
 
-
-
-
       if (result?.api_response == "success") {
         setshowCaptcha(false);
-        localStorage.removeItem('capCheck');
-        setshowCaptchaBtn(false)
+        localStorage.removeItem("capCheck");
+        setshowCaptchaBtn(false);
       } else {
         ErrorAlert(result?.message); // Assuming ErrorAlert is defined elsewhere
         if (recaptchaRef.current) {
@@ -175,59 +170,50 @@ export default function Login() {
         }
         // Reset form on error
         resetForm();
-        setshowCaptchaBtn(true)
+        setshowCaptchaBtn(true);
       }
     } catch (error) {
-      console.error('Error validating reCAPTCHA token:', error);
+      console.error("Error validating reCAPTCHA token:", error);
       if (recaptchaRef.current) {
         recaptchaRef.current.reset();
       }
-      ErrorAlert('An error occurred. Please try again.'); // Provide a user-friendly message
+      ErrorAlert("An error occurred. Please try again."); // Provide a user-friendly message
     } finally {
       setLoading(false);
     }
   };
 
-
   useEffect(() => {
-
-    const storedFlag = getLocalStorageData('capCheck');
-    const test = getLocalStorageData('timer');
+    const storedFlag = getLocalStorageData("capCheck");
+    const test = getLocalStorageData("timer");
     if (test) {
-      setshowTime(true)
+      setshowTime(true);
     }
-
 
     if (storedFlag) {
       setshowCaptcha(true);
       setshowStillCaptcha(true);
     }
-
-
-
-  }, [])
-
+  }, []);
 
   const handleCountdownComplete = () => {
-    setshowTime(false)
+    setshowTime(false);
     localStorage.removeItem("timer");
   };
-
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="login-img overflow-hidden" >
-
+        <div className="login-img overflow-hidden">
           <Row>
             <Col lg={12} md={12} sm={12} className="c-login-left-card">
-              <div className="page" >
+              <div className="page">
                 <div className="container-login100 d-flex justify-content-center">
                   <div className="wrap-login100 p-0">
                     <Card.Body>
                       <Formik
-                        initialValues={{ email: "", password: "", }}
+                        initialValues={{ email: "", password: "" }}
                         validationSchema={LoginSchema}
                         onSubmit={(values, { resetForm }) => {
                           handleSubmit(values, resetForm);
@@ -249,10 +235,11 @@ export default function Login() {
                                 style={{ display: "flex" }}
                               >
                                 <Field
-                                  className={`input100 ${errors.email && touched.email
-                                    ? "is-invalid"
-                                    : ""
-                                    }`}
+                                  className={`input100 ${
+                                    errors.email && touched.email
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
                                   // type="password"
                                   type="text"
                                   name="email"
@@ -271,10 +258,8 @@ export default function Login() {
                                 {capsLockActive ? (
                                   <>
                                     <span
+                                      className="d-flex justify-content-center align-items-center"
                                       style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
                                         borderTopRightRadius: "4px",
                                         borderBottomRightRadius: "4px",
                                         marginLeft: "-31px",
@@ -312,7 +297,10 @@ export default function Login() {
                               </div>
 
                               <div
-                                style={{ color: "#f82649", marginTop: "0.25rem" }}
+                                style={{
+                                  color: "#f82649",
+                                  marginTop: "0.25rem",
+                                }}
                               >
                                 <ErrorMessage
                                   name="email"
@@ -328,10 +316,11 @@ export default function Login() {
                                 style={{ display: "flex" }}
                               >
                                 <Field
-                                  className={`input100 ${errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
-                                    }`}
+                                  className={`input100 ${
+                                    errors.password && touched.password
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
                                   // type="password"
                                   type={passwordVisible ? "password" : "text"}
                                   name="password"
@@ -398,7 +387,10 @@ export default function Login() {
                               </div>
 
                               <div
-                                style={{ color: "#f82649", marginTop: "0.25rem" }}
+                                style={{
+                                  color: "#f82649",
+                                  marginTop: "0.25rem",
+                                }}
                               >
                                 <ErrorMessage
                                   name="password"
@@ -409,25 +401,27 @@ export default function Login() {
                               </div>
                             </div>
 
-                            {(showCaptcha || showStillCaptcha) &&
-
+                            {(showCaptcha || showStillCaptcha) && (
                               <ReCAPTCHA
-                                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} // Use your actual site key
+                                sitekey={
+                                  process.env.REACT_APP_RECAPTCHA_SITE_KEY
+                                } // Use your actual site key
                                 // onChange={onRecaptchaChange} // Step 2: Capture token on change
-                                onChange={(token) => onRecaptchaChange(token, resetForm)} // Pass resetForm to onRecaptchaChange
+                                onChange={(token) =>
+                                  onRecaptchaChange(token, resetForm)
+                                } // Pass resetForm to onRecaptchaChange
                                 ref={recaptchaRef} // Assign the ref to ReCAPTCHA
-
                               />
-                            }
+                            )}
 
-
-                            <ErrorMessage name="recaptcha" component="div" className="invalid-feedback" />
-
-
+                            <ErrorMessage
+                              name="recaptcha"
+                              component="div"
+                              className="invalid-feedback"
+                            />
 
                             <>
-
-                              {(!showTime && !showCaptcha) && (
+                              {!showTime && !showCaptcha && (
                                 <>
                                   <div className="text-end pt-1">
                                     <p className="mb-0">
@@ -441,25 +435,25 @@ export default function Login() {
                                   </div>
                                 </>
                               )}
-
-
                             </>
-
-
 
                             <div className="container-login100-form-btn">
                               <button
                                 type="submit"
                                 className="w-100 btn btn-primary d-flex justify-content-center  "
-                                disabled={showTime || showCaptcha || showCaptchaBtn}
+                                disabled={
+                                  showTime || showCaptcha || showCaptchaBtn
+                                }
                               >
-                                <span className="ml-2">Login</span>  {" "}
-
+                                <span className="ml-2">Login</span>{" "}
                                 {showTime && (
-                                  <CountdownTimer initialTime={backendTimer || 300} onCountdownComplete={handleCountdownComplete} />
+                                  <CountdownTimer
+                                    initialTime={backendTimer || 300}
+                                    onCountdownComplete={
+                                      handleCountdownComplete
+                                    }
+                                  />
                                 )}
-
-
                               </button>
                               <ToastContainer />
                             </div>
@@ -488,9 +482,7 @@ export default function Login() {
                 </div>
               </div>
             </Col>
-
           </Row>
-
         </div>
       </>
     </>
