@@ -13,7 +13,6 @@ import useErrorHandler from "../CommonComponent/useErrorHandler";
 import LoaderImg from "../../Utils/Loader";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import { Bounce, toast } from "react-toastify";
 import CeoDashBoardBottomPage from "./CeoDashBoardBottomPage";
 import SmallLoader from "../../Utils/SmallLoader";
 import PriceLogTable from "./PriceLogTable";
@@ -27,7 +26,7 @@ const CeoDashBoardTest = (props) => {
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
-  const [stockDetailModal, setstockDetailModal] = useState(false);
+
   const [statsLoading, setStatsLoading] = useState(false);
 
   const [dashboardData, setDashboardData] = useState();
@@ -40,28 +39,12 @@ const CeoDashBoardTest = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
-  const [Mopstatsloading, setMopstatsloading] = useState(false);
-  const [Salesstatsloading, setSalesstatsloading] = useState(false);
-  const [Stockstatsloading, setStockstatsloading] = useState(false);
-  const [Shrinkagestatsloading, setShrinkagestatsloading] = useState(false);
-  const [Itemstockstatsloading, setItemstockstatsloading] = useState(false);
   const [PriceLogsloading, setPriceLogssloading] = useState(false);
   const [PriceGraphloading, setPriceGraphloading] = useState(false);
-  const [getSiteStatsloading, setGetSiteStatsloading] = useState(false);
-  const [performanceLoading, siteperformanceLoading] = useState(false);
-  const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
-  const [MopstatsData, setMopstatsData] = useState();
-  const [BarGraphSalesStats, setBarGraphSalesStats] = useState();
-  const [BarGraphStockStats, setBarGraphStockStats] = useState();
-  const [Shrinkagestats, setShrinkagestats] = useState();
-  const [siteperformance, setsiteperformance] = useState();
-  const [Itemstockstats, setItemstockstats] = useState();
   const [PriceLogs, setPriceLogs] = useState();
   const [PriceGraphData, setPriceGraphData] = useState();
   const [applyNavigate, setApplyNavigate] = useState(false);
-  const [getSiteStats, setGetSiteStats] = useState(null);
-  const [toggleValue, setToggleValue] = useState(false);
-  const [getCompetitorsPrice, setGetCompetitorsPrice] = useState();
+
 
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
@@ -76,7 +59,6 @@ const CeoDashBoardTest = (props) => {
 
   const priceLogAndGraphPermission =
     priceLogsPermission && priceGraphPermission;
-
   const { handleError } = useErrorHandler();
 
   const formik = useFormik({
@@ -92,6 +74,7 @@ const CeoDashBoardTest = (props) => {
       // console.log(values);
     },
   });
+
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
@@ -123,9 +106,7 @@ const CeoDashBoardTest = (props) => {
     Yup.object({
       client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
-      // site_id: applyFilterOvells
-      //   ? Yup.string().required("Site is required") // Required if `applyFilterOvell` is false
-      //   : Yup.string(), // Optional if `applyFilterOvell` is true
+
     });
 
   const handleApplyFilters = async (values) => {
@@ -139,15 +120,6 @@ const CeoDashBoardTest = (props) => {
         );
         values.sites = response?.data?.data || [];
       }
-      // if (values) {
-      //   const response = await getData(
-      //     `client/reportlist?client_id=${values?.client_id}`
-      //   );
-      //   values.reports = response?.data?.data?.reports || [];
-      //   values.reportmonths = response?.data?.data?.months || [];
-      // }
-
-      // Ensure 'start_date' is set
       if (!values?.start_date) {
         const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         values.start_date = currentDate;
@@ -178,48 +150,7 @@ const CeoDashBoardTest = (props) => {
           setCenterFilterModalOpen(false);
         },
       },
-      // {
-      //   name: "mop",
-      //   url: "ceo-dashboard/mop-stats",
-      //   setData: setMopstatsData,
-      //   setLoading: setMopstatsloading,
-      // },
-      // {
-      //   name: "sales",
-      //   url: "ceo-dashboard/sales-stats",
-      //   setData: setBarGraphSalesStats,
-      //   setLoading: setSalesstatsloading,
-      // },
-      // {
-      //   name: "stock",
-      //   url: "ceo-dashboard/stock-stats",
-      //   setData: setBarGraphStockStats,
-      //   setLoading: setStockstatsloading,
-      // },
-      // {
-      //   name: "shrinkage",
-      //   url: "ceo-dashboard/shrinkage-stats",
-      //   setData: setShrinkagestats,
-      //   setLoading: setShrinkagestatsloading,
-      // },
-      // {
-      //   name: "siteperformance",
-      //   url: "ceo-dashboard/site-performance",
-      //   setData: setsiteperformance,
-      //   setLoading: siteperformanceLoading,
-      // },
-      // {
-      //   name: "itemstock",
-      //   url: "ceo-dashboard/department-item-stocks",
-      //   setData: setItemstockstats,
-      //   setLoading: setItemstockstatsloading,
-      // },
-      // {
-      //   name: "tankanalysis",
-      //   url: "dashboard/get-site-stats",
-      //   setData: setGetSiteStats,
-      //   setLoading: setGetSiteStatsloading,
-      // }
+
     ];
 
     // Split the endpoints into two halves
@@ -390,60 +321,13 @@ const CeoDashBoardTest = (props) => {
     }
   };
 
-  const FetchStockDetails = async () => {
-    try {
-      setItemstockstatsloading(true);
-      const queryParams = new URLSearchParams();
-      if (formik?.values?.client_id)
-        queryParams.append("client_id", formik?.values?.client_id);
-      if (formik?.values?.company_id)
-        queryParams.append("company_id", formik?.values?.company_id);
-      if (formik?.values?.selectedSite)
-        queryParams.append("site_id", formik?.values?.selectedSite);
-      const queryString = queryParams.toString();
-      const response = await getData(
-        `ceo-dashboard/department-item-stocks?${queryString}`
-      );
-      if (response && response.data && response.data.data) {
-        setItemstockstats(response?.data?.data);
-      }
-    } catch (error) {
-      // handleError(error);
-    } finally {
-      setItemstockstatsloading(false);
-    }
-  };
-  const FetchTankDetails = async () => {
-    try {
-      setGetSiteStatsloading(true);
-      const queryParams = new URLSearchParams();
-      if (formik?.values?.selectedSite)
-        queryParams.append("site_id", formik?.values?.selectedSite);
 
-      const queryString = queryParams.toString();
-      const response = await getData(
-        `ceo-dashboard/get-site-stats?${queryString}`
-      );
-      if (response && response.data && response.data.data) {
-        setGetSiteStats(response?.data?.data);
-      }
-    } catch (error) {
-      // handleError(error);
-    } finally {
-      setGetSiteStatsloading(false);
-    }
-  };
 
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
-    setGetSiteStats(null);
+
     setFilters(null);
     setDashboardData(null);
-    setItemstockstats(null);
-    setMopstatsData(null);
-    setBarGraphSalesStats(null);
-    setBarGraphStockStats(null);
-    setShrinkagestats(null);
     setPriceLogs(null);
     setApplyNavigate(false);
     formik.resetForm();
@@ -453,22 +337,12 @@ const CeoDashBoardTest = (props) => {
     handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, [permissionsArray?.includes("ceodashboard-view")]);
 
-  const handleShowLive = () => {
-    setShowLiveData((prevState) => !prevState); // Toggle the state
-    // setLiveMarginModal((prevState) => !prevState);
-  };
 
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
   };
   const [pdfisLoading, setpdfisLoading] = useState(false);
-  const handleMonthChange = (selectedId) => {
-    const selectedItem = filters.reportmonths.find(
-      (item) => item.display == selectedId
-    );
-    formik.setFieldValue("selectedMonth", selectedId);
-    formik.setFieldValue("selectedMonthDetails", selectedItem);
-  };
+
 
   useEffect(() => {
     if (formik?.values?.selectedSite && priceLogsPermission) {
@@ -477,21 +351,7 @@ const CeoDashBoardTest = (props) => {
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
 
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      autoClose: 2000,
-      hideProgressBar: false,
-      transition: Bounce,
-      theme: "colored",
-    });
-  };
 
-  const StockDeatils = () => {
-    navigate(`/dashboard-details/${formik?.values?.selectedSite}`, {
-      state: { isCeoDashboard: true }, // Pass the key-value pair in the state
-    });
-    // setstockDetailModal(true)
-  };
 
   const handleSiteChange = async (selectedId) => {
     const handleConfirmedAction = async (selectedId) => {
@@ -528,44 +388,23 @@ const CeoDashBoardTest = (props) => {
       showCancelButton: true,
       confirmButtonText: "Apply to All",
       cancelButtonText: "Apply to This Only",
+      showDenyButton: true, // Enable the third button
+      denyButtonText: "Cancel", // Label for the third button
+      customClass: {
+        actions: "swal2-actions-custom", // Add a custom class to the action buttons
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
         await handleConfirmedAction(selectedId);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         await handleCancelledAction(selectedId);
+      } else if (result.isDenied) {
+        // Logic for the deny button (third button)
+        Swal.close();
+        console.log("Cancel button clicked");
       }
     });
   };
-
-  useEffect(() => {
-    if (filters?.client_id && filters?.start_date && filters?.site_id) {
-      // GetCompetitor(filters);
-    }
-  }, [filters]);
-
-  const GetCompetitor = async () => {
-    try {
-      const queryParams = new URLSearchParams();
-      queryParams.append("site_id", formik?.values?.selectedSite);
-      // if (start_date) queryParams.append("drs_date", start_date);
-
-      const queryString = queryParams.toString();
-      const response = await getData(
-        `ceo-dashboard/competitor-stats?${queryString}`
-      );
-      if (response && response.data && response.data.data) {
-        setGetCompetitorsPrice(response?.data?.data);
-      }
-    } catch (error) {}
-  };
-
-  const handleChange = (event) => {
-    setSelectedFuelIndex(event.target.value); // Update the selected index
-  };
-  const handleToggleChange = (checked) => {
-    setToggleValue(checked);
-  };
-
   const openCenterFilterModal = () => {
     if (!filters?.company_id) {
       setCenterFilterModalOpen(true);
@@ -707,14 +546,7 @@ const CeoDashBoardTest = (props) => {
       <div className="mb-2 " onClick={() => openCenterFilterModal()}>
         {filters?.client_id && filters.company_id && (
           <>
-            {/* <div className="text-end ">
-              <button
-                className=" mb-2 btn btn-primary"
-                onClick={handleShowLive}
-              >
-                Live Margin
-              </button>
-            </div> */}
+
 
             {ShowLiveData && (
               <DashboardStatCard
