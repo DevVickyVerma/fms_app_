@@ -858,10 +858,10 @@
 
 .nav-tabs .nav-link:hover:not(.disabled),
 .nav-tabs .nav-link.active {
-  background: $primary-1 !important;
-  color: $white;
+  color: $primary-1 !important;
   border-radius: 2px;
   text-align: center;
+  border-bottom: 2px solid $primary-1 !important;
 }
 
 //formwizard

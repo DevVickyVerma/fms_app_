@@ -6,6 +6,7 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { Collapse, Table } from "antd";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
+import TabDesign from "./TabDesign";
 
 const { Panel } = Collapse;
 
@@ -404,6 +405,9 @@ const FuelSellingSuggestionLogs = (props) => {
             </Card>
           </Col>
         </Row>
+
+        <TabDesign />
+
         <Row>
           <Col md={12} xl={12}>
             <Card>

@@ -3,7 +3,7 @@ import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
-import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import { handleFilterData, PriceLogsFilterValue } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, Row } from "react-bootstrap";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
@@ -44,7 +44,12 @@ const CeoDashBoardTest = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [PriceGraphData, setPriceGraphData] = useState();
   const [applyNavigate, setApplyNavigate] = useState(false);
+  const [PriceLogsvalue, setPriceLogsvalue] = useState(PriceLogsFilterValue[0]?.value); // state for selected site
 
+  const handlePriceLogsChange = (value) => {
+    setPriceLogsvalue(value);
+    console.log("Selected site value:", value);
+  };
 
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
@@ -266,7 +271,7 @@ const CeoDashBoardTest = (props) => {
     }
   };
 
-  const FetchPriceLogs = async () => {
+  const FetchPriceLogs = async (PriceLogsvalue) => {
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
@@ -279,6 +284,7 @@ const CeoDashBoardTest = (props) => {
       ).padStart(2, "0")}-${currentDate.getFullYear()}`;
 
       queryParams.append("drs_date", formattedDate);
+      queryParams.append("PriceLogsvalue", PriceLogsvalue);
 
       const queryString = queryParams.toString();
       const response = await getData(
@@ -346,10 +352,15 @@ const CeoDashBoardTest = (props) => {
 
   useEffect(() => {
     if (formik?.values?.selectedSite && priceLogsPermission) {
-      FetchPriceLogs();
+
       FetchPriceGraph();
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
+  useEffect(() => {
+    if (PriceLogsvalue && formik?.values?.selectedSite) {
+      FetchPriceLogs(PriceLogsvalue);
+    }
+  }, [PriceLogsvalue]);
 
 
 
@@ -430,6 +441,7 @@ const CeoDashBoardTest = (props) => {
       navigate(`/pricegraph-view/`);
     }
   };
+
 
   return (
     <>
@@ -629,17 +641,40 @@ const CeoDashBoardTest = (props) => {
               key={Math.random()}
             >
               <Card className="h-100">
+
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
+                      {" "}
                       Fuel Price Logs{" "}
-                      {formik.values?.selectedSiteDetails?.site_name &&
-                        ` (${formik.values.selectedSiteDetails.site_name})`}
+
+                      <br></br>
+                      {userPermissions?.includes("fuel-price-logs") ? (
+                        <span style={{ color: "#4663ac" }}>
+                          <Link to="/fuel-selling-price-logs/">View All</Link>
+                        </span>
+                      ) : (
+                        ""
+                      )}
                     </h4>
-                    {userPermissions?.includes("fuel-price-logs") ? (
-                      <span style={{ color: "blue" }}>
-                        <Link to="/fuel-selling-price-logs/">View All</Link>
-                      </span>
+                  </div>
+                  <div className="flexspacebetween">
+                    {filters?.sites ? (
+                      <div>
+                        <select
+                          id="PriceLogsvalue"
+                          name="PriceLogsvalue"
+                          value={PriceLogsvalue}
+                          onChange={(e) => handlePriceLogsChange(e.target.value)}
+                          className="selectedMonth"
+                        >
+                          {PriceLogsFilterValue?.map((item) => (
+                            <option key={item.value} value={item.value}>
+                              {item.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     ) : (
                       ""
                     )}
@@ -655,7 +690,7 @@ const CeoDashBoardTest = (props) => {
                   {PriceLogsloading ? (
                     <SmallLoader />
                   ) : PriceLogs?.priceLogs?.length > 0 ? (
-                    <PriceLogTable priceLogs={PriceLogs?.priceLogs} />
+                    <PriceLogTable PriceLogsvalue={PriceLogsvalue} priceLogs={PriceLogs?.priceLogs} />
                   ) : (
                     <img
                       src={require("../../assets/images/commonimages/no_data.png")}
