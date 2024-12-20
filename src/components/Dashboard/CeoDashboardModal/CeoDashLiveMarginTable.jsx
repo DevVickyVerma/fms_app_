@@ -91,7 +91,7 @@ const CeoDashLiveMarginTable = ({ getData, fuel_stats }) => {
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span className=" d-flex align-items-center gap-2 mb-2">
+                              <span className=" d-flex align-items-center gap-2">
                                 <strong> Total Fuel Sales :</strong>
                                 {fuel_stats?.[gridIndex]?.fuel_value}
                               </span>
@@ -104,7 +104,7 @@ const CeoDashLiveMarginTable = ({ getData, fuel_stats }) => {
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span className=" d-flex align-items-center gap-2 mb-2">
+                              <span className=" d-flex align-items-center gap-2">
                                 <strong> Gross Margin :</strong>
                                 {fuel_stats?.[gridIndex]?.gross_margin}
                               </span>
@@ -117,7 +117,7 @@ const CeoDashLiveMarginTable = ({ getData, fuel_stats }) => {
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span className=" d-flex align-items-center gap-2 mb-2">
+                              <span className=" d-flex align-items-center gap-2 ">
                                 <strong> Gross Profit :</strong>
                                 {fuel_stats?.[gridIndex]?.gross_profit}
                               </span>
