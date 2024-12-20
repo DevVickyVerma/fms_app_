@@ -271,12 +271,7 @@ const StaticCompiPrice = ({
                                 {header}
                               </th>
                             ))}
-                            <th
-                              scope="col"
-                              //  style={{ maxWidth: "25px" }}
-                            >
-                              Status
-                            </th>
+                            <th scope="col">Status</th>
                           </tr>
                         </thead>
                         <tbody>
