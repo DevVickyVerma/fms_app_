@@ -344,6 +344,7 @@
 
 .MuiDialog-paperScrollPaper {
   width: 90% !important;
+  max-height: calc(100% - 130px) !important;
   height: fit-content !important;
 }
 
