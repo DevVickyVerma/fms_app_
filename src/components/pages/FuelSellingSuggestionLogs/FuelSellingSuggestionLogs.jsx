@@ -405,8 +405,10 @@ const FuelSellingSuggestionLogs = (props) => {
             </Card>
           </Col>
         </Row>
+        <Row>
+          <Col md={12} xl={12}>      <TabDesign /></Col>
+        </Row>
 
-        <TabDesign />
 
         <Row>
           <Col md={12} xl={12}>

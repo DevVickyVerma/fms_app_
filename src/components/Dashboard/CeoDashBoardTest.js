@@ -643,12 +643,12 @@ const CeoDashBoardTest = (props) => {
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
                       {" "}
-                      Fuel Price Logs{" "}
+                      Fuel Price Exceptional Logs{" "}
                       ({PriceLogsFilterValue?.find(item => item.value === PriceLogsvalue)?.label || "Value not found"})
                       <br />
                       {userPermissions?.includes("fuel-price-logs") ? (
                         <span style={{ color: "#4663ac" }}>
-                          <Link to="/fuel-selling-price-logs/">View All</Link>
+                          <Link to="/fuel-price-exceptional-logs/">View All</Link>
                         </span>
                       ) : (
                         ""
