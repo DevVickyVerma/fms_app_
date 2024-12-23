@@ -364,14 +364,13 @@ const CeoDashBoardTest = (props) => {
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
   useEffect(() => {
-
     console.log(filters, "filters");
 
     if (priceLogsPermission && filters?.client_id && filters?.company_id) {
-
       FetchPriceLogs(PriceLogsvalue);
     }
-  }, [priceLogsPermission && PriceLogsvalue && filters]);
+  }, [priceLogsPermission, filters, PriceLogsvalue]);
+
 
 
 
