@@ -371,7 +371,7 @@ const CeoDashBoardTest = (props) => {
 
       FetchPriceLogs(PriceLogsvalue);
     }
-  }, [priceLogsPermission && PriceLogsvalue && filters]);
+  }, [priceLogsPermission && PriceLogsvalue]);
 
 
 
