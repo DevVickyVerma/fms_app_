@@ -465,7 +465,7 @@ const AddCompetitor = (props) => {
                     </Col>
 
                     <Col lg={4} md={6}>
-                      <div className="position-relative pointer mt-4 d-flex align-items-center h-100">
+                      <div className="position-relative  mt-4 d-flex align-items-center h-100">
                         <input
                           type="checkbox"
                           id="is_main"
