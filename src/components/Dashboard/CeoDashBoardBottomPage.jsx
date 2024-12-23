@@ -283,7 +283,8 @@ const CeoDashBoardBottomPage = (props) => {
                   justifyContent: "center",
                   gap: "10px",
                   transition: "all 0.3s ease",
-                  background: "#5F8AC7",
+                  background:
+                    "linear-gradient(90deg, rgba(95,138,199,1) 29%, rgba(166,206,57,1) 100%)",
                   position: "relative", // To enable positioning of child elements
                 }}
               >
