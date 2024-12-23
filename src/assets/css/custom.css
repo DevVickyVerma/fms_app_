@@ -2666,3 +2666,7 @@ td.middayModal-td.time-input-fuel-sell {
 .MuiDialog-root {
   z-index: 1059 !important;
 }
+
+.c-fs-10 {
+  font-size: 10px !important;
+}
