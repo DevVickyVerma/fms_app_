@@ -224,7 +224,7 @@ const StaticCompiPrice = ({
                 {formik?.values?.listing?.competitors?.map(
                   (competitor, competitorIndex) => (
                     <div key={competitorIndex} className="mt-2">
-                      <Collapse accordion>
+                      <Collapse accordion key={competitor?.competitor_name}>
                         <Panel
                           header={
                             <div className="d-flex align-items-center">
@@ -238,9 +238,20 @@ const StaticCompiPrice = ({
                                 {" "}
                                 {competitor?.competitor_name}
                               </span>
+                              <span className=" fw-600">
+                                {" "}
+                                {competitor?.canUpdate ? (
+                                  <>
+                                    <i className="ph ph-hourglass-medium c-top-3 mx-1"></i>
+                                  </>
+                                ) : (
+                                  <>
+                                    <i className="ph ph-seal-check work-flow-sucess-status c-top-3 mx-1"></i>
+                                  </>
+                                )}
+                              </span>
                             </div>
                           }
-                          // key={siteIndex}
                         >
                           <table className="table">
                             <thead className="">
@@ -389,18 +400,18 @@ const StaticCompiPrice = ({
                                           }
                                         >
                                           Accept{" "}
-                                          <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                          <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                         </button>
                                       </>
                                     ) : (
                                       <>
                                         {competitor?.acceptedBy === "gov" ? (
                                           <>
-                                            <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
+                                            <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                           </>
                                         ) : (
                                           <>
-                                            <i class="ph ph-x work-flow-danger-status "></i>
+                                            <i className="ph ph-x work-flow-danger-status "></i>
                                           </>
                                         )}
                                       </>
@@ -497,18 +508,18 @@ const StaticCompiPrice = ({
                                           }
                                         >
                                           Accept{" "}
-                                          <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                          <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                         </button>
                                       </>
                                     ) : (
                                       <>
                                         {competitor?.acceptedBy === "pp" ? (
                                           <>
-                                            <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
+                                            <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                           </>
                                         ) : (
                                           <>
-                                            <i class="ph ph-x work-flow-danger-status "></i>
+                                            <i className="ph ph-x work-flow-danger-status "></i>
                                           </>
                                         )}
                                       </>
@@ -609,18 +620,18 @@ const StaticCompiPrice = ({
                                           }
                                         >
                                           Submit{" "}
-                                          <i class="ph ph-seal-check work-flow-gry-status c-top-3"></i>
+                                          <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                         </button>
                                       </>
                                     ) : (
                                       <>
                                         {competitor?.acceptedBy === "ov" ? (
                                           <>
-                                            <i class="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
+                                            <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                           </>
                                         ) : (
                                           <>
-                                            <i class="ph ph-x work-flow-danger-status "></i>
+                                            <i className="ph ph-x work-flow-danger-status "></i>
                                           </>
                                         )}
                                       </>
