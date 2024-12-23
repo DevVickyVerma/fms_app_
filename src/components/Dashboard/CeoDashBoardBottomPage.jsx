@@ -82,7 +82,7 @@ const CeoDashBoardBottomPage = (props) => {
                   md={liveAndDailyPermission ? 9 : 12}
                   onClick={() => handleCardClick("Daily Wise Sales")}
                   style={{
-                    backgroundColor: "#8563b6", // Blue background
+                    backgroundColor: "#20559A", // Blue background
                     color: "#fff",
                     height: "40px",
                     fontSize: "10px",
@@ -151,7 +151,7 @@ const CeoDashBoardBottomPage = (props) => {
                           applyNavigate ? "" : ""
                         }`}
                         style={{
-                          backgroundColor: "#4663ac", // Red background
+                          backgroundColor: "#6D6E71", // Red background
                           color: "#fff",
                           minHeight: "120px",
                           display: "flex",
@@ -181,7 +181,7 @@ const CeoDashBoardBottomPage = (props) => {
                           applyNavigate ? "" : ""
                         }`}
                         style={{
-                          backgroundColor: "#6764b3", // Dark Blue background
+                          backgroundColor: "#5F8AC7", // Dark Blue background
                           color: "#fff",
                           minHeight: "120px",
                           display: "flex",
@@ -211,7 +211,7 @@ const CeoDashBoardBottomPage = (props) => {
                           applyNavigate ? "" : ""
                         }`}
                         style={{
-                          backgroundColor: "#8563b6", // Light Blue background
+                          backgroundColor: "#20559A", // Light Blue background
                           color: "#fff",
                           minHeight: "120px",
                           display: "flex",
@@ -241,7 +241,7 @@ const CeoDashBoardBottomPage = (props) => {
                           applyNavigate ? "" : ""
                         }`}
                         style={{
-                          backgroundColor: "#7e95e4", // Yellow background
+                          backgroundColor: "#A6CE39", // Yellow background
                           color: "#fff",
                           minHeight: "120px",
                           display: "flex",
@@ -283,7 +283,7 @@ const CeoDashBoardBottomPage = (props) => {
                   justifyContent: "center",
                   gap: "10px",
                   transition: "all 0.3s ease",
-                  background: "#6764b3",
+                  background: "#5F8AC7",
                   position: "relative", // To enable positioning of child elements
                 }}
               >
@@ -334,7 +334,7 @@ const CeoDashBoardBottomPage = (props) => {
                   applyNavigate ? "pointer ceocard-hover" : ""
                 }`}
                 style={{
-                  backgroundColor: "#8563b6", // Light Blue background
+                  backgroundColor: "#20559A", // Light Blue background
                   color: "#fff",
                   // height: "100%",
                   minHeight: "111px",
@@ -363,7 +363,7 @@ const CeoDashBoardBottomPage = (props) => {
                   applyNavigate ? "pointer ceocard-hover" : ""
                 }`}
                 style={{
-                  backgroundColor: "#7e95e4", // Dark Blue background
+                  backgroundColor: "#A6CE39", // Dark Blue background
                   color: "#fff",
                   // height: "100%",
                   minHeight: "111px",
@@ -390,7 +390,7 @@ const CeoDashBoardBottomPage = (props) => {
                   applyNavigate ? "pointer ceocard-hover" : ""
                 }`}
                 style={{
-                  backgroundColor: "#4663ac", // Red background
+                  backgroundColor: "#6D6E71", // Red background
                   color: "#fff",
                   // height: "100%",
                   minHeight: "111px",
