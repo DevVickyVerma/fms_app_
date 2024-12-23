@@ -117,7 +117,7 @@ const CeoDashSitetable = (props) => {
                   ? formatNumber(row.fuel_volume?.gross_volume)
                   : "0"}
               </h6>
-              <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+              <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
                 <p
                   className={`me-1 mb-0 ${row.fuel_volume?.status === "up"
                     ? "text-success"
@@ -144,7 +144,7 @@ const CeoDashSitetable = (props) => {
               </OverlayTrigger>
 
               {/* //Weekly Status Show */}
-              <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+              <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
                 <p
                   className={`me-1 mb-0 ${row.fuel_volume?.w_status === "up"
                     ? "text-success"
@@ -171,7 +171,7 @@ const CeoDashSitetable = (props) => {
               </OverlayTrigger>
 
               {/* //Yearly Status Show */}
-              <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+              <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
                 <p
                   className={`me-1 mb-0 ${row.fuel_volume?.y_status === "up"
                     ? "text-success"
@@ -225,7 +225,7 @@ const CeoDashSitetable = (props) => {
                 ? formatNumber(row?.fuel_sales?.gross_value)
                 : "0"}
             </h6>
-            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
                 className={`me-1 mb-0 ${row?.fuel_sales?.status === "up"
                   ? "text-success"
@@ -251,7 +251,7 @@ const CeoDashSitetable = (props) => {
               </p>
             </OverlayTrigger>
             {/* //Weekly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
                 className={`me-1 mb-0 ${row.fuel_sales?.w_status === "up"
                   ? "text-success"
@@ -278,7 +278,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Yearly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
                 className={`me-1 mb-0 ${row.fuel_sales?.y_status === "up"
                   ? "text-success"
@@ -331,7 +331,7 @@ const CeoDashSitetable = (props) => {
                 ? formatNumber(row?.gross_profit?.gross_profit)
                 : "0"}
             </h6>
-            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
                 className={`me-1 mb-0 ${row?.gross_profit?.status === "up"
                   ? "text-success"
@@ -358,7 +358,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Weekly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.gross_profit?.w_status === "up"
                   ? "text-success"
@@ -385,7 +385,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Yearly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.gross_profit?.y_status === "up"
                   ? "text-success"
@@ -448,7 +448,7 @@ const CeoDashSitetable = (props) => {
                 ""
               )}
             </h6>
-            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row?.gross_margin?.status === "up"
                   ? "text-success"
@@ -475,7 +475,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Weekly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.gross_margin?.w_status === "up"
                   ? "text-success"
@@ -502,7 +502,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Yearly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.gross_margin?.y_status === "up"
                   ? "text-success"
@@ -555,7 +555,7 @@ const CeoDashSitetable = (props) => {
                 ? formatNumber(row?.shop_sales?.shop_sales)
                 : "0"}
             </h6>
-            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row?.shop_sales?.status === "up"
                   ? "text-success"
@@ -581,7 +581,7 @@ const CeoDashSitetable = (props) => {
               </p>
             </OverlayTrigger>
             {/* //Weekly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.shop_sales?.w_status === "up"
                   ? "text-success"
@@ -608,7 +608,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Yearly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.shop_sales?.y_status === "up"
                   ? "text-success"
@@ -660,7 +660,7 @@ const CeoDashSitetable = (props) => {
                 : "0"}
               {/* {row?.shop_fees?.shop_fees || "0.00"} */}
             </h6>
-            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row?.shop_fees?.status === "up"
                   ? "text-success"
@@ -686,7 +686,7 @@ const CeoDashSitetable = (props) => {
               </p>
             </OverlayTrigger>
             {/* //Weekly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
                 className={`me-1   mb-0 ${row.shop_fees?.w_status === "up"
                   ? "text-success"
@@ -713,7 +713,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Yearly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.shop_fees?.y_status === "up"
                   ? "text-success"
@@ -767,7 +767,7 @@ const CeoDashSitetable = (props) => {
                 : "0"}
               {/* {row?.shop_profit?.shop_profit || "0.00"} */}
             </h6>
-            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row?.shop_profit?.status === "up"
                   ? "text-success"
@@ -793,7 +793,7 @@ const CeoDashSitetable = (props) => {
               </p>
             </OverlayTrigger>
             {/* //Weekly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.shop_profit?.w_status === "up"
                   ? "text-success"
@@ -820,7 +820,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Yearly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.shop_profit?.y_status === "up"
                   ? "text-success"
@@ -874,7 +874,7 @@ const CeoDashSitetable = (props) => {
                 : "0"}
               {/* {row?.valet_sales?.valet_sales || "0.00"} */}
             </h6>
-            <OverlayTrigger placement="top" overlay={<Tooltip>Mom</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row?.valet_sales?.status === "up"
                   ? "text-success"
@@ -900,7 +900,7 @@ const CeoDashSitetable = (props) => {
               </p>
             </OverlayTrigger>
             {/* //Weekly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Wow</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.valet_sales?.w_status === "up"
                   ? "text-success"
@@ -927,7 +927,7 @@ const CeoDashSitetable = (props) => {
             </OverlayTrigger>
 
             {/* //Yearly Status Show */}
-            <OverlayTrigger placement="top" overlay={<Tooltip>Yoy</Tooltip>}>
+            <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
                 className={`me-1  mb-0 ${row.valet_sales?.y_status === "up"
                   ? "text-success"
