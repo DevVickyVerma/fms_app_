@@ -32,39 +32,40 @@ const Competitor = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    handleSuccess()
-  }, [currentPage])
-
-
+    handleSuccess();
+  }, [currentPage]);
 
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'site/competitor/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "site/competitor/delete", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/site/competitor/update-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/site/competitor/update-status",
+      formData,
+      handleSuccess
+    );
   };
 
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
 
-
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-
-  const isAddPermissionAvailable = UserPermissions?.includes("competitor-create");
-  const isDeletePermissionAvailable = UserPermissions?.includes("competitor-delete");
-  const isEditPermissionAvailable = UserPermissions?.includes("competitor-edit");
-
-
-
-
+  const isAddPermissionAvailable =
+    UserPermissions?.includes("competitor-create");
+  const isDeletePermissionAvailable =
+    UserPermissions?.includes("competitor-delete");
+  const isEditPermissionAvailable =
+    UserPermissions?.includes("competitor-edit");
 
   const handleSubmit1 = async (values) => {
     let { site_id } = values;
@@ -83,13 +84,12 @@ const Competitor = (props) => {
         setLastPage(response.data.data?.lastPage || 1);
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
       console.error("API error:", error);
     } // Set the submission state to false after the API call is completed
   };
 
   const columns = [
-
     {
       name: "Name",
       selector: (row) => [row.name],
@@ -99,7 +99,22 @@ const Competitor = (props) => {
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">
+              {row.name}
+
+              {row.is_main == 1 ? (
+                <>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>Main Competitor</Tooltip>}
+                  >
+                    <span className="badge bg-success ms-2 p-1">
+                      <i className="ph ph-seal-check c-fs-13"></i>
+                    </span>
+                  </OverlayTrigger>
+                </>
+              ) : null}
+            </h6>
           </div>
         </div>
       ),
@@ -219,9 +234,9 @@ const Competitor = (props) => {
     },
   ];
 
-
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -230,23 +245,21 @@ const Competitor = (props) => {
     site_id: Yup.string().required("Site is required"),
   });
 
-
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
 
-
   useEffect(() => {
-    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+    handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, [storedKeyName]);
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.site_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
+  };
 
   const handleClearForm = async () => {
-    setCompetitorList(null)
+    setCompetitorList(null);
   };
 
   const handleSuccess = () => {
@@ -254,18 +267,13 @@ const Competitor = (props) => {
       let parsedData = JSON.parse(storedData);
       handleApplyFilters(parsedData);
     }
-  }
-
-
-
-
+  };
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
 
       <>
-
         <div className="page-header d-flex flex-wrap">
           <div className="mb-2 mb-sm-0">
             <h1 className="page-title">Manage Competitors</h1>
@@ -302,9 +310,6 @@ const Competitor = (props) => {
           </div>
         </div>
 
-
-
-
         {/* here I will start Body of competitor */}
         <Row>
           <Col lg={12} xl={12} md={12} sm={12}>
@@ -327,7 +332,6 @@ const Competitor = (props) => {
                 showStationInput={true}
                 ClearForm={handleClearForm}
               />
-
             </Card>
           </Col>
         </Row>
@@ -353,7 +357,6 @@ const Competitor = (props) => {
                         highlightOnHover={true}
                         searchable={false}
                       />
-
                     </div>
                   </>
                 ) : (

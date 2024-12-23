@@ -114,7 +114,7 @@ const CeoDashSitetable = (props) => {
         >
           <div className="d-flex align-items-center h-100 ">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold ">
+              <h6 className="mb-0 fs-13 fw-semibold ">
                 <span className="l-sign">ℓ</span>{" "}
                 {row.fuel_volume?.gross_volume
                   ? formatNumber(row.fuel_volume?.gross_volume)
@@ -226,7 +226,7 @@ const CeoDashSitetable = (props) => {
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
+            <h6 className="mb-0 fs-13 fw-semibold">
               £{" "}
               {row?.fuel_sales?.gross_value
                 ? formatNumber(row?.fuel_sales?.gross_value)
@@ -336,7 +336,7 @@ const CeoDashSitetable = (props) => {
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
+            <h6 className="mb-0 fs-13 fw-semibold">
               £{" "}
               {row?.gross_profit?.gross_profit
                 ? formatNumber(row?.gross_profit?.gross_profit)
@@ -447,7 +447,7 @@ const CeoDashSitetable = (props) => {
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
+            <h6 className="mb-0 fs-13 fw-semibold">
               {row?.gross_margin?.gross_margin
                 ? formatNumber(row?.gross_margin?.gross_margin)
                 : "0"}
@@ -568,7 +568,7 @@ const CeoDashSitetable = (props) => {
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
+            <h6 className="mb-0 fs-13 fw-semibold">
               £{/* {row?.shop_sales?.shop_sales} */}
               {row?.shop_sales?.shop_sales
                 ? formatNumber(row?.shop_sales?.shop_sales)
@@ -676,7 +676,7 @@ const CeoDashSitetable = (props) => {
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
+            <h6 className="mb-0 fs-13 fw-semibold">
               £
               {row?.shop_fees?.shop_fee
                 ? formatNumber(row?.shop_fees?.shop_fee)
@@ -787,7 +787,7 @@ const CeoDashSitetable = (props) => {
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
+            <h6 className="mb-0 fs-13 fw-semibold">
               £
               {row?.shop_profit?.shop_profit
                 ? formatNumber(row?.shop_profit?.shop_profit)
@@ -898,7 +898,7 @@ const CeoDashSitetable = (props) => {
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
+            <h6 className="mb-0 fs-13 fw-semibold">
               £
               {row?.valet_sales?.valet_sales
                 ? formatNumber(row?.valet_sales?.valet_sales)
