@@ -14,17 +14,13 @@ import { PriceLogs } from '../../../Utils/commonFunctions/CommonData';
 const Exceptionallogs = (props) => {
     const { getData, isLoading, postData } = props;
     const [selectedDrsDate, setSelectedDrsDate] = useState("");
-    const [data, setData] = useState(null);
+    const [data, setData] = useState();
     const [PriceLogsvalue, setPriceLogsvalue] = useState(PriceLogsFilterValue[0]?.value); // state for selected site
 
     const handleSubmit1 = async (values) => {
         setSelectedDrsDate(values.start_date);
 
         try {
-            // const formData = new FormData();
-            // formData.append("start_date", values.start_date);
-            // formData.append("client_id", values.client_id);
-            // formData.append("company_id", values.company_id);
 
             let { client_id, company_id, start_date } = values;
             if (localStorage.getItem("superiorRole") === "Client") {
@@ -96,7 +92,7 @@ const Exceptionallogs = (props) => {
                 handleApplyFilters(futurepriceLog);
             }
         }
-    }, [storedKeyName]); // Add any other dependencies needed here
+    }, [storedKeyName, PriceLogsvalue]); // Add any other dependencies needed here
 
     const handleApplyFilters = (values) => {
         if (values?.company_id && values?.start_date) {
@@ -105,12 +101,16 @@ const Exceptionallogs = (props) => {
         }
     };
 
-
     const handleClearForm = async (resetForm) => {
         setData(null);
     };
 
+    const handleTabSelect = (eventKey) => {
+        console.log(eventKey, "eventKey");
+        setPriceLogsvalue(eventKey); // Update the state with the selected tab's eventKey
+    };
 
+    console.log(data?.priceLogs, "PriceLogsvalue");
 
     return (
         <>
@@ -166,12 +166,13 @@ const Exceptionallogs = (props) => {
                 </Row>
                 <Row>
                     <Col md={12} xl={12}>               <Tabs
-                        defaultActiveKey="Competitor"
+                        defaultActiveKey="competitor"
                         id="uncontrolled-tab-example"
                         className="mb-3"
                         style={{ backgroundColor: "#fff" }}
+                        onSelect={handleTabSelect}
                     >
-                        <Tab eventKey="Competitor" title="Competitor">
+                        <Tab eventKey="competitor" title="COMPETITOR">
                             <Card>
                                 <Card.Body>
                                     <table
@@ -182,14 +183,14 @@ const Exceptionallogs = (props) => {
                                             <tr>
 
                                                 <th scope="col">Site </th>
-                                                <th scope="col">Compitior </th>
+                                                <th scope="col">Competitor </th>
                                                 <th scope="col">Date</th>
 
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {PriceLogs?.priceLogs?.map((log) => (
+                                            {data?.priceLogs?.map((log) => (
                                                 <tr key={log.id}>
                                                     <td><img
                                                         src={log?.supplier}
@@ -211,7 +212,7 @@ const Exceptionallogs = (props) => {
                             </Card>
 
                         </Tab>
-                        <Tab eventKey="FMS" title="FMS">
+                        <Tab eventKey="fms" title="FMS">
                             <Card>
                                 <Card.Body>
                                     <table
@@ -228,7 +229,7 @@ const Exceptionallogs = (props) => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {PriceLogs?.priceLogs?.map((log) => (
+                                            {data?.priceLogs?.map((log) => (
                                                 <tr key={log.id}>
                                                     <td><img
                                                         src={log?.supplier}
@@ -250,7 +251,7 @@ const Exceptionallogs = (props) => {
                                 </Card.Body>
                             </Card>
                         </Tab>
-                        <Tab eventKey="OV" title="OV" >
+                        <Tab eventKey="ov" title="OV" >
                             <Card>
                                 <Card.Body>
                                     <table
@@ -262,14 +263,14 @@ const Exceptionallogs = (props) => {
 
 
                                                 <th scope="col">Site </th>
-                                                <th scope="col">Compitior </th>
+                                                <th scope="col">competitor </th>
                                                 <th scope="col">Date</th>
 
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {PriceLogs?.priceLogs?.map((log) => (
+                                            {data?.priceLogs?.map((log) => (
                                                 <tr key={log.id}>
 
                                                     <td><img

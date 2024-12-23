@@ -1,7 +1,6 @@
 import React from "react";
 
 const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
-  console.log(PriceLogs, "PriceLogTable");
 
   return (
     <>
@@ -16,7 +15,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
               <tr>
 
                 <th scope="col">Site </th>
-                <th scope="col">Compitior </th>
+                <th scope="col">Competitor </th>
                 <th scope="col">Date</th>
 
 
@@ -51,7 +50,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
 
 
                 <th scope="col">Site </th>
-                <th scope="col">Compitior </th>
+                <th scope="col">Competitor </th>
                 <th scope="col">Date</th>
 
 
