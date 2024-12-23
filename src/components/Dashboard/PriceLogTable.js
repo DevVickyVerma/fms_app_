@@ -16,7 +16,7 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
           >
             <thead>
               <tr>
-                <th scope="col">Competitor</th>
+
                 <th scope="col">Img</th>
                 <th scope="col">Site </th>
                 <th scope="col">Compitior </th>
@@ -29,21 +29,10 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
               {priceLogs?.map((log) => (
                 <tr key={log.id}>
                   <td className="py-2">{log.name}</td>
-                  <td>{log.is_checked}</td>
-                  <td>£{log.prev_price}</td>
-                  <td
-                    className={
-                      log?.status === "UP"
-                        ? "text-success"
-                        : log?.status === "DOWN"
-                          ? "text-danger"
-                          : undefined
-                    }
-                  >
-                    £{log.price}
-                  </td>
-                  <td>{log.user}</td>
-                  <td>02-12-2024</td>
+                  <td>{log.site}</td>
+                  <td>{log.name}</td>
+
+                  <td>{log.created}</td>
                 </tr>
               ))}
             </tbody>
@@ -55,12 +44,12 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
           >
             <thead>
               <tr>
-                <th scope="col">OV</th>
-                <th scope="col">Img2</th>
+
+                <th scope="col">Img</th>
                 <th scope="col">Site </th>
                 <th scope="col">Compitior </th>
                 <th scope="col">Date</th>
-                <th scope="col">Detail</th>
+
 
               </tr>
             </thead>
@@ -68,21 +57,10 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
               {priceLogs?.map((log) => (
                 <tr key={log.id}>
                   <td className="py-2">{log.name}</td>
-                  <td>{log.is_checked}</td>
-                  <td>£{log.prev_price}</td>
-                  <td
-                    className={
-                      log?.status === "UP"
-                        ? "text-success"
-                        : log?.status === "DOWN"
-                          ? "text-danger"
-                          : undefined
-                    }
-                  >
-                    £{log.price}
-                  </td>
-                  <td>{log.user}</td>
-                  <td>02-12-2024</td>
+                  <td>{log.site}</td>
+                  <td>{log.name}</td>
+
+                  <td>{log.created}</td>
                 </tr>
               ))}
             </tbody>
@@ -96,11 +74,11 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
           >
             <thead>
               <tr>
-                <th scope="col">FMS</th>
-                <th scope="col">Img1</th>
+
+                <th scope="col">Logo</th>
                 <th scope="col">Site </th>
                 <th scope="col">Date</th>
-                <th scope="col">Detail</th>
+                <th scope="col">Details</th>
 
               </tr>
             </thead>
@@ -108,21 +86,11 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
               {priceLogs?.map((log) => (
                 <tr key={log.id}>
                   <td className="py-2">{log.name}</td>
-                  <td>{log.is_checked}</td>
-                  <td>£{log.prev_price}</td>
-                  <td
-                    className={
-                      log?.status === "UP"
-                        ? "text-success"
-                        : log?.status === "DOWN"
-                          ? "text-danger"
-                          : undefined
-                    }
-                  >
-                    £{log.price}
-                  </td>
-                  <td>{log.user}</td>
-                  <td>02-12-2024</td>
+                  <td>{log.site}</td>
+                  <td>{log.created}</td>
+                  <td>{log.type}</td>
+
+
                 </tr>
               ))}
             </tbody>

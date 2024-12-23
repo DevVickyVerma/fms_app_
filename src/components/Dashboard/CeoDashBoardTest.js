@@ -357,10 +357,11 @@ const CeoDashBoardTest = (props) => {
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
   useEffect(() => {
-    if (PriceLogsvalue && formik?.values?.selectedSite) {
+    if (formik?.values?.selectedSite && priceLogsPermission) {
+
       FetchPriceLogs(PriceLogsvalue);
     }
-  }, [PriceLogsvalue]);
+  }, [formik?.values?.selectedSite && priceLogsPermission && PriceLogsvalue]);
 
 
 
@@ -441,7 +442,7 @@ const CeoDashBoardTest = (props) => {
       navigate(`/pricegraph-view/`);
     }
   };
-
+  console.log(PriceLogsFilterValue?.find(item => item.value == PriceLogsvalue)?.label), "Price";
 
   return (
     <>
@@ -647,8 +648,8 @@ const CeoDashBoardTest = (props) => {
                     <h4 className="card-title">
                       {" "}
                       Fuel Price Logs{" "}
-
-                      <br></br>
+                      ({PriceLogsFilterValue?.find(item => item.value === PriceLogsvalue)?.label || "Value not found"})
+                      <br />
                       {userPermissions?.includes("fuel-price-logs") ? (
                         <span style={{ color: "#4663ac" }}>
                           <Link to="/fuel-selling-price-logs/">View All</Link>
