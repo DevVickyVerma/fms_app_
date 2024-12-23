@@ -55,6 +55,7 @@ const Custompages = React.lazy(() => import("./components/custompages"));
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
+const Exceptionallogs = React.lazy(() => import("./components/pages/FuelSellingPricesSuggestion/Exceptionallogs"));
 const CeoDashBoard = React.lazy(() =>
   import("./components/Dashboard/CeoDashBoard")
 );
@@ -846,6 +847,10 @@ const Root = () => {
                     <Route
                       path={`/fuel-selling-price-logs`}
                       element={<WrappedFuelSellingSuggestionLogs />}
+                    />
+                    <Route
+                      path={`/fuel-price-exceptional-logs`}
+                      element={<Exceptionallogs />}
                     />
                     <Route
                       path={`/addCompetitor`}
