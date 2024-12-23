@@ -271,19 +271,22 @@ const CeoDashBoardTest = (props) => {
   };
 
   const FetchPriceLogs = async (PriceLogsvalue) => {
+
+    console.log(filters?.client_id, "FetchPriceLogs");
+
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
-      if (formik?.values?.selectedSite)
-        queryParams.append("site_id", formik?.values?.selectedSite);
+      if (filters?.site_id)
+        queryParams.append("site_id", filters?.site_id);
       const currentDate = new Date();
       const day = "01";
       const formattedDate = `${String(day)}-${String(
         currentDate.getMonth() + 1
       ).padStart(2, "0")}-${currentDate.getFullYear()}`;
+      queryParams.append("client_id", filters?.client_id);
+      queryParams.append("company_id", filters?.company_id);
 
-      queryParams.append("client_id", formik?.values?.client_id);
-      queryParams.append("company_id", formik?.values?.company_id);
       queryParams.append("drs_date", formattedDate);
       queryParams.append("f_type", PriceLogsvalue);
 
@@ -352,17 +355,23 @@ const CeoDashBoardTest = (props) => {
 
 
   useEffect(() => {
+
+
+
     if (formik?.values?.selectedSite && priceLogsPermission) {
 
       FetchPriceGraph();
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
   useEffect(() => {
-    if (formik?.values?.selectedSite && priceLogsPermission) {
+
+    console.log(filters, "filters");
+
+    if (priceLogsPermission && filters?.client_id && filters?.company_id) {
 
       FetchPriceLogs(PriceLogsvalue);
     }
-  }, [formik?.values?.selectedSite && priceLogsPermission && PriceLogsvalue]);
+  }, [priceLogsPermission && PriceLogsvalue && filters]);
 
 
 
@@ -441,7 +450,6 @@ const CeoDashBoardTest = (props) => {
       navigate(`/pricegraph-view/`);
     }
   };
-  console.log(PriceLogs, "PriceLogs?.priceLogs");
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
