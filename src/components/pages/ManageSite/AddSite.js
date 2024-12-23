@@ -395,7 +395,6 @@ const AddSite = (props) => {
     </div>
   );
 
-  console.log(formik?.values, "formik valuess");
 
   return (
     <>
@@ -481,7 +480,7 @@ const AddSite = (props) => {
                             name: item?.supplier_name,
                           }))}
                           className="form-input"
-                          // onChange={handleCompanyChange}
+                        // onChange={handleCompanyChange}
                         />
                       </Col>
                       <Col lg={4}>
@@ -1049,7 +1048,7 @@ const AddSite = (props) => {
                               />
                             </div>
                             {formik.touched.to_emails &&
-                            formik.errors.to_emails ? (
+                              formik.errors.to_emails ? (
                               <div className="error invalid-feedback">
                                 {formik.errors.to_emails}
                               </div>
@@ -1074,7 +1073,7 @@ const AddSite = (props) => {
                                 }
                               />
                               {formik.touched.cc_emails &&
-                              formik.errors.cc_emails ? (
+                                formik.errors.cc_emails ? (
                                 <div className="error">
                                   {formik.errors.cc_emails}
                                 </div>
@@ -1101,7 +1100,7 @@ const AddSite = (props) => {
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
-                        // disabled={Object.keys(errors).length > 0}
+                      // disabled={Object.keys(errors).length > 0}
                       >
                         Save
                       </button>

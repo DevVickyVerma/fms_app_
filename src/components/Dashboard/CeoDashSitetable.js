@@ -957,7 +957,6 @@ const CeoDashSitetable = (props) => {
       ),
     },
   ];
-  console.log(data, "isLoading");
   return (
     <>
       {isLoading ? <LoaderImg /> : null}

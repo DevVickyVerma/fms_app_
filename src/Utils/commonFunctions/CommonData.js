@@ -3807,7 +3807,6 @@ const totalDays = 30;
 const priceData = Array.from({ length: totalDays }, (_, i) =>
   startingPrice + ((endingPrice - startingPrice) / (totalDays - 1)) * i
 );
-console.log(priceData, "priceData");
 export const stockGraphData = {
   "labels": [
     "01-Dec",

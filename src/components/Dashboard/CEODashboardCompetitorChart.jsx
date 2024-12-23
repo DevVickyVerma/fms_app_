@@ -119,7 +119,6 @@ const CEODashboardCompetitorChart = (props) => {
     },
   };
 
-  console.log(selectedFuelType, "selectedFuelType");
 
   return (
     <Card className="dash-card-default-height">

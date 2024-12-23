@@ -46,14 +46,9 @@ const useErrorHandler = () => {
 
 
 
-        // console.log("Current Path:", currentPath);
-        // console.log("Current Pathl:", lastPath);
-        // console.log(lastPath, "errorMessage");
         if (currentPath === lastPath) {
-          // console.log(" Navigating Same path: no navigation needed");
           navigate(UserPermissions?.route)
         } else {
-          // console.log("Navigating to last path:", lastPath);
           navigate(lastPath); // Navigate to lastPath if they are different
         }
 

@@ -48,7 +48,7 @@ const PriceGraphView = (props) => {
             if (values?.site_id) {
                 queryParams.append("site_id", values?.site_id);
             } else {
-                console.log(values, "values");
+
                 values.site_id = values?.sites[0]?.id;
                 values.site_name = values?.sites[0]?.site_name;
                 queryParams.append("site_id", values?.sites[0]?.id); // Replace 'default_value' as needed
@@ -99,7 +99,7 @@ const PriceGraphView = (props) => {
     //     }
     // }, [visible]);
 
-    console.log(filters, "filters");
+
     useEffect(() => {
         handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
     }, [permissionsArray?.includes("ceodashboard-view")]);

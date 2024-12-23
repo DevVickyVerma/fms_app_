@@ -48,7 +48,6 @@ const CeoDashBoardTest = (props) => {
 
   const handlePriceLogsChange = (value) => {
     setPriceLogsvalue(value);
-    console.log("Selected site value:", value);
   };
 
   const userPermissions = useSelector(
@@ -413,7 +412,6 @@ const CeoDashBoardTest = (props) => {
       } else if (result.isDenied) {
         // Logic for the deny button (third button)
         Swal.close();
-        console.log("Cancel button clicked");
       }
     });
   };
@@ -428,7 +426,6 @@ const CeoDashBoardTest = (props) => {
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
-    console.log(formik.values, "formik.values.selectedSite");
 
     if (storedData) {
       let updatedStoredData = JSON.parse(storedData);
@@ -442,7 +439,6 @@ const CeoDashBoardTest = (props) => {
       navigate(`/pricegraph-view/`);
     }
   };
-  console.log(PriceLogsFilterValue?.find(item => item.value == PriceLogsvalue)?.label), "Price";
 
   return (
     <>

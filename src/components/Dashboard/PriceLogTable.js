@@ -2,8 +2,6 @@ import React from "react";
 
 const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
 
-  console.log(PriceLogsvalue, "PriceLogTable");
-
 
   return (
     <>

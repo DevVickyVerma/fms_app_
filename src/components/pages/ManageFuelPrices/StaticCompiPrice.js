@@ -135,7 +135,6 @@ const StaticCompiPrice = ({
     // onDataFromChild(dataToSend);
   };
 
-  console.log(formik?.values, "formik values");
 
   const handleSelectedPrice = async (competitor, index, key_name) => {
     // here i will pass onclick submit btn
@@ -172,7 +171,6 @@ const StaticCompiPrice = ({
           formData.append("drs_date", selectedDrsDate);
           formData.append("updated_from", key_name);
 
-          console.log(competitor?.fuels?.[key_name], "client");
 
           competitor?.fuels?.[key_name].forEach((fuel) => {
             if (fuel?.price == "-") {
@@ -245,7 +243,7 @@ const StaticCompiPrice = ({
                               </span>
                             </div>
                           }
-                          // key={siteIndex}
+                        // key={siteIndex}
                         >
                           <table className="table">
                             <thead className="">
@@ -274,7 +272,7 @@ const StaticCompiPrice = ({
                                     // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                                     className="middayModal-td text-muted fs-15 fw-semibold p-4"
                                     style={{ maxWidth: "50px" }}
-                                    // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
+                                  // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                                   >
                                     <img
                                       src={formik?.values?.supplier}
@@ -299,7 +297,7 @@ const StaticCompiPrice = ({
                                             step="0.010"
                                             name={`listing.competitors.[${competitorIndex}].price`}
                                             value={competitor?.price}
-                                            // onChange={formik.handleChange}
+                                          // onChange={formik.handleChange}
                                           />
                                         </td>
                                       </>
@@ -349,9 +347,8 @@ const StaticCompiPrice = ({
                                           className="middayModal-td"
                                         >
                                           <input
-                                            className={`table-input ${
-                                              fuel?.canUpdate ? "" : "readonly"
-                                            }`}
+                                            className={`table-input ${fuel?.canUpdate ? "" : "readonly"
+                                              }`}
                                             type="number"
                                             readOnly={!fuel?.canUpdate}
                                             step="0.010"
@@ -456,9 +453,8 @@ const StaticCompiPrice = ({
                                           className="middayModal-td"
                                         >
                                           <input
-                                            className={`table-input ${
-                                              fuel?.canUpdate ? "" : "readonly"
-                                            }`}
+                                            className={`table-input ${fuel?.canUpdate ? "" : "readonly"
+                                              }`}
                                             type="number"
                                             readOnly={!fuel?.canUpdate}
                                             step="0.010"
@@ -568,9 +564,8 @@ const StaticCompiPrice = ({
                                           className="middayModal-td"
                                         >
                                           <input
-                                            className={`table-input ${
-                                              fuel?.canUpdate ? "" : "readonly"
-                                            }`}
+                                            className={`table-input ${fuel?.canUpdate ? "" : "readonly"
+                                              }`}
                                             type="number"
                                             readOnly={!fuel?.canUpdate}
                                             step="0.010"

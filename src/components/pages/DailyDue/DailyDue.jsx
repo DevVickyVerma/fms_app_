@@ -133,7 +133,6 @@ const DailyDue = ({ isLoading, getData, postData }) => {
       );
     } catch (error) {
       handleError(error);
-      console.log(error); // Set the submission state to false if an error occurs
     }
   };
 
@@ -322,13 +321,11 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                 onBlur={formik.handleBlur}
                                 id={`dues[${index}].e_date`}
                                 onClick={handleShowDate} // Directly pass handleShowDate
-                                className={`input101 ${
-                                  formik.errors.e_date && formik.touched?.e_date
+                                className={`input101 ${formik.errors.e_date && formik.touched?.e_date
                                     ? "text-danger"
                                     : ""
-                                } ${
-                                  formik.values.is_editable ? "" : "readonly"
-                                }`}
+                                  } ${formik.values.is_editable ? "" : "readonly"
+                                  }`}
                                 min={dateValidation?.minDate}
                                 max={dateValidation?.maxDate}
                                 disabled={!formik.values.is_editable}
@@ -366,14 +363,12 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                   )
                                 }
                                 onClick={handleShowDate} // Directly pass handleShowDate
-                                className={`input101 ${
-                                  formik.errors.invoice &&
-                                  formik.touched?.invoice
+                                className={`input101 ${formik.errors.invoice &&
+                                    formik.touched?.invoice
                                     ? "text-danger"
                                     : ""
-                                } ${
-                                  formik.values.is_editable ? "" : "readonly"
-                                }`}
+                                  } ${formik.values.is_editable ? "" : "readonly"
+                                  }`}
                                 disabled={!formik.values.is_editable}
                               />
                               {formik.touched?.dues?.[index]?.invoice &&
@@ -409,14 +404,12 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                 id={`dues[${index}].operator_pay`}
                                 placeholder="Enter Payment By Operator Value"
                                 onClick={handleShowDate} // Directly pass handleShowDate
-                                className={`input101 ${
-                                  formik.errors.operator_pay &&
-                                  formik.touched?.operator_pay
+                                className={`input101 ${formik.errors.operator_pay &&
+                                    formik.touched?.operator_pay
                                     ? "text-danger"
                                     : ""
-                                } ${
-                                  formik.values.is_editable ? "" : "readonly"
-                                }`}
+                                  } ${formik.values.is_editable ? "" : "readonly"
+                                  }`}
                                 disabled={!formik.values.is_editable}
                               />
                               {formik?.touched?.dues &&
@@ -455,14 +448,12 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                 id={`dues[${index}].adj_operator_pay`}
                                 placeholder="Enter Payment By Operator Value"
                                 onClick={handleShowDate} // Directly pass handleShowDate
-                                className={`input101 ${
-                                  formik.errors.adj_operator_pay &&
-                                  formik.touched?.adj_operator_pay
+                                className={`input101 ${formik.errors.adj_operator_pay &&
+                                    formik.touched?.adj_operator_pay
                                     ? "text-danger"
                                     : ""
-                                } ${
-                                  formik.values.is_editable ? "" : "readonly"
-                                }`}
+                                  } ${formik.values.is_editable ? "" : "readonly"
+                                  }`}
                                 disabled={!formik.values.is_editable}
                               />
                               {formik?.touched?.dues &&
@@ -499,14 +490,12 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                 id={`dues[${index}].owner_pay`}
                                 placeholder="Enter Payment By Owner Value"
                                 onClick={handleShowDate} // Directly pass handleShowDate
-                                className={`input101 ${
-                                  formik.errors.owner_pay &&
-                                  formik.touched?.owner_pay
+                                className={`input101 ${formik.errors.owner_pay &&
+                                    formik.touched?.owner_pay
                                     ? "text-danger"
                                     : ""
-                                } ${
-                                  formik.values.is_editable ? "" : "readonly"
-                                }`}
+                                  } ${formik.values.is_editable ? "" : "readonly"
+                                  }`}
                                 disabled={!formik.values.is_editable}
                               />
                               {formik?.touched?.dues &&
@@ -541,14 +530,12 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                 id={`dues[${index}].adj_owner_pay`}
                                 placeholder="Enter Payment By Owner Value"
                                 onClick={handleShowDate} // Directly pass handleShowDate
-                                className={`input101 ${
-                                  formik.errors.adj_owner_pay &&
-                                  formik.touched?.adj_owner_pay
+                                className={`input101 ${formik.errors.adj_owner_pay &&
+                                    formik.touched?.adj_owner_pay
                                     ? "text-danger"
                                     : ""
-                                } ${
-                                  formik.values.is_editable ? "" : "readonly"
-                                }`}
+                                  } ${formik.values.is_editable ? "" : "readonly"
+                                  }`}
                                 disabled={!formik.values.is_editable}
                               />
                               {formik?.touched?.dues &&
@@ -573,13 +560,11 @@ const DailyDue = ({ isLoading, getData, postData }) => {
                                 id={`dues[${index}].detail`}
                                 placeholder="Enter Detail Value"
                                 onClick={handleShowDate} // Directly pass handleShowDate
-                                className={`input101 ${
-                                  formik.errors.detail && formik.touched?.detail
+                                className={`input101 ${formik.errors.detail && formik.touched?.detail
                                     ? "text-danger"
                                     : ""
-                                } ${
-                                  formik.values.is_editable ? "" : "readonly"
-                                }`}
+                                  } ${formik.values.is_editable ? "" : "readonly"
+                                  }`}
                                 disabled={!formik.values.is_editable}
                               />
                               {formik?.touched?.dues &&
