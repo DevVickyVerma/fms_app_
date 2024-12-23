@@ -116,13 +116,17 @@ export const SalesSummary = [
   { value: "0", label: "Grades Dispensed Summary" },
 ];
 
-
-
 export const PriceLogsFilterValue = [
-  { value: "1", label: "Competitor" },
-  { value: "0", label: "FMS" },
-  { value: "2", label: "OV" },
+  { value: "competitor", label: "Competitor" },
+  { value: "fms", label: "FMS" },
+  { value: "ov", label: "OV" },
 ];
+
+// export const PriceLogsFilterValue = [
+//   { value: "1", label: "Competitor" },
+//   { value: "0", label: "FMS" },
+//   { value: "2", label: "OV" },
+// ];
 export function formatLabel(str) {
   // Check if the input is indeed a string
   if (typeof str !== "string") {

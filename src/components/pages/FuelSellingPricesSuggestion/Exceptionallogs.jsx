@@ -8,21 +8,11 @@ import { Collapse } from "antd";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import TabDesign from "../FuelSellingSuggestionLogs/TabDesign";
 
-const { Panel } = Collapse;
 
 const Exceptionallogs = (props) => {
     const { getData, isLoading, postData } = props;
-
-    const [selectedItem, setSelectedItem] = useState(null);
     const [selectedDrsDate, setSelectedDrsDate] = useState("");
-    const [modalOpen, setModalOpen] = useState(false);
-    const [logsModal, setLogsModal] = useState(false);
-    const [accordionSiteID, setaccordionSiteID] = useState();
-
-
-
     const [data, setData] = useState(null);
-
     const handleSubmit1 = async (values) => {
         setSelectedDrsDate(values.start_date);
 
@@ -53,9 +43,6 @@ const Exceptionallogs = (props) => {
             console.error("API error:", error);
         }
     };
-
-
-
 
     const [isNotClient] = useState(
         localStorage.getItem("superiorRole") !== "Client"
@@ -107,8 +94,6 @@ const Exceptionallogs = (props) => {
     }, [storedKeyName]); // Add any other dependencies needed here
 
     const handleApplyFilters = (values) => {
-        console.log(values, "values");
-
         if (values?.company_id && values?.start_date) {
             console.log(values, "values");
             handleSubmit1(values);

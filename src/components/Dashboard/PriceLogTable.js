@@ -1,13 +1,13 @@
 import React from "react";
 
-const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
-
+const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
+  console.log(PriceLogs, "PriceLogTable");
 
   return (
     <>
 
       {
-        PriceLogsvalue == 1 ? (
+        PriceLogsvalue == "competitor" ? (
           <table
             className="table table-modern tracking-in-expand"
             style={{ width: "100%" }}
@@ -24,18 +24,26 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
               </tr>
             </thead>
             <tbody>
-              {priceLogs?.map((log) => (
+              {PriceLogs?.priceLogs?.map((log) => (
                 <tr key={log.id}>
-                  <td className="py-2">{log.name}</td>
+                  <td className="py-2">    <img
+                    src={log?.supplier}
+                    // alt="supplier"
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                      marginRight: "10px",
+                    }}
+                  />{" "}</td>
                   <td>{log.site}</td>
-                  <td>{log.name}</td>
+                  <td>{log.competitor}</td>
 
-                  <td>{log.created}</td>
+                  <td>{log.date}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        ) : PriceLogsvalue == 2 ? (
+        ) : PriceLogsvalue == "ov" ? (
           <table
             className="table table-modern tracking-in-expand"
             style={{ width: "100%" }}
@@ -52,19 +60,27 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
               </tr>
             </thead>
             <tbody>
-              {priceLogs?.map((log) => (
+              {PriceLogs?.priceLogs?.map((log) => (
                 <tr key={log.id}>
-                  <td className="py-2">{log.name}</td>
+                  <td className="py-2">    <img
+                    src={log?.supplier}
+                    // alt="supplier"
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                      marginRight: "10px",
+                    }}
+                  />{" "}</td>
                   <td>{log.site}</td>
-                  <td>{log.name}</td>
+                  <td>{log.competitor}</td>
 
-                  <td>{log.created}</td>
+                  <td>{log.date}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-        ) : PriceLogsvalue == 0 ? (
+        ) : PriceLogsvalue == "fms" ? (
 
           <table
             className="table table-modern tracking-in-expand"
@@ -73,7 +89,7 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
             <thead>
               <tr>
 
-                <th scope="col">Logo</th>
+                <th scope="col">Img</th>
                 <th scope="col">Site </th>
                 <th scope="col">Date</th>
                 <th scope="col">Details</th>
@@ -81,12 +97,20 @@ const PriceLogTable = ({ priceLogs, PriceLogsvalue }) => {
               </tr>
             </thead>
             <tbody>
-              {priceLogs?.map((log) => (
+              {PriceLogs?.priceLogs?.map((log) => (
                 <tr key={log.id}>
-                  <td className="py-2">{log.name}</td>
+                  <td className="py-2">    <img
+                    src={log.supplier}
+                    alt="supplier"
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                      marginRight: "10px",
+                    }}
+                  />{" "}</td>
                   <td>{log.site}</td>
-                  <td>{log.created}</td>
-                  <td>{log.type}</td>
+                  <td>{log.date}</td>
+                  <td>{log.detail}</td>
 
 
                 </tr>

@@ -282,8 +282,10 @@ const CeoDashBoardTest = (props) => {
         currentDate.getMonth() + 1
       ).padStart(2, "0")}-${currentDate.getFullYear()}`;
 
+      queryParams.append("client_id", formik?.values?.client_id);
+      queryParams.append("company_id", formik?.values?.company_id);
       queryParams.append("drs_date", formattedDate);
-      queryParams.append("PriceLogsvalue", PriceLogsvalue);
+      queryParams.append("f_type", PriceLogsvalue);
 
       const queryString = queryParams.toString();
       const response = await getData(
@@ -439,7 +441,7 @@ const CeoDashBoardTest = (props) => {
       navigate(`/pricegraph-view/`);
     }
   };
-
+  console.log(PriceLogs, "PriceLogs?.priceLogs");
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -687,7 +689,7 @@ const CeoDashBoardTest = (props) => {
                   {PriceLogsloading ? (
                     <SmallLoader />
                   ) : PriceLogs?.priceLogs?.length > 0 ? (
-                    <PriceLogTable PriceLogsvalue={PriceLogsvalue} priceLogs={PriceLogs?.priceLogs} />
+                    <PriceLogTable PriceLogsvalue={PriceLogsvalue} PriceLogs={PriceLogs} />
                   ) : (
                     <img
                       src={require("../../assets/images/commonimages/no_data.png")}
