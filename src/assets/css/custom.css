@@ -2623,7 +2623,7 @@ td.middayModal-td.time-input-fuel-sell {
     no-repeat center center; */
   background-size: cover;
   height: 100%;
-  background-color: #6764b3;
+  background-color: inherit;
 }
 
 .operator-tr {
