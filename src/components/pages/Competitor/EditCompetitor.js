@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const AddCompetitor = (props) => {
   const { isLoading, getData, postData } = props;
@@ -17,47 +17,49 @@ const AddCompetitor = (props) => {
     try {
       const response = await getData(`/site/competitor/detail/${id}`);
 
-      if (response && response.data) {
-        formik.setFieldValue(
-          "name",
+      if (response && response.data && response.data.data) {
+        formik.setValues(response?.data?.data);
 
-          response?.data?.data?.name
-        );
-        formik.setFieldValue(
-          "address",
+        // formik.setFieldValue(
+        //   "name",
 
-          response?.data?.data?.address
-        );
-        formik.setFieldValue(
-          "supplier",
+        //   response?.data?.data?.name
+        // );
+        // formik.setFieldValue(
+        //   "address",
 
-          response?.data?.data?.supplier
-        );
-        formik.setFieldValue(
-          "cat_no",
+        //   response?.data?.data?.address
+        // );
+        // formik.setFieldValue(
+        //   "supplier",
 
-          response?.data?.data?.cat_no
-        );
-        formik.setFieldValue(
-          "postcode",
+        //   response?.data?.data?.supplier
+        // );
+        // formik.setFieldValue(
+        //   "cat_no",
 
-          response?.data?.data?.postcode
-        );
-        formik.setFieldValue(
-          "dist_miles",
+        //   response?.data?.data?.cat_no
+        // );
+        // formik.setFieldValue(
+        //   "postcode",
 
-          response?.data?.data?.dist_miles
-        );
-        formik.setFieldValue(
-          "main_code",
+        //   response?.data?.data?.postcode
+        // );
+        // formik.setFieldValue(
+        //   "dist_miles",
 
-          response?.data?.data?.main_code
-        );
-        formik.setFieldValue(
-          "status",
+        //   response?.data?.data?.dist_miles
+        // );
+        // formik.setFieldValue(
+        //   "main_code",
 
-          response?.data?.data?.status
-        );
+        //   response?.data?.data?.main_code
+        // );
+        // formik.setFieldValue(
+        //   "status",
+
+        //   response?.data?.data?.status
+        // );
       } else {
         throw new Error("No data available in the response");
       }
@@ -86,7 +88,6 @@ const AddCompetitor = (props) => {
       handleError(error);
     }
     // console.clear()
-    
   }, []);
 
   const formik = useFormik({
@@ -97,9 +98,8 @@ const AddCompetitor = (props) => {
       postcode: "",
       main_code: "",
       supplier: "",
-
+      is_main: 0,
       address: "",
-
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Competitor name is required"),
@@ -121,7 +121,7 @@ const AddCompetitor = (props) => {
       formData.append("site_id", id);
       formData.append("address", values.address);
       formData.append("supplier_id", values.supplier);
-
+      formData.append("is_main", values.is_main);
       formData.append("id", id);
       formData.append("cat_no", values.cat_no);
       formData.append("dist_miles", values.dist_miles);
@@ -188,10 +188,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.name && formik.touched.name
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.name && formik.touched.name
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="name"
                           name="name"
                           placeholder="Competitor Name "
@@ -213,10 +214,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.main_code && formik.touched.main_code
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.main_code && formik.touched.main_code
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="main_code"
                           name="main_code"
                           placeholder="Main Code"
@@ -239,10 +241,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.postcode && formik.touched.postcode
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.postcode && formik.touched.postcode
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="postcode"
                           name="postcode"
                           placeholder="Post Code"
@@ -264,10 +267,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.cat_no && formik.touched.cat_no
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.cat_no && formik.touched.cat_no
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="cat_no"
                           name="cat_no"
                           placeholder=" Category Number"
@@ -289,11 +293,12 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.dist_miles &&
+                          className={`input101 ${
+                            formik.errors.dist_miles &&
                             formik.touched.dist_miles
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="dist_miles"
                           name="dist_miles"
                           placeholder="Dist Miles"
@@ -315,10 +320,11 @@ const AddCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <textarea
-                          className={`input101 ${formik.errors.address && formik.touched.address
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.address && formik.touched.address
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="address"
                           name="address"
                           onChange={formik.handleChange}
@@ -340,10 +346,11 @@ const AddCompetitor = (props) => {
                           Supplier <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.supplier && formik.touched.supplier
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.supplier && formik.touched.supplier
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="supplier"
                           name="supplier"
                           onChange={formik.handleChange}
@@ -357,7 +364,9 @@ const AddCompetitor = (props) => {
                               </option>
                             ))
                           ) : (
-                            <option disabled={true}>No Supplier available</option>
+                            <option disabled={true}>
+                              No Supplier available
+                            </option>
                           )}
                         </select>
                         {formik.errors.supplier && formik.touched.supplier && (
@@ -365,6 +374,27 @@ const AddCompetitor = (props) => {
                             {formik.errors.supplier}
                           </div>
                         )}
+                      </div>
+                    </Col>
+
+                    <Col lg={4} md={6}>
+                      <div className="position-relative pointer mt-4 d-flex align-items-center h-100">
+                        <input
+                          type="checkbox"
+                          id="is_main"
+                          name="is_main"
+                          checked={formik?.values?.is_main === 1}
+                          onChange={(e) =>
+                            formik.setFieldValue(
+                              "is_main",
+                              e.target.checked ? 1 : 0
+                            )
+                          }
+                          className="mx-1 form-check-input pointer"
+                        />
+                        <label htmlFor="is_main" className="ms-6 m-0 pointer">
+                          Is Main
+                        </label>
                       </div>
                     </Col>
                   </Row>

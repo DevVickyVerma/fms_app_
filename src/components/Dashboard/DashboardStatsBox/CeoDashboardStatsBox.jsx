@@ -28,8 +28,8 @@ const CeoDashboardStatsBox = ({
       title: "Card Fuel Sales",
       icon: "£",
       containerStyle: "dash-plates-5",
-      tooltip:
-        "Gross Profit = Total Sales - Opening Stock - Purchases(Deliveries) + Closing Stock",
+      // tooltip:
+      //   "Gross Profit = Total Sales - Opening Stock - Purchases(Deliveries) + Closing Stock",
     },
     {
       dataKey: "card_shop_sales",
