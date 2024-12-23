@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Row, Tabs, Tab } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
@@ -7,12 +7,16 @@ import withApi from "../../../Utils/ApiHelper";
 import { Collapse } from "antd";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import TabDesign from "../FuelSellingSuggestionLogs/TabDesign";
+import { PriceLogsFilterValue } from "../../../Utils/commonFunctions/commonFunction";
+import { PriceLogs } from '../../../Utils/commonFunctions/CommonData';
 
 
 const Exceptionallogs = (props) => {
     const { getData, isLoading, postData } = props;
     const [selectedDrsDate, setSelectedDrsDate] = useState("");
     const [data, setData] = useState(null);
+    const [PriceLogsvalue, setPriceLogsvalue] = useState(PriceLogsFilterValue[0]?.value); // state for selected site
+
     const handleSubmit1 = async (values) => {
         setSelectedDrsDate(values.start_date);
 
@@ -31,9 +35,10 @@ const Exceptionallogs = (props) => {
             if (client_id) queryParams.append("client_id", client_id);
             if (company_id) queryParams.append("company_id", company_id);
             if (start_date) queryParams.append("drs_date", start_date);
+            queryParams.append("f_type", PriceLogsvalue);
 
             const queryString = queryParams.toString();
-            const response1 = await getData(`site/competitor-price?${queryString}`);
+            const response1 = await getData(`ceo-dashboard/selling-price?${queryString}`);
 
             const { data } = response1;
             if (data) {
@@ -160,7 +165,133 @@ const Exceptionallogs = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={12} xl={12}>      <TabDesign /></Col>
+                    <Col md={12} xl={12}>               <Tabs
+                        defaultActiveKey="Competitor"
+                        id="uncontrolled-tab-example"
+                        className="mb-3"
+                        style={{ backgroundColor: "#fff" }}
+                    >
+                        <Tab eventKey="Competitor" title="Competitor">
+                            <Card>
+                                <Card.Body>
+                                    <table
+                                        className="table table-modern tracking-in-expand"
+                                        style={{ width: "100%" }}
+                                    >
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col">Site </th>
+                                                <th scope="col">Compitior </th>
+                                                <th scope="col">Date</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {PriceLogs?.priceLogs?.map((log) => (
+                                                <tr key={log.id}>
+                                                    <td><img
+                                                        src={log?.supplier}
+                                                        // alt="supplier"
+                                                        style={{
+                                                            width: "25px",
+                                                            height: "25px",
+                                                            marginRight: "10px",
+                                                        }}
+                                                    />{log.site}</td>
+                                                    <td>{log.competitor}</td>
+
+                                                    <td>{log.date}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </Card.Body>
+                            </Card>
+
+                        </Tab>
+                        <Tab eventKey="FMS" title="FMS">
+                            <Card>
+                                <Card.Body>
+                                    <table
+                                        className="table table-modern tracking-in-expand"
+                                        style={{ width: "100%" }}
+                                    >
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col">Site </th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Details</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {PriceLogs?.priceLogs?.map((log) => (
+                                                <tr key={log.id}>
+                                                    <td><img
+                                                        src={log?.supplier}
+                                                        // alt="supplier"
+                                                        style={{
+                                                            width: "25px",
+                                                            height: "25px",
+                                                            marginRight: "10px",
+                                                        }}
+                                                    />{log.site}</td>
+                                                    <td>{log.date}</td>
+                                                    <td>{log.detail}</td>
+
+
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </Card.Body>
+                            </Card>
+                        </Tab>
+                        <Tab eventKey="OV" title="OV" >
+                            <Card>
+                                <Card.Body>
+                                    <table
+                                        className="table table-modern tracking-in-expand"
+                                        style={{ width: "100%" }}
+                                    >
+                                        <thead>
+                                            <tr>
+
+
+                                                <th scope="col">Site </th>
+                                                <th scope="col">Compitior </th>
+                                                <th scope="col">Date</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {PriceLogs?.priceLogs?.map((log) => (
+                                                <tr key={log.id}>
+
+                                                    <td><img
+                                                        src={log?.supplier}
+                                                        // alt="supplier"
+                                                        style={{
+                                                            width: "25px",
+                                                            height: "25px",
+                                                            marginRight: "10px",
+                                                        }}
+                                                    />{log.site}</td>
+                                                    <td>{log.competitor}</td>
+
+                                                    <td>{log.date}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </Card.Body>
+                            </Card>
+                        </Tab>
+                    </Tabs></Col>
                 </Row>
 
 

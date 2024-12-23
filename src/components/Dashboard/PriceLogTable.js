@@ -15,7 +15,6 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
             <thead>
               <tr>
 
-                <th scope="col">Img</th>
                 <th scope="col">Site </th>
                 <th scope="col">Compitior </th>
                 <th scope="col">Date</th>
@@ -26,7 +25,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
             <tbody>
               {PriceLogs?.priceLogs?.map((log) => (
                 <tr key={log.id}>
-                  <td className="py-2">    <img
+                  <td><img
                     src={log?.supplier}
                     // alt="supplier"
                     style={{
@@ -34,8 +33,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
                       height: "25px",
                       marginRight: "10px",
                     }}
-                  />{" "}</td>
-                  <td>{log.site}</td>
+                  />{log.site}</td>
                   <td>{log.competitor}</td>
 
                   <td>{log.date}</td>
@@ -51,7 +49,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
             <thead>
               <tr>
 
-                <th scope="col">Img</th>
+
                 <th scope="col">Site </th>
                 <th scope="col">Compitior </th>
                 <th scope="col">Date</th>
@@ -62,7 +60,8 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
             <tbody>
               {PriceLogs?.priceLogs?.map((log) => (
                 <tr key={log.id}>
-                  <td className="py-2">    <img
+
+                  <td><img
                     src={log?.supplier}
                     // alt="supplier"
                     style={{
@@ -70,8 +69,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
                       height: "25px",
                       marginRight: "10px",
                     }}
-                  />{" "}</td>
-                  <td>{log.site}</td>
+                  />{log.site}</td>
                   <td>{log.competitor}</td>
 
                   <td>{log.date}</td>
@@ -89,7 +87,6 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
             <thead>
               <tr>
 
-                <th scope="col">Img</th>
                 <th scope="col">Site </th>
                 <th scope="col">Date</th>
                 <th scope="col">Details</th>
@@ -99,16 +96,15 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
             <tbody>
               {PriceLogs?.priceLogs?.map((log) => (
                 <tr key={log.id}>
-                  <td className="py-2">    <img
-                    src={log.supplier}
-                    alt="supplier"
+                  <td><img
+                    src={log?.supplier}
+                    // alt="supplier"
                     style={{
                       width: "25px",
                       height: "25px",
                       marginRight: "10px",
                     }}
-                  />{" "}</td>
-                  <td>{log.site}</td>
+                  />{log.site}</td>
                   <td>{log.date}</td>
                   <td>{log.detail}</td>
 

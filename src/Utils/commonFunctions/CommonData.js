@@ -4290,56 +4290,11 @@ export const stockGraphData = {
 export const PriceLogs = {
   "priceLogs": [
     {
-      "id": "bFN3R09DTlVraVEwdFlia3ZGcnFwZz09",
-      "user": "System",
-      "site": "Ramsey Service Station G401",
-      "type": "Carry Forward",
-      "name": "Essar 99 SU",
-      "price": 1.519,
-      "prev_price": 1.519,
-      "status": "SAME",
-      "is_checked": "Forcefully",
-      "date": "2024-03-27 00:00:00",
-      "created": "2024-03-27 10:33:04"
-    },
-    {
-      "id": "SjIwMitLOG9jMWtKL3JSSU5HQmhGZz09",
-      "user": "System",
-      "site": "Ramsey Service Station G401",
-      "type": "Carry Forward",
-      "name": "Super Diesel",
-      "price": 1.599,
-      "prev_price": 1.599,
-      "status": "SAME",
-      "is_checked": "Forcefully",
-      "date": "2024-03-27 00:00:00",
-      "created": "2024-03-27 10:33:04"
-    },
-    {
-      "id": "UmY4S1dkbWdad25qL25NVUk4NlJyZz09",
-      "user": "System",
-      "site": "Ramsey Service Station G401",
-      "type": "Carry Forward",
-      "name": "Diesel",
-      "price": 1.489,
-      "prev_price": 1.489,
-      "status": "SAME",
-      "is_checked": "Forcefully",
-      "date": "2024-03-27 00:00:00",
-      "created": "2024-03-27 10:33:04"
-    },
-    {
-      "id": "cmx0NDg0MGExSnFMZVNiMWdpdVNnZz09",
-      "user": "System",
-      "site": "Ramsey Service Station G401",
-      "type": "Carry Forward",
-      "name": "Unleaded",
-      "price": 1.429,
-      "prev_price": 1.429,
-      "status": "SAME",
-      "is_checked": "Forcefully",
-      "date": "2024-03-27 00:00:00",
-      "created": "2024-03-27 10:33:04"
+      "id": "L2tYSGtOY2pCYWJjdDcvaHF3UERzdz09",
+      "site": "Brewster Street Service Station G400",
+      "supplier": "http://192.168.1.112:4001/splr/essar-logo.png",
+      "competitor": "Asda Superstore, Petrol Station",
+      "date": "2024-12-23"
     }
   ]
 }
