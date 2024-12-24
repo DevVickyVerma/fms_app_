@@ -237,32 +237,6 @@ const AddSite = (props) => {
     }
   };
 
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/common/client-list");
-
-      const { data } = response;
-
-      if (response?.data?.data) {
-        formik.setFieldValue("clients", response?.data?.data);
-      }
-      if (data) {
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
   const GetCompanyList = async (values) => {
     try {
       if (values) {
@@ -321,6 +295,7 @@ const AddSite = (props) => {
   useEffect(() => {
     const storedDataString = localStorage.getItem(storedKeyName);
     GetSiteData();
+
     if (storedDataString) {
       const parsedData = JSON.parse(storedDataString);
       // formik.setValues(parsedData);
@@ -333,6 +308,8 @@ const AddSite = (props) => {
       }
 
       if (parsedData?.client_id) {
+        formik?.setFieldValue("client_id", parsedData?.client_id);
+        formik?.setFieldValue("company_id", parsedData?.company_id);
         GetCompanyList(parsedData?.client_id);
       }
     }
@@ -345,12 +322,6 @@ const AddSite = (props) => {
       if (clientId) {
         handleClientChange({ target: { value: clientId } });
       }
-    }
-    if (
-      !storedDataString &&
-      localStorage.getItem("superiorRole") !== "Client"
-    ) {
-      fetchCommonListData();
     }
   }, []);
 
@@ -394,7 +365,6 @@ const AddSite = (props) => {
       </span>
     </div>
   );
-
 
   return (
     <>
@@ -447,7 +417,7 @@ const AddSite = (props) => {
                             formik={formik}
                             name="client_id"
                             label="Client"
-                            options={formik?.values?.clients?.map((item) => ({
+                            options={AddSiteData?.clients?.map((item) => ({
                               id: item?.id,
                               name: item?.full_name,
                             }))}
@@ -480,7 +450,7 @@ const AddSite = (props) => {
                             name: item?.supplier_name,
                           }))}
                           className="form-input"
-                        // onChange={handleCompanyChange}
+                          // onChange={handleCompanyChange}
                         />
                       </Col>
                       <Col lg={4}>
@@ -1048,7 +1018,7 @@ const AddSite = (props) => {
                               />
                             </div>
                             {formik.touched.to_emails &&
-                              formik.errors.to_emails ? (
+                            formik.errors.to_emails ? (
                               <div className="error invalid-feedback">
                                 {formik.errors.to_emails}
                               </div>
@@ -1073,7 +1043,7 @@ const AddSite = (props) => {
                                 }
                               />
                               {formik.touched.cc_emails &&
-                                formik.errors.cc_emails ? (
+                              formik.errors.cc_emails ? (
                                 <div className="error">
                                   {formik.errors.cc_emails}
                                 </div>
@@ -1100,7 +1070,7 @@ const AddSite = (props) => {
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
-                      // disabled={Object.keys(errors).length > 0}
+                        // disabled={Object.keys(errors).length > 0}
                       >
                         Save
                       </button>
