@@ -4,7 +4,23 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 // Register necessary chart components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+const calculateTrendLine = (data) => {
+    const xValues = data.map((_, index) => index); // Sequential x-axis values
+    const yValues = data;
 
+    const n = yValues.length;
+    const sumX = xValues.reduce((a, b) => a + b, 0);
+    const sumY = yValues.reduce((a, b) => a + b, 0);
+    const sumXY = xValues.reduce((sum, x, i) => sum + x * yValues[i], 0);
+    const sumX2 = xValues.reduce((sum, x) => sum + x * x, 0);
+
+    // Calculate slope (m) and intercept (b)
+    const m = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const b = (sumY - m * sumX) / n;
+
+    // Generate trend line points
+    return xValues.map((x) => m * x + b);
+};
 const LinesDotGraphchart = ({ stockGraphData }) => {
     const [selectedFuelType, setSelectedFuelType] = useState(stockGraphData?.fuel_type[0]); // Default to the first fuel type
 
@@ -12,7 +28,19 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
     const handleFuelTypeChange = (event) => {
         setSelectedFuelType(event.target.value);
     };
+    const maxPoints = 10;
 
+    // Slice the data to show only the first 10 points
+    const limitedData = stockGraphData?.datasets[selectedFuelType]?.map((dataset) => {
+        return {
+            ...dataset,
+            data: dataset.data,
+        };
+    });
+    const originalData = stockGraphData?.datasets[selectedFuelType]?.[0]?.data || [];
+    const trendLineData = calculateTrendLine(originalData);
+
+    console.log(trendLineData, "trendLineData");
     const options = {
         responsive: true,
         plugins: {
@@ -59,25 +87,27 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
             },
             y1: {
                 beginAtZero: false,
-                position: 'right',
-                title: {
-                    display: false,
-                    text: '(€) ',
-                    font: {
-                        size: 20,
-                        weight: 'bold',
-                    },
-                },
+                position: 'right', // Right-side axis
+                min: Math.min(...trendLineData) - 1, // Slightly larger padding for visibility
+                max: Math.max(...trendLineData) + 1, // Slightly larger padding for visibility
                 ticks: {
-                    min: 2, // Set the minimum value for the y1 axis
+                    stepSize: (Math.max(...trendLineData) - Math.min(...trendLineData)) / 5, // Dynamically adjust step size
                     font: {
                         weight: 'bold',
                     },
                 },
                 grid: {
-                    drawOnChartArea: false, // Avoid gridlines from overlapping
+                    drawOnChartArea: false, // Avoid overlapping gridlines
+                },
+                title: {
+                    display: false,
+                    text: '(Secondary Axis - Trend)',
+                    font: {
+                        size: 14,
+                    },
                 },
             },
+
         },
     };
 

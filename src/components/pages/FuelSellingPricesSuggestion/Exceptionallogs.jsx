@@ -119,7 +119,7 @@ const Exceptionallogs = (props) => {
 
                 <div className="page-header ">
                     <div>
-                        <h1 className="page-title">Fuel  Price Exceptional Logs</h1>
+                        <h1 className="page-title">Fuel  Price Exceptional Alerts</h1>
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
                                 className="breadcrumb-item"
@@ -132,7 +132,7 @@ const Exceptionallogs = (props) => {
                                 className="breadcrumb-item active breadcrumds"
                                 aria-current="page"
                             >
-                                Fuel  Price Exceptional Logs
+                                Fuel  Price Exceptional Alerts
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     </div>

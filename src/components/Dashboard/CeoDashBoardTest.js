@@ -638,7 +638,7 @@ const CeoDashBoardTest = (props) => {
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
                       {" "}
-                      Fuel Price Exceptional Logs (
+                      Fuel Price Exceptional Alerts (
                       {PriceLogsFilterValue?.find(
                         (item) => item.value === PriceLogsvalue
                       )?.label || "Value not found"}
