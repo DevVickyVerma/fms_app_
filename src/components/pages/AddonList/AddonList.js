@@ -108,7 +108,7 @@ const AddCompany = (props) => {
       const navigatePath = `/clients`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const formik = useFormik({

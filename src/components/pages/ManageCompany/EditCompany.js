@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditCompany = (props) => {
@@ -88,27 +87,11 @@ const EditCompany = (props) => {
     formData.append("company_id", Company_id);
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/company/update`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const navigatePath = `/managecompany`;
 
-      const data = await response.json();
-
-      if (response.ok) {
-        SuccessAlert(data.message);
-        navigate("/managecompany");
-      } else {
-        ErrorAlert(data.message);
-      }
+      await postData("/company/update", formData, navigatePath);
     } catch (error) {
-      handleError(error);
+      console.error("API error:", error);
     }
   };
 

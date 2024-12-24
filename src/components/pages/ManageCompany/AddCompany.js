@@ -38,7 +38,6 @@ const AddCompany = (props) => {
   }, []);
   const ErrorToast = (message) => {
     toast.error(message, {
-      // // position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: false,
       transition: Bounce,
       autoClose: 2000,

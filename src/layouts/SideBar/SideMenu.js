@@ -347,7 +347,7 @@ export const MENUITEMS = [
 
         children: [
           {
-            path: `/manageaddons`,
+            path: `/manageaddon`,
             title: "Manage Addons",
             type: "link",
             permission: "addons-list",

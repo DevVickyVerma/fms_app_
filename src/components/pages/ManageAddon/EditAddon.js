@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const EditAddon = (props) => {
-  const { isLoading, getData, } = props;
+  const { isLoading, getData } = props;
   const [AddonpermissionsList, setPermissions] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [userpermissions, setUserPermissions] = useState([]);
@@ -18,7 +18,6 @@ const EditAddon = (props) => {
   const navigate = useNavigate();
 
   const [permissionArray, setPermissionArray] = useState([]);
-
 
   useEffect(() => {
     getData("/permission-list")
@@ -35,7 +34,6 @@ const EditAddon = (props) => {
     formData.append("addon_id", addonId);
 
     FetchPermisionList();
-    
   }, []);
 
   const FetchPermisionList = async () => {
@@ -84,7 +82,7 @@ const EditAddon = (props) => {
 
   useEffect(() => {
     setEdituserDetails();
-    // 
+    //
   }, [edituserDetails]);
 
   const formik = useFormik({
@@ -148,7 +146,6 @@ const EditAddon = (props) => {
     }
   };
 
-
   const [selectAllPermissions, setSelectAllPermissions] = useState({});
 
   // Initialize a Set with the initial permissionArray
@@ -184,7 +181,7 @@ const EditAddon = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-      <div className="page-header ">
+        <div className="page-header ">
           <div>
             <h1 className="page-title">Edit Addon</h1>
             <Breadcrumb className="breadcrumb">
@@ -198,7 +195,7 @@ const EditAddon = (props) => {
               <Breadcrumb.Item
                 className="breadcrumb-item  breadcrumds"
                 linkAs={Link}
-                linkProps={{ to: "/manageaddons" }}
+                linkProps={{ to: "/manageaddon" }}
               >
                 Manage Addons
               </Breadcrumb.Item>
@@ -210,9 +207,7 @@ const EditAddon = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          
         </div>
-   
 
         <Row>
           <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
@@ -231,9 +226,8 @@ const EditAddon = (props) => {
                     <Form onSubmit={formik.handleSubmit}>
                       <div className="form-group">
                         <label className="form-label mt-4" htmlFor="name">
-                          Edit Addon   <span className="text-danger danger-title">
-                    * 
-                  </span>
+                          Edit Addon{" "}
+                          <span className="text-danger danger-title">*</span>
                         </label>
                         <input
                           type="text"
@@ -241,10 +235,11 @@ const EditAddon = (props) => {
                           id="name"
                           name="name"
                           placeholder="Addonname"
-                          className={`input101 ${formik.touched.name && formik.errors.name
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.touched.name && formik.errors.name
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           {...formik.getFieldProps("name")}
                         />
                         {formik.touched.name && formik.errors.name && (
@@ -265,11 +260,12 @@ const EditAddon = (props) => {
                                   <div className="table-heading d-flex">
                                     <div className="heading-input">
                                       <input
-                                        className={`form-check-input ${formik.touched.permissions &&
+                                        className={`form-check-input ${
+                                          formik.touched.permissions &&
                                           formik.errors.permissions
-                                          ? "is-invalid"
-                                          : ""
-                                          }`}
+                                            ? "is-invalid"
+                                            : ""
+                                        }`}
                                         type="checkbox"
                                         checked={
                                           selectAllPermissions[heading] || false
@@ -295,11 +291,12 @@ const EditAddon = (props) => {
                                         className="form-check form-check-inline"
                                       >
                                         <input
-                                          className={`form-check-input ${formik.touched.permissionsList &&
+                                          className={`form-check-input ${
+                                            formik.touched.permissionsList &&
                                             formik.errors.permissionsList
-                                            ? "is-invalid"
-                                            : ""
-                                            }`}
+                                              ? "is-invalid"
+                                              : ""
+                                          }`}
                                           type="checkbox"
                                           name={`permissionsList.${nameItem.permission_name}`}
                                           id={`permissionsList-${nameItem.id}`}

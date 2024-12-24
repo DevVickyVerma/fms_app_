@@ -55,7 +55,9 @@ const Custompages = React.lazy(() => import("./components/custompages"));
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
-const Exceptionallogs = React.lazy(() => import("./components/pages/FuelSellingPricesSuggestion/Exceptionallogs"));
+const Exceptionallogs = React.lazy(() =>
+  import("./components/pages/FuelSellingPricesSuggestion/Exceptionallogs")
+);
 const CeoDashBoard = React.lazy(() =>
   import("./components/Dashboard/CeoDashBoard")
 );
@@ -1063,7 +1065,7 @@ const Root = () => {
 
                     {/* Addon  Components Start */}
                     <Route
-                      path={`/manageaddons`}
+                      path={`/manageaddon`}
                       element={<WrappedManageAddon />}
                     />
 

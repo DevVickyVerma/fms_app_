@@ -24,8 +24,7 @@ const ManageUser = (props) => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -36,35 +35,30 @@ const ManageUser = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'user/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "user/delete", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/user/update-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, "/user/update-status", formData, handleSuccess);
   };
 
-
   const handleSuccess = () => {
-    handleFetchData()
-  }
-
-
+    handleFetchData();
+  };
 
   useEffect(() => {
     handleFetchData();
-    
   }, [searchTerm, currentPage]);
 
   const handleFetchData = async () => {
@@ -88,8 +82,6 @@ const ManageUser = (props) => {
     }
   };
 
-
-
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -101,10 +93,12 @@ const ManageUser = (props) => {
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("user-edit");
-  const isAddonPermissionAvailable = permissionsArray?.includes("addons-assign");
+  const isAddonPermissionAvailable =
+    permissionsArray?.includes("addons-assign");
   const isAddPermissionAvailable = permissionsArray?.includes("user-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("user-delete");
-  const isstatusPermissionAvailable = permissionsArray?.includes("user-change-status");
+  const isstatusPermissionAvailable =
+    permissionsArray?.includes("user-change-status");
 
   const columns = [
     {
@@ -127,7 +121,9 @@ const ManageUser = (props) => {
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
-            <h6 className="mb-0 fs-14 fw-semibold wrap-text">{row.full_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold wrap-text">
+              {row.full_name}
+            </h6>
           </div>
         </div>
       ),
@@ -167,7 +163,7 @@ const ManageUser = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -229,7 +225,6 @@ const ManageUser = (props) => {
                 className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
               >
                 <i className="ph ph-pencil" />
-
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -241,7 +236,6 @@ const ManageUser = (props) => {
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
-
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -263,7 +257,6 @@ const ManageUser = (props) => {
       ),
     },
   ];
-
 
   return (
     <>
@@ -312,7 +305,11 @@ const ManageUser = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Users </h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -329,7 +326,6 @@ const ManageUser = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                         responsive={true}
                       />
                     </div>

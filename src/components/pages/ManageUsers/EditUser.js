@@ -1,11 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
 import {
   FormControl,
@@ -21,7 +16,7 @@ import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditUsers = (props) => {
   const { isLoading, getData, postData } = props;
@@ -35,11 +30,9 @@ const EditUsers = (props) => {
 
   const [levelitems, setLevelItems] = useState("");
 
-
   const handleCountryCodeChange = (e) => {
     setSelectedCountryCode(e.target.value);
-    formik.setFieldValue("country_code", e.target.value)
-
+    formik.setFieldValue("country_code", e.target.value);
   };
 
   const countryCodes = [
@@ -53,7 +46,6 @@ const EditUsers = (props) => {
     { code: "+55", name: "Brazil", flag: "🇧🇷", shortName: "BRA" },
     { code: "+81", name: "Japan", flag: "🇯🇵", shortName: "JPN" },
   ];
-
 
   const handleFetchData = async () => {
     try {
@@ -73,14 +65,13 @@ const EditUsers = (props) => {
     handleFetchData();
     FetchRoleList();
     FetchLevelList();
-    
   }, []);
 
   const { id } = useParams();
   let combinedClientNames = [];
   let combinedClientId = [];
   const fetchClientList = async () => {
-    setLoadingFetchUserDetail(true)
+    setLoadingFetchUserDetail(true);
     try {
       const response = await getData(`/user/detail?id=${id}`);
 
@@ -92,14 +83,12 @@ const EditUsers = (props) => {
         });
 
         setSelectedItems(combinedClientNames);
-        setLoadingFetchUserDetail(false)
-
+        setLoadingFetchUserDetail(false);
       }
     } catch (error) {
-      setLoadingFetchUserDetail(false)
-      handleError(error);
+      setLoadingFetchUserDetail(false);
     }
-    setLoadingFetchUserDetail(false)
+    setLoadingFetchUserDetail(false);
   };
 
   const handleSubmit = async (values) => {
@@ -115,11 +104,9 @@ const EditUsers = (props) => {
 
       formData.append("role_id", values.role_id);
 
-
       if (values?.level_id) {
         formData.append("level_id", values?.level_id);
       }
-
 
       formData.append("country_code", selectedCountryCode);
 
@@ -155,12 +142,8 @@ const EditUsers = (props) => {
     },
     validationSchema: Yup.object({
       role_id: Yup.string().required("Role is required"),
-      first_name: Yup.string()
-
-        .required("First Name is required"),
-      last_name: Yup.string()
-
-        .required("Last Name is required"),
+      first_name: Yup.string().required("First Name is required"),
+      last_name: Yup.string().required("Last Name is required"),
       phone_number: Yup.string()
         .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
         .required("Phone Number is required"),
@@ -254,11 +237,12 @@ const EditUsers = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.first_name &&
+                            className={`input101 ${
+                              formik.errors.first_name &&
                               formik.touched.first_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="first_name"
                             name="first_name"
                             placeholder="First Name Name"
@@ -280,10 +264,11 @@ const EditUsers = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.last_name && formik.touched.last_name
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.last_name && formik.touched.last_name
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="last_name"
                           name="last_name"
                           placeholder="  Last Name"
@@ -298,7 +283,10 @@ const EditUsers = (props) => {
                           )}
                       </Col>
                       <Col lg={4} md={6}>
-                        <label htmlFor="phone_number" className="form-label mt-4">
+                        <label
+                          htmlFor="phone_number"
+                          className="form-label mt-4"
+                        >
                           Phone Number<span className="text-danger">*</span>
                         </label>
                         <div className=" d-flex cursor-pointer">
@@ -320,10 +308,12 @@ const EditUsers = (props) => {
                           <input
                             type="number"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.phone_number && formik.touched.phone_number
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.phone_number &&
+                              formik.touched.phone_number
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="phone_number"
                             name="phone_number"
                             placeholder="Phone Number"
@@ -347,10 +337,11 @@ const EditUsers = (props) => {
                             Status<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.status && formik.touched.status
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.status && formik.touched.status
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -374,10 +365,11 @@ const EditUsers = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.role_id && formik.touched.role_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.role_id && formik.touched.role_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="role_id"
                             name="role_id"
                             onChange={formik.handleChange}
@@ -408,10 +400,11 @@ const EditUsers = (props) => {
                             Level
                           </label>
                           <select
-                            className={`input101 ${formik.errors.level_id && formik.touched.level_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.level_id && formik.touched.level_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="level_id"
                             name="level_id"
                             onChange={formik.handleChange}
@@ -428,11 +421,12 @@ const EditUsers = (props) => {
                               <option disabled={true}>No Level</option>
                             )}
                           </select>
-                          {formik.errors.level_id && formik.touched.level_id && (
-                            <div className="invalid-feedback">
-                              {formik.errors.level_id}
-                            </div>
-                          )}
+                          {formik.errors.level_id &&
+                            formik.touched.level_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.level_id}
+                              </div>
+                            )}
                         </div>
                       </Col>
                       {localStorage.getItem("superiorRole") !== "Client" ? (
@@ -497,11 +491,12 @@ const EditUsers = (props) => {
                               Workflow Notification
                             </label>
                             <select
-                              className={`input101 ${formik.errors.work_flow &&
+                              className={`input101 ${
+                                formik.errors.work_flow &&
                                 formik.touched.work_flow
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="work_flow"
                               name="work_flow"
                               onChange={formik.handleChange}
@@ -521,7 +516,6 @@ const EditUsers = (props) => {
                       ) : (
                         ""
                       )}
-
                     </Row>
 
                     <div className="text-end my-5 text-end-small-screen">
