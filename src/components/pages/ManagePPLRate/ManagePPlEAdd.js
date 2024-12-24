@@ -1,12 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -36,7 +31,6 @@ const AddSitePump = (props) => {
         company_id: values.company_id,
       };
 
-      localStorage.setItem("SiteTAnk", JSON.stringify(tank));
       const formData = new FormData();
       formData.append("sales_volume", values.sales_volume);
       formData.append("pence_per_liter", values.pence_per_liter);
@@ -58,9 +52,6 @@ const AddSitePump = (props) => {
     }
   };
 
-
-
-
   const formik = useFormik({
     initialValues: {
       sales_volume: "",
@@ -72,12 +63,8 @@ const AddSitePump = (props) => {
     validationSchema: Yup.object({
       company_id: Yup.string().required("Company is required"),
       site_id: Yup.string().required("Site is required"),
-      sales_volume: Yup.string().required(
-        "  Sales Volume is required"
-      ),
-      pence_per_liter: Yup.string().required(
-        " Pence Per Liter is required"
-      ),
+      sales_volume: Yup.string().required("  Sales Volume is required"),
+      pence_per_liter: Yup.string().required(" Pence Per Liter is required"),
     }),
 
     onSubmit: (values) => {
@@ -121,7 +108,6 @@ const AddSitePump = (props) => {
         );
 
         if (response) {
-
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -140,7 +126,6 @@ const AddSitePump = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -157,10 +142,10 @@ const AddSitePump = (props) => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      GetCompanyList(clientId);
     }
   }, []);
 
@@ -209,7 +194,6 @@ const AddSitePump = (props) => {
                 <Card.Body>
                   <form onSubmit={formik.handleSubmit}>
                     <Row>
-
                       <CustomClient
                         formik={formik}
                         lg={4}
@@ -254,22 +238,24 @@ const AddSitePump = (props) => {
                           <input
                             type="number"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.pence_per_liter &&
+                            className={`input101 ${
+                              formik.errors.pence_per_liter &&
                               formik.touched.pence_per_liter
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="pence_per_liter"
                             name="pence_per_liter"
                             placeholder="Pence Per Liter"
                             onChange={formik.handleChange}
                             value={formik.values.pence_per_liter}
                           />
-                          {formik.errors.pence_per_liter && formik.touched.pence_per_liter && (
-                            <div className="invalid-feedback">
-                              {formik.errors.pence_per_liter}
-                            </div>
-                          )}
+                          {formik.errors.pence_per_liter &&
+                            formik.touched.pence_per_liter && (
+                              <div className="invalid-feedback">
+                                {formik.errors.pence_per_liter}
+                              </div>
+                            )}
                         </div>
                       </Col>
 
@@ -287,27 +273,28 @@ const AddSitePump = (props) => {
                             type="number"
                             autoComplete="off"
                             // className="form-control"
-                            className={`input101 ${formik.errors.sales_volume && formik.touched.sales_volume
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.sales_volume &&
+                              formik.touched.sales_volume
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="sales_volume"
                             name="sales_volume"
                             placeholder=" Sales Volume"
                             onChange={formik.handleChange}
                             value={formik.values.sales_volume}
                           />
-                          {formik.errors.sales_volume && formik.touched.sales_volume && (
-                            <div className="invalid-feedback">
-                              {formik.errors.sales_volume}
-                            </div>
-                          )}
+                          {formik.errors.sales_volume &&
+                            formik.touched.sales_volume && (
+                              <div className="invalid-feedback">
+                                {formik.errors.sales_volume}
+                              </div>
+                            )}
                         </div>
                       </Col>
-
                     </Row>
                     <Card.Footer className="text-end">
-                  
                       <Link
                         type="submit"
                         className="btn btn-danger me-2 "
@@ -321,7 +308,6 @@ const AddSitePump = (props) => {
                     </Card.Footer>
                   </form>
                 </Card.Body>
-
               </Card>
             </Col>
           </Row>
@@ -330,6 +316,5 @@ const AddSitePump = (props) => {
     </>
   );
 };
-
 
 export default withApi(AddSitePump);

@@ -14,7 +14,6 @@ const AddSitePump = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
 
-
   const handleFuelChange = async (id) => {
     try {
       const response = await getData(`/site/fuel/list?site_id=${id}`);
@@ -29,13 +28,6 @@ const AddSitePump = (props) => {
 
   const handleSubmit1 = async (values) => {
     try {
-      const tank = {
-        site_id: values.site_id,
-        client_id: values.client_id,
-        company_id: values.company_id,
-      };
-
-      localStorage.setItem("SiteTAnk", JSON.stringify(tank));
       const formData = new FormData();
       formData.append("tank_name", values.tank_name);
       formData.append("tank_code", values.tank_code);
@@ -52,8 +44,6 @@ const AddSitePump = (props) => {
     }
   };
 
-
-
   const formik = useFormik({
     initialValues: {
       tank_name: "",
@@ -67,21 +57,16 @@ const AddSitePump = (props) => {
       site_id: Yup.string().required("Site is required"),
       fuel_id: Yup.string().required("Fuel Name is required"),
 
-      tank_name: Yup.string().required(
-        " Site Tank Name is required"
-      ),
+      tank_name: Yup.string().required(" Site Tank Name is required"),
 
       tank_code: Yup.string()
         .required("Site Tank Code is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
-          message:
-            "Tank Code must not contain special characters",
+          message: "Tank Code must not contain special characters",
           excludeEmptyString: true,
         }),
 
-      status: Yup.string().required(
-        "Site Tank Status is required"
-      ),
+      status: Yup.string().required("Site Tank Status is required"),
     }),
 
     onSubmit: (values) => {
@@ -123,7 +108,6 @@ const AddSitePump = (props) => {
         );
 
         if (response) {
-
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -142,7 +126,6 @@ const AddSitePump = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -159,10 +142,10 @@ const AddSitePump = (props) => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      GetCompanyList(clientId);
     }
   }, []);
 
@@ -198,7 +181,6 @@ const AddSitePump = (props) => {
                   Add Site Tank
                 </Breadcrumb.Item>
               </Breadcrumb>
-
             </div>
           </div>
 
@@ -209,11 +191,9 @@ const AddSitePump = (props) => {
                   <Card.Title as="h3">Add Site Tank</Card.Title>
                 </Card.Header>
 
-
                 <Card.Body>
                   <form onSubmit={formik.handleSubmit}>
                     <Row>
-
                       {localStorage.getItem("superiorRole") !== "Client" && (
                         <Col lg={4} md={6}>
                           <div className="form-group">
@@ -225,29 +205,31 @@ const AddSitePump = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.client_id &&
+                              className={`input101 ${
+                                formik.errors.client_id &&
                                 formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
                               onChange={(e) => {
                                 const selectedType = e.target.value;
 
-
                                 if (selectedType) {
                                   GetCompanyList(selectedType);
-                                  formik.setFieldValue("client_id", selectedType);
+                                  formik.setFieldValue(
+                                    "client_id",
+                                    selectedType
+                                  );
                                   setSelectedClientId(selectedType);
                                   setSiteList([]);
-                                  formik.setFieldValue("company_id","");
+                                  formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
                                 } else {
-
-                                  formik.setFieldValue("client_id","");
-                                  formik.setFieldValue("company_id","");
+                                  formik.setFieldValue("client_id", "");
+                                  formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
 
                                   setSiteList([]);
@@ -279,16 +261,20 @@ const AddSitePump = (props) => {
 
                       <Col lg={4} md={6}>
                         <div className="form-group">
-                          <label htmlFor="company_id" className="form-label mt-4">
+                          <label
+                            htmlFor="company_id"
+                            className="form-label mt-4"
+                          >
                             Company
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.company_id &&
+                            className={`input101 ${
+                              formik.errors.company_id &&
                               formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="company_id"
                             name="company_id"
                             value={formik.values.company_id}
@@ -297,7 +283,10 @@ const AddSitePump = (props) => {
                               if (selectcompany) {
                                 GetSiteList(selectcompany);
                                 formik.setFieldValue("site_id", "");
-                                formik.setFieldValue("company_id", selectcompany);
+                                formik.setFieldValue(
+                                  "company_id",
+                                  selectcompany
+                                );
                               } else {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
@@ -334,16 +323,17 @@ const AddSitePump = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.site_id && formik.touched.site_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="site_id"
                             name="site_id"
                             value={formik.values.site_id}
                             onChange={(e) => {
                               const selectedsite_id = e.target.value;
-                              handleFuelChange(selectedsite_id)
+                              handleFuelChange(selectedsite_id);
                               formik.setFieldValue("site_id", selectedsite_id);
                             }}
                           >
@@ -366,22 +356,19 @@ const AddSitePump = (props) => {
                         </div>
                       </Col>
 
-
                       <Col lg={4} md={6}>
                         <div className="form-group">
-                          <label
-                            htmlFor="fuel_id"
-                            className="form-label mt-4"
-                          >
+                          <label htmlFor="fuel_id" className="form-label mt-4">
                             Fuel Name
                             <span className="text-danger">*</span>
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${formik.errors.fuel_id && formik.touched.fuel_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.fuel_id && formik.touched.fuel_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="fuel_id"
                             name="fuel_id"
                             onChange={formik.handleChange}
@@ -409,19 +396,17 @@ const AddSitePump = (props) => {
 
                       <Col lg={4} md={6}>
                         <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="status"
-                          >
+                          <label className=" form-label mt-4" htmlFor="status">
                             Site Tank Status
                             <span className="text-danger">*</span>
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${formik.errors.status && formik.touched.status
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.status && formik.touched.status
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -451,21 +436,24 @@ const AddSitePump = (props) => {
                             type="text"
                             autoComplete="off"
                             // className="form-control"
-                            className={`input101 ${formik.errors.tank_name && formik.touched.tank_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.tank_name &&
+                              formik.touched.tank_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="tank_name"
                             name="tank_name"
                             placeholder="Site Tank Name"
                             onChange={formik.handleChange}
                             value={formik.values.tank_name}
                           />
-                          {formik.errors.tank_name && formik.touched.tank_name && (
-                            <div className="invalid-feedback">
-                              {formik.errors.tank_name}
-                            </div>
-                          )}
+                          {formik.errors.tank_name &&
+                            formik.touched.tank_name && (
+                              <div className="invalid-feedback">
+                                {formik.errors.tank_name}
+                              </div>
+                            )}
                         </div>
                       </Col>
 
@@ -481,27 +469,28 @@ const AddSitePump = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.tank_code && formik.touched.tank_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.tank_code &&
+                              formik.touched.tank_code
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="tank_code"
                             name="tank_code"
                             placeholder="Site Tank Code"
                             onChange={formik.handleChange}
                             value={formik.values.tank_code}
                           />
-                          {formik.errors.tank_code && formik.touched.tank_code && (
-                            <div className="invalid-feedback">
-                              {formik.errors.tank_code}
-                            </div>
-                          )}
+                          {formik.errors.tank_code &&
+                            formik.touched.tank_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.tank_code}
+                              </div>
+                            )}
                         </div>
                       </Col>
-
                     </Row>
                     <Card.Footer className="text-end">
-                    
                       <Link
                         type="submit"
                         className="btn btn-danger me-2 "
