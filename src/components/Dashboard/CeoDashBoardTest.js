@@ -3,7 +3,10 @@ import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
-import { handleFilterData, PriceLogsFilterValue } from "../../Utils/commonFunctions/commonFunction";
+import {
+  handleFilterData,
+  PriceLogsFilterValue,
+} from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, Row } from "react-bootstrap";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import CeoDashboardFilterModal from "../pages/Filtermodal/CeoDashboardFilterModal";
@@ -44,7 +47,9 @@ const CeoDashBoardTest = (props) => {
   const [PriceLogs, setPriceLogs] = useState();
   const [PriceGraphData, setPriceGraphData] = useState();
   const [applyNavigate, setApplyNavigate] = useState(false);
-  const [PriceLogsvalue, setPriceLogsvalue] = useState(PriceLogsFilterValue[0]?.value); // state for selected site
+  const [PriceLogsvalue, setPriceLogsvalue] = useState(
+    PriceLogsFilterValue[0]?.value
+  ); // state for selected site
 
   const handlePriceLogsChange = (value) => {
     setPriceLogsvalue(value);
@@ -110,7 +115,6 @@ const CeoDashBoardTest = (props) => {
     Yup.object({
       client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
-
     });
 
   const handleApplyFilters = async (values) => {
@@ -154,7 +158,6 @@ const CeoDashBoardTest = (props) => {
           setCenterFilterModalOpen(false);
         },
       },
-
     ];
 
     // Split the endpoints into two halves
@@ -271,14 +274,12 @@ const CeoDashBoardTest = (props) => {
   };
 
   const FetchPriceLogs = async (PriceLogsvalue) => {
-
     console.log(filters?.client_id, "FetchPriceLogs");
 
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
-      if (filters?.site_id)
-        queryParams.append("site_id", filters?.site_id);
+      if (filters?.site_id) queryParams.append("site_id", filters?.site_id);
       const currentDate = new Date();
       const day = "01";
       const formattedDate = `${String(day)}-${String(
@@ -331,8 +332,6 @@ const CeoDashBoardTest = (props) => {
     }
   };
 
-
-
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
 
@@ -347,19 +346,13 @@ const CeoDashBoardTest = (props) => {
     handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, [permissionsArray?.includes("ceodashboard-view")]);
 
-
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
   };
   const [pdfisLoading, setpdfisLoading] = useState(false);
 
-
   useEffect(() => {
-
-
-
     if (formik?.values?.selectedSite && priceLogsPermission) {
-
       FetchPriceGraph();
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
@@ -370,9 +363,6 @@ const CeoDashBoardTest = (props) => {
       FetchPriceLogs(PriceLogsvalue);
     }
   }, [priceLogsPermission, filters, PriceLogsvalue]);
-
-
-
 
   const handleSiteChange = async (selectedId) => {
     const handleConfirmedAction = async (selectedId) => {
@@ -435,7 +425,6 @@ const CeoDashBoardTest = (props) => {
     // handling state manage here
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
-
 
     if (storedData) {
       let updatedStoredData = JSON.parse(storedData);
@@ -564,8 +553,6 @@ const CeoDashBoardTest = (props) => {
       <div className="mb-2 " onClick={() => openCenterFilterModal()}>
         {filters?.client_id && filters.company_id && (
           <>
-
-
             {ShowLiveData && (
               <DashboardStatCard
                 isLoading={isLoading}
@@ -638,7 +625,7 @@ const CeoDashBoardTest = (props) => {
         </Row>
       </div>
 
-      <Row Row className="my-2">
+      <Row className="my-2">
         {priceLogsPermission && (
           <>
             <Col
@@ -647,17 +634,21 @@ const CeoDashBoardTest = (props) => {
               key={Math.random()}
             >
               <Card className="h-100">
-
                 <Card.Header className="p-4">
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
                       {" "}
-                      Fuel Price Exceptional Logs{" "}
-                      ({PriceLogsFilterValue?.find(item => item.value === PriceLogsvalue)?.label || "Value not found"})
+                      Fuel Price Exceptional Logs (
+                      {PriceLogsFilterValue?.find(
+                        (item) => item.value === PriceLogsvalue
+                      )?.label || "Value not found"}
+                      )
                       <br />
                       {userPermissions?.includes("fuel-price-logs") ? (
                         <span style={{ color: "#4663ac" }}>
-                          <Link to="/fuel-price-exceptional-logs/">View All</Link>
+                          <Link to="/fuel-price-exceptional-logs/">
+                            View All
+                          </Link>
                         </span>
                       ) : (
                         ""
@@ -671,7 +662,9 @@ const CeoDashBoardTest = (props) => {
                           id="PriceLogsvalue"
                           name="PriceLogsvalue"
                           value={PriceLogsvalue}
-                          onChange={(e) => handlePriceLogsChange(e.target.value)}
+                          onChange={(e) =>
+                            handlePriceLogsChange(e.target.value)
+                          }
                           className="selectedMonth"
                         >
                           {PriceLogsFilterValue?.map((item) => (
@@ -696,7 +689,10 @@ const CeoDashBoardTest = (props) => {
                   {PriceLogsloading ? (
                     <SmallLoader />
                   ) : PriceLogs?.priceLogs?.length > 0 ? (
-                    <PriceLogTable PriceLogsvalue={PriceLogsvalue} PriceLogs={PriceLogs} />
+                    <PriceLogTable
+                      PriceLogsvalue={PriceLogsvalue}
+                      PriceLogs={PriceLogs}
+                    />
                   ) : (
                     <img
                       src={require("../../assets/images/commonimages/no_data.png")}
