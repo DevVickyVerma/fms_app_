@@ -2674,3 +2674,29 @@ td.middayModal-td.time-input-fuel-sell {
 .c-fs-13 {
   font-size: 13px !important;
 }
+
+.new-input-checkbox {
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid #fff;
+  background-color: #fff;
+  border-radius: 0.25em;
+}
+
+.new-input-checkbox:focus {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.new-input-checkbox:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  border-radius: 0.25em;
+}
+.new-input-checkbox:checked[type="checkbox"] {
+  --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
+}
+
+.new-input-checkbox[type="checkbox"] {
+  border-radius: 0.25em;
+}

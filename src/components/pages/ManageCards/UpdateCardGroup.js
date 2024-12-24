@@ -21,7 +21,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
     if (storedData) {
       fetchUpdateCardDetail();
       let parsedData = JSON.parse(storedData);
-      GetSiteList(parsedData?.company_id)
+      GetSiteList(parsedData?.company_id);
       // companyId = parsedData?.company_id;
     }
   }, [storedKeyName]); // Add any other dependencies needed here
@@ -51,8 +51,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
   }));
   const paramId = useParams();
 
-
-
   const initialValues = {
     cardData: cardData,
     AssignFormikCards: [],
@@ -71,7 +69,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
   });
 
   const fetchUpdateCardDetail = async () => {
-    setLoadingFetchUpdateCard(true)
+    setLoadingFetchUpdateCard(true);
     try {
       const response = await getData(`/sage/card-group/detail/${paramId?.id}`);
 
@@ -80,18 +78,17 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
         await formik.setFieldValue("card_name", data?.data?.name);
         await formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         setCardData(data?.data ? data.data.cards : []);
-        setLoadingFetchUpdateCard(false)
+        setLoadingFetchUpdateCard(false);
       }
     } catch (error) {
-      setLoadingFetchUpdateCard(false)
+      setLoadingFetchUpdateCard(false);
 
       console.error("API error:", error);
     }
-    setLoadingFetchUpdateCard(false)
+    setLoadingFetchUpdateCard(false);
   };
   const navigate = useNavigate();
   const handleSettingSubmit = async (values) => {
-
     try {
       const formData = new FormData();
 
@@ -129,7 +126,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
     }
   };
 
-
   const cardDataColumn = [
     {
       name: "Select",
@@ -143,7 +139,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`AssignFormikCards[${index}].checked`}
-            className="form-check-input cursor-pointer"
+            className="new-input-checkbox cursor-pointer"
             checked={
               formik.values?.AssignFormikCards?.[index]?.checked ?? false
             }
@@ -234,7 +230,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
             <Card.Body>
               <form onSubmit={formik.handleSubmit}>
                 <Row>
-
                   <Col lg={6} md={6}>
                     <div className="form-group">
                       <label className="form-label mt-4" htmlFor="card_name">
@@ -244,22 +239,22 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                       <input
                         type="text"
                         autoComplete="off"
-                        className={`input101 ${formik.errors.card_name && formik.touched.card_name
-                          ? "is-invalid"
-                          : ""
-                          }`}
+                        className={`input101 ${
+                          formik.errors.card_name && formik.touched.card_name
+                            ? "is-invalid"
+                            : ""
+                        }`}
                         id="card_name"
                         name="card_name"
                         placeholder="Card Group Name"
                         onChange={formik.handleChange}
                         value={formik.values.card_name}
                       />
-                      {formik.errors.card_name &&
-                        formik.touched.card_name && (
-                          <div className="invalid-feedback">
-                            {formik.errors.card_name}
-                          </div>
-                        )}
+                      {formik.errors.card_name && formik.touched.card_name && (
+                        <div className="invalid-feedback">
+                          {formik.errors.card_name}
+                        </div>
+                      )}
                     </div>
                   </Col>
                   <Col lg={6} md={6}>
@@ -279,7 +274,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                     </FormGroup>
                   </Col>
                   <Col lg={12} md={12}>
-
                     <Card.Header className="cardheader-table">
                       <h3 className="card-title">Assign Card</h3>
                     </Card.Header>
@@ -294,7 +288,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                             striped={true}
                             persistTableHead
                             highlightOnHover
-
                             responsive
                           />
                         </div>
@@ -323,7 +316,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                     </div>
                   </Col>
                 </Row>
-
               </form>
             </Card.Body>
           </Card>

@@ -13,7 +13,6 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
   const [selected, setSelected] = useState([]);
   const [SiteList, setSiteList] = useState([]);
 
-
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
 
@@ -21,13 +20,10 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
     if (storedData) {
       let parsedData = JSON.parse(storedData);
       fetchUpdateCardDetail(parsedData?.company_id);
-      GetSiteList(parsedData?.company_id)
+      GetSiteList(parsedData?.company_id);
       // companyId = parsedData?.company_id;
     }
   }, [storedKeyName]); // Add any other dependencies needed here
-
-
-
 
   const GetSiteList = async (companyId) => {
     try {
@@ -110,7 +106,6 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
         formData.append("company_id", parsedData?.company_id);
       }
 
-
       formData.append("name", values?.card_name);
       // formData.append("group_id", paramId.id);
 
@@ -144,7 +139,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`AssignFormikCards[${index}].checked`}
-            className="form-check-input cursor-pointer"
+            className="new-input-checkbox cursor-pointer"
             checked={
               formik.values?.AssignFormikCards?.[index]?.checked || false
             }
@@ -242,10 +237,11 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                       <input
                         type="text"
                         autoComplete="off"
-                        className={`input101 ${formik.errors.card_name && formik.touched.card_name
-                          ? "is-invalid"
-                          : ""
-                          }`}
+                        className={`input101 ${
+                          formik.errors.card_name && formik.touched.card_name
+                            ? "is-invalid"
+                            : ""
+                        }`}
                         id="card_name"
                         name="card_name"
                         placeholder="Card Group Name"
