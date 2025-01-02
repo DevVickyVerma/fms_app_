@@ -2609,6 +2609,111 @@ export const StockData = {
   ],
 };
 
+export const StockDataaa = {
+  stock_graph_data: {
+    labels: [
+      "Cash Fuel Sales",
+      "Card Fuel Sales",
+      "Cash Shop Sales",
+      "Card Shop Sales",
+      "Bunkered Card Fuel Sales",
+      "Bunkered Card Shop Sales",
+    ],
+    datasets: [
+      {
+        label: "Total Sales",
+        data: [
+          179212, // Cash Fuel Sales
+          1026578, // Card Fuel Sales
+          42643, // Cash Shop Sales
+          115862, // Card Shop Sales
+          161250.67, // Bunkered Card Fuel Sales
+          0.0, // Bunkered Card Shop Sales
+        ],
+        backgroundColor: [
+          "#92C5F9", // Color for Cash Fuel Sales
+          "#AFDC8F", // Color for Card Fuel Sales
+          "#B6A6E9", // Color for Cash Shop Sales
+          "#FFCC33", // Color for Card Shop Sales
+          "#FF8C69", // Color for Bunkered Card Fuel Sales
+          "#98FB98", // Color for Bunkered Card Shop Sales
+        ],
+        borderColor: [
+          "#92C5F9", // Border color for Cash Fuel Sales
+          "#AFDC8F", // Border color for Card Fuel Sales
+          "#B6A6E9", // Border color for Cash Shop Sales
+          "#FFCC33", // Border color for Card Shop Sales
+          "#FF8C69", // Border color for Bunkered Card Fuel Sales
+          "#98FB98", // Border color for Bunkered Card Shop Sales
+        ],
+        borderWidth: 1,
+      },
+    ],
+  },
+  stock_graph_options: {
+    responsive: true,
+    maintainAspectRatio: false, // Allow custom height and width
+    plugins: {
+      legend: {
+        position: "bottom",
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+    cutout: "80%", // Inner cutout for the donut chart
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10,
+      },
+    },
+  },
+  stock_details: [
+    {
+      id: "1",
+      stock: "Ramsey Service Station G401",
+      quantiry: "175",
+      aging: "40 days",
+      sales: {
+        cash_fuel_sales: {
+          total_sales: "179212",
+          percentage: "-32.84%",
+          status: "down",
+        },
+        card_fuel_sales: {
+          total_sales: "1026578",
+          percentage: "-25.57%",
+          status: "down",
+        },
+        cash_shop_sales: {
+          total_sales: "42643",
+          percentage: "-35.6%",
+          status: "down",
+        },
+        card_shop_sales: {
+          total_sales: "115862",
+          percentage: "-28.76%",
+          status: "down",
+        },
+        bunkered_card_fuel_sales: {
+          total_sales: "161250.67",
+          percentage: "-34.17%",
+          status: "down",
+        },
+        bunkered_card_shop_sales: {
+          total_sales: "0.00",
+          percentage: "0.00%",
+          status: "up",
+        },
+      },
+    },
+    // Add more stock entries if needed
+  ],
+};
+
 export const PerformanceData = {
   top: [
     {
@@ -3778,37 +3883,179 @@ export const intialfilterData = {
 };
 
 export const dynamicData = [
-  { date: "01-Dec", ulSales: 2500, dieselSales: 2400, ulRSP: 1500, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
-  { date: "02-Dec", ulSales: 1800, dieselSales: 2300, ulRSP: 1500, dieselRSP: 1.40, price: 1000, newPrice: 2000 },
-  { date: "03-Dec", ulSales: 2400, dieselSales: 2500, ulRSP: 1.37, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
-  { date: "04-Dec", ulSales: 1900, dieselSales: 2600, ulRSP: 1.36, dieselRSP: 1.40, price: 1000, newPrice: 2000 },
-  { date: "05-Dec", ulSales: 2600, dieselSales: 2700, ulRSP: 1.38, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
-  { date: "06-Dec", ulSales: 1500, dieselSales: 2400, ulRSP: 1.35, dieselRSP: 1.39, price: 1000, newPrice: 2000 },
-  { date: "07-Dec", ulSales: 1700, dieselSales: 2200, ulRSP: 1.37, dieselRSP: 1.38, price: 1000, newPrice: 2000 },
-  { date: "08-Dec", ulSales: 2500, dieselSales: 2800, ulRSP: 1.37, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
-  { date: "09-Dec", ulSales: 2600, dieselSales: 2000, ulRSP: 1.35, dieselRSP: 1.40, price: 1000, newPrice: 2000 },
-  { date: "10-Dec", ulSales: 2000, dieselSales: 2300, ulRSP: 1500, dieselRSP: 1.41, price: 1000, newPrice: 2000 },
-  { date: "11-Dec", ulSales: 2400, dieselSales: 2200, ulRSP: 1500, dieselRSP: 1.39, price: 1000, newPrice: 2000 },
-  { date: "12-Dec", ulSales: 2200, dieselSales: 2600, ulRSP: 1500, dieselRSP: 1.42, price: 1000, newPrice: 2000 }
+  {
+    date: "01-Dec",
+    ulSales: 2500,
+    dieselSales: 2400,
+    ulRSP: 1500,
+    dieselRSP: 1.41,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "02-Dec",
+    ulSales: 1800,
+    dieselSales: 2300,
+    ulRSP: 1500,
+    dieselRSP: 1.4,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "03-Dec",
+    ulSales: 2400,
+    dieselSales: 2500,
+    ulRSP: 1.37,
+    dieselRSP: 1.41,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "04-Dec",
+    ulSales: 1900,
+    dieselSales: 2600,
+    ulRSP: 1.36,
+    dieselRSP: 1.4,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "05-Dec",
+    ulSales: 2600,
+    dieselSales: 2700,
+    ulRSP: 1.38,
+    dieselRSP: 1.41,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "06-Dec",
+    ulSales: 1500,
+    dieselSales: 2400,
+    ulRSP: 1.35,
+    dieselRSP: 1.39,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "07-Dec",
+    ulSales: 1700,
+    dieselSales: 2200,
+    ulRSP: 1.37,
+    dieselRSP: 1.38,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "08-Dec",
+    ulSales: 2500,
+    dieselSales: 2800,
+    ulRSP: 1.37,
+    dieselRSP: 1.41,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "09-Dec",
+    ulSales: 2600,
+    dieselSales: 2000,
+    ulRSP: 1.35,
+    dieselRSP: 1.4,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "10-Dec",
+    ulSales: 2000,
+    dieselSales: 2300,
+    ulRSP: 1500,
+    dieselRSP: 1.41,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "11-Dec",
+    ulSales: 2400,
+    dieselSales: 2200,
+    ulRSP: 1500,
+    dieselRSP: 1.39,
+    price: 1000,
+    newPrice: 2000,
+  },
+  {
+    date: "12-Dec",
+    ulSales: 2200,
+    dieselSales: 2600,
+    ulRSP: 1500,
+    dieselRSP: 1.42,
+    price: 1000,
+    newPrice: 2000,
+  },
 ];
 export const dynamicLineConfig = [
-  { dataKey: "dieselSales", stroke: "#1f77b4", name: "Diesel Sales", dot: false, yAxisId: "left", strokeWidth: 4 },
-  { dataKey: "ulSales", stroke: "#2ca02c", name: "UL Sales", dot: false, yAxisId: "left", strokeWidth: 4 },
-  { dataKey: "ulRSP", stroke: "none", name: "UL RSP (Orange Dots)", dot: { r: 4, fill: "#ff7f0e" }, yAxisId: "right", strokeWidth: 2 },
-  { dataKey: "dieselRSP", stroke: "none", name: "Diesel RSP (Purple Dots)", dot: { r: 4, fill: "#9467bd" }, yAxisId: "right", strokeWidth: 2 },
-  { dataKey: "price", stroke: "#ff6347", name: "Price", dot: false, yAxisId: "left", strokeWidth: 2, strokeDasharray: "5 5" },
-  { dataKey: "newPrice", stroke: "#ff1493", name: "New Price", dot: false, yAxisId: "left", strokeWidth: 2, strokeDasharray: "5 5" },
+  {
+    dataKey: "dieselSales",
+    stroke: "#1f77b4",
+    name: "Diesel Sales",
+    dot: false,
+    yAxisId: "left",
+    strokeWidth: 4,
+  },
+  {
+    dataKey: "ulSales",
+    stroke: "#2ca02c",
+    name: "UL Sales",
+    dot: false,
+    yAxisId: "left",
+    strokeWidth: 4,
+  },
+  {
+    dataKey: "ulRSP",
+    stroke: "none",
+    name: "UL RSP (Orange Dots)",
+    dot: { r: 4, fill: "#ff7f0e" },
+    yAxisId: "right",
+    strokeWidth: 2,
+  },
+  {
+    dataKey: "dieselRSP",
+    stroke: "none",
+    name: "Diesel RSP (Purple Dots)",
+    dot: { r: 4, fill: "#9467bd" },
+    yAxisId: "right",
+    strokeWidth: 2,
+  },
+  {
+    dataKey: "price",
+    stroke: "#ff6347",
+    name: "Price",
+    dot: false,
+    yAxisId: "left",
+    strokeWidth: 2,
+    strokeDasharray: "5 5",
+  },
+  {
+    dataKey: "newPrice",
+    stroke: "#ff1493",
+    name: "New Price",
+    dot: false,
+    yAxisId: "left",
+    strokeWidth: 2,
+    strokeDasharray: "5 5",
+  },
 ];
 const startingPrice = 2400;
 const endingPrice = 3478;
 const totalDays = 30;
 
 // Create dynamic price data with linear progression
-const priceData = Array.from({ length: totalDays }, (_, i) =>
-  startingPrice + ((endingPrice - startingPrice) / (totalDays - 1)) * i
+const priceData = Array.from(
+  { length: totalDays },
+  (_, i) =>
+    startingPrice + ((endingPrice - startingPrice) / (totalDays - 1)) * i
 );
 export const stockGraphData = {
-  "labels": [
+  labels: [
     "01-Dec",
     "02-Dec",
     "03-Dec",
@@ -3825,476 +4072,237 @@ export const stockGraphData = {
     "14-Dec",
     "15-Dec",
     "16-Dec",
-    "17-Dec"
+    "17-Dec",
   ],
-  "datasets": {
-    "Diesel": [
+  datasets: {
+    Diesel: [
       {
-        "label": "Diesel (Volume)",
-        "data": [
-          2203.71,
-          2261.86,
-          2719.89,
-          2611.42,
-          2770.5,
-          -37041.16,
-          1869.97,
-          1772.69,
-          2665.13,
-          2480.47,
-          2452.5,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+        label: "Diesel (Volume)",
+        data: [
+          2203.71, 2261.86, 2719.89, 2611.42, 2770.5, -37041.16, 1869.97,
+          1772.69, 2665.13, 2480.47, 2452.5, 0, 0, 0, 0, 0, 0,
         ],
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 0,
-        "fill": false,
-        "pointRadius": 6,
-        "pointBackgroundColor": "#1f77b4",
-        "pointBorderColor": "#1f77b4",
-        "yAxis": "y"
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 0,
+        fill: false,
+        pointRadius: 6,
+        pointBackgroundColor: "#1f77b4",
+        pointBorderColor: "#1f77b4",
+        yAxis: "y",
       },
       {
-        "label": "Diesel (Trend)",
-        "data": [
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41,
-          1.41
+        label: "Diesel (Trend)",
+        data: [
+          1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41, 1.41,
+          1.41, 1.41, 1.41, 1.41, 1.41, 1.41,
         ],
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 2,
-        "yAxis": "y1",
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": [
-          5,
-          5
-        ]
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 2,
+        yAxis: "y1",
+        fill: false,
+        pointRadius: 0,
+        borderDash: [5, 5],
       },
       {
-        "label": "Diesel (ppl)",
-        "data": [
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407,
-          1.407
+        label: "Diesel (ppl)",
+        data: [
+          1.407, 1.407, 1.407, 1.407, 1.407, 1.407, 1.407, 1.407, 1.407, 1.407,
+          1.407, 1.407, 1.407, 1.407, 1.407, 1.407, 1.407,
         ],
-        "yAxis": "y1",
-        "backgroundColor": "#2ca02c",
-        "borderColor": "#2ca02c",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": []
-      }
+        yAxis: "y1",
+        backgroundColor: "#2ca02c",
+        borderColor: "#2ca02c",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [],
+      },
     ],
     "Super Diesel": [
       {
-        "label": "Super Diesel (Volume)",
-        "data": [
-          219.66,
-          68.3,
-          255.64,
-          130.02,
-          137.14,
-          -2378.02,
-          206.21,
-          195,
-          341.17,
-          184.88,
-          320.57,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+        label: "Super Diesel (Volume)",
+        data: [
+          219.66, 68.3, 255.64, 130.02, 137.14, -2378.02, 206.21, 195, 341.17,
+          184.88, 320.57, 0, 0, 0, 0, 0, 0,
         ],
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 0,
-        "fill": false,
-        "pointRadius": 6,
-        "yAxis": "y",
-        "pointBackgroundColor": "#1f77b4",
-        "pointBorderColor": "#1f77b4"
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 0,
+        fill: false,
+        pointRadius: 6,
+        yAxis: "y",
+        pointBackgroundColor: "#1f77b4",
+        pointBorderColor: "#1f77b4",
       },
       {
-        "label": "Super Diesel (Trend)",
-        "data": [
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7,
-          1.7
+        label: "Super Diesel (Trend)",
+        data: [
+          1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7, 1.7,
+          1.7, 1.7, 1.7,
         ],
-        "yAxis": "y1",
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": [
-          5,
-          5
-        ]
+        yAxis: "y1",
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [5, 5],
       },
       {
-        "label": "Super Diesel (ppl)",
-        "data": [
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699,
-          1.699
+        label: "Super Diesel (ppl)",
+        data: [
+          1.699, 1.699, 1.699, 1.699, 1.699, 1.699, 1.699, 1.699, 1.699, 1.699,
+          1.699, 1.699, 1.699, 1.699, 1.699, 1.699, 1.699,
         ],
-        "yAxis": "y1",
-        "backgroundColor": "#2ca02c",
-        "borderColor": "#2ca02c",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": []
-      }
+        yAxis: "y1",
+        backgroundColor: "#2ca02c",
+        borderColor: "#2ca02c",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [],
+      },
     ],
     "Essar 99 SU": [
       {
-        "label": "Essar 99 SU (Volume)",
-        "data": [
-          152.71,
-          182.02,
-          209.57,
-          202.83,
-          50.17,
-          -2896.47,
-          214.63,
-          68.03,
-          186.2,
-          229.34,
-          288.38,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+        label: "Essar 99 SU (Volume)",
+        data: [
+          152.71, 182.02, 209.57, 202.83, 50.17, -2896.47, 214.63, 68.03, 186.2,
+          229.34, 288.38, 0, 0, 0, 0, 0, 0,
         ],
-        "yAxis": "y",
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 0,
-        "fill": false,
-        "pointRadius": 6,
-        "pointBackgroundColor": "#1f77b4",
-        "pointBorderColor": "#1f77b4"
+        yAxis: "y",
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 0,
+        fill: false,
+        pointRadius: 6,
+        pointBackgroundColor: "#1f77b4",
+        pointBorderColor: "#1f77b4",
       },
       {
-        "label": "Essar 99 SU (Trend)",
-        "data": [
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48,
-          1.48
+        label: "Essar 99 SU (Trend)",
+        data: [
+          1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48, 1.48,
+          1.48, 1.48, 1.48, 1.48, 1.48, 1.48,
         ],
-        "yAxis": "y1",
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": [
-          5,
-          5
-        ]
+        yAxis: "y1",
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [5, 5],
       },
       {
-        "label": "Essar 99 SU (ppl)",
-        "data": [
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477,
-          1.477
+        label: "Essar 99 SU (ppl)",
+        data: [
+          1.477, 1.477, 1.477, 1.477, 1.477, 1.477, 1.477, 1.477, 1.477, 1.477,
+          1.477, 1.477, 1.477, 1.477, 1.477, 1.477, 1.477,
         ],
-        "yAxis": "y1",
-        "backgroundColor": "#2ca02c",
-        "borderColor": "#2ca02c",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": []
-      }
+        yAxis: "y1",
+        backgroundColor: "#2ca02c",
+        borderColor: "#2ca02c",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [],
+      },
     ],
-    "Unleaded": [
+    Unleaded: [
       {
-        "label": "Unleaded (Volume)",
-        "data": [
-          1360.36,
-          1698.4,
-          1828.85,
-          1433.29,
-          1951.38,
-          -25973,
-          1629.97,
-          1282.31,
-          1627.83,
-          1736.65,
-          2053.62,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+        label: "Unleaded (Volume)",
+        data: [
+          1360.36, 1698.4, 1828.85, 1433.29, 1951.38, -25973, 1629.97, 1282.31,
+          1627.83, 1736.65, 2053.62, 0, 0, 0, 0, 0, 0,
         ],
-        "yAxis": "y",
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 0,
-        "fill": false,
-        "pointRadius": 6,
-        "pointBackgroundColor": "#1f77b4",
-        "pointBorderColor": "#1f77b4"
+        yAxis: "y",
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 0,
+        fill: false,
+        pointRadius: 6,
+        pointBackgroundColor: "#1f77b4",
+        pointBorderColor: "#1f77b4",
       },
       {
-        "label": "Unleaded (Trend)",
-        "data": [
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37,
-          1.37
+        label: "Unleaded (Trend)",
+        data: [
+          1.37, 1.37, 1.37, 1.37, 1.37, 1.37, 1.37, 1.37, 1.37, 1.37, 1.37,
+          1.37, 1.37, 1.37, 1.37, 1.37, 1.37,
         ],
-        "yAxis": "y1",
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": [
-          5,
-          5
-        ]
+        yAxis: "y1",
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [5, 5],
       },
       {
-        "label": "Unleaded (ppl)",
-        "data": [
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367,
-          1.367
+        label: "Unleaded (ppl)",
+        data: [
+          1.367, 1.367, 1.367, 1.367, 1.367, 1.367, 1.367, 1.367, 1.367, 1.367,
+          1.367, 1.367, 1.367, 1.367, 1.367, 1.367, 1.367,
         ],
-        "yAxis": "y1",
-        "backgroundColor": "#2ca02c",
-        "borderColor": "#2ca02c",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": []
-      }
+        yAxis: "y1",
+        backgroundColor: "#2ca02c",
+        borderColor: "#2ca02c",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [],
+      },
     ],
-    "LPG": [
+    LPG: [
       {
-        "label": "LPG (Volume)",
-        "data": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "yAxis": "y",
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 0,
-        "fill": false,
-        "pointRadius": 6,
-        "pointBackgroundColor": "#1f77b4",
-        "pointBorderColor": "#1f77b4"
+        label: "LPG (Volume)",
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        yAxis: "y",
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 0,
+        fill: false,
+        pointRadius: 6,
+        pointBackgroundColor: "#1f77b4",
+        pointBorderColor: "#1f77b4",
       },
       {
-        "label": "LPG (Trend)",
-        "data": null,
-        "backgroundColor": "#1f77b4",
-        "borderColor": "#1f77b4",
-        "borderWidth": 2,
-        "fill": false,
-        "yAxis": "y1",
-        "pointRadius": 0,
-        "borderDash": [
-          5,
-          5
-        ]
+        label: "LPG (Trend)",
+        data: null,
+        backgroundColor: "#1f77b4",
+        borderColor: "#1f77b4",
+        borderWidth: 2,
+        fill: false,
+        yAxis: "y1",
+        pointRadius: 0,
+        borderDash: [5, 5],
       },
       {
-        "label": "LPG (ppl)",
-        "data": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "yAxis": "y1",
-        "backgroundColor": "#2ca02c",
-        "borderColor": "#2ca02c",
-        "borderWidth": 2,
-        "fill": false,
-        "pointRadius": 0,
-        "borderDash": []
-      }
-    ]
+        label: "LPG (ppl)",
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        yAxis: "y1",
+        backgroundColor: "#2ca02c",
+        borderColor: "#2ca02c",
+        borderWidth: 2,
+        fill: false,
+        pointRadius: 0,
+        borderDash: [],
+      },
+    ],
   },
-  "fuel_type": [
-    "Diesel",
-    "Super Diesel",
-    "Essar 99 SU",
-    "Unleaded",
-    "LPG"
-  ]
-}
-
-
+  fuel_type: ["Diesel", "Super Diesel", "Essar 99 SU", "Unleaded", "LPG"],
+};
 
 export const PriceLogs = {
-  "priceLogs": [
+  priceLogs: [
     {
-      "id": "L2tYSGtOY2pCYWJjdDcvaHF3UERzdz09",
-      "site": "Brewster Street Service Station G400",
-      "supplier": "http://192.168.1.112:4001/splr/essar-logo.png",
-      "competitor": "Asda Superstore, Petrol Station",
-      "date": "2024-12-23"
-    }
-  ]
-}
+      id: "L2tYSGtOY2pCYWJjdDcvaHF3UERzdz09",
+      site: "Brewster Street Service Station G400",
+      supplier: "http://192.168.1.112:4001/splr/essar-logo.png",
+      competitor: "Asda Superstore, Petrol Station",
+      date: "2024-12-23",
+    },
+  ],
+};
