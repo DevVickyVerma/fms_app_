@@ -117,24 +117,31 @@ const CeoDetailModal = (props) => {
         formik.setFieldValue("selectedCompany", filterData?.company_id);
         formik.setFieldValue("selectedCompanyDetails", selectedItem);
       }
-      if (title == "Live Margin") {
-        if (filterData?.site_id) {
-          // here i am finding the main filters sites object if there is site ID exist
-          const selectedItem = filterData?.sites?.find(
-            (item) => item.id === filterData?.site_id
-          );
-          formik.setFieldValue("selectedSiteDetails", selectedItem);
-          formik.setFieldValue("selectedSite", filterData?.id);
-          formik.setFieldValue("site_name", filterData?.site_name);
-        } else {
-          const selectedItem = filterData?.sites?.find(
-            (item) => item.id === filterData?.sites?.[0]?.id
-          );
-          formik.setFieldValue("selectedSiteDetails", selectedItem);
-          formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
-          formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
-        }
-      }
+      // if (title == "Live Margin") {
+      //   if (filterData?.site_id) {
+      //     // here i am finding the main filters sites object if there is site ID exist
+      //     const selectedItem = filterData?.sites?.find(
+      //       (item) => item.id === filterData?.site_id
+      //     );
+      //     setSelected(() => [
+      //       { label: selectedItem?.site_name, value: selectedItem?.id },
+      //     ]);
+
+      //     formik.setFieldValue("selectedSiteDetails", selectedItem);
+      //     formik.setFieldValue("selectedSite", filterData?.id);
+      //     formik.setFieldValue("site_name", filterData?.site_name);
+      //   } else {
+      //     const selectedItem = filterData?.sites?.find(
+      //       (item) => item.id === filterData?.sites?.[0]?.id
+      //     );
+      //     formik.setFieldValue("selectedSiteDetails", selectedItem);
+      //     formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
+      //     formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
+      //     setSelected(() => [
+      //       { label: selectedItem?.site_name, value: selectedItem?.id },
+      //     ]);
+      //   }
+      // }
       if (filterData?.company_id) {
         const selectedItem = filterData?.companies?.find(
           (item) => item.id === filterData?.company_id
@@ -301,15 +308,11 @@ const CeoDetailModal = (props) => {
       const response = await getData(
         `common/site-list?company_id=${companyId}`
       );
+      setSelected([])
+      console.log(filterData.sites, "filterData.sites");
+
       filterData.sites = response?.data?.data;
-      // if (title == "Live Margin") {
-      //   await fetchData(
-      //     filterData?.site_id
-      //       ? filterData?.site_id
-      //       : response?.data?.data[0]?.id,
-      //     "site"
-      //   ); // Fetch data for company change
-      // }
+
     } catch (error) {
       handleError(error);
     }
@@ -475,11 +478,11 @@ const CeoDetailModal = (props) => {
             `client/reportlist?client_id=${filterData?.client_id}`
           );
           break;
-        case "Live Margin":
-          response = await getData(
-            `ceo-dashboard/get-live-margin?${queryString}`
-          );
-          break;
+        // case "Live Margin":
+        //   response = await getData(
+        //     `ceo-dashboard/get-live-margin?${queryString}`
+        //   );
+        //   break;
         case "Daily Wise Sales":
           response = await getData(`ceo-dashboard/stats?${queryString}`);
           break;
@@ -541,14 +544,24 @@ const CeoDetailModal = (props) => {
     { value: "custom", label: "Custom" },
   ];
   const [selected, setSelected] = useState([]);
+  const [selectedGrades, setselectedGrades] = useState([]);
+  const [sitefuels, setsitefuels] = useState();
 
   const options =
     filterData.sites?.map((site) => ({
       label: site?.site_name,
       value: site?.id,
     })) || [];
-
-  const handleSubmit = async (event) => {
+  const handleSelectChange = (selectedOptions) => {
+    console.log(selectedOptions, "selectedOptions");
+    if (selectedOptions?.length) {
+      fecthFuelList(selectedOptions); // Call function when selectedOptions is not empty
+    } else {
+      setselectedGrades([])
+    }
+    setSelected(selectedOptions); // Update state with selected options
+  };
+  const handleMopSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     setLoading(true);
     // Retrieve form values
@@ -593,7 +606,101 @@ const CeoDetailModal = (props) => {
       setLoading(false); // Stop loading indicator
     }
   };
+  const handleLiveSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    setLoading(true);
+    // Retrieve form values
+    const selectedCompany = formik.values.company_id;
+    const selectedSites = selected;
+    console.log(formik.values, "formik.values");
 
+    // Validation
+    if (!selectedCompany) {
+      alert("Please select a company.");
+      return;
+    }
+
+    // console.log("Submitting form data:", payload);
+    const queryParams = new URLSearchParams();
+    if (filterData?.client_id) {
+      queryParams.append("client_id", filterData.client_id);
+    }
+    if (filterData?.company_id) {
+      queryParams.append("company_id", filterData.company_id); // Use default company ID
+    }
+
+    if (selected !== null && selected !== undefined) {
+      selected.forEach((client, index) => {
+        queryParams.append(`site_id[${index}]`, client.value); // Use client.value to get the selected value
+      });
+    }
+    if (selectedGrades !== null && selectedGrades !== undefined) {
+      selectedGrades.forEach((client, index) => {
+        queryParams.append(`fuel_id[${index}]`, client.value); // Use client.value to get the selected value
+      });
+    }
+
+    const queryString = queryParams.toString(); // Construct the query string
+
+    try {
+      const response = await getData(`ceo-dashboard/get-live-margin?${queryString}`);
+
+      if (response && response.data && response.data.data) {
+        setApiData(response.data)
+        console.log(response.data.data, "response.data.data");
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
+  };
+
+  const fecthFuelList = async (selectedOptions) => {
+    setLoading(true);
+    // Retrieve form values
+    const selectedCompany = formik.values.company_id;
+    const selected = selectedOptions;
+
+    if (!selectedCompany) {
+      alert("Please select a company.");
+      return;
+    }
+
+    // console.log("Submitting form data:", payload);
+    const queryParams = new URLSearchParams();
+
+    if (selected !== null && selected !== undefined) {
+      selected.forEach((client, index) => {
+        queryParams.append(`site_id[${index}]`, client.value); // Use client.value to get the selected value
+      });
+    }
+
+    const queryString = queryParams.toString(); // Construct the query string
+
+    try {
+      const response = await getData(`common/site-fuels?${queryString}`);
+
+      if (response && response.data && response.data.data) {
+        setsitefuels(response.data?.data)
+        console.log(response.data.data, "response.data.data");
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
+  };
+  const sitefuelsoptions =
+    sitefuels?.map((site) => ({
+      label: site?.name,
+      value: site?.id,
+    })) || [];
+  console.log(apiData?.data, apiData, "apiData?.data");
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
@@ -724,9 +831,9 @@ const CeoDetailModal = (props) => {
                       client_name: filterData.client_name,
                       company_name:
                         formik?.values?.selectedCompanyDetails?.company_name,
-                      site_name: formik?.values?.selectedSiteDetails?.site_name
-                        ? formik?.values?.selectedSiteDetails?.site_name
-                        : filterData?.sites[0]?.site_name, // Pass "yes" if it has a value, "no" otherwise
+                      // site_name: formik?.values?.selectedSiteDetails?.site_name
+                      //   ? formik?.values?.selectedSiteDetails?.site_name
+                      //   : filterData?.sites[0]?.site_name, // Pass "yes" if it has a value, "no" otherwise
                     }}
                     showResetBtn={false}
                   />
@@ -743,27 +850,65 @@ const CeoDetailModal = (props) => {
                           options={filterData.companies}
                           onChange={handleCompanyChange}
                           required={true}
+                          lg={4}
                         />
                       )}
 
                       {filterData?.sites && (
-                        <SelectField
-                          label="Site"
-                          id="selectedSite"
-                          name="selectedSite"
-                          required={true}
-                          value={formik.values.selectedSite}
-                          options={filterData.sites}
-                          onChange={handleSiteChange}
-                        />
+                        <Col md={4}>
+                          <div className="form-group">
+                            <label className="form-label">
+                              Select Sites
+                              <span className="text-danger">*</span>
+                            </label>
+
+                            <MultiSelect
+                              value={selected}
+                              onChange={handleSelectChange}
+                              labelledBy="Select Sites"
+                              disableSearch="true"
+                              options={options}
+                              showCheckbox="false"
+                            />
+                          </div>
+                        </Col>
                       )}
+                      {sitefuelsoptions && (
+                        <Col md={4}>
+                          <div className="form-group">
+                            <label className="form-label">
+                              Select Grades
+                              <span className="text-danger">*</span>
+                            </label>
+
+                            <MultiSelect
+                              value={selectedGrades}
+                              onChange={setselectedGrades}
+                              labelledBy="Select Grades"
+                              disableSearch="true"
+                              options={sitefuelsoptions}
+                              showCheckbox="false"
+                            />
+                          </div>
+                        </Col>
+                      )}
+                      <hr></hr>
+                      <div className="text-end">
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={handleLiveSubmit}
+                        >
+                          Submit
+                        </button>
+                      </div>
                     </Row>
                   </Card.Body>
                 </Card>
 
                 <Card className="">
                   <Card.Body className="">
-                    {apiData?.data ? <table className="table table-modern tracking-in-expand">
+                    <table className="table table-modern tracking-in-expand">
                       <thead>
                         <tr>
                           <th scope="col">Gross Volume</th>
@@ -821,7 +966,7 @@ const CeoDetailModal = (props) => {
                           </td>
                         </tr>
                       </tbody>
-                    </table> : <NoDataComponent />}
+                    </table>
 
 
 
@@ -1013,7 +1158,7 @@ const CeoDetailModal = (props) => {
                         <button
                           type="button"
                           className="btn btn-primary"
-                          onClick={handleSubmit}
+                          onClick={handleMopSubmit}
                         >
                           Submit
                         </button>
