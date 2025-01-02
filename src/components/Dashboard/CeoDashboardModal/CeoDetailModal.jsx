@@ -839,7 +839,9 @@ const CeoDetailModal = (props) => {
                       // site_name: formik?.values?.selectedSiteDetails?.site_name
                       //   ? formik?.values?.selectedSiteDetails?.site_name
                       //   : filterData?.sites[0]?.site_name, // Pass "yes" if it has a value, "no" otherwise
+
                     }}
+                    selected={selected}
                     showResetBtn={false}
                   />
                 </div>
@@ -1118,14 +1120,15 @@ const CeoDetailModal = (props) => {
                       site_name: formik?.values?.selectedSiteDetails?.site_name,
                       start_date: "",
                     }}
+                    selected={selected}
                     onRemoveFilter={handleRemoveFilter}
                     showResetBtn={true}
                     showCompResetBtn={false}
                     showStartDate={false}
                   />
                 </div>
-                <Card className="">
-                  <Card.Body className="">
+                <Card>
+                  <Card.Body>
                     <Row>
                       {filterData?.companies && (
                         <SelectField
@@ -1139,18 +1142,17 @@ const CeoDetailModal = (props) => {
                         // placeholder="--Select a Company--"
                         />
                       )}
-
                       {filterData?.sites && (
                         <Col md={6}>
                           <div className="form-group">
                             <label className="form-label">
                               Select Sites
                             </label>
-
                             <MultiSelect
                               value={selected}
                               onChange={setSelected}
-                              labelledBy="Select Sites"
+                              labelledBy="Select ssss"
+                              placeholder="dfsfdfsfd"
                               disableSearch="true"
                               options={options}
                               showCheckbox="false"

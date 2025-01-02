@@ -5,18 +5,22 @@ const CeoFilterBadge = ({
   showCompResetBtn = false,
   showStartDate = false,
   onRemoveFilter, // Add this prop
+  selected
 }) => {
   const handleRemoveFilter = (filterName) => {
     if (onRemoveFilter) {
       onRemoveFilter(filterName); // Call the parent's handler
     }
   };
+
+  console.log(selected, "handleRemoveFilter");
+
   return (
     <div className="d-flex gap-2 flex-wrap btn">
       {filters?.client_name ||
-      filters?.company_name ||
-      filters?.site_name ||
-      filters?.start_date ? (
+        filters?.company_name ||
+        filters?.site_name ||
+        filters?.start_date ? (
         <div
           className="badges-container d-flex flex-wrap align-items-center gap-2 px-4 py-sm-2 py-2 text-white"
           style={{ background: "#ddd" }}
@@ -55,6 +59,22 @@ const CeoFilterBadge = ({
               )}
             </div>
           )}
+          {selected?.length > 0 && (
+            <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3 position-relative">
+              <span className="font-semibold">Sites :</span>
+              {/* Display selected sites as comma-separated */}
+              <span>
+                {selected.map((site, index) => (
+                  <span key={index}>
+                    {site.label}
+                    {index < selected.length - 1 && ", "} {/* Add comma if it's not the last item */}
+                  </span>
+                ))}
+              </span>
+            </div>
+          )}
+
+
           {filters?.start_date && showStartDate && (
             <div className="badge bg-yellow-600 d-flex align-items-center gap-2 p-3 position-relative">
               <span className="font-semibold">Start Date :</span>{" "}
