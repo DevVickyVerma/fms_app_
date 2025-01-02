@@ -4,6 +4,7 @@ import {
   salesGraphData,
   Shrinkage,
   StockData,
+  StockDataaa,
   StockDetail,
 } from "../../../Utils/commonFunctions/CommonData";
 import { Card, Col, Row } from "react-bootstrap";
@@ -1043,7 +1044,7 @@ const CeoDetailModal = (props) => {
                         <h4 className="card-title">Graphical Analysis</h4>
                       </Card.Header>
                       <Card.Body className=" d-flex justify-content-center align-items-center">
-                        <div style={{ width: "300px", height: "300px" }}>
+                        <div style={{ width: "350px", height: "350px" }}>
                           <Doughnut
                             data={StockDataaa?.stock_graph_data}
                             options={StockDataaa?.stock_graph_options}
