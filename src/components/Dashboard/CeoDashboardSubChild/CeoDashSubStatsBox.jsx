@@ -60,7 +60,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
     ? singleSiteParsedData?.shop_profit
     : null;
 
-  const handleNavigateClick = () => { };
+  const handleNavigateClick = () => {};
 
   return (
     <div>
@@ -97,8 +97,8 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             xl={12}
           />
         </Col>
-        <Col lg={2}>
-          {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
+        {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
+        {/* <Col lg={2}>
           <CEODashCommonVerticalCard
             isParentComponent={parentComponent}
             showRightSide={true}
@@ -113,7 +113,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             containerStyle={"dash-plates-3 "}
             xl={12}
           />
-        </Col>
+        </Col> */}
 
         {/* // ! Right Side Data Will come From "gross_margin_bunkered" that is
           different Key */}
@@ -135,7 +135,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
           />
         </Col>
-        <Col lg={4}>
+        <Col lg={6}>
           <Row>
             <CEODashCommonCard
               isParentComponent={parentComponent}

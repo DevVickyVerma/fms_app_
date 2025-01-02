@@ -156,7 +156,7 @@ const StaticCompiPrice = ({
       html: `You are about to update the price for the competitor <strong>"${competitor?.competitor_name}"</strong> in the service category <strong>"${messageKey}"</strong>.`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, Accept it!",
+      confirmButtonText: "Yes, Observe it!",
       cancelButtonText: "Cancel",
       reverseButtons: true,
     }).then(async (result) => {
@@ -399,7 +399,7 @@ const StaticCompiPrice = ({
                                             )
                                           }
                                         >
-                                          Accept{" "}
+                                          Observe{" "}
                                           <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                         </button>
                                       </>
@@ -507,7 +507,7 @@ const StaticCompiPrice = ({
                                             )
                                           }
                                         >
-                                          Accept{" "}
+                                          Observe{" "}
                                           <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                         </button>
                                       </>
@@ -619,7 +619,7 @@ const StaticCompiPrice = ({
                                             )
                                           }
                                         >
-                                          Submit{" "}
+                                          Observe{" "}
                                           <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                         </button>
                                       </>

@@ -84,8 +84,9 @@ const UpercardsCeoDashboardStatsBox = (props) => {
         )}
 
         <Row
-          className={`scale-in-center ${dashboardData ? "" : "ceo-stats-blur "
-            }`}
+          className={`scale-in-center ${
+            dashboardData ? "" : "ceo-stats-blur "
+          }`}
         >
           <Col lg={2}>
             <CEODashCommonVerticalCard
@@ -119,8 +120,8 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               xl={12}
             />
           </Col>
-          <Col lg={2}>
-            {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
+          {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
+          {/* <Col lg={2}>
             <CEODashCommonVerticalCard
               isParentComponent={parentComponent}
               showRightSide={true}
@@ -135,7 +136,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               containerStyle={"dash-plates-3 "}
               xl={12}
             />
-          </Col>
+          </Col> */}
 
           {/* // ! Right Side Data Will come From "gross_margin_bunkered" that is
           different Key */}
@@ -157,7 +158,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
             />
           </Col>
-          <Col lg={4}>
+          <Col lg={6}>
             <Row>
               <CEODashCommonCard
                 isParentComponent={parentComponent}
