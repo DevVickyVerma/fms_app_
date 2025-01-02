@@ -231,10 +231,13 @@ const CeoDetailModal = (props) => {
             : `client_id=${filterData.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${report?.report_code
-          }?${clientIDCondition}company_id=${filterData.company_id
-          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
-          }`;
+        const commonParams = `/download-report/${
+          report?.report_code
+        }?${clientIDCondition}company_id=${
+          filterData.company_id
+        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
+          formik?.values?.selectedMonthDetails?.value
+        }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -256,7 +259,8 @@ const CeoDetailModal = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${
+              errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -308,10 +312,9 @@ const CeoDetailModal = (props) => {
       const response = await getData(
         `common/site-list?company_id=${companyId}`
       );
-      setSelected([])
+      setSelected([]);
 
       filterData.sites = response?.data?.data;
-
     } catch (error) {
       handleError(error);
     }
@@ -556,7 +559,7 @@ const CeoDetailModal = (props) => {
     if (selectedOptions?.length) {
       fecthFuelList(selectedOptions); // Call function when selectedOptions is not empty
     } else {
-      setselectedGrades([])
+      setselectedGrades([]);
     }
     setSelected(selectedOptions); // Update state with selected options
   };
@@ -622,7 +625,6 @@ const CeoDetailModal = (props) => {
       return;
     }
 
-
     // console.log("Submitting form data:", payload);
     const queryParams = new URLSearchParams();
     if (filterData?.client_id) {
@@ -646,10 +648,12 @@ const CeoDetailModal = (props) => {
     const queryString = queryParams.toString(); // Construct the query string
 
     try {
-      const response = await getData(`ceo-dashboard/get-live-margin?${queryString}`);
+      const response = await getData(
+        `ceo-dashboard/get-live-margin?${queryString}`
+      );
 
       if (response && response.data && response.data.data) {
-        setApiData(response.data)
+        setApiData(response.data);
         console.log(response.data.data, "response.data.data");
       } else {
         throw new Error("No data available in the response");
@@ -687,7 +691,7 @@ const CeoDetailModal = (props) => {
       const response = await getData(`common/site-fuels?${queryString}`);
 
       if (response && response.data && response.data.data) {
-        setsitefuels(response.data?.data)
+        setsitefuels(response.data?.data);
         console.log(response.data.data, "response.data.data");
       } else {
         throw new Error("No data available in the response");
@@ -699,28 +703,29 @@ const CeoDetailModal = (props) => {
     }
   };
   const sitefuelsoptions =
-    selected && sitefuels ?
-      sitefuels.map((site) => ({
-        label: site?.name,
-        value: site?.id
-      }))
+    selected && sitefuels
+      ? sitefuels.map((site) => ({
+          label: site?.name,
+          value: site?.id,
+        }))
       : [];
 
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
       <div
-        className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
-          }`}
+        className={`common-sidebar    ${
+          visible ? "visible slide-in-right " : "slide-out-right"
+        }`}
         style={{
           width:
             title == "MOP Breakdown"
               ? "50%"
               : title == "Reports"
-                ? "40"
-                : title == "Comparison"
-                  ? "70%"
-                  : "80%",
+              ? "40"
+              : title == "Comparison"
+              ? "70%"
+              : "80%",
         }}
       >
         <div className="card">
@@ -785,7 +790,7 @@ const CeoDetailModal = (props) => {
                           options={filterData.companies}
                           onChange={handleCompanyChange}
                           required={true}
-                        // placeholder="--Select a Company--"
+                          // placeholder="--Select a Company--"
                         />
                       )}
 
@@ -839,7 +844,6 @@ const CeoDetailModal = (props) => {
                       // site_name: formik?.values?.selectedSiteDetails?.site_name
                       //   ? formik?.values?.selectedSiteDetails?.site_name
                       //   : filterData?.sites[0]?.site_name, // Pass "yes" if it has a value, "no" otherwise
-
                     }}
                     selected={selected}
                     showResetBtn={false}
@@ -883,9 +887,7 @@ const CeoDetailModal = (props) => {
                       {sitefuelsoptions && (
                         <Col md={4}>
                           <div className="form-group">
-                            <label className="form-label">
-                              Select Grades
-                            </label>
+                            <label className="form-label">Select Grades</label>
 
                             <MultiSelect
                               value={selectedGrades}
@@ -914,69 +916,69 @@ const CeoDetailModal = (props) => {
 
                 <Card className="">
                   <Card.Body className="">
-                    {apiData?.data && selected.length > 0 ? <table className="table table-modern tracking-in-expand">
-                      <thead>
-                        <tr>
-                          <th scope="col">Gross Volume</th>
-                          <th scope="col">Fuel Sales</th>
-                          <th scope="col">Gross Profit</th>
-                          <th scope="col">Gross Margin</th>
-                          <th scope="col">Shop Sales</th>
-                          <th scope="col">Shop Profit</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="">
-                          <td>
-                            <h2 className="my-2 number-font">
-                              <span className="l-sign">ℓ</span>{" "}
-                              {apiData?.data?.gross_volume}
-                            </h2>
-                          </td>
-                          <td>
-                            <div className="">
+                    {apiData?.data && selected.length > 0 ? (
+                      <table className="table table-modern tracking-in-expand">
+                        <thead>
+                          <tr>
+                            <th scope="col">Gross Volume</th>
+                            <th scope="col">Fuel Sales</th>
+                            <th scope="col">Gross Profit</th>
+                            <th scope="col">Gross Margin</th>
+                            <th scope="col">Shop Sales</th>
+                            <th scope="col">Shop Profit</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="">
+                            <td>
                               <h2 className="my-2 number-font">
-                                {" "}
-                                £ {apiData?.data?.fuel_sales}
+                                <span className="l-sign">ℓ</span>{" "}
+                                {apiData?.data?.gross_volume}
                               </h2>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="">
-                              <h2 className="my-2 number-font">
-                                £ {apiData?.data?.gross_profit}
-                              </h2>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="">
-                              <h2 className="my-2 number-font">
-                                {" "}
-                                {apiData?.data?.gross_margin} ppl
-                              </h2>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="">
-                              <h2 className="my-2 number-font">
-                                £ {apiData?.data?.shop_sales}
-                              </h2>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="">
-                              <h2 className="my-2 number-font">
-                                £ {apiData?.data?.shop_profit}
-                              </h2>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table> : <NoDataComponent />}
-
-
-
-
+                            </td>
+                            <td>
+                              <div className="">
+                                <h2 className="my-2 number-font">
+                                  {" "}
+                                  £ {apiData?.data?.fuel_sales}
+                                </h2>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="">
+                                <h2 className="my-2 number-font">
+                                  £ {apiData?.data?.gross_profit}
+                                </h2>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="">
+                                <h2 className="my-2 number-font">
+                                  {" "}
+                                  {apiData?.data?.gross_margin} ppl
+                                </h2>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="">
+                                <h2 className="my-2 number-font">
+                                  £ {apiData?.data?.shop_sales}
+                                </h2>
+                              </div>
+                            </td>
+                            <td>
+                              <div className="">
+                                <h2 className="my-2 number-font">
+                                  £ {apiData?.data?.shop_profit}
+                                </h2>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    ) : (
+                      <NoDataComponent />
+                    )}
 
                     {/* 
                   
@@ -1139,15 +1141,13 @@ const CeoDetailModal = (props) => {
                           options={filterData.companies}
                           onChange={handleCompanyChange}
                           required={true}
-                        // placeholder="--Select a Company--"
+                          // placeholder="--Select a Company--"
                         />
                       )}
                       {filterData?.sites && (
                         <Col md={6}>
                           <div className="form-group">
-                            <label className="form-label">
-                              Select Sites
-                            </label>
+                            <label className="form-label">Select Sites</label>
                             <MultiSelect
                               value={selected}
                               onChange={setSelected}
@@ -1252,7 +1252,7 @@ const CeoDetailModal = (props) => {
                           options={filterData.companies}
                           onChange={handleCompanyChange}
                           required={true}
-                        // placeholder="--Select a Company--"
+                          // placeholder="--Select a Company--"
                         />
                       )}
                       {filterData?.sites ? (
@@ -1308,7 +1308,7 @@ const CeoDetailModal = (props) => {
                         ""
                       )}
                       {filterData?.sites &&
-                        formik?.values?.comparison_value === "custom" ? (
+                      formik?.values?.comparison_value === "custom" ? (
                         <Col lg={4} className="">
                           <label className=" form-label" htmlFor="Site">
                             Select Custom Date Range
@@ -1475,171 +1475,171 @@ const CeoDetailModal = (props) => {
             {(title === "Stock" ||
               title === "Shrinkage" ||
               title === "Stock Details") && (
-                <>
-                  <div className="m-4 textend">
-                    {" "}
-                    <CeoFilterBadge
-                      filters={{
-                        client_name: filterData.client_name,
-                        company_name:
-                          formik?.values?.selectedCompanyDetails?.company_name,
-                        site_name: formik?.values?.selectedSiteDetails?.site_name,
-                        start_date: "",
-                      }}
-                      onRemoveFilter={handleRemoveFilter}
-                      showResetBtn={true}
-                      showStartDate={false}
-                    />
-                  </div>
-                  <Card className="">
-                    <Card.Body className="">
-                      <Row>
-                        {filterData?.companies && (
-                          <SelectField
-                            label="Company"
-                            id="selectedCompany"
-                            name="selectedCompany"
-                            value={formik.values.selectedCompany}
-                            options={filterData.companies}
-                            onChange={handleCompanyChange}
-                            required={true}
-                          />
-                        )}
+              <>
+                <div className="m-4 textend">
+                  {" "}
+                  <CeoFilterBadge
+                    filters={{
+                      client_name: filterData.client_name,
+                      company_name:
+                        formik?.values?.selectedCompanyDetails?.company_name,
+                      site_name: formik?.values?.selectedSiteDetails?.site_name,
+                      start_date: "",
+                    }}
+                    onRemoveFilter={handleRemoveFilter}
+                    showResetBtn={true}
+                    showStartDate={false}
+                  />
+                </div>
+                <Card className="">
+                  <Card.Body className="">
+                    <Row>
+                      {filterData?.companies && (
+                        <SelectField
+                          label="Company"
+                          id="selectedCompany"
+                          name="selectedCompany"
+                          value={formik.values.selectedCompany}
+                          options={filterData.companies}
+                          onChange={handleCompanyChange}
+                          required={true}
+                        />
+                      )}
 
-                        {filterData?.sites && (
-                          <SelectField
-                            label="Site"
-                            id="selectedSite"
-                            name="selectedSite"
-                            value={formik.values.selectedSite}
-                            options={filterData.sites}
-                            onChange={handleSiteChange}
-                            placeholder="--Select a Site--"
+                      {filterData?.sites && (
+                        <SelectField
+                          label="Site"
+                          id="selectedSite"
+                          name="selectedSite"
+                          value={formik.values.selectedSite}
+                          options={filterData.sites}
+                          onChange={handleSiteChange}
+                          placeholder="--Select a Site--"
+                        />
+                      )}
+                    </Row>
+                  </Card.Body>
+                </Card>
+                <Row className=" d-flex align-items-stretch">
+                  <Col
+                    sm={12}
+                    md={6}
+                    xl={6}
+                    key={Math.random()}
+                    className="mb-6"
+                  >
+                    <Card className="h-100">
+                      <Card.Header className="p-4">
+                        <h4 className="card-title">Stocks</h4>
+                      </Card.Header>
+                      <Card.Body
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div style={{ width: "300px", height: "300px" }}>
+                          <Doughnut
+                            data={StockData?.stock_graph_data}
+                            options={StockData?.stock_graph_options}
+                            height="100px"
                           />
-                        )}
-                      </Row>
-                    </Card.Body>
-                  </Card>
-                  <Row className=" d-flex align-items-stretch">
-                    <Col
-                      sm={12}
-                      md={6}
-                      xl={6}
-                      key={Math.random()}
-                      className="mb-6"
-                    >
-                      <Card className="h-100">
-                        <Card.Header className="p-4">
-                          <h4 className="card-title">Stocks</h4>
-                        </Card.Header>
-                        <Card.Body
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div style={{ width: "300px", height: "300px" }}>
-                            <Doughnut
-                              data={StockData?.stock_graph_data}
-                              options={StockData?.stock_graph_options}
-                              height="100px"
-                            />
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                    <Col
-                      sm={12}
-                      md={6}
-                      xl={6}
-                      key={Math.random()}
-                      className="mb-6"
-                    >
-                      <CeoDashboardBarChart
-                        data={Shrinkage?.shrinkage_graph_data}
-                        options={Shrinkage?.shrinkage_graph_options}
-                        title="Shrinkage"
-                        width="300px"
-                        height="200px"
-                      />
-                    </Col>
-                    <Col sm={12} md={12} xl={12} key={Math.random()} className="">
-                      <Card className="h-100">
-                        <Card.Header className="p-4 w-100 flexspacebetween">
-                          <h4 className="card-title">
-                            {" "}
-                            <div className="lableWithsmall">Stock Details</div>
-                          </h4>
-                          <span style={{ color: "#4663ac", cursor: "pointer" }}>
-                            View Details
-                          </span>
-                        </Card.Header>
-                        <Card.Body style={{ maxHeight: "350px" }}>
-                          <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-                            <table
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col
+                    sm={12}
+                    md={6}
+                    xl={6}
+                    key={Math.random()}
+                    className="mb-6"
+                  >
+                    <CeoDashboardBarChart
+                      data={Shrinkage?.shrinkage_graph_data}
+                      options={Shrinkage?.shrinkage_graph_options}
+                      title="Shrinkage"
+                      width="300px"
+                      height="200px"
+                    />
+                  </Col>
+                  <Col sm={12} md={12} xl={12} key={Math.random()} className="">
+                    <Card className="h-100">
+                      <Card.Header className="p-4 w-100 flexspacebetween">
+                        <h4 className="card-title">
+                          {" "}
+                          <div className="lableWithsmall">Stock Details</div>
+                        </h4>
+                        <span style={{ color: "#4663ac", cursor: "pointer" }}>
+                          View Details
+                        </span>
+                      </Card.Header>
+                      <Card.Body style={{ maxHeight: "350px" }}>
+                        <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                          <table
+                            style={{
+                              width: "100%",
+                              borderCollapse: "collapse",
+                            }}
+                          >
+                            <thead
                               style={{
-                                width: "100%",
-                                borderCollapse: "collapse",
+                                position: "sticky",
+                                top: 0,
+                                backgroundColor: "#fff",
+                                zIndex: 1,
                               }}
                             >
-                              <thead
-                                style={{
-                                  position: "sticky",
-                                  top: 0,
-                                  backgroundColor: "#fff",
-                                  zIndex: 1,
-                                }}
-                              >
-                                <tr>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Name
-                                  </th>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Gross Sales
-                                  </th>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Nett Sales
-                                  </th>
-                                  <th
-                                    style={{ textAlign: "left", padding: "8px" }}
-                                  >
-                                    Profit
-                                  </th>
+                              <tr>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Name
+                                </th>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Gross Sales
+                                </th>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Nett Sales
+                                </th>
+                                <th
+                                  style={{ textAlign: "left", padding: "8px" }}
+                                >
+                                  Profit
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {StockDetail?.map((stock) => (
+                                <tr key={stock?.id}>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.name}
+                                  </td>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.gross_sales}
+                                  </td>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.nett_sales}
+                                  </td>
+                                  <td style={{ padding: "8px" }}>
+                                    {stock?.profit}
+                                  </td>
                                 </tr>
-                              </thead>
-                              <tbody>
-                                {StockDetail?.map((stock) => (
-                                  <tr key={stock?.id}>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.name}
-                                    </td>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.gross_sales}
-                                    </td>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.nett_sales}
-                                    </td>
-                                    <td style={{ padding: "8px" }}>
-                                      {stock?.profit}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  </Row>
-                </>
-              )}
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+              </>
+            )}
           </div>
         </div>
       </div>
