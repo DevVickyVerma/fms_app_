@@ -309,7 +309,6 @@ const CeoDetailModal = (props) => {
         `common/site-list?company_id=${companyId}`
       );
       setSelected([])
-      console.log(filterData.sites, "filterData.sites");
 
       filterData.sites = response?.data?.data;
 
@@ -612,13 +611,17 @@ const CeoDetailModal = (props) => {
     // Retrieve form values
     const selectedCompany = formik.values.company_id;
     const selectedSites = selected;
-    console.log(formik.values, "formik.values");
 
-    // Validation
     if (!selectedCompany) {
       alert("Please select a company.");
       return;
     }
+    console.log(selected, "Please");
+    if (!selected || selected.length === 0) {
+      alert("Please select a Site.");
+      return;
+    }
+
 
     // console.log("Submitting form data:", payload);
     const queryParams = new URLSearchParams();
@@ -696,11 +699,13 @@ const CeoDetailModal = (props) => {
     }
   };
   const sitefuelsoptions =
-    sitefuels?.map((site) => ({
-      label: site?.name,
-      value: site?.id,
-    })) || [];
-  console.log(apiData?.data, apiData, "apiData?.data");
+    selected && sitefuels ?
+      sitefuels.map((site) => ({
+        label: site?.name,
+        value: site?.id
+      }))
+      : [];
+
   return (
     <>
       {isLoading || pdfisLoading ? <LoaderImg /> : ""}
@@ -878,7 +883,6 @@ const CeoDetailModal = (props) => {
                           <div className="form-group">
                             <label className="form-label">
                               Select Grades
-                              <span className="text-danger">*</span>
                             </label>
 
                             <MultiSelect
@@ -908,7 +912,7 @@ const CeoDetailModal = (props) => {
 
                 <Card className="">
                   <Card.Body className="">
-                    <table className="table table-modern tracking-in-expand">
+                    {apiData?.data && selected.length > 0 ? <table className="table table-modern tracking-in-expand">
                       <thead>
                         <tr>
                           <th scope="col">Gross Volume</th>
@@ -966,7 +970,9 @@ const CeoDetailModal = (props) => {
                           </td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> : <NoDataComponent />}
+
+
 
 
 
@@ -1139,7 +1145,6 @@ const CeoDetailModal = (props) => {
                           <div className="form-group">
                             <label className="form-label">
                               Select Sites
-                              <span className="text-danger">*</span>
                             </label>
 
                             <MultiSelect
