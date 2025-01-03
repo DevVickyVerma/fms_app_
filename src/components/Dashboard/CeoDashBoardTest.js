@@ -679,25 +679,27 @@ const CeoDashBoardTest = (props) => {
                     )}
                   </div>
                 </Card.Header>
-                <Card.Body
-                  style={{
-                    maxHeight: "250px",
-                    overflowX: "auto",
-                    overflowY: "auto",
-                  }}
-                >
+                <Card.Body>
                   {PriceLogsloading ? (
                     <SmallLoader />
                   ) : PriceLogs?.priceLogs?.length > 0 ? (
-                    <PriceLogTable
-                      PriceLogsvalue={PriceLogsvalue}
-                      PriceLogs={PriceLogs}
-                    />
+                    <div
+                      style={{
+                        maxHeight: "250px",
+                        overflowX: "auto",
+                        overflowY: "auto",
+                      }}
+                    >
+                      <PriceLogTable
+                        PriceLogsvalue={PriceLogsvalue}
+                        PriceLogs={PriceLogs}
+                      />
+                    </div>
                   ) : (
                     <img
                       src={require("../../assets/images/commonimages/no_data.png")}
                       alt="No data available"
-                      className="all-center-flex smallNoDataimg"
+                      className="all-center-flex smallNoDataimg h-100"
                     />
                   )}
                 </Card.Body>
@@ -762,7 +764,7 @@ const CeoDashBoardTest = (props) => {
                   ) : PriceGraphData?.labels ? (
                     <LinesDotGraphchart stockGraphData={PriceGraphData} />
                   ) : (
-                    <NoDataComponent />
+                    <NoDataComponent showCard={false} />
                   )}
                 </Card.Body>
               </Card>

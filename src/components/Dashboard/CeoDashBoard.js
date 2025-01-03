@@ -1118,7 +1118,7 @@ const CeoDashBoard = (props) => {
                   <img
                     src={require("../../assets/images/commonimages/no_data.png")}
                     alt="No data available"
-                    className="all-center-flex smallNoDataimg"
+                    className="all-center-flex smallNoDataimg testttt"
                   />
                 )}
               </Card.Body>
@@ -1193,7 +1193,7 @@ const CeoDashBoard = (props) => {
                         <img
                           src={require("../../assets/images/commonimages/no_data.png")}
                           alt="MyChartImage"
-                          className=" all-center-flex  smallNoDataimg "
+                          className=" all-center-flex  smallNoDataimg test"
                         />
                       )}
                     </>
