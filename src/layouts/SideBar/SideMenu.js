@@ -804,13 +804,13 @@ export const MENUITEMS = [
             permission: "fuel-price-history",
             visibility: false,
           },
-          {
-            path: `/fuel-selling-price-logs`,
-            title: "Fuel Selling Price Suggestion Logs",
-            type: "link",
-            permission: "fuel-price-history",
-            visibility: false,
-          },
+          // {
+          //   path: `/fuel-selling-price-logs`,
+          //   title: "Fuel Selling Price Suggestion Logs",
+          //   type: "link",
+          //   permission: "fuel-price-history",
+          //   visibility: false,
+          // },
         ],
       },
       //Sms
