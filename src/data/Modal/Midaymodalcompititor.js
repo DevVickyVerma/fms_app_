@@ -163,7 +163,6 @@ const Competitormodal = ({
     // onDataFromChild(dataToSend);
   };
 
-
   return (
     <>
       <Dialog
@@ -268,7 +267,7 @@ const Competitormodal = ({
           </div>
         </Card.Footer>
 
-        {userPermissions?.includes("fuel-suggestion-create") && data ? (
+        {/* {userPermissions?.includes("fuel-suggestion-create") && data ? (
           <>
             <Card.Body>
               <CompetitorfuelpricesUpdate
@@ -281,7 +280,7 @@ const Competitormodal = ({
           </>
         ) : (
           <div></div> // Optionally provide a fallback UI
-        )}
+        )} */}
       </Dialog>
     </>
   );
