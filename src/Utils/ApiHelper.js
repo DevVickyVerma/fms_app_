@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import { useNavigation } from "./NavigationProvider";
 import { useSelector } from "react-redux";
 const withApi = (WrappedComponent) => {
@@ -37,10 +37,9 @@ const withApi = (WrappedComponent) => {
     const location = useLocation(); // useLocation hook to access current path
     const currentPath = location.pathname; // Current path as a string
 
-
-
     function handleError(error) {
       if (error.response && error.response.status === 401) {
+        localStorage.clear();
         navigate("/login");
         ErrorToast("Invalid access token");
         localStorage.clear();
@@ -55,7 +54,7 @@ const withApi = (WrappedComponent) => {
           // console.log(lastPath, "errorMessage");
           if (currentPath === lastPath) {
             // console.log(" Navigating Same path: no navigation needed");
-            navigate(UserPermissions?.route)
+            navigate(UserPermissions?.route);
           } else {
             // console.log("Navigating to last path:", lastPath);
             navigate(lastPath); // Navigate to lastPath if they are different
@@ -125,7 +124,7 @@ const withApi = (WrappedComponent) => {
       } finally {
         manageLoadingState(false); // End loading
       }
-    }
+    };
 
     const postData = async (url, body, navigatePath) => {
       try {
@@ -147,7 +146,7 @@ const withApi = (WrappedComponent) => {
         handleError(error);
         setError(error);
         setIsLoading(false);
-        throw error;        // Re-throw the error so the caller can handle it
+        throw error; // Re-throw the error so the caller can handle it
       } finally {
         setIsLoading(false);
       }
