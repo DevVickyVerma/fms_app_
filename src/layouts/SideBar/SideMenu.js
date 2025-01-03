@@ -413,14 +413,14 @@ export const MENUITEMS = [
             permission: "competitor-price-update",
             visibility: false,
           },
-          {
-            path: `/fuel-selling-prices-suggestion`,
-            title: "Fuel Selling Prices Suggestion",
-            type: "link",
-            permission: "competitor-price-update",
-            // permission: "fuel-suggestion-list",
-            visibility: false,
-          },
+          // {
+          //   path: `/fuel-selling-prices-suggestion`,
+          //   title: "Fuel Selling Prices Suggestion",
+          //   type: "link",
+          //   permission: "competitor-price-update",
+          //   // permission: "fuel-suggestion-list",
+          //   visibility: false,
+          // },
         ],
       },
       //Tolerances

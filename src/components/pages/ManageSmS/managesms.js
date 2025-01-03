@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -17,8 +17,7 @@ import { useSelector } from "react-redux";
 import CustomPagination from "../../../Utils/CustomPagination";
 
 const ManageSiteTank = (props) => {
-  const { apidata, getData, postData, isLoading } =
-    props;
+  const { apidata, getData, postData, isLoading } = props;
   const [data, setData] = useState();
   const [mybalance, setbalance] = useState();
   const [BuyMoree, setBuyMore] = useState();
@@ -31,7 +30,6 @@ const ManageSiteTank = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -50,8 +48,6 @@ const ManageSiteTank = (props) => {
     }
   }, [currentPage]);
 
-
-
   const handleSubmit1 = async (values) => {
     setTabvalue(values?.client_id);
     setSelectedClientIdOnSubmit(values);
@@ -62,7 +58,6 @@ const ManageSiteTank = (props) => {
       );
 
       if (response && response.data && response.data.data) {
-
         setData(response?.data?.data);
         setbalance(response?.data?.data?.balance);
         setBuyMore(response?.data?.data?.buy_more);
@@ -143,7 +138,6 @@ const ManageSiteTank = (props) => {
 
     // pdf.addImage(data?.data?.logo, "JPEG", 15);
 
-
     pdf.text("INVOICE", xCoordinate, 15);
 
     // Set back to regular font for the rest of the content
@@ -221,7 +215,6 @@ const ManageSiteTank = (props) => {
     }
     // Add logo if provided
     if (logoUrl) {
-
       // Fetch the logo as a blob
       try {
         const logoResponse = await fetch(logoUrl);
@@ -275,7 +268,6 @@ const ManageSiteTank = (props) => {
     // Calculate the width of the page
     const pageWidth = pdf.internal.pageSize.getWidth();
 
-
     // Calculate the width of the text
     const ThankWidth =
       (pdf.getStringUnitWidth("Thank you for your business!") *
@@ -284,7 +276,6 @@ const ManageSiteTank = (props) => {
 
     // Calculate the x-coordinate to center the text
     const ThankxCoordinate = (pageWidth - ThankWidth) / 2;
-
 
     // Add the centered text to the footer
     pdf.text(
@@ -305,8 +296,9 @@ const ManageSiteTank = (props) => {
 
     // Add the centered text to the footer
     const footerText = "Copyright © 2023 Credentia. ";
-    const footertextWidth = pdf.getStringUnitWidth(footerText) * pdf.internal.getFontSize();
-    const textX = (pdf.internal.pageSize.width - footertextWidth + 15); // Adjust the offset as needed
+    const footertextWidth =
+      pdf.getStringUnitWidth(footerText) * pdf.internal.getFontSize();
+    const textX = pdf.internal.pageSize.width - footertextWidth + 15; // Adjust the offset as needed
     const textY = footerY + 6;
 
     pdf.text(footerText, textX, textY);
@@ -499,7 +491,6 @@ const ManageSiteTank = (props) => {
       ),
     },
 
-
     {
       name: "Date",
       selector: (row) => [row.created_date],
@@ -516,24 +507,22 @@ const ManageSiteTank = (props) => {
 
     issmsPermissionAvailable
       ? {
-        name: "Invoice",
-        selector: (row) => [row.id],
-        sortable: false,
-        width: "23.5",
-        cell: (row) => (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <button onClick={() => handleDownloadInvoice(row.id)}>
-                <i className="fa fa-download" aria-hidden="true" />
-              </button>
+          name: "Invoice",
+          selector: (row) => [row.id],
+          sortable: false,
+          width: "23.5",
+          cell: (row) => (
+            <div className="d-flex">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <button onClick={() => handleDownloadInvoice(row.id)}>
+                  <i className="fa fa-download" aria-hidden="true" />
+                </button>
+              </div>
             </div>
-          </div>
-        ),
-      }
+          ),
+        }
       : "",
   ];
-
-
 
   const formik = useFormik({
     initialValues: {
@@ -565,7 +554,6 @@ const ManageSiteTank = (props) => {
               (client) => client.id === clientId
             );
             if (selectedClient) {
-
             }
           }
         }
@@ -593,8 +581,6 @@ const ManageSiteTank = (props) => {
       setSelectedClientId(clientId);
     }
   }, []);
-
-
 
   const handleClearForm = async () => {
     formik.setFieldValue("site_id", "");
@@ -664,8 +650,8 @@ const ManageSiteTank = (props) => {
     const { client_id } = selectedClientIdOnSubmit;
 
     let url;
-    setData()
-    setbalance()
+    setData();
+    setbalance();
 
     if (selectedTab === "tab6") {
       url = `/sms/list?client_id=${client_id}&page=${currentPage}&type=credit`;
@@ -731,17 +717,17 @@ const ManageSiteTank = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.client_id &&
+                              className={`input101 ${
+                                formik.errors.client_id &&
                                 formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
                               onChange={(e) => {
                                 const selectedType = e.target.value;
-
 
                                 if (selectedType) {
                                   formik.setFieldValue(
@@ -880,10 +866,8 @@ const ManageSiteTank = (props) => {
                                       defaultSortField="id"
                                       defaultSortAsc={false}
                                       striped={true}
-
                                       persistTableHead={true}
                                       highlightOnHover={true}
-
                                     />
                                   </div>
                                 ) : (
@@ -917,27 +901,16 @@ const ManageSiteTank = (props) => {
                   </>
                 )}
               </Card.Body>
-
-
             </Card>
-
 
             <Modal
               show={showModal}
               onHide={handleCloseModal}
               centered={true}
               style={{ paddingBottom: "0px" }}
-              className="custom-modal-width custom-modal-height big-modal"
+              className="custom-modal-width custom-modal-height big-modal "
             >
-              <Modal.Header
-                style={{
-                  color: "#fff",
-                  background: "#2D8BA8",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
+              <Modal.Header className="p-0 m-0 d-flex justify-content-between align-items-center">
                 {" "}
                 <span
                   style={{
