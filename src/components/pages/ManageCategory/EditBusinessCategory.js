@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const EditBussiness = (props) => {
   const { isLoading, getData, postData } = props;
@@ -20,7 +20,6 @@ const EditBussiness = (props) => {
     } catch (error) {
       handleError(error);
     }
-    
   }, [id]);
 
   const FetchRoleList = async () => {
@@ -39,7 +38,6 @@ const EditBussiness = (props) => {
   };
 
   useEffect(() => {
-
     const GetSiteData = async () => {
       try {
         const response = await getData("business/types");
@@ -53,10 +51,7 @@ const EditBussiness = (props) => {
     } catch (error) {
       handleError(error);
     }
-    
   }, []);
-
-
 
   const handleSubmit = async (values) => {
     try {
@@ -85,8 +80,7 @@ const EditBussiness = (props) => {
       category_status: "1",
     },
     validationSchema: Yup.object({
-      category_name: Yup.string()
-        .required("Business Category is required"),
+      category_name: Yup.string().required("Business Category is required"),
 
       category_code: Yup.string()
         .required("Code is required")
@@ -110,8 +104,6 @@ const EditBussiness = (props) => {
     onSubmit: handleSubmit,
   });
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -133,7 +125,7 @@ const EditBussiness = (props) => {
                   className="breadcrumb-item  breadcrumds"
                   aria-current="page"
                   linkAs={Link}
-                  linkProps={{ to: "/business" }}
+                  linkProps={{ to: "/managebusinesscategory" }}
                 >
                   Manage Business Category
                 </Breadcrumb.Item>
@@ -171,11 +163,12 @@ const EditBussiness = (props) => {
                             category_name="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.category_name &&
+                            className={`input101 ${
+                              formik.errors.category_name &&
                               formik.touched.category_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             placeholder="Business Category Name"
                             onChange={formik.handleChange}
                             value={formik.values.category_name || ""}
@@ -202,11 +195,12 @@ const EditBussiness = (props) => {
                             code="category_code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${formik.errors.category_code &&
+                            className={`input101 readonly ${
+                              formik.errors.category_code &&
                               formik.touched.category_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             placeholder="Business Category Code"
                             onChange={formik.handleChange}
                             value={formik.values.category_code}
@@ -229,11 +223,12 @@ const EditBussiness = (props) => {
                             Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.category_status &&
+                            className={`input101 ${
+                              formik.errors.category_status &&
                               formik.touched.category_status
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="category_status"
                             name="category_status"
                             onChange={formik.handleChange}
@@ -250,7 +245,7 @@ const EditBussiness = (props) => {
                             )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      <Col lg={6} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="business_type_id"
@@ -260,11 +255,12 @@ const EditBussiness = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.business_type_id &&
+                            className={`input101 ${
+                              formik.errors.business_type_id &&
                               formik.touched.business_type_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="business_type_id"
                             name="business_type_id"
                             onChange={formik.handleChange}
