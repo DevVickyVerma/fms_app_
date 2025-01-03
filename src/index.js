@@ -49,6 +49,7 @@ import ManageAddEditLevel from "./components/pages/ManageLevels/ManageAddEditLev
 import FuelSellingPricesSuggestion from "./components/pages/FuelSellingPricesSuggestion/FuelSellingPricesSuggestion";
 import FuelSellingSuggestionLogs from "./components/pages/FuelSellingSuggestionLogs/FuelSellingSuggestionLogs";
 import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild/CeoDashSubChildBaseAPIS";
+import SiteBudget from "./components/pages/ManageSite/SiteBudget";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -788,6 +789,7 @@ const Root = () => {
                       path={`/pricegraph-view`}
                       element={<PriceGraphView />}
                     />
+                    <Route path={`/site-budget/:id`} element={<SiteBudget />} />
                     <Route
                       path={`/ceodashboard-test`}
                       element={<WrappedCeoDashBoard />}
