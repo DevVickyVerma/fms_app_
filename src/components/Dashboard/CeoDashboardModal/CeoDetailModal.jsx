@@ -1171,10 +1171,12 @@ const CeoDetailModal = (props) => {
                 </Card>
 
                 <Row>
-                  <CeoDashboardStatsBox
-                    dashboardData={apiData}
-                    Mopstatsloading={loading}
-                  />
+                  {apiData ?
+                    <CeoDashboardStatsBox
+                      dashboardData={apiData}
+                      Mopstatsloading={loading}
+                    /> : <NoDataComponent />}
+
                 </Row>
 
                 <Row>
