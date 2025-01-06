@@ -2700,3 +2700,10 @@ td.middayModal-td.time-input-fuel-sell {
 .new-input-checkbox[type="checkbox"] {
   border-radius: 0.25em;
 }
+
+.break-word {
+  display: inline-block; /* Keeps it inline but allows wrapping */
+  white-space: normal; /* Allows text to wrap */
+  word-wrap: break-word; /* Break long words if necessary */
+  word-break: break-all; /* Break long words if necessary */
+}

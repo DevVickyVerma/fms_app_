@@ -60,12 +60,12 @@ const CeoFilterBadge = ({
             </div>
           )}
           {selected?.length > 0 && (
-            <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3 position-relative">
+            <div className="badge bg-red-600 d-flex align-items-center gap-2 position-relative break-word w-100">
               <span className="font-semibold">Sites :</span>
               {/* Display selected sites as comma-separated */}
-              <span>
+              <span className="">
                 {selected.map((site, index) => (
-                  <span key={index} className="me-1">
+                  <span key={index} className="me-1 break-word py-2">
                     {site.label}
                     {index < selected.length - 1 && ", "}{" "}
                     {/* Add comma if it's not the last item */}
