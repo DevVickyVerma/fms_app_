@@ -1,10 +1,8 @@
 import CeoDashboardCharts from "../CeoDashboardCharts";
 import {
   Baroptions,
-  salesGraphData,
   Shrinkage,
   StockData,
-  StockDataaa,
   StockDetail,
 } from "../../../Utils/commonFunctions/CommonData";
 import { Card, Col, Row } from "react-bootstrap";
@@ -21,17 +19,10 @@ import LoaderImg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import CeoDashboardStatsBox from "../DashboardStatsBox/CeoDashboardStatsBox";
 import { Bounce, toast } from "react-toastify";
-import {
-  getSiteStats,
-  request,
-} from "../../../Utils/commonFunctions/commonFunction";
 import MultiDateRangePicker from "../../../Utils/MultiDateRangePicker";
-import FiltersComponent from "../DashboardHeader";
 import CeoFilterBadge from "../CeoFilterBadge";
 import SelectField from "./SelectField";
 import moment from "moment/moment";
-import DashSubChildGrads from "../DashboardSubChild/DashSubChildGrads";
-import CeoDashLiveMarginTable from "./CeoDashLiveMarginTable";
 import { MultiSelect } from "react-multi-select-component";
 import NoDataComponent from "../../../Utils/commonFunctions/NoDataComponent";
 
@@ -703,6 +694,9 @@ const CeoDetailModal = (props) => {
       setLoading(false); // Stop loading indicator
     }
   };
+
+  console.log(apiData, "apiData");
+
   const sitefuelsoptions =
     selected && sitefuels
       ? sitefuels.map((site) => ({
@@ -918,65 +912,117 @@ const CeoDetailModal = (props) => {
                 <Card className="">
                   <Card.Body className="">
                     {apiData?.data && selected.length > 0 ? (
-                      <table className="table table-modern tracking-in-expand">
-                        <thead>
-                          <tr>
-                            <th scope="col">Gross Volume</th>
-                            <th scope="col">Fuel Sales</th>
-                            <th scope="col">Gross Profit</th>
-                            <th scope="col">Gross Margin</th>
-                            <th scope="col">Shop Sales</th>
-                            <th scope="col">Shop Profit</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="">
-                            <td>
-                              <h2 className="my-2 number-font">
-                                <span className="l-sign">ℓ</span>{" "}
-                                {apiData?.data?.gross_volume}
-                              </h2>
-                            </td>
-                            <td>
-                              <div className="">
+                      <>
+                        <table className="table table-modern tracking-in-expand">
+                          <thead>
+                            <tr>
+                              <th scope="col">Gross Volume</th>
+                              <th scope="col">Fuel Sales</th>
+                              <th scope="col">Gross Profit</th>
+                              <th scope="col">Gross Margin</th>
+                              <th scope="col">Shop Sales</th>
+                              <th scope="col">Shop Profit</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="">
+                              <td>
                                 <h2 className="my-2 number-font">
-                                  {" "}
-                                  £ {apiData?.data?.fuel_sales}
+                                  <span className="l-sign">ℓ</span>{" "}
+                                  {apiData?.data?.gross_volume}
                                 </h2>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="">
-                                <h2 className="my-2 number-font">
-                                  £ {apiData?.data?.gross_profit}
-                                </h2>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="">
-                                <h2 className="my-2 number-font">
-                                  {" "}
-                                  {apiData?.data?.gross_margin} ppl
-                                </h2>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="">
-                                <h2 className="my-2 number-font">
-                                  £ {apiData?.data?.shop_sales}
-                                </h2>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="">
-                                <h2 className="my-2 number-font">
-                                  £ {apiData?.data?.shop_profit}
-                                </h2>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                              </td>
+                              <td>
+                                <div className="">
+                                  <h2 className="my-2 number-font">
+                                    {" "}
+                                    £ {apiData?.data?.fuel_sales}
+                                  </h2>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="">
+                                  <h2 className="my-2 number-font">
+                                    £ {apiData?.data?.gross_profit}
+                                  </h2>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="">
+                                  <h2 className="my-2 number-font">
+                                    {" "}
+                                    {apiData?.data?.gross_margin} ppl
+                                  </h2>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="">
+                                  <h2 className="my-2 number-font">
+                                    £ {apiData?.data?.shop_sales}
+                                  </h2>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="">
+                                  <h2 className="my-2 number-font">
+                                    £ {apiData?.data?.shop_profit}
+                                  </h2>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <Row className="mt-5">
+                          {apiData?.data?.sites?.map((site) => (
+                            <Col md={3} key={site.id}>
+                              <Card className="mb-4">
+                                <Card.Header className="ceo-live-margin-header">
+                                  {site?.site_name}
+                                </Card.Header>
+                                <Card.Body>
+                                  <Card.Text className="">
+                                    <strong>Gross Volume:</strong>{" "}
+                                    <span className="number-font ms-1">
+                                      <span className="l-sign">ℓ</span>{" "}
+                                      {site?.gross_volume}
+                                    </span>
+                                  </Card.Text>
+                                  <Card.Text className="">
+                                    <strong>Fuel Sales:</strong>
+                                    <span className="number-font ms-1">
+                                      £ {site?.fuel_sales}
+                                    </span>
+                                  </Card.Text>
+                                  <Card.Text className="">
+                                    <strong>Gross Profit:</strong>
+                                    <span className="number-font ms-1">
+                                      £ {site?.gross_profit}
+                                    </span>
+                                  </Card.Text>
+                                  <Card.Text className="">
+                                    <strong>Gross Margin:</strong>{" "}
+                                    <span className="number-font ms-1">
+                                      {site?.gross_margin} ppl
+                                    </span>
+                                  </Card.Text>
+                                  <Card.Text className="">
+                                    <strong>Shop Sales:</strong>
+                                    <span className="number-font ms-1">
+                                      £ {site?.shop_sales}
+                                    </span>
+                                  </Card.Text>
+                                  <Card.Text className="">
+                                    <strong>Shop Profit:</strong>
+                                    <span className="number-font ms-1">
+                                      £ {site?.shop_profit}
+                                    </span>
+                                  </Card.Text>
+                                </Card.Body>
+                              </Card>
+                            </Col>
+                          ))}
+                        </Row>
+                      </>
                     ) : (
                       <NoDataComponent />
                     )}
@@ -1196,7 +1242,7 @@ const CeoDetailModal = (props) => {
                     key={Math.random()}
                     className="mb-6"
                   >
-                    {apiData ? (
+                    {apiData?.graph_data?.stock_graph_data ? (
                       <>
                         <Card className="h-100">
                           <Card.Header className="p-4">
@@ -1205,8 +1251,12 @@ const CeoDetailModal = (props) => {
                           <Card.Body className=" d-flex justify-content-center align-items-center">
                             <div style={{ width: "350px", height: "350px" }}>
                               <Doughnut
-                                data={StockDataaa?.stock_graph_data}
-                                options={StockDataaa?.stock_graph_options}
+                                data={
+                                  apiData?.graph_data?.stock_graph_data || []
+                                }
+                                options={
+                                  apiData?.graph_data?.stock_graph_options || []
+                                }
                                 height="150px"
                               />
                             </div>

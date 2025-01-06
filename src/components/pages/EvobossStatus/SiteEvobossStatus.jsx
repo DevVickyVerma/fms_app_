@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import Loaderimg from "../../../Utils/Loader";
 import { Link } from "react-router-dom";
@@ -9,13 +8,12 @@ import { Box } from "@mui/system";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 const SiteEvobossStatus = (props) => {
-  const { isLoading, getData, } = props;
+  const { isLoading, getData } = props;
   const [data, setData] = useState();
   const [siteData, setSiteData] = useState();
 
   useEffect(() => {
     FetchTableData();
-    
   }, []);
 
   const FetchTableData = async () => {
@@ -58,7 +56,7 @@ const SiteEvobossStatus = (props) => {
       selector: (row) => [row?.site_name],
       sortable: false,
       width: "85%",
-      cell: (row,) => (
+      cell: (row) => (
         <div
           className="d-flex"
           onClick={() => handleNavigateToNewPage(row)}
@@ -74,10 +72,6 @@ const SiteEvobossStatus = (props) => {
       ),
     },
   ];
-
-
-
-
 
   return (
     <>
