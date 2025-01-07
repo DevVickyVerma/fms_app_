@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Col, FormGroup, OverlayTrigger, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -7,7 +7,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import LoaderImg from "../../../Utils/Loader";
-import { confirmPasswordTooltip, passwordTooltip } from "../../../Utils/commonFunctions/commonFunction";
+import {
+  confirmPasswordTooltip,
+  passwordTooltip,
+} from "../../../Utils/commonFunctions/commonFunction";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export default function ResetPassword() {
@@ -26,23 +29,20 @@ export default function ResetPassword() {
     axios
       .get(`${process.env.REACT_APP_BASE_URL}/verify-token/${token}`)
       .then((response) => {
-
         setUserId(response?.data?.data?.id);
       })
       .catch((error) => {
         setTimeout(() => {
           window.location.href = `/login`;
-          localStorage.clear()
+          localStorage.clear();
         }, 1000);
 
         ErrorAlert(error?.message);
-
       });
   }, [token]);
 
   const handleSubmit = async (values) => {
-
-    setIsLoading(true)
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("password", values.password);
     formData.append("password_confirmation", values.password_confirmation);
@@ -55,17 +55,13 @@ export default function ResetPassword() {
         formData
       );
 
-
       if (response.data.status_code === "200") {
-        setIsLoading(false)
+        setIsLoading(false);
         SuccessAlert(response.data.message);
         window.location.href = `/login`;
       }
-
-
     } catch (error) {
-
-      setIsLoading(false)
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -79,7 +75,10 @@ export default function ResetPassword() {
       .min(8, "Password must be at least 8 characters long")
       .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
       .matches(/\d/, "Password must contain at least one numeric digit")
-      .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character"),
+      .matches(
+        /[!@#$%^&*(),.?":{}|<>]/,
+        "Password must contain at least one special character"
+      ),
     password_confirmation: Yup.string()
       .required("Confirm password is required")
       .oneOf([Yup.ref("password"), null], "Passwords must match"),
@@ -92,33 +91,27 @@ export default function ResetPassword() {
     setPasswordConfirmVisible(!passwordConfirmVisible);
   };
 
-
-
   return (
-
     <>
       <div className="login-img overflow-hidden">
-
         {isLoading ? <LoaderImg /> : null}
 
         <Row>
-
-
           <Col lg={12} sm={12} className="c-login-left-card">
             <div className="page">
               <div className="container-login100 d-flex justify-content-center">
-
                 <div className="wrap-login100 p-0">
                   <div className="col col-login mx-auto">
-                    <div className="text-center login-logo">
-
-                    </div>
+                    <div className="text-center login-logo"></div>
                   </div>
                   <div className="container-login100">
                     <Row>
                       <Col className=" col-login mx-auto">
                         <Formik
-                          initialValues={{ password: "", password_confirmation: "" }}
+                          initialValues={{
+                            password: "",
+                            password_confirmation: "",
+                          }}
                           validationSchema={ResetPasswordSchema}
                           onSubmit={(values) => {
                             handleSubmit(values);
@@ -131,14 +124,16 @@ export default function ResetPassword() {
                                 Reset Password
                               </span>
 
-
                               <FormGroup>
                                 <label
                                   htmlFor="password "
                                   className=" form-label mt-4"
                                 >
                                   New Password
-                                  <OverlayTrigger placement="right" overlay={passwordTooltip}>
+                                  <OverlayTrigger
+                                    placement="right"
+                                    overlay={passwordTooltip}
+                                  >
                                     <i className="ph ph-info pointer"></i>
                                   </OverlayTrigger>
                                   <span className="text-danger">*</span>
@@ -150,15 +145,18 @@ export default function ResetPassword() {
                                     style={{ display: "flex" }}
                                   >
                                     <Field
-                                      className={`input100 ${errors.password && touched.password
-                                        ? "is-invalid"
-                                        : ""
-                                        }`}
+                                      className={`input100 ${
+                                        errors.password && touched.password
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
                                       // type="password"
-                                      type={passwordVisible ? "password" : "text"}
+                                      type={
+                                        passwordVisible ? "password" : "text"
+                                      }
                                       name="password"
                                       placeholder="Password"
-                                    // onKeyPress={handleKeyPress}
+                                      // onKeyPress={handleKeyPress}
                                     />
                                     <span className="focus-input100"></span>
 
@@ -199,18 +197,23 @@ export default function ResetPassword() {
                                   </div>
 
                                   <div
-                                    style={{ color: "#f82649", marginTop: "-0.25rem" }}
+                                    style={{
+                                      color: "#f82649",
+                                      marginTop: "-0.25rem",
+                                    }}
                                   >
                                     <ErrorMessage
                                       name="password"
                                       // component="div"
                                       className="invalid-feedback"
-                                      style={{ flexDirection: "row", color: "red" }}
+                                      style={{
+                                        flexDirection: "row",
+                                        color: "red",
+                                      }}
                                     />
                                   </div>
                                 </div>
                               </FormGroup>
-
 
                               <FormGroup>
                                 <label
@@ -218,7 +221,10 @@ export default function ResetPassword() {
                                   className=" form-label mt-4"
                                 >
                                   Confirm Password
-                                  <OverlayTrigger placement="right" overlay={confirmPasswordTooltip}>
+                                  <OverlayTrigger
+                                    placement="right"
+                                    overlay={confirmPasswordTooltip}
+                                  >
                                     <i className="ph ph-info pointer"></i>
                                   </OverlayTrigger>
                                   <span className="text-danger">*</span>
@@ -230,15 +236,21 @@ export default function ResetPassword() {
                                     style={{ display: "flex" }}
                                   >
                                     <Field
-                                      className={`input100 ${errors.password_confirmation && touched.password_confirmation
-                                        ? "is-invalid"
-                                        : ""
-                                        }`}
+                                      className={`input100 ${
+                                        errors.password_confirmation &&
+                                        touched.password_confirmation
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
                                       // type="password"
-                                      type={passwordConfirmVisible ? "password" : "text"}
+                                      type={
+                                        passwordConfirmVisible
+                                          ? "password"
+                                          : "text"
+                                      }
                                       name="password_confirmation"
                                       placeholder=" Confirm Password"
-                                    // onKeyPress={handleKeyPress}
+                                      // onKeyPress={handleKeyPress}
                                     />
                                     <span className="focus-input100"></span>
 
@@ -252,7 +264,9 @@ export default function ResetPassword() {
                                     {!capsLockActive ? (
                                       <>
                                         <span
-                                          onClick={togglePasswordConfirmVisibility}
+                                          onClick={
+                                            togglePasswordConfirmVisibility
+                                          }
                                           style={{
                                             cursor: "pointer",
                                             zIndex: "11",
@@ -279,26 +293,30 @@ export default function ResetPassword() {
                                   </div>
 
                                   <div
-                                    style={{ color: "#f82649", marginTop: "-0.25rem" }}
+                                    style={{
+                                      color: "#f82649",
+                                      marginTop: "-0.25rem",
+                                    }}
                                   >
                                     <ErrorMessage
                                       name="password_confirmation"
                                       // component="div"
                                       className="invalid-feedback"
-                                      style={{ flexDirection: "row", color: "red" }}
+                                      style={{
+                                        flexDirection: "row",
+                                        color: "red",
+                                      }}
                                     />
                                   </div>
                                 </div>
                               </FormGroup>
 
-
-
-
-
-
                               <div className="text-end pt-1">
                                 <p className="mb-0">
-                                  <Link to={`/login`} className="text-primary ms-1">
+                                  <Link
+                                    to={`/login`}
+                                    className="text-primary ms-1"
+                                  >
                                     Back to Login
                                   </Link>
                                 </p>
@@ -310,7 +328,7 @@ export default function ResetPassword() {
                                 >
                                   Reset Password
                                 </button>
-                                <ToastContainer />
+                                {/* <ToastContainer /> */}
                               </div>
                             </Form>
                           )}
@@ -319,13 +337,11 @@ export default function ResetPassword() {
                     </Row>
                   </div>
                 </div>
-
               </div>
             </div>
           </Col>
         </Row>
       </div>
     </>
-
   );
 }

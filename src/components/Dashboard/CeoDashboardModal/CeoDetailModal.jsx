@@ -39,6 +39,9 @@ const CeoDetailModal = (props) => {
   } = props;
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [selectedGrades, setselectedGrades] = useState([]);
+  const [sitefuels, setsitefuels] = useState();
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
@@ -385,6 +388,8 @@ const CeoDetailModal = (props) => {
     fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title, formik?.values?.comparison_value, formik?.values?.endDate]); // Dependencies: title and selectedSite
 
+  console.log(selected, "selected");
+
   const fetchData = async (customId, type) => {
     try {
       setLoading(true); // Start loading indicator
@@ -438,7 +443,11 @@ const CeoDetailModal = (props) => {
       }
 
       const shouldSkipSiteId =
-        title === "Reports" || type === "no-site" || type === "company";
+        title === "Reports" ||
+        type === "no-site" ||
+        type === "company" ||
+        title === "MOP Breakdown" ||
+        title === "Live Margin";
 
       if (!shouldSkipSiteId && !shouldSkipCompanyId) {
         if (type === "site" && customId) {
@@ -450,14 +459,39 @@ const CeoDetailModal = (props) => {
         }
       }
 
+      if (
+        filterData?.site_id &&
+        (title === "MOP Breakdown" || title === "Live Margin")
+      ) {
+        const selectedSiteItem = filterData?.sites?.find(
+          (item) => item.id === filterData.site_id
+        );
+
+        if (selectedSiteItem) {
+          const selectedOptions = [
+            {
+              label: selectedSiteItem.site_name, // Assuming the name is the label
+              value: selectedSiteItem.id, // Assuming the id is the value
+            },
+          ];
+
+          setSelected(selectedOptions); // Store the selected site in state
+          queryParams.append("site_id[0]", selectedSiteItem?.id); // Use the first site ID as fallback
+
+          if (selectedOptions && title === "Live Margin") {
+            fecthFuelList(selectedOptions, true); // Call function when selectedOptions is not empty and dontCheckCompanyId is true
+          }
+        }
+      }
+
       const queryString = queryParams.toString(); // Construct the query string
 
       let response;
       // Dynamically handle API calls based on the title
       switch (title) {
-        // case "MOP Breakdown":
-        //   response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
-        //   break;
+        case "MOP Breakdown":
+          response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
+          break;
         case "Comparison":
           response = await getData(`ceo-dashboard/sales-stats?${queryString}`);
           break;
@@ -471,11 +505,11 @@ const CeoDetailModal = (props) => {
             `client/reportlist?client_id=${filterData?.client_id}`
           );
           break;
-        // case "Live Margin":
-        //   response = await getData(
-        //     `ceo-dashboard/get-live-margin?${queryString}`
-        //   );
-        //   break;
+        case "Live Margin":
+          response = await getData(
+            `ceo-dashboard/get-live-margin?${queryString}`
+          );
+          break;
         case "Daily Wise Sales":
           response = await getData(`ceo-dashboard/stats?${queryString}`);
           break;
@@ -536,15 +570,7 @@ const CeoDetailModal = (props) => {
     { value: "budget", label: "Actual Vs Budget" },
     { value: "custom", label: "Custom" },
   ];
-  const [selected, setSelected] = useState([]);
-  const [selectedGrades, setselectedGrades] = useState([]);
-  const [sitefuels, setsitefuels] = useState();
 
-  const options =
-    filterData.sites?.map((site) => ({
-      label: site?.site_name,
-      value: site?.id,
-    })) || [];
   const handleSelectChange = (selectedOptions) => {
     console.log(selectedOptions, "selectedOptions");
     if (selectedOptions?.length) {
@@ -554,6 +580,7 @@ const CeoDetailModal = (props) => {
     }
     setSelected(selectedOptions); // Update state with selected options
   };
+
   const handleMopSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     setLoading(true);
@@ -657,14 +684,15 @@ const CeoDetailModal = (props) => {
     }
   };
 
-  const fecthFuelList = async (selectedOptions) => {
+  const fecthFuelList = async (selectedOptions, dontCheckCompanyId = false) => {
     setLoading(true);
     // Retrieve form values
     const selectedCompany = formik.values.company_id;
     const selected = selectedOptions;
 
-    if (!selectedCompany) {
-      alert("Please select a company.");
+    // Check company selection unless dontCheckCompanyId is true
+    if (!dontCheckCompanyId && !selectedCompany) {
+      ErrorToast("Please select a company.");
       return;
     }
 
@@ -695,7 +723,7 @@ const CeoDetailModal = (props) => {
     }
   };
 
-  console.log(apiData, "apiData");
+  console.log(selected, "selected", filterData?.sites, "filterData?.sites");
 
   const sitefuelsoptions =
     selected && sitefuels
@@ -873,7 +901,12 @@ const CeoDetailModal = (props) => {
                               onChange={handleSelectChange}
                               labelledBy="Select Sites"
                               disableSearch="true"
-                              options={options}
+                              options={
+                                filterData.sites?.map((site) => ({
+                                  label: site?.site_name,
+                                  value: site?.id,
+                                })) || []
+                              }
                               showCheckbox="false"
                             />
                           </div>
@@ -1199,7 +1232,12 @@ const CeoDetailModal = (props) => {
                               labelledBy="Select ssss"
                               placeholder="dfsfdfsfd"
                               disableSearch="true"
-                              options={options}
+                              options={
+                                filterData.sites?.map((site) => ({
+                                  label: site?.site_name,
+                                  value: site?.id,
+                                })) || []
+                              }
                               showCheckbox="false"
                             />
                           </div>

@@ -50,6 +50,8 @@ import FuelSellingPricesSuggestion from "./components/pages/FuelSellingPricesSug
 import FuelSellingSuggestionLogs from "./components/pages/FuelSellingSuggestionLogs/FuelSellingSuggestionLogs";
 import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild/CeoDashSubChildBaseAPIS";
 import SiteBudget from "./components/pages/ManageSite/SiteBudget";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -1579,6 +1581,7 @@ const Root = () => {
           </Provider>
         </React.Suspense>
       </BrowserRouter>
+      <ToastContainer />
     </>
   );
 };

@@ -11,7 +11,7 @@ import { MyProvider } from "../Utils/MyContext";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../Redux/dataSlice";
 import BlankDashboard from "./Dashboard/BlankDashboard";
-import 'phosphor-icons/src/css/icons.css'; // Import Phosphor Icons CSS
+import "phosphor-icons/src/css/icons.css"; // Import Phosphor Icons CSS
 import { NavigationProvider } from "../Utils/NavigationProvider";
 
 const App = () => {
@@ -28,20 +28,18 @@ const App = () => {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    // 
+    //
   }, [location.pathname]);
-  const [autoLogout] = useState(
-    localStorage.getItem("auto_logout")
-  );
+  const [autoLogout] = useState(localStorage.getItem("auto_logout"));
 
   const dispatch = useDispatch();
   const GetDetails = async () => {
-    dispatch(fetchData())
+    dispatch(fetchData());
   };
 
   useEffect(() => {
-    GetDetails()
-    // 
+    GetDetails();
+    //
   }, []);
 
   const [isInactive, setIsInactive] = useState(false);
@@ -63,7 +61,7 @@ const App = () => {
 
     inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
 
-    // 
+    //
     return () => {
       window.removeEventListener("mousemove", handleUserActivity);
       window.removeEventListener("keydown", handleUserActivity);
@@ -99,7 +97,7 @@ const App = () => {
     } else {
       localStorage.setItem("auto_logout_done", false);
     }
-    // 
+    //
   }, [isInactive, autoLogout, logoutTime]);
   useEffect(() => {
     const handleNetworkChange = () => {
@@ -130,8 +128,6 @@ const App = () => {
       window.removeEventListener("offline", handleNetworkChange);
     };
   }, []);
-
-
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
@@ -193,46 +189,43 @@ const App = () => {
 
   // }
 
-
-
-
-
   return (
-
     <MyProvider>
-    <NavigationProvider> 
-      <Fragment>
+      <NavigationProvider>
+        <Fragment>
+          {UserPermissions?.permissions?.length > 0 ? (
+            <>
+              <div className="horizontalMenucontainer">
+                <TabToTop />
+                <div className="page">
+                  <div className="page-main">
+                    <TopLoadingBar
+                      style={{ height: "4px" }}
+                      color="#fff"
+                      ref={loadingBarRef}
+                    />
 
-        {UserPermissions?.permissions?.length > 0 ? <>
-          <div className="horizontalMenucontainer">
-            <TabToTop />
-            <div className="page">
-              <div className="page-main">
-                <TopLoadingBar
-                  style={{ height: "4px" }}
-                  color="#fff"
-                  ref={loadingBarRef}
-                />
-
-                <Header />
-                <Sidebar />
-                <div className="main-content app-content ">
-                  <div className="side-app">
-                    <div className="main-container container-fluid">
-                      <Outlet />
+                    <Header />
+                    <Sidebar />
+                    <div className="main-content app-content ">
+                      <div className="side-app">
+                        <div className="main-container container-fluid">
+                          <Outlet />
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <Footer />
                 </div>
               </div>
-              <Footer />
-            </div>
-          </div>
-        </> : <>
-          <BlankDashboard />
-        </>}
-
-      </Fragment>
-      </NavigationProvider> 
+            </>
+          ) : (
+            <>
+              <BlankDashboard />
+            </>
+          )}
+        </Fragment>
+      </NavigationProvider>
     </MyProvider>
   );
 };
