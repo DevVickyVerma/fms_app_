@@ -1237,12 +1237,12 @@ const CeoDetailModal = (props) => {
                 <Row>
                   <Col
                     sm={12}
-                    md={6}
-                    xl={6}
+                    md={12}
+                    xl={12}
                     key={Math.random()}
                     className="mb-6"
                   >
-                    {apiData?.graph_data?.stock_graph_data ? (
+                    {apiData?.pie_graph_data?.stock_graph_data ? (
                       <>
                         <Card className="h-100">
                           <Card.Header className="p-4">
@@ -1252,10 +1252,12 @@ const CeoDetailModal = (props) => {
                             <div style={{ width: "350px", height: "350px" }}>
                               <Doughnut
                                 data={
-                                  apiData?.graph_data?.stock_graph_data || []
+                                  apiData?.pie_graph_data?.stock_graph_data ||
+                                  []
                                 }
                                 options={
-                                  apiData?.graph_data?.stock_graph_options || []
+                                  apiData?.pie_graph_data
+                                    ?.stock_graph_options || []
                                 }
                                 height="150px"
                               />
@@ -1263,27 +1265,6 @@ const CeoDetailModal = (props) => {
                           </Card.Body>
                         </Card>
                       </>
-                    ) : (
-                      <>
-                        <NoDataComponent />
-                      </>
-                    )}
-                  </Col>
-                  <Col
-                    sm={12}
-                    md={6}
-                    xl={6}
-                    key={Math.random()}
-                    className="mb-6"
-                  >
-                    {apiData ? (
-                      <CeoDashboardBarChart
-                        data={Shrinkage?.shrinkage_graph_data}
-                        options={Shrinkage?.shrinkage_graph_options}
-                        title="Bar Chart"
-                        width="300px"
-                        height="200px"
-                      />
                     ) : (
                       <>
                         <NoDataComponent />

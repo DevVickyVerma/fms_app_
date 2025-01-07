@@ -23,7 +23,7 @@ ChartJS.register(
 
 const CeoDashboardBarChart = ({ data, options, height, width, title }) => {
   const selectedLabel = Comparisongraphfilter?.find(
-    (option) => option.value == title
+    (option) => option?.value == title
   )?.label;
 
   return (
