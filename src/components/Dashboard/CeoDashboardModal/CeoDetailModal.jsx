@@ -385,6 +385,7 @@ const CeoDetailModal = (props) => {
   };
 
   useEffect(() => {
+    setSelected([]);
     fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title, formik?.values?.comparison_value, formik?.values?.endDate]); // Dependencies: title and selectedSite
 
@@ -454,32 +455,33 @@ const CeoDetailModal = (props) => {
           queryParams.append("site_id", customId); // Use custom site ID
         } else if (filterData?.site_id) {
           queryParams.append("site_id", filterData.site_id); // Use default site ID
-        } else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
-          queryParams.append("site_id", filterData.sites[0].id); // Use the first site ID as fallback
         }
+        // else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
+        //   queryParams.append("site_id[0]", filterData.sites[0].id); // Use the first site ID as fallback
+        // }
       }
 
       if (
-        filterData?.site_id &&
+        filterData?.sites?.length > 0 &&
         (title === "MOP Breakdown" || title === "Live Margin")
       ) {
-        const selectedSiteItem = filterData?.sites?.find(
-          (item) => item.id === filterData.site_id
-        );
+        // Determine the selected site based on title and site_id
+        const selectedSiteItem = filterData.site_id
+          ? filterData.sites.find((item) => item.id === filterData.site_id) // Use filterData.site_id if it exists
+          : title === "Live Margin" // If the title is "Live Margin", fallback to the first site
+          ? filterData.sites[0]
+          : null; // No site selected for "MOP Breakdown" if no filterData.site_id
 
         if (selectedSiteItem) {
           const selectedOptions = [
-            {
-              label: selectedSiteItem.site_name, // Assuming the name is the label
-              value: selectedSiteItem.id, // Assuming the id is the value
-            },
+            { label: selectedSiteItem.site_name, value: selectedSiteItem.id },
           ];
 
           setSelected(selectedOptions); // Store the selected site in state
-          queryParams.append("site_id[0]", selectedSiteItem?.id); // Use the first site ID as fallback
+          queryParams.append("site_id[0]", selectedSiteItem.id); // Append the site ID to queryParams
 
-          if (selectedOptions && title === "Live Margin") {
-            fecthFuelList(selectedOptions, true); // Call function when selectedOptions is not empty and dontCheckCompanyId is true
+          if (title === "Live Margin") {
+            fecthFuelList(selectedOptions, true); // Fetch fuel list if the title is "Live Margin"
           }
         }
       }
@@ -539,6 +541,7 @@ const CeoDetailModal = (props) => {
       setLoading(false); // Stop loading indicator
     }
   };
+
   const handleRemoveFilter = async (filterName) => {
     if (filterName == "company_name") {
       await formik.setFieldValue("selectedCompany", "");
