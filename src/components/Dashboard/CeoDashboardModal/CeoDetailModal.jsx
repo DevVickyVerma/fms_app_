@@ -619,7 +619,7 @@ const CeoDetailModal = (props) => {
       const response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
 
       if (response && response.data && response.data.data) {
-        setApiData(response.data.data);
+        setApiData(response.data);
         console.log(response.data.data, "mopa");
       } else {
         throw new Error("No data available in the response");
@@ -1261,9 +1261,9 @@ const CeoDetailModal = (props) => {
                 </Card>
 
                 <Row>
-                  {apiData ? (
+                  {apiData?.data ? (
                     <CeoDashboardStatsBox
-                      dashboardData={apiData}
+                      dashboardData={apiData?.data}
                       Mopstatsloading={loading}
                     />
                   ) : (
@@ -1308,7 +1308,7 @@ const CeoDetailModal = (props) => {
                       </>
                     ) : (
                       <>
-                        <NoDataComponent />
+                        <NoDataComponent title={"Pie Chart"} />
                       </>
                     )}
                   </Col>

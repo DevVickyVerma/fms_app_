@@ -61,7 +61,12 @@ const CeoFilterBadge = ({
           )}
           {selected?.length > 0 && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 position-relative break-word w-100">
-              <span className="font-semibold">Sites :</span>
+              <span
+                className="font-semibold min-w-40"
+                style={{ minWidth: "40px" }}
+              >
+                Sites :
+              </span>
               {/* Display selected sites as comma-separated */}
               <span className="">
                 {selected.map((site, index) => (

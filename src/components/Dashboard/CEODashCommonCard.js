@@ -72,7 +72,7 @@ const CEODashCommonCard = ({
                 <h6 className="mb-2 boxtitle">{RightSideTitle}</h6>
                 <h2 className="mb-0 number-font c-fs-18">
                   <span className="l-sign">{icon}</span>{" "}
-                  {RightSideData ? formatNumber(RightSideData) : "0.0"}
+                  {RightSideData ? formatNumber(RightSideData) : ""}
                 </h2>
               </div>
             )}
