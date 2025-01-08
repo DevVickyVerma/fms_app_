@@ -1283,7 +1283,7 @@ const CeoDetailModal = (props) => {
                     key={Math.random()}
                     className="mb-6"
                   >
-                    {apiData?.pie_graph_data?.stock_graph_data ? (
+                    {apiData?.data?.pie_graph_data?.stock_graph_data ? (
                       <>
                         <Card className="h-100">
                           <Card.Header className="p-4">
@@ -1293,11 +1293,11 @@ const CeoDetailModal = (props) => {
                             <div style={{ width: "350px", height: "350px" }}>
                               <Doughnut
                                 data={
-                                  apiData?.pie_graph_data?.stock_graph_data ||
-                                  []
+                                  apiData?.data?.pie_graph_data
+                                    ?.stock_graph_data || []
                                 }
                                 options={
-                                  apiData?.pie_graph_data
+                                  apiData?.data?.pie_graph_data
                                     ?.stock_graph_options || []
                                 }
                                 height="150px"
