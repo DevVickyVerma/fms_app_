@@ -300,6 +300,7 @@ tbody td {
 
 thead {
   width: 100% !important;
+  z-index: 1111;
 }
 
 tbody {
