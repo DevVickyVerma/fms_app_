@@ -306,7 +306,7 @@ const CeoDetailModal = (props) => {
       const response = await getData(
         `common/site-list?company_id=${companyId}`
       );
-      setSelected([]);
+      // setSelected([]);
 
       filterData.sites = response?.data?.data;
     } catch (error) {
@@ -385,7 +385,7 @@ const CeoDetailModal = (props) => {
   };
 
   useEffect(() => {
-    setSelected([]);
+    // setSelected([]);
     fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title, formik?.values?.comparison_value, formik?.values?.endDate]); // Dependencies: title and selectedSite
 
