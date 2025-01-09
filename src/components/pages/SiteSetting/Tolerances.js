@@ -148,7 +148,7 @@ const SiteSettings = (props) => {
     validationSchema: Yup.object({
       max_dip_gain_loss_variance: Yup.string()
 
-        .required("Max Dips Gians/Loss Variance is required"),
+        .required("Max Dips Gain/Loss Variance is required"),
       max_banking_variance: Yup.string()
         .max(30, "Must be 30 characters or less")
         .required(" Max Banking Variance is required"),
@@ -319,7 +319,7 @@ const SiteSettings = (props) => {
                 linkAs={Link}
                 linkProps={{ to: "/sites" }}
               >
-               Manage Tolerance
+                Manage Tolerance
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -411,7 +411,7 @@ const SiteSettings = (props) => {
                           className="form-label mt-4"
                           htmlFor="max_dip_gain_loss_variance"
                         >
-                          Max Dips Gians/Loss Variance
+                          Max Dips Gain/Loss Variance
                           <span className="text-danger">*</span>
                         </label>
                         <input
@@ -424,7 +424,7 @@ const SiteSettings = (props) => {
                             ? "is-invalid"
                             : ""
                             }`}
-                          placeholder=" Max Dips Gians/Loss Variance"
+                          placeholder=" Max Dips Gain/Loss Variance"
                           onChange={formik.handleChange}
                           value={formik.values.max_dip_gain_loss_variance}
                         />
