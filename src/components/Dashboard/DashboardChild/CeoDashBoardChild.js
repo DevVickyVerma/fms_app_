@@ -223,6 +223,7 @@ const CeoDashBoardChild = (props) => {
           shop_profit={dashboardData?.shop_profit || 0}
           dashboardData={dashboardData}
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+          parentComponent={false}
         />
       </Row>
 

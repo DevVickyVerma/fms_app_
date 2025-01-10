@@ -35,7 +35,7 @@ const CeoDashboardChildTable = (props) => {
       <th className="dashboard-child-thead">Gross Profit</th>
       <th className="dashboard-child-thead">Gross Margin</th>
       <th className="dashboard-child-thead">Shop Sales</th>
-      <th className="dashboard-child-thead">Shop Earning</th>
+      {/* <th className="dashboard-child-thead">Shop Earning</th> */}
       <th className="dashboard-child-thead">Shop Profit</th>
       {/* <th className="dashboard-child-thead">Shop Margin</th> */}
       <th className="dashboard-child-thead">Shop Margin</th>
@@ -332,15 +332,14 @@ const CeoDashboardChildTable = (props) => {
                   </div>
                 </div>
               </td>
-              <td className="dashboard-child-tdata">
+              {/* <td className="dashboard-child-tdata">
                 <div className="d-flex">
                   <div className="ms-2 mt-0 mt-sm-2 d-block">
                     <h6 className="mb-0 fs-14 fw-semibold">
                       £
                       {item?.shop_fees?.shop_fee
                         ? formatNumber(item?.shop_fees?.shop_fee)
-                        : "0"}
-                      {/* {item?.shop_fees?.shop_fees || "0.00"} */}
+                        : "0"}{" "}
                     </h6>
                     <p
                       className={`me-1 ${
@@ -368,7 +367,7 @@ const CeoDashboardChildTable = (props) => {
                     </p>
                   </div>
                 </div>
-              </td>
+              </td> */}
               <td className="dashboard-child-tdata">
                 <div className="d-flex">
                   <div className="ms-2 mt-0 mt-sm-2 d-block">
