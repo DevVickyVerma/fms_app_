@@ -134,10 +134,10 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
   const chartStyle = {
     height: "500px", // General height
     width: "100%",
-    "@media (max-width: 768px)": {
+    "@media (maxWidth: 768px)": {
       height: "400px", // Adjust height for smaller tablets and phones
     },
-    "@media (max-width: 500px)": {
+    "@media (maxWidth: 500px)": {
       height: "350px", // Further reduce height on small mobile screens
     },
   };
