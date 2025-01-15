@@ -1433,6 +1433,10 @@ li.ms-2.disabled-checkbox {
   max-width: 500px !important;
 }
 
+.tooltip {
+  z-index: 1111111 !important;
+}
+
 .accordion-button {
   background-color: #fff !important;
   border-bottom: 1px solid #ddd;

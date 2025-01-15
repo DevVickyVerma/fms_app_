@@ -112,7 +112,7 @@ const StaticCompiPrice = ({
       if (response.status === 200 && response.data.api_response === "success") {
         sendDataToParent();
         SuccessAlert(response.data.message);
-        navigate("/competitor-fuel-price");
+        navigate("/competitor-fuel-price-v2");
         onClose();
       } else {
         // Handle other cases or errors here
@@ -242,13 +242,58 @@ const StaticCompiPrice = ({
                                 {" "}
                                 {competitor?.canUpdate ? (
                                   <>
-                                    <i className="ph ph-hourglass-medium c-top-3 mx-1"></i>
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip
+                                          style={{ zIndex: "111111111" }}
+                                        >
+                                          This competitor still requires
+                                          updates.
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span style={{ zIndex: "111111111" }}>
+                                        <i className="ph ph-hourglass-medium c-top-3 mx-1"></i>
+                                      </span>
+                                    </OverlayTrigger>
                                   </>
                                 ) : (
                                   <>
-                                    <i className="ph ph-seal-check work-flow-sucess-status c-top-3 mx-1"></i>
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip
+                                          style={{ zIndex: "111111111" }}
+                                        >
+                                          This competitor has been successfully
+                                          updated.
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <span style={{ zIndex: "111111111" }}>
+                                        <i className="ph ph-seal-check work-flow-sucess-status c-top-3 mx-1"></i>
+                                      </span>
+                                    </OverlayTrigger>
                                   </>
                                 )}
+                              </span>
+                              <span className=" fw-600">
+                                {" "}
+                                {competitor?.isMain == 1 ? (
+                                  <>
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip>Main Competitor</Tooltip>
+                                      }
+                                    >
+                                      <span className="  p-1">
+                                        <i className="ph ph-target c-top-3  work-flow-sucess-status"></i>
+                                      </span>
+                                    </OverlayTrigger>
+                                  </>
+                                ) : null}
                               </span>
                             </div>
                           }
@@ -267,7 +312,7 @@ const StaticCompiPrice = ({
                                     </th>
                                   )
                                 )}
-                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
                               </tr>
                             </thead>
                             <tbody>

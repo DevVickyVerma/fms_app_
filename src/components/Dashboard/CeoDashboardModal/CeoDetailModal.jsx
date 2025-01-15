@@ -569,7 +569,7 @@ const CeoDetailModal = (props) => {
       value: "yearly",
       label: `Year To Date   (${dashboardData?.date_filter?.ytd})`,
     },
-    { value: "yearly", label: "Actual Vs Previous Year Month" },
+    { value: "month_year", label: "Actual Vs Previous Year Month" },
     { value: "budget", label: "Actual Vs Budget" },
     { value: "custom", label: "Custom" },
   ];

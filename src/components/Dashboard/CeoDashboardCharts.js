@@ -71,12 +71,12 @@ const CeoDashboardCharts = ({
             `Shop (${formik?.values?.comparison_label})`
           )}
         </Col>
-        <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
+        {/* <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
           {renderChartOrLoader(
             BarGraphSalesStats?.valet_sales,
             `Valet (${formik?.values?.comparison_label})`
           )}
-        </Col>
+        </Col> */}
       </Row>
     </>
   );
