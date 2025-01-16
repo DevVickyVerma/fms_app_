@@ -34,7 +34,7 @@ export const MENUITEMS = [
         icon: "crown",
         type: "link",
         active: false,
-        permission: "ceodashboard-viewssss",
+        permission: "ceodashboard-viewssssss",
         visibility: false,
         title: "Titan  Dashboard ",
       },
