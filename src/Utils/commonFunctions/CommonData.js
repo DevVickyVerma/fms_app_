@@ -17,7 +17,6 @@ export const Bardata = {
     },
   ],
 };
-
 export const Baroptions = {
   responsive: true,
   plugins: {
@@ -31,7 +30,6 @@ export const Baroptions = {
     },
   },
 };
-
 export const priceLogData = [
   {
     id: 1,
@@ -78,8 +76,6 @@ export const Doughnutdata = {
     },
   ],
 };
-
-// Options for the chart
 export const Doughnutoptions = {
   responsive: true,
   plugins: {
@@ -92,7 +88,6 @@ export const Doughnutoptions = {
   },
   cutout: "80%", // Adjust the cutout size to make it a donut
 };
-
 export const StackedBarChartdata = {
   labels: ["January", "February", "March", "April", "May", "June"],
   datasets: [
@@ -113,7 +108,6 @@ export const StackedBarChartdata = {
     },
   ],
 };
-
 export const StackedBarChartoptions = {
   responsive: true,
   plugins: {
@@ -202,7 +196,6 @@ export const visit = [
     color: "info",
   },
 ];
-
 export const DummygetSiteStats = {
   api_response: "success",
   status_code: "200",
@@ -986,13 +979,11 @@ export const DummygetSiteStats = {
     dateString: "01 Sep - 26 Sep",
   },
 };
-
 export const Tankcolors = [
   { name: "About to Finish", color: "#e84118" },
   { name: "Low Fuel", color: "#ffa801" },
   { name: "Enough Fuel", color: "#009432" },
 ];
-
 export const TopPerformers = [
   {
     id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
@@ -1645,7 +1636,6 @@ export const TopPerformers = [
     },
   },
 ];
-
 export const Losers = [
   {
     id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
@@ -2298,7 +2288,6 @@ export const Losers = [
     },
   },
 ];
-
 export const ReportList = [
   {
     id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
@@ -2608,7 +2597,6 @@ export const StockData = {
     },
   ],
 };
-
 export const StockDataaa = {
   stock_graph_data: {
     labels: [
@@ -2713,7 +2701,6 @@ export const StockDataaa = {
     // Add more stock entries if needed
   ],
 };
-
 export const PerformanceData = {
   top: [
     {
@@ -3093,7 +3080,6 @@ export const PriceLogsData = [
     status: "text-danger",
   },
 ];
-
 export const MopData = {
   cash_fuel_sales: {
     total_sales: "797",
@@ -3524,7 +3510,6 @@ export const StockDetail = [
     total_transactions: 0,
   },
 ];
-
 export const intialfilterData = {
   client_id: "MkJWd25aSTlDekVwcWg4azgrNVh3UT09",
   client_name: "Shilan Raja",
@@ -3881,7 +3866,6 @@ export const intialfilterData = {
   ],
   start_date: "2024-12-11",
 };
-
 export const dynamicData = [
   {
     date: "01-Dec",
@@ -4044,16 +4028,6 @@ export const dynamicLineConfig = [
     strokeDasharray: "5 5",
   },
 ];
-const startingPrice = 2400;
-const endingPrice = 3478;
-const totalDays = 30;
-
-// Create dynamic price data with linear progression
-const priceData = Array.from(
-  { length: totalDays },
-  (_, i) =>
-    startingPrice + ((endingPrice - startingPrice) / (totalDays - 1)) * i
-);
 export const stockGraphData = {
   labels: [
     "01-Dec",
@@ -4294,7 +4268,6 @@ export const stockGraphData = {
   },
   fuel_type: ["Diesel", "Super Diesel", "Essar 99 SU", "Unleaded", "LPG"],
 };
-
 export const PriceLogs = {
   priceLogs: [
     {
@@ -4306,3 +4279,5 @@ export const PriceLogs = {
     },
   ],
 };
+
+

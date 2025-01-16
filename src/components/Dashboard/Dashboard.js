@@ -65,7 +65,7 @@ const Dashboard = (props) => {
       setPermissionsArray(ReduxFullData?.permissions);
     }
     navigate(ReduxFullData?.route);
-    
+
   }, [ReduxFullData, permissionsArray]);
 
 

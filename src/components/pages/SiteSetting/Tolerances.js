@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import {
   Col,
   Row,
@@ -32,10 +31,6 @@ const SiteSettings = (props) => {
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("tolerance-update");
-
-
-
-
   const FetchFilterData = async (filters) => {
     let { client_id, company_id, site_id, client_name, company_name } = filters;
 
@@ -100,11 +95,8 @@ const SiteSettings = (props) => {
   });
 
   const handleSubmit = async (values) => {
-
-
     try {
       const formData = new FormData();
-
       formData.append("max_dip_gain_loss_variance", values.max_dip_gain_loss_variance);
       formData.append("max_banking_variance", values.max_banking_variance);
       formData.append("max_fuel_inv_sale_variance", values.max_fuel_inv_sale_variance);
@@ -263,7 +255,6 @@ const SiteSettings = (props) => {
     }
   };
 
-
   let storedKeyName = "localFilterModalData";
 
   useEffect(() => {
@@ -295,34 +286,29 @@ const SiteSettings = (props) => {
 
   }, []);
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <div>
         <div className="page-header">
-          <div>
-            <h1 className="page-title">Manage Tolerance</h1>
-
-            <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item
-                className="breadcrumb-item"
-                linkAs={Link}
-                linkProps={{ to: "/dashboard" }}
-              >
-                Dashboard
-              </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item  breadcrumds"
-                aria-current="page"
-                linkAs={Link}
-                linkProps={{ to: "/sites" }}
-              >
-                Manage Tolerance
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
+          <h1 className="page-title">Manage Tolerance</h1>
+          <Breadcrumb className="breadcrumb">
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item  breadcrumds"
+              aria-current="page"
+              linkAs={Link}
+              linkProps={{ to: "/sites" }}
+            >
+              Manage Tolerance
+            </Breadcrumb.Item>
+          </Breadcrumb>
         </div>
 
         <Row>

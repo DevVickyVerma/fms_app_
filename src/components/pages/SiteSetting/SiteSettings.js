@@ -807,7 +807,7 @@ const SiteSettings = (props) => {
       selector: "checked",
       sortable: false,
       center: false,
-      width: "20%",
+      width: "25%",
       cell: (row, index) => (
         <div>
           <input
