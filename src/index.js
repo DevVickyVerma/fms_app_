@@ -21,6 +21,7 @@ import AddBank from "./components/pages/ManageBank/AddBank";
 import EditBank from "./components/pages/ManageBank/EditBank";
 import DashBoardChild from "./components/Dashboard/DashboardChild/DashBoardChild";
 import CeoDashBoardChild from "./components/Dashboard/DashboardChild/CeoDashBoardChild";
+import TitanDashboardChild from "./components/TitanDashboard/TitanDashboardChild";
 import DashSubChild from "./components/Dashboard/DashboardSubChild/DashSubChild";
 import DashSubChildBaseAPIS from "./components/Dashboard/DashboardSubChild/DashSubChildBaseAPIS";
 import CronModule from "./components/pages/CronModule/CronModule";
@@ -52,7 +53,6 @@ import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild
 import SiteBudget from "./components/pages/ManageSite/SiteBudget";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/CompetitorFuelPricesVersionTwo";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -67,6 +67,9 @@ const CeoDashBoard = React.lazy(() =>
 );
 const CeoDashBoardTest = React.lazy(() =>
   import("./components/Dashboard/CeoDashBoardTest")
+);
+const TitanDashBoard = React.lazy(() =>
+  import("./components/TitanDashboard/TitanDashboard")
 );
 const CEOCompetitorView = React.lazy(() =>
   import("./components/Dashboard/CEOCompitiorview")
@@ -723,6 +726,7 @@ const Root = () => {
   const WrappedSubwayFacilityFees = withApi(SubwayFacilityFees);
   const WrappedDashBoardChild = withApi(DashBoardChild);
   const WrappedCeoDashBoardChild = withApi(CeoDashBoardChild);
+  const WrappedTitanDashboardChild = withApi(TitanDashboardChild);
   const WrappedDashBoardSubChild = withApi(DashSubChild);
   const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
   const WrappedCeoDashBoardSiteDetail = withApi(CeoDashSubChildBaseAPIS);
@@ -730,9 +734,6 @@ const Root = () => {
   const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
   const WrappedFuturePricelogs = withApi(FuturePriceLogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
-  const WrappedCompetitorFuelPricesVersionTwo = withApi(
-    CompetitorFuelPricesVersionTwo
-  );
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
   const WrappedStatsCompetitor = withApi(StatsCompetitor);
@@ -803,6 +804,10 @@ const Root = () => {
                     <Route
                       path={`/ceodashboard`}
                       element={<WrappedCeoDashBoardTest />}
+                    />
+                    <Route
+                      path={`/titandashboard`}
+                      element={<TitanDashBoard />}
                     />
                     {/* client  Components Start */}
                     <Route
@@ -1294,10 +1299,6 @@ const Root = () => {
                       path={`/competitor-fuel-price`}
                       element={<WrappedCompetitorFuelPrices />}
                     />
-                    <Route
-                      path={`/competitor-fuel-price-v2`}
-                      element={<WrappedCompetitorFuelPricesVersionTwo />}
-                    />
 
                     <Route
                       path={`/fuel-purchase-prices`}
@@ -1432,6 +1433,10 @@ const Root = () => {
                     <Route
                       path={`/ceodashboard-details`}
                       element={<WrappedCeoDashBoardChild />}
+                    />
+                    <Route
+                      path={`/titandashboard-details`}
+                      element={<WrappedTitanDashboardChild />}
                     />
                     <Route
                       path={`/dashboardSubChild`}

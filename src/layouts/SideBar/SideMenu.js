@@ -29,6 +29,15 @@ export const MENUITEMS = [
         visibility: false,
         title: "CEO Dashboard ",
       },
+      {
+        path: `/titandashboardss`,
+        icon: "crown",
+        type: "link",
+        active: false,
+        permission: "ceodashboard-view",
+        visibility: false,
+        title: "Titan  Dashboard ",
+      },
 
       // {
       //   path: `/fuelprice`,
@@ -411,13 +420,6 @@ export const MENUITEMS = [
             title: "Competitor Fuel Prices",
             type: "link",
             permission: "competitor-price-update",
-            visibility: false,
-          },
-          {
-            path: `/competitor-fuel-price-v2`,
-            title: "Competitor Fuel Prices Version 2",
-            type: "link",
-            permission: "competitor-suggestion-update",
             visibility: false,
           },
           // {
