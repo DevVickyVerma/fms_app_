@@ -44,6 +44,22 @@ const Competitor = (props) => {
     customDelete(postData, "site/competitor/delete", formData, handleSuccess);
   };
 
+  // here through this function i will make this competitor main
+  const handleMakeMainCompetitor = (row) => {
+    const formData = new FormData();
+    formData.append("id", row?.id);
+    const text = `you want to make ${row?.name} competitor main?`;
+    const confirmButtonText = `Yes, make it main!`;
+    customDelete(
+      postData,
+      "site/competitor/update-main",
+      formData,
+      handleSuccess,
+      text,
+      confirmButtonText
+    );
+  };
+
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id.toString());
@@ -66,6 +82,8 @@ const Competitor = (props) => {
     UserPermissions?.includes("competitor-delete");
   const isEditPermissionAvailable =
     UserPermissions?.includes("competitor-edit");
+  const isCompiUpdatePermissionAvailable =
+    UserPermissions?.includes("competitor-update");
 
   const handleSubmit1 = async (values) => {
     let { site_id } = values;
@@ -102,7 +120,7 @@ const Competitor = (props) => {
             <h6 className="mb-0 fs-14 fw-semibold">
               {row.name}
 
-              {row.is_main == 1 ? (
+              {/* {row.is_main == 1 ? (
                 <>
                   <OverlayTrigger
                     placement="top"
@@ -113,7 +131,7 @@ const Competitor = (props) => {
                     </span>
                   </OverlayTrigger>
                 </>
-              ) : null}
+              ) : null} */}
             </h6>
           </div>
         </div>
@@ -208,6 +226,37 @@ const Competitor = (props) => {
       width: "15%",
       cell: (row) => (
         <span className="text-center">
+          {isCompiUpdatePermissionAvailable ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={
+                <Tooltip>
+                  <span>
+                    {row.is_main === 1 ? (
+                      <>
+                        <strong>{row.name}</strong> is the main competitor.
+                      </>
+                    ) : (
+                      <>
+                        <strong>{row.name}</strong> is not the main competitor.
+                        Click to make it the main competitor.
+                      </>
+                    )}
+                  </span>
+                </Tooltip>
+              }
+            >
+              <Link
+                to="#"
+                className={`btn btn-${
+                  row.is_main === 1 ? "success" : "gray"
+                }   btn-sm rounded-11 me-2`}
+                onClick={() => handleMakeMainCompetitor(row)}
+              >
+                <i className="ph ph-target" />
+              </Link>
+            </OverlayTrigger>
+          ) : null}
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link

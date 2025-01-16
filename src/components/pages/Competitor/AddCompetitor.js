@@ -151,7 +151,7 @@ const AddCompetitor = (props) => {
       formData.append("name", values.competitor_name);
       // formData.append("status", values.status);
       formData.append("site_id", values.site_id);
-      formData.append("is_main", values.is_main);
+      // formData.append("is_main", values.is_main);
       formData.append("address", values.competitor_Address);
       formData.append("supplier_id", values.supplier_id);
       formData.append("postcode", values.postcode);
@@ -464,7 +464,7 @@ const AddCompetitor = (props) => {
                       </div>
                     </Col>
 
-                    <Col lg={4} md={6}>
+                    {/* <Col lg={4} md={6}>
                       <div className="position-relative  mt-4 d-flex align-items-center h-100">
                         <input
                           type="checkbox"
@@ -483,7 +483,7 @@ const AddCompetitor = (props) => {
                           Is Main
                         </label>
                       </div>
-                    </Col>
+                    </Col> */}
                   </Row>
                   <div className="text-end">
                     <Link

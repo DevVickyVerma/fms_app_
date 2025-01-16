@@ -52,6 +52,7 @@ import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild
 import SiteBudget from "./components/pages/ManageSite/SiteBudget";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/CompetitorFuelPricesVersionTwo";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -729,6 +730,9 @@ const Root = () => {
   const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
   const WrappedFuturePricelogs = withApi(FuturePriceLogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
+  const WrappedCompetitorFuelPricesVersionTwo = withApi(
+    CompetitorFuelPricesVersionTwo
+  );
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
   const WrappedStatsCompetitor = withApi(StatsCompetitor);
@@ -1289,6 +1293,10 @@ const Root = () => {
                     <Route
                       path={`/competitor-fuel-price`}
                       element={<WrappedCompetitorFuelPrices />}
+                    />
+                    <Route
+                      path={`/competitor-fuel-price-v2`}
+                      element={<WrappedCompetitorFuelPricesVersionTwo />}
                     />
 
                     <Route
