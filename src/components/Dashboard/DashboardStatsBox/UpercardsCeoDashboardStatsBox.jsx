@@ -212,7 +212,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 statusValue={valet_sales?.status}
                 percentageValue={valet_sales?.percentage}
                 handleNavigateClick={handleNavigateClick}
-                icon={"£"}
+                icon={"%"}
                 containerStyle={"dash-plates-5"}
                 xl={6}
               />

@@ -438,6 +438,7 @@ const CeoDashBoardTest = (props) => {
       navigate(`/pricegraph-view/`);
     }
   };
+
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
