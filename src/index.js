@@ -53,6 +53,7 @@ import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild
 import SiteBudget from "./components/pages/ManageSite/SiteBudget";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PublicCompetitorPrice from "./components/pages/ManageFuelPrices/PublicCompetitorPrice";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -597,6 +598,8 @@ const managesms = React.lazy(() =>
 const setuppayroll = React.lazy(() =>
   import("./components/pages/ManageClient/SetupPayroll")
 );
+
+import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/CompetitorFuelPricesVersionTwo";
 const canvaseditor = React.lazy(() => import("./components/pages/Canvas"));
 
 const Root = () => {
@@ -734,6 +737,9 @@ const Root = () => {
   const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
   const WrappedFuturePricelogs = withApi(FuturePriceLogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
+  const WrappedCompetitorFuelPricesVersionTwo = withApi(
+    CompetitorFuelPricesVersionTwo
+  );
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
   const WrappedStatsCompetitor = withApi(StatsCompetitor);
@@ -1301,6 +1307,11 @@ const Root = () => {
                     />
 
                     <Route
+                      path={`/competitor-fuel-price-v2`}
+                      element={<WrappedCompetitorFuelPricesVersionTwo />}
+                    />
+
+                    <Route
                       path={`/fuel-purchase-prices`}
                       element={<WrappedFuelPurchasePrices />}
                     />
@@ -1589,6 +1600,10 @@ const Root = () => {
 
                 <Route path={`/errorpage403`} element={<Errorpage403 />} />
                 <Route path="/login" element={<Login token={token} />} />
+                <Route
+                  path="/public-compi"
+                  element={<PublicCompetitorPrice />}
+                />
               </Routes>
             </NavigationProvider>
           </Provider>

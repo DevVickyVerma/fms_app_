@@ -422,6 +422,13 @@ export const MENUITEMS = [
             permission: "competitor-price-update",
             visibility: false,
           },
+          {
+            path: `/competitor-fuel-price-v2`,
+            title: "Competitor Fuel Prices Version 2",
+            type: "link",
+            permission: "competitor-suggestion-update",
+            visibility: false,
+          },
           // {
           //   path: `/fuel-selling-prices-suggestion`,
           //   title: "Fuel Selling Prices Suggestion",
