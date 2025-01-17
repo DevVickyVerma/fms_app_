@@ -228,15 +228,23 @@ const PublicCompetitorPrice = ({
         <DialogContent>
           {isLoading ? <Loaderimg /> : null}
           <>
-            <div className="d-flex justify-content-center align-items-center my-3 flex-column gap-2">
-              <img
-                src={require("../../../assets/images/brand/logo.png")}
-                className="header-brand-img"
-                alt=""
-              />
-              <div className="ModalTitle ModalTitle-date fw-600 fs-15">
-                {formik?.values?.competitorname}
+            <div className="d-flex justify-content-between align-items-center my-3  gap-2">
+              <div>
+                <span className="ModalTitle-date"></span>
               </div>
+              <div className="">
+                <div className=" d-flex flex-column align-items-center">
+                  <img
+                    src={require("../../../assets/images/brand/logo.png")}
+                    className="header-brand-img d-flex "
+                    alt=""
+                  />
+                  <div className="ModalTitle ModalTitle-date  fs-20 mt-2">
+                    {formik?.values?.competitorname}
+                  </div>
+                </div>
+              </div>
+              <div className=" text-end"> Welcome, Mr. Jhon XYZX </div>
             </div>
 
             {formik?.values?.listing?.competitors?.length > 0 ? (
@@ -244,8 +252,15 @@ const PublicCompetitorPrice = ({
                 {formik?.values?.listing?.competitors?.map(
                   (competitor, competitorIndex) => (
                     <div key={competitorIndex} className="mt-2">
-                      <Collapse accordion key={competitor?.competitor_name}>
+                      <Collapse
+                        accordion={false} // Ensures that multiple panels can remain open
+                        key={competitor?.competitor_name}
+                        defaultActiveKey={competitorIndex.toString()} // Keeps all panels open by default
+                        // defaultActiveKey={[competitor?.competitor_name]} // Keeps all panels open by default
+                        // className="public-competitor-price-collapse"
+                      >
                         <Panel
+                          className="public-competitor-price-collapse"
                           header={
                             <div className="d-flex align-items-center">
                               <img
@@ -254,7 +269,7 @@ const PublicCompetitorPrice = ({
                                 width="30"
                                 className="me-2 object-fit-contain"
                               />
-                              <span className=" fw-600">
+                              <span className="fw-600">
                                 {" "}
                                 {competitor?.competitor_name}
                               </span>
@@ -318,7 +333,7 @@ const PublicCompetitorPrice = ({
                             </div>
                           }
                         >
-                          <table className="table">
+                          <table className="table overflow-auto">
                             <thead className="">
                               <tr>
                                 <th scope="col" style={{ maxWidth: "85px" }}>
@@ -332,54 +347,10 @@ const PublicCompetitorPrice = ({
                                     </th>
                                   )
                                 )}
-                                <th scope="col">Action</th>
                               </tr>
                             </thead>
                             <tbody>
                               <>
-                                <tr
-                                  key={`competitor-name-self`}
-                                  className="operator-tr"
-                                >
-                                  <td
-                                    // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
-                                    className="middayModal-td text-muted fs-15 fw-semibold p-4"
-                                    style={{ maxWidth: "50px" }}
-                                    // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
-                                  >
-                                    <img
-                                      src={formik?.values?.supplier}
-                                      alt="Competitor"
-                                      width="30"
-                                      className="me-2"
-                                    />
-                                    {formik?.values?.site_name}
-                                  </td>
-
-                                  {formik?.values?.fuels?.[0]?.map(
-                                    (competitor, competitorIndex) => (
-                                      <>
-                                        <td
-                                          key={competitor?.id}
-                                          className="middayModal-td vertical-align-middle align-middle"
-                                        >
-                                          <input
-                                            className={`table-input fuel-readonly`}
-                                            type="number"
-                                            readOnly={true}
-                                            step="0.010"
-                                            name={`listing.competitors.[${competitorIndex}].price`}
-                                            value={competitor?.price}
-                                            // onChange={formik.handleChange}
-                                          />
-                                        </td>
-                                      </>
-                                    )
-                                  )}
-
-                                  <td></td>
-                                </tr>
-
                                 <tr className="middayModal-tr">
                                   <td className="middayModal-td">
                                     <div className=" d-flex align-items-center mt-3">
@@ -449,39 +420,6 @@ const PublicCompetitorPrice = ({
                                       </>
                                     )
                                   )}
-
-                                  <td className="middayModal-td">
-                                    {competitor?.canUpdate ? (
-                                      <>
-                                        <button
-                                          className="btn btn-primary me-2"
-                                          type="submit"
-                                          onClick={() =>
-                                            handleSelectedPrice(
-                                              competitor,
-                                              competitorIndex,
-                                              "gov"
-                                            )
-                                          }
-                                        >
-                                          Observe{" "}
-                                          <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                        </button>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {competitor?.acceptedBy === "gov" ? (
-                                          <>
-                                            <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
-                                          </>
-                                        ) : (
-                                          <>
-                                            <i className="ph ph-x work-flow-danger-status "></i>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
-                                  </td>
                                 </tr>
 
                                 <tr className="middayModal-tr">
@@ -557,39 +495,6 @@ const PublicCompetitorPrice = ({
                                       </>
                                     )
                                   )}
-
-                                  <td className="middayModal-td">
-                                    {competitor?.canUpdate ? (
-                                      <>
-                                        <button
-                                          className="btn btn-primary me-2"
-                                          type="submit"
-                                          onClick={() =>
-                                            handleSelectedPrice(
-                                              competitor,
-                                              competitorIndex,
-                                              "pp"
-                                            )
-                                          }
-                                        >
-                                          Observe{" "}
-                                          <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                        </button>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {competitor?.acceptedBy === "pp" ? (
-                                          <>
-                                            <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
-                                          </>
-                                        ) : (
-                                          <>
-                                            <i className="ph ph-x work-flow-danger-status "></i>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
-                                  </td>
                                 </tr>
 
                                 <tr className="middayModal-tr operator-tr">
@@ -669,39 +574,6 @@ const PublicCompetitorPrice = ({
                                       </>
                                     )
                                   )}
-
-                                  <td className="middayModal-td">
-                                    {competitor?.canUpdate ? (
-                                      <>
-                                        <button
-                                          className="btn btn-primary me-2"
-                                          type="submit"
-                                          onClick={() =>
-                                            handleSelectedPrice(
-                                              competitor,
-                                              competitorIndex,
-                                              "ov"
-                                            )
-                                          }
-                                        >
-                                          Observe{" "}
-                                          <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
-                                        </button>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {competitor?.acceptedBy === "ov" ? (
-                                          <>
-                                            <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
-                                          </>
-                                        ) : (
-                                          <>
-                                            <i className="ph ph-x work-flow-danger-status "></i>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
-                                  </td>
                                 </tr>
                               </>
                             </tbody>
@@ -723,23 +595,24 @@ const PublicCompetitorPrice = ({
                 </>
               </>
             )}
-
-            {userPermissions?.includes("fuel-suggestion-create") || data ? (
-              <>
-                <Card.Body className="p-0 m-0 mt-5">
-                  <PublicCompetitorFuelPricesUpdate
-                    data={data}
-                    postData={postData}
-                    handleFormSubmit={handleFormSubmit}
-                    accordionSiteID={accordionSiteID}
-                  />
-                </Card.Body>
-              </>
-            ) : (
-              <div></div> // Optionally provide a fallback UI
-            )}
           </>
         </DialogContent>
+        {userPermissions?.includes("fuel-suggestion-create") || data ? (
+          <>
+            <Card.Body
+            // className="p-0 m-0 mt-5"
+            >
+              <PublicCompetitorFuelPricesUpdate
+                data={data}
+                postData={postData}
+                handleFormSubmit={handleFormSubmit}
+                accordionSiteID={accordionSiteID}
+              />
+            </Card.Body>
+          </>
+        ) : (
+          <div></div> // Optionally provide a fallback UI
+        )}
       </Dialog>
     </>
   );
