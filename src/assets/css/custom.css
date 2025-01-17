@@ -2730,3 +2730,25 @@ td.middayModal-td.time-input-fuel-sell {
 .default-pointer {
   cursor: default;
 }
+
+.public-competitor-price-modal .MuiDialog-paperScrollPaper {
+  height: 90vh !important;
+}
+
+.public-competitor-price-modal {
+  background: linear-gradient(300deg, deepskyblue, darkviolet, blue) !important;
+  background-size: 180% 180%;
+  animation: gradient-animation-public 18s ease infinite;
+}
+
+@keyframes gradient-animation-public {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
