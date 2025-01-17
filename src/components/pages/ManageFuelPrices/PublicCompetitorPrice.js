@@ -37,7 +37,7 @@ const PublicCompetitorPrice = ({
   const { handleError } = useErrorHandler();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLinkExpired, setIsLinkExpired] = useState(true);
+  const [isLinkExpired, setIsLinkExpired] = useState(false);
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
@@ -229,12 +229,14 @@ const PublicCompetitorPrice = ({
               </div>
             </div>
             <div className=" d-flex align-items-center justify-content-center flex-column h-80">
-              <h1 className=" d-flex mt-4">Thanks For Your Authorization!</h1>
               <img
                 src={require("../../../assets/images/thank-you.png")}
                 className="all-center-flex nodata-image"
                 alt="Success"
               />
+              <h1 className=" d-flex mt-4 public-competitor-desc">
+                Thanks For Your Authorization!
+              </h1>
             </div>
           </DialogContent>
         ) : isLinkExpired ? (
@@ -251,12 +253,15 @@ const PublicCompetitorPrice = ({
               </div>
             </div>
             <div className=" d-flex align-items-center justify-content-center flex-column h-80">
-              <h1 className=" d-flex mt-4">Oooops! Link Has Been Expired</h1>
               <img
-                src={require("../../../assets/images/thank-you.png")}
+                src={require("../../../assets/images/expire.png")}
                 className="all-center-flex nodata-image"
                 alt="Success"
               />
+              <h1 className=" d-flex mt-4 public-competitor-desc">
+                Uh-oh! It seems the link has expired. Please request a new one
+                to continue.
+              </h1>
             </div>
           </DialogContent>
         ) : (
@@ -264,7 +269,7 @@ const PublicCompetitorPrice = ({
             <DialogContent>
               {isLoading ? <Loaderimg /> : null}
               <>
-                <div className="d-flex justify-content-between align-items-center my-3  gap-2">
+                <div className="d-flex justify-content-between align-items-center mb-3 ms-sm-0   flex-column flex-sm-row">
                   <div>
                     <span className="ModalTitle-date"></span>
                   </div>
@@ -275,7 +280,7 @@ const PublicCompetitorPrice = ({
                         className="header-brand-img d-flex "
                         alt=""
                       />
-                      <div className="ModalTitle ModalTitle-date  fs-20 mt-2">
+                      <div className="ModalTitle ModalTitle-date  mt-2 public-competitor-name-title">
                         {formik?.values?.competitorname}
                       </div>
                     </div>
@@ -640,7 +645,7 @@ const PublicCompetitorPrice = ({
                       <img
                         src={require("../../../assets/images/commonimages/no_data.png")}
                         alt="MyChartImage"
-                        className="all-center-flex nodata-image"
+                        className="all-center-flex nodata-image "
                       />
                     </>
                   </>

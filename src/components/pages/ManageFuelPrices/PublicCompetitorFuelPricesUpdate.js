@@ -200,6 +200,10 @@ const PublicCompetitorFuelPricesUpdate = ({
                   Fuel Selling Price Suggestion For Chalfonts Way Sf Connect
                   {/* {formik?.values?.competitorname}{" "} */}
                 </span>
+                <span className="d-flex pt-1 align-items-center fs-12">
+                  <span className="greenboxx me-2"></span>
+                  <span className="text-muted">Current Price</span>
+                </span>
               </div>
               <div>
                 {!priceSuggestionEditable && (
