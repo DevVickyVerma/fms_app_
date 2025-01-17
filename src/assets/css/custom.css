@@ -2756,3 +2756,7 @@ td.middayModal-td.time-input-fuel-sell {
 .public-competitor-price-collapse .ant-collapse-content-box {
   overflow: auto;
 }
+
+.h-80 {
+  height: 80% !important;
+}
