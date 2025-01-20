@@ -60,7 +60,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
     ? singleSiteParsedData?.shop_profit
     : null;
 
-  const handleNavigateClick = () => {};
+  const handleNavigateClick = () => { };
 
   return (
     <div>

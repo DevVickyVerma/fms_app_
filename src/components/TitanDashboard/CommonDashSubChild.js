@@ -27,6 +27,9 @@ import withApi from "../../Utils/ApiHelper";
 import StackedLineBarChart from "../Dashboard/StackedLineBarChart";
 import DashSubChildTankAnalysis from "../Dashboard/DashboardSubChild/DashSubChildTankAnalysis";
 import { useMyContext } from "../../Utils/MyContext";
+import CeoDashSubStatsBox from "../Dashboard/CeoDashboardSubChild/CeoDashSubStatsBox";
+import CeoDashSubChildGrads from "../Dashboard/CeoDashboardSubChild/CeoDashSubChildGrads";
+import CeoDashSubChildShopSale from "../Dashboard/CeoDashboardSubChild/DashSubChildShopSale/CeoDashSubChildShopSale";
 
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
