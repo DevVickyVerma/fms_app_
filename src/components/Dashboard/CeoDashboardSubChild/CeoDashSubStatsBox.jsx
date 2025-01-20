@@ -132,7 +132,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             containerStyle={"dash-plates-3 "}
             xl={12}
             ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
-            tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+            tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
           />
         </Col>
         <Col lg={6}>
@@ -148,7 +148,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               icon={"£"}
               containerStyle={"dash-plates-5 "}
               tooltipContent={
-                "Gross Profit = Sales Fuel Value - (Fuel Volume × Cost Price)"
+                "Gross Profit = Selling Price-Purchase Price * Sales Volume"
               }
               xl={6}
             />
@@ -258,7 +258,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
           // handleNavigateClick={handleNavigateClick}
           // icon={"£"}
           containerStyle={"dash-plates-2"}
-          tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+          tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
           ppl_msg={
             singleSiteGrossMargin?.is_ppl == 1
               ? singleSiteGrossMargin?.ppl_msg
@@ -279,7 +279,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
           // handleNavigateClick={handleNavigateClick}
           icon={"£"}
           containerStyle={"dash-plates-4"}
-          // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+          // tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
           // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
           // showPPL={true}
         />
@@ -296,7 +296,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
           // handleNavigateClick={handleNavigateClick}
           icon={"£"}
           containerStyle={"dash-plates-6"}
-          // tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+          // tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
           // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
           // showPPL={true}
         />

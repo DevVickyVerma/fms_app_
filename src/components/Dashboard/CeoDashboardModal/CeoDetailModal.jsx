@@ -82,17 +82,6 @@ const CeoDetailModal = (props) => {
       formik.setFieldValue("selectedSiteDetails", selectedItem);
       formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
       formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
-
-      const currentMonthObject = {
-        values: "202412",
-        value: "12-2024",
-        display: "Dec (2024)",
-        full_display: "December (2024)",
-      };
-      if (currentMonthObject) {
-        formik.setFieldValue("selectedMonth", currentMonthObject.display);
-        formik.setFieldValue("selectedMonthDetails", currentMonthObject);
-      }
     }
 
     if (visible && filterData) {
@@ -389,8 +378,6 @@ const CeoDetailModal = (props) => {
     fetchData(); // Trigger the fetchData function on component mount or title change
   }, [title, formik?.values?.comparison_value, formik?.values?.endDate]); // Dependencies: title and selectedSite
 
-  console.log(selected, "selected");
-
   const fetchData = async (customId, type) => {
     try {
       setLoading(true); // Start loading indicator
@@ -534,6 +521,17 @@ const CeoDetailModal = (props) => {
 
       if (response) {
         setApiData(response.data); // Assuming response has a 'data' field
+
+        if (title === "Reports" && response.data.data?.months?.length > 0) {
+          formik.setFieldValue(
+            "selectedMonth",
+            response.data.data?.months?.[0].display
+          );
+          formik.setFieldValue(
+            "selectedMonthDetails",
+            response.data.data?.months?.[0]
+          );
+        }
       }
     } catch (error) {
       console.error("API call failed:", error);
@@ -575,7 +573,6 @@ const CeoDetailModal = (props) => {
   ];
 
   const handleSelectChange = (selectedOptions) => {
-    console.log(selectedOptions, "selectedOptions");
     if (selectedOptions?.length) {
       fecthFuelList(selectedOptions); // Call function when selectedOptions is not empty
     } else {
@@ -590,7 +587,6 @@ const CeoDetailModal = (props) => {
     // Retrieve form values
     const selectedCompany = formik.values.company_id;
     const selectedSites = selected;
-    console.log(formik.values, "formik.values");
 
     // Validation
     if (!selectedCompany) {
@@ -620,7 +616,6 @@ const CeoDetailModal = (props) => {
 
       if (response && response.data && response.data.data) {
         setApiData(response.data);
-        console.log(response.data.data, "mopa");
       } else {
         throw new Error("No data available in the response");
       }
@@ -641,7 +636,6 @@ const CeoDetailModal = (props) => {
       alert("Please select a company.");
       return;
     }
-    console.log(selected, "Please");
     if (!selected || selected.length === 0) {
       alert("Please select a Site.");
       return;
@@ -676,7 +670,6 @@ const CeoDetailModal = (props) => {
 
       if (response && response.data && response.data.data) {
         setApiData(response.data);
-        console.log(response.data.data, "response.data.data");
       } else {
         throw new Error("No data available in the response");
       }
@@ -715,7 +708,6 @@ const CeoDetailModal = (props) => {
 
       if (response && response.data && response.data.data) {
         setsitefuels(response.data?.data);
-        console.log(response.data.data, "response.data.data");
       } else {
         throw new Error("No data available in the response");
       }
@@ -726,7 +718,7 @@ const CeoDetailModal = (props) => {
     }
   };
 
-  console.log(selected, "selected", filterData?.sites, "filterData?.sites");
+  console.log(formik.values, "formik.values");
 
   const sitefuelsoptions =
     selected && sitefuels

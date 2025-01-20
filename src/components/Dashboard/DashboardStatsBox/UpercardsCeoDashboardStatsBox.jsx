@@ -155,7 +155,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               containerStyle={"dash-plates-3 "}
               xl={12}
               ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
-              tooltipContent={`Gross Margin = (Gross Profit/Sales) * 100`}
+              tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
             />
           </Col>
           <Col lg={6}>
@@ -171,7 +171,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 icon={"£"}
                 containerStyle={"dash-plates-5 "}
                 tooltipContent={
-                  "Gross Profit = Sales Fuel Value - (Fuel Volume × Cost Price)"
+                  "Gross Profit = Selling Price-Purchase Price * Sales Volume"
                 }
                 xl={6}
               />

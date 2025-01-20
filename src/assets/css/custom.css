@@ -2795,3 +2795,7 @@ td.middayModal-td.time-input-fuel-sell {
     object-fit: contain;
   }
 }
+
+.c-zindex-100000 {
+  z-index: 100000;
+}
