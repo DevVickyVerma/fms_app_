@@ -45,6 +45,7 @@ const FiltersComponent = ({
               <span className="font-semibold">Tank :</span> {filters?.tank_name}
             </div>
           )}
+          {console.log(filters, "filters")}
           {filters?.site_id && filters?.grade_name && ComponentTitan && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3">
               <span className="font-semibold">Grade :</span> {filters?.grade_name}

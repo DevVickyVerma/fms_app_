@@ -51,6 +51,8 @@ import FuelSellingPricesSuggestion from "./components/pages/FuelSellingPricesSug
 import FuelSellingSuggestionLogs from "./components/pages/FuelSellingSuggestionLogs/FuelSellingSuggestionLogs";
 import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild/CeoDashSubChildBaseAPIS";
 import SiteBudget from "./components/pages/ManageSite/SiteBudget";
+import TitanDashSubChild from "./components/TitanDashboard/TitanDashSubChild";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PublicCompetitorPrice from "./components/pages/ManageFuelPrices/PublicCompetitorPrice";
@@ -420,6 +422,7 @@ const ManageReports = React.lazy(() =>
   import("./components/pages/Reports/ManageReports")
 );
 
+
 // Reports End
 // SiteSettings Start
 
@@ -609,6 +612,7 @@ const Root = () => {
     },
   });
   const [token] = useState(localStorage.getItem("token"));
+  const WrappedTitanDashSubChild = withApi(TitanDashSubChild);
   const WrappedDashboard = withApi(Dashboard);
   const WrappedCeoDashBoard = withApi(CeoDashBoard);
   const WrappedCeoDashBoardTest = withApi(CeoDashBoardTest);
@@ -810,6 +814,10 @@ const Root = () => {
                     <Route
                       path={`/ceodashboard`}
                       element={<WrappedCeoDashBoardTest />}
+                    />
+                    <Route
+                      path={`/titandashboard-details/:id`}
+                      element={<WrappedTitanDashSubChild />}
                     />
                     <Route
                       path={`/titandashboard`}
