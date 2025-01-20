@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
@@ -17,9 +16,7 @@ import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { fetchData } from "../../Redux/dataSlice";
 
-
 const Dashboard = (props) => {
-
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
@@ -34,14 +31,15 @@ const Dashboard = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchData())
-  }, [])
+    dispatch(fetchData());
+  }, []);
 
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -49,15 +47,16 @@ const Dashboard = (props) => {
     company_id: Yup.string().required("Company is required"),
   });
 
-
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
 
-
   useEffect(() => {
-    localStorage.setItem("Dashboardsitestats", permissionsArray?.includes("dashboard-site-stats"));
+    localStorage.setItem(
+      "Dashboardsitestats",
+      permissionsArray?.includes("dashboard-site-stats")
+    );
     if (ReduxFullData?.company_id) {
       localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
       localStorage.setItem("PresetCompanyName", ReduxFullData?.company_name);
@@ -68,16 +67,12 @@ const Dashboard = (props) => {
       setPermissionsArray(ReduxFullData?.permissions);
     }
     navigate(ReduxFullData?.route);
-
   }, [ReduxFullData, permissionsArray]);
 
-
-
-
-  const handleApplyFilters = ((values) => {
+  const handleApplyFilters = (values) => {
     if (!values?.start_date) {
       // If start_date does not exist, set it to the current date
-      const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+      const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
       // Update the stored data with the new start_date
       localStorage.setItem(storedKeyName, JSON.stringify(values));
@@ -87,7 +82,7 @@ const Dashboard = (props) => {
     if (permissionsArray?.includes("dashboard-view")) {
       FetchFilterData(values);
     }
-  });
+  };
 
   const FetchFilterData = async (filters) => {
     let { client_id, company_id, site_id, client_name, company_name } = filters;
@@ -107,9 +102,8 @@ const Dashboard = (props) => {
       client_id,
       client_name,
       company_id,
-      company_name
+      company_name,
     };
-
 
     if (client_id) {
       try {
@@ -139,14 +133,13 @@ const Dashboard = (props) => {
   };
 
   useEffect(() => {
-    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+    handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, [permissionsArray?.includes("dashboard-view")]);
 
   const handleShowLive = () => {
     setShowLiveData((prevState) => !prevState); // Toggle the state
     // setLiveMarginModal((prevState) => !prevState);
   };
-
 
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
@@ -155,7 +148,6 @@ const Dashboard = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-
 
       {centerFilterModalOpen && (
         <div className="">
@@ -176,8 +168,7 @@ const Dashboard = (props) => {
         </div>
       )}
 
-      {!ReduxFullData?.role == "Client" &&
-        !ReduxFullData?.sms_balance < 3 ? (
+      {!ReduxFullData?.role == "Client" && !ReduxFullData?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -207,20 +198,19 @@ const Dashboard = (props) => {
       )}
 
       {/* Showing error message for gross margin */}
-      {dashboardData?.gross_margin?.is_ppl == 1 && (<>
-        <div className="balance-alert head-alert-show">
-          <div>
-            {dashboardData?.gross_margin?.ppl_msg}
+      {dashboardData?.gross_margin?.is_ppl == 1 && (
+        <>
+          <div className="balance-alert head-alert-show">
+            <div>{dashboardData?.gross_margin?.ppl_msg}</div>
           </div>
-        </div>
-      </>)}
-
+        </>
+      )}
 
       <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
         {!ShowLiveData && (
           <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
-              Dashboardsss (
+              Dashboard (
               {dashboardData?.dateString
                 ? dashboardData?.dateString
                 : ReduxFullData?.dates}
@@ -228,11 +218,7 @@ const Dashboard = (props) => {
             </h2>
           </div>
         )}
-        <div>
-
-
-        </div>
-
+        <div></div>
 
         <FiltersComponent
           filters={filters}
@@ -242,8 +228,7 @@ const Dashboard = (props) => {
         />
       </div>
 
-      {!ReduxFullData?.role == "Client" &&
-        !ReduxFullData?.sms_balance < 3 ? (
+      {!ReduxFullData?.role == "Client" && !ReduxFullData?.sms_balance < 3 ? (
         <div
           className="balance-alert"
           style={{
@@ -272,38 +257,36 @@ const Dashboard = (props) => {
         ""
       )}
 
-
-
       <div className="mb-2 ">
+        {filters?.client_id && filters.company_id && (
+          <>
+            <div className="text-end ">
+              <button
+                className=" mb-2 btn btn-primary"
+                onClick={handleShowLive}
+              >
+                Live Margin
+              </button>
+            </div>
 
-
-        {filters?.client_id && filters.company_id && (<>
-          <div className="text-end " >
-            <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
-              Live Margin
-            </button>
-          </div>
-
-
-          {ShowLiveData && (
-            <DashboardStatCard
-              isLoading={isLoading}
-              getData={getData}
-              parentFilters={filters}
-              isOpen={ShowLiveData}
-              // onClose={() => setShowLiveData(false)}
-              onClose={() => handlelivemaringclosemodal()}
-              title="Total Sales"
-              value="2323"
-              percentageChange="3%"
-              iconClass="icon icon-rocket text-white mb-5"
-              iconBgColor="bg-danger-gradient"
-              trendColor="text-primary"
-            />
-          )}
-        </>
+            {ShowLiveData && (
+              <DashboardStatCard
+                isLoading={isLoading}
+                getData={getData}
+                parentFilters={filters}
+                isOpen={ShowLiveData}
+                // onClose={() => setShowLiveData(false)}
+                onClose={() => handlelivemaringclosemodal()}
+                title="Total Sales"
+                value="2323"
+                percentageChange="3%"
+                iconClass="icon icon-rocket text-white mb-5"
+                iconBgColor="bg-danger-gradient"
+                trendColor="text-primary"
+              />
+            )}
+          </>
         )}
-
 
         {ShowLiveData && (
           <h2 className=" d-flex justify-content-start mb-4  page-title dashboard-page-title">
@@ -327,7 +310,7 @@ const Dashboard = (props) => {
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
         />
 
-        <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
+        <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <ChartCard
             title="Total Sales"
             chartType="default"
@@ -351,7 +334,7 @@ const Dashboard = (props) => {
             <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
           </ChartCard>
         </Row>
-        <Row style={{ marginBottom: '10px', marginTop: '20px' }}>
+        <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <ChartCard
             title="Total Day Wise Sales"
             chartType="full"
@@ -361,14 +344,14 @@ const Dashboard = (props) => {
           >
             <DashboardMultiLineChart
               LinechartValues={dashboardData?.d_line_graph?.series || []}
-              LinechartOption={dashboardData?.d_line_graph?.option?.labels || []}
+              LinechartOption={
+                dashboardData?.d_line_graph?.option?.labels || []
+              }
             />
           </ChartCard>
         </Row>
 
         {/* {dashboardData ? <CeoDashBoard dashboardData={dashboardData} /> : ""} */}
-
-
       </div>
     </>
   );

@@ -285,7 +285,9 @@ const StaticCompiPrice = ({
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
-                                        <Tooltip>Main Competitor</Tooltip>
+                                        <Tooltip className="c-zindex-100000">
+                                          Main Competitor
+                                        </Tooltip>
                                       }
                                     >
                                       <span className="  p-1">

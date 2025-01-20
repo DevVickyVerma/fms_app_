@@ -61,26 +61,28 @@ const competitorfuelpricesUpdate = ({
   useEffect(() => {
     if (data) {
       // Standardize column names
-      // const columns = data?.head_array?.map(item => standardizeName(item.name));
-      // const firstRow = data?.current[0] || [];
-      // const rows = firstRow?.reduce((acc, item) => {
-      //     const standardizedName = standardizeName(item.name);
-      //     acc.date = item.date;
-      //     acc.time = item.time;
-      //     acc[standardizedName] = item.price;
-      //     acc.readonly = !item?.is_editable;
-      //     acc.currentprice = item.status === "SAME";
-      //     return acc;
-      // }, {});
+      const columns = data?.fuel_head_array?.map((item) =>
+        standardizeName(item.name)
+      );
+      const firstRow = data?.current[0] || [];
+      const rows = firstRow?.reduce((acc, item) => {
+        const standardizedName = standardizeName(item.name);
+        acc.date = item.date;
+        acc.time = item.time;
+        acc[standardizedName] = item.price;
+        acc.readonly = !item?.is_editable;
+        acc.currentprice = item.status === "SAME";
+        return acc;
+      }, {});
 
       formik.setValues({
-        // columns: columns,
-        // rows: [rows], // Make sure rows is an array with one object
+        columns: columns,
+        rows: [rows], // Make sure rows is an array with one object
         update_tlm_price: data?.update_tlm_price,
         confirmation_required: data?.confirmation_required,
         notify_operator: data?.notify_operator,
         head_array: data?.head_array,
-        // pricedata: data
+        pricedata: data,
       });
       lsitingformik.setValues({
         fuels: data?.fuels,
@@ -212,6 +214,78 @@ const competitorfuelpricesUpdate = ({
                   </thead>
 
                   <tbody>
+                    {formik?.values?.rows?.map((row, rowIndex) => (
+                      <tr className="middayModal-tr" key={rowIndex}>
+                        {formik?.values?.columns?.map((column, colIndex) => (
+                          <React.Fragment key={colIndex}>
+                            <td
+                              className={`time-input-fuel-sell ${
+                                column === "time"
+                                  ? "middayModal-time-td "
+                                  : "middayModal-td "
+                              }`}
+                              key={colIndex}
+                            >
+                              {column === "date" ? (
+                                <input
+                                  type="date"
+                                  className={`table-input  ${
+                                    row.currentprice ? "fuel-readonly" : ""
+                                  } ${
+                                    row?.readonly
+                                      ? "readonly update-price-readonly"
+                                      : ""
+                                  }`}
+                                  value={formik?.values?.pricedata?.currentDate}
+                                  name={row?.[column]}
+                                  onChange={(e) =>
+                                    handleChange(e, rowIndex, column)
+                                  }
+                                  onClick={(e) =>
+                                    handleShowDate(
+                                      e,
+                                      formik?.values?.pricedata?.currentDate
+                                    )
+                                  } // Passing currentDate to the onClick handler
+                                  disabled={row?.readonly}
+                                  placeholder="Enter price"
+                                />
+                              ) : column === "time" ? (
+                                <>
+                                  <InputTime
+                                    label="Time"
+                                    value={
+                                      formik?.values?.pricedata?.currentTime
+                                    }
+                                    disabled={true} // Disable if not editable
+                                    className={`time-input-fuel-sell ${
+                                      !row?.[0]?.is_editable
+                                        ? "fuel-readonly"
+                                        : ""
+                                    }`}
+                                  />
+                                </>
+                              ) : (
+                                <input
+                                  type="number"
+                                  className={`table-input ${
+                                    row.currentprice ? "fuel-readonly" : ""
+                                  } ${row?.readonly ? "readonly" : ""}`}
+                                  name={`rows[${rowIndex}].${column}`}
+                                  value={row[column]}
+                                  onChange={(e) =>
+                                    handleChange(e, rowIndex, column)
+                                  }
+                                  disabled={row?.readonly}
+                                  placeholder="Enter price"
+                                />
+                              )}
+                            </td>
+                          </React.Fragment>
+                        ))}
+                      </tr>
+                    ))}
+
                     {lsitingformik?.values?.fuels?.map((row, rowIndex) => (
                       <React.Fragment key={rowIndex}>
                         <tr>
