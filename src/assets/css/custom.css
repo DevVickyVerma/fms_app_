@@ -2799,3 +2799,7 @@ td.middayModal-td.time-input-fuel-sell {
 .c-zindex-100000 {
   z-index: 100000;
 }
+
+.main-competitor-effect {
+  border: 1px solid #27a723 !important;
+}

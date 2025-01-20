@@ -174,16 +174,15 @@ const competitorfuelpricesUpdate = ({
 
   return (
     <>
-      <hr />
       <div style={{ overflowY: "auto" }}>
         <>
-          <h3 className="card-title w-100">
+          {/* <h3 className="card-title w-100">
             <div className="d-flex w-100 justify-content-between align-items-center">
               <div>
                 <span>Fuel Selling Price Suggestion </span>
               </div>
             </div>
-          </h3>
+          </h3> */}
           {/* <ConfirmModal
                         isOpen={isModalOpen}
                         message="Are you sure you want to submit the form?"
