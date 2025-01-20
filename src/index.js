@@ -51,8 +51,11 @@ import FuelSellingPricesSuggestion from "./components/pages/FuelSellingPricesSug
 import FuelSellingSuggestionLogs from "./components/pages/FuelSellingSuggestionLogs/FuelSellingSuggestionLogs";
 import CeoDashSubChildBaseAPIS from "./components/Dashboard/CeoDashboardSubChild/CeoDashSubChildBaseAPIS";
 import SiteBudget from "./components/pages/ManageSite/SiteBudget";
+import TitanDashSubChild from "./components/TitanDashboard/TitanDashSubChild";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PublicCompetitorPrice from "./components/pages/ManageFuelPrices/PublicCompetitorPrice";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -419,6 +422,7 @@ const ManageReports = React.lazy(() =>
   import("./components/pages/Reports/ManageReports")
 );
 
+
 // Reports End
 // SiteSettings Start
 
@@ -597,6 +601,8 @@ const managesms = React.lazy(() =>
 const setuppayroll = React.lazy(() =>
   import("./components/pages/ManageClient/SetupPayroll")
 );
+
+import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/CompetitorFuelPricesVersionTwo";
 const canvaseditor = React.lazy(() => import("./components/pages/Canvas"));
 
 const Root = () => {
@@ -606,6 +612,7 @@ const Root = () => {
     },
   });
   const [token] = useState(localStorage.getItem("token"));
+  const WrappedTitanDashSubChild = withApi(TitanDashSubChild);
   const WrappedDashboard = withApi(Dashboard);
   const WrappedCeoDashBoard = withApi(CeoDashBoard);
   const WrappedCeoDashBoardTest = withApi(CeoDashBoardTest);
@@ -734,6 +741,9 @@ const Root = () => {
   const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
   const WrappedFuturePricelogs = withApi(FuturePriceLogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
+  const WrappedCompetitorFuelPricesVersionTwo = withApi(
+    CompetitorFuelPricesVersionTwo
+  );
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
   const WrappedStatsCompetitor = withApi(StatsCompetitor);
@@ -804,6 +814,10 @@ const Root = () => {
                     <Route
                       path={`/ceodashboard`}
                       element={<WrappedCeoDashBoardTest />}
+                    />
+                    <Route
+                      path={`/titandashboard-details/:id`}
+                      element={<WrappedTitanDashSubChild />}
                     />
                     <Route
                       path={`/titandashboard`}
@@ -1301,6 +1315,11 @@ const Root = () => {
                     />
 
                     <Route
+                      path={`/competitor-fuel-price-v2`}
+                      element={<WrappedCompetitorFuelPricesVersionTwo />}
+                    />
+
+                    <Route
                       path={`/fuel-purchase-prices`}
                       element={<WrappedFuelPurchasePrices />}
                     />
@@ -1589,6 +1608,10 @@ const Root = () => {
 
                 <Route path={`/errorpage403`} element={<Errorpage403 />} />
                 <Route path="/login" element={<Login token={token} />} />
+                <Route
+                  path="/public-compi"
+                  element={<PublicCompetitorPrice />}
+                />
               </Routes>
             </NavigationProvider>
           </Provider>

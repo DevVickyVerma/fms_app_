@@ -899,11 +899,10 @@ const CeoDashSitetable = (props) => {
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-13 fw-semibold">
-              £
               {row?.valet_sales?.valet_sales
                 ? formatNumber(row?.valet_sales?.valet_sales)
                 : "0"}
-              {/* {row?.valet_sales?.valet_sales || "0.00"} */}
+              % {/* {row?.valet_sales?.valet_sales || "0.00"} */}
             </h6>
             <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p

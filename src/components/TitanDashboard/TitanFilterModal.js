@@ -9,7 +9,7 @@ import { useMyContext } from '../../Utils/MyContext';
 import LoaderImg from '../../Utils/Loader';
 import FormikSelect from '../Formik/FormikSelect';
 import useErrorHandler from '../CommonComponent/useErrorHandler';
-
+import * as Yup from "yup";
 const TitanFilterModal = ({
     getData,
     isLoading,
@@ -24,9 +24,6 @@ const TitanFilterModal = ({
     showDateValidation = true,
     showReportMonthInputValidation = false,
     showMonthInput = true,
-    showDateInput = true,
-
-    validationSchema,
     storedKeyName,
     onClose,
     isOpen,
@@ -36,6 +33,30 @@ const TitanFilterModal = ({
 
     const { handleError } = useErrorHandler();
     const { contextClients, setcontextClients } = useMyContext();
+    const validationSchema = Yup.object({
+        client_id: Yup.string().required("Client is required"),
+        company_id: Yup.string().required("Company is required"),
+
+        // grade_id: Yup.string()
+        //     .nullable()
+        //     .when("site_id", {
+        //         is: (site_id) => {
+        //             console.log("site_id value in `when` condition:", site_id);
+        //             return !!site_id?.trim();
+        //         },
+        //         then: (schema) => {
+        //             console.log("Making `grade_id` required");
+        //             return schema.required("grade_id is required when site_id is selected");
+        //         },
+        //         otherwise: (schema) => {
+        //             console.log("Allowing `grade_id` to be nullable");
+        //             return schema.nullable();
+        //         },
+        //     }),
+    });
+
+
+
 
     const formik = useFormik({
         initialValues: {
@@ -151,7 +172,19 @@ const TitanFilterModal = ({
             formik.setFieldValue('sites', []);
             formik.setFieldValue('company_id', "");
             formik.setFieldValue('site_id', "");
+            formik.setFieldValue('tanks', []);
+            formik.setFieldValue('grades', []);
+            formik.setFieldValue('tank_name', "");
+            formik.setFieldValue('tank_id', "");
+            formik.setFieldValue('grade_name', "");
+            formik.setFieldValue('grade_id', "");
         } else {
+            formik.setFieldValue('tanks', []);
+            formik.setFieldValue('grades', []);
+            formik.setFieldValue('tank_name', "");
+            formik.setFieldValue('tank_id', "");
+            formik.setFieldValue('grade_name', "");
+            formik.setFieldValue('grade_id', "");
             formik.setFieldValue('client_name', "");
             formik.setFieldValue('companies', []);
             formik.setFieldValue('sites', []);
@@ -174,6 +207,12 @@ const TitanFilterModal = ({
             const selectedCompany = formik?.values?.companies?.find(company => company?.id === companyId);
             formik.setFieldValue('company_name', selectedCompany?.company_name || "");
         } else {
+            formik.setFieldValue('tanks', []);
+            formik.setFieldValue('grades', []);
+            formik.setFieldValue('tank_name', "");
+            formik.setFieldValue('tank_id', "");
+            formik.setFieldValue('grade_name', "");
+            formik.setFieldValue('grade_id', "");
             formik.setFieldValue('company_name', "");
             formik.setFieldValue('sites', []);
             formik.setFieldValue('site_id', "");
@@ -184,7 +223,7 @@ const TitanFilterModal = ({
 
         const companyId = e.target.value;
 
-
+        formik.setFieldValue('tanks', []);
         formik.setFieldValue('site_id', companyId);
 
         if (companyId) {
@@ -227,7 +266,8 @@ const TitanFilterModal = ({
             formik.setFieldValue('grade_id', companyId);
             const selectedCompany = formik?.values?.grades?.find(company => company?.id === companyId);
             FetchTankList(companyId)
-            formik.setFieldValue('grade_name', selectedCompany?.site_name || "");
+            console.log(selectedCompany, "selectedCompany");
+            formik.setFieldValue('grade_name', selectedCompany?.fuel_name || "");
         } else {
             formik.setFieldValue('tanks', []);
             formik.setFieldValue('tank_name', "");
@@ -264,7 +304,7 @@ const TitanFilterModal = ({
             console.error("API error:", error);
         }
     };
-
+    console.log(formik.values, "columnIndex");
 
     return (
         <>
@@ -336,13 +376,12 @@ const TitanFilterModal = ({
                                             label="Site"
                                             options={formik?.values?.sites?.map((item) => ({ id: item?.id, name: item?.site_name }))}
                                             className="form-input"
-                                            isRequired={showStationValidation}
+                                            isRequired={false}
+                                            // isRequired={formik?.values?.company_id?.trim() !== ""}
                                             onChange={handleSiteChange}
                                         />
                                     </Col>
                                 )}
-
-
                                 {showStationInput && (
                                     <Col lg={6}>
                                         <FormikSelect
@@ -351,7 +390,7 @@ const TitanFilterModal = ({
                                             label="Grade"
                                             options={formik?.values?.grades?.map((item) => ({ id: item?.id, name: item?.fuel_name }))}
                                             className="form-input"
-                                            isRequired={showTankValidation}
+                                            isRequired={false}
                                             onChange={handleGradeChange}
                                         />
                                     </Col>
@@ -364,7 +403,7 @@ const TitanFilterModal = ({
                                             label="Tank"
                                             options={formik?.values?.tanks?.map((item) => ({ id: item?.id, name: item?.tank_name }))}
                                             className="form-input"
-                                            isRequired={showTankValidation}
+                                            isRequired={false}
                                             onChange={handleTankChange}
                                         />
                                     </Col>

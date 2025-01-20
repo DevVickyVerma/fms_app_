@@ -2730,3 +2730,68 @@ td.middayModal-td.time-input-fuel-sell {
 .default-pointer {
   cursor: default;
 }
+
+.public-competitor-price-modal .MuiDialog-paperScrollPaper {
+  height: 90vh !important;
+}
+
+.public-competitor-price-modal {
+  background: linear-gradient(300deg, deepskyblue, darkviolet, blue) !important;
+  background-size: 180% 180%;
+  animation: gradient-animation-public 18s ease infinite;
+}
+
+@keyframes gradient-animation-public {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.public-competitor-price-collapse .ant-collapse-content-box {
+  overflow: auto;
+}
+
+.h-80 {
+  height: 80% !important;
+}
+
+.public-competitor-name-title {
+  font-size: 20px;
+}
+
+.MuiDialog-paperScrollPaper {
+  max-height: calc(100% - 130px) !important ;
+}
+
+.public-competitor-desc {
+  font-size: 23px;
+}
+
+@media screen and (max-width: 500px) {
+  .MuiDialog-paperScrollPaper {
+    margin: 0px !important;
+    max-height: max-content !important ;
+  }
+
+  .MuiDialogContent-root {
+    padding: 20px !important;
+  }
+
+  .public-competitor-name-title {
+    font-size: 16px;
+    gap: 0px !important;
+  }
+  .public-competitor-desc {
+    font-size: 16px;
+  }
+
+  .nodata-image {
+    object-fit: contain;
+  }
+}

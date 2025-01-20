@@ -20,9 +20,6 @@ import {
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import moment from "moment/moment";
 import StackedLineBarChart from "../StackedLineBarChart";
-import DashSubStatsBox from "./CeoDashSubStatsBox";
-import DashSubChildGrads from "./CeoDashSubChildGrads";
-import DashSubChildShopSale from "./DashSubChildShopSale/CeoDashSubChildShopSale";
 import DashSubChildTankAnalysis from "./CeoDashSubChildTankAnalysis";
 import { Link, useLocation } from "react-router-dom";
 import { useMyContext } from "../../../Utils/MyContext";
@@ -99,10 +96,10 @@ const DashSubChild = ({
 
       <div className="page-header ">
         <div>
-          <h1 className="page-title">
+          {/* <h1 className="page-title">
             {getSiteStats?.data?.site_name || "CEO Dashboard Site details"} (
             {getSiteStats?.data?.dateString})
-          </h1>
+          </h1> */}
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item

@@ -445,11 +445,10 @@ const CeoDashboardChildTable = (props) => {
                 <div className="d-flex">
                   <div className="ms-2 mt-0 mt-sm-2 d-block">
                     <h6 className="mb-0 fs-14 fw-semibold">
-                      £
                       {item?.valet_sales?.valet_sales
                         ? formatNumber(item?.valet_sales?.valet_sales)
                         : "0"}
-                      {/* {item?.valet_sales?.valet_sales || "0.00"} */}
+                      %{/* {item?.valet_sales?.valet_sales || "0.00"} */}
                     </h6>
                     <p
                       className={`me-1 ${
@@ -740,12 +739,12 @@ const CeoDashboardChildTable = (props) => {
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
-                    £{" "}
                     {item?.valet_sales?.valet_sales
                       ? parseFloat(
                           item?.valet_sales?.valet_sales
                         )?.toLocaleString()
                       : 0.0}
+                    %
                   </h6>
                   <p
                     className={`me-1 ${

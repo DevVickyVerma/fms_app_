@@ -5,6 +5,7 @@ import withApi from "../../Utils/ApiHelper";
 import LoaderImg from "../../Utils/Loader";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import { useSelector } from "react-redux";
+import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
 
 const TitanDashboardChildTable = (props) => {
     const { isLoading, data, ceo } = props;

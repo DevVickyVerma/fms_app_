@@ -32,6 +32,8 @@ const TitanDashboard = (props) => {
         client_id: "",
         company_id: "",
         site_id: "",
+        grade_id: "",
+        tank_id: "",
     });
     const [permissionsArray, setPermissionsArray] = useState([]);
     const ReduxFullData = useSelector((state) => state?.data?.data);
@@ -106,12 +108,7 @@ const TitanDashboard = (props) => {
         localStorage.getItem("superiorRole") == "Client"
     );
 
-    const getCeoDashBoardFilterValidation = () =>
-        Yup.object({
-            client_id: Yup.string().required("Client is required"),
-            company_id: Yup.string().required("Company is required"),
-            site_id: Yup.string().required("Site is required"),
-        });
+
 
     const handleApplyFilters = async (values) => {
         formik.setFieldValue("client_id", values.client_id);
@@ -200,8 +197,8 @@ const TitanDashboard = (props) => {
         callback
     ) => {
         const updatedFilters = updateFilters(filters);
-        const { client_id, company_id, site_id } = updatedFilters;
-
+        const { client_id, company_id, site_id, grade_id, tank_id } = updatedFilters;
+        console.log(updatedFilters, "updatedFilters");
         if (
             !formik?.values?.selectedMonth &&
             !formik?.values?.selectedMonthDetails &&
@@ -246,6 +243,8 @@ const TitanDashboard = (props) => {
                 if (client_id) queryParams.append("client_id", client_id);
                 if (company_id) queryParams.append("company_id", company_id);
                 if (site_id) queryParams.append("site_id", site_id);
+                if (tank_id) queryParams.append("tank_id", tank_id);
+                if (grade_id) queryParams.append("grade_id", grade_id);
 
                 if (client_id && company_id) {
                     setApplyNavigate(true);
@@ -444,7 +443,7 @@ const TitanDashboard = (props) => {
                         isLoading={isLoading}
                         isStatic={true}
                         onApplyFilters={handleApplyFilters}
-                        validationSchema={getCeoDashBoardFilterValidation}
+
                         storedKeyName={storedKeyName}
                         layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
                         showStationValidation={false}
@@ -579,14 +578,13 @@ const TitanDashboard = (props) => {
                 {statsLoading ? (
                     <>
                         <Row>
-                            <TitanCardLoading />
-                            <TitanCardLoading />
-                            <TitanCardLoading />
-                            <TitanCardLoading />
-                            <TitanCardLoading />
-                            <TitanCardLoading />
-                            <TitanCardLoading />
-                            <TitanCardLoading />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+
                         </Row>
                     </>
                 ) : (
@@ -611,6 +609,7 @@ const TitanDashboard = (props) => {
 
             <Row>
                 <Col lg={6}>
+<<<<<<< HEAD
                     {
                         dashboardData?.gross_volume ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />
                     }
@@ -620,6 +619,15 @@ const TitanDashboard = (props) => {
                     {
                         dashboardData?.gross_volume ? <TitanPieChart title="Pie Chart" /> : <NoDataComponent title="Pie Chart" />
                     }
+=======
+                    {dashboardData?.gross_volume ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />}
+
+                </Col>
+                <Col lg={6}>
+                    {dashboardData?.gross_volume ? <TitanPieChart title=" Pie Chart" /> : <NoDataComponent title="Pie Chart" />}
+
+
+>>>>>>> 13ecc78685171ce786ca11dda3572930936a5c63
                 </Col>
             </Row>
 
