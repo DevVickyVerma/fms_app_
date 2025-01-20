@@ -151,18 +151,12 @@ const Dashboard = (props) => {
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
   };
-  console.log(Capacitor?.platform, "Capacitor");
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      {Capacitor?.platform === 'mobile' && <p>This is a mobile device</p>}
-      {Capacitor?.platform === 'android' && <p>Running on Android</p>}
-      {Capacitor?.platform === 'ios' && <p>Running on iOS</p>}
-      {Capacitor?.platform === 'web' && <p>Running on a web browser</p>}
 
 
-      <h1>{Capacitor?.platform}</h1>
       {centerFilterModalOpen && (
         <div className="">
           <NewDashboardFilterModal
