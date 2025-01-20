@@ -16,8 +16,10 @@ import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { fetchData } from "../../Redux/dataSlice";
+import { Capacitor } from '@capacitor/core';
 
 const Dashboard = (props) => {
+
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
@@ -33,6 +35,7 @@ const Dashboard = (props) => {
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
   const dispatch = useDispatch()
+
 
   useEffect(() => {
     dispatch(fetchData())
@@ -148,11 +151,18 @@ const Dashboard = (props) => {
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
   };
+  console.log(Capacitor?.platform, "Capacitor");
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
+      {Capacitor?.platform === 'mobile' && <p>This is a mobile device</p>}
+      {Capacitor?.platform === 'android' && <p>Running on Android</p>}
+      {Capacitor?.platform === 'ios' && <p>Running on iOS</p>}
+      {Capacitor?.platform === 'web' && <p>Running on a web browser</p>}
 
+
+      <h1>{Capacitor?.platform}</h1>
       {centerFilterModalOpen && (
         <div className="">
           <NewDashboardFilterModal
@@ -216,7 +226,7 @@ const Dashboard = (props) => {
         {!ShowLiveData && (
           <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
-              Dashboard (
+              Dashboardsss (
               {dashboardData?.dateString
                 ? dashboardData?.dateString
                 : ReduxFullData?.dates}
@@ -224,7 +234,10 @@ const Dashboard = (props) => {
             </h2>
           </div>
         )}
-        <div></div>
+        <div>
+
+
+        </div>
 
 
         <FiltersComponent

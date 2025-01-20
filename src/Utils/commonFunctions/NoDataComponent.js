@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 
 const NoDataComponent = ({ title, showCard = true }) => {
   return (
-    <div className={` ${showCard ? "card" : ""}`}>
+    <Card className={` ${showCard ? "card" : ""}`}>
       {title && (
         <Card.Header>
           <h4 className="card-title"> {title} </h4>
@@ -17,7 +17,7 @@ const NoDataComponent = ({ title, showCard = true }) => {
           className=" all-center-flex  smallNoDataimg "
         />
       </Card.Body>
-    </div>
+    </Card>
   );
 };
 

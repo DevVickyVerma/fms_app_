@@ -30,11 +30,11 @@ export const MENUITEMS = [
         title: "CEO Dashboard ",
       },
       {
-        path: `/titandashboardss`,
+        path: `/titandashboard`,
         icon: "crown",
         type: "link",
         active: false,
-        permission: "ceodashboard-viewssss",
+        permission: "ceodashboard-view",
         visibility: false,
         title: "Titan  Dashboard ",
       },

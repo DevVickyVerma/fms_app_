@@ -19,6 +19,7 @@ import TitanUppercards from "./TitanUppercards";
 import TitanCardLoading from "./TitanCardLoading";
 import TitanColumnChart from "./TitanColumnChart";
 import TitanPieChart from "./TitanPieChart";
+import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 
 const TitanDashboard = (props) => {
     const navigate = useNavigate();
@@ -495,7 +496,7 @@ const TitanDashboard = (props) => {
                 {!ShowLiveData && (
                     <div className="">
                         <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
-                            CEO Dashboard (
+                            Titan Dashboard (
                             {dashboardData?.dateString
                                 ? dashboardData?.dateString
                                 : ReduxFullData?.dates}
@@ -610,10 +611,15 @@ const TitanDashboard = (props) => {
 
             <Row>
                 <Col lg={6}>
-                    <TitanColumnChart title="Bar Chart" />
+                    {
+                        dashboardData?.gross_volume ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />
+                    }
+
                 </Col>
                 <Col lg={6}>
-                    <TitanPieChart title=" Chart" />
+                    {
+                        dashboardData?.gross_volume ? <TitanPieChart title="Pie Chart" /> : <NoDataComponent title="Pie Chart" />
+                    }
                 </Col>
             </Row>
 
