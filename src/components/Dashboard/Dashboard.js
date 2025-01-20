@@ -16,7 +16,7 @@ import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { fetchData } from "../../Redux/dataSlice";
-import { Capacitor } from '@capacitor/core';
+
 
 const Dashboard = (props) => {
 

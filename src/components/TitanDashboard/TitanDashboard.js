@@ -609,17 +609,6 @@ const TitanDashboard = (props) => {
 
             <Row>
                 <Col lg={6}>
-<<<<<<< HEAD
-                    {
-                        dashboardData?.gross_volume ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />
-                    }
-
-                </Col>
-                <Col lg={6}>
-                    {
-                        dashboardData?.gross_volume ? <TitanPieChart title="Pie Chart" /> : <NoDataComponent title="Pie Chart" />
-                    }
-=======
                     {dashboardData?.gross_volume ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />}
 
                 </Col>
@@ -627,7 +616,6 @@ const TitanDashboard = (props) => {
                     {dashboardData?.gross_volume ? <TitanPieChart title=" Pie Chart" /> : <NoDataComponent title="Pie Chart" />}
 
 
->>>>>>> 13ecc78685171ce786ca11dda3572930936a5c63
                 </Col>
             </Row>
 
