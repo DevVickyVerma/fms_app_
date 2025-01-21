@@ -6,22 +6,16 @@ import TitanCommonCards from "./TitanCommonCards";
 
 const TitanUppercards = (props) => {
     const {
-        gross_volume,
-        shopmargin,
-        valet_sales,
-        shop_profit,
-        shop_fees,
-        gross_profit,
-        gross_margin,
-        fuel_sales,
-        fuel_commission,
-        gross_margin_bunkered,
-        shop_sales,
+        wet_stock_value,
+        delivery_loss_value,
+        unkonwn_loss_value,
+        wet_stock_volume,
+        delivery_loss_volume,
+        unkonwn_loss_volume,
         dashboardData,
         callStatsBoxParentFunc,
         parentComponent = true,
     } = props;
-
     const [permissionsArray, setPermissionsArray] = useState([]);
 
     const UserPermissions = useSelector((state) => state?.data?.data);
@@ -66,9 +60,7 @@ const TitanUppercards = (props) => {
         } else if (!ApplyFilterrequired && !isDetailPermissionAvailable) {
         }
     };
-    const handleNavigateClicks = () => {
-        console.log("columnIndex");
-    }
+    console.log(wet_stock_value, "wet_stock_value");
     return (
         <div>
             {/* {gross_volume ? ( */}
@@ -92,12 +84,12 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={gross_volume?.gross_volume}
+                            leftSideData={wet_stock_volume?.value}
                             leftSideTitle={"WetStock Loss"}
-                            RightSideData={gross_volume?.bunkered_volume}
+                            RightSideData={wet_stock_volume?.ytd_value}
                             RightSideTitle={"YTD Volume"}
-                            statusValue={gross_volume?.status}
-                            percentageValue={gross_volume?.percentage}
+                            statusValue={wet_stock_volume?.status}
+                            percentageValue={wet_stock_volume?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"ℓ"}
                             containerStyle={"dash-plates-1"}
@@ -109,12 +101,12 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={fuel_sales?.gross_value}
+                            leftSideData={delivery_loss_volume?.value}
                             leftSideTitle={"Delivery Loss "}
-                            RightSideData={fuel_sales?.bunkered_value}
+                            RightSideData={delivery_loss_volume?.ytd_value}
                             RightSideTitle={"YTD Volume"}
-                            statusValue={fuel_sales?.status}
-                            percentageValue={fuel_sales?.percentage}
+                            statusValue={delivery_loss_volume?.status}
+                            percentageValue={delivery_loss_volume?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"ℓ"}
                             containerStyle={"dash-plates-3 "}
@@ -127,17 +119,17 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={gross_margin?.gross_margin}
+                            leftSideData={unkonwn_loss_volume?.value}
                             leftSideTitle={"Unknown Loss"}
-                            RightSideData={gross_margin_bunkered?.gross_margin_bunkered}
+                            RightSideData={unkonwn_loss_volume?.ytd_value}
                             RightSideTitle={"YTD Volume"}
-                            statusValue={gross_margin?.status}
-                            percentageValue={gross_margin?.percentage}
+                            statusValue={unkonwn_loss_volume?.status}
+                            percentageValue={unkonwn_loss_volume?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"ℓ"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
-                            ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
+
                             tooltipContent={`Unknown Loss`}
                         />
                     </Col>
@@ -145,12 +137,12 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={gross_volume?.gross_volume}
+                            leftSideData={wet_stock_value?.value}
                             leftSideTitle={"WetStock Loss"}
-                            RightSideData={gross_volume?.bunkered_volume}
-                            RightSideTitle={"YTD Volume"}
-                            statusValue={gross_volume?.status}
-                            percentageValue={gross_volume?.percentage}
+                            RightSideData={wet_stock_value?.ytd_value}
+                            RightSideTitle={"YTD Value"}
+                            statusValue={wet_stock_value?.status}
+                            percentageValue={wet_stock_value?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"£"}
                             containerStyle={"dash-plates-1"}
@@ -162,12 +154,12 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={fuel_sales?.gross_value}
+                            leftSideData={delivery_loss_value?.value}
                             leftSideTitle={"Delivery Loss "}
-                            RightSideData={fuel_sales?.bunkered_value}
-                            RightSideTitle={"YTD Volume"}
-                            statusValue={fuel_sales?.status}
-                            percentageValue={fuel_sales?.percentage}
+                            RightSideData={delivery_loss_value?.ytd_value}
+                            RightSideTitle={"YTD Value"}
+                            statusValue={delivery_loss_value?.status}
+                            percentageValue={delivery_loss_value?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"£"}
                             containerStyle={"dash-plates-3 "}
@@ -180,17 +172,16 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={gross_margin?.gross_margin}
+                            leftSideData={unkonwn_loss_value?.value}
                             leftSideTitle={"Unknown Loss"}
-                            RightSideData={gross_margin_bunkered?.gross_margin_bunkered}
-                            RightSideTitle={"YTD Volume"}
-                            statusValue={gross_margin?.status}
-                            percentageValue={gross_margin?.percentage}
+                            RightSideData={unkonwn_loss_value?.ytd_value}
+                            RightSideTitle={"YTD Value"}
+                            statusValue={unkonwn_loss_value?.status}
+                            percentageValue={unkonwn_loss_value?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"£"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
-                            ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
                             tooltipContent={`Unknown Loss`}
                         />
                     </Col>

@@ -55,16 +55,22 @@ export const confirmPasswordTooltip = (
     password must exactly match the password you entered above.
   </Tooltip>
 );
-
 export const formatNumber = (num) => {
+  console.log(num, "formatNumber");
+
+  if (num === 0) {
+    return "0"; // Explicitly handle zero case
+  }
+
   if (num >= 1000000 || num <= -1000000) {
     return (num / 1000000).toFixed(1) + "m";
   } else if (num >= 1000 || num <= -1000) {
     return (num / 1000).toFixed(1) + "k";
   } else {
-    return num;
+    return num.toString(); // Ensure it returns a string
   }
 };
+
 
 export const getCurrentDate = () => {
   const today = new Date();

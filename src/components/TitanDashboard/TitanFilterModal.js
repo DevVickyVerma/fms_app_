@@ -234,7 +234,7 @@ const TitanFilterModal = ({
             const selectedCompany = formik?.values?.sites?.find(company => company?.id === companyId);
             formik.setFieldValue('site_name', selectedCompany?.site_name || "");
         } else {
-            formik.setFieldValue('company_name', "");
+
             formik.setFieldValue('site_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tanks', []);

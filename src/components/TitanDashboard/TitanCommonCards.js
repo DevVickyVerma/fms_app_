@@ -18,7 +18,9 @@ const TitanCommonCards = ({
     lg = 6,
     xl = 4,
 }) => (
+
     <>
+        {console.log(leftSideData, "leftSideData")}
         <motion.div
             onClick={handleNavigateClick}
             className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""}`}
@@ -57,7 +59,7 @@ const TitanCommonCards = ({
 
                         <div className="d-flex  justify-content-between align-items-center">
 
-                            <div className="flex-grow-1 spacebetween">
+                            <div className="flex-grow-1 spacebetween" style={{ textAlign: "start" }}>
                                 <div>
                                     <h6 className="mb-2 boxtitle">
                                         {leftSideTitle}
@@ -76,6 +78,7 @@ const TitanCommonCards = ({
                                         )}
                                     </h6>
                                     <h2 className="mb-2 number-font c-fs-18">
+
                                         {leftSideData ? formatNumber(leftSideData) : "0.0"}{" "}
                                         {showPPL ? "ppl" : ""}
                                         {ppl_msg && (
@@ -94,10 +97,11 @@ const TitanCommonCards = ({
                                 <div>
                                     {showRightSide && (
                                         <div className="">
+
                                             <h6 className="mb-2 boxtitle">{RightSideTitle}</h6>
                                             <h2 className="mb-0 number-font c-fs-18">
                                                 <span className="l-sign">{icon}</span>{" "}
-                                                {RightSideData ? formatNumber(RightSideData) : ""}
+                                                {RightSideData ? formatNumber(RightSideData) : "0.00"}
                                             </h2>
                                         </div>
                                     )}

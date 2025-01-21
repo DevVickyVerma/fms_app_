@@ -11,6 +11,7 @@ import TitanFilterModal from "./TitanFilterModal";
 import withApi from "../../Utils/ApiHelper";
 import LoaderImg from "../../Utils/Loader";
 import TitanDashboardChildTable from "./TitanDashboardChildTable";
+import TitanCardLoading from "./TitanCardLoading";
 
 
 const TitanDashboardChild = (props) => {
@@ -84,7 +85,7 @@ const TitanDashboardChild = (props) => {
                 if (client_id) queryParams.append("client_id", client_id);
                 if (company_id) queryParams.append("company_id", company_id);
                 const queryString = queryParams.toString();
-                const response = await getData(`ceo-dashboard/stats?${queryString}`);
+                const response = await getData(`titan-dashboard/stats?${queryString}`);
                 if (response && response.data && response.data.data) {
                     setFilters(updatedFilters);
                     setCenterFilterModalOpen(false);
@@ -118,7 +119,7 @@ const TitanDashboardChild = (props) => {
 
                 const queryString = queryParams.toString();
                 const response = await getData(
-                    `ceo-dashboard/get-details?${queryString}`
+                    `titan-dashboard/get-details?${queryString}`
                 );
                 if (response && response.data && response.data.data) {
                     setTableData(response?.data?.data?.sites);
@@ -211,7 +212,7 @@ const TitanDashboardChild = (props) => {
             </div>
 
             <Row>
-                <TitanUppercards
+                {/* <TitanUppercards
                     gross_volume={dashboardData?.gross_volume || 0}
                     shopmargin={dashboardData?.shop_profit || 0}
                     valet_sales={dashboardData?.valet_sales || 0}
@@ -226,7 +227,32 @@ const TitanDashboardChild = (props) => {
                     dashboardData={dashboardData}
                     callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
                     parentComponent={false}
-                />
+                /> */}
+                {isLoading ? (
+                    <>
+                        <Row>
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={4} />
+
+                        </Row>
+                    </>
+                ) : (
+                    <TitanUppercards
+                        wet_stock_value={dashboardData?.wet_stock_value}
+                        delivery_loss_value={dashboardData?.delivery_loss_value}
+                        unkonwn_loss_value={dashboardData?.unkonwn_loss_value}
+                        wet_stock_volume={dashboardData?.wet_stock_volume}
+                        delivery_loss_volume={dashboardData?.delivery_loss_volume}
+                        unkonwn_loss_volume={dashboardData?.unkonwn_loss_volume}
+                        dashboardData={dashboardData}
+                        callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+                        parentComponent={false}
+                    />
+                )}
             </Row>
 
             <TitanDashboardChildTable data={tableData} />

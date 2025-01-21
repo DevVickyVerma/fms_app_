@@ -48,9 +48,7 @@ const TitanDashboard = (props) => {
         PriceLogsFilterValue[0]?.value
     ); // state for selected site
 
-    const handlePriceLogsChange = (value) => {
-        setPriceLogsvalue(value);
-    };
+
 
     const userPermissions = useSelector(
         (state) => state?.data?.data?.permissions || []
@@ -63,8 +61,7 @@ const TitanDashboard = (props) => {
         "ceodashboard-price-graph"
     );
 
-    const priceLogAndGraphPermission =
-        priceLogsPermission && priceGraphPermission;
+
     const { handleError } = useErrorHandler();
 
     const formik = useFormik({
@@ -143,7 +140,7 @@ const TitanDashboard = (props) => {
         const endpoints = [
             {
                 name: "dashboard",
-                url: "ceo-dashboard/stats",
+                url: "titan-dashboard/stats",
                 setData: setDashboardData,
                 setLoading: setStatsLoading,
                 callback: (response, updatedFilters) => {
@@ -198,7 +195,7 @@ const TitanDashboard = (props) => {
     ) => {
         const updatedFilters = updateFilters(filters);
         const { client_id, company_id, site_id, grade_id, tank_id } = updatedFilters;
-        console.log(updatedFilters, "updatedFilters");
+
         if (
             !formik?.values?.selectedMonth &&
             !formik?.values?.selectedMonthDetails &&
@@ -357,83 +354,17 @@ const TitanDashboard = (props) => {
         }
     }, [priceLogsPermission, filters, PriceLogsvalue]);
 
-    const handleSiteChange = async (selectedId) => {
-        const handleConfirmedAction = async (selectedId) => {
-            try {
-                const selectedItem = await filters?.sites.find(
-                    (item) => item.id === selectedId
-                );
-                filters.site_id = selectedId;
-                filters.site_name = selectedItem?.site_name;
 
-                handleApplyFilters(filters);
-            } catch (error) {
-                console.error("Error in handleConfirmedAction:", error);
-            }
-        };
-
-        const handleCancelledAction = async (selectedId) => {
-            try {
-                const selectedItem = await filters?.sites.find(
-                    (item) => item.id === selectedId
-                );
-
-                await formik.setFieldValue("selectedSite", selectedId);
-                await formik.setFieldValue("selectedSiteDetails", selectedItem);
-            } catch (error) {
-                console.error("Error in handleCancelledAction:", error);
-            }
-        };
-
-        Swal.fire({
-            title: "",
-            text: "Apply this change on   whole dashboard or  below statistics only?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Apply to All",
-            cancelButtonText: "Apply to This Only",
-            showDenyButton: true, // Enable the third button
-            denyButtonText: "Cancel", // Label for the third button
-            customClass: {
-                actions: "swal2-actions-custom", // Add a custom class to the action buttons
-            },
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await handleConfirmedAction(selectedId);
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                await handleCancelledAction(selectedId);
-            } else if (result.isDenied) {
-                // Logic for the deny button (third button)
-                Swal.close();
-            }
-        });
-    };
     const openCenterFilterModal = () => {
         if (!filters?.company_id) {
             setCenterFilterModalOpen(true);
         }
     };
 
-    const handleNavigateViewAllClick = (item) => {
-        // handling state manage here
-        let storedKeyName = "localFilterModalData";
-        const storedData = localStorage.getItem(storedKeyName);
 
-        if (storedData) {
-            let updatedStoredData = JSON.parse(storedData);
-
-            updatedStoredData.site_id = formik?.values?.selectedSiteDetails?.id; // Update the site_id here
-            updatedStoredData.site_name =
-                formik?.values?.selectedSiteDetails?.site_name; // Update the site_id here
-
-            localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
-
-            navigate(`/pricegraph-view/`);
-        }
-    };
     return (
         <>
-            {pdfisLoading ? <LoaderImg /> : ""}
+            {isLoading ? <LoaderImg /> : ""}
             {centerFilterModalOpen && (
                 <div className="">
                     <TitanFilterModal
@@ -589,17 +520,12 @@ const TitanDashboard = (props) => {
                     </>
                 ) : (
                     <TitanUppercards
-                        gross_volume={dashboardData?.gross_volume || 0}
-                        shopmargin={dashboardData?.shop_profit || 0}
-                        valet_sales={dashboardData?.valet_sales || 0}
-                        gross_profit={dashboardData?.gross_profit || 0}
-                        gross_margin={dashboardData?.gross_margin || 0}
-                        fuel_sales={dashboardData?.fuel_sales || 0}
-                        fuel_commission={dashboardData?.fuel_commission || 0}
-                        gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
-                        shop_sales={dashboardData?.shop_sales || 0}
-                        shop_fees={dashboardData?.shop_fees || 0}
-                        shop_profit={dashboardData?.shop_profit || 0}
+                        wet_stock_value={dashboardData?.wet_stock_value}
+                        delivery_loss_value={dashboardData?.delivery_loss_value}
+                        unkonwn_loss_value={dashboardData?.unkonwn_loss_value}
+                        wet_stock_volume={dashboardData?.wet_stock_volume}
+                        delivery_loss_volume={dashboardData?.delivery_loss_volume}
+                        unkonwn_loss_volume={dashboardData?.unkonwn_loss_volume}
                         dashboardData={dashboardData}
                         callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
                     />
