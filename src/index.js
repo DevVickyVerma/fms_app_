@@ -422,7 +422,6 @@ const ManageReports = React.lazy(() =>
   import("./components/pages/Reports/ManageReports")
 );
 
-
 // Reports End
 // SiteSettings Start
 
@@ -603,6 +602,9 @@ const setuppayroll = React.lazy(() =>
 );
 
 import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/CompetitorFuelPricesVersionTwo";
+import FuelAutomation from "./components/pages/FuelAutomation/FuelAutomation";
+import AddFuelAutomation from "./components/pages/FuelAutomation/AddFuelAutomation";
+import EditFuelAutomation from "./components/pages/FuelAutomation/EditFuelAutomation";
 const canvaseditor = React.lazy(() => import("./components/pages/Canvas"));
 
 const Root = () => {
@@ -752,6 +754,9 @@ const Root = () => {
   const WrappeduploadCompetitor = withApi(uploadCompetitor);
   const WrappedManageBank = withApi(ManageBank);
   const WrappedAddBank = withApi(AddBank);
+  const WrappedAddFuelAutomation = withApi(AddFuelAutomation);
+  const WrappedEditFuelAutomation = withApi(EditFuelAutomation);
+  const WrappedFuelAutomation = withApi(FuelAutomation);
   const WrappedEditBankManneger = withApi(EditBank);
 
   const WrappedOpeningBalance = withApi(OpeningBalance);
@@ -954,6 +959,7 @@ const Root = () => {
                       path={`/managebank/:id`}
                       element={<WrappedManageBank />}
                     />
+
                     <Route
                       path={`/addbank/:siteName/:id`}
                       element={<WrappedAddBank />}
@@ -961,6 +967,19 @@ const Root = () => {
                     <Route
                       path={`/editbankmanager/:id`}
                       element={<WrappedEditBankManneger />}
+                    />
+
+                    <Route
+                      path={`/manage-fuel-automation/:id`}
+                      element={<WrappedFuelAutomation />}
+                    />
+                    <Route
+                      path={`/add-fuel-automation/:siteName/:id`}
+                      element={<WrappedAddFuelAutomation />}
+                    />
+                    <Route
+                      path={`/edit-fuel-automation/:id`}
+                      element={<WrappedEditFuelAutomation />}
                     />
 
                     <Route
