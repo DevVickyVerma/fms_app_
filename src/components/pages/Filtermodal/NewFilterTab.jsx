@@ -22,6 +22,7 @@ const NewFilterTab = ({
   showStationInput = true,
   showStationValidation = true,
   showMonthInput = true,
+  showMonthValidation = true,
   showDateInput = true,
   showSendEmail = false,
   showDRSDelete = false,
@@ -294,6 +295,7 @@ const NewFilterTab = ({
                       type="month"
                       label="Month"
                       name="start_month"
+                      isRequired={showMonthValidation}
                     />
                   </Col>
                 )}

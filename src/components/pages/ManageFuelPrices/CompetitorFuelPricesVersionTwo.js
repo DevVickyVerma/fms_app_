@@ -56,11 +56,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
     setSelectedDrsDate(values.start_date);
     setFilterData(values);
     try {
-      // const formData = new FormData();
-      // formData.append("start_date", values.start_date);
-      // formData.append("client_id", values.client_id);
-      // formData.append("company_id", values.company_id);
-
       let { client_id, company_id, site_id, start_date } = values;
       if (localStorage.getItem("superiorRole") === "Client") {
         client_id = localStorage.getItem("superiorId");
@@ -89,48 +84,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
       }
     } catch (error) {
       console.error("API error:", error);
-    }
-  };
-
-  const extractFuelData = (site) => {
-    if (site.competitors && site?.competitors?.length > 0) {
-      const competitorData = site?.competitors?.map((competitor) => {
-        const competitorname = competitor?.competitor_name;
-        const competitorID = competitor?.id;
-        const competitorimage = competitor?.supplier;
-        const fuels = competitor?.fuels?.[0] || {};
-        const time = fuels?.time || "N/A";
-
-        // Create an array of objects for each heading in the head_array with price data
-        const priceData = data?.head_array?.map((heading) => {
-          const categoryPrice =
-            fuels[heading] !== undefined ? fuels[heading] : "N/A";
-          return { heading, price: categoryPrice };
-        });
-
-        return {
-          competitorID,
-          competitorname,
-          competitorimage,
-          time,
-          priceData,
-        };
-      });
-
-      return competitorData;
-    } else {
-      return [
-        // Return an array with an object containing "N/A" values for all fields
-        {
-          competitorname: "N/A",
-          competitorimage: "N/A",
-          time: "N/A",
-          priceData: data.head_array.map((heading) => ({
-            heading,
-            price: "N/A",
-          })),
-        },
-      ];
     }
   };
 
@@ -288,7 +241,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                       <div>
                         <span>
                           Competitors - {filterData?.site_name} (
-                          {`${data?.currentDate}`}){" "}
+                          {`${filterData?.start_date}`}){" "}
                         </span>
                       </div>
                     </div>
@@ -314,7 +267,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                   <div className="d-flex align-items-center">
                                     <img
                                       src={competitor?.supplier}
-                                      alt="Competitor"
+                                      alt="i"
                                       width="30"
                                       className="me-2 object-fit-contain"
                                     />
@@ -422,7 +375,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                         >
                                           <img
                                             src={formik?.values?.supplier}
-                                            alt="Competitor"
+                                            alt="i"
                                             width="30"
                                             className="me-2"
                                           />
@@ -443,7 +396,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   step="0.010"
                                                   name={`listing.competitors.[${competitorIndex}].price`}
                                                   value={competitor?.price}
-                                                  // onChange={formik.handleChange}
                                                 />
                                               </td>
                                             </>
@@ -475,7 +427,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                               <div style={{ maxWidth: "30px" }}>
                                                 <img
                                                   src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
-                                                  alt="Competitor"
+                                                  alt="i"
                                                   width="20"
                                                   className="mx-2"
                                                 />
@@ -574,7 +526,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                               overlay={
                                                 <Tooltip
                                                   style={{
-                                                    // width: "200px",
                                                     zIndex: "111111111",
                                                   }}
                                                 >
@@ -587,7 +538,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                               <div style={{ maxWidth: "30px" }}>
                                                 <img
                                                   src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
-                                                  alt="Competitor"
+                                                  alt="i"
                                                   width="20"
                                                   className="mx-2"
                                                 />
@@ -614,8 +565,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   readOnly={!fuel?.canUpdate}
                                                   step="0.010"
                                                   name={`listing.competitors.[${competitorIndex}].fuels.pp.[${fuelIndex}].price`}
-                                                  // listing.competitors[0].fuels.pp[0].category_name
-                                                  // value={fuel?.price ? fuel?.price : 0}
                                                   value={
                                                     formik.values.listing
                                                       .competitors[
@@ -687,7 +636,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                               overlay={
                                                 <Tooltip
                                                   style={{
-                                                    // width: "200px",
                                                     zIndex: "111111111",
                                                   }}
                                                 >
@@ -701,7 +649,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                 <span>
                                                   <img
                                                     src={require("../../../assets/images/SingleStatsCompetitor/wanna1.png")}
-                                                    alt="Competitor"
+                                                    alt="i"
                                                     width="30"
                                                     className="mx-2"
                                                     style={{
@@ -733,8 +681,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   readOnly={!fuel?.canUpdate}
                                                   step="0.010"
                                                   name={`listing.competitors.[${competitorIndex}].fuels.ov.[${fuelIndex}].price`}
-                                                  // listing.competitors[0].fuels.ov[0].category_name
-                                                  // value={fuel?.price ? fuel?.price : 0}
                                                   value={
                                                     formik.values.listing
                                                       .competitors[
@@ -830,7 +776,8 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                           <div>
                             <span>
                               Fuel Selling Price Suggestion -{" "}
-                              {filterData?.site_name} ({`${data?.currentDate}`}){" "}
+                              {filterData?.site_name} (
+                              {`${filterData?.start_date}`}){" "}
                             </span>
                             <span
                               className="d-flex pt-1 align-items-center"
@@ -870,12 +817,18 @@ const CompetitorFuelPricesVersionTwo = (props) => {
             </Col>
           </Row> */}
 
-          <VersionTwoSuggestedFuelPrice
-            data={versionData}
-            postData={postData}
-            // handleFormSubmit={handleFormSubmit}
-            accordionSiteID={accordionSiteID}
-          />
+          {data?.fuelSuggestions?.length > 0 ? (
+            <>
+              <VersionTwoSuggestedFuelPrice
+                data={data}
+                postData={postData}
+                filterData={filterData}
+                accordionSiteID={accordionSiteID}
+              />
+            </>
+          ) : (
+            <></>
+          )}
         </>
 
         {/* <Row>
@@ -905,7 +858,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                         <div>
                                           <img
                                             src={record.competitorimage}
-                                            alt="Competitor"
+                                            alt="i"
                                             width={30}
                                             className="ml-2"
                                           />

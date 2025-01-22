@@ -63,6 +63,8 @@ export const handleShowDate = (e) => {
   }
 };
 
+export let storedKeyName = "localFilterModalData";
+
 export const confirmPasswordTooltip = (
   <Tooltip id="confirm-password-tooltip">
     password must exactly match the password you entered above.
