@@ -744,7 +744,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   onChange={formik.handleChange}
                                                 />
                                                 <div className="small text-muted text-end">
-                                                  {fuel?.last_updated !==
+                                                  {/* {fuel?.last_updated !==
                                                   "-" ? (
                                                     <>
                                                       Last Updated -{" "}
@@ -752,7 +752,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                     </>
                                                   ) : (
                                                     ""
-                                                  )}
+                                                  )} */}
                                                 </div>
                                               </td>
                                             </>
@@ -773,7 +773,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   )
                                                 }
                                               >
-                                                Observe{" "}
+                                                Submit{" "}
                                                 <i className="ph ph-seal-check work-flow-gry-status c-top-3"></i>
                                               </button>
                                             </>

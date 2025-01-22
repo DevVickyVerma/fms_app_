@@ -15,13 +15,19 @@ import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 import axios from "axios";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import useToggleStatus from "../../../Utils/useToggleStatus";
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
-const FuelAutomation = ({ isLoading, getData }) => {
+const FuelAutomation = ({ isLoading, getData, postData }) => {
   const [data, setData] = useState();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [siteName, setSiteName] = useState("");
   const { handleError } = useErrorHandler();
+
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
+
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
@@ -30,59 +36,45 @@ const FuelAutomation = ({ isLoading, getData }) => {
   useEffect(() => {
     fetchBankManagerList();
   }, []);
-  const isAddPermissionAvailable =
-    permissionsArray?.includes("bankmanager-create");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("bankmanager-delete");
-  const isEditPermissionAvailable =
-    permissionsArray?.includes("bankmanager-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes(
+    "fuel-automation-create"
+  );
+  const isDeletePermissionAvailable = permissionsArray?.includes(
+    "fuel-automation-delete"
+  );
+  const isEditPermissionAvailable = permissionsArray?.includes(
+    "fuel-automation-edit"
+  );
+  const isstatusPermissionAvailable = permissionsArray?.includes(
+    "fuel-automation-edit"
+  );
   const { id } = useParams();
 
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/site/fuel-automation-setting/update-status",
+      formData,
+      handleSuccess
+    );
+  };
+
+  const handleSuccess = () => {
+    fetchBankManagerList();
+  };
+
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "site/fuel-automation-setting/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            fetchBankManagerList();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append("id", id);
+    customDelete(
+      postData,
+      "site/fuel-automation-setting/delete",
+      formData,
+      handleSuccess
+    );
   };
 
   const fetchBankManagerList = async () => {
@@ -91,7 +83,7 @@ const FuelAutomation = ({ isLoading, getData }) => {
         `/site/fuel-automation-setting/list?site_id=${id}`
       );
       if (response && response.data) {
-        setData(response?.data?.data?.managers);
+        setData(response?.data?.data?.settings);
         setSiteName(response?.data?.data?.site_name);
       } else {
         throw new Error("No data available in the response");
@@ -100,6 +92,11 @@ const FuelAutomation = ({ isLoading, getData }) => {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
+
+  // Tooltip for better UI
+  const renderTooltip = (message) => (
+    <Tooltip id="button-tooltip">{message}</Tooltip>
+  );
 
   const columns = [
     {
@@ -115,23 +112,23 @@ const FuelAutomation = ({ isLoading, getData }) => {
       ),
     },
     {
-      name: "Manager Name",
-      selector: (row) => [row.manager_name],
+      name: "Time",
+      selector: (row) => [row.time],
       sortable: false,
-      width: "12.8%",
+      width: "15%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.manager_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.time}</h6>
           </div>
         </div>
       ),
     },
     {
-      name: "Bank Name",
-      selector: (row) => [row.bank_name],
+      name: "Price",
+      selector: (row) => [row.value],
       sortable: false,
-      width: "12.8%",
+      width: "15%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -139,16 +136,38 @@ const FuelAutomation = ({ isLoading, getData }) => {
           // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.bank_name}</h6>
+            <h6
+              className={`mb-0 fs-14 fw-semibold ${
+                row?.action === 1
+                  ? "work-flow-sucess-status"
+                  : row?.action === 2
+                  ? "work-flow-danger-status"
+                  : ""
+              }`}
+            >
+              {row.value}
+
+              {row?.action === 1 ? (
+                <>
+                  <i className={`ph ph-arrow-up`}></i>
+                </>
+              ) : row?.action === 2 ? (
+                <>
+                  <i className={`ph ph-arrow-down`}></i>
+                </>
+              ) : (
+                <></>
+              )}
+            </h6>
           </div>
         </div>
       ),
     },
     {
-      name: "Account Name",
-      selector: (row) => [row.account_name],
+      name: "Frequency",
+      selector: (row) => [row.frequency],
       sortable: false,
-      width: "12.8%",
+      width: "15%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -156,41 +175,9 @@ const FuelAutomation = ({ isLoading, getData }) => {
           // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.account_name}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Account No.",
-      selector: (row) => [row.account_no],
-      sortable: false,
-      width: "12.8%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.account_no}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Sort Code",
-      selector: (row) => [row.sort_code],
-      sortable: false,
-      width: "12.8%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.sort_code}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold ">
+              {row.frequency === 1 ? "Daily" : row.frequency}
+            </h6>
           </div>
         </div>
       ),
@@ -200,7 +187,7 @@ const FuelAutomation = ({ isLoading, getData }) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "12.8%",
+      width: "15%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -213,18 +200,58 @@ const FuelAutomation = ({ isLoading, getData }) => {
         </div>
       ),
     },
+    {
+      name: "Status",
+      selector: (row) => [row.status],
+      sortable: false,
+      width: "15%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold ">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row.status === 1 ? (
+              <button
+                className="btn btn-success btn-sm"
+                onClick={
+                  isstatusPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
+                Active
+              </button>
+            ) : row.status === 0 ? (
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={
+                  isstatusPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
+                Inactive
+              </button>
+            ) : (
+              <button
+                className="badge"
+                onClick={
+                  isstatusPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
+                Unknown
+              </button>
+            )}
+          </OverlayTrigger>
+        </span>
+      ),
+    },
 
     {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "12.8%",
+      width: "15%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to={`/editbankmanager/${row.id}`}
+                to={`/edit-fuel-automation/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
                 <i>

@@ -1,10 +1,19 @@
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Row,
+  Tooltip,
+  OverlayTrigger,
+} from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import FormikSelect from "../../Formik/FormikSelect";
+import FormikInput from "../../Formik/FormikInput";
 
 const AddFuelAutomation = ({ isLoading, postData }) => {
   const { handleError } = useErrorHandler();
@@ -13,16 +22,14 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
   const handlePostData = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("manager_name", values.manager_name);
+      formData.append("frequency", values.frequency);
       formData.append("site_id", id);
-      formData.append("bank_name", values.bank_name);
-      formData.append("account_name", values.account_name);
-      formData.append("account_no", values.account_no);
-      formData.append("sort_code", values.sort_code);
-      formData.append("sort_code", values.sort_code);
+      formData.append("value", values.value);
+      formData.append("time", values.time);
+      formData.append("action", values.action);
 
-      const postDataUrl = "/site/bank-manager/add";
-      const navigatePath = `/managebank/${id}`;
+      const postDataUrl = "/site/fuel-automation-setting/add";
+      const navigatePath = `/manage-fuel-automation/${id}`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
@@ -31,19 +38,18 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
   };
 
   const validationSchema = Yup.object({
-    manager_name: Yup.string().required("Manager Name is required"),
-    bank_name: Yup.string().required("Bank Name is required"),
-    account_name: Yup.string().required("Account is required"),
-    account_no: Yup.string().required("Account no is required"),
-    sort_code: Yup.string().required("Sort code is required"),
+    frequency: Yup.string().required("Frequency is required"),
+    value: Yup.string().required("Value is required"),
+    time: Yup.string().required("Time is required"),
+    action: Yup.string().required("Action is required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      manager_name: "",
-      bank_name: "",
-      account_name: "",
-      account_no: "",
+      frequency: "1",
+      value: "",
+      time: "",
+      action: "1",
       sort_code: "",
     },
     validationSchema: validationSchema,
@@ -52,6 +58,18 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
       handlePostData(values);
     },
   });
+
+  const frequencyOptions = [{ id: 1, name: "Daily" }];
+
+  // Function to handle the action click and set the formik value
+  const handleActionClick = (actionType) => {
+    formik.setFieldValue("action", actionType); // Set 'up' or 'down'
+  };
+
+  // Tooltip for better UI
+  const renderTooltip = (message) => (
+    <Tooltip id="button-tooltip">{message}</Tooltip>
+  );
 
   return (
     <>
@@ -96,152 +114,78 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
               <form onSubmit={formik.handleSubmit}>
                 <Card.Body>
                   <Row>
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label
-                          className="form-label mt-4"
-                          htmlFor="manager_name"
+                    <Col lg={3} md={6}>
+                      <FormikSelect
+                        formik={formik}
+                        name="frequency"
+                        label={"Frequency"}
+                        options={frequencyOptions?.map((item) => ({
+                          id: item?.id,
+                          name: item?.name,
+                        }))}
+                        className="form-input"
+                      />
+                    </Col>
+
+                    <Col lg={3} md={6}>
+                      <FormikInput
+                        formik={formik}
+                        type="number"
+                        label="Value"
+                        name="value"
+                        step="0.0001"
+                      />
+                    </Col>
+
+                    <Col lg={3} md={6}>
+                      <FormikInput
+                        formik={formik}
+                        type="time"
+                        label="Time"
+                        name="time"
+                      />
+                    </Col>
+                    <Col
+                      lg={3}
+                      md={6}
+                      className="d-flex justify-content-center align-items-center gap-3"
+                    >
+                      <div className="form-group mt-6 d-flex gap-4">
+                        {/* Up Arrow Button */}
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={renderTooltip("Increase Value")}
                         >
-                          Manager Name :<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.manager_name &&
-                            formik.touched.manager_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="manager_name"
-                          name="manager_name"
-                          placeholder="Enter Manager Name"
-                          onChange={formik.handleChange}
-                          value={formik.values.manager_name}
-                          onBlur={formik.values.manager_name}
-                        />
-                        {formik.errors.manager_name &&
-                          formik.touched.manager_name && (
-                            <div className="invalid-feedback">
-                              {formik.errors.manager_name}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
+                          <button
+                            type="button"
+                            onClick={() => handleActionClick(1)}
+                            className={`btn-action ${
+                              formik.values.action === 1
+                                ? "highlighted btn btn-primary"
+                                : "work-flow-sucess-status"
+                            }`}
+                          >
+                            <i className={`ph ph-arrow-up`}></i>
+                          </button>
+                        </OverlayTrigger>
 
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="bank_name">
-                          Bank Name :<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.bank_name && formik.touched.bank_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="bank_name"
-                          name="bank_name"
-                          placeholder="Enter Bank Name"
-                          onChange={formik.handleChange}
-                          value={formik.values.bank_name}
-                        />
-                        {formik.errors.bank_name &&
-                          formik.touched.bank_name && (
-                            <div className="invalid-feedback">
-                              {formik.errors.bank_name}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label
-                          className="form-label mt-4"
-                          htmlFor="account_name"
+                        {/* Down Arrow Button */}
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={renderTooltip("Decrease Value")}
                         >
-                          Account Name :<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.account_name &&
-                            formik.touched.account_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="account_name"
-                          name="account_name"
-                          placeholder="Enter Account Name"
-                          onChange={formik.handleChange}
-                          value={formik.values.account_name}
-                        />
-                        {formik.errors.account_name &&
-                          formik.touched.account_name && (
-                            <div className="invalid-feedback">
-                              {formik.errors.account_name}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="account_no">
-                          Account Number :<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.account_no &&
-                            formik.touched.account_no
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="account_no"
-                          name="account_no"
-                          placeholder="Enter Account Number"
-                          onChange={formik.handleChange}
-                          value={formik.values.account_no}
-                        />
-                        {formik.errors.account_no &&
-                          formik.touched.account_no && (
-                            <div className="invalid-feedback">
-                              {formik.errors.account_no}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="sort_code">
-                          Sort Code :<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.sort_code && formik.touched.sort_code
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="sort_code"
-                          name="sort_code"
-                          placeholder="Enter Sort Code"
-                          onChange={formik.handleChange}
-                          value={formik.values.sort_code}
-                        />
-                        {formik.errors.sort_code &&
-                          formik.touched.sort_code && (
-                            <div className="invalid-feedback">
-                              {formik.errors.sort_code}
-                            </div>
-                          )}
+                          <button
+                            type="button"
+                            onClick={() => handleActionClick(2)}
+                            className={`btn-action ${
+                              formik.values.action === 2
+                                ? "highlighted btn btn-danger"
+                                : "work-flow-danger-status"
+                            }`}
+                          >
+                            <i className={`ph ph-arrow-down`}></i>
+                          </button>
+                        </OverlayTrigger>
                       </div>
                     </Col>
                   </Row>
@@ -251,7 +195,7 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/managebank/${id}`}
+                      to={`/manage-fuel-automation/${id}`}
                     >
                       Cancel
                     </Link>
