@@ -2803,3 +2803,7 @@ td.middayModal-td.time-input-fuel-sell {
 .main-competitor-effect {
   border: 1px solid #27a723 !important;
 }
+
+.c-top-minus-1 {
+  top: -1px;
+}

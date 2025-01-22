@@ -122,6 +122,9 @@ const ManageSite = (props) => {
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
   const isBankManagerPermissionAvailable =
     permissionsArray?.includes("bankmanager-list");
+  const isFuelAutomationPermissionAvailable = permissionsArray?.includes(
+    "fuel-automation-list"
+  );
   const isOpeningBalancePermissionAvailable =
     permissionsArray?.includes("opening-list");
   const isBunkeringBalancePermissionAvailable =
@@ -480,6 +483,23 @@ const ManageSite = (props) => {
                           >
                             <i className="ph ph-calendar-check me-2" />
                             Skip Date
+                          </div>
+                        </div>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isFuelAutomationPermissionAvailable ? (
+                      <Dropdown.Item className=" p-0 m-0">
+                        <div
+                          onClick={() =>
+                            navigate(`/manage-fuel-automation/${row.id}`)
+                          }
+                        >
+                          <div
+                            className="manage-site-dropdown-item"
+                            style={{ width: "100%" }}
+                          >
+                            <i className="ph ph-person me-2" />
+                            Fuel Automation
                           </div>
                         </div>
                       </Dropdown.Item>

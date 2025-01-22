@@ -17,6 +17,8 @@ import NewFilterTab from "../Filtermodal/NewFilterTab";
 import StaticCompiPrice from "./StaticCompiPrice";
 import { useSelector } from "react-redux";
 import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
+import VersionTwoSuggestedFuelPrice from "./VersionTwoSuggestedFuelPrice";
+import { commonCompetitorMultiLineData } from "../../../Utils/commonFunctions/CommonData";
 
 const { Panel } = Collapse;
 
@@ -26,6 +28,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
     (state) => state?.data?.data?.permissions || []
   );
   const [selectedItem, setSelectedItem] = useState(null);
+  const [filterData, setFilterData] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [accordionSiteID, setaccordionSiteID] = useState();
@@ -47,10 +50,11 @@ const CompetitorFuelPricesVersionTwo = (props) => {
   };
 
   const [data, setData] = useState(null);
+  const [versionData, setVersionData] = useState(commonCompetitorMultiLineData);
 
   const handleSubmit1 = async (values) => {
     setSelectedDrsDate(values.start_date);
-
+    setFilterData(values);
     try {
       // const formData = new FormData();
       // formData.append("start_date", values.start_date);
@@ -197,7 +201,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
   }, [storedKeyName]); // Add any other dependencies needed here
 
   const handleApplyFilters = (values) => {
-    if (values?.company_id && values?.start_date) {
+    if (values?.company_id && values?.start_date && values?.site_id) {
       handleSubmit1(values);
     }
   };
@@ -278,7 +282,17 @@ const CompetitorFuelPricesVersionTwo = (props) => {
             <Col md={12} xl={12}>
               <Card>
                 <Card.Header>
-                  <h3 className="card-title"> Competitors</h3>
+                  <h3 className="card-title">
+                    {" "}
+                    <div className="d-flex w-100 justify-content-between align-items-center">
+                      <div>
+                        <span>
+                          Competitors - {filterData?.site_name} (
+                          {`${data?.currentDate}`}){" "}
+                        </span>
+                      </div>
+                    </div>
+                  </h3>
                 </Card.Header>
                 <Card.Body>
                   {formik?.values?.listing?.competitors?.length > 0 ? (
@@ -812,7 +826,21 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                     <Card.Header>
                       <h3 className="card-title">
                         {" "}
-                        Fuel Selling Price Suggestion
+                        <div className="d-flex w-100 justify-content-between align-items-center">
+                          <div>
+                            <span>
+                              Fuel Selling Price Suggestion -{" "}
+                              {filterData?.site_name} ({`${data?.currentDate}`}){" "}
+                            </span>
+                            <span
+                              className="d-flex pt-1 align-items-center"
+                              style={{ fontSize: "12px" }}
+                            >
+                              <span className="greenboxx me-2" />
+                              <span className="text-muted">Current Price</span>
+                            </span>
+                          </div>
+                        </div>
                       </h3>
                     </Card.Header>
                     <Card.Body>
@@ -831,23 +859,23 @@ const CompetitorFuelPricesVersionTwo = (props) => {
             <div></div> // Optionally provide a fallback UI
           )}
 
-          <Row>
+          {/* <Row>
             <Col md={12} xl={12}>
               <Card>
                 <Card.Header>
                   <h3 className="card-title"> Suggested Fuel Price Update</h3>
                 </Card.Header>
-                <Card.Body>
-                  {/* <CompetitorfuelpricesUpdate
-                    data={data}
-                    postData={postData}
-                    // handleFormSubmit={handleFormSubmit}
-                    accordionSiteID={accordionSiteID}
-                  /> */}
-                </Card.Body>
+                <Card.Body></Card.Body>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
+
+          <VersionTwoSuggestedFuelPrice
+            data={versionData}
+            postData={postData}
+            // handleFormSubmit={handleFormSubmit}
+            accordionSiteID={accordionSiteID}
+          />
         </>
 
         {/* <Row>
