@@ -39,6 +39,7 @@ export const hadndleShowDate = () => {
   const inputDateElement = document.querySelector('input[type="date"]');
   inputDateElement.showPicker();
 };
+
 export const passwordTooltip = (
   <Tooltip id="password-tooltip">
     Your password must be at least 8 characters long and include:
@@ -49,6 +50,18 @@ export const passwordTooltip = (
     </ul>
   </Tooltip>
 );
+
+export const handleShowDate = (e) => {
+  const inputDateElement = e?.target; // Get the clicked input element
+  if (
+    inputDateElement &&
+    inputDateElement?.showPicker &&
+    !inputDateElement?.readOnly &&
+    !inputDateElement?.disabled
+  ) {
+    inputDateElement.showPicker(); // Programmatically trigger the date picker
+  }
+};
 
 export const confirmPasswordTooltip = (
   <Tooltip id="confirm-password-tooltip">
@@ -70,7 +83,6 @@ export const formatNumber = (num) => {
     return num.toString(); // Ensure it returns a string
   }
 };
-
 
 export const getCurrentDate = () => {
   const today = new Date();

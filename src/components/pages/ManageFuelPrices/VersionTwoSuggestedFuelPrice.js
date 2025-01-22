@@ -183,6 +183,7 @@ const VersionTwoSuggestedFuelPrice = ({ data, postData, handleFormSubmit }) => {
   };
 
   console.log(lsitingformik?.values, "lsitingformik");
+  console.log(data, "data suggested data ");
 
   return (
     <>
