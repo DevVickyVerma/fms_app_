@@ -34,7 +34,7 @@ const VersionTwoSuggestedFuelPriceModal = ({
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
-  const [data, setData] = useState(staticCompiPriceCommon2); // Initialize data as null
+  const [data, setData] = useState(); // Initialize data as null
   const [isLoading, setIsLoading] = useState(false);
   const [hasListing, setHasListing] = useState(false);
 
@@ -360,7 +360,7 @@ const VersionTwoSuggestedFuelPriceModal = ({
                         ))}
                       </div>
 
-                      {/* {data ? (
+                      {data ? (
                         <div className="mt-7">
                           <>
                             <PublicCompetitorFuelPricesUpdate
@@ -373,7 +373,7 @@ const VersionTwoSuggestedFuelPriceModal = ({
                         </div>
                       ) : (
                         <div></div> // Optionally provide a fallback UI
-                      )} */}
+                      )}
                     </>
                   </>
                 </Col>

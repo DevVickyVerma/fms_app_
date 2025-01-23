@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -11,15 +10,17 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
+import EmailDetailModal from "../Emaillogs/EmailDetailModal";
 
-const ManageEmail = (props) => {
+const FuelSuggestionEmailLogs = (props) => {
   const { isLoading, getData } = props;
   const [data, setData] = useState();
+  const [selectedRowId, setSelectedRowId] = useState(null);
+  const [addshowModal, setaddshowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,13 +37,20 @@ const ManageEmail = (props) => {
     setSearchTerm("");
   };
 
+  const AddCloseModal = () => setaddshowModal(false);
+
+  const handleaddshowModal = (rowId) => {
+    setSelectedRowId(rowId);
+    setaddshowModal(true);
+  };
+
   useEffect(() => {
     FetchTableData(currentPage);
   }, [currentPage, searchTerm]);
 
   const FetchTableData = async () => {
     try {
-      let apiUrl = `/activity/logs?page=${currentPage}`;
+      let apiUrl = `/email/logs?page=${currentPage}`;
       if (searchTerm) {
         apiUrl += `&keyword=${searchTerm}`;
       }
@@ -60,7 +68,7 @@ const ManageEmail = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "5%",
+      width: "6%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -69,37 +77,39 @@ const ManageEmail = (props) => {
       ),
     },
     {
-      name: "Name",
-      selector: (row) => [row?.name],
+      name: "Subject",
+      selector: (row) => [row?.subject],
       sortable: false,
-      width: "14%",
+      width: "25%",
       cell: (row) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
-          </div>
+        <div>
+          {row?.raw_data !== null ? (
+            <div
+              className="d-flex"
+              onClick={() => handleaddshowModal(row)}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 " style={{ fontWeight: "bold" }}>
+                  {row?.subject}
+                </h6>
+              </div>
+            </div>
+          ) : (
+            <div className="d-flex">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 fw-semibold">{row?.subject}</h6>
+              </div>
+            </div>
+          )}
         </div>
       ),
     },
-    {
-      name: "Model",
-      selector: (row) => [row?.model],
-      sortable: false,
-      width: "12%",
-      cell: (row) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.model}</h6>
-          </div>
-        </div>
-      ),
-    },
-
     {
       name: "Message",
       selector: (row) => [row?.message],
       sortable: false,
-      width: "29%",
+      width: "25%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -108,52 +118,46 @@ const ManageEmail = (props) => {
         </div>
       ),
     },
+    {
+      name: "Email",
+      selector: (row) => [row?.email],
+      sortable: false,
+      width: "20%",
+      cell: (row) => {
+        try {
+          return (
+            <div className="d-flex" style={{ cursor: "default" }}>
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                {row.email && row?.email ? (
+                  <h6 className="mb-0 fs-14 fw-semibold">{row?.email}</h6>
+                ) : (
+                  <h6 className="mb-0 fs-14 fw-semibold">No email</h6>
+                )}
+              </div>
+            </div>
+          );
+        } catch (error) {
+          console.error("Error:", error);
+          return <h6 className="mb-0 fs-14 fw-semibold">Error</h6>;
+        }
+      },
+    },
 
     {
       name: "Created Date",
       selector: (row) => [row?.created_date],
       sortable: false,
-      width: "16%",
-      cell: (row) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.created_date}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Action",
-      selector: (row) => [row?.action],
-      sortable: false,
       width: "12%",
       cell: (row) => (
-        <span
-          className="text-muted fs-15 fw-semibold text-center"
-          style={{ cursor: "pointer" }}
+        <div
+          className="d-flex"
+          style={{ cursor: "default" }}
+          // onClick={() => handleToggleSidebar(row)}
         >
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>Action type</Tooltip>}
-          >
-            {row?.action == "0" ? (
-              <button
-                className="btn btn-success btn-sm"
-                style={{ cursor: "pointer" }}
-              >
-                Insert
-              </button>
-            ) : row?.action == "1" ? (
-              <button className="btn btn-info btn-sm">Update</button>
-            ) : row?.action == "2" ? (
-              <button className="btn btn-danger btn-sm">Delete</button>
-            ) : row?.action == "3" ? (
-              <button className="btn btn-dark btn-sm">Assign</button>
-            ) : (
-              <button className="badge">Unknown</button>
-            )}
-          </OverlayTrigger>
-        </span>
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">{row?.created_date}</h6>
+          </div>
+        </div>
       ),
     },
     {
@@ -164,10 +168,10 @@ const ManageEmail = (props) => {
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            {row?.status == 1 ? (
-              <button className="btn btn-success btn-sm">Success</button>
-            ) : row?.status == 0 ? (
-              <button className="btn btn-danger btn-sm">Error</button>
+            {row?.status === 1 ? (
+              <button className="btn btn-success btn-sm">Sent</button>
+            ) : row?.status === 0 ? (
+              <button className="btn btn-danger btn-sm">Failed</button>
             ) : (
               <button className="badge">Unknown</button>
             )}
@@ -183,7 +187,7 @@ const ManageEmail = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title"> Activity Logs</h1>
+            <h1 className="page-title"> Fuel Suggestion Email Logs</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -197,7 +201,7 @@ const ManageEmail = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Activity Logs
+                Fuel Suggestion Email Logs
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -207,7 +211,7 @@ const ManageEmail = (props) => {
             <Card>
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
-                  <h3 className="card-title">Activity Logs</h3>
+                  <h3 className="card-title">Fuel Suggestion Email Logs</h3>
                   <div className="mt-2 mt-sm-0">
                     <SearchBar
                       onSearch={handleSearch}
@@ -217,7 +221,12 @@ const ManageEmail = (props) => {
                   </div>
                 </div>
               </Card.Header>
-
+              <EmailDetailModal
+                addshowModal={addshowModal}
+                getData={getData}
+                AddCloseModal={AddCloseModal}
+                selectedRowId={selectedRowId}
+              />
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
@@ -258,4 +267,4 @@ const ManageEmail = (props) => {
     </>
   );
 };
-export default withApi(ManageEmail);
+export default withApi(FuelSuggestionEmailLogs);

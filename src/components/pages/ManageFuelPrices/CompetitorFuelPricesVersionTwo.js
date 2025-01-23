@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
 import VersionTwoSuggestedFuelPrice from "./VersionTwoSuggestedFuelPrice";
 import { commonCompetitorMultiLineData } from "../../../Utils/commonFunctions/CommonData";
+import Swal from "sweetalert2";
 
 const { Panel } = Collapse;
 
@@ -161,6 +162,67 @@ const CompetitorFuelPricesVersionTwo = (props) => {
 
   const handleClearForm = async (resetForm) => {
     setData(null);
+  };
+
+  const handleSelectedPrice = async (competitor, index, key_name) => {
+    // here i will pass onclick submit btn
+    // 1.  selected
+    // 2. index which is selected
+    // 3. key_name which is selected
+    // console.log(competitor, "competitor", index, "fuel", key_name);
+
+    let messageKey = key_name;
+
+    if (messageKey === "gov") {
+      messageKey = "Gov.uk";
+    } else if (messageKey === "pp") {
+      messageKey = "Petrol Price";
+    } else if (messageKey === "ov") {
+      messageKey = "Operator Verified";
+    }
+
+    Swal.fire({
+      title: "Are you sure?",
+      html: `You are about to update the price for the competitor <strong>"${competitor?.competitor_name}"</strong> in the service category <strong>"${messageKey}"</strong>.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Observe it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result?.isConfirmed) {
+        try {
+          const formData = new FormData();
+
+          formData.append("site_id", accordionSiteID);
+          formData.append("competitor_id", competitor?.id);
+          formData.append("drs_date", selectedDrsDate);
+          formData.append("updated_from", key_name);
+
+          competitor?.fuels?.[key_name].forEach((fuel) => {
+            if (fuel?.price == "-") {
+              formData.append(`fuels[${fuel?.id}]`, 0);
+            } else {
+              formData.append(`fuels[${fuel?.id}]`, fuel?.price);
+            }
+          });
+
+          const postDataUrl = "/site/competitor-suggestion/accept";
+
+          await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+
+          if (apidata?.api_response == 200) {
+            // fetchData();
+          } else {
+            handleError(error);
+            // fetchData();
+          }
+        } catch (error) {
+        } finally {
+          fetchData();
+        }
+      }
+    });
   };
 
   return (

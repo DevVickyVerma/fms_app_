@@ -605,6 +605,8 @@ import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/
 import FuelAutomation from "./components/pages/FuelAutomation/FuelAutomation";
 import AddFuelAutomation from "./components/pages/FuelAutomation/AddFuelAutomation";
 import EditFuelAutomation from "./components/pages/FuelAutomation/EditFuelAutomation";
+import FuelSuggestionEmailLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionEmailLogs";
+import FuelSuggestionActivityLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionActivityLogs";
 const canvaseditor = React.lazy(() => import("./components/pages/Canvas"));
 
 const Root = () => {
@@ -740,6 +742,7 @@ const Root = () => {
   const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
   const WrappedCeoDashBoardSiteDetail = withApi(CeoDashSubChildBaseAPIS);
   const WrappedEmaillogs = withApi(Emaillogs);
+  const WrappedFuelSuggestionEmailLogs = withApi(FuelSuggestionEmailLogs);
   const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
   const WrappedFuturePricelogs = withApi(FuturePriceLogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
@@ -780,6 +783,7 @@ const Root = () => {
   const WrappedNominalTypes = withApi(NominalTypes);
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
+  const WrappedFuelSuggestionActivityLogs = withApi(FuelSuggestionActivityLogs);
   const Wrappedmanagesms = withApi(managesms);
   const WrappedShopRevenueCommission = withApi(ShopRevenueCommission);
   const WrappedDashboardWetStock = withApi(DashboardWetStock);
@@ -1129,6 +1133,10 @@ const Root = () => {
                       element={<WrappedEmaillogs />}
                     />
                     <Route
+                      path={`/fuel-suggestion-email-logs`}
+                      element={<WrappedFuelSuggestionEmailLogs />}
+                    />
+                    <Route
                       path={`/fuel-price-logs`}
                       element={<WrappedFuelPriceslogs />}
                     />
@@ -1139,6 +1147,10 @@ const Root = () => {
                     <Route
                       path={`/activity-logs`}
                       element={<WrappedActivitylogs />}
+                    />
+                    <Route
+                      path={`/fuel-suggestion-activity-logs`}
+                      element={<WrappedFuelSuggestionActivityLogs />}
                     />
                     {/* Header  Components Start */}
                     {/* <Route
