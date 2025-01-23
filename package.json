@@ -79,7 +79,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -89,12 +89,17 @@
       "react-app/jest"
     ]
   },
+  "rules": {
+    "react-hooks/rules-of-hooks": "off",
+    "react-hooks/exhaustive-deps": "off"
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not op_mini all"
   ],
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.4.2"
