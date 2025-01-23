@@ -56,233 +56,240 @@ import TitanDashSubChild from "./components/TitanDashboard/TitanDashSubChild";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PublicCompetitorPrice from "./components/pages/ManageFuelPrices/PublicCompetitorPrice";
+
+import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/CompetitorFuelPricesVersionTwo";
+import FuelAutomation from "./components/pages/FuelAutomation/FuelAutomation";
+import AddFuelAutomation from "./components/pages/FuelAutomation/AddFuelAutomation";
+import EditFuelAutomation from "./components/pages/FuelAutomation/EditFuelAutomation";
+import FuelSuggestionEmailLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionEmailLogs";
+import FuelSuggestionActivityLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionActivityLogs";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
-const Exceptionallogs = React.lazy(() =>
-  import("./components/pages/FuelSellingPricesSuggestion/Exceptionallogs")
+const Exceptionallogs = React.lazy(
+  () => import("./components/pages/FuelSellingPricesSuggestion/Exceptionallogs")
 );
-const CeoDashBoard = React.lazy(() =>
-  import("./components/Dashboard/CeoDashBoard")
+const CeoDashBoard = React.lazy(
+  () => import("./components/Dashboard/CeoDashBoard")
 );
-const CeoDashBoardTest = React.lazy(() =>
-  import("./components/Dashboard/CeoDashBoardTest")
+const CeoDashBoardTest = React.lazy(
+  () => import("./components/Dashboard/CeoDashBoardTest")
 );
-const TitanDashBoard = React.lazy(() =>
-  import("./components/TitanDashboard/TitanDashboard")
+const TitanDashBoard = React.lazy(
+  () => import("./components/TitanDashboard/TitanDashboard")
 );
-const CEOCompetitorView = React.lazy(() =>
-  import("./components/Dashboard/CEOCompitiorview")
+const CEOCompetitorView = React.lazy(
+  () => import("./components/Dashboard/CEOCompitiorview")
 );
 
-const PriceGraphView = React.lazy(() =>
-  import("./components/Dashboard/PriceGraphView")
+const PriceGraphView = React.lazy(
+  () => import("./components/Dashboard/PriceGraphView")
 );
-const EditProfile = React.lazy(() =>
-  import("./components/pages/EditProfile/EditProfile")
+const EditProfile = React.lazy(
+  () => import("./components/pages/EditProfile/EditProfile")
 );
-const ManageRoles = React.lazy(() =>
-  import("./components/pages/ManageRoles/ManageRoles")
+const ManageRoles = React.lazy(
+  () => import("./components/pages/ManageRoles/ManageRoles")
 );
-const ManageCompany = React.lazy(() =>
-  import("./components/pages/ManageCompany/ManageCompany")
+const ManageCompany = React.lazy(
+  () => import("./components/pages/ManageCompany/ManageCompany")
 );
-const AddRoles = React.lazy(() =>
-  import("./components/pages/ManageRoles/AddRoles")
+const AddRoles = React.lazy(
+  () => import("./components/pages/ManageRoles/AddRoles")
 );
 // client Start
-const ManageClient = React.lazy(() =>
-  import("./components/pages/ManageClient/ManageClient")
+const ManageClient = React.lazy(
+  () => import("./components/pages/ManageClient/ManageClient")
 );
-const EditClient = React.lazy(() =>
-  import("./components/pages/ManageClient/EditClient")
+const EditClient = React.lazy(
+  () => import("./components/pages/ManageClient/EditClient")
 );
-const AddClient = React.lazy(() =>
-  import("./components/pages/ManageClient/AddClient")
+const AddClient = React.lazy(
+  () => import("./components/pages/ManageClient/AddClient")
 );
 // client End
 // User Start
-const ManageUser = React.lazy(() =>
-  import("./components/pages/ManageUsers/ManageUsers")
+const ManageUser = React.lazy(
+  () => import("./components/pages/ManageUsers/ManageUsers")
 );
-const FAuthentiion = React.lazy(() =>
-  import("./components/pages/ManageUsers/2FAUser")
+const FAuthentiion = React.lazy(
+  () => import("./components/pages/ManageUsers/2FAUser")
 );
-const EditUser = React.lazy(() =>
-  import("./components/pages/ManageUsers/EditUser")
+const EditUser = React.lazy(
+  () => import("./components/pages/ManageUsers/EditUser")
 );
-const AddUser = React.lazy(() =>
-  import("./components/pages/ManageUsers/AddUser")
+const AddUser = React.lazy(
+  () => import("./components/pages/ManageUsers/AddUser")
 );
 // User End
 
 // User PPLRate
-const ManagePPL = React.lazy(() =>
-  import("./components/pages/ManagePPLRate/ManagePPlRate")
+const ManagePPL = React.lazy(
+  () => import("./components/pages/ManagePPLRate/ManagePPlRate")
 );
-const EditPPL = React.lazy(() =>
-  import("./components/pages/ManagePPLRate/EditPPLRate")
+const EditPPL = React.lazy(
+  () => import("./components/pages/ManagePPLRate/EditPPLRate")
 );
-const AddPPL = React.lazy(() =>
-  import("./components/pages/ManagePPLRate/ManagePPlEAdd")
+const AddPPL = React.lazy(
+  () => import("./components/pages/ManagePPLRate/ManagePPlEAdd")
 );
 // User PPLRate
 // Site Start
-const Managesite = React.lazy(() =>
-  import("./components/pages/ManageSite/ManageSite")
+const Managesite = React.lazy(
+  () => import("./components/pages/ManageSite/ManageSite")
 );
-const AddSite = React.lazy(() =>
-  import("./components/pages/ManageSite/AddSite")
+const AddSite = React.lazy(
+  () => import("./components/pages/ManageSite/AddSite")
 );
 
-const EditSite = React.lazy(() =>
-  import("./components/pages/ManageSite/EditSite")
+const EditSite = React.lazy(
+  () => import("./components/pages/ManageSite/EditSite")
 );
 
 // Site End
 
 // Charges Start
 
-const ManageCharges = React.lazy(() =>
-  import("./components/pages/ManageCharges/ManageCharges")
+const ManageCharges = React.lazy(
+  () => import("./components/pages/ManageCharges/ManageCharges")
 );
 
-const AddCharges = React.lazy(() =>
-  import("./components/pages/ManageCharges/AddCharges")
+const AddCharges = React.lazy(
+  () => import("./components/pages/ManageCharges/AddCharges")
 );
 
-const EditCharges = React.lazy(() =>
-  import("./components/pages/ManageCharges/EditCharges")
+const EditCharges = React.lazy(
+  () => import("./components/pages/ManageCharges/EditCharges")
 );
 
 // Charges End
 
 // Sage Start
 
-const NominalActivityCodes = React.lazy(() =>
-  import("./components/pages/Sage/NominalActivityCodes")
+const NominalActivityCodes = React.lazy(
+  () => import("./components/pages/Sage/NominalActivityCodes")
 );
-const NominalTypes = React.lazy(() =>
-  import("./components/pages/Sage/NominalTypes")
+const NominalTypes = React.lazy(
+  () => import("./components/pages/Sage/NominalTypes")
 );
-const NominalTaxCode = React.lazy(() =>
-  import("./components/pages/Sage/NominalTaxCode")
+const NominalTaxCode = React.lazy(
+  () => import("./components/pages/Sage/NominalTaxCode")
 );
-const MapDepartmentitems = React.lazy(() =>
-  import("./components/pages/Sage/MapDepartmentItems")
+const MapDepartmentitems = React.lazy(
+  () => import("./components/pages/Sage/MapDepartmentItems")
 );
-const SageCharges = React.lazy(() =>
-  import("./components/pages/Sage/ManageSageCharges")
+const SageCharges = React.lazy(
+  () => import("./components/pages/Sage/ManageSageCharges")
 );
-const SageDeduction = React.lazy(() =>
-  import("./components/pages/Sage/SageDeduction")
+const SageDeduction = React.lazy(
+  () => import("./components/pages/Sage/SageDeduction")
 );
 const SageCards = React.lazy(() => import("./components/pages/Sage/SageCards"));
-const Sagebanking = React.lazy(() =>
-  import("./components/pages/Sage/SageBanking")
+const Sagebanking = React.lazy(
+  () => import("./components/pages/Sage/SageBanking")
 );
 
 // Sage End
 
 // Shops Start
 
-const ManageShops = React.lazy(() =>
-  import("./components/pages/ManageShops/ManageShops")
+const ManageShops = React.lazy(
+  () => import("./components/pages/ManageShops/ManageShops")
 );
 
-const AddShops = React.lazy(() =>
-  import("./components/pages/ManageShops/AddShops")
+const AddShops = React.lazy(
+  () => import("./components/pages/ManageShops/AddShops")
 );
 
-const EditShops = React.lazy(() =>
-  import("./components/pages/ManageShops/EditShops")
+const EditShops = React.lazy(
+  () => import("./components/pages/ManageShops/EditShops")
 );
 
 // Shops End
 
 // Cards Start
 
-const ManageCards = React.lazy(() =>
-  import("./components/pages/ManageCards/ManageCards")
+const ManageCards = React.lazy(
+  () => import("./components/pages/ManageCards/ManageCards")
 );
 
-const AddCards = React.lazy(() =>
-  import("./components/pages/ManageCards/AddCards")
+const AddCards = React.lazy(
+  () => import("./components/pages/ManageCards/AddCards")
 );
 
-const EditCards = React.lazy(() =>
-  import("./components/pages/ManageCards/EditCards")
+const EditCards = React.lazy(
+  () => import("./components/pages/ManageCards/EditCards")
 );
-const CardGroup = React.lazy(() =>
-  import("./components/pages/ManageCards/CardGroup")
+const CardGroup = React.lazy(
+  () => import("./components/pages/ManageCards/CardGroup")
 );
 
 // Cards End
 
 // Deductions Start
 
-const ManageDeductions = React.lazy(() =>
-  import("./components/pages/ManageDeductions/ManageDeductions")
+const ManageDeductions = React.lazy(
+  () => import("./components/pages/ManageDeductions/ManageDeductions")
 );
 
-const AddDeductions = React.lazy(() =>
-  import("./components/pages/ManageDeductions/AddDeductions")
+const AddDeductions = React.lazy(
+  () => import("./components/pages/ManageDeductions/AddDeductions")
 );
 
-const EditDeductions = React.lazy(() =>
-  import("./components/pages/ManageDeductions/EditDeductions")
+const EditDeductions = React.lazy(
+  () => import("./components/pages/ManageDeductions/EditDeductions")
 );
 
 // Deductions End
 
 // Suppliers Start
 
-const ManageSuppliers = React.lazy(() =>
-  import("./components/pages/ManageSuppliers/ManageSuppliers")
+const ManageSuppliers = React.lazy(
+  () => import("./components/pages/ManageSuppliers/ManageSuppliers")
 );
 
-const AddSuppliers = React.lazy(() =>
-  import("./components/pages/ManageSuppliers/AddSuppliers")
+const AddSuppliers = React.lazy(
+  () => import("./components/pages/ManageSuppliers/AddSuppliers")
 );
 
-const EditSuppliers = React.lazy(() =>
-  import("./components/pages/ManageSuppliers/EditSuppliers")
+const EditSuppliers = React.lazy(
+  () => import("./components/pages/ManageSuppliers/EditSuppliers")
 );
 
 // Suppliers End
 
 // Manneger Start
 
-const Assignmanneger = React.lazy(() =>
-  import("./components/pages/AssignManneger/Assignmanneger")
+const Assignmanneger = React.lazy(
+  () => import("./components/pages/AssignManneger/Assignmanneger")
 );
-const AddManneger = React.lazy(() =>
-  import("./components/pages/AssignManneger/Addmanneger")
+const AddManneger = React.lazy(
+  () => import("./components/pages/AssignManneger/Addmanneger")
 );
-const EditManneger = React.lazy(() =>
-  import("./components/pages/AssignManneger/EditManager")
+const EditManneger = React.lazy(
+  () => import("./components/pages/AssignManneger/EditManager")
 );
-const AutoDayEnd = React.lazy(() =>
-  import("./components/pages/AutoDayEnd/AutoDayEnd")
+const AutoDayEnd = React.lazy(
+  () => import("./components/pages/AutoDayEnd/AutoDayEnd")
 );
-const AddAutoDayEnd = React.lazy(() =>
-  import("./components/pages/AutoDayEnd/AddAutoDayEnd")
+const AddAutoDayEnd = React.lazy(
+  () => import("./components/pages/AutoDayEnd/AddAutoDayEnd")
 );
-const EditAutoDayEnd = React.lazy(() =>
-  import("./components/pages/AutoDayEnd/EditAutoDayEnd")
+const EditAutoDayEnd = React.lazy(
+  () => import("./components/pages/AutoDayEnd/EditAutoDayEnd")
 );
 
-const CompanyAutoReport = React.lazy(() =>
-  import("./components/pages/CompanyAutoReport/CompanyAutoReport")
+const CompanyAutoReport = React.lazy(
+  () => import("./components/pages/CompanyAutoReport/CompanyAutoReport")
 );
-const AddCompanyAutoReport = React.lazy(() =>
-  import("./components/pages/CompanyAutoReport/AddCompanyAutoReport")
+const AddCompanyAutoReport = React.lazy(
+  () => import("./components/pages/CompanyAutoReport/AddCompanyAutoReport")
 );
-const EditCompanyAutoReport = React.lazy(() =>
-  import("./components/pages/CompanyAutoReport/EditCompanyAutoReport")
+const EditCompanyAutoReport = React.lazy(
+  () => import("./components/pages/CompanyAutoReport/EditCompanyAutoReport")
 );
 
 // const AddSuppliers = React.lazy(() =>
@@ -297,316 +304,319 @@ const EditCompanyAutoReport = React.lazy(() =>
 
 // Pump Start
 
-const ManageSitePump = React.lazy(() =>
-  import("./components/pages/ManageSitePump/ManageSitePump")
+const ManageSitePump = React.lazy(
+  () => import("./components/pages/ManageSitePump/ManageSitePump")
 );
 
-const AddSitePump = React.lazy(() =>
-  import("./components/pages/ManageSitePump/AddSitePump")
+const AddSitePump = React.lazy(
+  () => import("./components/pages/ManageSitePump/AddSitePump")
 );
 
-const EditSitePump = React.lazy(() =>
-  import("./components/pages/ManageSitePump/EditSitePump")
+const EditSitePump = React.lazy(
+  () => import("./components/pages/ManageSitePump/EditSitePump")
 );
 // Pump End
 
 // SiteTank Start
 
-const ManageSiteTank = React.lazy(() =>
-  import("./components/pages/ManageSiteTank/ManageSiteTank")
+const ManageSiteTank = React.lazy(
+  () => import("./components/pages/ManageSiteTank/ManageSiteTank")
 );
 
-const AddSiteTank = React.lazy(() =>
-  import("./components/pages/ManageSiteTank/AddSiteTank")
+const AddSiteTank = React.lazy(
+  () => import("./components/pages/ManageSiteTank/AddSiteTank")
 );
 
-const EditSiteTank = React.lazy(() =>
-  import("./components/pages/ManageSiteTank/EditSiteTank")
+const EditSiteTank = React.lazy(
+  () => import("./components/pages/ManageSiteTank/EditSiteTank")
 );
 
 // SiteTank End
 
 // SiteNozzle Start
 
-const ManageSiteNozzle = React.lazy(() =>
-  import("./components/pages/ManageSiteNozzle/ManageSiteNozzle")
+const ManageSiteNozzle = React.lazy(
+  () => import("./components/pages/ManageSiteNozzle/ManageSiteNozzle")
 );
 
-const AddSiteNozzle = React.lazy(() =>
-  import("./components/pages/ManageSiteNozzle/AddSiteNozzle")
+const AddSiteNozzle = React.lazy(
+  () => import("./components/pages/ManageSiteNozzle/AddSiteNozzle")
 );
 
-const EditSiteNozzle = React.lazy(() =>
-  import("./components/pages/ManageSiteNozzle/EditSiteNozzle")
+const EditSiteNozzle = React.lazy(
+  () => import("./components/pages/ManageSiteNozzle/EditSiteNozzle")
 );
 
 // SiteNozzle End
 // Items Start
 
-const ManageItems = React.lazy(() =>
-  import("./components/pages/ManageItems/ManageItems")
+const ManageItems = React.lazy(
+  () => import("./components/pages/ManageItems/ManageItems")
 );
 
-const AddItems = React.lazy(() =>
-  import("./components/pages/ManageItems/AddItems")
+const AddItems = React.lazy(
+  () => import("./components/pages/ManageItems/AddItems")
 );
 
-const EditItems = React.lazy(() =>
-  import("./components/pages/ManageItems/EditItems")
+const EditItems = React.lazy(
+  () => import("./components/pages/ManageItems/EditItems")
 );
 
 // Category Start
 
-const ManageBusinessCategory = React.lazy(() =>
-  import("./components/pages/ManageCategory/ManageBusinessCategory")
+const ManageBusinessCategory = React.lazy(
+  () => import("./components/pages/ManageCategory/ManageBusinessCategory")
 );
 
-const ManageSubBusinessCategory = React.lazy(() =>
-  import("./components/pages/ManageCategory/ManageSubBusinessCategory")
+const ManageSubBusinessCategory = React.lazy(
+  () => import("./components/pages/ManageCategory/ManageSubBusinessCategory")
 );
 
-const AddBusinessCategory = React.lazy(() =>
-  import("./components/pages/ManageCategory/AddBusinessCategory")
+const AddBusinessCategory = React.lazy(
+  () => import("./components/pages/ManageCategory/AddBusinessCategory")
 );
-const AddSubBusinessCategory = React.lazy(() =>
-  import("./components/pages/ManageCategory/AddSubBusinessCategory")
-);
-
-const EditBusinessCategory = React.lazy(() =>
-  import("./components/pages/ManageCategory/EditBusinessCategory")
+const AddSubBusinessCategory = React.lazy(
+  () => import("./components/pages/ManageCategory/AddSubBusinessCategory")
 );
 
-const EditSubBusinessCategory = React.lazy(() =>
-  import("./components/pages/ManageCategory/EditSubBusinessCategory")
+const EditBusinessCategory = React.lazy(
+  () => import("./components/pages/ManageCategory/EditBusinessCategory")
+);
+
+const EditSubBusinessCategory = React.lazy(
+  () => import("./components/pages/ManageCategory/EditSubBusinessCategory")
 );
 // Category End
 
 // DSR Start
 
-const ManageDsr = React.lazy(() =>
-  import("./components/pages/ManageDSR/ManageDsr")
+const ManageDsr = React.lazy(
+  () => import("./components/pages/ManageDSR/ManageDsr")
 );
-const ManageDsrList = React.lazy(() =>
-  import("./components/pages/ManageDSR/DsrList")
+const ManageDsrList = React.lazy(
+  () => import("./components/pages/ManageDSR/DsrList")
 );
-const ManageDsrCrons = React.lazy(() =>
-  import("./components/pages/ManageDSR/DsrCrons")
+const ManageDsrCrons = React.lazy(
+  () => import("./components/pages/ManageDSR/DsrCrons")
 );
 
 // DSR End
 // commisons Start
 
-const Managecommission = React.lazy(() =>
-  import("./components/pages/ManageComisions/ManageComision")
+const Managecommission = React.lazy(
+  () => import("./components/pages/ManageComisions/ManageComision")
 );
-const valetcommission = React.lazy(() =>
-  import("./components/pages/ManageComisions/ValetCommission")
+const valetcommission = React.lazy(
+  () => import("./components/pages/ManageComisions/ValetCommission")
 );
-const Assignaddon = React.lazy(() =>
-  import("./components/pages/AddonList/AddonList")
+const Assignaddon = React.lazy(
+  () => import("./components/pages/AddonList/AddonList")
 );
-const ShopRevenueCommission = React.lazy(() =>
-  import("./components/pages/ShopRevenueCommission/ShopRevenueCommission")
+const ShopRevenueCommission = React.lazy(
+  () => import("./components/pages/ShopRevenueCommission/ShopRevenueCommission")
 );
-const Assignreport = React.lazy(() =>
-  import("./components/pages/AssignReports/AssignReports")
+const Assignreport = React.lazy(
+  () => import("./components/pages/AssignReports/AssignReports")
 );
-const AssignUseraddon = React.lazy(() =>
-  import("./components/pages/AddonList/UserAddon")
+const AssignUseraddon = React.lazy(
+  () => import("./components/pages/AddonList/UserAddon")
 );
 
 // DSR End
 // Reports Start
 
-const ManageReports = React.lazy(() =>
-  import("./components/pages/Reports/ManageReports")
+const ManageReports = React.lazy(
+  () => import("./components/pages/Reports/ManageReports")
 );
 
 // Reports End
 // SiteSettings Start
 
-const SiteSettings = React.lazy(() =>
-  import("./components/pages/SiteSetting/SiteSettings")
+const SiteSettings = React.lazy(
+  () => import("./components/pages/SiteSetting/SiteSettings")
 );
-const Assignbusiness = React.lazy(() =>
-  import("./components/pages/AssignBusinessSubCategories/Assignbusinessubcat")
+const Assignbusiness = React.lazy(
+  () =>
+    import("./components/pages/AssignBusinessSubCategories/Assignbusinessubcat")
 );
-const AddAssignbusiness = React.lazy(() =>
-  import(
-    "./components/pages/AssignBusinessSubCategories/AddAssignbusinessubcat"
-  )
+const AddAssignbusiness = React.lazy(
+  () =>
+    import(
+      "./components/pages/AssignBusinessSubCategories/AddAssignbusinessubcat"
+    )
 );
-const EditAssignbusiness = React.lazy(() =>
-  import(
-    "./components/pages/AssignBusinessSubCategories/EditAssignbusinessubcat"
-  )
-);
-
-const HideBusinessCategories = React.lazy(() =>
-  import("./components/pages/HideBusinessCategories/HideBusinessCategories")
-);
-const AddHideBusinessCategories = React.lazy(() =>
-  import("./components/pages/HideBusinessCategories/AddHideBusinessCategories")
-);
-const EditAddHideBusinessCategories = React.lazy(() =>
-  import("./components/pages/HideBusinessCategories/EditHideBusinessCategories")
+const EditAssignbusiness = React.lazy(
+  () =>
+    import(
+      "./components/pages/AssignBusinessSubCategories/EditAssignbusinessubcat"
+    )
 );
 
-const Tolerances = React.lazy(() =>
-  import("./components/pages/SiteSetting/Tolerances")
+const HideBusinessCategories = React.lazy(
+  () =>
+    import("./components/pages/HideBusinessCategories/HideBusinessCategories")
+);
+const AddHideBusinessCategories = React.lazy(
+  () =>
+    import(
+      "./components/pages/HideBusinessCategories/AddHideBusinessCategories"
+    )
+);
+const EditAddHideBusinessCategories = React.lazy(
+  () =>
+    import(
+      "./components/pages/HideBusinessCategories/EditHideBusinessCategories"
+    )
+);
+
+const Tolerances = React.lazy(
+  () => import("./components/pages/SiteSetting/Tolerances")
 );
 
 // SiteSettings End
 // Other Start
 
-const WorkFlows = React.lazy(() =>
-  import("./components/pages/Others/WorkFlow")
+const WorkFlows = React.lazy(
+  () => import("./components/pages/Others/WorkFlow")
 );
 
 // Other End
-const SkipDates = React.lazy(() =>
-  import("./components/pages/SkipDates/SkipDateList")
+const SkipDates = React.lazy(
+  () => import("./components/pages/SkipDates/SkipDateList")
 );
-const FUELPRICE = React.lazy(() =>
-  import("./components/pages/ManageFuelPrices/FuelPrices")
+const FUELPRICE = React.lazy(
+  () => import("./components/pages/ManageFuelPrices/FuelPrices")
 );
-const CompetitorFuelPrices = React.lazy(() =>
-  import("./components/pages/ManageFuelPrices/competitorfuelprices")
+const CompetitorFuelPrices = React.lazy(
+  () => import("./components/pages/ManageFuelPrices/competitorfuelprices")
 );
-const EditCompetitorFuelPrices = React.lazy(() =>
-  import("./components/pages/Competitor/EditCompetitor")
+const EditCompetitorFuelPrices = React.lazy(
+  () => import("./components/pages/Competitor/EditCompetitor")
 );
-const FuelPurchasePrices = React.lazy(() =>
-  import("./components/pages/ManageFuelPrices/FuelPurchasePrices")
+const FuelPurchasePrices = React.lazy(
+  () => import("./components/pages/ManageFuelPrices/FuelPurchasePrices")
 );
-const AddFuelPurchasePrices = React.lazy(() =>
-  import("./components/pages/ManageFuelPrices/AddFuelPurchase")
+const AddFuelPurchasePrices = React.lazy(
+  () => import("./components/pages/ManageFuelPrices/AddFuelPurchase")
 );
-const ManageBusinessTypes = React.lazy(() =>
-  import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
+const ManageBusinessTypes = React.lazy(
+  () => import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
-const ManageBusinessSubTypes = React.lazy(() =>
-  import("./components/pages/ManageSubBussiness/ManageSubBussiness")
+const ManageBusinessSubTypes = React.lazy(
+  () => import("./components/pages/ManageSubBussiness/ManageSubBussiness")
 );
-const AddBusinessSubTypes = React.lazy(() =>
-  import("./components/pages/ManageSubBussiness/AddSubBussiness")
+const AddBusinessSubTypes = React.lazy(
+  () => import("./components/pages/ManageSubBussiness/AddSubBussiness")
 );
-const EditBusinessSubTypes = React.lazy(() =>
-  import("./components/pages/ManageSubBussiness/EditSubBussiness")
+const EditBusinessSubTypes = React.lazy(
+  () => import("./components/pages/ManageSubBussiness/EditSubBussiness")
 );
-const AddBusiness = React.lazy(() =>
-  import("./components/pages/ManageBusinessTypes/AddBusiness")
+const AddBusiness = React.lazy(
+  () => import("./components/pages/ManageBusinessTypes/AddBusiness")
 );
-const ManageAddon = React.lazy(() =>
-  import("./components/pages/ManageAddon/ManageAddon")
+const ManageAddon = React.lazy(
+  () => import("./components/pages/ManageAddon/ManageAddon")
 );
-const EditAddon = React.lazy(() =>
-  import("./components/pages/ManageAddon/EditAddon")
+const EditAddon = React.lazy(
+  () => import("./components/pages/ManageAddon/EditAddon")
 );
-const AddAddon = React.lazy(() =>
-  import("./components/pages/ManageAddon/AddAddon")
-);
-
-const AddCompany = React.lazy(() =>
-  import("./components/pages/ManageCompany/AddCompany")
+const AddAddon = React.lazy(
+  () => import("./components/pages/ManageAddon/AddAddon")
 );
 
-const EditRoles = React.lazy(() =>
-  import("./components/pages/ManageRoles/EditRoles")
+const AddCompany = React.lazy(
+  () => import("./components/pages/ManageCompany/AddCompany")
 );
 
-const EditCompany = React.lazy(() =>
-  import("./components/pages/ManageCompany/EditCompany")
+const EditRoles = React.lazy(
+  () => import("./components/pages/ManageRoles/EditRoles")
 );
 
-const CompanySageFuels = React.lazy(() =>
-  import("./components/pages/ManageCompany/CompanySageFuels")
-);
-const CompanySageitesms = React.lazy(() =>
-  import("./components/pages/ManageCompany/SageItems")
+const EditCompany = React.lazy(
+  () => import("./components/pages/ManageCompany/EditCompany")
 );
 
-const CompanySageOtherCodes = React.lazy(() =>
-  import("./components/pages/ManageCompany/CompanySageOtherCodes")
+const CompanySageFuels = React.lazy(
+  () => import("./components/pages/ManageCompany/CompanySageFuels")
 );
-const EditBusiness = React.lazy(() =>
-  import("./components/pages/ManageBusinessTypes/EditBussinesType")
+const CompanySageitesms = React.lazy(
+  () => import("./components/pages/ManageCompany/SageItems")
 );
 
-const Settings = React.lazy(() =>
-  import("./components/pages/Settings/Settings")
+const CompanySageOtherCodes = React.lazy(
+  () => import("./components/pages/ManageCompany/CompanySageOtherCodes")
 );
-const Emaillogs = React.lazy(() =>
-  import("./components/pages/Emaillogs/Emaillogs")
+const EditBusiness = React.lazy(
+  () => import("./components/pages/ManageBusinessTypes/EditBussinesType")
 );
-const Activitylogs = React.lazy(() =>
-  import("./components/pages/Emaillogs/ActivityLogs")
+
+const Settings = React.lazy(
+  () => import("./components/pages/Settings/Settings")
 );
-const FuelPriceslogs = React.lazy(() =>
-  import("./components/pages/Emaillogs/FuelPriceLogs")
+const Emaillogs = React.lazy(
+  () => import("./components/pages/Emaillogs/Emaillogs")
 );
-const DailyFacilityFees = React.lazy(() =>
-  import("./components/pages/DailyFacilityFees/DailyFacilityFees")
+const Activitylogs = React.lazy(
+  () => import("./components/pages/Emaillogs/ActivityLogs")
+);
+const FuelPriceslogs = React.lazy(
+  () => import("./components/pages/Emaillogs/FuelPriceLogs")
+);
+const DailyFacilityFees = React.lazy(
+  () => import("./components/pages/DailyFacilityFees/DailyFacilityFees")
 );
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
-const Sitecardopening = React.lazy(() =>
-  import("./components/pages/ManageSite/SiteCardOpening")
+const Sitecardopening = React.lazy(
+  () => import("./components/pages/ManageSite/SiteCardOpening")
 );
-const SiteCardAdjustment = React.lazy(() =>
-  import("./components/pages/ManageSite/SiteCardAdjustment")
+const SiteCardAdjustment = React.lazy(
+  () => import("./components/pages/ManageSite/SiteCardAdjustment")
 );
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
-const ResetPassword = React.lazy(() =>
-  import("./components/CustomPages/ResetPassword/ResetPassword")
+const ResetPassword = React.lazy(
+  () => import("./components/CustomPages/ResetPassword/ResetPassword")
 );
-const Register = React.lazy(() =>
-  import("./components/CustomPages/Register/Register")
+const Register = React.lazy(
+  () => import("./components/CustomPages/Register/Register")
 );
-const ForgotPassword = React.lazy(() =>
-  import("./components/CustomPages/ForgotPassword/ForgotPassword")
+const ForgotPassword = React.lazy(
+  () => import("./components/CustomPages/ForgotPassword/ForgotPassword")
 );
 
 //Errorpages
-const Errorpage400 = React.lazy(() =>
-  import("./components/ErrorPages/ErrorPages/400/400")
+const Errorpage400 = React.lazy(
+  () => import("./components/ErrorPages/ErrorPages/400/400")
 );
-const UnderConstruction = React.lazy(() =>
-  import("./components/ErrorPages/ErrorPages/UnderConstruction")
+const UnderConstruction = React.lazy(
+  () => import("./components/ErrorPages/ErrorPages/UnderConstruction")
 );
-const Errorpage401 = React.lazy(() =>
-  import("./components/ErrorPages/ErrorPages/401/401")
+const Errorpage401 = React.lazy(
+  () => import("./components/ErrorPages/ErrorPages/401/401")
 );
-const Errorpage403 = React.lazy(() =>
-  import("./components/ErrorPages/ErrorPages/403/403")
+const Errorpage403 = React.lazy(
+  () => import("./components/ErrorPages/ErrorPages/403/403")
 );
-const Errorpage500 = React.lazy(() =>
-  import("./components/ErrorPages/ErrorPages/500/500")
+const Errorpage500 = React.lazy(
+  () => import("./components/ErrorPages/ErrorPages/500/500")
 );
-const Errorpage503 = React.lazy(() =>
-  import("./components/ErrorPages/ErrorPages/503/503")
+const Errorpage503 = React.lazy(
+  () => import("./components/ErrorPages/ErrorPages/503/503")
 );
-const COMINGSOON = React.lazy(() =>
-  import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
+const COMINGSOON = React.lazy(
+  () => import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
 );
-const manageNotification = React.lazy(() =>
-  import("./layouts/Header/Notifications")
+const manageNotification = React.lazy(
+  () => import("./layouts/Header/Notifications")
 );
-const managesms = React.lazy(() =>
-  import("./components/pages/ManageSmS/managesms")
+const managesms = React.lazy(
+  () => import("./components/pages/ManageSmS/managesms")
 );
-const setuppayroll = React.lazy(() =>
-  import("./components/pages/ManageClient/SetupPayroll")
+const setuppayroll = React.lazy(
+  () => import("./components/pages/ManageClient/SetupPayroll")
 );
-
-import CompetitorFuelPricesVersionTwo from "./components/pages/ManageFuelPrices/CompetitorFuelPricesVersionTwo";
-import FuelAutomation from "./components/pages/FuelAutomation/FuelAutomation";
-import AddFuelAutomation from "./components/pages/FuelAutomation/AddFuelAutomation";
-import EditFuelAutomation from "./components/pages/FuelAutomation/EditFuelAutomation";
-import FuelSuggestionEmailLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionEmailLogs";
-import FuelSuggestionActivityLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionActivityLogs";
 const canvaseditor = React.lazy(() => import("./components/pages/Canvas"));
 
 const Root = () => {

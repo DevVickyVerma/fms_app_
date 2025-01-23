@@ -11,7 +11,6 @@ const useErrorHandler = () => {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const currentPath = location.pathname; // Current path as a string
 
-
   const SuccessToast = (message) => {
     toast.success(message, {
       autoClose: 2000,
@@ -30,8 +29,6 @@ const useErrorHandler = () => {
     });
   };
 
-
-
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -43,11 +40,8 @@ const useErrorHandler = () => {
         : error.response.data.message;
 
       if (errorMessage) {
-
-
-
         if (currentPath === lastPath) {
-          navigate(UserPermissions?.route)
+          navigate(UserPermissions?.route);
         } else {
           navigate(lastPath); // Navigate to lastPath if they are different
         }

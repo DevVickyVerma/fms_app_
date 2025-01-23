@@ -20,11 +20,12 @@ import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPric
 import VersionTwoSuggestedFuelPrice from "./VersionTwoSuggestedFuelPrice";
 import { commonCompetitorMultiLineData } from "../../../Utils/commonFunctions/CommonData";
 import Swal from "sweetalert2";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const { Panel } = Collapse;
 
 const CompetitorFuelPricesVersionTwo = (props) => {
-  const { getData, isLoading, postData } = props;
+  const { getData, isLoading, postData, apidata } = props;
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
@@ -33,6 +34,8 @@ const CompetitorFuelPricesVersionTwo = (props) => {
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [accordionSiteID, setaccordionSiteID] = useState();
+
+  const { handleError } = useErrorHandler();
 
   const formik = useFormik({
     initialValues: {},
@@ -214,12 +217,12 @@ const CompetitorFuelPricesVersionTwo = (props) => {
           if (apidata?.api_response == 200) {
             // fetchData();
           } else {
-            handleError(error);
             // fetchData();
           }
         } catch (error) {
+          handleError(error);
         } finally {
-          fetchData();
+          // fetchData();
         }
       }
     });
