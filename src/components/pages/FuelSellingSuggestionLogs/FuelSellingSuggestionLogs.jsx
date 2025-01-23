@@ -406,9 +406,11 @@ const FuelSellingSuggestionLogs = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col md={12} xl={12}>      <TabDesign /></Col>
+          <Col md={12} xl={12}>
+            {" "}
+            <TabDesign />
+          </Col>
         </Row>
-
 
         <Row>
           <Col md={12} xl={12}>

@@ -232,12 +232,12 @@ const VersionTwoSuggestedFuelPriceModal = ({
                               item.status === 1
                                 ? "timeline-wrapper-warning"
                                 : item.status === 2
-                                ? "timeline-wrapper-danger"
-                                : item.status === 3
-                                ? "timeline-wrapper-success"
-                                : item.status === 4
-                                ? "timeline-wrapper-modified"
-                                : "timeline-wrapper-no-case"
+                                  ? "timeline-wrapper-danger"
+                                  : item.status === 3
+                                    ? "timeline-wrapper-success"
+                                    : item.status === 4
+                                      ? "timeline-wrapper-modified"
+                                      : "timeline-wrapper-no-case"
                             }`}
                           >
                             <div className="timeline-badge"></div>
@@ -294,9 +294,9 @@ const VersionTwoSuggestedFuelPriceModal = ({
                                                           item?.status === "UP"
                                                             ? "text-success"
                                                             : item?.status ===
-                                                              "DOWN"
-                                                            ? "text-danger"
-                                                            : ""
+                                                                "DOWN"
+                                                              ? "text-danger"
+                                                              : ""
                                                         }`}
                                                       >
                                                         {item.price}
@@ -341,8 +341,8 @@ const VersionTwoSuggestedFuelPriceModal = ({
                                     item?.status === "1"
                                       ? " ph ph-hourglass-medium text-warning"
                                       : item?.status === "3"
-                                      ? "ph ph-check-circle text-success"
-                                      : "ph ph-smiley-sad text-danger"
+                                        ? "ph ph-check-circle text-success"
+                                        : "ph ph-smiley-sad text-danger"
                                   } c-fs-18 me-2`}
                                 ></i>
                                 <span>
