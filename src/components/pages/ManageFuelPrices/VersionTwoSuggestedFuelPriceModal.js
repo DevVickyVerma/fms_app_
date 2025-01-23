@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card, Col, Modal, Row } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import withApi from "../../../Utils/ApiHelper";
 import { staticCompiPriceCommon2 } from "../../../Utils/commonFunctions/commonFunction";
 import PublicCompetitorFuelPricesUpdate from "./PublicCompetitorFuelPricesUpdate";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 const VersionTwoSuggestedFuelPriceModal = ({
   open,
@@ -35,54 +37,6 @@ const VersionTwoSuggestedFuelPriceModal = ({
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (selectedItem && selectedDrsDate) {
-        try {
-          setIsLoading(true);
-
-          const response = await getData(
-            `/site/competitor-price/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
-          );
-
-          const responseData = response?.data?.data;
-
-          if (responseData?.listing) {
-            setHasListing(true);
-          } else {
-            setHasListing(false);
-          }
-          setData(responseData);
-          if (responseData?.listing) {
-            const initialValues = {
-              siteId: accordionSiteID,
-              siteName: selectedItem.competitorname,
-              listing: responseData.listing[0]?.competitors || [],
-            };
-            formik.setValues(initialValues);
-          } else {
-            // Set initialValues to an empty object or your preferred default values
-            const initialValues = {
-              siteId: "",
-              siteName: "",
-              listing: [],
-            };
-            formik.setValues(initialValues);
-          }
-
-          // Initialize the form with default values
-        } catch (error) {
-          console.error("API error:", error);
-          handleError(error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchData();
-  }, [selectedItem, selectedDrsDate]);
-
   const formik = useFormik({
     initialValues: {
       siteId: "",
@@ -93,6 +47,31 @@ const VersionTwoSuggestedFuelPriceModal = ({
       handleSubmit(values);
     },
   });
+
+  useEffect(() => {
+    fetchData();
+  }, [accordionSiteID]);
+
+  const fetchData = async () => {
+    if (accordionSiteID) {
+      try {
+        setIsLoading(true);
+
+        const response = await getData(
+          `/site/fuel-price/suggestion/detail/${accordionSiteID}`
+        );
+
+        if (response && response.data && response.data.data) {
+          setData(response.data.data);
+          formik.setValues(response.data.data);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
 
   const handleSubmit = async (values) => {
     setIsLoading(true);
@@ -205,6 +184,8 @@ const VersionTwoSuggestedFuelPriceModal = ({
     },
   ];
 
+  console.log(formik.values, "modal formik values");
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -243,6 +224,132 @@ const VersionTwoSuggestedFuelPriceModal = ({
                     </h6>
                   </Card.Header> */}
                     <Card.Body>
+                      <div className="table-container table-responsive">
+                        <table className="table table-modern tracking-in-expand">
+                          <thead>
+                            <tr>
+                              {data?.fuel_head_array?.map((item) => (
+                                <th key={item?.id} className="middy-table-head">
+                                  {item?.name}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {data?.logs?.map((row, rowIndex) => (
+                              <React.Fragment key={rowIndex}>
+                                <tr className="">
+                                  <td className="middayModal-td">
+                                    <div className="py-1">
+                                      <span>{row?.date}</span>
+                                    </div>
+                                  </td>
+
+                                  <td className="middayModal-td">
+                                    <div className="py-1">
+                                      <span>{row?.time}</span>
+                                    </div>
+                                  </td>
+
+                                  {row?.prices?.map((item, itemIndex) => (
+                                    <td
+                                      key={item.id}
+                                      className="middayModal-td"
+                                    >
+                                      <div className="py-1">
+                                        <div className=" d-flex align-items-center  w-100 h-100 ">
+                                          <div
+                                            className=" fs-14 "
+                                            style={{ color: item?.price_color }}
+                                          >
+                                            <span
+                                              className={`ms-2 ${
+                                                item?.status === "UP"
+                                                  ? "text-success"
+                                                  : item?.status === "DOWN"
+                                                  ? "text-danger"
+                                                  : ""
+                                              }`}
+                                            >
+                                              {item.price}
+                                            </span>
+                                            <span>
+                                              {item?.status === "UP" && (
+                                                <>
+                                                  <ArrowUpwardIcon
+                                                    fontSize="10"
+                                                    className="text-success ms-1 position-relative c-top-minus-1"
+                                                  />
+                                                </>
+                                              )}
+                                            </span>
+                                            <span>
+                                              {item?.status === "DOWN" && (
+                                                <>
+                                                  <ArrowDownwardIcon
+                                                    fontSize="10"
+                                                    className="text-danger ms-1 position-relative c-top-minus-1"
+                                                  />
+                                                </>
+                                              )}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  ))}
+                                </tr>
+                              </React.Fragment>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="vtimeline">
+                        {approvalTimelineData?.map((item) => (
+                          <div
+                            key={item.id}
+                            className={`timeline-wrapper timeline-inverted ${
+                              item.status === "Pending"
+                                ? "timeline-wrapper-warning"
+                                : item.status === "Approved"
+                                ? "timeline-wrapper-success"
+                                : "timeline-wrapper-danger"
+                            }`}
+                          >
+                            <div className="timeline-badge"></div>
+                            <div className="timeline-panel">
+                              <div className="timeline-heading">
+                                <h6 className="timeline-title">{item.title}</h6>
+                              </div>
+                              <div className="timeline-body">
+                                <p>{item.description}</p>
+                              </div>
+                              <div className="timeline-footer d-flex align-items-center flex-wrap">
+                                <i
+                                  className={` ${
+                                    item.status === "Pending"
+                                      ? " ph ph-hourglass-medium text-warning"
+                                      : item.status === "Approved"
+                                      ? "ph ph-check-circle text-success"
+                                      : "ph ph-smiley-sad text-danger"
+                                  } c-fs-18 me-2`}
+                                ></i>
+                                <span>
+                                  {item.status} by {item?.updatedBy}
+                                </span>
+                                &nbsp;
+                                <span className="ms-auto">
+                                  <i className="fe fe-calendar text-muted me-1"></i>{" "}
+                                  {item.date} {item.time}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
                       <div className="vtimeline">
                         {approvalTimelineData?.map((item) => (
                           <div

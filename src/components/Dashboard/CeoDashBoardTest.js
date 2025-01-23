@@ -356,6 +356,7 @@ const CeoDashBoardTest = (props) => {
       FetchPriceGraph();
     }
   }, [formik?.values?.selectedSite, priceLogsPermission]);
+
   useEffect(() => {
     console.log(filters, "filters");
 

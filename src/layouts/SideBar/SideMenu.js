@@ -280,6 +280,23 @@ export const MENUITEMS = [
           },
         ],
       },
+      {
+        title: "Fuel Automation",
+        icon: "browsers",
+        type: "sub",
+        active: false,
+        permission: "site-list",
+        visibility: false,
+        children: [
+          {
+            path: `/manage-fuel-automation`,
+            title: "Fuel Automation",
+            type: "link",
+            permission: "fuel-automation-list",
+            visibility: false,
+          },
+        ],
+      },
       //Workflows
       {
         title: "Manage  Workflows",

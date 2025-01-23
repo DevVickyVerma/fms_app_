@@ -203,8 +203,6 @@ const PublicCompetitorPrice = ({
     });
   };
 
-  console.log("data", data);
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

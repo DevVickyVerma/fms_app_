@@ -964,15 +964,17 @@ const Root = () => {
                       path={`/addbank/:siteName/:id`}
                       element={<WrappedAddBank />}
                     />
+
                     <Route
                       path={`/editbankmanager/:id`}
                       element={<WrappedEditBankManneger />}
                     />
 
                     <Route
-                      path={`/manage-fuel-automation/:id`}
+                      path={`/manage-fuel-automation/`}
                       element={<WrappedFuelAutomation />}
                     />
+
                     <Route
                       path={`/add-fuel-automation/:siteName/:id`}
                       element={<WrappedAddFuelAutomation />}

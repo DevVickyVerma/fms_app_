@@ -1,7 +1,14 @@
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
@@ -10,10 +17,9 @@ import CustomModal from "../../../data/Modal/MiddayModal";
 import moment from "moment";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 
-
 const FuelPrices = (props) => {
   const { apidata, getData, postData, isLoading } = props;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
@@ -41,7 +47,7 @@ const FuelPrices = (props) => {
 
       // ...
 
-      setSelectedClientId(values?.client_id)
+      setSelectedClientId(values?.client_id);
       let clientIDCondition = "";
       if (localStorage.getItem("superiorRole") !== "Client") {
         clientIDCondition = `client_id=${values.client_id}&`;
@@ -54,10 +60,7 @@ const FuelPrices = (props) => {
         `site/fuel-price?${clientIDCondition}company_id=${values?.company_id}&drs_date=${values.start_date}`
       );
 
-
       const { data } = response1;
-
-
 
       if (data) {
         if (data.api_response === "success") {
@@ -77,8 +80,9 @@ const FuelPrices = (props) => {
     }
   };
 
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -86,32 +90,21 @@ const FuelPrices = (props) => {
     company_id: Yup.string().required("Company is required"),
     start_date: Yup.date()
       .required("Date is required")
-      .min(
-        new Date("2023-01-01"),
-        "Date cannot be before January 1, 2023"
-      ),
+      .min(new Date("2023-01-01"), "Date cannot be before January 1, 2023"),
   });
 
-
-
   const handleClearForm = async () => {
-    setData(null)
+    setData(null);
   };
-
-
-
 
   const [data, setData] = useState();
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem,] = useState(null);
-
+  const [selectedItem] = useState(null);
 
   const handleModalClose = () => {
     setModalOpen(false);
   };
-
-
 
   const handleInputChange = (id, value) => {
     const updatedData = {
@@ -168,7 +161,7 @@ const FuelPrices = (props) => {
           client_id: selectedClientId,
           company_id: selectedCompanyId,
         };
-        handleModalClose()
+        handleModalClose();
         handleSubmit1(values);
       }
       // Set the submission state to false after the API call is completed
@@ -176,7 +169,6 @@ const FuelPrices = (props) => {
       console.error(error); // Set the submission state to false if an error occurs
     }
   };
-
 
   const handleDataFromChild = async () => {
     try {
@@ -192,7 +184,6 @@ const FuelPrices = (props) => {
       console.error("Error handling data from child:", error);
     }
   };
-
 
   const handleFuelPriceLinkClick = (item) => {
     let storedKeyName = "localFilterModalData";
@@ -210,12 +201,8 @@ const FuelPrices = (props) => {
     }
   };
 
-
-
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
-
-
 
   useEffect(() => {
     if (storedData) {
@@ -224,7 +211,7 @@ const FuelPrices = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -241,7 +228,7 @@ const FuelPrices = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -252,33 +239,27 @@ const FuelPrices = (props) => {
     }
   }, [storedKeyName]); // Add any other dependencies needed here
 
-
-
-
   const handleApplyFilters = (values) => {
     if (values?.start_date && values?.company_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
-
-
-
+  };
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      <div className="overflow-container" >
-
-        {modalOpen && (<>
-          <CustomModal
-            open={modalOpen}
-            onClose={handleModalClose}
-            selectedItem={selectedItem}
-            selectedDrsDate={selectedDrsDate}
-            onDataFromChild={handleDataFromChild}
-          />
-
-        </>)}
+      <div className="overflow-container">
+        {modalOpen && (
+          <>
+            <CustomModal
+              open={modalOpen}
+              onClose={handleModalClose}
+              selectedItem={selectedItem}
+              selectedDrsDate={selectedDrsDate}
+              onDataFromChild={handleDataFromChild}
+            />
+          </>
+        )}
 
         <div className="page-header ">
           <div>
@@ -301,8 +282,6 @@ const FuelPrices = (props) => {
           </div>
         </div>
 
-
-
         <Row>
           <Col md={12} xl={12}>
             <Card>
@@ -324,7 +303,6 @@ const FuelPrices = (props) => {
                 showStationInput={false}
                 ClearForm={handleClearForm}
               />
-
             </Card>
           </Col>
         </Row>
@@ -333,77 +311,88 @@ const FuelPrices = (props) => {
             <Card
               style={{
                 //  height: "calc(100vh - 180px)",
-                overflowY: "auto"
+                overflowY: "auto",
               }}
             >
               <Card.Header>
                 <h3 className="card-title w-100 ">
-
                   <div className=" d-flex w-100 justify-content-between align-items-center">
                     <span>
-                    Fuel Selling Prices   {data?.currentDate ? <>({data?.currentDate})</> : ""}
+                      Fuel Selling Prices{" "}
+                      {data?.currentDate ? <>({data?.currentDate})</> : ""}
                     </span>
                   </div>
                 </h3>
               </Card.Header>
               <Card.Body>
-
-
                 {data?.head_array ? (
-                  <div style={{
-                    overflowY: "auto",
-                    // maxHeight: "calc(100vh - 376px )",
-                    maxHeight: "400px",
-                  }}>
+                  <div
+                    style={{
+                      overflowY: "auto",
+                      // maxHeight: "calc(100vh - 376px )",
+                      maxHeight: "400px",
+                    }}
+                  >
                     <>
-                      <table className='table table-modern'>
-                        <thead style={{
-                          position: "sticky",
-                          top: "0",
-                          width: "100%",
-                        }}>
+                      <table className="table table-modern">
+                        <thead
+                          style={{
+                            position: "sticky",
+                            top: "0",
+                            width: "100%",
+                          }}
+                        >
                           <tr
-                            // className="fuelprice-tr" 
-                            style={{ padding: "0px" }}>
+                            // className="fuelprice-tr"
+                            style={{ padding: "0px" }}
+                          >
                             {data?.head_array &&
-                              data?.head_array?.map((item, index) => <th key={index} scope='col'>
-
-                                <OverlayTrigger
-                                  placement="top"
-                                  overlay={
-                                    <Tooltip
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "flex-start",
-                                        justifyContent: "flex-start",
-                                      }}
-                                    >
-                                      {item}
-
-
-                                    </Tooltip>
-                                  }
-                                >
-                                  <span>
-                                    {item?.length > 10 ? `${item?.substring(0, 10)}...` : item}
-                                  </span>
-                                </OverlayTrigger>
-                              </th>)}
+                              data?.head_array?.map((item, index) => (
+                                <th key={index} scope="col">
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <Tooltip
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "flex-start",
+                                          justifyContent: "flex-start",
+                                        }}
+                                      >
+                                        {item}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <span>
+                                      {item?.length > 10
+                                        ? `${item?.substring(0, 10)}...`
+                                        : item}
+                                    </span>
+                                  </OverlayTrigger>
+                                </th>
+                              ))}
                           </tr>
                         </thead>
-                        <tbody style={{ border: "1px solid #eaedf1", maxHeight: "200px", overflow: "auto" }}>
+                        <tbody
+                          style={{
+                            border: "1px solid #eaedf1",
+                            maxHeight: "200px",
+                            overflow: "auto",
+                          }}
+                        >
                           {data?.listing?.map((item) => (
                             <tr key={item.id}>
                               <td className=" align-middle">
-                                <div className=' fuel-price-conent'>
+                                <div className=" fuel-price-conent">
                                   <div
                                     className={
                                       item?.link_clickable
                                         ? " fs-15 fw-semibold  flex-grow-1 fuel-site-name fuel-site-name-color"
                                         : "text-muted fs-15 fw-semibold  flex-grow-1 fuel-site-name-color"
                                     }
-                                    onClick={() => handleFuelPriceLinkClick(item)}
-
+                                    onClick={() =>
+                                      handleFuelPriceLinkClick(item)
+                                    }
                                   >
                                     {item?.site_name}
                                     {/* count number */}
@@ -417,7 +406,11 @@ const FuelPrices = (props) => {
                               </td>
                               <td className=" align-middle fuel-price-conent fuel-price-time-td">
                                 <span className=" fs-15 fw-semibold text-center  ">
-                                  {item?.time ? moment(item?.time, 'HH:mm').format('h:mm A') : ''}
+                                  {item?.time
+                                    ? moment(item?.time, "HH:mm").format(
+                                        "h:mm A"
+                                      )
+                                    : ""}
                                 </span>
                               </td>
 
@@ -425,35 +418,43 @@ const FuelPrices = (props) => {
                                 item?.fuels?.map((fuel, index) => (
                                   <td key={index}>
                                     {Array?.isArray(fuel) ? (
-                                      <input type="text" className="table-input readonly fuel-price-conent" readOnly={true} />
+                                      <input
+                                        type="text"
+                                        className="table-input readonly fuel-price-conent"
+                                        readOnly={true}
+                                      />
                                     ) : (
                                       <input
                                         type="number"
                                         step="0.010"
                                         placeholder="Enter Values"
-                                        className={`table-input fuel-price-conent ${fuel?.status === "UP"
-                                          ? "table-inputGreen"
-                                          : fuel?.status === "DOWN"
+                                        className={`table-input fuel-price-conent ${
+                                          fuel?.status === "UP"
+                                            ? "table-inputGreen"
+                                            : fuel?.status === "DOWN"
                                             ? "table-inputRed"
                                             : ""
-                                          } ${!fuel?.is_editable ? "readonly" : ""}`}
+                                        } ${
+                                          !fuel?.is_editable ? "readonly" : ""
+                                        }`}
                                         value={fuel?.price}
                                         readOnly={!fuel?.is_editable}
                                         id={fuel?.id}
                                         onChange={(e) =>
-                                          handleInputChange(e.target.id, e.target.value)
+                                          handleInputChange(
+                                            e.target.id,
+                                            e.target.value
+                                          )
                                         }
                                       />
                                     )}
                                   </td>
                                 ))}
-
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </>
-
                   </div>
                 ) : (
                   <img
@@ -467,11 +468,6 @@ const FuelPrices = (props) => {
                 {data?.head_array ? (
                   <div className="text-end notification-class">
                     <div style={{ width: "200px", textAlign: "left" }} />
-
-
-
-
-
 
                     {data?.btn_clickable ? (
                       <button
@@ -492,7 +488,7 @@ const FuelPrices = (props) => {
             </Card>
           </Col>
         </Row>
-      </div >
+      </div>
     </>
   );
 };
