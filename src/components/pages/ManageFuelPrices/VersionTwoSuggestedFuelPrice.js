@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, FormikProvider } from "formik";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Button } from "react-bootstrap";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import VersionTwoSuggestedFuelPriceModal from "./VersionTwoSuggestedFuelPriceModal";
@@ -51,6 +51,7 @@ const VersionTwoSuggestedFuelPrice = ({
                           {item?.name}
                         </th>
                       ))}
+                      <th className="middy-table-head">Status</th>
                       <th className="middy-table-head">Action</th>
                     </tr>
                   </thead>
@@ -115,6 +116,36 @@ const VersionTwoSuggestedFuelPrice = ({
                               </div>
                             </td>
                           ))}
+
+                          <td
+                            className={`time-input-fuel-sell middayModal-td`}
+                            onClick={() => handleModalLogs(row)}
+                          >
+                            {row.status === 1 ? (
+                              <span className="btn btn-warning btn-sm">
+                                <i className="ph ph-hourglass-low  c-fs-12 mx-1"></i>
+                                <span>Pending</span>
+                              </span>
+                            ) : row.status === 2 ? (
+                              <span className="btn btn-danger btn-sm">
+                                <i className="ph ph-x  c-fs-12 mx-1"></i>
+                                <span>Rejected</span>
+                              </span>
+                            ) : row.status === 3 ? (
+                              <span className="btn btn-success btn-sm">
+                                <i className="ph ph-check  c-fs-12 mx-1"></i>
+                                <span>Approved</span>
+                              </span>
+                            ) : row.status === 4 ? (
+                              <span className="btn btn-info btn-sm">
+                                <i className="ph ph-checks  c-fs-12 mx-1"></i>
+                                <span>Modified</span>
+                              </span>
+                            ) : (
+                              "-"
+                            )}
+                          </td>
+
                           <td
                             className={`time-input-fuel-sell middayModal-td  `}
                           >

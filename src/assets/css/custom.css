@@ -450,6 +450,12 @@ tbody tr {
 .work-flow-sucess-status {
   color: #27a723;
 }
+.work-flow-warning-status {
+  color: #fcd539;
+}
+.work-flow-info-status {
+  color: #4663ac;
+}
 .work-flow-gray-status {
   color: var(--gray);
 }
@@ -826,8 +832,11 @@ span.ModalTitle-2fa {
   font-size: 0.9375rem;
   line-height: 1.84615385;
   border-radius: 5px;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   width: 100px;
   height: 100%;
   cursor: pointer;
@@ -850,8 +859,11 @@ span.ModalTitle-2fa {
   font-size: 19px;
   line-height: 1.84615385;
   border-radius: 5px;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -943,19 +955,35 @@ span.ModalTitle-2fa {
 
 @keyframes animloader {
   0% {
-    box-shadow: -38px -12px, -14px 0, 14px 0, 38px 0;
+    box-shadow:
+      -38px -12px,
+      -14px 0,
+      14px 0,
+      38px 0;
   }
 
   33% {
-    box-shadow: -38px 0px, -14px -12px, 14px 0, 38px 0;
+    box-shadow:
+      -38px 0px,
+      -14px -12px,
+      14px 0,
+      38px 0;
   }
 
   66% {
-    box-shadow: -38px 0px, -14px 0, 14px -12px, 38px 0;
+    box-shadow:
+      -38px 0px,
+      -14px 0,
+      14px -12px,
+      38px 0;
   }
 
   100% {
-    box-shadow: -38px 0, -14px 0, 14px 0, 38px -12px;
+    box-shadow:
+      -38px 0,
+      -14px 0,
+      14px 0,
+      38px -12px;
   }
 }
 
@@ -1200,7 +1228,8 @@ span.uk-date-time {
 }
 
 .header-time-section {
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+  box-shadow:
+    rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   background-color: white;
   border-radius: 4px;
@@ -2542,7 +2571,10 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .ceo-sats-card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .ceo-sats-card-hover:hover {
@@ -2554,7 +2586,10 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .ceo-sats-table-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .ceo-sats-table-hover:hover {
@@ -2603,7 +2638,10 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .show-ceo-hover-effect-data-table .rdt_TableRow {
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .show-ceo-hover-effect-data-table .rdt_TableRow:hover {
@@ -2806,4 +2844,8 @@ td.middayModal-td.time-input-fuel-sell {
 
 .c-top-minus-1 {
   top: -1px;
+}
+
+.c-fs-12 {
+  font-size: 12px !important;
 }

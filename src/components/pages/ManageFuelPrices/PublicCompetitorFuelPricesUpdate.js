@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Form, FormikProvider, useFormik } from "formik";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import InputTime from "../Competitor/InputTime";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+
+import ReactDOM from "react-dom";
 
 const PublicCompetitorFuelPricesUpdate = ({
   data,
@@ -98,11 +102,15 @@ const PublicCompetitorFuelPricesUpdate = ({
     formik.setFieldValue(`rows[${rowIndex}].${column}`, value);
   };
 
-  const handleSubmit = async (status) => {
+  const handleSubmit = async (status, rejectionReason) => {
     try {
       const formData = new FormData();
 
       formData.append("id", accordionSiteID);
+
+      if (rejectionReason) {
+        formData.append("notes", rejectionReason);
+      }
       if (formik?.values?.update_tlm_price == 1) {
         formData.append(
           "update_tlm_price",
@@ -173,6 +181,70 @@ const PublicCompetitorFuelPricesUpdate = ({
     setPriceSuggestionEditable(false); // Clear and make field non-editable
     setIsEdited(false);
     CallListingApi();
+  };
+
+  const handleSubmission = (status) => {
+    if (status === 2) {
+      // Open SweetAlert with a custom input (textarea)
+      // Function to apply `inert` to elements with a specific class
+      const applyInertToModal = () => {
+        const modal = document.querySelector(".dashboard-center-modal");
+        if (modal) {
+          modal.setAttribute("inert", ""); // Add the inert attribute
+        }
+      };
+
+      // Function to remove `inert` when modal is closed
+      const removeInertFromModal = () => {
+        const modal = document.querySelector(".dashboard-center-modal");
+        if (modal) {
+          modal.removeAttribute("inert"); // Remove the inert attribute
+        }
+      };
+
+      // Example of using SweetAlert with direct input
+      Swal.fire({
+        title: "Reason for Rejection",
+        html: `
+        <div class="swal2-input-container-suggested w-100 p-0">
+        <textarea id="reject-reason" class="swal2-textarea p-1 m-0 w-100" placeholder="Enter the reason for rejection"></textarea>
+          </div>`,
+        showCancelButton: true,
+        confirmButtonText: "Submit",
+        cancelButtonText: "Cancel",
+        didOpen: () => {
+          // Add inert to the modal when it's opened
+          applyInertToModal();
+
+          // Focus the input inside the modal
+          const inputElement = document.querySelector("#reject-reason");
+          if (inputElement) {
+            inputElement.focus();
+          }
+        },
+        willClose: () => {
+          // Remove inert when the modal is closed
+          removeInertFromModal();
+        },
+        preConfirm: () => {
+          const reason = document.getElementById("reject-reason").value;
+          if (!reason) {
+            Swal.showValidationMessage(
+              "You need to provide a reason for rejection!"
+            );
+            return false;
+          }
+          return reason;
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const rejectionReason = result.value;
+          handleSubmit(status, rejectionReason); // Pass the reason to handle submission
+        }
+      });
+    } else {
+      handleSubmit(status); // Handle the regular submission
+    }
   };
 
   return (
@@ -497,7 +569,8 @@ const PublicCompetitorFuelPricesUpdate = ({
                     type="button"
                     className="btn btn-primary"
                     disabled={isEdited}
-                    onClick={() => handleSubmit(3)}
+                    onClick={() => handleSubmission(3)}
+                    // onClick={() => handleSubmit(3)}
                   >
                     Approve
                   </button>
@@ -508,7 +581,8 @@ const PublicCompetitorFuelPricesUpdate = ({
                     type="button"
                     className="btn btn-danger"
                     disabled={isEdited}
-                    onClick={() => handleSubmit(2)}
+                    onClick={() => handleSubmission(2)}
+                    // onClick={() => handleSubmit(2)}
                   >
                     Reject
                   </button>
@@ -519,7 +593,8 @@ const PublicCompetitorFuelPricesUpdate = ({
                     type="button"
                     className="btn btn-primary"
                     disabled={!isEdited}
-                    onClick={() => handleSubmit(4)}
+                    onClick={() => handleSubmission(4)}
+                    // onClick={() => handleSubmit(4)}
                   >
                     Submit
                   </button>

@@ -146,6 +146,9 @@ const VersionTwoSuggestedFuelPriceModal = ({
         centered
         // size={"sm"}
         className="dashboard-center-modal"
+        aria-labelledby="rejectReasonModalLabel"
+        aria-hidden="false"
+        tabIndex="-1"
       >
         <div>
           <Modal.Header
@@ -194,7 +197,33 @@ const VersionTwoSuggestedFuelPriceModal = ({
                             <div className="timeline-panel">
                               <div className="timeline-heading">
                                 <h6 className=" fw-600">
-                                  Fuel Suggested For {item?.date} ({item?.time})
+                                  Fuel Suggested For ({item?.date}, {item?.time}
+                                  )
+                                  <span>
+                                    {item?.status === 1 ? (
+                                      <span className="btn btn-warning btn-sm ms-2">
+                                        <i className="ph ph-hourglass-low  c-fs-12 me-1"></i>
+                                        <span>Pending</span>
+                                      </span>
+                                    ) : item?.status === 2 ? (
+                                      <span className="btn btn-danger btn-sm ms-2">
+                                        <i className="ph ph-x  c-fs-12 me-1"></i>
+                                        <span>Rejected</span>
+                                      </span>
+                                    ) : item?.status === 3 ? (
+                                      <span className="btn btn-success btn-sm ms-2">
+                                        <i className="ph ph-check  c-fs-12 me-1"></i>
+                                        <span>Approved</span>
+                                      </span>
+                                    ) : item?.status === 4 ? (
+                                      <span className="btn btn-info btn-sm ms-2">
+                                        <i className="ph ph-checks  c-fs-12 me-1"></i>
+                                        <span>Modified</span>
+                                      </span>
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </span>
                                 </h6>
                                 <div className=" c-fs-13 ">
                                   Creator -{" "}
@@ -295,13 +324,13 @@ const VersionTwoSuggestedFuelPriceModal = ({
                               </div>
                               <div className="timeline-footer d-flex align-items-center flex-wrap mt-2">
                                 <span>
-                                  {item?.modified_at ? (
-                                    <>Modified At - {item?.modified_at}</>
+                                  {item?.modifier ? (
+                                    <>Modifier - {item?.modifier},</>
                                   ) : (
                                     ""
                                   )}{" "}
-                                  {item?.modifier ? (
-                                    <>Modifier - {item?.modifier}</>
+                                  {item?.modified_at ? (
+                                    <>Modified At - {item?.modified_at}</>
                                   ) : (
                                     ""
                                   )}{" "}

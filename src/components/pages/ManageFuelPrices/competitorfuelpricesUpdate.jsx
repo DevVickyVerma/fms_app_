@@ -370,7 +370,7 @@ const competitorfuelpricesUpdate = ({
               </div>
 
               <Card.Footer>
-                <div className="text-end d-flex justify-content-end align-items-baseline gap-4">
+                <div className="d-flex justify-content-end align-items-center gap-3 flex-wrap">
                   {update_tlm_price !== 1 && notify_operator ? (
                     <div className=" position-relative pointer">
                       <input
