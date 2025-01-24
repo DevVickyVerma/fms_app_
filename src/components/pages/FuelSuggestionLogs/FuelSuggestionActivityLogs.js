@@ -17,7 +17,7 @@ import Loaderimg from "../../../Utils/Loader";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
 
-const ManageEmail = (props) => {
+const FuelSuggestionActivityLogs = (props) => {
   const { isLoading, getData } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
@@ -183,7 +183,7 @@ const ManageEmail = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title"> Activity Logs</h1>
+            <h1 className="page-title"> Fuel Suggestion Activity Logs</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -197,7 +197,7 @@ const ManageEmail = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Activity Logs
+                Fuel Suggestion Activity Logs
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -207,7 +207,7 @@ const ManageEmail = (props) => {
             <Card>
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
-                  <h3 className="card-title">Activity Logs</h3>
+                  <h3 className="card-title">Fuel Suggestion Activity Logs</h3>
                   <div className="mt-2 mt-sm-0">
                     <SearchBar
                       onSearch={handleSearch}
@@ -258,4 +258,5 @@ const ManageEmail = (props) => {
     </>
   );
 };
-export default withApi(ManageEmail);
+
+export default withApi(FuelSuggestionActivityLogs);

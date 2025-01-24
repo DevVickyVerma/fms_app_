@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import EmailDetailModal from "./EmailDetailModal";
@@ -16,7 +23,7 @@ const ManageEmail = (props) => {
   const [addshowModal, setaddshowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -27,12 +34,10 @@ const ManageEmail = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
-
   const AddCloseModal = () => setaddshowModal(false);
-
 
   const handleaddshowModal = (rowId) => {
     setSelectedRowId(rowId);
@@ -41,12 +46,10 @@ const ManageEmail = (props) => {
 
   useEffect(() => {
     FetchTableData(currentPage);
-    
   }, [currentPage, searchTerm]);
 
   const FetchTableData = async () => {
     try {
-
       let apiUrl = `/email/logs?page=${currentPage}`;
       if (searchTerm) {
         apiUrl += `&keyword=${searchTerm}`;
@@ -81,9 +84,15 @@ const ManageEmail = (props) => {
       cell: (row) => (
         <div>
           {row?.raw_data !== null ? (
-            <div className="d-flex" onClick={() => handleaddshowModal(row)} style={{ cursor: "pointer" }}>
+            <div
+              className="d-flex"
+              onClick={() => handleaddshowModal(row)}
+              style={{ cursor: "pointer" }}
+            >
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6 className="mb-0 fs-14 " style={{ fontWeight: "bold" }}>{row?.subject}</h6>
+                <h6 className="mb-0 fs-14 " style={{ fontWeight: "bold" }}>
+                  {row?.subject}
+                </h6>
               </div>
             </div>
           ) : (
@@ -143,7 +152,7 @@ const ManageEmail = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row?.created_date}</h6>
@@ -171,7 +180,6 @@ const ManageEmail = (props) => {
       ),
     },
   ];
-
 
   return (
     <>
@@ -205,7 +213,11 @@ const ManageEmail = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Email Logs</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>

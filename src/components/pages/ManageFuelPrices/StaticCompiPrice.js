@@ -184,10 +184,10 @@ const StaticCompiPrice = ({
           if (apidata?.api_response == 200) {
             fetchData();
           } else {
-            handleError(error);
             fetchData();
           }
         } catch (error) {
+          handleError(error);
         } finally {
           fetchData();
         }

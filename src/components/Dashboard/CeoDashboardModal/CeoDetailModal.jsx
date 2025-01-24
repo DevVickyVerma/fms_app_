@@ -25,6 +25,7 @@ import SelectField from "./SelectField";
 import moment from "moment/moment";
 import { MultiSelect } from "react-multi-select-component";
 import NoDataComponent from "../../../Utils/commonFunctions/NoDataComponent";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const CeoDetailModal = (props) => {
   const {
@@ -42,6 +43,9 @@ const CeoDetailModal = (props) => {
   const [selected, setSelected] = useState([]);
   const [selectedGrades, setselectedGrades] = useState([]);
   const [sitefuels, setsitefuels] = useState();
+
+  const { handleError } = useErrorHandler();
+
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
   );
@@ -456,8 +460,8 @@ const CeoDetailModal = (props) => {
         const selectedSiteItem = filterData.site_id
           ? filterData.sites.find((item) => item.id === filterData.site_id) // Use filterData.site_id if it exists
           : title === "Live Margin" // If the title is "Live Margin", fallback to the first site
-          ? filterData.sites[0]
-          : null; // No site selected for "MOP Breakdown" if no filterData.site_id
+            ? filterData.sites[0]
+            : null; // No site selected for "MOP Breakdown" if no filterData.site_id
 
         if (selectedSiteItem) {
           const selectedOptions = [
@@ -740,10 +744,10 @@ const CeoDetailModal = (props) => {
             title == "MOP Breakdown"
               ? "50%"
               : title == "Reports"
-              ? "40"
-              : title == "Comparison"
-              ? "70%"
-              : "80%",
+                ? "40"
+                : title == "Comparison"
+                  ? "70%"
+                  : "80%",
         }}
       >
         <div className="card">

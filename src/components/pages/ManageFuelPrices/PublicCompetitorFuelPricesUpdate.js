@@ -36,7 +36,7 @@ const PublicCompetitorFuelPricesUpdate = ({
 
   const standardizeName = (name) => name?.toLowerCase().replace(/\s+/g, "_");
   const validationSchema = Yup.object({
-    fuels: Yup.array().of(
+    accept_suggestion: Yup.array().of(
       Yup.array().of(
         Yup.object({
           date: Yup.string().required("Date is required"),
@@ -47,9 +47,9 @@ const PublicCompetitorFuelPricesUpdate = ({
     ),
   });
 
-  const fuels = [];
+  const accept_suggestion = [];
   const lsitingformik = useFormik({
-    initialValues: { fuels },
+    initialValues: { accept_suggestion },
     validationSchema,
     onSubmit: (values) => {
       handleSubmit(values);
@@ -63,7 +63,7 @@ const PublicCompetitorFuelPricesUpdate = ({
   useEffect(() => {
     if (data) {
       //   Standardize column names
-      const columns = data?.head_arrayMain?.map((item) =>
+      const columns = data?.head_array?.map((item) =>
         standardizeName(item.name)
       );
       const firstRow = data?.current[0] || [];
@@ -87,7 +87,7 @@ const PublicCompetitorFuelPricesUpdate = ({
         pricedata: data,
       });
       lsitingformik.setValues({
-        fuels: data?.fuels,
+        accept_suggestion: data?.accept_suggestion,
       });
     }
   }, [data]);
@@ -118,15 +118,15 @@ const PublicCompetitorFuelPricesUpdate = ({
         formData.append("notify_operator", formik?.values?.notify_operator);
       }
 
-      const flattenedData = values?.fuels?.flat();
+      const flattenedData = values?.accept_suggestion?.flat();
       const editableItems = flattenedData.filter((item) => item?.is_editable);
 
       formData.append(`drs_date`, editableItems[0]?.date);
       formData.append(`time`, editableItems[0]?.time);
 
-      values?.fuels.flat().forEach((item) => {
+      values?.accept_suggestion.flat().forEach((item) => {
         if (item?.is_editable) {
-          formData.append(`fuels[${item.id}]`, item.price);
+          formData.append(`accept_suggestion[${item.id}]`, item.price);
         }
       });
 
@@ -188,6 +188,11 @@ const PublicCompetitorFuelPricesUpdate = ({
     setIsEdited(false);
   };
 
+  console.log(
+    lsitingformik?.values,
+    "formik values in public competitor fuel prices"
+  );
+
   return (
     <>
       <hr />
@@ -226,15 +231,13 @@ const PublicCompetitorFuelPricesUpdate = ({
         <>
           <FormikProvider value={lsitingformik}>
             <Form onKeyDown={handleKeyDown}>
-              <div className="table-container ">
+              <div className="table-container overflow-auto">
                 <table className="table">
                   <thead>
                     <tr>
-                      <th className="middy-table-head">Date</th>
-                      <th className="middy-table-head">Time</th>
                       {formik.values?.head_array?.map((item) => (
                         <th key={item?.id} className="middy-table-head">
-                          {item}
+                          {item?.name}
                         </th>
                       ))}
                     </tr>
@@ -313,130 +316,202 @@ const PublicCompetitorFuelPricesUpdate = ({
                       </tr>
                     ))}
 
-                    {lsitingformik?.values?.fuels?.map((row, rowIndex) => (
-                      <React.Fragment key={rowIndex}>
-                        <tr>
-                          <td className="middayModal-td">
-                            <div className="">
-                              <Field
-                                name={`fuels[${rowIndex}][0].date`}
-                                type="date"
-                                // disabled={!row?.[0]?.is_editable}
-                                disabled={!priceSuggestionEditable}
-                                onClick={(e) =>
-                                  handleShowDate(
-                                    e,
-                                    formik?.values?.pricedata?.currentDate
-                                  )
-                                } // Passing currentDate to the onClick handler
-                                onChange={(e) =>
-                                  handleFieldChange(e, rowIndex, 0)
-                                }
-                                className={`table-input ${
-                                  !priceSuggestionEditable ? "readonly" : ""
-                                }`}
-                                placeholder="Enter Date"
-                              />
-                              <ErrorMessage
-                                name={`fuels[${rowIndex}][0].date`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                          </td>
+                    <tr>
+                      <td className="middayModal-td">
+                        <input
+                          type="date"
+                          name={`accept_suggestion[${0}].date`} // Dynamic name
+                          value={
+                            lsitingformik.values.accept_suggestion?.[0]?.date
+                          }
+                          className={`table-input ${
+                            !priceSuggestionEditable ? "readonly" : ""
+                          }`}
+                          readOnly={!priceSuggestionEditable}
+                          onChange={(e) =>
+                            lsitingformik.setFieldValue(
+                              `accept_suggestion[0].date`,
+                              e.target.value
+                            )
+                          }
+                        />
+                      </td>
 
-                          <td className="middayModal-td time-input-fuel-sell">
-                            <>
-                              <InputTime
-                                label="Time"
-                                value={
-                                  lsitingformik?.values?.fuels?.[rowIndex]?.[0]
-                                    ?.time
-                                }
-                                onChange={(newTime) => {
-                                  if (priceSuggestionEditable) {
-                                    lsitingformik.setFieldValue(
-                                      `fuels[${rowIndex}][0].time`,
-                                      newTime
-                                    );
-                                    setIsEdited(true); // Mark as edited when any input changes
-                                  }
-                                }}
-                                disabled={!priceSuggestionEditable} // Disable if not editable
-                                // disabled={!row?.[0]?.is_editable} // Disable if not editable
-                                className={`time-input-fuel-sell ${
-                                  !priceSuggestionEditable ? "readonly" : ""
-                                }   ${
-                                  priceSuggestionEditable
-                                    ? "c-timeinput-default"
-                                    : ""
-                                } `}
-                              />
-                            </>
-                          </td>
+                      <td className="middayModal-td time-input-fuel-sell">
+                        <>
+                          <InputTime
+                            label="Time"
+                            value={
+                              lsitingformik?.values?.accept_suggestion?.[0]
+                                ?.time
+                            }
+                            onChange={(newTime) => {
+                              if (priceSuggestionEditable) {
+                                lsitingformik.setFieldValue(
+                                  `accept_suggestion[0].time`,
+                                  newTime
+                                );
+                                setIsEdited(true); // Mark as edited when any input changes
+                              }
+                            }}
+                            disabled={!priceSuggestionEditable} // Disable if not editable
+                            className={`time-input-fuel-sell ${
+                              !priceSuggestionEditable ? "readonly" : ""
+                            }   ${
+                              priceSuggestionEditable
+                                ? "c-timeinput-default"
+                                : ""
+                            } `}
+                          />
+                        </>
+                      </td>
 
-                          {row?.map((item, itemIndex) => (
-                            <td key={item.id} className="middayModal-td">
+                      {/* Remaining Columns: Price */}
+                      {lsitingformik?.values?.accept_suggestion?.map(
+                        (item, index) => (
+                          <td key={item.id} className="middayModal-td ">
+                            <input
+                              type="number"
+                              className={`table-input ${
+                                !priceSuggestionEditable ? "readonly" : ""
+                              }`}
+                              disabled={!priceSuggestionEditable}
+                              name={`accept_suggestion[${index}].price`}
+                              value={item?.price}
+                              onChange={lsitingformik.handleChange}
+                            />
+                          </td>
+                        )
+                      )}
+                    </tr>
+
+                    {/* <tr>
+                      {lsitingformik?.values?.accept_suggestion?.map(
+                        (row, rowIndex) => (
+                          <React.Fragment key={rowIndex}>
+                            <td className="middayModal-td">
                               <div className="">
                                 <Field
-                                  name={`fuels[${rowIndex}][${itemIndex}].price`}
-                                  type="number"
+                                  name={`accept_suggestion[${rowIndex}][0].date`}
+                                  type="date"
+                                  // disabled={!row?.[0]?.is_editable}
+                                  disabled={!priceSuggestionEditable}
+                                  onClick={(e) =>
+                                    handleShowDate(
+                                      e,
+                                      formik?.values?.pricedata?.currentDate
+                                    )
+                                  } // Passing currentDate to the onClick handler
+                                  onChange={(e) =>
+                                    handleFieldChange(e, rowIndex, 0)
+                                  }
                                   className={`table-input ${
                                     !priceSuggestionEditable ? "readonly" : ""
                                   }`}
-                                  disabled={!priceSuggestionEditable}
-                                  onChange={(e) =>
-                                    handleFieldChange(e, rowIndex, itemIndex)
-                                  }
-                                  placeholder="Enter price"
-                                  step="0.010"
+                                  placeholder="Enter Date"
                                 />
                                 <ErrorMessage
-                                  name={`fuels[${rowIndex}][${itemIndex}].price`}
+                                  name={`accept_suggestion[${rowIndex}][0].date`}
                                   component="div"
                                   className="text-danger"
                                 />
                               </div>
                             </td>
-                          ))}
-                        </tr>
-                      </React.Fragment>
-                    ))}
+
+                            <td className="middayModal-td time-input-fuel-sell">
+                              <>
+                                <InputTime
+                                  label="Time"
+                                  value={
+                                    lsitingformik?.values?.accept_suggestion?.[
+                                      rowIndex
+                                    ]?.[0]?.time
+                                  }
+                                  onChange={(newTime) => {
+                                    if (priceSuggestionEditable) {
+                                      lsitingformik.setFieldValue(
+                                        `accept_suggestion[${rowIndex}][0].time`,
+                                        newTime
+                                      );
+                                      setIsEdited(true); // Mark as edited when any input changes
+                                    }
+                                  }}
+                                  disabled={!priceSuggestionEditable} // Disable if not editable
+                                  // disabled={!row?.[0]?.is_editable} // Disable if not editable
+                                  className={`time-input-fuel-sell ${
+                                    !priceSuggestionEditable ? "readonly" : ""
+                                  }   ${
+                                    priceSuggestionEditable
+                                      ? "c-timeinput-default"
+                                      : ""
+                                  } `}
+                                />
+                              </>
+                            </td>
+
+                            {row?.map((item, itemIndex) => (
+                              <td key={item.id} className="middayModal-td">
+                                <div className="">
+                                  <Field
+                                    name={`accept_suggestion[${rowIndex}][${itemIndex}].price`}
+                                    type="number"
+                                    className={`table-input ${
+                                      !priceSuggestionEditable ? "readonly" : ""
+                                    }`}
+                                    disabled={!priceSuggestionEditable}
+                                    onChange={(e) =>
+                                      handleFieldChange(e, rowIndex, itemIndex)
+                                    }
+                                    placeholder="Enter price"
+                                    step="0.010"
+                                  />
+                                  <ErrorMessage
+                                    name={`accept_suggestion[${rowIndex}][${itemIndex}].price`}
+                                    component="div"
+                                    className="text-danger"
+                                  />
+                                </div>
+                              </td>
+                            ))}
+                          </React.Fragment>
+                        )
+                      )}
+                    </tr> */}
                   </tbody>
                 </table>
               </div>
 
               <Card.Footer>
                 <div className="text-end d-flex justify-content-end align-items-baseline gap-2">
-                  {data?.btn_clickable && (
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      disabled={isEdited}
-                    >
-                      Approve
-                    </button>
-                  )}
+                  {/* {data?.btn_clickable && ( */}
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={isEdited}
+                  >
+                    Approve
+                  </button>
+                  {/* )} */}
 
-                  {data?.btn_clickable && (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      disabled={isEdited}
-                    >
-                      Reject
-                    </button>
-                  )}
+                  {/* {data?.btn_clickable && ( */}
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    disabled={isEdited}
+                  >
+                    Reject
+                  </button>
+                  {/* )} */}
 
-                  {data?.btn_clickable && (
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      disabled={!isEdited}
-                    >
-                      Submit
-                    </button>
-                  )}
+                  {/* {data?.btn_clickable && ( */}
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={!isEdited}
+                  >
+                    Submit
+                  </button>
+                  {/* )} */}
                 </div>
               </Card.Footer>
             </Form>

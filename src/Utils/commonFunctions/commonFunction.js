@@ -70,6 +70,13 @@ export const confirmPasswordTooltip = (
     password must exactly match the password you entered above.
   </Tooltip>
 );
+
+export const renderTooltip = (message) => (
+  <Tooltip id="button-tooltip" className="c-zindex-100000">
+    <span>{message}</span>
+  </Tooltip>
+);
+
 export const formatNumber = (num) => {
   console.log(num, "formatNumber");
 
