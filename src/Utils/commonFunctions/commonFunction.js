@@ -72,7 +72,11 @@ export const confirmPasswordTooltip = (
 );
 
 export const renderTooltip = (message) => (
-  <Tooltip id="button-tooltip" className="c-zindex-100000">
+  <Tooltip
+    id="button-tooltip"
+    className="c-zindex-100000"
+    style={{ zIndex: "1111111111111" }}
+  >
     <span>{message}</span>
   </Tooltip>
 );

@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent, TableContainer } from "@mui/material";
-import { Card, Col, Modal, OverlayTrigger, Row } from "react-bootstrap";
+import { Card, Col, Modal, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../../components/CommonComponent/useErrorHandler";
 import { useSelector } from "react-redux";
 import withApi from "../../../Utils/ApiHelper";
-import {
-  renderTooltip,
-  staticCompiPriceCommon2,
-} from "../../../Utils/commonFunctions/commonFunction";
 import PublicCompetitorFuelPricesUpdate from "./PublicCompetitorFuelPricesUpdate";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
@@ -74,6 +69,10 @@ const VersionTwoSuggestedFuelPriceModal = ({
         setIsLoading(false);
       }
     }
+  };
+
+  const CallListingApi = () => {
+    fetchData();
   };
 
   const handleSubmit = async (values) => {
@@ -138,55 +137,6 @@ const VersionTwoSuggestedFuelPriceModal = ({
     onDataFromChild(dataToSend);
   };
 
-  // Dummy data for approval timeline
-  const approvalTimelineData = [
-    {
-      id: 1,
-      title: "Price Update for Site A",
-      description: "Price updated for Site A to $1200",
-      status: "3",
-      date: "02 Dec 2024",
-      time: "10:30 AM",
-      updatedBy: "John Doe",
-    },
-    {
-      id: 2,
-      title: "Price Update for Site B",
-      description: "Price updated for Site B to $1500",
-      status: "1",
-      date: "01 Dec 2024",
-      time: "03:45 PM",
-      updatedBy: "Jane Smith",
-    },
-    {
-      id: 3,
-      title: "Price Update for Site C",
-      description: "Price updated for Site C to $950",
-      status: "Rejected",
-      date: "30 Nov 2024",
-      time: "11:15 AM",
-      updatedBy: "Alice Johnson",
-    },
-    {
-      id: 4,
-      title: "Price Update for Site D",
-      description: "Price updated for Site D to $1100",
-      status: "3",
-      date: "28 Nov 2024",
-      time: "09:00 AM",
-      updatedBy: "Bob Williams",
-    },
-    {
-      id: 5,
-      title: "Price Update for Site E",
-      description: "Price updated for Site E to $1350",
-      status: "1",
-      date: "27 Nov 2024",
-      time: "12:30 PM",
-      updatedBy: "Emily Davis",
-    },
-  ];
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -243,14 +193,22 @@ const VersionTwoSuggestedFuelPriceModal = ({
                             <div className="timeline-badge"></div>
                             <div className="timeline-panel">
                               <div className="timeline-heading">
-                                <h6 className="timeline-title">
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={renderTooltip("Creator")}
-                                  >
-                                    <>{item?.creator}</>
-                                  </OverlayTrigger>
+                                <h6 className=" fw-600">
+                                  Fuel Suggested For {item?.date} ({item?.time})
                                 </h6>
+                                <div className=" c-fs-13 ">
+                                  Creator -{" "}
+                                  <span className=" fw-500">
+                                    {item?.creator}
+                                  </span>
+                                </div>
+                                <div className=" c-fs-13 ">
+                                  Created At -{" "}
+                                  <span className=" fw-500">
+                                    {item?.created_at}
+                                  </span>
+                                </div>
+                                <div></div>
                               </div>
                               <div className="timeline-body">
                                 <p>{item?.description}</p>
@@ -336,31 +294,26 @@ const VersionTwoSuggestedFuelPriceModal = ({
                                 </table>
                               </div>
                               <div className="timeline-footer d-flex align-items-center flex-wrap mt-2">
-                                <i
-                                  className={` ${
-                                    item?.status === "1"
-                                      ? " ph ph-hourglass-medium text-warning"
-                                      : item?.status === "3"
-                                        ? "ph ph-check-circle text-success"
-                                        : "ph ph-smiley-sad text-danger"
-                                  } c-fs-18 me-2`}
-                                ></i>
                                 <span>
-                                  {item?.modified_at} "modified_at" by{" "}
-                                  {item?.modifier} "modifier"
+                                  {item?.modified_at ? (
+                                    <>Modified At - {item?.modified_at}</>
+                                  ) : (
+                                    ""
+                                  )}{" "}
+                                  {item?.modifier ? (
+                                    <>Modifier - {item?.modifier}</>
+                                  ) : (
+                                    ""
+                                  )}{" "}
                                 </span>
                                 &nbsp;
-                                <span className="ms-auto">
-                                  <i className="fe fe-calendar text-muted me-1"></i>{" "}
-                                  {item?.created_at}
-                                </span>
                               </div>
                             </div>
                           </div>
                         ))}
                       </div>
 
-                      {data ? (
+                      {data?.accept_suggestion?.length > 0 ? (
                         <div className="mt-7">
                           <>
                             <PublicCompetitorFuelPricesUpdate
@@ -368,6 +321,7 @@ const VersionTwoSuggestedFuelPriceModal = ({
                               postData={postData}
                               //   handleFormSubmit={handleFormSubmit}
                               accordionSiteID={accordionSiteID}
+                              CallListingApi={CallListingApi}
                             />
                           </>
                         </div>

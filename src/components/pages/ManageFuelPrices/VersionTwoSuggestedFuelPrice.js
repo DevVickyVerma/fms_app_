@@ -13,13 +13,14 @@ const VersionTwoSuggestedFuelPrice = ({
 }) => {
   const [suggestedFuelPriceModal, setSuggestedFuelPriceModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  // const [accordionSiteID, setAccordionSiteID] = useState();
+  const [SuggestedModalId, setSuggestedModalId] = useState();
 
   const handleModalClose = () => {
     setSuggestedFuelPriceModal(false);
   };
 
   const handleModalLogs = (site) => {
+    setSuggestedModalId(site?.id);
     setSuggestedFuelPriceModal(true);
   };
 
@@ -83,8 +84,8 @@ const VersionTwoSuggestedFuelPrice = ({
                                         item?.status === "UP"
                                           ? "text-success"
                                           : item?.status === "DOWN"
-                                          ? "text-danger"
-                                          : ""
+                                            ? "text-danger"
+                                            : ""
                                       }`}
                                     >
                                       {item.price}
@@ -119,7 +120,7 @@ const VersionTwoSuggestedFuelPrice = ({
                           >
                             <i
                               className="ph ph-eye me-2 pointer"
-                              onClick={() => handleModalLogs()}
+                              onClick={() => handleModalLogs(row)}
                             />
                           </td>
                         </tr>
@@ -139,7 +140,7 @@ const VersionTwoSuggestedFuelPrice = ({
             open={suggestedFuelPriceModal}
             onClose={handleModalClose}
             selectedItem={selectedItem}
-            accordionSiteID={accordionSiteID}
+            accordionSiteID={SuggestedModalId}
             // selectedDrsDate={selectedDrsDate}
             // onDataFromChild={handleDataFromChild}
             postData={postData}
