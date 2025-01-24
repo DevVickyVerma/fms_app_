@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Form, FormikProvider, useFormik } from "formik";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import InputTime from "../Competitor/InputTime";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-
-import ReactDOM from "react-dom";
 
 const PublicCompetitorFuelPricesUpdate = ({
   data,

@@ -59,7 +59,10 @@ const VersionTwoSuggestedFuelPrice = ({
                   <tbody>
                     {data?.fuelSuggestions?.map((row, rowIndex) => (
                       <React.Fragment key={rowIndex}>
-                        <tr className="">
+                        <tr
+                          className="pointer"
+                          onClick={() => handleModalLogs(row)}
+                        >
                           <td className="middayModal-td">
                             <div className="py-1">
                               <span>{row?.date}</span>
