@@ -63,6 +63,7 @@ import AddFuelAutomation from "./components/pages/FuelAutomation/AddFuelAutomati
 import EditFuelAutomation from "./components/pages/FuelAutomation/EditFuelAutomation";
 import FuelSuggestionEmailLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionEmailLogs";
 import FuelSuggestionActivityLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionActivityLogs";
+import FuelSuggestionHistoryLog from "./components/pages/FuelSuggestionLogs/FuelSuggestionHistoryLog";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -794,6 +795,7 @@ const Root = () => {
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
   const WrappedFuelSuggestionActivityLogs = withApi(FuelSuggestionActivityLogs);
+  const WrappedFuelSuggestionHistoryLog = withApi(FuelSuggestionHistoryLog);
   const Wrappedmanagesms = withApi(managesms);
   const WrappedShopRevenueCommission = withApi(ShopRevenueCommission);
   const WrappedDashboardWetStock = withApi(DashboardWetStock);
@@ -1161,6 +1163,10 @@ const Root = () => {
                     <Route
                       path={`/fuel-suggestion-activity-logs`}
                       element={<WrappedFuelSuggestionActivityLogs />}
+                    />
+                    <Route
+                      path={`/fuel-suggestion-history-logs`}
+                      element={<WrappedFuelSuggestionHistoryLog />}
                     />
                     {/* Header  Components Start */}
                     {/* <Route
