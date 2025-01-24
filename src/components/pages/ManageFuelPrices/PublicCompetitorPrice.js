@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@mui/material";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../../components/CommonComponent/useErrorHandler";
 import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
@@ -20,6 +20,10 @@ import { Collapse } from "antd";
 import Swal from "sweetalert2";
 import { tr } from "date-fns/locale";
 import PublicCompetitorFuelPricesUpdate from "./PublicCompetitorFuelPricesUpdate";
+import VersionTwoSuggestedFuelPrice from "./VersionTwoSuggestedFuelPrice";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+
 const { Panel } = Collapse;
 
 const PublicCompetitorPrice = ({
@@ -29,13 +33,11 @@ const PublicCompetitorPrice = ({
   selectedDrsDate,
   onDataFromChild,
   accordionSiteID,
-  getData,
-  postData,
-  apidata,
-  isLoading,
 }) => {
   const { handleError } = useErrorHandler();
+  const { id } = useParams();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLinkExpired, setIsLinkExpired] = useState(false);
   const userPermissions = useSelector(
@@ -50,27 +52,27 @@ const PublicCompetitorPrice = ({
     fetchData();
   }, [selectedItem, selectedDrsDate]);
 
-  const fetchData = async () => {
-    if (selectedItem && selectedDrsDate) {
-      try {
-        const response = await getData(
-          `/site/competitor-suggestion/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
-        );
+  // const fetchData = async () => {
+  //   if (selectedItem && selectedDrsDate) {
+  //     try {
+  //       const response = await getData(
+  //         `/site/competitor-suggestion/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
+  //       );
 
-        if (response && response.data && response.data.data) {
-          setData(response.data.data);
-          formik.setValues(response?.data?.data);
-        }
-      } catch (error) {
-        console.error("API error:", error);
-        handleError(error);
-      } finally {
-      }
-    }
-  };
+  //       if (response && response.data && response.data.data) {
+  //         setData(response.data.data);
+  //         formik.setValues(response?.data?.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("API error:", error);
+  //       handleError(error);
+  //     } finally {
+  //     }
+  //   }
+  // };
 
   const formik = useFormik({
-    initialValues: staticCompiPriceCommon,
+    initialValues: {},
     onSubmit: (values) => {
       handleSubmit(values);
     },
@@ -126,6 +128,7 @@ const PublicCompetitorPrice = ({
         // Handle other cases or errors here
       }
     } catch (error) {
+      setIsLinkExpired(true);
       handleError(error);
     } finally {
     }
@@ -140,6 +143,54 @@ const PublicCompetitorPrice = ({
 
     // const dataToSend = "Data from child 123";
     // onDataFromChild(dataToSend);
+  };
+
+  const fetchData = async () => {
+    const baseUrl = process.env.REACT_APP_BASE_URL;
+    setIsLoading(true);
+
+    try {
+      const response = await axios.get(
+        `${baseUrl}/site/fuel-price/psuggestion/detail/${id}`
+      );
+      if (response && response.data && response.data.data) {
+        setData(response.data.data);
+        formik.setValues(response.data.data);
+        setIsLoading(false);
+      }
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      console.log(
+        err.response ? err.response.data.message : "Error fetching clients"
+      );
+    }
+  };
+
+  const CallListingApi = async () => {
+    fetchData();
+  };
+
+  const fetchDataPost = async (values) => {
+    setIsLoading(true);
+    const formData = new FormData();
+    // formData.append("password_confirmation", values.password_confirmation);
+
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/reset/password`,
+        formData
+      );
+
+      if (response.data.status_code === "200") {
+        setIsLoading(false);
+        SuccessAlert(response.data.message);
+        window.location.href = `/login`;
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    }
   };
 
   const handleSelectedPrice = async (competitor, index, key_name) => {
@@ -187,21 +238,23 @@ const PublicCompetitorPrice = ({
 
           const postDataUrl = "/site/competitor-suggestion/accept";
 
-          await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+          // await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
-          if (apidata?.api_response == 200) {
-            fetchData();
-          } else {
-            handleError(error);
-            fetchData();
-          }
+          // if (apidata?.api_response == 200) {
+          //   fetchData();
+          // } else {
+          //   fetchData();
+          // }
         } catch (error) {
+          handleError(error);
         } finally {
           fetchData();
         }
       }
     });
   };
+
+  console.log(formik?.values, "formik?.values");
 
   return (
     <>
@@ -210,7 +263,7 @@ const PublicCompetitorPrice = ({
         open={open}
         onClose={onClose}
         aria-labelledby="responsive-dialog-title  public-competitor-price-modal"
-        className="public-competitor-price-modal"
+        className="public-competitor-price-modal dashboard-center-modal"
         maxWidth="900px"
       >
         {isSubmitted ? (
@@ -279,12 +332,26 @@ const PublicCompetitorPrice = ({
                         alt=""
                       />
                       <div className="ModalTitle ModalTitle-date  mt-2 public-competitor-name-title">
-                        {formik?.values?.competitorname}
+                        {formik?.values?.site_name}
                       </div>
                     </div>
                   </div>
                   <div className=" text-end"> Welcome, Mr. Jhon XYZX </div>
                 </div>
+
+                <Card.Header>
+                  <h3 className="card-title">
+                    {" "}
+                    <div className="d-flex w-100 justify-content-between align-items-center">
+                      <div>
+                        <span>
+                          Competitors - {data?.site_name} (
+                          {`${data?.currentDate}`}){" "}
+                        </span>
+                      </div>
+                    </div>
+                  </h3>
+                </Card.Header>
 
                 {formik?.values?.listing?.competitors?.length > 0 ? (
                   <>
@@ -292,23 +359,24 @@ const PublicCompetitorPrice = ({
                       (competitor, competitorIndex) => (
                         <div key={competitorIndex} className="mt-2">
                           <Collapse
-                            accordion={false} // Ensures that multiple panels can remain open
+                            accordion
                             key={competitor?.competitor_name}
-                            defaultActiveKey={competitorIndex.toString()} // Keeps all panels open by default
-                            // defaultActiveKey={[competitor?.competitor_name]} // Keeps all panels open by default
-                            // className="public-competitor-price-collapse"
+                            className={`${
+                              competitor?.isMain == 1
+                                ? "main-competitor-effect"
+                                : ""
+                            }`}
                           >
                             <Panel
-                              className="public-competitor-price-collapse"
                               header={
                                 <div className="d-flex align-items-center">
                                   <img
                                     src={competitor?.supplier}
-                                    alt="Competitor"
+                                    alt="i"
                                     width="30"
                                     className="me-2 object-fit-contain"
                                   />
-                                  <span className="fw-600">
+                                  <span className=" fw-600">
                                     {" "}
                                     {competitor?.competitor_name}
                                   </span>
@@ -359,7 +427,9 @@ const PublicCompetitorPrice = ({
                                         <OverlayTrigger
                                           placement="top"
                                           overlay={
-                                            <Tooltip>Main Competitor</Tooltip>
+                                            <Tooltip className="c-zindex-100000">
+                                              Main Competitor
+                                            </Tooltip>
                                           }
                                         >
                                           <span className="  p-1">
@@ -372,7 +442,7 @@ const PublicCompetitorPrice = ({
                                 </div>
                               }
                             >
-                              <table className="table overflow-auto">
+                              <table className="table">
                                 <thead className="">
                                   <tr>
                                     <th
@@ -382,10 +452,10 @@ const PublicCompetitorPrice = ({
                                       Competitor
                                     </th>
 
-                                    {data?.head_array?.map(
+                                    {data?.fuel_head_array?.map(
                                       (header, columnIndex) => (
                                         <th scope="col" key={columnIndex}>
-                                          {header}
+                                          {header?.name}
                                         </th>
                                       )
                                     )}
@@ -393,6 +463,46 @@ const PublicCompetitorPrice = ({
                                 </thead>
                                 <tbody>
                                   <>
+                                    <tr
+                                      key={`competitor-name-self`}
+                                      className="operator-tr"
+                                    >
+                                      <td
+                                        // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
+                                        className="middayModal-td text-muted fs-15 fw-semibold p-4"
+                                        style={{ maxWidth: "50px" }}
+                                        // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
+                                      >
+                                        <img
+                                          src={formik?.values?.supplier}
+                                          alt="i"
+                                          width="30"
+                                          className="me-2"
+                                        />
+                                        {formik?.values?.site_name}
+                                      </td>
+
+                                      {formik?.values?.current?.[0]?.map(
+                                        (competitor, competitorIndex) => (
+                                          <>
+                                            <td
+                                              key={competitor?.id}
+                                              className="middayModal-td vertical-align-middle align-middle"
+                                            >
+                                              <input
+                                                className={`table-input fuel-readonly`}
+                                                type="number"
+                                                readOnly={true}
+                                                step="0.010"
+                                                name={`listing.competitors.[${competitorIndex}].price`}
+                                                value={competitor?.price}
+                                              />
+                                            </td>
+                                          </>
+                                        )
+                                      )}
+                                    </tr>
+
                                     <tr className="middayModal-tr">
                                       <td className="middayModal-td">
                                         <div className=" d-flex align-items-center mt-3">
@@ -415,7 +525,7 @@ const PublicCompetitorPrice = ({
                                             <div style={{ maxWidth: "30px" }}>
                                               <img
                                                 src={require("../../../assets/images/SingleStatsCompetitor/gov-Uk.png")}
-                                                alt="Competitor"
+                                                alt="i"
                                                 width="20"
                                                 className="mx-2"
                                               />
@@ -479,7 +589,6 @@ const PublicCompetitorPrice = ({
                                             overlay={
                                               <Tooltip
                                                 style={{
-                                                  // width: "200px",
                                                   zIndex: "111111111",
                                                 }}
                                               >
@@ -492,7 +601,7 @@ const PublicCompetitorPrice = ({
                                             <div style={{ maxWidth: "30px" }}>
                                               <img
                                                 src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
-                                                alt="Competitor"
+                                                alt="i"
                                                 width="20"
                                                 className="mx-2"
                                               />
@@ -519,8 +628,6 @@ const PublicCompetitorPrice = ({
                                                 readOnly={!fuel?.canUpdate}
                                                 step="0.010"
                                                 name={`listing.competitors.[${competitorIndex}].fuels.pp.[${fuelIndex}].price`}
-                                                // listing.competitors[0].fuels.pp[0].category_name
-                                                // value={fuel?.price ? fuel?.price : 0}
                                                 value={
                                                   formik.values.listing
                                                     .competitors[
@@ -557,7 +664,6 @@ const PublicCompetitorPrice = ({
                                             overlay={
                                               <Tooltip
                                                 style={{
-                                                  // width: "200px",
                                                   zIndex: "111111111",
                                                 }}
                                               >
@@ -571,7 +677,7 @@ const PublicCompetitorPrice = ({
                                               <span>
                                                 <img
                                                   src={require("../../../assets/images/SingleStatsCompetitor/wanna1.png")}
-                                                  alt="Competitor"
+                                                  alt="i"
                                                   width="30"
                                                   className="mx-2"
                                                   style={{
@@ -603,8 +709,6 @@ const PublicCompetitorPrice = ({
                                                 readOnly={!fuel?.canUpdate}
                                                 step="0.010"
                                                 name={`listing.competitors.[${competitorIndex}].fuels.ov.[${fuelIndex}].price`}
-                                                // listing.competitors[0].fuels.ov[0].category_name
-                                                // value={fuel?.price ? fuel?.price : 0}
                                                 value={
                                                   formik.values.listing
                                                     .competitors[
@@ -614,14 +718,15 @@ const PublicCompetitorPrice = ({
                                                 onChange={formik.handleChange}
                                               />
                                               <div className="small text-muted text-end">
-                                                {fuel?.last_updated !== "-" ? (
-                                                  <>
-                                                    Last Updated -{" "}
-                                                    {fuel?.last_updated}{" "}
-                                                  </>
-                                                ) : (
-                                                  ""
-                                                )}
+                                                {/* {fuel?.last_updated !==
+                                                  "-" ? (
+                                                    <>
+                                                      Last Updated -{" "}
+                                                      {fuel?.last_updated}{" "}
+                                                    </>
+                                                  ) : (
+                                                    ""
+                                                  )} */}
                                               </div>
                                             </td>
                                           </>
@@ -643,21 +748,208 @@ const PublicCompetitorPrice = ({
                       <img
                         src={require("../../../assets/images/commonimages/no_data.png")}
                         alt="MyChartImage"
-                        className="all-center-flex nodata-image "
+                        className="all-center-flex nodata-image"
                       />
                     </>
                   </>
                 )}
+
+                {data?.accept_suggestion?.length > 0 ? (
+                  <div className="mt-7">
+                    <>
+                      <PublicCompetitorFuelPricesUpdate
+                        data={data}
+                        postData={""}
+                        //   handleFormSubmit={handleFormSubmit}
+                        accordionSiteID={id}
+                        CallListingApi={CallListingApi}
+                        setIsSubmitted={setIsSubmitted}
+                      />
+                    </>
+                  </div>
+                ) : (
+                  <div></div> // Optionally provide a fallback UI
+                )}
+
+                <>
+                  <Card.Header>
+                    <h3 className="card-title ">
+                      {" "}
+                      <div className="d-flex w-100 justify-content-between align-items-center">
+                        <div>
+                          <span>
+                            Fuel Selling Price Suggestion For {data?.site_name}{" "}
+                            ( {data?.date} ){" "}
+                          </span>
+                        </div>
+                      </div>
+                    </h3>
+                  </Card.Header>
+                  <div className="vtimeline mt-4">
+                    {data?.logs?.map((item) => (
+                      <div
+                        key={item.id}
+                        className={`timeline-wrapper timeline-inverted ${
+                          item.status === 1
+                            ? "timeline-wrapper-warning"
+                            : item.status === 2
+                              ? "timeline-wrapper-danger"
+                              : item.status === 3
+                                ? "timeline-wrapper-success"
+                                : item.status === 4
+                                  ? "timeline-wrapper-modified"
+                                  : "timeline-wrapper-no-case"
+                        }`}
+                      >
+                        <div className="timeline-badge"></div>
+                        <div className="timeline-panel">
+                          <div className="timeline-heading">
+                            <h6 className=" fw-600">
+                              Fuel Suggested For ({item?.date}, {item?.time})
+                              <span>
+                                {item?.status === 1 ? (
+                                  <span className="btn btn-warning btn-sm ms-2">
+                                    <i className="ph ph-hourglass-low  c-fs-12 me-1"></i>
+                                    <span>Pending</span>
+                                  </span>
+                                ) : item?.status === 2 ? (
+                                  <span className="btn btn-danger btn-sm ms-2">
+                                    <i className="ph ph-x  c-fs-12 me-1"></i>
+                                    <span>Rejected</span>
+                                  </span>
+                                ) : item?.status === 3 ? (
+                                  <span className="btn btn-success btn-sm ms-2">
+                                    <i className="ph ph-check  c-fs-12 me-1"></i>
+                                    <span>Approved</span>
+                                  </span>
+                                ) : item?.status === 4 ? (
+                                  <span className="btn btn-info btn-sm ms-2">
+                                    <i className="ph ph-checks  c-fs-12 me-1"></i>
+                                    <span>Modified</span>
+                                  </span>
+                                ) : (
+                                  "-"
+                                )}
+                              </span>
+                            </h6>
+                            <div className=" c-fs-13 ">
+                              Creator -{" "}
+                              <span className=" fw-500">{item?.creator}</span>
+                            </div>
+                            <div className=" c-fs-13 ">
+                              Created At -{" "}
+                              <span className=" fw-500">
+                                {item?.created_at}
+                              </span>
+                            </div>
+                            <div></div>
+                          </div>
+                          <div className="timeline-body">
+                            <p>{item?.description}</p>
+                          </div>
+                          <div className="table-container table-responsive">
+                            <table className="table table-modern tracking-in-expand">
+                              <thead>
+                                <tr>
+                                  {data?.fuel_head_array?.map((head) => (
+                                    <th
+                                      key={head?.id}
+                                      className="middy-table-head"
+                                    >
+                                      {head?.name}
+                                    </th>
+                                  ))}
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                <tr className="">
+                                  {item?.prices?.map((subItem, rowIndex) => (
+                                    <React.Fragment key={rowIndex}>
+                                      <td
+                                        key={subItem.id}
+                                        className="middayModal-td"
+                                      >
+                                        <div className="py-1">
+                                          <div className=" d-flex align-items-center  w-100 h-100 ">
+                                            <div
+                                              className=" fs-14 "
+                                              style={{
+                                                color: subItem?.price_color,
+                                              }}
+                                            >
+                                              <span
+                                                className={`ms-2 ${
+                                                  subItem?.status === "UP"
+                                                    ? "text-success"
+                                                    : subItem?.status === "DOWN"
+                                                      ? "text-danger"
+                                                      : ""
+                                                }`}
+                                              >
+                                                {subItem.price}
+                                              </span>
+                                              <span>
+                                                {subItem?.status === "UP" && (
+                                                  <>
+                                                    <ArrowUpwardIcon
+                                                      fontSize="10"
+                                                      className="text-success ms-1 position-relative c-top-minus-1"
+                                                    />
+                                                  </>
+                                                )}
+                                              </span>
+                                              <span>
+                                                {subItem?.status === "DOWN" && (
+                                                  <>
+                                                    <ArrowDownwardIcon
+                                                      fontSize="10"
+                                                      className="text-danger ms-1 position-relative c-top-minus-1"
+                                                    />
+                                                  </>
+                                                )}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </React.Fragment>
+                                  ))}
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div className="timeline-footer d-flex align-items-center flex-wrap mt-2">
+                            <span>
+                              {item?.modifier ? (
+                                <>Modifier - {item?.modifier},</>
+                              ) : (
+                                ""
+                              )}{" "}
+                              {item?.modified_at ? (
+                                <>Modified At - {item?.modified_at}</>
+                              ) : (
+                                ""
+                              )}{" "}
+                            </span>
+                            &nbsp;
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
               </>
             </DialogContent>
-            {userPermissions?.includes("fuel-suggestion-create") || data ? (
+
+            {/* {userPermissions?.includes("fuel-suggestion-create") || data ? (
               <>
                 <Card.Body
                 // className="p-0 m-0 mt-5"
                 >
                   <PublicCompetitorFuelPricesUpdate
                     data={data}
-                    postData={postData}
+                    // postData={postData}
                     handleFormSubmit={handleFormSubmit}
                     accordionSiteID={accordionSiteID}
                   />
@@ -665,7 +957,7 @@ const PublicCompetitorPrice = ({
               </>
             ) : (
               <div></div> // Optionally provide a fallback UI
-            )}
+            )} */}
           </>
         )}
       </Dialog>

@@ -1652,7 +1652,7 @@ const Root = () => {
                 <Route path={`/errorpage403`} element={<Errorpage403 />} />
                 <Route path="/login" element={<Login token={token} />} />
                 <Route
-                  path="/public-compi"
+                  path="/auto-approval/:id"
                   element={<PublicCompetitorPrice />}
                 />
               </Routes>

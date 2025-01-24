@@ -215,9 +215,9 @@ const CompetitorFuelPricesVersionTwo = (props) => {
           await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
           if (apidata?.api_response == 200) {
-            // fetchData();
+            handleDataFromChild();
           } else {
-            // fetchData();
+            handleDataFromChild();
           }
         } catch (error) {
           handleError(error);
@@ -227,6 +227,8 @@ const CompetitorFuelPricesVersionTwo = (props) => {
       }
     });
   };
+
+  console.log(formik?.values, "formik?.values");
 
   return (
     <>
@@ -859,7 +861,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                       <CompetitorfuelpricesUpdate
                         data={data}
                         postData={postData}
-                        // handleFormSubmit={handleFormSubmit}
+                        handleFormSubmit={handleDataFromChild}
                         accordionSiteID={accordionSiteID}
                       />
                     </Card.Body>

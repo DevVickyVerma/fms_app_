@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import InputTime from "../Competitor/InputTime";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { SuccessAlert } from "../../../Utils/ToastUtils";
 
 const PublicCompetitorFuelPricesUpdate = ({
   data,
@@ -12,12 +14,14 @@ const PublicCompetitorFuelPricesUpdate = ({
   handleFormSubmit,
   accordionSiteID,
   CallListingApi,
+  setIsSubmitted,
 }) => {
   const { notify_operator, update_tlm_price } = data || {};
   const [filterData, setFilterData] = useState();
   const [formValues, setFormValues] = useState(null); // State to hold form values
   const [priceSuggestionEditable, setPriceSuggestionEditable] = useState(false);
   const [isEdited, setIsEdited] = useState(false); // Track if user has edited any input
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -101,6 +105,7 @@ const PublicCompetitorFuelPricesUpdate = ({
 
   const handleSubmit = async (status, rejectionReason) => {
     try {
+      setIsLoading(true);
       const formData = new FormData();
 
       formData.append("id", accordionSiteID);
@@ -138,11 +143,26 @@ const PublicCompetitorFuelPricesUpdate = ({
       });
 
       const postDataUrl = "/site/fuel-price/suggestion/update";
+      const postPublcDataUrl = `${process.env.REACT_APP_BASE_URL}/site/fuel-price/psuggestion/update`;
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-
-      CallListingApi();
+      if (postData) {
+        await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+        setIsLoading(false);
+        CallListingApi();
+      } else {
+        const response = await axios.post(`${postPublcDataUrl}`, formData);
+        if (response.data.status_code === "200") {
+          // setIsLoading(false);
+          setIsLoading(false);
+          SuccessAlert(response.data.message);
+          setIsSubmitted(true);
+        } else {
+          setIsLoading(false);
+          CallListingApi();
+        }
+      }
     } catch (error) {
+      setIsLoading(false);
       console.error(error); // Set the submission state to false if an error occurs
     }
   };
@@ -246,6 +266,7 @@ const PublicCompetitorFuelPricesUpdate = ({
 
   return (
     <>
+      {isLoading ? <isLoading /> : null}
       <hr />
       <div style={{ overflowY: "auto" }}>
         <>

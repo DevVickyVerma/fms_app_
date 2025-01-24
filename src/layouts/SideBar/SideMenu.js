@@ -844,14 +844,14 @@ export const MENUITEMS = [
         icon: "notebook",
         type: "sub",
         active: false,
-        permission: "email-logs",
+        permission: "fuel-suggestion-logs",
         visibility: false,
         children: [
           {
             path: `/fuel-suggestion-email-logs`,
             title: "Email Logs",
             type: "link",
-            permission: "email-logs",
+            permission: "fuel-suggestion-logs",
             visibility: false,
           },
           {
