@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
@@ -283,7 +290,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Creator",
       selector: (row) => [row.creator],
       sortable: false,
-      width: "20%",
+      width: "14%",
       cell: (row) => (
         <div
           className="d-flex pointer hyper-link"
@@ -298,10 +305,23 @@ const FuelSuggestionHistoryLog = (props) => {
       ),
     },
     {
+      name: "Level",
+      selector: (row) => [row.date],
+      sortable: false,
+      width: "8%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{"4"}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
       name: "Fuel Suggested Date",
       selector: (row) => [row.date],
       sortable: false,
-      width: "16%",
+      width: "14%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -347,29 +367,53 @@ const FuelSuggestionHistoryLog = (props) => {
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
               <span>
-                {row?.status === 1 ? (
-                  <span className="btn btn-warning btn-sm ms-2">
-                    <i className="ph ph-hourglass-low  c-fs-12 me-1"></i>
-                    <span>Pending</span>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip>
+                      <span>
+                        {row.status === 1 ? (
+                          <span>Pending</span>
+                        ) : row.status === 2 ? (
+                          <span>Rejected</span>
+                        ) : row.status === 3 ? (
+                          <span>Approved</span>
+                        ) : row.status === 4 ? (
+                          <span>Modified</span>
+                        ) : (
+                          "-"
+                        )}{" "}
+                      </span>
+                      <span>by - Name Will Come</span>
+                    </Tooltip>
+                  }
+                >
+                  <span style={{ cursor: "pointer" }}>
+                    {row.status === 1 ? (
+                      <span className="btn btn-warning btn-sm">
+                        <i className="ph ph-hourglass-low  c-fs-12 mx-1"></i>
+                        <span>Pending</span>
+                      </span>
+                    ) : row.status === 2 ? (
+                      <span className="btn btn-danger btn-sm">
+                        <i className="ph ph-x  c-fs-12 mx-1"></i>
+                        <span>Rejected</span>
+                      </span>
+                    ) : row.status === 3 ? (
+                      <span className="btn btn-success btn-sm">
+                        <i className="ph ph-check  c-fs-12 mx-1"></i>
+                        <span>Approved</span>
+                      </span>
+                    ) : row.status === 4 ? (
+                      <span className="btn btn-info btn-sm">
+                        <i className="ph ph-checks  c-fs-12 mx-1"></i>
+                        <span>Modified</span>
+                      </span>
+                    ) : (
+                      "-"
+                    )}
                   </span>
-                ) : row?.status === 2 ? (
-                  <span className="btn btn-danger btn-sm ms-2">
-                    <i className="ph ph-x  c-fs-12 me-1"></i>
-                    <span>Rejected</span>
-                  </span>
-                ) : row?.status === 3 ? (
-                  <span className="btn btn-success btn-sm ms-2">
-                    <i className="ph ph-check  c-fs-12 me-1"></i>
-                    <span>Approved</span>
-                  </span>
-                ) : row?.status === 4 ? (
-                  <span className="btn btn-info btn-sm ms-2">
-                    <i className="ph ph-checks  c-fs-12 me-1"></i>
-                    <span>Modified</span>
-                  </span>
-                ) : (
-                  "-"
-                )}
+                </OverlayTrigger>
               </span>
             </h6>
           </div>
