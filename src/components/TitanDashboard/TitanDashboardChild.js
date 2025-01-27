@@ -122,7 +122,7 @@ const TitanDashboardChild = (props) => {
                     `titan-dashboard/get-details?${queryString}`
                 );
                 if (response && response.data && response.data.data) {
-                    setTableData(response?.data?.data?.sites);
+                    setTableData(response?.data?.data);
                 }
             } catch (error) {
                 console.error(error);
@@ -147,7 +147,7 @@ const TitanDashboardChild = (props) => {
             }
         }
     }, [dispatch, storedKeyName]); // Add any other dependencies needed here
-
+    console.log(tableData, "tableData");
     return (
         <>
             {isLoading ? <LoaderImg /> : null}
@@ -231,12 +231,14 @@ const TitanDashboardChild = (props) => {
                 {isLoading ? (
                     <>
                         <Row>
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
 
                         </Row>
                     </>

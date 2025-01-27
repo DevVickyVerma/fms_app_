@@ -26,20 +26,24 @@ const TitanDashboardChildTable = (props) => {
         const rowDataString = JSON.stringify(row);
         localStorage.setItem("ceo-singleSiteData", rowDataString);
     }
+    const formatHeader = (header) => {
+        return header
+            .replace(/_/g, " ") // Replace underscores with spaces
+            .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
+    };
+
 
     const renderTableHeader = () => (
         <tr className="fuelprice-tr " style={{ padding: "0px" }}>
             <th className="dashboard-child-thead">Sites</th>
+            <th className="dashboard-child-thead">{formatHeader(`wet_stock_volume`)}</th>
+            <th className="dashboard-child-thead">{formatHeader(`delivery_loss_volume`)}</th>
+            <th className="dashboard-child-thead">{formatHeader(`unkonwn_loss_volume`)}</th>
+            <th className="dashboard-child-thead">{formatHeader(`wet_stock_value`)}</th>
+            <th className="dashboard-child-thead">{formatHeader(`delivery_loss_value`)}</th>
+            <th className="dashboard-child-thead">{formatHeader(`unkonwn_loss_value`)}</th>
+            <th className="dashboard-child-thead">{formatHeader(`Dips Stock `)}</th>
 
-            <th className="dashboard-child-thead">Gross Volume</th>
-            <th className="dashboard-child-thead">Fuel Sales</th>
-            <th className="dashboard-child-thead">Gross Profit</th>
-            <th className="dashboard-child-thead">Gross Margin</th>
-            <th className="dashboard-child-thead">Shop Sales</th>
-            {/* <th className="dashboard-child-thead">Shop Earning</th> */}
-            <th className="dashboard-child-thead">Shop Profit</th>
-            {/* <th className="dashboard-child-thead">Shop Margin</th> */}
-            <th className="dashboard-child-thead">Shop Margin</th>
         </tr>
     );
 
@@ -67,10 +71,10 @@ const TitanDashboardChildTable = (props) => {
 
             //   {
             //     ceo
-            //       ? navigate(`/dashboard-details/${item?.id}`, {
+            //       ? navigate(`/titandashboard-details/${item?.id}`, {
             //           state: { details: true }, // Pass the state when ceo is true
             //         })
-            //       : navigate(`/dashboard-details/${item?.id}`); // No state when ceo is false
+            //       : navigate(`/titandashboard-details/${item?.id}`); // No state when ceo is false
             //   }
         }
     };
@@ -78,15 +82,12 @@ const TitanDashboardChildTable = (props) => {
     const renderTableData = () =>
         data?.map((item, index) => (
             <React.Fragment key={index}>
+
+
+                {console.log(item, "item")}
                 {isSitePermissionAvailable || isSiteSecondPermissionAvailable ? (
                     <>
-                        {/* <div onClick={() => handleSaveSingleSiteData(item)}>
-              <div
-                onClick={() => handleFuelPriceLinkClick(item)}
-                style={{ padding: "0px", color: "black" }}
-              >
-              </div>
-            </div> */}
+
                         <tr
                             className={`fuelprice-tr p-0  ceo-sats-table-hover ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
                                 ? "pointer "
@@ -112,7 +113,7 @@ const TitanDashboardChildTable = (props) => {
                                     {isSitePermissionAvailable ||
                                         isSiteSecondPermissionAvailable ? (
                                         <div onClick={() => handleSaveSingleSiteData(item)}>
-                                            <Link to={`/dashboard-details/${item?.id}`}>
+                                            <Link to={`/titandashboard-details/${item?.id}`}>
                                                 <div className="d-flex">
                                                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                                                         <h6 className="mb-0 fs-15 fw-semibold">
@@ -137,30 +138,31 @@ const TitanDashboardChildTable = (props) => {
                                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                                         <h6 className="mb-0 fs-14 fw-semibold ">
                                             <span className="l-sign">ℓ</span>{" "}
-                                            {item.fuel_volume?.gross_volume
-                                                ? formatNumber(item.fuel_volume?.gross_volume)
+
+                                            {item?.detail?.wet_stock_volume
+                                                ? formatNumber(item?.detail?.wet_stock_volume?.value)
                                                 : "0"}
                                         </h6>
 
                                         <p
-                                            className={`me-1 ${item.fuel_volume?.status === "up"
+                                            className={`me-1 ${item?.detail?.wet_stock_volume?.status === "up"
                                                 ? "text-success"
                                                 : "text-danger"
                                                 }`}
-                                            data-tip={`${item?.fuel_volume?.percentage}%`}
+                                            data-tip={`${item?.detail?.wet_stock_volume?.percentage}%`}
                                         >
-                                            {item?.fuel_volume?.status === "up" ? (
+                                            {item?.detail?.wet_stock_volume?.status === "up" ? (
                                                 <>
                                                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                     <span className="text-success">
-                                                        {item?.fuel_volume?.percentage}%
+                                                        {item?.detail?.wet_stock_volume?.percentage}%
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
                                                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                                     <span className="text-danger">
-                                                        {item?.fuel_volume?.percentage}%
+                                                        {item?.detail?.wet_stock_volume?.percentage}%
                                                     </span>
                                                 </>
                                             )}
@@ -173,30 +175,30 @@ const TitanDashboardChildTable = (props) => {
                                 <div className="d-flex">
                                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                                         <h6 className="mb-0 fs-14 fw-semibold">
-                                            £{" "}
-                                            {item?.fuel_sales?.gross_value
-                                                ? formatNumber(item?.fuel_sales?.gross_value)
+                                            <span className="l-sign">ℓ</span>{" "}
+                                            {item?.detail?.delivery_loss_volume
+                                                ? formatNumber(item?.detail?.delivery_loss_volume?.value)
                                                 : "0"}
                                         </h6>
                                         <p
-                                            className={`me-1 ${item?.fuel_sales?.status === "up"
+                                            className={`me-1 ${item?.detail?.delivery_loss_volume?.status === "up"
                                                 ? "text-success"
                                                 : "text-danger"
                                                 }`}
-                                            data-tip={`${item?.fuel_sales?.percentage}%`}
+                                            data-tip={`${item?.detail?.delivery_loss_volume?.percentage}%`}
                                         >
-                                            {item?.fuel_sales?.status === "up" ? (
+                                            {item?.detail?.delivery_loss_volume?.status === "up" ? (
                                                 <>
                                                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                     <span className="text-success">
-                                                        {item?.fuel_sales?.percentage}%
+                                                        {item?.detail?.delivery_loss_volume?.percentage}%
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
                                                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                                     <span className="text-danger">
-                                                        {item?.fuel_sales?.percentage}%
+                                                        {item?.detail?.delivery_loss_volume?.percentage}%
                                                     </span>
                                                 </>
                                             )}
@@ -209,30 +211,30 @@ const TitanDashboardChildTable = (props) => {
                                 <div className="d-flex">
                                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                                         <h6 className="mb-0 fs-14 fw-semibold">
-                                            £{" "}
-                                            {item?.gross_profit?.gross_profit
-                                                ? formatNumber(item?.gross_profit?.gross_profit)
+                                            <span className="l-sign">ℓ {""}</span>
+                                            {item?.detail?.unkonwn_loss_volume
+                                                ? formatNumber(item?.detail?.unkonwn_loss_volume?.value)
                                                 : "0"}
                                         </h6>
                                         <p
-                                            className={`me-1 ${item?.gross_profit?.status === "up"
+                                            className={`me-1 ${item?.detail?.unkonwn_loss_volume?.status === "up"
                                                 ? "text-success"
                                                 : "text-danger"
                                                 }`}
-                                            data-tip={`${item?.gross_profit?.percentage}%`}
+                                            data-tip={`${item?.detail?.unkonwn_loss_volume?.percentage}%`}
                                         >
-                                            {item?.gross_profit?.status === "up" ? (
+                                            {item?.detail?.unkonwn_loss_volume?.status === "up" ? (
                                                 <>
                                                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                     <span className="text-success">
-                                                        {item?.gross_profit?.percentage}%
+                                                        {item?.detail?.unkonwn_loss_volume?.percentage}%
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
                                                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                                     <span className="text-danger">
-                                                        {item?.gross_profit?.percentage}%
+                                                        {item?.detail?.unkonwn_loss_volume?.percentage}%
                                                     </span>
                                                 </>
                                             )}
@@ -241,85 +243,36 @@ const TitanDashboardChildTable = (props) => {
                                 </div>
                             </td>
 
-                            <td className="dashboard-child-tdata">
-                                <div className="d-flex">
-                                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                        <h6 className="mb-0 fs-14 fw-semibold">
-                                            {item?.gross_margin?.gross_margin
-                                                ? formatNumber(item?.gross_margin?.gross_margin)
-                                                : "0"}
-                                            ppl{""}{" "}
-                                            {item?.gross_margin?.is_ppl == 1 ? (
-                                                <OverlayTrigger
-                                                    placement="top"
-                                                    overlay={
-                                                        <Tooltip>{`${item?.gross_margin?.ppl_msg}`}</Tooltip>
-                                                    }
-                                                >
-                                                    <i
-                                                        className="fa fa-info-circle"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </OverlayTrigger>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </h6>
-                                        <p
-                                            className={`me-1 ${item?.gross_margin?.status === "up"
-                                                ? "text-success"
-                                                : "text-danger"
-                                                }`}
-                                            data-tip={`${item?.gross_margin?.percentage}%`}
-                                        >
-                                            {item?.gross_margin?.status === "up" ? (
-                                                <>
-                                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                                    <span className="text-success">
-                                                        {item?.gross_margin?.percentage}%
-                                                    </span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                                    <span className="text-danger">
-                                                        {item?.gross_margin?.percentage}%
-                                                    </span>
-                                                </>
-                                            )}
-                                        </p>
-                                    </div>
-                                </div>
-                            </td>
+
 
                             <td className="dashboard-child-tdata">
                                 <div className="d-flex">
                                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                                         <h6 className="mb-0 fs-14 fw-semibold">
                                             £{/* {item?.shop_sales?.shop_sales} */}
-                                            {item?.shop_sales?.shop_sales
-                                                ? formatNumber(item?.shop_sales?.shop_sales)
+                                            {item?.detail?.wet_stock_value
+                                                ? formatNumber(item?.detail?.wet_stock_value?.value)
                                                 : "0"}
                                         </h6>
                                         <p
-                                            className={`me-1 ${item?.shop_sales?.status === "up"
+                                            className={`me-1 ${item?.detail?.wet_stock_value?.status === "up"
                                                 ? "text-success"
                                                 : "text-danger"
                                                 }`}
-                                            data-tip={`${item?.shop_sales?.percentage}%`}
+                                            data-tip={`${item?.detail?.wet_stock_value?.percentage}%`}
                                         >
-                                            {item?.shop_sales?.status === "up" ? (
+                                            {item?.detail?.wet_stock_value?.status === "up" ? (
                                                 <>
                                                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                     <span className="text-success">
-                                                        {item?.shop_sales?.percentage}%
+                                                        {item?.detail?.wet_stock_value?.percentage}%
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
                                                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                                     <span className="text-danger">
-                                                        {item?.shop_sales?.percentage}%
+                                                        {item?.detail?.wet_stock_value?.percentage}%
                                                     </span>
                                                 </>
                                             )}
@@ -327,71 +280,35 @@ const TitanDashboardChildTable = (props) => {
                                     </div>
                                 </div>
                             </td>
-                            {/* <td className="dashboard-child-tdata">
-                <div className="d-flex">
-                  <div className="ms-2 mt-0 mt-sm-2 d-block">
-                    <h6 className="mb-0 fs-14 fw-semibold">
-                      £
-                      {item?.shop_fees?.shop_fee
-                        ? formatNumber(item?.shop_fees?.shop_fee)
-                        : "0"}{" "}
-                    </h6>
-                    <p
-                      className={`me-1 ${
-                        item?.shop_fees?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                      }`}
-                      data-tip={`${item?.shop_fees?.percentage}%`}
-                    >
-                      {item?.shop_fees?.status === "up" ? (
-                        <>
-                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                          <span className="text-success">
-                            {item?.shop_fees?.percentage}%
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                          <span className="text-danger">
-                            {item?.shop_fees?.percentage}%
-                          </span>
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </td> */}
                             <td className="dashboard-child-tdata">
                                 <div className="d-flex">
                                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                                         <h6 className="mb-0 fs-14 fw-semibold">
                                             £
-                                            {item?.shop_profit?.shop_profit
-                                                ? formatNumber(item?.shop_profit?.shop_profit)
+                                            {item?.detail?.delivery_loss_value
+                                                ? formatNumber(item?.detail?.delivery_loss_value?.value)
                                                 : "0"}
                                             {/* {item?.shop_profit?.shop_profit || "0.00"} */}
                                         </h6>
                                         <p
-                                            className={`me-1 ${item?.shop_profit?.status === "up"
+                                            className={`me-1 ${item?.detail?.delivery_loss_value?.status === "up"
                                                 ? "text-success"
                                                 : "text-danger"
                                                 }`}
-                                            data-tip={`${item?.shop_profit?.percentage}%`}
+                                            data-tip={`${item?.detail?.delivery_loss_value?.percentage}%`}
                                         >
-                                            {item?.shop_profit?.status === "up" ? (
+                                            {item?.detail?.delivery_loss_value?.status === "up" ? (
                                                 <>
                                                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                     <span className="text-success">
-                                                        {item?.shop_profit?.percentage}%
+                                                        {item?.detail?.delivery_loss_value?.percentage}%
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
                                                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                                     <span className="text-danger">
-                                                        {item?.shop_profit?.percentage}%
+                                                        {item?.detail?.delivery_loss_value?.percentage}%
                                                     </span>
                                                 </>
                                             )}
@@ -399,71 +316,35 @@ const TitanDashboardChildTable = (props) => {
                                     </div>
                                 </div>
                             </td>
-                            {/* <td className="dashboard-child-tdata">
-                <div className="d-flex">
-                  <div className="ms-2 mt-0 mt-sm-2 d-block">
-                    <h6 className="mb-0 fs-14 fw-semibold">
-                      £
-                      {item?.shop_profit?.shop_profit
-                        ? formatNumber(item?.shop_profit?.shop_profit)
-                        : "0"}
-                    </h6>
-                    <p
-                      className={`me-1 ${
-                        item?.shop_profit?.status === "up"
-                          ? "text-success"
-                          : "text-danger"
-                      }`}
-                      data-tip={`${item?.shop_profit?.percentage}%`}
-                    >
-                      {item?.shop_profit?.status === "up" ? (
-                        <>
-                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                          <span className="text-success">
-                            {item?.shop_profit?.percentage}%
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                          <span className="text-danger">
-                            {item?.shop_profit?.percentage}%
-                          </span>
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </td> */}
                             <td className="dashboard-child-tdata">
                                 <div className="d-flex">
                                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                                         <h6 className="mb-0 fs-14 fw-semibold">
                                             £
-                                            {item?.valet_sales?.valet_sales
-                                                ? formatNumber(item?.valet_sales?.valet_sales)
+                                            {item?.detail?.unkonwn_loss_value
+                                                ? formatNumber(item?.detail?.unkonwn_loss_value?.value)
                                                 : "0"}
                                             {/* {item?.valet_sales?.valet_sales || "0.00"} */}
                                         </h6>
                                         <p
-                                            className={`me-1 ${item?.valet_sales?.status === "up"
+                                            className={`me-1 ${item?.detail?.unkonwn_loss_value?.status === "up"
                                                 ? "text-success"
                                                 : "text-danger"
                                                 }`}
-                                            data-tip={`${item?.valet_sales?.percentage}%`}
+                                            data-tip={`${item?.detail?.unkonwn_loss_value?.percentage}%`}
                                         >
-                                            {item?.valet_sales?.status === "up" ? (
+                                            {item?.detail?.unkonwn_loss_value?.status === "up" ? (
                                                 <>
                                                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                     <span className="text-success">
-                                                        {item?.valet_sales?.percentage}%
+                                                        {item?.detail?.unkonwn_loss_value?.percentage}%
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
                                                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                                     <span className="text-danger">
-                                                        {item?.valet_sales?.percentage}%
+                                                        {item?.detail?.unkonwn_loss_value?.percentage}%
                                                     </span>
                                                 </>
                                             )}
@@ -471,6 +352,43 @@ const TitanDashboardChildTable = (props) => {
                                     </div>
                                 </div>
                             </td>
+                            <td className="dashboard-child-tdata">
+                                <div className="d-flex">
+                                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                                        <h6 className="mb-0 fs-14 fw-semibold">
+                                            £
+                                            {item?.detail?.unkonwn_loss_value
+                                                ? formatNumber(item?.detail?.unkonwn_loss_value?.value)
+                                                : "0"}
+                                            {/* {item?.valet_sales?.valet_sales || "0.00"} */}
+                                        </h6>
+                                        <p
+                                            className={`me-1 ${item?.detail?.unkonwn_loss_value?.status === "up"
+                                                ? "text-success"
+                                                : "text-danger"
+                                                }`}
+                                            data-tip={`${item?.detail?.unkonwn_loss_value?.percentage}%`}
+                                        >
+                                            {item?.detail?.unkonwn_loss_value?.status === "up" ? (
+                                                <>
+                                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                                    <span className="text-success">
+                                                        {item?.detail?.unkonwn_loss_value?.percentage}%
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                                    <span className="text-danger">
+                                                        {item?.detail?.unkonwn_loss_value?.percentage}%
+                                                    </span>
+                                                </>
+                                            )}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+
                         </tr>
                     </>
                 ) : (
@@ -494,7 +412,7 @@ const TitanDashboardChildTable = (props) => {
                                     <div
                                     // onClick={() => handleSaveSingleSiteData(item)}
                                     >
-                                        <Link to={`/dashboard-details/${item?.id}`}>
+                                        <Link to={`/titandashboard-details/${item?.id}`}>
                                             <div className="d-flex">
                                                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                                                     <h6 className="mb-0 fs-15 fw-semibold">
@@ -519,28 +437,28 @@ const TitanDashboardChildTable = (props) => {
                                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                                     <h6 className="mb-0 fs-14 fw-semibold ">
                                         <span className="l-sign">ℓ</span>
-                                        {item.fuel_volume?.gross_volume}
+                                        {item?.wet_stock_volume?.value}
                                     </h6>
 
                                     <p
-                                        className={`me-1 ${item.fuel_volume?.status === "up"
+                                        className={`me-1 ${item?.wet_stock_volume?.status === "up"
                                             ? "text-success"
                                             : "text-danger"
                                             }`}
-                                        data-tip={`${item?.fuel_volume?.percentage}%`}
+                                        data-tip={`${item?.detail?.wet_stock_volume?.percentage}%`}
                                     >
-                                        {item?.fuel_volume?.status === "up" ? (
+                                        {item?.detail?.wet_stock_volume?.status === "up" ? (
                                             <>
                                                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                                 <span className="text-success">
-                                                    {item?.fuel_volume?.percentage}%
+                                                    {item?.detail?.wet_stock_volume?.percentage}%
                                                 </span>
                                             </>
                                         ) : (
                                             <>
                                                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                                 <span className="text-danger">
-                                                    {item?.fuel_volume?.percentage}%
+                                                    {item?.detail?.wet_stock_volume?.percentage}%
                                                 </span>
                                             </>
                                         )}
@@ -553,7 +471,7 @@ const TitanDashboardChildTable = (props) => {
                             <div className="d-flex">
                                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                                     <h6 className="mb-0 fs-14 fw-semibold">
-                                        £{item?.fuel_sales?.gross_value}
+                                        <span className="l-sign">ℓ</span>{item?.detail?.wet_stock_volume}
                                     </h6>
                                     <p
                                         className={`me-1 ${item?.fuel_sales?.status === "up"
