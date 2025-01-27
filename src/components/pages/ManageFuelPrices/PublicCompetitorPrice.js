@@ -2,27 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@mui/material";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useFormik } from "formik";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../../components/CommonComponent/useErrorHandler";
-import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
 import { useSelector } from "react-redux";
-import withApi from "../../../Utils/ApiHelper";
-import {
-  staticCompiPriceCommon,
-  staticCompiPriceCommon2,
-} from "../../../Utils/commonFunctions/commonFunction";
 import { Collapse } from "antd";
 import Swal from "sweetalert2";
-import { tr } from "date-fns/locale";
 import PublicCompetitorFuelPricesUpdate from "./PublicCompetitorFuelPricesUpdate";
-import VersionTwoSuggestedFuelPrice from "./VersionTwoSuggestedFuelPrice";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import FuelPriceTimeLineLogs from "../ManageVersionTwoCompetitorFuelPrice/FuelPriceTimeLineLogs";
 
 const { Panel } = Collapse;
 
@@ -44,32 +35,13 @@ const PublicCompetitorPrice = ({
     (state) => state?.data?.data?.permissions || []
   );
 
-  const [data, setData] = useState(staticCompiPriceCommon2); // Initialize data as null
+  const [data, setData] = useState(); // Initialize data as null
 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
   }, [selectedItem, selectedDrsDate]);
-
-  // const fetchData = async () => {
-  //   if (selectedItem && selectedDrsDate) {
-  //     try {
-  //       const response = await getData(
-  //         `/site/competitor-suggestion/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
-  //       );
-
-  //       if (response && response.data && response.data.data) {
-  //         setData(response.data.data);
-  //         formik.setValues(response?.data?.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("API error:", error);
-  //       handleError(error);
-  //     } finally {
-  //     }
-  //   }
-  // };
 
   const formik = useFormik({
     initialValues: {},
@@ -138,6 +110,7 @@ const PublicCompetitorPrice = ({
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend);
   };
+
   const handleFormSubmit = (values) => {
     console.log(values, "submited");
 
@@ -160,6 +133,7 @@ const PublicCompetitorPrice = ({
       }
       setIsLoading(false);
     } catch (err) {
+      setIsLinkExpired(true);
       setIsLoading(false);
       console.log(
         err.response ? err.response.data.message : "Error fetching clients"
@@ -169,28 +143,6 @@ const PublicCompetitorPrice = ({
 
   const CallListingApi = async () => {
     fetchData();
-  };
-
-  const fetchDataPost = async (values) => {
-    setIsLoading(true);
-    const formData = new FormData();
-    // formData.append("password_confirmation", values.password_confirmation);
-
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/reset/password`,
-        formData
-      );
-
-      if (response.data.status_code === "200") {
-        setIsLoading(false);
-        SuccessAlert(response.data.message);
-        window.location.href = `/login`;
-      }
-    } catch (error) {
-      setIsLoading(false);
-      console.error(error);
-    }
   };
 
   const handleSelectedPrice = async (competitor, index, key_name) => {
@@ -253,8 +205,6 @@ const PublicCompetitorPrice = ({
       }
     });
   };
-
-  console.log(formik?.values, "formik?.values");
 
   return (
     <>
@@ -336,7 +286,9 @@ const PublicCompetitorPrice = ({
                       </div>
                     </div>
                   </div>
-                  <div className=" text-end"> Welcome, Mr. Jhon XYZX </div>
+                  <div className=" text-end">
+                    {/* Welcome, Mr. Jhon XYZX  */}
+                  </div>
                 </div>
 
                 <Card.Header>
@@ -345,8 +297,12 @@ const PublicCompetitorPrice = ({
                     <div className="d-flex w-100 justify-content-between align-items-center">
                       <div>
                         <span>
-                          Competitors - {data?.site_name} (
-                          {`${data?.currentDate}`}){" "}
+                          Competitors - {data?.site_name}{" "}
+                          {data?.currentDate ? (
+                            <>( {`${data?.currentDate}`}) </>
+                          ) : (
+                            ""
+                          )}
                         </span>
                       </div>
                     </div>
@@ -760,8 +716,9 @@ const PublicCompetitorPrice = ({
                       <PublicCompetitorFuelPricesUpdate
                         data={data}
                         postData={""}
-                        //   handleFormSubmit={handleFormSubmit}
+                        // handleFormSubmit={handleFormSubmit}
                         accordionSiteID={id}
+                        setIsLinkExpired={setIsLinkExpired}
                         CallListingApi={CallListingApi}
                         setIsSubmitted={setIsSubmitted}
                       />
@@ -779,185 +736,17 @@ const PublicCompetitorPrice = ({
                         <div>
                           <span>
                             Fuel Selling Price Suggestion For {data?.site_name}{" "}
-                            ( {data?.date} ){" "}
+                            ({data?.date}){" "}
                           </span>
                         </div>
                       </div>
                     </h3>
                   </Card.Header>
-                  <div className="vtimeline mt-4">
-                    {data?.logs?.map((item) => (
-                      <div
-                        key={item.id}
-                        className={`timeline-wrapper timeline-inverted ${
-                          item.status === 1
-                            ? "timeline-wrapper-warning"
-                            : item.status === 2
-                              ? "timeline-wrapper-danger"
-                              : item.status === 3
-                                ? "timeline-wrapper-success"
-                                : item.status === 4
-                                  ? "timeline-wrapper-modified"
-                                  : "timeline-wrapper-no-case"
-                        }`}
-                      >
-                        <div className="timeline-badge"></div>
-                        <div className="timeline-panel">
-                          <div className="timeline-heading">
-                            <h6 className=" fw-600">
-                              Fuel Suggested For ({item?.date}, {item?.time})
-                              <span>
-                                {item?.status === 1 ? (
-                                  <span className="btn btn-warning btn-sm ms-2">
-                                    <i className="ph ph-hourglass-low  c-fs-12 me-1"></i>
-                                    <span>Pending</span>
-                                  </span>
-                                ) : item?.status === 2 ? (
-                                  <span className="btn btn-danger btn-sm ms-2">
-                                    <i className="ph ph-x  c-fs-12 me-1"></i>
-                                    <span>Rejected</span>
-                                  </span>
-                                ) : item?.status === 3 ? (
-                                  <span className="btn btn-success btn-sm ms-2">
-                                    <i className="ph ph-check  c-fs-12 me-1"></i>
-                                    <span>Approved</span>
-                                  </span>
-                                ) : item?.status === 4 ? (
-                                  <span className="btn btn-info btn-sm ms-2">
-                                    <i className="ph ph-checks  c-fs-12 me-1"></i>
-                                    <span>Modified</span>
-                                  </span>
-                                ) : (
-                                  "-"
-                                )}
-                              </span>
-                            </h6>
-                            <div className=" c-fs-13 ">
-                              Creator -{" "}
-                              <span className=" fw-500">{item?.creator}</span>
-                            </div>
-                            <div className=" c-fs-13 ">
-                              Created At -{" "}
-                              <span className=" fw-500">
-                                {item?.created_at}
-                              </span>
-                            </div>
-                            <div></div>
-                          </div>
-                          <div className="timeline-body">
-                            <p>{item?.description}</p>
-                          </div>
-                          <div className="table-container table-responsive">
-                            <table className="table table-modern tracking-in-expand">
-                              <thead>
-                                <tr>
-                                  {data?.fuel_head_array?.map((head) => (
-                                    <th
-                                      key={head?.id}
-                                      className="middy-table-head"
-                                    >
-                                      {head?.name}
-                                    </th>
-                                  ))}
-                                </tr>
-                              </thead>
 
-                              <tbody>
-                                <tr className="">
-                                  {item?.prices?.map((subItem, rowIndex) => (
-                                    <React.Fragment key={rowIndex}>
-                                      <td
-                                        key={subItem.id}
-                                        className="middayModal-td"
-                                      >
-                                        <div className="py-1">
-                                          <div className=" d-flex align-items-center  w-100 h-100 ">
-                                            <div
-                                              className=" fs-14 "
-                                              style={{
-                                                color: subItem?.price_color,
-                                              }}
-                                            >
-                                              <span
-                                                className={`ms-2 ${
-                                                  subItem?.status === "UP"
-                                                    ? "text-success"
-                                                    : subItem?.status === "DOWN"
-                                                      ? "text-danger"
-                                                      : ""
-                                                }`}
-                                              >
-                                                {subItem.price}
-                                              </span>
-                                              <span>
-                                                {subItem?.status === "UP" && (
-                                                  <>
-                                                    <ArrowUpwardIcon
-                                                      fontSize="10"
-                                                      className="text-success ms-1 position-relative c-top-minus-1"
-                                                    />
-                                                  </>
-                                                )}
-                                              </span>
-                                              <span>
-                                                {subItem?.status === "DOWN" && (
-                                                  <>
-                                                    <ArrowDownwardIcon
-                                                      fontSize="10"
-                                                      className="text-danger ms-1 position-relative c-top-minus-1"
-                                                    />
-                                                  </>
-                                                )}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </td>
-                                    </React.Fragment>
-                                  ))}
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <div className="timeline-footer d-flex align-items-center flex-wrap mt-2">
-                            <span>
-                              {item?.modifier ? (
-                                <>Modifier - {item?.modifier},</>
-                              ) : (
-                                ""
-                              )}{" "}
-                              {item?.modified_at ? (
-                                <>Modified At - {item?.modified_at}</>
-                              ) : (
-                                ""
-                              )}{" "}
-                            </span>
-                            &nbsp;
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <FuelPriceTimeLineLogs data={data} />
                 </>
               </>
             </DialogContent>
-
-            {/* {userPermissions?.includes("fuel-suggestion-create") || data ? (
-              <>
-                <Card.Body
-                // className="p-0 m-0 mt-5"
-                >
-                  <PublicCompetitorFuelPricesUpdate
-                    data={data}
-                    // postData={postData}
-                    handleFormSubmit={handleFormSubmit}
-                    accordionSiteID={accordionSiteID}
-                  />
-                </Card.Body>
-              </>
-            ) : (
-              <div></div> // Optionally provide a fallback UI
-            )} */}
           </>
         )}
       </Dialog>

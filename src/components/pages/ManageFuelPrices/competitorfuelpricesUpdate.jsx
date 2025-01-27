@@ -333,7 +333,7 @@ const competitorfuelpricesUpdate = ({
                                   }`}
                                   disabled={!item?.is_editable}
                                   placeholder="Enter price"
-                                  step="0.010"
+                                  step="0.001"
                                 />
                                 <ErrorMessage
                                   name={`fuels[${rowIndex}][${itemIndex}].price`}
