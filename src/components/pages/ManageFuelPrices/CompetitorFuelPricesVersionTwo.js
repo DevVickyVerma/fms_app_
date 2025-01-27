@@ -307,8 +307,17 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                     <div className="d-flex w-100 justify-content-between align-items-center">
                       <div>
                         <span>
-                          Competitors - {filterData?.site_name} (
-                          {`${filterData?.start_date}`}){" "}
+                          Competitors
+                          {filterData?.site_name ? (
+                            <>- {filterData?.site_name}</>
+                          ) : (
+                            ""
+                          )}
+                          {filterData?.start_date ? (
+                            <>( {`${filterData?.start_date}`}) </>
+                          ) : (
+                            ""
+                          )}
                         </span>
                       </div>
                     </div>

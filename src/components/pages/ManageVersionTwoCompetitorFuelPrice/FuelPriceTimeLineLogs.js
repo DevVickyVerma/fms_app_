@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { Card } from "react-bootstrap";
+import { timeLineData } from "../../../Utils/commonFunctions/CommonData";
 
 const FuelPriceTimeLineLogs = ({ data }) => {
+  const [staticData, setStaticData] = useState(timeLineData);
+
   return (
     <>
       <div className="table-container overflow-auto">
@@ -39,7 +42,7 @@ const FuelPriceTimeLineLogs = ({ data }) => {
       </div>
 
       <div className="vtimeline mt-4">
-        {data?.logs?.map((item) => (
+        {timeLineData?.map((item) => (
           <div
             key={item.id}
             className={`timeline-wrapper timeline-inverted ${
@@ -59,7 +62,7 @@ const FuelPriceTimeLineLogs = ({ data }) => {
               <div className="timeline-heading">
                 <span className=" fw-600 d-flex  align-items-center text-capitalize">
                   <span className="me-2">{item?.creator}</span>
-                  <span className="badge p-2">Level 1 </span>
+                  <span className="badge p-2">Level {item?.level}</span>
                 </span>
                 <h6 className=" fw-600 d-flex justify-content-between align-items-center">
                   Fuel Suggested For ({item?.date}, {item?.time})
@@ -83,6 +86,11 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                       <span className="btn btn-info btn-sm ms-2">
                         <i className="ph ph-checks  c-fs-12 me-1"></i>
                         <span>Modified</span>
+                      </span>
+                    ) : item?.status === 5 ? (
+                      <span className="btn btn-primary btn-sm ms-2">
+                        <i className="ph ph-checks  c-fs-12 me-1"></i>
+                        <span>Suggested</span>
                       </span>
                     ) : (
                       "-"
@@ -181,7 +189,13 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                       ""
                     )}{" "}
                   </span>
-                  <span>Rejected Reason - </span>
+                  {item?.rejectd && (
+                    <>
+                      <span className=" text-danger">
+                        Rejected Reason - {item?.rejectd}{" "}
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
