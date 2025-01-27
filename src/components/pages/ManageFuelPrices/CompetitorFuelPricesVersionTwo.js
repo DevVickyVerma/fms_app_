@@ -314,6 +314,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                     </div>
                   </h3>
                 </Card.Header>
+
                 <Card.Body>
                   {formik?.values?.listing?.competitors?.length > 0 ? (
                     <>

@@ -1,10 +1,43 @@
 import React from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Card } from "react-bootstrap";
 
 const FuelPriceTimeLineLogs = ({ data }) => {
   return (
     <>
+      <div className="table-container overflow-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              {data?.head_array?.map((item) => (
+                <th key={item?.id} className="middy-table-head">
+                  {item?.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr className="middayModal-tr fuel-readonly">
+              <td className={`time-input-fuel-sell middayModal-td `}>
+                {data?.currentDate}
+              </td>
+              <td className={`time-input-fuel-sell middayModal-td`}>
+                {data?.currentTime}
+              </td>
+              {data?.current?.[0]?.map((item, rowIndex) => (
+                <>
+                  <td className={`time-input-fuel-sell middayModal-td`}>
+                    {item?.price}
+                  </td>
+                </>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div className="vtimeline mt-4">
         {data?.logs?.map((item) => (
           <div
@@ -24,7 +57,11 @@ const FuelPriceTimeLineLogs = ({ data }) => {
             <div className="timeline-badge"></div>
             <div className="timeline-panel">
               <div className="timeline-heading">
-                <h6 className=" fw-600">
+                <span className=" fw-600 d-flex  align-items-center text-capitalize">
+                  <span className="me-2">{item?.creator}</span>
+                  <span className="badge p-2">Level 1 </span>
+                </span>
+                <h6 className=" fw-600 d-flex justify-content-between align-items-center">
                   Fuel Suggested For ({item?.date}, {item?.time})
                   <span>
                     {item?.status === 1 ? (
@@ -52,10 +89,9 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                     )}
                   </span>
                 </h6>
-                <div className=" c-fs-13 ">
-                  Creator - <span className=" fw-500">{item?.creator}, </span>{" "}
-                  &nbsp; Level -
-                </div>
+                {/* <div className=" c-fs-13 ">
+                  Creator - <span className=" fw-500">{item?.creator} </span>{" "}
+                </div> */}
                 <div className=" c-fs-13 ">
                   Created At -{" "}
                   <span className=" fw-500">{item?.created_at}</span>

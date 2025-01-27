@@ -163,6 +163,10 @@ const VersionTwoSuggestedFuelPriceModal = ({
                 {" "}
                 Fuel Selling Price Suggestion For {data?.site_name} ({" "}
                 {data?.date} ){" "}
+                <span className="d-flex pt-1 align-items-center c-fs-12">
+                  <span className="greenboxx me-2"></span>
+                  <span className="text-muted">Current Price</span>
+                </span>
               </span>
               <span onClick={onClose}>
                 <button className="close-button">
