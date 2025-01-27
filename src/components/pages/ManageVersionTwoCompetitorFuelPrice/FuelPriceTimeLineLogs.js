@@ -171,16 +171,18 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                   </tbody>
                 </table>
               </div>
-              <div className="timeline-footer d-flex align-items-center flex-wrap mt-2">
-                <span>
-                  {item?.modifier ? <>Modifier - {item?.modifier},</> : ""}{" "}
-                  {item?.modified_at ? (
-                    <>Modified At - {item?.modified_at}</>
-                  ) : (
-                    ""
-                  )}{" "}
-                </span>
-                &nbsp;
+              <div className="timeline-footer d-flex align-items-center flex-wrap mt-2 ">
+                <div className=" d-flex flex-column">
+                  <span>
+                    {item?.modifier ? <>Modifier - {item?.modifier},</> : ""}{" "}
+                    {item?.modified_at ? (
+                      <>Modified At - {item?.modified_at}</>
+                    ) : (
+                      ""
+                    )}{" "}
+                  </span>
+                  <span>Rejected Reason - </span>
+                </div>
               </div>
             </div>
           </div>
