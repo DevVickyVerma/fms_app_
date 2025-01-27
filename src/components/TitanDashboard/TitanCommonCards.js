@@ -7,7 +7,8 @@ const TitanCommonCards = ({
     leftSideTitle,
     RightSideData,
     RightSideTitle,
-    statusValue,
+    // statusValue,
+
     percentageValue,
     handleNavigateClick,
     showRightSide = false,
@@ -17,117 +18,121 @@ const TitanCommonCards = ({
     ppl_msg = null,
     lg = 6,
     xl = 4,
-}) => (
+}) => {
+    const statusValue = leftSideData >= 0 ? "up" : "down"; // Check if positive or negative
+    console.log(statusValue, "statusValue");
+    return (
 
-    <>
-        {console.log(leftSideData, "leftSideData")}
-        <motion.div
-            onClick={handleNavigateClick}
-            className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""}`}
-            style={{ backgroundColor: "#fff" }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.10 }} // Animation on hover
-            transition={{ duration: 0.3 }} // Animation duration
-        >
-            <Col sm={12} md={4} lg={lg} xl={xl} key={Math.random()}>
-                <Card
-                    onClick={handleNavigateClick}
-                    className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""
-                        }`}
-                    style={{ backgroundColor: "violet" }}
-
-                >
-                    <Card.Body
-                        className={`text-center card-body-icon ${isParentComponent ? "pointer" : "default-pointer"
+        <>
+            {console.log(leftSideData, "leftSideData")}
+            <motion.div
+                onClick={handleNavigateClick}
+                className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""}`}
+                style={{ backgroundColor: "#fff" }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.10 }} // Animation on hover
+                transition={{ duration: 0.3 }} // Animation duration
+            >
+                <Col sm={12} md={4} lg={lg} xl={xl} key={Math.random()}>
+                    <Card
+                        onClick={handleNavigateClick}
+                        className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""
                             }`}
+                        style={{ backgroundColor: "violet" }}
+
                     >
-                        <i
-                            className={`text-white fa-3x l-sign`}
-                            style={{
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                                opacity: 0.2, /* Optional: To make it look like a background */
-                                pointerEvents: "none", /* Prevent interaction */
-                                color: "#fff"
-                            }}
+                        <Card.Body
+                            className={`text-center card-body-icon ${isParentComponent ? "pointer" : "default-pointer"
+                                }`}
                         >
-                            {icon ? icon : "ppl"}
-                        </i>
+                            <i
+                                className={`text-white fa-3x l-sign`}
+                                style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)",
+                                    opacity: 0.2, /* Optional: To make it look like a background */
+                                    pointerEvents: "none", /* Prevent interaction */
+                                    color: "#fff"
+                                }}
+                            >
+                                {icon ? icon : "ppl"}
+                            </i>
 
-                        <div className="d-flex  justify-content-between align-items-center">
+                            <div className="d-flex  justify-content-between align-items-center">
 
-                            <div className="flex-grow-1 spacebetween" style={{ textAlign: "start" }}>
-                                <div>
-                                    <h6 className="mb-2 boxtitle">
-                                        {leftSideTitle}
-                                        {tooltipContent && (
-                                            <span className="ms-1">
+                                <div className="flex-grow-1 spacebetween" style={{ textAlign: "start" }}>
+                                    <div>
+                                        <h6 className="mb-2 boxtitle">
+                                            {leftSideTitle}
+                                            {tooltipContent && (
+                                                <span className="ms-1">
+                                                    <OverlayTrigger
+                                                        placement="top"
+                                                        overlay={<Tooltip>{tooltipContent}</Tooltip>}
+                                                    >
+                                                        <i
+                                                            className="fa fa-info-circle pointer"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                    </OverlayTrigger>
+                                                </span>
+                                            )}
+                                        </h6>
+                                        <h2 className="mb-2 number-font c-fs-18">
+
+                                            {leftSideData ? formatNumber(leftSideData) : "0.0"}{" "}
+                                            {showPPL ? "ppl" : ""}
+                                            {ppl_msg && (
                                                 <OverlayTrigger
                                                     placement="top"
-                                                    overlay={<Tooltip>{tooltipContent}</Tooltip>}
+                                                    overlay={<Tooltip>{ppl_msg}</Tooltip>}
                                                 >
                                                     <i
-                                                        className="fa fa-info-circle pointer"
+                                                        className="fa fa-info-circle pointer ms-1"
                                                         aria-hidden="true"
                                                     ></i>
                                                 </OverlayTrigger>
-                                            </span>
-                                        )}
-                                    </h6>
-                                    <h2 className="mb-2 number-font c-fs-18">
+                                            )}
+                                        </h2>
+                                    </div>
+                                    <div>
+                                        {showRightSide && (
+                                            <div className="">
 
-                                        {leftSideData ? formatNumber(leftSideData) : "0.0"}{" "}
-                                        {showPPL ? "ppl" : ""}
-                                        {ppl_msg && (
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={<Tooltip>{ppl_msg}</Tooltip>}
-                                            >
-                                                <i
-                                                    className="fa fa-info-circle pointer ms-1"
-                                                    aria-hidden="true"
-                                                ></i>
-                                            </OverlayTrigger>
+                                                <h6 className="mb-2 boxtitle">{RightSideTitle}</h6>
+                                                <h2 className="mb-0 number-font c-fs-18">
+                                                    <span className="l-sign">{icon}</span>{" "}
+                                                    {RightSideData ? formatNumber(RightSideData) : "0.00"}
+                                                </h2>
+                                            </div>
                                         )}
-                                    </h2>
-                                </div>
-                                <div>
-                                    {showRightSide && (
-                                        <div className="">
-
-                                            <h6 className="mb-2 boxtitle">{RightSideTitle}</h6>
-                                            <h2 className="mb-0 number-font c-fs-18">
-                                                <span className="l-sign">{icon}</span>{" "}
-                                                {RightSideData ? formatNumber(RightSideData) : "0.00"}
-                                            </h2>
-                                        </div>
-                                    )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="mt-3">
-                            {statusValue === "up" ? (
-                                <>
-                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                    <span>{percentageValue}% Last Month</span>
-                                </>
-                            ) : (
-                                <>
-                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                    <span>{percentageValue}% Last Month</span>
-                                </>
-                            )}
-                        </div>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </motion.div>
+                            <div className="mt-3">
+                                {statusValue === "up" ? (
+                                    <>
+                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                        <span>{percentageValue}% Last Month</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                        <span>{percentageValue}% Last Month</span>
+                                    </>
+                                )}
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </motion.div>
 
-    </>
-);
+        </>
+    )
+};
 
 export default TitanCommonCards;
 

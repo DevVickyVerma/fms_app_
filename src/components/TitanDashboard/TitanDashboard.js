@@ -364,7 +364,7 @@ const TitanDashboard = (props) => {
 
     return (
         <>
-            {isLoading ? <LoaderImg /> : ""}
+            {/* {isLoading ? <LoaderImg /> : ""} */}
             {centerFilterModalOpen && (
                 <div className="">
                     <TitanFilterModal
@@ -509,12 +509,14 @@ const TitanDashboard = (props) => {
                 {statsLoading ? (
                     <>
                         <Row>
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
-                            <TitanCardLoading lg={4} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
+                            <TitanCardLoading lg={3} />
 
                         </Row>
                     </>
@@ -535,11 +537,11 @@ const TitanDashboard = (props) => {
 
             <Row>
                 <Col lg={6}>
-                    {dashboardData?.gross_volume ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />}
+                    {dashboardData ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />}
 
                 </Col>
                 <Col lg={6}>
-                    {dashboardData?.gross_volume ? <TitanPieChart title=" Pie Chart" /> : <NoDataComponent title="Pie Chart" />}
+                    {dashboardData ? <TitanPieChart title=" Pie Chart" /> : <NoDataComponent title="Pie Chart" />}
 
 
                 </Col>

@@ -80,7 +80,7 @@ const TitanUppercards = (props) => {
                     className={`scale-in-center ${dashboardData ? "" : "ceo-stats-blur "
                         }`}
                 >
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
@@ -97,7 +97,7 @@ const TitanUppercards = (props) => {
                             tooltipContent={`WetStock Loss`}
                         />
                     </Col>
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
@@ -115,7 +115,7 @@ const TitanUppercards = (props) => {
                         />
                     </Col>
 
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
@@ -133,7 +133,28 @@ const TitanUppercards = (props) => {
                             tooltipContent={`Unknown Loss`}
                         />
                     </Col>
-                    <Col lg={4}>
+                    <Col lg={3}>
+                        <TitanCommonCards
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            leftSideData={"0.00"}
+                            leftSideTitle={"Dips Stock"}
+                            RightSideData={"0.00"}
+                            RightSideTitle={"YTD Volume"}
+                            statusValue={unkonwn_loss_volume?.status}
+                            percentageValue={unkonwn_loss_volume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"ℓ"}
+                            containerStyle={"dash-plates-3 "}
+                            xl={12}
+
+                            tooltipContent={`Dips Stock`}
+                        />
+                    </Col>
+
+                    {/* //pounds */}
+
+                    <Col lg={3}>
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
@@ -150,7 +171,7 @@ const TitanUppercards = (props) => {
                             tooltipContent={`WetStock Loss`}
                         />
                     </Col>
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
@@ -168,7 +189,7 @@ const TitanUppercards = (props) => {
                         />
                     </Col>
 
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
@@ -186,7 +207,24 @@ const TitanUppercards = (props) => {
                         />
                     </Col>
 
+                    <Col lg={3}>
+                        <TitanCommonCards
+                            isParentComponent={parentComponent}
+                            showRightSide={true}
+                            leftSideData={"0.00"}
+                            leftSideTitle={"Dips Stock"}
+                            RightSideData={"0.00"}
+                            RightSideTitle={"YTD Volume"}
+                            statusValue={unkonwn_loss_volume?.status}
+                            percentageValue={unkonwn_loss_volume?.percentage}
+                            handleNavigateClick={handleNavigateClick}
+                            icon={"£"}
+                            containerStyle={"dash-plates-3 "}
+                            xl={12}
 
+                            tooltipContent={`Dips Stock`}
+                        />
+                    </Col>
 
 
 
