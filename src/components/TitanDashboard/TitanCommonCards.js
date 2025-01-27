@@ -13,7 +13,8 @@ const TitanCommonCards = ({
     handleNavigateClick,
     showRightSide = false,
     icon = "",
-    tooltipContent = null,
+    Righttooltip = null,
+    Lefttooltip = null,
     showPPL = false,
     ppl_msg = null,
     lg = 6,
@@ -21,6 +22,19 @@ const TitanCommonCards = ({
 }) => {
     const statusValue = leftSideData >= 0 ? "up" : "down"; // Check if positive or negative
     console.log(statusValue, "statusValue");
+    const StatusIndicator = ({ leftSideData }) => {
+
+        const isUp = leftSideData >= 0;
+
+        return (
+            <div>
+                <i
+                    className={`fa ${isUp ? "fa-chevron-circle-up text-success" : "fa-chevron-circle-down text-danger"
+                        } ms-2`}
+                ></i>
+            </div>
+        );
+    };
     return (
 
         <>
@@ -67,11 +81,11 @@ const TitanCommonCards = ({
                                     <div>
                                         <h6 className="mb-2 boxtitle">
                                             {leftSideTitle}
-                                            {tooltipContent && (
+                                            {Lefttooltip && (
                                                 <span className="ms-1">
                                                     <OverlayTrigger
                                                         placement="top"
-                                                        overlay={<Tooltip>{tooltipContent}</Tooltip>}
+                                                        overlay={<Tooltip>{Lefttooltip}</Tooltip>}
                                                     >
                                                         <i
                                                             className="fa fa-info-circle pointer"
@@ -81,9 +95,9 @@ const TitanCommonCards = ({
                                                 </span>
                                             )}
                                         </h6>
-                                        <h2 className="mb-2 number-font c-fs-18">
+                                        <h2 className="mb-2 number-font c-fs-18 d-flex">
 
-                                            {leftSideData ? formatNumber(leftSideData) : "0.0"}{" "}
+                                            {leftSideData ? formatNumber(leftSideData) : "0.0"}{" "}<StatusIndicator leftSideData={leftSideData} />
                                             {showPPL ? "ppl" : ""}
                                             {ppl_msg && (
                                                 <OverlayTrigger
@@ -102,10 +116,22 @@ const TitanCommonCards = ({
                                         {showRightSide && (
                                             <div className="">
 
-                                                <h6 className="mb-2 boxtitle">{RightSideTitle}</h6>
-                                                <h2 className="mb-0 number-font c-fs-18">
-                                                    <span className="l-sign">{icon}</span>{" "}
-                                                    {RightSideData ? formatNumber(RightSideData) : "0.00"}
+                                                <h6 className="mb-2 boxtitle">{RightSideTitle}    {Righttooltip && (
+                                                    <span className="ms-1">
+                                                        <OverlayTrigger
+                                                            placement="top"
+                                                            overlay={<Tooltip>{Righttooltip}</Tooltip>}
+                                                        >
+                                                            <i
+                                                                className="fa fa-info-circle pointer"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                        </OverlayTrigger>
+                                                    </span>
+                                                )}</h6>
+                                                <h2 className="mb-0 number-font c-fs-18 d-flex">
+                                                    {/* <span className="l-sign">{icon}</span>{" "} */}
+                                                    {RightSideData ? formatNumber(RightSideData) : "0.00"}<StatusIndicator leftSideData={leftSideData} />
                                                 </h2>
                                             </div>
                                         )}

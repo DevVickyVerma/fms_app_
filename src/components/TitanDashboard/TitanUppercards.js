@@ -60,7 +60,6 @@ const TitanUppercards = (props) => {
         } else if (!ApplyFilterrequired && !isDetailPermissionAvailable) {
         }
     };
-    console.log(wet_stock_value, "wet_stock_value");
     return (
         <div>
             {/* {gross_volume ? ( */}
@@ -94,7 +93,8 @@ const TitanUppercards = (props) => {
                             icon={"ℓ"}
                             containerStyle={"dash-plates-1"}
                             xl={12}
-                            tooltipContent={`WetStock Loss`}
+                            Righttooltip={`Year To Date `}
+                            Lefttooltip={`Wetstock Loss (Liters)=(Opening Stock+Deliveries)−(Closing Stock+Sales)`}
                         />
                     </Col>
                     <Col lg={3}>
@@ -111,7 +111,8 @@ const TitanUppercards = (props) => {
                             icon={"ℓ"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
-                            tooltipContent={`Delivery Loss`}
+                            Righttooltip={`Year To Date `}
+                            Lefttooltip={`Delivery Loss (Liters)=Invoice Quantity−Actual Received Quantity`}
                         />
                     </Col>
 
@@ -130,7 +131,8 @@ const TitanUppercards = (props) => {
                             containerStyle={"dash-plates-3 "}
                             xl={12}
 
-                            tooltipContent={`Unknown Loss`}
+                            Lefttooltip={`Unknown Loss (Liters)=  Wetstock Loss - Delivery Loss`}
+                            Righttooltip={`Year To Date `}
                         />
                     </Col>
                     <Col lg={3}>
@@ -147,10 +149,11 @@ const TitanUppercards = (props) => {
                             icon={"ℓ"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
-
-                            tooltipContent={`Dips Stock`}
+                            Righttooltip={`Year To Date `}
+                            Lefttooltip={`Dips stock (Liters)=   Opening Dips - Closing Dips`}
                         />
                     </Col>
+
 
                     {/* //pounds */}
 
@@ -168,7 +171,8 @@ const TitanUppercards = (props) => {
                             icon={"£"}
                             containerStyle={"dash-plates-1"}
                             xl={12}
-                            tooltipContent={`WetStock Loss`}
+                            Righttooltip={`Year To Date `}
+                            Lefttooltip={`Wetstock Loss (values)=(Opening Stock+Deliveries)−(Closing Stock+Sales) X selling price`}
                         />
                     </Col>
                     <Col lg={3}>
@@ -185,7 +189,8 @@ const TitanUppercards = (props) => {
                             icon={"£"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
-                            tooltipContent={`Delivery Loss`}
+                            Righttooltip={`Year To Date `}
+                            Lefttooltip={`Delivery Loss (values)=Invoice Quantity−Actual Received Quantity X purchase price`}
                         />
                     </Col>
 
@@ -203,7 +208,8 @@ const TitanUppercards = (props) => {
                             icon={"£"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
-                            tooltipContent={`Unknown Loss`}
+                            Righttooltip={`Year To Date `}
+                            Lefttooltip={` Unknown Loss (values)=  Unknown Loss/ Unknown Loss ×100`}
                         />
                     </Col>
 
@@ -214,15 +220,15 @@ const TitanUppercards = (props) => {
                             leftSideData={"0.00"}
                             leftSideTitle={"Dips Stock"}
                             RightSideData={"0.00"}
-                            RightSideTitle={"YTD Volume"}
+                            RightSideTitle={"YTD Value"}
                             statusValue={unkonwn_loss_volume?.status}
                             percentageValue={unkonwn_loss_volume?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"£"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
-
-                            tooltipContent={`Dips Stock`}
+                            Righttooltip={`Year To Date `}
+                            Lefttooltip={`Dips Stock`}
                         />
                     </Col>
 

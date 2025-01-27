@@ -3,23 +3,19 @@ import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import DashboardStatCard from "../../components/Dashboard/DashboardStatCard";
 import FiltersComponent from "../../components/Dashboard/DashboardHeader";
-import {
-    handleFilterData,
-    PriceLogsFilterValue,
-} from "../../Utils/commonFunctions/commonFunction";
-import { Col, Row } from "react-bootstrap";
+import { BestvsWorst, GraphfilterOptions, handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import { Card, Col, Row } from "react-bootstrap";
 import TitanFilterModal from "./TitanFilterModal";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
-import LoaderImg from "../../Utils/Loader";
-import * as Yup from "yup";
 import Swal from "sweetalert2";
 import TitanUppercards from "./TitanUppercards";
 import TitanCardLoading from "./TitanCardLoading";
-import TitanColumnChart from "./TitanColumnChart";
 import TitanPieChart from "./TitanPieChart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
+import SmallLoader from "../../Utils/SmallLoader";
+import LinesDotGraphchart from "../Dashboard/LinesDotGraphchart";
 
 const TitanDashboard = (props) => {
     const navigate = useNavigate();
@@ -43,11 +39,9 @@ const TitanDashboard = (props) => {
     const [PriceGraphloading, setPriceGraphloading] = useState(false);
     const [PriceLogs, setPriceLogs] = useState();
     const [PriceGraphData, setPriceGraphData] = useState();
+    const [bestvsWorst, setbestvsWorst] = useState("1");
+    const [graphfilterOption, setgraphfilterOption] = useState("weekly");
     const [applyNavigate, setApplyNavigate] = useState(false);
-    const [PriceLogsvalue, setPriceLogsvalue] = useState(
-        PriceLogsFilterValue[0]?.value
-    ); // state for selected site
-
 
 
     const userPermissions = useSelector(
@@ -60,7 +54,6 @@ const TitanDashboard = (props) => {
     const priceGraphPermission = userPermissions?.includes(
         "ceodashboard-price-graph"
     );
-
 
     const { handleError } = useErrorHandler();
 
@@ -128,6 +121,7 @@ const TitanDashboard = (props) => {
 
             // Fetch dashboard stats if the user has the required permission
             if (permissionsArray?.includes("ceodashboard-view")) {
+                // FetchPriceLogs(values)
                 // console.log(storedKeyName, "storedKeyName");
                 FetchDashboardStats(values);
             }
@@ -141,6 +135,7 @@ const TitanDashboard = (props) => {
             {
                 name: "dashboard",
                 url: "titan-dashboard/stats",
+                // url: "ceo-dashboard/stats",
                 setData: setDashboardData,
                 setLoading: setStatsLoading,
                 callback: (response, updatedFilters) => {
@@ -265,55 +260,25 @@ const TitanDashboard = (props) => {
         }
     };
 
-    const FetchPriceLogs = async (PriceLogsvalue) => {
-        try {
-            setPriceLogssloading(true);
-            const queryParams = new URLSearchParams();
-            if (filters?.site_id) queryParams.append("site_id", filters?.site_id);
-            const currentDate = new Date();
-            const day = "01";
-            const formattedDate = `${String(day)}-${String(
-                currentDate.getMonth() + 1
-            ).padStart(2, "0")}-${currentDate.getFullYear()}`;
-            queryParams.append("client_id", filters?.client_id);
-            queryParams.append("company_id", filters?.company_id);
 
-            queryParams.append("drs_date", formattedDate);
-            queryParams.append("f_type", PriceLogsvalue);
-
-            const queryString = queryParams.toString();
-            const response = await getData(
-                `ceo-dashboard/selling-price?${queryString}`
-            );
-            if (response && response.data && response.data.data) {
-                setPriceLogs(response?.data?.data);
-            }
-        } catch (error) {
-            // handleError(error);
-        } finally {
-            setPriceLogssloading(false);
-        }
-    };
     const FetchPriceGraph = async () => {
         try {
             setPriceGraphloading(true);
             const queryParams = new URLSearchParams();
-            if (formik?.values?.selectedSite)
-                queryParams.append("site_id", formik?.values?.selectedSite);
-            const currentDate = new Date();
-            const day = "01";
-            const formattedDate = `${String(day)}-${String(
-                currentDate.getMonth() + 1
-            ).padStart(2, "0")}-${currentDate.getFullYear()}`;
 
-            queryParams.append("drs_date", formattedDate);
+            queryParams.append("client_id", formik.values?.client_id);
+            queryParams.append("company_id", formik.values?.company_id);
+            queryParams.append("case", bestvsWorst);
+            queryParams.append("filter_type", graphfilterOption);
 
             const queryString = queryParams.toString();
             const response = await getData(
-                `ceo-dashboard/price-graph-stats?${queryString}`
+                `titan-dashboard/graph?${queryString}`
             );
             if (response && response.data && response.data.data) {
-                setPriceGraphData(response?.data?.data);
+                setPriceGraphData(response.data.data)
+                console.log(response?.data?.data, "columnIndex");
+
             }
         } catch (error) {
             // handleError(error);
@@ -339,20 +304,13 @@ const TitanDashboard = (props) => {
     const handlelivemaringclosemodal = () => {
         setShowLiveData(false); // Toggle the state
     };
-    const [pdfisLoading, setpdfisLoading] = useState(false);
 
     useEffect(() => {
         if (formik?.values?.selectedSite && priceLogsPermission) {
             FetchPriceGraph();
         }
-    }, [formik?.values?.selectedSite, priceLogsPermission]);
-    useEffect(() => {
-        console.log(filters, "filters");
+    }, [graphfilterOption, priceLogsPermission, bestvsWorst, formik?.values?.selectedSite]);
 
-        if (priceLogsPermission && filters?.client_id && filters?.company_id) {
-            FetchPriceLogs(PriceLogsvalue);
-        }
-    }, [priceLogsPermission, filters, PriceLogsvalue]);
 
 
     const openCenterFilterModal = () => {
@@ -361,7 +319,57 @@ const TitanDashboard = (props) => {
         }
     };
 
+    const handleSiteChange = async (selectedId) => {
+        const handleConfirmedAction = async (selectedId) => {
+            try {
+                const selectedItem = await filters?.sites.find(
+                    (item) => item.id === selectedId
+                );
+                filters.site_id = selectedId;
+                filters.site_name = selectedItem?.site_name;
 
+                handleApplyFilters(filters);
+            } catch (error) {
+                console.error("Error in handleConfirmedAction:", error);
+            }
+        };
+
+        const handleCancelledAction = async (selectedId) => {
+            try {
+                const selectedItem = await filters?.sites.find(
+                    (item) => item.id === selectedId
+                );
+
+                await formik.setFieldValue("selectedSite", selectedId);
+                await formik.setFieldValue("selectedSiteDetails", selectedItem);
+            } catch (error) {
+                console.error("Error in handleCancelledAction:", error);
+            }
+        };
+
+        Swal.fire({
+            title: "",
+            text: "Apply this change on   whole dashboard or  below statistics only?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Apply to All",
+            cancelButtonText: "Apply to This Only",
+            showDenyButton: true, // Enable the third button
+            denyButtonText: "Cancel", // Label for the third button
+            customClass: {
+                actions: "swal2-actions-custom", // Add a custom class to the action buttons
+            },
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await handleConfirmedAction(selectedId);
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                await handleCancelledAction(selectedId);
+            } else if (result.isDenied) {
+                // Logic for the deny button (third button)
+                Swal.close();
+            }
+        });
+    };
     return (
         <>
             {/* {isLoading ? <LoaderImg /> : ""} */}
@@ -374,7 +382,6 @@ const TitanDashboard = (props) => {
                         isLoading={isLoading}
                         isStatic={true}
                         onApplyFilters={handleApplyFilters}
-
                         storedKeyName={storedKeyName}
                         layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
                         showStationValidation={false}
@@ -535,77 +542,50 @@ const TitanDashboard = (props) => {
             </div>
 
 
-            <Row>
-                <Col lg={6}>
+            <Row className="mb-5">
+                {/* <Col lg={6}>
                     {dashboardData ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />}
 
-                </Col>
-                <Col lg={6}>
-                    {dashboardData ? <TitanPieChart title=" Pie Chart" /> : <NoDataComponent title="Pie Chart" />}
-
-
-                </Col>
-            </Row>
-
-
-
-            {/* 
-            <div onClick={() => openCenterFilterModal()}>
-                <Row>
-                    <Col lg={12}>
-                        <CeoDashBoardBottomPage
-                            filters={filters}
-                            getData={getData}
-                            dashboardData={dashboardData}
-                            applyNavigate={applyNavigate}
-                        />
-                    </Col>
-                </Row>
-            </div>
-
-            <Row className="my-2">
-                {priceLogsPermission && (
+                </Col> */}
+                {priceGraphPermission && (
                     <>
-                        <Col
-                            sm={12}
-                            md={priceLogAndGraphPermission ? 6 : 12}
-                            key={Math.random()}
-                        >
-                            <Card className="h-100">
+                        <Col className="" sm={12} md={8} lg={8}>
+                            <Card
+                                className="h-100"
+                                style={{ transition: "opacity 0.3s ease" }}
+                            >
                                 <Card.Header className="p-4">
                                     <div className="spacebetween" style={{ width: "100%" }}>
                                         <h4 className="card-title">
                                             {" "}
-                                            Fuel Price Exceptional Alerts (
-                                            {PriceLogsFilterValue?.find(
-                                                (item) => item.value === PriceLogsvalue
-                                            )?.label || "Value not found"}
-                                            )
-                                            <br />
-                                            {userPermissions?.includes("fuel-price-logs") ? (
-                                                <span style={{ color: "#4663ac" }}>
-                                                    <Link to="/fuel-price-exceptional-logs/">
+                                            Site Performance {" "}
+                                            {PriceGraphData?.name &&
+                                                ` (${PriceGraphData?.name})`}
+                                            <br></br>
+                                            {/* {userPermissions?.includes("ceodashboard-price-graph") ? (
+                                                <span style={{ color: "#4663ac" }} className="pointer">
+                                                    <div onClick={() => handleNavigateViewAllClick()}>
                                                         View All
-                                                    </Link>
+                                                    </div>
                                                 </span>
                                             ) : (
                                                 ""
-                                            )}
+                                            )} */}
                                         </h4>
                                     </div>
                                     <div className="flexspacebetween">
-                                        {filters?.sites ? (
+                                        {/* <CommonToggleBtn /> */}
+                                        {PriceGraphData?.graph_stats ? (
                                             <div>
                                                 <select
-                                                    id="PriceLogsvalue"
-                                                    name="PriceLogsvalue"
-                                                    value={PriceLogsvalue}
-                                                    onChange={(e) =>
-                                                        handlePriceLogsChange(e.target.value)
-                                                    }
-                                                    className="selectedMonth"
+                                                    id="BestvsWorst"
+                                                    name="BestvsWorst"
+                                                    value={bestvsWorst}
+                                                    onChange={(e) => setbestvsWorst(e.target.value)}
+                                                    className="selectedMonth ms-2"
                                                 >
-                                                    {PriceLogsFilterValue?.map((item) => (
+
+                                                    {BestvsWorst?.map((item) => (
                                                         <option key={item.value} value={item.value}>
                                                             {item.label}
                                                         </option>
@@ -615,77 +595,19 @@ const TitanDashboard = (props) => {
                                         ) : (
                                             ""
                                         )}
-                                    </div>
-                                </Card.Header>
-                                <Card.Body>
-                                    {PriceLogsloading ? (
-                                        <SmallLoader />
-                                    ) : PriceLogs?.priceLogs?.length > 0 ? (
-                                        <div
-                                            style={{
-                                                maxHeight: "250px",
-                                                overflowX: "auto",
-                                                overflowY: "auto",
-                                            }}
-                                        >
-                                            <PriceLogTable
-                                                PriceLogsvalue={PriceLogsvalue}
-                                                PriceLogs={PriceLogs}
-                                            />
-                                        </div>
-                                    ) : (
-                                        <img
-                                            src={require("../../assets/images/commonimages/no_data.png")}
-                                            alt="No data available"
-                                            className="all-center-flex smallNoDataimg h-100"
-                                        />
-                                    )}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </>
-                )}
-
-                {priceGraphPermission && (
-                    <>
-                        <Col className="" sm={12} md={priceLogAndGraphPermission ? 6 : 12}>
-                            <Card
-                                className="h-100"
-                                style={{ transition: "opacity 0.3s ease" }}
-                            >
-                                <Card.Header className="p-4">
-                                    <div className="spacebetween" style={{ width: "100%" }}>
-                                        <h4 className="card-title">
-                                            {" "}
-                                            Price Graph{" "}
-                                            {formik.values?.selectedSiteDetails?.site_name &&
-                                                ` (${formik.values.selectedSiteDetails.site_name})`}
-                                            <br></br>
-                                            {userPermissions?.includes("ceodashboard-price-graph") ? (
-                                                <span style={{ color: "#4663ac" }} className="pointer">
-                                                    <div onClick={() => handleNavigateViewAllClick()}>
-                                                        View All
-                                                    </div>
-                                                </span>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </h4>
-                                    </div>
-                                    <div className="flexspacebetween">
-                                        {filters?.sites ? (
+                                        {PriceGraphData?.graph_stats ? (
                                             <div>
                                                 <select
-                                                    id="selectedSite"
-                                                    name="selectedSite"
-                                                    value={formik.values.selectedSite}
-                                                    onChange={(e) => handleSiteChange(e.target.value)}
-                                                    className="selectedMonth"
+                                                    id="GraphfilterOptions"
+                                                    name="GraphfilterOptions"
+                                                    value={graphfilterOption}
+                                                    onChange={(e) => setgraphfilterOption(e.target.value)}
+                                                    className="selectedMonth ms-2"
                                                 >
-                                                    <option value="">--Select a Site--</option>
-                                                    {filters?.sites?.map((item) => (
-                                                        <option key={item.id} value={item.id}>
-                                                            {item.site_name}
+
+                                                    {GraphfilterOptions?.map((item) => (
+                                                        <option key={item.value} value={item.value}>
+                                                            {item.label}
                                                         </option>
                                                     ))}
                                                 </select>
@@ -699,8 +621,8 @@ const TitanDashboard = (props) => {
                                 <Card.Body>
                                     {PriceGraphloading ? (
                                         <SmallLoader />
-                                    ) : PriceGraphData?.labels ? (
-                                        <LinesDotGraphchart stockGraphData={PriceGraphData} />
+                                    ) : PriceGraphData?.graph_stats ? (
+                                        <LinesDotGraphchart stockGraphData={PriceGraphData?.graph_stats} />
                                     ) : (
                                         <NoDataComponent showCard={false} />
                                     )}
@@ -709,7 +631,16 @@ const TitanDashboard = (props) => {
                         </Col>
                     </>
                 )}
-            </Row> */}
+
+
+                <Col sm={12} md={4} lg={4}>
+                    {dashboardData ? <TitanPieChart title=" Pie Chart" /> : <NoDataComponent title="Pie Chart" />}
+
+
+                </Col>
+            </Row>
+
+
         </>
     );
 };

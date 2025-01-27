@@ -59,11 +59,11 @@ const TitanPieChart = ({ title }) => {
 
 
     return (
-        <Card>
+        <Card className="h-100 ">
             <Card.Header>
                 <h4 className="card-title">{title}</h4>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className='hcenter'>
                 <div style={{ width: "100%", height: "350px", display: "flex", justifyContent: "center" }}>
                     <Pie data={data} options={options} />
 

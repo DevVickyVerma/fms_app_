@@ -33,6 +33,7 @@ const CeoDashBoardTest = (props) => {
   const [statsLoading, setStatsLoading] = useState(false);
 
   const [dashboardData, setDashboardData] = useState();
+  const [dashboardGraphData, setDashboardGraphData] = useState();
   const [filters, setFilters] = useState({
     client_id: "",
     company_id: "",
@@ -138,6 +139,7 @@ const CeoDashBoardTest = (props) => {
 
       // Fetch dashboard stats if the user has the required permission
       if (permissionsArray?.includes("ceodashboard-view")) {
+
         // console.log(storedKeyName, "storedKeyName");
         FetchDashboardStats(values);
       }
@@ -158,6 +160,7 @@ const CeoDashBoardTest = (props) => {
           setCenterFilterModalOpen(false);
         },
       },
+
     ];
 
     // Split the endpoints into two halves
@@ -274,8 +277,6 @@ const CeoDashBoardTest = (props) => {
   };
 
   const FetchPriceLogs = async (PriceLogsvalue) => {
-    console.log(filters?.client_id, "FetchPriceLogs");
-
     try {
       setPriceLogssloading(true);
       const queryParams = new URLSearchParams();
@@ -324,6 +325,27 @@ const CeoDashBoardTest = (props) => {
       );
       if (response && response.data && response.data.data) {
         setPriceGraphData(response?.data?.data);
+      }
+    } catch (error) {
+      // handleError(error);
+    } finally {
+      setPriceGraphloading(false);
+    }
+  };
+  const FetchSiteGraph = async () => {
+    try {
+      setPriceGraphloading(true);
+      const queryParams = new URLSearchParams();
+
+      queryParams.append("client_id", formik.values?.client_id);
+      queryParams.append("company_id", formik.values?.company_id);
+
+      const queryString = queryParams.toString();
+      const response = await getData(
+        `titan-dashboard-graph?${queryString}`
+      );
+      if (response && response.data && response.data.data) {
+        console.log(response.data.data, "response.data.data");
       }
     } catch (error) {
       // handleError(error);

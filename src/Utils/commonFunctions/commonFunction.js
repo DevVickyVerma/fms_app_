@@ -146,6 +146,28 @@ export const SalesSummary = [
   { value: "1", label: "Sales Summary" },
   { value: "0", label: "Grades Dispensed Summary" },
 ];
+export const GraphfilterOptions = [
+  {
+    value: "weekly",
+    label: `Weekly  `,
+  },
+  {
+    value: "monthly",
+    label: `Monthly  `,
+  },
+  {
+    value: "yearly",
+    label: `Year To Date   `,
+  },
+  // { value: "month_year", label: "Actual Vs Previous Year Month" },
+  // { value: "budget", label: "Actual Vs Budget" },
+  // { value: "custom", label: "Custom" },
+];
+
+export const BestvsWorst = [
+  { value: "1", label: "Best" },
+  { value: "0", label: "worst" },
+];
 
 export const PriceLogsFilterValue = [
   { value: "competitor", label: "Competitor" },

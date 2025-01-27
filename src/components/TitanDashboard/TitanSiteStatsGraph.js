@@ -20,22 +20,14 @@ const calculateTrendLine = (data) => {
     // Generate trend line points
     return xValues.map((x) => m * x + b);
 };
-const LinesDotGraphchart = ({ stockGraphData }) => {
+const TitanSiteStatsGraph = ({ stockGraphData }) => {
     const [selectedFuelType, setSelectedFuelType] = useState(stockGraphData?.fuel_type[0]); // Default to the first fuel type
 
     // Handler for dropdown change
     const handleFuelTypeChange = (event) => {
         setSelectedFuelType(event.target.value);
     };
-    const maxPoints = 10;
 
-    // Slice the data to show only the first 10 points
-    const limitedData = stockGraphData?.datasets[selectedFuelType]?.map((dataset) => {
-        return {
-            ...dataset,
-            data: dataset.data,
-        };
-    });
     const originalData = stockGraphData?.datasets[selectedFuelType]?.[0]?.data || [];
     const trendLineData = calculateTrendLine(originalData);
 
@@ -164,4 +156,4 @@ const LinesDotGraphchart = ({ stockGraphData }) => {
     );
 };
 
-export default LinesDotGraphchart;
+export default TitanSiteStatsGraph;
