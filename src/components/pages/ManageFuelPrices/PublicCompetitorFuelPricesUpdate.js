@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
-import { Card, Row, Col } from "react-bootstrap";
+import { Form, FormikProvider, useFormik } from "formik";
+import { Card } from "react-bootstrap";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import InputTime from "../Competitor/InputTime";
-import ConfirmModal from "./ConfirmModal";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { SuccessAlert } from "../../../Utils/ToastUtils";
 
 const PublicCompetitorFuelPricesUpdate = ({
   data,
   postData,
   handleFormSubmit,
   accordionSiteID,
+  CallListingApi,
+  setIsSubmitted,
 }) => {
   const { notify_operator, update_tlm_price } = data || {};
   const [filterData, setFilterData] = useState();
   const [formValues, setFormValues] = useState(null); // State to hold form values
   const [priceSuggestionEditable, setPriceSuggestionEditable] = useState(false);
   const [isEdited, setIsEdited] = useState(false); // Track if user has edited any input
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -81,7 +86,7 @@ const PublicCompetitorFuelPricesUpdate = ({
         columns: columns,
         rows: [rows], // Make sure rows is an array with one object
         update_tlm_price: data?.update_tlm_price,
-        confirmation_required: data?.confirmation_required,
+        confirmation_required: data?.update_tlm_price ? 1 : 0,
         notify_operator: data?.notify_operator,
         head_array: data?.head_array,
         pricedata: data,
@@ -98,11 +103,16 @@ const PublicCompetitorFuelPricesUpdate = ({
     formik.setFieldValue(`rows[${rowIndex}].${column}`, value);
   };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (status, rejectionReason) => {
     try {
+      setIsLoading(true);
       const formData = new FormData();
 
-      formData.append("site_id", accordionSiteID);
+      formData.append("id", accordionSiteID);
+
+      if (rejectionReason) {
+        formData.append("notes", rejectionReason);
+      }
       if (formik?.values?.update_tlm_price == 1) {
         formData.append(
           "update_tlm_price",
@@ -118,24 +128,41 @@ const PublicCompetitorFuelPricesUpdate = ({
         formData.append("notify_operator", formik?.values?.notify_operator);
       }
 
-      const flattenedData = values?.accept_suggestion?.flat();
-      const editableItems = flattenedData.filter((item) => item?.is_editable);
+      formData.append(
+        `drs_date`,
+        lsitingformik?.values?.accept_suggestion?.[0]?.date
+      );
+      formData.append(`status`, status);
+      formData.append(
+        `time`,
+        lsitingformik?.values?.accept_suggestion?.[0]?.time
+      );
 
-      formData.append(`drs_date`, editableItems[0]?.date);
-      formData.append(`time`, editableItems[0]?.time);
-
-      values?.accept_suggestion.flat().forEach((item) => {
-        if (item?.is_editable) {
-          formData.append(`accept_suggestion[${item.id}]`, item.price);
-        }
+      lsitingformik?.values?.accept_suggestion.flat().forEach((item) => {
+        formData.append(`fuels[${item.id}]`, item.price);
       });
 
-      const postDataUrl = "/site/fuel-price/suggestion/add";
+      const postDataUrl = "/site/fuel-price/suggestion/update";
+      const postPublcDataUrl = `${process.env.REACT_APP_BASE_URL}/site/fuel-price/psuggestion/update`;
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-
-      // handleFormSubmit()
+      if (postData) {
+        await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+        setIsLoading(false);
+        CallListingApi();
+      } else {
+        const response = await axios.post(`${postPublcDataUrl}`, formData);
+        if (response.data.status_code === "200") {
+          // setIsLoading(false);
+          setIsLoading(false);
+          SuccessAlert(response.data.message);
+          setIsSubmitted(true);
+        } else {
+          setIsLoading(false);
+          CallListingApi();
+        }
+      }
     } catch (error) {
+      setIsLoading(false);
       console.error(error); // Set the submission state to false if an error occurs
     }
   };
@@ -163,38 +190,83 @@ const PublicCompetitorFuelPricesUpdate = ({
     }
   }, [storedKeyName, storedData]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleConfirm = () => {
-    handleSubmit(formValues);
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false); // Close the modal without submitting
-  };
   const handleEditPrice = () => {
     setPriceSuggestionEditable(true); // Close the modal without submitting
-  };
-
-  // Track changes to detect if user has edited any field
-  const handleFieldChange = (e, rowIndex, itemIndex) => {
-    lsitingformik.handleChange(e);
-    setIsEdited(true); // Mark as edited when any input changes
   };
 
   const handleClearPrice = () => {
     setPriceSuggestionEditable(false); // Clear and make field non-editable
     setIsEdited(false);
+    CallListingApi();
   };
 
-  console.log(
-    lsitingformik?.values,
-    "formik values in public competitor fuel prices"
-  );
+  const handleSubmission = (status) => {
+    if (status === 2) {
+      // Open SweetAlert with a custom input (textarea)
+      // Function to apply `inert` to elements with a specific class
+      const applyInertToModal = () => {
+        const modal = document.querySelector(".dashboard-center-modal");
+        if (modal) {
+          modal.setAttribute("inert", ""); // Add the inert attribute
+        }
+      };
+
+      // Function to remove `inert` when modal is closed
+      const removeInertFromModal = () => {
+        const modal = document.querySelector(".dashboard-center-modal");
+        if (modal) {
+          modal.removeAttribute("inert"); // Remove the inert attribute
+        }
+      };
+
+      // Example of using SweetAlert with direct input
+      Swal.fire({
+        title: "Reason for Rejection",
+        html: `
+        <div class="swal2-input-container-suggested w-100 p-0">
+        <textarea id="reject-reason" class="swal2-textarea p-1 m-0 w-100" placeholder="Enter the reason for rejection"></textarea>
+          </div>`,
+        showCancelButton: true,
+        confirmButtonText: "Submit",
+        cancelButtonText: "Cancel",
+        didOpen: () => {
+          // Add inert to the modal when it's opened
+          applyInertToModal();
+
+          // Focus the input inside the modal
+          const inputElement = document.querySelector("#reject-reason");
+          if (inputElement) {
+            inputElement.focus();
+          }
+        },
+        willClose: () => {
+          // Remove inert when the modal is closed
+          removeInertFromModal();
+        },
+        preConfirm: () => {
+          const reason = document.getElementById("reject-reason").value;
+          if (!reason) {
+            Swal.showValidationMessage(
+              "You need to provide a reason for rejection!"
+            );
+            return false;
+          }
+          return reason;
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const rejectionReason = result.value;
+          handleSubmit(status, rejectionReason); // Pass the reason to handle submission
+        }
+      });
+    } else {
+      handleSubmit(status); // Handle the regular submission
+    }
+  };
 
   return (
     <>
+      {isLoading ? <isLoading /> : null}
       <hr />
       <div style={{ overflowY: "auto" }}>
         <>
@@ -202,8 +274,8 @@ const PublicCompetitorFuelPricesUpdate = ({
             <div className="d-flex w-100 justify-content-between align-items-center">
               <div>
                 <span>
-                  Fuel Selling Price Suggestion For Chalfonts Way Sf Connect
-                  {/* {formik?.values?.competitorname}{" "} */}
+                  Fuel Selling Price Suggestion For {data?.site_name} (
+                  {data?.date})
                 </span>
                 <span className="d-flex pt-1 align-items-center fs-12">
                   <span className="greenboxx me-2"></span>
@@ -328,12 +400,18 @@ const PublicCompetitorFuelPricesUpdate = ({
                             !priceSuggestionEditable ? "readonly" : ""
                           }`}
                           readOnly={!priceSuggestionEditable}
-                          onChange={(e) =>
-                            lsitingformik.setFieldValue(
-                              `accept_suggestion[0].date`,
-                              e.target.value
-                            )
-                          }
+                          onChange={(e) => {
+                            if (priceSuggestionEditable) {
+                              // Update Formik field value
+                              lsitingformik.setFieldValue(
+                                `accept_suggestion[0].date`,
+                                e.target.value
+                              );
+
+                              // Update the state as needed (e.g., to mark the form as edited)
+                              setIsEdited(true);
+                            }
+                          }}
                         />
                       </td>
 
@@ -378,116 +456,139 @@ const PublicCompetitorFuelPricesUpdate = ({
                               disabled={!priceSuggestionEditable}
                               name={`accept_suggestion[${index}].price`}
                               value={item?.price}
-                              onChange={lsitingformik.handleChange}
+                              step={"0.001"}
+                              onChange={(e) => {
+                                if (priceSuggestionEditable) {
+                                  // Update Formik field value
+                                  lsitingformik.setFieldValue(
+                                    `accept_suggestion[${index}].price`,
+                                    e.target.value
+                                  );
+
+                                  // Update the state (e.g., to mark the form as edited)
+                                  setIsEdited(true);
+                                }
+                              }}
                             />
                           </td>
                         )
                       )}
                     </tr>
-
-                    {/* <tr>
-                      {lsitingformik?.values?.accept_suggestion?.map(
-                        (row, rowIndex) => (
-                          <React.Fragment key={rowIndex}>
-                            <td className="middayModal-td">
-                              <div className="">
-                                <Field
-                                  name={`accept_suggestion[${rowIndex}][0].date`}
-                                  type="date"
-                                  // disabled={!row?.[0]?.is_editable}
-                                  disabled={!priceSuggestionEditable}
-                                  onClick={(e) =>
-                                    handleShowDate(
-                                      e,
-                                      formik?.values?.pricedata?.currentDate
-                                    )
-                                  } // Passing currentDate to the onClick handler
-                                  onChange={(e) =>
-                                    handleFieldChange(e, rowIndex, 0)
-                                  }
-                                  className={`table-input ${
-                                    !priceSuggestionEditable ? "readonly" : ""
-                                  }`}
-                                  placeholder="Enter Date"
-                                />
-                                <ErrorMessage
-                                  name={`accept_suggestion[${rowIndex}][0].date`}
-                                  component="div"
-                                  className="text-danger"
-                                />
-                              </div>
-                            </td>
-
-                            <td className="middayModal-td time-input-fuel-sell">
-                              <>
-                                <InputTime
-                                  label="Time"
-                                  value={
-                                    lsitingformik?.values?.accept_suggestion?.[
-                                      rowIndex
-                                    ]?.[0]?.time
-                                  }
-                                  onChange={(newTime) => {
-                                    if (priceSuggestionEditable) {
-                                      lsitingformik.setFieldValue(
-                                        `accept_suggestion[${rowIndex}][0].time`,
-                                        newTime
-                                      );
-                                      setIsEdited(true); // Mark as edited when any input changes
-                                    }
-                                  }}
-                                  disabled={!priceSuggestionEditable} // Disable if not editable
-                                  // disabled={!row?.[0]?.is_editable} // Disable if not editable
-                                  className={`time-input-fuel-sell ${
-                                    !priceSuggestionEditable ? "readonly" : ""
-                                  }   ${
-                                    priceSuggestionEditable
-                                      ? "c-timeinput-default"
-                                      : ""
-                                  } `}
-                                />
-                              </>
-                            </td>
-
-                            {row?.map((item, itemIndex) => (
-                              <td key={item.id} className="middayModal-td">
-                                <div className="">
-                                  <Field
-                                    name={`accept_suggestion[${rowIndex}][${itemIndex}].price`}
-                                    type="number"
-                                    className={`table-input ${
-                                      !priceSuggestionEditable ? "readonly" : ""
-                                    }`}
-                                    disabled={!priceSuggestionEditable}
-                                    onChange={(e) =>
-                                      handleFieldChange(e, rowIndex, itemIndex)
-                                    }
-                                    placeholder="Enter price"
-                                    step="0.010"
-                                  />
-                                  <ErrorMessage
-                                    name={`accept_suggestion[${rowIndex}][${itemIndex}].price`}
-                                    component="div"
-                                    className="text-danger"
-                                  />
-                                </div>
-                              </td>
-                            ))}
-                          </React.Fragment>
-                        )
-                      )}
-                    </tr> */}
                   </tbody>
                 </table>
               </div>
 
               <Card.Footer>
-                <div className="text-end d-flex justify-content-end align-items-baseline gap-2">
+                <div className=" d-flex justify-content-end align-items-center gap-3 flex-wrap">
+                  {update_tlm_price !== 1 && notify_operator ? (
+                    <div className=" position-relative pointer">
+                      <input
+                        type="checkbox"
+                        id="notify_operator"
+                        name="notify_operator"
+                        checked={formik?.values?.notify_operator}
+                        onChange={formik.handleChange}
+                        className="mx-1 form-check-input form-check-input-updated pointer"
+                      />
+                      <label
+                        htmlFor="notify_operator"
+                        className="me-3 m-0 pointer"
+                      >
+                        Notify Operator
+                      </label>
+                    </div>
+                  ) : null}
+
+                  {update_tlm_price == 1 ? (
+                    <>
+                      <>
+                        {formik.values.update_tlm_price === 1 && (
+                          <div className="radio-section d-flex gap-lg-5 ">
+                            <div className="position-relative pointer">
+                              <input
+                                type="radio"
+                                id="confirmation_required"
+                                name="confirmation_required"
+                                value={1} // Set value as 1 for confirmation
+                                checked={
+                                  formik.values.confirmation_required === 1
+                                }
+                                onChange={() =>
+                                  formik.setFieldValue(
+                                    "confirmation_required",
+                                    1
+                                  )
+                                }
+                                className="mx-1 form-check-input form-check-input-updated pointer"
+                              />
+                              <label
+                                htmlFor="confirmation_required"
+                                className="p-0 m-0 pointer"
+                              >
+                                Update with Confirmation
+                              </label>
+                            </div>
+
+                            <div className="position-relative pointer">
+                              <input
+                                type="radio"
+                                id="update_forcefully"
+                                name="confirmation_required"
+                                value={0} // Set value as 0 for direct update
+                                checked={
+                                  formik.values.confirmation_required === 0
+                                }
+                                onChange={() =>
+                                  formik.setFieldValue(
+                                    "confirmation_required",
+                                    0
+                                  )
+                                }
+                                className="mx-1 form-check-input form-check-input-updated pointer"
+                              />
+                              <label
+                                htmlFor="update_forcefully"
+                                className="p-0 m-0 pointer"
+                              >
+                                Update Forcefully
+                              </label>
+                            </div>
+                          </div>
+                        )}
+                      </>
+
+                      <div className=" position-relative pointer  ms-4">
+                        <input
+                          type="checkbox"
+                          id="update_tlm_price"
+                          name="update_tlm_price"
+                          checked={formik?.values?.update_tlm_price === 1}
+                          onChange={(e) => {
+                            formik.setFieldValue(
+                              "update_tlm_price",
+                              e.target.checked ? 1 : 0
+                            );
+                          }}
+                          className="mx-1 form-check-input form-check-input-updated pointer"
+                        />
+                        <label
+                          htmlFor="update_tlm_price"
+                          className="p-0 m-0 pointer"
+                        >
+                          {" "}
+                          Update TLM Price
+                        </label>
+                      </div>
+                    </>
+                  ) : null}
+
                   {/* {data?.btn_clickable && ( */}
                   <button
                     type="button"
                     className="btn btn-primary"
                     disabled={isEdited}
+                    onClick={() => handleSubmission(3)}
+                    // onClick={() => handleSubmit(3)}
                   >
                     Approve
                   </button>
@@ -498,6 +599,8 @@ const PublicCompetitorFuelPricesUpdate = ({
                     type="button"
                     className="btn btn-danger"
                     disabled={isEdited}
+                    onClick={() => handleSubmission(2)}
+                    // onClick={() => handleSubmit(2)}
                   >
                     Reject
                   </button>
@@ -508,11 +611,38 @@ const PublicCompetitorFuelPricesUpdate = ({
                     type="button"
                     className="btn btn-primary"
                     disabled={!isEdited}
+                    onClick={() => handleSubmission(4)}
+                    // onClick={() => handleSubmit(4)}
                   >
                     Submit
                   </button>
                   {/* )} */}
                 </div>
+
+                {update_tlm_price == 1 && (
+                  <>
+                    <hr />
+
+                    <p>
+                      <span className=" fw-bold">
+                        *Update with Confirmation -
+                      </span>
+                      <span className="ms-2">
+                        Selecting "Update with Confirmation" will prompt a
+                        pop-up on the POS system, where the operator must
+                        confirm the price change to proceed.
+                      </span>
+                    </p>
+                    <p>
+                      <span className=" fw-bold">*Update Forcefully -</span>
+                      <span className="ms-2">
+                        Selecting "Update Forcefully" will automatically update
+                        prices on the POS, till, and pole sign, if the POS and
+                        pole are connected.
+                      </span>
+                    </p>
+                  </>
+                )}
               </Card.Footer>
             </Form>
           </FormikProvider>

@@ -50,7 +50,7 @@ const FuelSuggestionEmailLogs = (props) => {
 
   const FetchTableData = async () => {
     try {
-      let apiUrl = `/email/logs?page=${currentPage}`;
+      let apiUrl = `/site/fuel-price/suggestion/email/logs?page=${currentPage}`;
       if (searchTerm) {
         apiUrl += `&keyword=${searchTerm}`;
       }

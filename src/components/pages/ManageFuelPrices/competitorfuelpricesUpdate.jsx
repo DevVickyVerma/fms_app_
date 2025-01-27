@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import InputTime from "../Competitor/InputTime";
-import ConfirmModal from "./ConfirmModal";
 
 const competitorfuelpricesUpdate = ({
   data,
@@ -13,6 +13,7 @@ const competitorfuelpricesUpdate = ({
   accordionSiteID,
 }) => {
   const { notify_operator, update_tlm_price } = data || {};
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [filterData, setFilterData] = useState();
   const [formValues, setFormValues] = useState(null); // State to hold form values
 
@@ -132,7 +133,7 @@ const competitorfuelpricesUpdate = ({
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
-      // handleFormSubmit()
+      handleFormSubmit();
     } catch (error) {
       console.error(error); // Set the submission state to false if an error occurs
     }
@@ -175,26 +176,6 @@ const competitorfuelpricesUpdate = ({
   return (
     <>
       <div style={{ overflowY: "auto" }}>
-        <>
-          {/* <h3 className="card-title w-100">
-            <div className="d-flex w-100 justify-content-between align-items-center">
-              <div>
-                <span>Fuel Selling Price Suggestion </span>
-              </div>
-            </div>
-          </h3> */}
-          {/* <ConfirmModal
-                        isOpen={isModalOpen}
-                        message="Are you sure you want to submit the form?"
-                        onConfirm={handleConfirm}
-                        formValues={formik.values}
-                        LatsRowvalues={lsitingformik.values}
-                        onCancel={handleCancel}
-                        SiteName={filterData?.site_name}
-                        update_tlm_price={formik?.values?.update_tlm_price}
-                        notify_operator={formik?.values?.notify_operator}
-                    /> */}
-        </>
         <>
           <FormikProvider value={lsitingformik}>
             <Form onKeyDown={handleKeyDown}>
@@ -370,7 +351,7 @@ const competitorfuelpricesUpdate = ({
               </div>
 
               <Card.Footer>
-                <div className="text-end d-flex justify-content-end align-items-baseline gap-4">
+                <div className="d-flex justify-content-end align-items-center gap-3 flex-wrap">
                   {update_tlm_price !== 1 && notify_operator ? (
                     <div className=" position-relative pointer">
                       <input
