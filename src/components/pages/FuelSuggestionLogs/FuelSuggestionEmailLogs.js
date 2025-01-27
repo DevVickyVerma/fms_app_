@@ -85,14 +85,12 @@ const FuelSuggestionEmailLogs = (props) => {
         <div>
           {row?.raw_data !== null ? (
             <div
-              className="d-flex"
+              className="d-flex hyper-link"
               onClick={() => handleaddshowModal(row)}
               style={{ cursor: "pointer" }}
             >
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6 className="mb-0 fs-14 " style={{ fontWeight: "bold" }}>
-                  {row?.subject}
-                </h6>
+                <h6 className="mb-0 fs-14 ">{row?.subject}</h6>
               </div>
             </div>
           ) : (

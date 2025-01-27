@@ -855,7 +855,7 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-            path: `/fuel-history-email-logs`,
+            path: `/fuel-suggestion-history-logs`,
             title: "History Logs",
             type: "link",
             permission: "fuel-suggestion-history",
