@@ -6,19 +6,9 @@ import { Card } from 'react-bootstrap';
 // Register necessary Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
-const TitanPieChart = ({ title }) => {
-    // Pie chart data
-    const data = {
-        labels: ['Site 1', 'Site 2', 'Site 3'],
-        datasets: [
-            {
-                data: [44, 76, 35], // Values corresponding to the labels
-                backgroundColor: ['#5f8ac7', '#6d6e71', '#a6ce39'], // Colors for each slice
-                borderColor: '#fff', // Border color for each slice
-                borderWidth: 2, // Border width to make the slices look thicker
-            },
-        ],
-    };
+const TitanPieChart = ({ title, data }) => {
+
+
 
     // Pie chart options
     const options = {
@@ -44,7 +34,7 @@ const TitanPieChart = ({ title }) => {
             tooltip: {
                 callbacks: {
                     label: function (tooltipItem) {
-                        return `Site ${tooltipItem.label}: $ ${tooltipItem.raw} thousands`; // Custom label for tooltip
+                        return `Site ${tooltipItem.label}: £ ${tooltipItem.raw} thousands`; // Custom label for tooltip
                     },
                 },
             },
@@ -69,6 +59,8 @@ const TitanPieChart = ({ title }) => {
 
                 </div>
             </Card.Body>
+
+
         </Card>
     );
 };

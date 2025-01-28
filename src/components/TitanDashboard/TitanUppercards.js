@@ -12,6 +12,8 @@ const TitanUppercards = (props) => {
         wet_stock_volume,
         delivery_loss_volume,
         unkonwn_loss_volume,
+        dip_stock_value,
+        dip_stock_volume,
         dashboardData,
         callStatsBoxParentFunc,
         parentComponent = true,
@@ -139,12 +141,13 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={"0.00"}
-                            leftSideTitle={"Dips Stock"}
-                            RightSideData={"0.00"}
+                            leftSideData={dip_stock_volume?.value}
+                            leftSideTitle={"Closing Stocks"}
+
+                            RightSideData={dip_stock_volume?.ytd_value}
                             RightSideTitle={"YTD Volume"}
-                            statusValue={unkonwn_loss_volume?.status}
-                            percentageValue={unkonwn_loss_volume?.percentage}
+                            statusValue={dip_stock_volume?.status}
+                            percentageValue={dip_stock_volume?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"ℓ"}
                             containerStyle={"dash-plates-3 "}
@@ -217,18 +220,18 @@ const TitanUppercards = (props) => {
                         <TitanCommonCards
                             isParentComponent={parentComponent}
                             showRightSide={true}
-                            leftSideData={"0.00"}
-                            leftSideTitle={"Dips Stock"}
-                            RightSideData={"0.00"}
+                            leftSideData={dip_stock_value?.value}
+                            leftSideTitle={"Closing Stocks"}
+                            RightSideData={dip_stock_value?.ytd_value}
                             RightSideTitle={"YTD Value"}
-                            statusValue={unkonwn_loss_volume?.status}
-                            percentageValue={unkonwn_loss_volume?.percentage}
+                            statusValue={dip_stock_value?.status}
+                            percentageValue={dip_stock_value?.percentage}
                             handleNavigateClick={handleNavigateClick}
                             icon={"£"}
                             containerStyle={"dash-plates-3 "}
                             xl={12}
                             Righttooltip={`Year To Date `}
-                            Lefttooltip={`Dips Stock`}
+                            Lefttooltip={`Closing Stocks`}
                         />
                     </Col>
 

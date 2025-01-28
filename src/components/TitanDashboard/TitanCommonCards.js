@@ -7,8 +7,7 @@ const TitanCommonCards = ({
     leftSideTitle,
     RightSideData,
     RightSideTitle,
-    // statusValue,
-
+    statusValue,
     percentageValue,
     handleNavigateClick,
     showRightSide = false,
@@ -20,8 +19,7 @@ const TitanCommonCards = ({
     lg = 6,
     xl = 4,
 }) => {
-    const statusValue = leftSideData >= 0 ? "up" : "down"; // Check if positive or negative
-    console.log(statusValue, "statusValue");
+
     const StatusIndicator = ({ leftSideData }) => {
 
         const isUp = leftSideData >= 0;
@@ -131,7 +129,7 @@ const TitanCommonCards = ({
                                                 )}</h6>
                                                 <h2 className="mb-0 number-font c-fs-18 d-flex">
                                                     {/* <span className="l-sign">{icon}</span>{" "} */}
-                                                    {RightSideData ? formatNumber(RightSideData) : "0.00"}<StatusIndicator leftSideData={leftSideData} />
+                                                    {RightSideData ? formatNumber(RightSideData) : "0.00"}<StatusIndicator leftSideData={RightSideData} />
                                                 </h2>
                                             </div>
                                         )}

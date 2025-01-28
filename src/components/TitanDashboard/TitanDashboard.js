@@ -16,6 +16,7 @@ import TitanPieChart from "./TitanPieChart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import SmallLoader from "../../Utils/SmallLoader";
 import LinesDotGraphchart from "../Dashboard/LinesDotGraphchart";
+import TitanColumnChart from "./TitanColumnChart";
 
 const TitanDashboard = (props) => {
     const navigate = useNavigate();
@@ -535,6 +536,8 @@ const TitanDashboard = (props) => {
                         wet_stock_volume={dashboardData?.wet_stock_volume}
                         delivery_loss_volume={dashboardData?.delivery_loss_volume}
                         unkonwn_loss_volume={dashboardData?.unkonwn_loss_volume}
+                        dip_stock_value={dashboardData?.dip_stock_value}
+                        dip_stock_volume={dashboardData?.dip_stock_volume}
                         dashboardData={dashboardData}
                         callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
                     />
@@ -562,20 +565,12 @@ const TitanDashboard = (props) => {
                                             {PriceGraphData?.name &&
                                                 ` (${PriceGraphData?.name})`}
                                             <br></br>
-                                            {/* {userPermissions?.includes("ceodashboard-price-graph") ? (
-                                                <span style={{ color: "#4663ac" }} className="pointer">
-                                                    <div onClick={() => handleNavigateViewAllClick()}>
-                                                        View All
-                                                    </div>
-                                                </span>
-                                            ) : (
-                                                ""
-                                            )} */}
+
                                         </h4>
                                     </div>
                                     <div className="flexspacebetween">
                                         {/* <CommonToggleBtn /> */}
-                                        {PriceGraphData?.graph_stats ? (
+                                        {PriceGraphData ? (
                                             <div>
                                                 <select
                                                     id="BestvsWorst"
@@ -595,7 +590,7 @@ const TitanDashboard = (props) => {
                                         ) : (
                                             ""
                                         )}
-                                        {PriceGraphData?.graph_stats ? (
+                                        {PriceGraphData ? (
                                             <div>
                                                 <select
                                                     id="GraphfilterOptions"
@@ -621,8 +616,8 @@ const TitanDashboard = (props) => {
                                 <Card.Body>
                                     {PriceGraphloading ? (
                                         <SmallLoader />
-                                    ) : PriceGraphData?.graph_stats ? (
-                                        <LinesDotGraphchart stockGraphData={PriceGraphData?.graph_stats} />
+                                    ) : PriceGraphData ? (
+                                        <TitanColumnChart stockGraphData={PriceGraphData} />
                                     ) : (
                                         <NoDataComponent showCard={false} />
                                     )}
@@ -634,7 +629,15 @@ const TitanDashboard = (props) => {
 
 
                 <Col sm={12} md={4} lg={4}>
-                    {dashboardData ? <TitanPieChart title=" Pie Chart" /> : <NoDataComponent title="Pie Chart" />}
+
+                    {statsLoading ? (
+                        <SmallLoader title="Pie Chart" />
+                    ) : PriceGraphData ? (
+                        <TitanPieChart statsLoading={statsLoading} data={dashboardData?.pie_graph_stats} title=" Pie Chart" />
+
+                    ) : (
+                        <NoDataComponent title="Pie Chart" showCard={true} />
+                    )}
 
 
                 </Col>
