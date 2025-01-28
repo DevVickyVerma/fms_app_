@@ -1,12 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Card } from "react-bootstrap";
+import { timeLineData } from "../../../Utils/commonFunctions/CommonData";
 
 const FuelPriceTimeLineLogs = ({ data }) => {
+  const [staticData, setStaticData] = useState(timeLineData);
+
   return (
     <>
+      <div className="table-container overflow-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              {data?.head_array?.map((item) => (
+                <th key={item?.id} className="middy-table-head">
+                  {item?.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr className="middayModal-tr fuel-readonly">
+              <td className={`time-input-fuel-sell middayModal-td `}>
+                {data?.currentDate}
+              </td>
+              <td className={`time-input-fuel-sell middayModal-td`}>
+                {data?.currentTime}
+              </td>
+              {data?.current?.[0]?.map((item, rowIndex) => (
+                <>
+                  <td className={`time-input-fuel-sell middayModal-td`}>
+                    {item?.price}
+                  </td>
+                </>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div className="vtimeline mt-4">
-        {data?.logs?.map((item) => (
+        {timeLineData?.map((item) => (
           <div
             key={item.id}
             className={`timeline-wrapper timeline-inverted ${
@@ -24,7 +60,11 @@ const FuelPriceTimeLineLogs = ({ data }) => {
             <div className="timeline-badge"></div>
             <div className="timeline-panel">
               <div className="timeline-heading">
-                <h6 className=" fw-600">
+                <span className=" fw-600 d-flex  align-items-center text-capitalize">
+                  <span className="me-2">{item?.creator}</span>
+                  <span className="badge p-2">Level {item?.level}</span>
+                </span>
+                <h6 className=" fw-600 d-flex justify-content-between align-items-center">
                   Fuel Suggested For ({item?.date}, {item?.time})
                   <span>
                     {item?.status === 1 ? (
@@ -47,15 +87,19 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                         <i className="ph ph-checks  c-fs-12 me-1"></i>
                         <span>Modified</span>
                       </span>
+                    ) : item?.status === 5 ? (
+                      <span className="btn btn-primary btn-sm ms-2">
+                        <i className="ph ph-checks  c-fs-12 me-1"></i>
+                        <span>Suggested</span>
+                      </span>
                     ) : (
                       "-"
                     )}
                   </span>
                 </h6>
-                <div className=" c-fs-13 ">
-                  Creator - <span className=" fw-500">{item?.creator}, </span>{" "}
-                  &nbsp; Level -
-                </div>
+                {/* <div className=" c-fs-13 ">
+                  Creator - <span className=" fw-500">{item?.creator} </span>{" "}
+                </div> */}
                 <div className=" c-fs-13 ">
                   Created At -{" "}
                   <span className=" fw-500">{item?.created_at}</span>
@@ -135,16 +179,24 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                   </tbody>
                 </table>
               </div>
-              <div className="timeline-footer d-flex align-items-center flex-wrap mt-2">
-                <span>
-                  {item?.modifier ? <>Modifier - {item?.modifier},</> : ""}{" "}
-                  {item?.modified_at ? (
-                    <>Modified At - {item?.modified_at}</>
-                  ) : (
-                    ""
-                  )}{" "}
-                </span>
-                &nbsp;
+              <div className="timeline-footer d-flex align-items-center flex-wrap mt-2 ">
+                <div className=" d-flex flex-column">
+                  <span>
+                    {item?.modifier ? <>Modifier - {item?.modifier},</> : ""}{" "}
+                    {item?.modified_at ? (
+                      <>Modified At - {item?.modified_at}</>
+                    ) : (
+                      ""
+                    )}{" "}
+                  </span>
+                  {item?.rejectd && (
+                    <>
+                      <span className=" text-danger">
+                        Rejected Reason - {item?.rejectd}{" "}
+                      </span>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>

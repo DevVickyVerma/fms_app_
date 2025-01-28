@@ -729,7 +729,7 @@ const PublicCompetitorPrice = ({
                 )}
 
                 <>
-                  <Card.Header>
+                  <Card.Header className="px-0">
                     <h3 className="card-title ">
                       {" "}
                       <div className="d-flex w-100 justify-content-between align-items-center">
@@ -737,6 +737,10 @@ const PublicCompetitorPrice = ({
                           <span>
                             Fuel Selling Price Suggestion For {data?.site_name}{" "}
                             ({data?.date}){" "}
+                            <span className="d-flex pt-1 align-items-center c-fs-12">
+                              <span className="greenboxx me-2"></span>
+                              <span className="text-muted">Current Price</span>
+                            </span>
                           </span>
                         </div>
                       </div>

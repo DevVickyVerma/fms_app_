@@ -160,6 +160,7 @@ const PublicCompetitorFuelPricesUpdate = ({
           setIsSubmitted(true);
         } else {
           setIsCustomLoading(false);
+          setIsLinkExpired(true);
           CallListingApi();
         }
       }
