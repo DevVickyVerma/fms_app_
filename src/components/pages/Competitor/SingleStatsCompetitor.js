@@ -1,5 +1,13 @@
-import { useEffect, useState } from 'react';
-import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import {
@@ -17,20 +25,22 @@ import * as Yup from "yup";
 import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
 import CompiMiddayModal from "./CompiMiddayModal";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
-import withApi from '../../../Utils/ApiHelper';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from "../../../Utils/ApiHelper";
 
 const SingleStatsCompetitor = ({ getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [Compititorloading, setCompititorloading] = useState(false);
   const { id } = useParams();
   const [selected, setSelected] = useState();
-  const [mySelectedDate, setMySelectedDate] = useState(new Date()?.toISOString()?.split('T')[0]);
+  const [mySelectedDate, setMySelectedDate] = useState(
+    new Date()?.toISOString()?.split("T")[0]
+  );
   const [showDate, setShowDate] = useState();
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem,] = useState(null);
+  const [selectedItem] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
-  const { handleError, } = useErrorHandler();
+  const { handleError } = useErrorHandler();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,16 +53,18 @@ const SingleStatsCompetitor = ({ getData }) => {
   const getInitialDate = () => {
     // Calculate or fetch the initial date dynamically
     const today = new Date();
-    return today.toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+    return today.toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
   };
-
 
   const FetchCompititorData = async (selectedValues) => {
     setCompititorloading(true);
     if (localStorage.getItem("Dashboardsitestats") === "true") {
-
       try {
-        setShowDate(selectedValues?.start_date ? selectedValues?.start_date : mySelectedDate)
+        setShowDate(
+          selectedValues?.start_date
+            ? selectedValues?.start_date
+            : mySelectedDate
+        );
         // Use async/await to fetch data
         const response3 = await getData(
           selectedValues?.start_date
@@ -152,46 +164,35 @@ const SingleStatsCompetitor = ({ getData }) => {
   minDate.setMonth(minDate.getMonth() - 2); // Set min date to 2 months ago
   const formattedMinDate = minDate.toISOString().split("T")[0]; // Format min date
 
-
-
-
   const handleModalClose = () => {
     setModalOpen(false);
   };
   const handleDataFromChild = async () => {
     try {
       // Assuming you have the 'values' object constructed from 'dataFromChild'
-
-
       // await handleSubmit1(values);
     } catch (error) {
       console.error("Error handling data from child:", error);
     }
   };
 
-
-
-
-
-
-
   return (
     <>
       {Compititorloading ? <Loaderimg /> : null}
 
-      {modalOpen && (<>
-        <CompiMiddayModal
-          open={modalOpen}
-          onClose={handleModalClose}
-          selectedItem={selectedItem}
-          selectedDrsDate={selectedDrsDate}
-          setSelectedDrsDate={setSelectedDrsDate}
-          onDataFromChild={handleDataFromChild}
-          getCompetitorsPrice={getCompetitorsPrice}
-        />
-      </>)}
-
-
+      {modalOpen && (
+        <>
+          <CompiMiddayModal
+            open={modalOpen}
+            onClose={handleModalClose}
+            selectedItem={selectedItem}
+            selectedDrsDate={selectedDrsDate}
+            setSelectedDrsDate={setSelectedDrsDate}
+            onDataFromChild={handleDataFromChild}
+            getCompetitorsPrice={getCompetitorsPrice}
+          />
+        </>
+      )}
 
       <div className="page-header d-flex flex-wrap">
         <div>
@@ -270,10 +271,11 @@ const SingleStatsCompetitor = ({ getData }) => {
                       min={formattedMinDate} // Use formattedMinDate for the min attribute
                       max={formattedMaxDate} // Use formattedMaxDate for the max attribute
                       onClick={handleShowDate}
-                      className={`input101 compi-calender ${errors.start_date && touched.start_date
-                        ? "is-invalid"
-                        : ""
-                        }`}
+                      className={`input101 compi-calender ${
+                        errors.start_date && touched.start_date
+                          ? "is-invalid"
+                          : ""
+                      }`}
                       id="start_date"
                       name="start_date"
                       value={mySelectedDate}
@@ -355,7 +357,7 @@ const SingleStatsCompetitor = ({ getData }) => {
                 px={"13px"}
               >
                 <Typography fontSize={"14px"}>
-                  Last Day End : { }
+                  Last Day End : {}
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
@@ -454,13 +456,13 @@ const SingleStatsCompetitor = ({ getData }) => {
         <Col lg={12} md={12} className="">
           <Card className="">
             <Card.Header className=" my-cardd card-header ">
-
-
               <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
                 <h4 className="card-title">
                   {" "}
-                  {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
-                  Competitors Stats   ({showDate})
+                  {getCompetitorsPrice
+                    ? getCompetitorsPrice?.siteName
+                    : ""}{" "}
+                  Competitors Stats ({showDate})
                 </h4>
 
                 {/* {isFuelPriceUpdatePermissionAvailable && (<>
@@ -501,7 +503,13 @@ const SingleStatsCompetitor = ({ getData }) => {
                     (competitorsName, rowIndex) => (
                       <tr key={rowIndex}>
                         <td>
-                          <div className="single-Competitor-heading d-flex w-99.9 cardd">
+                          <div
+                            className={`single-Competitor-heading d-flex w-99.9 cardd  ${
+                              competitorsName?.isMain == 1
+                                ? "main-competitor-effect"
+                                : ""
+                            }`}
+                          >
                             <p className=" m-0 d-flex align-items-center">
                               <span>
                                 <img
@@ -525,6 +533,25 @@ const SingleStatsCompetitor = ({ getData }) => {
                               </span>
                               <span style={{ minWidth: "200px" }}>
                                 {competitorsName?.name}
+                                <span className=" fw-600">
+                                  {" "}
+                                  {competitorsName?.isMain == 1 ? (
+                                    <>
+                                      <OverlayTrigger
+                                        placement="top"
+                                        overlay={
+                                          <Tooltip className="c-zindex-100000">
+                                            Main Competitor
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span className="  p-1">
+                                          <i className="ph ph-target c-top-3  work-flow-sucess-status"></i>
+                                        </span>
+                                      </OverlayTrigger>
+                                    </>
+                                  ) : null}
+                                </span>
                               </span>
                             </p>
                           </div>
@@ -532,107 +559,112 @@ const SingleStatsCompetitor = ({ getData }) => {
                         {Object.keys(data).map((fuelType, colIndex) => (
                           <td key={colIndex}>
                             <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
-
-
-                              {data[fuelType]?.[rowIndex]?.price === '-' ? <>
-                                <div className='compidash-container'>-</div>
-                              </> : <>
-                                <span className="circle-info">
-                                  {data[fuelType]?.[rowIndex]?.last_updated}
-                                  <span>
-                                    <OverlayTrigger
-                                      placement="top"
-                                      overlay={
-                                        <Tooltip
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "flex-start",
-                                            justifyContent: "flex-start",
-                                            width: "300px", // Set your desired width here
-                                          }}
-                                        >
-                                          {data[fuelType]?.[rowIndex]?.last_date}
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <p
-                                        className=" m-0 single-Competitor-distance"
-                                        style={{ cursor: "pointer" }}
-                                      >
-                                        {" "}
-                                        <i
-                                          className="fa fa-info-circle ms-1"
-                                          aria-hidden="true"
-                                          style={{ fontSize: "15px" }}
-                                        />{" "}
-                                        <span />
-                                      </p>
-                                    </OverlayTrigger>
-                                  </span>
-                                </span>
-
-                                <span className=" d-flex justify-content-between align-items-center">
-                                  <span>{data[fuelType]?.[rowIndex]?.price}</span>
-
-                                  <span>
-
-                                    {data[fuelType]?.[rowIndex]?.station ? (
-                                      ""
-                                    ) : (
-                                      <>
-
-
-                                        <>
-                                          <span
-                                            className="PetrolPrices-img"
+                              {data[fuelType]?.[rowIndex]?.price === "-" ? (
+                                <>
+                                  <div className="compidash-container">-</div>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="circle-info">
+                                    {data[fuelType]?.[rowIndex]?.last_updated}
+                                    <span>
+                                      <OverlayTrigger
+                                        placement="top"
+                                        overlay={
+                                          <Tooltip
                                             style={{
-                                              width: "25px",
-                                              height: "25px",
-                                              fontSize: "20px",
-                                              cursor: "pointer",
-                                              marginLeft: "10px",
-                                              display: "flex"
+                                              display: "flex",
+                                              alignItems: "flex-start",
+                                              justifyContent: "flex-start",
+                                              width: "300px", // Set your desired width here
                                             }}
                                           >
-                                            <OverlayTrigger
-                                              placement="top"
-                                              overlay={
-                                                <Tooltip
-                                                  style={{
-                                                    display: "flex",
-                                                    alignItems: "flex-start",
-                                                    justifyContent: "flex-start",
-                                                  }}
-                                                >
-                                                  <span>{data?.[fuelType]?.[rowIndex]?.logo_tip}</span>
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <img
-                                                alt=""
-                                                src={data?.[fuelType]?.[rowIndex]?.logo}
-                                                className=""
-                                                style={{
-                                                  objectFit: "contain",
-                                                }}
-                                              />
-                                            </OverlayTrigger>
-                                          </span>
-                                        </>
-
-
-
-                                      </>
-                                    )}
-
-
-
+                                            {
+                                              data[fuelType]?.[rowIndex]
+                                                ?.last_date
+                                            }
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <p
+                                          className=" m-0 single-Competitor-distance"
+                                          style={{ cursor: "pointer" }}
+                                        >
+                                          {" "}
+                                          <i
+                                            className="fa fa-info-circle ms-1"
+                                            aria-hidden="true"
+                                            style={{ fontSize: "15px" }}
+                                          />{" "}
+                                          <span />
+                                        </p>
+                                      </OverlayTrigger>
+                                    </span>
                                   </span>
 
+                                  <span className=" d-flex justify-content-between align-items-center">
+                                    <span>
+                                      {data[fuelType]?.[rowIndex]?.price}
+                                    </span>
 
-                                </span>
-                              </>}
-
+                                    <span>
+                                      {data[fuelType]?.[rowIndex]?.station ? (
+                                        ""
+                                      ) : (
+                                        <>
+                                          <>
+                                            <span
+                                              className="PetrolPrices-img"
+                                              style={{
+                                                width: "25px",
+                                                height: "25px",
+                                                fontSize: "20px",
+                                                cursor: "pointer",
+                                                marginLeft: "10px",
+                                                display: "flex",
+                                              }}
+                                            >
+                                              <OverlayTrigger
+                                                placement="top"
+                                                overlay={
+                                                  <Tooltip
+                                                    style={{
+                                                      display: "flex",
+                                                      alignItems: "flex-start",
+                                                      justifyContent:
+                                                        "flex-start",
+                                                    }}
+                                                  >
+                                                    <span>
+                                                      {
+                                                        data?.[fuelType]?.[
+                                                          rowIndex
+                                                        ]?.logo_tip
+                                                      }
+                                                    </span>
+                                                  </Tooltip>
+                                                }
+                                              >
+                                                <img
+                                                  alt=""
+                                                  src={
+                                                    data?.[fuelType]?.[rowIndex]
+                                                      ?.logo
+                                                  }
+                                                  className=""
+                                                  style={{
+                                                    objectFit: "contain",
+                                                  }}
+                                                />
+                                              </OverlayTrigger>
+                                            </span>
+                                          </>
+                                        </>
+                                      )}
+                                    </span>
+                                  </span>
+                                </>
+                              )}
                             </span>
                           </td>
                         ))}
@@ -656,8 +688,6 @@ const SingleStatsCompetitor = ({ getData }) => {
           <Card>
             <Card.Header className="card-header">
               <h4 className="card-title"> Local Competitor Stats</h4>
-
-
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">

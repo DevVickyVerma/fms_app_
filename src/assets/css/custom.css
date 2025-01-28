@@ -2849,3 +2849,24 @@ td.middayModal-td.time-input-fuel-sell {
 .c-fs-12 {
   font-size: 12px !important;
 }
+.c-min-w-200 {
+  min-width: 200px !important;
+}
+.c-w-50 {
+  width: 50% !important;
+}
+
+.c-fw-500 {
+  font-weight: 500 !important;
+}
+
+.circle-num-automation {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: var(--primary-bg-color);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

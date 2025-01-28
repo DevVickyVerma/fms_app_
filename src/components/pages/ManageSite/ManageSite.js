@@ -487,7 +487,7 @@ const ManageSite = (props) => {
                         </div>
                       </Dropdown.Item>
                     ) : null}
-                    {isFuelAutomationPermissionAvailable ? (
+                    {/* {isFuelAutomationPermissionAvailable ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div
                           onClick={() =>
@@ -503,7 +503,7 @@ const ManageSite = (props) => {
                           </div>
                         </div>
                       </Dropdown.Item>
-                    ) : null}
+                    ) : null} */}
                     {isBankManagerPermissionAvailable ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div onClick={() => navigate(`/managebank/${row.id}`)}>

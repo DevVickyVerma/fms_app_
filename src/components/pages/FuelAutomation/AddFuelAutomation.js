@@ -29,7 +29,7 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
       formData.append("action", values.action);
 
       const postDataUrl = "/site/fuel-automation-setting/add";
-      const navigatePath = `/manage-fuel-automation/${id}`;
+      const navigatePath = `/manage-fuel-automation/`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
@@ -77,7 +77,10 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
       <div>
         <div className="page-header">
           <div>
-            <h1 className="page-title">Add Fuel Automation ({siteName})</h1>
+            <h1 className="page-title">
+              Add Fuel Automation
+              {/* ({siteName}) */}
+            </h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -91,7 +94,7 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
-                linkProps={{ to: `/manage-fuel-automation/${id}` }}
+                linkProps={{ to: `/manage-fuel-automation/` }}
               >
                 Fuel Automation
               </Breadcrumb.Item>
@@ -195,7 +198,7 @@ const AddFuelAutomation = ({ isLoading, postData }) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/manage-fuel-automation/${id}`}
+                      to={`/manage-fuel-automation/`}
                     >
                       Cancel
                     </Link>

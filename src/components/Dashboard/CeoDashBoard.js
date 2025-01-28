@@ -5,18 +5,10 @@ import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import DashboardStatCard from "./DashboardStatCard";
 import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
-import {
-  handleFilterData,
-  staticCompiCEOValues,
-} from "../../Utils/commonFunctions/commonFunction";
+import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CeoDashboardStatsBox from "./DashboardStatsBox/CeoDashboardStatsBox";
-import {
-  Baroptions,
-  Losers,
-  Tankcolors,
-  TopPerformers,
-} from "../../Utils/commonFunctions/CommonData";
+import { Baroptions, Tankcolors } from "../../Utils/commonFunctions/CommonData";
 import CeoDashboardBarChart from "./CeoDashboardBarChart";
 import { Doughnut } from "react-chartjs-2";
 import UpercardsCeoDashboardStatsBox from "./DashboardStatsBox/UpercardsCeoDashboardStatsBox";

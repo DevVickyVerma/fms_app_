@@ -23,10 +23,55 @@ import {
 } from "../../../Utils/commonFunctions/commonFunction";
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
 import InputTime from "../Competitor/InputTime";
+import { Value } from "sass";
+
+const initialValues = {
+  pricedata: {
+    day_time: [
+      { label: "Time", value: "06:11" },
+      { label: "Frequency", value: "Daily" },
+      {
+        label: "Unleaded",
+        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
+        arrowDirection: "up",
+      },
+      {
+        label: "Super Unleaded",
+        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
+        arrowDirection: "up",
+      },
+      {
+        label: "Diesel",
+        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
+        arrowDirection: "up",
+      },
+    ],
+    night_time: [
+      { label: "Time", value: "18:21" },
+      { label: "Frequency", value: "Daily" },
+      {
+        label: "Unleaded",
+        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
+        arrowDirection: "up",
+      },
+      {
+        label: "Super Diesel",
+        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
+        arrowDirection: "up",
+      },
+      {
+        label: "Adblue",
+        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
+        arrowDirection: "up",
+      },
+    ],
+  },
+};
 
 const FuelAutomation = ({ isLoading, getData, postData }) => {
   let storedKeyName = "localFilterModalData";
   const [data, setData] = useState(staticCompiPriceCommon2);
+  const [dataSetting, setDataSetting] = useState(staticCompiPriceCommon2);
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [siteName, setSiteName] = useState("");
@@ -36,6 +81,8 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
   const { toggleStatus } = useToggleStatus();
   const [isEdited, setIsEdited] = useState(false); // Track if user has edited any input
   const [priceSuggestionEditable, setPriceSuggestionEditable] = useState(false);
+
+  const [filterData, setFilterData] = useState(null);
 
   useEffect(() => {
     if (UserPermissions) {
@@ -120,8 +167,9 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
           `/site/fuel-automation-setting/list?site_id=${site_id}`
         );
         if (response && response.data) {
-          // setData(response?.data?.data?.settings);
+          setDataSetting(response?.data?.data?.settings);
           setSiteName(response?.data?.data?.site_name);
+          setFilterData(filters);
         } else {
           throw new Error("No data available in the response");
         }
@@ -179,8 +227,8 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
                 row?.action === 1
                   ? "work-flow-sucess-status"
                   : row?.action === 2
-                  ? "work-flow-danger-status"
-                  : ""
+                    ? "work-flow-danger-status"
+                    : ""
               }`}
             >
               {row.value}
@@ -432,6 +480,173 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
     }
   }, [data]);
 
+  // Function to increase the value by 0.0001
+  const handleIncrease = (index) => {
+    const updatedValue = (
+      parseFloat(formik.values.pricedata.head_array[index]) + 0.0001
+    ).toFixed(4);
+    formik.setFieldValue(`pricedata.head_array[${index}]`, updatedValue);
+  };
+
+  // Function to decrease the value by 0.0001
+  const handleDecrease = (index) => {
+    const updatedValue = Math.max(
+      0,
+      parseFloat(formik.values.pricedata.head_array[index]) - 0.0001
+    ).toFixed(4);
+    formik.setFieldValue(`pricedata.head_array[${index}]`, updatedValue);
+  };
+
+  console.log(staticCompiPriceCommon2, "staticCompiPriceCommon2");
+  console.log(formik?.values, "formik?.values");
+
+  const formHandler = useFormik({
+    initialValues,
+    onSubmit: (values) => {
+      console.log("Form values:", values);
+    },
+  });
+
+  const handleShowDate = (e) => {
+    const inputDateElement = e?.target; // Get the clicked input element
+    if (
+      inputDateElement &&
+      inputDateElement?.showPicker &&
+      !inputDateElement?.readOnly &&
+      !inputDateElement?.disabled
+    ) {
+      inputDateElement.showPicker(); // Programmatically trigger the date picker
+    }
+  };
+
+  const renderPriceInputs = (timePeriodArray, timePeriodLabel) => {
+    return timePeriodArray.map((item, index) => (
+      <div key={index} className="d-flex justify-content-between gap-4 my-2">
+        <span className="d-flex align-items-center c-fw-500">{item.label}</span>
+        <span className="c-w-50">
+          <div className="d-flex align-items-center ">
+            {item.label === "Date" ? (
+              <input
+                type="date"
+                className="table-input mx-2"
+                value={item.value}
+                onChange={(e) =>
+                  formHandler.setFieldValue(
+                    `${timePeriodLabel}[${index}].value`,
+                    e.target.value
+                  )
+                }
+                onClick={handleShowDate}
+              />
+            ) : item.label === "Time" ? (
+              <input
+                type="time"
+                className="table-input mx-2"
+                value={item.value}
+                onChange={(e) =>
+                  formHandler.setFieldValue(
+                    `${timePeriodLabel}[${index}].value`,
+                    e.target.value
+                  )
+                }
+                onClick={handleShowDate}
+              />
+            ) : item.label === "Frequency" ? (
+              <input
+                type="text"
+                className="table-input mx-2 readonly"
+                value={item.value}
+                readOnly
+              />
+            ) : (
+              <div className="d-flex align-items-center w-100">
+                <input
+                  type="number"
+                  className="table-input mx-2"
+                  step="0.0001"
+                  value={item.value}
+                  onChange={(e) =>
+                    formHandler.setFieldValue(
+                      `${timePeriodLabel}[${index}].value`,
+                      e.target.value
+                    )
+                  }
+                />
+
+                {/* <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>{"Price Up"}</Tooltip>}
+                >
+                  <></>
+                </OverlayTrigger> */}
+
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      Price Up{" "}
+                    </Tooltip>
+                  }
+                >
+                  <span>
+                    <button
+                      type="button"
+                      className={`btn btn-sm  ms-2 ${item.arrowDirection === "up" ? "btn-success" : "btn-light"}`}
+                      onClick={() => {
+                        // formHandler.setFieldValue(
+                        //   `${timePeriodLabel}[${index}].value`,
+                        //   Math.max(0, parseFloat(item.value) - 0.0001).toFixed(4)
+                        // );
+                        formHandler.setFieldValue(
+                          `${timePeriodLabel}[${index}].arrowDirection`,
+                          "up"
+                        );
+                      }}
+                    >
+                      ↑
+                    </button>
+                  </span>
+                </OverlayTrigger>
+
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>{"Price Down"}</Tooltip>}
+                >
+                  <span>
+                    <button
+                      type="button"
+                      className={`btn btn-sm  ms-2 ${item.arrowDirection === "down" ? "btn-danger" : "btn-light"}`}
+                      onClick={() => {
+                        // formHandler.setFieldValue(
+                        //   `${timePeriodLabel}[${index}].value`,
+                        //   Math.max(0, parseFloat(item.value) - 0.0001).toFixed(4)
+                        // );
+                        formHandler.setFieldValue(
+                          `${timePeriodLabel}[${index}].arrowDirection`,
+                          "down"
+                        );
+                      }}
+                    >
+                      ↓
+                    </button>
+                  </span>
+                </OverlayTrigger>
+              </div>
+            )}
+          </div>
+        </span>
+      </div>
+    ));
+  };
+
+  console.log(formHandler?.values, "formHandler?.values");
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -439,6 +654,7 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title">Fuel Automation </h1>
+
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -447,13 +663,7 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
               >
                 Dashboard
               </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item"
-                linkAs={Link}
-                linkProps={{ to: "/sites" }}
-              >
-                Sites
-              </Breadcrumb.Item>
+
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
@@ -461,21 +671,6 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
                 Fuel Automation
               </Breadcrumb.Item>
             </Breadcrumb>
-          </div>
-          <div className="ms-auto pageheader-btn">
-            <div className="input-group">
-              {isAddPermissionAvailable ? (
-                <Link
-                  to={`/add-fuel-automation/${siteName}/${id}`}
-                  className="btn btn-primary ms-2"
-                  style={{ borderRadius: "4px" }}
-                >
-                  Add Fuel Automation
-                </Link>
-              ) : (
-                ""
-              )}
-            </div>
           </div>
         </div>
 
@@ -507,8 +702,21 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
-              <Card.Header>
-                <h3 className="card-title">Fuel Automation </h3>
+              <Card.Header className=" ">
+                <h3 className="card-title ">
+                  {" "}
+                  <div className="d-flex w-100 justify-content-between align-items-center">
+                    <div>
+                      <span>
+                        Fuel Automation
+                        <span className="d-flex pt-1 align-items-center c-fs-12">
+                          <span className="greenboxx me-2"></span>
+                          <span className="text-muted">Current Price</span>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </h3>
               </Card.Header>
               <Card.Body>
                 <Card.Header>
@@ -563,16 +771,16 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
                                                 ?.currentDate
                                             }
                                             name={row?.[column]}
-                                            onChange={(e) =>
-                                              handleChange(e, rowIndex, column)
-                                            }
-                                            onClick={(e) =>
-                                              handleShowDate(
-                                                e,
-                                                formik?.values?.pricedata
-                                                  ?.currentDate
-                                              )
-                                            } // Passing currentDate to the onClick handler
+                                            // onChange={(e) =>
+                                            //   handleChange(e, rowIndex, column)
+                                            // }
+                                            // onClick={(e) =>
+                                            //   handleShowDate(
+                                            //     e,
+                                            //     formik?.values?.pricedata
+                                            //       ?.currentDate
+                                            //   )
+                                            // } // Passing currentDate to the onClick handler
                                             disabled={row?.readonly}
                                             placeholder="Enter price"
                                           />
@@ -603,9 +811,9 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
                                           } ${row?.readonly ? "readonly" : ""}`}
                                           name={`rows[${rowIndex}].${column}`}
                                           value={row[column]}
-                                          onChange={(e) =>
-                                            handleChange(e, rowIndex, column)
-                                          }
+                                          // onChange={(e) =>
+                                          //   handleChange(e, rowIndex, column)
+                                          // }
                                           disabled={row?.readonly}
                                           placeholder="Enter price"
                                         />
@@ -622,12 +830,63 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
                   </Form>
                 </FormikProvider>
 
-                {data?.length > 0 ? (
+                <Row className="mt-5">
+                  <Col lg={6}>
+                    <>
+                      <Card.Header>
+                        <h3 className="card-title">
+                          {" "}
+                          <div className=" d-flex align-items-center">
+                            <span>Amersham - Set Pricing - </span>
+                            <span className="circle-num-automation c-fs-12 ms-1">
+                              01
+                            </span>
+                          </div>
+                        </h3>{" "}
+                      </Card.Header>
+                      <Card.Body>
+                        {renderPriceInputs(
+                          formHandler.values.pricedata.day_time,
+                          "pricedata.day_time"
+                        )}
+                      </Card.Body>
+                    </>
+                  </Col>
+                  <Col lg={6}>
+                    <>
+                      <Card.Header>
+                        <h3 className="card-title">
+                          {" "}
+                          <div className=" d-flex align-items-center">
+                            <span>Amersham - Set Pricing - </span>
+                            <span className="circle-num-automation c-fs-12 ms-1">
+                              02
+                            </span>
+                          </div>
+                        </h3>{" "}
+                      </Card.Header>
+                      <Card.Body>
+                        {renderPriceInputs(
+                          formHandler.values.pricedata.night_time,
+                          "pricedata.night_time"
+                        )}
+                      </Card.Body>
+                    </>
+                  </Col>
+
+                  <Card.Footer className=" text-end">
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                  </Card.Footer>
+                </Row>
+
+                {/* {dataSetting?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mt-5">
                       <DataTable
                         columns={columns}
-                        data={data}
+                        data={dataSetting}
                         noHeader={true}
                         defaultSortField="id"
                         defaultSortAsc={false}
@@ -646,7 +905,7 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
                       className="all-center-flex nodata-image"
                     />
                   </>
-                )}
+                )} */}
               </Card.Body>
             </Card>
           </Col>

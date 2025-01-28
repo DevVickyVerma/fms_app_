@@ -187,7 +187,7 @@ const VersionTwoSuggestedFuelPrice = ({
                             className={`time-input-fuel-sell middayModal-td  `}
                           >
                             <i
-                              className="ph ph-eye me-2 pointer"
+                              className="ph ph-file-text me-2 pointer"
                               onClick={() => handleModalLogs(row)}
                             />
                           </td>

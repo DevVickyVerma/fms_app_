@@ -39,7 +39,7 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                     <div className="flex-grow-1">
                       <img
                         src={competitor?.supplierImage}
-                        // alt="supplier"
+                        alt="supplier"
                         style={{
                           width: "25px",
                           height: "25px",
@@ -70,62 +70,59 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                           <div>
                             <div className="d-flex  align-items-center">
                               <div>
-
-
-
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
                                     <Tooltip>
                                       {
-                                        getCompetitorsPrice?.competitorListing?.[
-                                          fuelType
-                                        ]?.[rowIndex]?.last_date
+                                        getCompetitorsPrice
+                                          ?.competitorListing?.[fuelType]?.[
+                                          rowIndex
+                                        ]?.last_date
                                       }
                                     </Tooltip>
                                   }
                                 >
                                   <span style={{ cursor: "pointer" }}>
-
                                     {
                                       getCompetitorsPrice?.competitorListing?.[
                                         fuelType
                                       ]?.[rowIndex]?.price
                                     }
-
-
                                   </span>
                                 </OverlayTrigger>
                                 {!getCompetitorsPrice?.competitorListing?.[
                                   fuelType
                                 ]?.[rowIndex]?.station && (
-                                    <OverlayTrigger
-                                      placement="top"
-                                      overlay={
-                                        <Tooltip>
-                                          {
-                                            getCompetitorsPrice?.competitorListing?.[
-                                              fuelType
-                                            ]?.[rowIndex]?.logo_tip
-                                          }
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <img
-                                        src={
-                                          getCompetitorsPrice?.competitorListing?.[
-                                            fuelType
-                                          ]?.[rowIndex]?.logo
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <Tooltip>
+                                        {
+                                          getCompetitorsPrice
+                                            ?.competitorListing?.[fuelType]?.[
+                                            rowIndex
+                                          ]?.logo_tip
                                         }
-                                        // alt="logo"
-                                        style={{
-                                          width: "17px",
-                                          height: "17px",
-                                          marginLeft: "4px",
-                                        }}
-                                      />
-                                    </OverlayTrigger>
-                                  )}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <img
+                                      src={
+                                        getCompetitorsPrice
+                                          ?.competitorListing?.[fuelType]?.[
+                                          rowIndex
+                                        ]?.logo
+                                      }
+                                      alt="logo"
+                                      style={{
+                                        width: "17px",
+                                        height: "17px",
+                                        marginLeft: "4px",
+                                      }}
+                                    />
+                                  </OverlayTrigger>
+                                )}
                               </div>
                             </div>
                             <span>
@@ -133,13 +130,14 @@ const CEODashboardCompetitor = ({ getCompetitorsPrice }) => {
                             </span>
                             <br></br>
                             <span>
-                              £ {(Number(getCompetitorsPrice?.competitorListing?.[fuelType]?.[rowIndex]?.price.replace('£', '')) || 0) * 2000}
+                              £{" "}
+                              {(Number(
+                                getCompetitorsPrice?.competitorListing?.[
+                                  fuelType
+                                ]?.[rowIndex]?.price.replace("£", "")
+                              ) || 0) * 2000}
                             </span>
-
-
-
                           </div>
-
                         </>
                       )}
                     </td>

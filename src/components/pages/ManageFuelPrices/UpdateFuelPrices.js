@@ -303,7 +303,13 @@ const UpdateFuelPrices = (props) => {
                           (competitorsName, rowIndex) => (
                             <tr key={rowIndex}>
                               <td>
-                                <div className="single-Competitor-heading d-flex w-99.9 cardd">
+                                <div
+                                  className={`single-Competitor-heading d-flex w-99.9 cardd  ${
+                                    competitorsName?.isMain == 1
+                                      ? "main-competitor-effect"
+                                      : ""
+                                  }`}
+                                >
                                   <p className=" m-0 d-flex align-items-center">
                                     <span>
                                       <img
@@ -330,6 +336,25 @@ const UpdateFuelPrices = (props) => {
                                     </span>
                                     <span style={{ minWidth: "200px" }}>
                                       {competitorsName?.name}
+                                      <span className=" fw-600">
+                                        {" "}
+                                        {competitorsName?.isMain == 1 ? (
+                                          <>
+                                            <OverlayTrigger
+                                              placement="top"
+                                              overlay={
+                                                <Tooltip className="c-zindex-100000">
+                                                  Main Competitor
+                                                </Tooltip>
+                                              }
+                                            >
+                                              <span className="  p-1">
+                                                <i className="ph ph-target c-top-3  work-flow-sucess-status"></i>
+                                              </span>
+                                            </OverlayTrigger>
+                                          </>
+                                        ) : null}
+                                      </span>
                                     </span>
                                   </p>
                                 </div>

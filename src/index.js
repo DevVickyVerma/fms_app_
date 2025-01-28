@@ -992,7 +992,7 @@ const Root = () => {
                     />
 
                     <Route
-                      path={`/add-fuel-automation/:siteName/:id`}
+                      path={`/add-fuel-automation/:id`}
                       element={<WrappedAddFuelAutomation />}
                     />
                     <Route

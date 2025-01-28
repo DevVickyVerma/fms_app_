@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import LoaderImg from "../../Utils/Loader";
 import { Link } from "react-router-dom";
-import NewDashboardFilterModal from "../pages/Filtermodal/NewDashboardFilterModal";
-import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import NewFilterTab from "../pages/Filtermodal/NewFilterTab";
 import {
   getCurrentDate,
   staticCompiCEOValues,
 } from "../../Utils/commonFunctions/commonFunction";
-import CEODashboardCompetitor from "./CEODashboardCompetitor";
 import CEODashboardCompetitorChart from "./CEODashboardCompetitorChart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import AccordionComponent from "./AccordionComponent";

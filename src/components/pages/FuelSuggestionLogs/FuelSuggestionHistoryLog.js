@@ -432,7 +432,7 @@ const FuelSuggestionHistoryLog = (props) => {
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
-              <i className="ph ph-eye me-2 pointer " />
+              <i className="ph ph-file-text me-2 pointer " />
             </h6>
           </div>
         </div>
