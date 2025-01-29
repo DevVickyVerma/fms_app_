@@ -384,7 +384,7 @@ const FuelSuggestionHistoryLog = (props) => {
                           "-"
                         )}{" "}
                       </span>
-                      <span>by - Name Will Come</span>
+                      {/* <span>by - Name Will Come</span> */}
                     </Tooltip>
                   }
                 >
