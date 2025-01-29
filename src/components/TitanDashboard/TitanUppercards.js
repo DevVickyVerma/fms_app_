@@ -153,7 +153,7 @@ const TitanUppercards = (props) => {
                             containerStyle={"dash-plates-3 "}
                             xl={12}
                             Righttooltip={`Year To Date `}
-                            Lefttooltip={`Dips stock (Liters)=   Opening Dips - Closing Dips`}
+
                         />
                     </Col>
 
@@ -231,7 +231,7 @@ const TitanUppercards = (props) => {
                             containerStyle={"dash-plates-3 "}
                             xl={12}
                             Righttooltip={`Year To Date `}
-                            Lefttooltip={`Closing Stocks`}
+
                         />
                     </Col>
 
