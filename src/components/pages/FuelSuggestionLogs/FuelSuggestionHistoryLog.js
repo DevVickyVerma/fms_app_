@@ -306,13 +306,13 @@ const FuelSuggestionHistoryLog = (props) => {
     },
     {
       name: "Level",
-      selector: (row) => [row.date],
+      selector: (row) => [row.level],
       sortable: false,
       width: "8%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{"4"}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.level}</h6>
           </div>
         </div>
       ),

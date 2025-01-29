@@ -170,9 +170,9 @@ export const BestvsWorst = [
 ];
 
 export const PriceLogsFilterValue = [
-  { value: "competitor", label: "Competitor" },
-  { value: "fms", label: "FMS" },
-  { value: "ov", label: "OV" },
+  { value: "competitor", label: "Competitor vs Our" },
+  { value: "fms", label: "TLM exception" },
+  { value: "ov", label: "Not Observed" },
 ];
 
 // export const PriceLogsFilterValue = [

@@ -176,7 +176,7 @@ const Exceptionallogs = (props) => {
               style={{ backgroundColor: "#fff" }}
               onSelect={handleTabSelect}
             >
-              <Tab eventKey="competitor" title="COMPETITOR">
+              <Tab eventKey="competitor" title="Competitor vs Our">
                 <Card>
                   <Card.Body>
                     <table
@@ -196,7 +196,7 @@ const Exceptionallogs = (props) => {
                             <td>
                               <img
                                 src={log?.supplier}
-                                // alt="supplier"
+                                alt="supplier"
                                 style={{
                                   width: "25px",
                                   height: "25px",
@@ -215,7 +215,7 @@ const Exceptionallogs = (props) => {
                   </Card.Body>
                 </Card>
               </Tab>
-              <Tab eventKey="fms" title="FMS">
+              <Tab eventKey="fms" title="TLM exception">
                 <Card>
                   <Card.Body>
                     <table
@@ -235,7 +235,7 @@ const Exceptionallogs = (props) => {
                             <td>
                               <img
                                 src={log?.supplier}
-                                // alt="supplier"
+                                alt="supplier"
                                 style={{
                                   width: "25px",
                                   height: "25px",
@@ -253,7 +253,7 @@ const Exceptionallogs = (props) => {
                   </Card.Body>
                 </Card>
               </Tab>
-              <Tab eventKey="ov" title="OV">
+              <Tab eventKey="ov" title="Not Observed">
                 <Card>
                   <Card.Body>
                     <table
@@ -273,7 +273,7 @@ const Exceptionallogs = (props) => {
                             <td>
                               <img
                                 src={log?.supplier}
-                                // alt="supplier"
+                                alt="supplier"
                                 style={{
                                   width: "25px",
                                   height: "25px",
