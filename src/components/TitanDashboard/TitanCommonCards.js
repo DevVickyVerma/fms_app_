@@ -21,9 +21,7 @@ const TitanCommonCards = ({
 }) => {
 
     const StatusIndicator = ({ leftSideData }) => {
-
         const isUp = leftSideData >= 0;
-
         return (
             <div>
                 <i

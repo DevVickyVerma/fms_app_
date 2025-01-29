@@ -15,11 +15,11 @@ import TitanCardLoading from "./TitanCardLoading";
 import TitanPieChart from "./TitanPieChart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import SmallLoader from "../../Utils/SmallLoader";
-import LinesDotGraphchart from "../Dashboard/LinesDotGraphchart";
 import TitanColumnChart from "./TitanColumnChart";
+import TitanDetailModal from "./TitanDetailModal";
 
 const TitanDashboard = (props) => {
-    const navigate = useNavigate();
+
     const { isLoading, getData } = props;
     const [sidebarVisible1, setSidebarVisible1] = useState(true);
     const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
@@ -36,14 +36,11 @@ const TitanDashboard = (props) => {
     const ReduxFullData = useSelector((state) => state?.data?.data);
     let storedKeyName = "localFilterModalData";
     const [ShowLiveData, setShowLiveData] = useState(false);
-    const [PriceLogsloading, setPriceLogssloading] = useState(false);
     const [PriceGraphloading, setPriceGraphloading] = useState(false);
-    const [PriceLogs, setPriceLogs] = useState();
+
     const [PriceGraphData, setPriceGraphData] = useState();
     const [bestvsWorst, setbestvsWorst] = useState("1");
     const [graphfilterOption, setgraphfilterOption] = useState("weekly");
-    const [applyNavigate, setApplyNavigate] = useState(false);
-
 
     const userPermissions = useSelector(
         (state) => state?.data?.data?.permissions || []
@@ -135,8 +132,8 @@ const TitanDashboard = (props) => {
         const endpoints = [
             {
                 name: "dashboard",
-                url: "titan-dashboard/stats",
-                // url: "ceo-dashboard/stats",
+                // url: "titan-dashboard/stats",
+                url: "ceo-dashboard/stats",
                 setData: setDashboardData,
                 setLoading: setStatsLoading,
                 callback: (response, updatedFilters) => {
@@ -238,12 +235,12 @@ const TitanDashboard = (props) => {
                 if (site_id) queryParams.append("site_id", site_id);
                 if (tank_id) queryParams.append("tank_id", tank_id);
                 if (grade_id) queryParams.append("grade_id", grade_id);
-
                 if (client_id && company_id) {
                     setApplyNavigate(true);
                 } else {
                     setApplyNavigate(false);
                 }
+
                 const queryString = queryParams.toString();
                 const response = await getData(`${endpoint}?${queryString}`);
                 setFilters(updatedFilters);
@@ -293,8 +290,6 @@ const TitanDashboard = (props) => {
 
         setFilters(null);
         setDashboardData(null);
-        setPriceLogs(null);
-        setApplyNavigate(false);
         formik.resetForm();
     };
 
@@ -371,9 +366,39 @@ const TitanDashboard = (props) => {
             }
         });
     };
+    const [applyNavigate, setApplyNavigate] = useState(false);
+    const [showCeoDetailModal, setShowCeoDetailModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const handleCloseSidebar = () => {
+        setShowCeoDetailModal(false);
+    };
+    const handleCardClick = (cardName) => {
+        console.log(filters?.company_id, "filters?.company_id");
+        if (applyNavigate && formik?.values?.company_id) {
+
+
+            console.log(cardName, "cardName");
+            setModalTitle(cardName);
+            setShowCeoDetailModal(true);
+        }
+    };
     return (
         <>
             {/* {isLoading ? <LoaderImg /> : ""} */}
+            {showCeoDetailModal && (
+                <>
+                    <TitanDetailModal
+                        title={modalTitle}
+                        filterDataAll={filters}
+                        filterData={filters}
+                        sidebarContent={"sidebardataobject"}
+                        visible={showCeoDetailModal}
+                        dashboardData={dashboardData}
+                        onClose={handleCloseSidebar}
+                    />
+                </>
+            )}
+
             {centerFilterModalOpen && (
                 <div className="">
                     <TitanFilterModal
@@ -565,6 +590,15 @@ const TitanDashboard = (props) => {
                                             {PriceGraphData?.name &&
                                                 ` (${PriceGraphData?.name})`}
                                             <br></br>
+                                            {userPermissions?.includes("ceodashboard-price-graph") ? (
+                                                <span onClick={() => handleCardClick("Performance")} style={{ color: "#4663ac" }} className="pointer">
+                                                    <div >
+                                                        View  In Table
+                                                    </div>
+                                                </span>
+                                            ) : (
+                                                ""
+                                            )}
 
                                         </h4>
                                     </div>
@@ -632,9 +666,8 @@ const TitanDashboard = (props) => {
 
                     {statsLoading ? (
                         <SmallLoader title="Pie Chart" />
-                    ) : PriceGraphData ? (
+                    ) : dashboardData?.pie_graph_stats ? (
                         <TitanPieChart statsLoading={statsLoading} data={dashboardData?.pie_graph_stats} title=" Pie Chart" />
-
                     ) : (
                         <NoDataComponent title="Pie Chart" showCard={true} />
                     )}
