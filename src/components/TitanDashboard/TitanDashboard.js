@@ -132,8 +132,8 @@ const TitanDashboard = (props) => {
         const endpoints = [
             {
                 name: "dashboard",
-                // url: "titan-dashboard/stats",
-                url: "ceo-dashboard/stats",
+                url: "titan-dashboard/stats",
+                // url: "ceo-dashboard/stats",
                 setData: setDashboardData,
                 setLoading: setStatsLoading,
                 callback: (response, updatedFilters) => {
@@ -593,7 +593,7 @@ const TitanDashboard = (props) => {
                                             {userPermissions?.includes("ceodashboard-price-graph") ? (
                                                 <span onClick={() => handleCardClick("Performance")} style={{ color: "#4663ac" }} className="pointer">
                                                     <div >
-                                                        View  In Table
+                                                        Table View
                                                     </div>
                                                 </span>
                                             ) : (
@@ -653,7 +653,7 @@ const TitanDashboard = (props) => {
                                     ) : PriceGraphData ? (
                                         <TitanColumnChart stockGraphData={PriceGraphData} />
                                     ) : (
-                                        <NoDataComponent showCard={false} />
+                                        <NoDataComponent showCard={true} />
                                     )}
                                 </Card.Body>
                             </Card>

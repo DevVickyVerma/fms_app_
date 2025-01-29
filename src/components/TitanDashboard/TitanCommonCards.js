@@ -38,13 +38,13 @@ const TitanCommonCards = ({
             <motion.div
                 onClick={handleNavigateClick}
                 className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""}`}
-                style={{ backgroundColor: "#fff" }}
+
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.10 }} // Animation on hover
                 transition={{ duration: 0.3 }} // Animation duration
             >
-                <Col sm={12} md={4} lg={lg} xl={xl} key={Math.random()}>
+                <Col sm={12} md={4} lg={lg} xl={xl} key={Math.random()} style={{ padding: "0px" }}>
                     <Card
                         onClick={handleNavigateClick}
                         className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""
