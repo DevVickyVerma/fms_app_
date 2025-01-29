@@ -102,6 +102,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               icon={"ℓ"}
               containerStyle={"dash-plates-1"}
               xl={12}
+              tooltipContent={`Till volume + other bunkering categories volume`}
             />
           </Col>
           <Col lg={2}>
@@ -118,6 +119,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               icon={"£"}
               containerStyle={"dash-plates-3 "}
               xl={12}
+              tooltipContent={`Til fuel sales + other bunkering categories sales`}
             />
           </Col>
           {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
@@ -215,6 +217,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 icon={"%"}
                 containerStyle={"dash-plates-5"}
                 xl={6}
+                tooltipContent={`Shop Margin = (Shop Profit / Shop Sales) *100`}
               />
             </Row>
           </Col>

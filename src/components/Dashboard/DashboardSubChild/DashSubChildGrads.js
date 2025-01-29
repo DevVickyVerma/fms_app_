@@ -320,7 +320,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                     <>
                       <Col lg={4} md={4} xl={4} sm={4}>
                         <Card.Header>
-                          <h3 className="card-title">Key Matrices</h3>
+                          <h3 className="card-title">Key Metrics (Inc VAT)</h3>
                         </Card.Header>
                         <Card.Body>
                           <Row
