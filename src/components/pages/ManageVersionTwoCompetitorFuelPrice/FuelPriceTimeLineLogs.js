@@ -81,37 +81,37 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                         {item?.logs?.time})
                         <span>
                           {item?.logs?.status === 0 ? (
-                            <span className="btn btn-warning btn-sm ms-2">
+                            <span className="btn btn-warning btn-sm ms-2 cursor-default">
                               <i className="ph ph-hourglass-low  c-fs-12 me-1"></i>
                               <span>Pending</span>
                             </span>
                           ) : item?.logs?.status === 1 ? (
-                            <span className="btn btn-primary btn-sm ms-2">
+                            <span className="btn btn-primary btn-sm ms-2 cursor-default">
                               <i className="ph ph-hourglass-low  c-fs-12 me-1"></i>
                               <span>Suggested</span>
                             </span>
                           ) : item?.logs?.status === 2 ? (
-                            <span className="btn btn-danger btn-sm ms-2">
+                            <span className="btn btn-danger btn-sm ms-2 cursor-default">
                               <i className="ph ph-x  c-fs-12 me-1"></i>
                               <span>Rejected</span>
                             </span>
                           ) : item?.logs?.status === 3 ? (
-                            <span className="btn btn-success btn-sm ms-2">
+                            <span className="btn btn-success btn-sm ms-2 cursor-default">
                               <i className="ph ph-check  c-fs-12 me-1"></i>
                               <span>Approved</span>
                             </span>
                           ) : item?.logs?.status === 4 ? (
-                            <span className="btn btn-info btn-sm ms-2">
+                            <span className="btn btn-info btn-sm ms-2 cursor-default">
                               <i className="ph ph-checks  c-fs-12 me-1"></i>
                               <span>Modified</span>
                             </span>
                           ) : item?.logs?.status === 5 ? (
-                            <span className="btn btn-primary btn-sm ms-2">
+                            <span className="btn btn-primary btn-sm ms-2 cursor-default">
                               <i className="ph ph-checks  c-fs-12 me-1"></i>
                               <span>Suggested</span>
                             </span>
                           ) : item?.logs?.status === 7 ? (
-                            <span className="btn btn-danger btn-sm ms-2">
+                            <span className="btn btn-danger btn-sm ms-2 cursor-default">
                               <i className="ph ph-road-horizon  c-fs-12 me-1"></i>
                               <span>ByPass</span>
                             </span>

@@ -139,7 +139,6 @@ const CeoDashBoardTest = (props) => {
 
       // Fetch dashboard stats if the user has the required permission
       if (permissionsArray?.includes("ceodashboard-view")) {
-
         // console.log(storedKeyName, "storedKeyName");
         FetchDashboardStats(values);
       }
@@ -160,7 +159,6 @@ const CeoDashBoardTest = (props) => {
           setCenterFilterModalOpen(false);
         },
       },
-
     ];
 
     // Split the endpoints into two halves
@@ -341,9 +339,7 @@ const CeoDashBoardTest = (props) => {
       queryParams.append("company_id", formik.values?.company_id);
 
       const queryString = queryParams.toString();
-      const response = await getData(
-        `titan-dashboard-graph?${queryString}`
-      );
+      const response = await getData(`titan-dashboard-graph?${queryString}`);
       if (response && response.data && response.data.data) {
         console.log(response.data.data, "response.data.data");
       }

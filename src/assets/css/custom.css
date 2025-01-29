@@ -1491,7 +1491,7 @@ span.text-error {
 }
 
 .offcanvas-end {
-  width: 651px;
+  width: 50% !important;
 }
 
 .statscard {
@@ -1716,6 +1716,10 @@ span.text-error {
 @media (max-width: 768px) {
   .chart-small-screen {
     height: 300px;
+  }
+
+  .offcanvas-end {
+    width: 100% !important;
   }
 
   .nodata-image {
@@ -2888,4 +2892,8 @@ td.middayModal-td.time-input-fuel-sell {
 .blur-timeline {
   background-color: #ffefef !important;
   filter: blur(1px);
+}
+
+.cursor-default {
+  cursor: default !important;
 }
