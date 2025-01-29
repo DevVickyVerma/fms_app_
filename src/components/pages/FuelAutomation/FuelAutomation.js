@@ -360,6 +360,7 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
                                               e.target.value
                                             )
                                           }
+                                          min={0}
                                         />
 
                                         <OverlayTrigger

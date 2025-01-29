@@ -186,10 +186,13 @@ const VersionTwoSuggestedFuelPrice = ({
                           <td
                             className={`time-input-fuel-sell middayModal-td  `}
                           >
-                            <i
-                              className="ph ph-file-text me-2 pointer"
-                              onClick={() => handleModalLogs(row)}
-                            />
+                            <div className=" btn btn-primary btn-sm">
+                              View Logs
+                              <i
+                                className="ph ph-file-text mx-1 pointer fs-13"
+                                onClick={() => handleModalLogs(row)}
+                              />
+                            </div>
                           </td>
                         </tr>
                       </React.Fragment>
