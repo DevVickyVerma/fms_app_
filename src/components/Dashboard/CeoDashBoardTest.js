@@ -782,7 +782,10 @@ const CeoDashBoardTest = (props) => {
                   {PriceGraphloading ? (
                     <SmallLoader />
                   ) : PriceGraphData?.labels ? (
-                    <LinesDotGraphchart stockGraphData={PriceGraphData} />
+                    <LinesDotGraphchart
+                      stockGraphData={PriceGraphData}
+                      showExWatValue={true}
+                    />
                   ) : (
                     <NoDataComponent showCard={false} />
                   )}

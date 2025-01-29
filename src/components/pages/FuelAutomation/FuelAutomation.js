@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import {
@@ -9,125 +9,79 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import DataTable from "react-data-table-component";
-import useErrorHandler from "../../CommonComponent/useErrorHandler";
-import useToggleStatus from "../../../Utils/useToggleStatus";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import * as Yup from "yup";
-import {
-  handleFilterData,
-  staticCompiPriceCommon2,
-} from "../../../Utils/commonFunctions/commonFunction";
-import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik";
-import InputTime from "../Competitor/InputTime";
-import { Value } from "sass";
+import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
+import { useFormik } from "formik";
+import CurrentDateTable from "../../../Utils/commonFunctions/CurrentDateTable";
 
-const initialValues = {
-  pricedata: {
-    day_time: [
-      { label: "Time", value: "06:11" },
-      { label: "Frequency", value: "Daily" },
-      {
-        label: "Unleaded",
-        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
-        arrowDirection: "up",
-      },
-      {
-        label: "Super Unleaded",
-        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
-        arrowDirection: "up",
-      },
-      {
-        label: "Diesel",
-        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
-        arrowDirection: "up",
-      },
-    ],
-    night_time: [
-      { label: "Time", value: "18:21" },
-      { label: "Frequency", value: "Daily" },
-      {
-        label: "Unleaded",
-        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
-        arrowDirection: "up",
-      },
-      {
-        label: "Super Diesel",
-        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
-        arrowDirection: "up",
-      },
-      {
-        label: "Adblue",
-        value: (Math.random() * (0.004 - 0.0001) + 0.0001).toFixed(4),
-        arrowDirection: "up",
-      },
-    ],
-  },
-};
-
-const FuelAutomation = ({ isLoading, getData, postData }) => {
+const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
   let storedKeyName = "localFilterModalData";
-  const [data, setData] = useState(staticCompiPriceCommon2);
-  const [dataSetting, setDataSetting] = useState(staticCompiPriceCommon2);
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const UserPermissions = useSelector((state) => state?.data?.data);
-  const [siteName, setSiteName] = useState("");
-  const { handleError } = useErrorHandler();
+  const [data, setData] = useState();
+  const [dataSetting, setDataSetting] = useState();
   const ReduxFullData = useSelector((state) => state?.data?.data);
   const { customDelete } = useCustomDelete();
-  const { toggleStatus } = useToggleStatus();
-  const [isEdited, setIsEdited] = useState(false); // Track if user has edited any input
-  const [priceSuggestionEditable, setPriceSuggestionEditable] = useState(false);
 
-  const [filterData, setFilterData] = useState(null);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  // useEffect(() => {
-  //   fetchBankManagerList();
-  // }, []);
-
-  const isAddPermissionAvailable = permissionsArray?.includes(
-    "fuel-automation-create"
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
   );
-  const isDeletePermissionAvailable = permissionsArray?.includes(
-    "fuel-automation-delete"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes(
-    "fuel-automation-edit"
-  );
-  const isstatusPermissionAvailable = permissionsArray?.includes(
+
+  const isEditPermissionAvailable = userPermissions?.includes(
     "fuel-automation-edit"
   );
 
-  const { id } = useParams();
+  const formik = useFormik({
+    initialValues: {},
+    onSubmit: (values) => {
+      console.log("Form values:", values);
+      handleSubmit(values);
+    },
+  });
 
-  const toggleActive = (row) => {
+  const handleSubmit = async (values) => {
+    console.log(values, "values");
+
     const formData = new FormData();
-    formData.append("id", row.id.toString());
-    formData.append("status", (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(
-      postData,
-      "/site/fuel-automation-setting/update-status",
-      formData,
-      handleSuccess
-    );
+    formData.append("site_id", values?.site_id);
+
+    // Iterate through each setting (parent)
+    values?.setting?.forEach((parentItem, parentIndex) => {
+      formData.append(`time[${parentIndex}]`, parentItem?.time);
+      formData.append(`frequency[${parentIndex}]`, parentItem?.frequency);
+
+      // Iterate through each grade (child) of the current setting
+      parentItem?.grades?.forEach(({ id, action = 1, value = 0 }) => {
+        if (id) {
+          // Ensure the id exists before appending
+          formData.append(`action[${parentIndex}][${id}]`, action);
+          formData.append(`value[${parentIndex}][${id}]`, value);
+        }
+      });
+    });
+
+    try {
+      const postDataUrl = "/site/fuel-automation-setting/update";
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+
+      if (apidata.api_response === "success") {
+        handleSuccess();
+      }
+    } catch (error) {
+      console.error(error); // Set the submission state to false if an error occurs
+    }
   };
 
   const handleSuccess = () => {
-    fetchBankManagerList();
+    handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (values) => {
     const formData = new FormData();
-    formData.append("id", id);
+    formData.append(`time`, values?.time);
+    formData.append(`site_id`, formik?.values?.site_id);
     customDelete(
       postData,
       "site/fuel-automation-setting/delete",
@@ -141,25 +95,11 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
   }, []);
 
   const fetchBankManagerList = async (filters) => {
-    let { client_id, company_id, site_id, client_name, company_name } = filters;
+    let { client_id, site_id } = filters;
 
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = ReduxFullData?.superiorId;
-      client_name = ReduxFullData?.full_name;
     }
-
-    if (ReduxFullData?.company_id && !company_id) {
-      company_id = ReduxFullData?.company_id;
-      company_name = ReduxFullData?.company_name;
-    }
-
-    const updatedFilters = {
-      ...filters,
-      client_id,
-      client_name,
-      company_id,
-      company_name,
-    };
 
     if (client_id) {
       try {
@@ -167,9 +107,8 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
           `/site/fuel-automation-setting/list?site_id=${site_id}`
         );
         if (response && response.data) {
-          setDataSetting(response?.data?.data?.settings);
-          setSiteName(response?.data?.data?.site_name);
-          setFilterData(filters);
+          setDataSetting(response?.data?.data);
+          formik.setValues(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
         }
@@ -179,216 +118,13 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
     }
   };
 
-  // Tooltip for better UI
-  const renderTooltip = (message) => (
-    <Tooltip id="button-tooltip">{message}</Tooltip>
-  );
-
-  const columns = [
-    {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "10%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
-      name: "Time",
-      selector: (row) => [row.time],
-      sortable: false,
-      width: "15%",
-      cell: (row) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.time}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Price",
-      selector: (row) => [row.value],
-      sortable: false,
-      width: "15%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6
-              className={`mb-0 fs-14 fw-semibold ${
-                row?.action === 1
-                  ? "work-flow-sucess-status"
-                  : row?.action === 2
-                    ? "work-flow-danger-status"
-                    : ""
-              }`}
-            >
-              {row.value}
-
-              {row?.action === 1 ? (
-                <>
-                  <i className={`ph ph-arrow-up`}></i>
-                </>
-              ) : row?.action === 2 ? (
-                <>
-                  <i className={`ph ph-arrow-down`}></i>
-                </>
-              ) : (
-                <></>
-              )}
-            </h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Frequency",
-      selector: (row) => [row.frequency],
-      sortable: false,
-      width: "15%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              {row.frequency === 1 ? "Daily" : row.frequency}
-            </h6>
-          </div>
-        </div>
-      ),
-    },
-
-    {
-      name: "Created Date",
-      selector: (row) => [row.created_date],
-      sortable: false,
-      width: "15%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Status",
-      selector: (row) => [row.status],
-      sortable: false,
-      width: "15%",
-      cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold ">
-          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            {row.status === 1 ? (
-              <button
-                className="btn btn-success btn-sm"
-                onClick={
-                  isstatusPermissionAvailable ? () => toggleActive(row) : null
-                }
-              >
-                Active
-              </button>
-            ) : row.status === 0 ? (
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={
-                  isstatusPermissionAvailable ? () => toggleActive(row) : null
-                }
-              >
-                Inactive
-              </button>
-            ) : (
-              <button
-                className="badge"
-                onClick={
-                  isstatusPermissionAvailable ? () => toggleActive(row) : null
-                }
-              >
-                Unknown
-              </button>
-            )}
-          </OverlayTrigger>
-        </span>
-      ),
-    },
-
-    {
-      name: "Action",
-      selector: (row) => [row.action],
-      sortable: false,
-      width: "15%",
-      cell: (row) => (
-        <span className="text-center">
-          {isEditPermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-              <Link
-                to={`/edit-fuel-automation/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
-              >
-                <i>
-                  <svg
-                    className="table-edit"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-          {isDeletePermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-              <Link
-                to="#"
-                className="btn btn-danger btn-sm rounded-11"
-                onClick={() => handleDelete(row.id)}
-              >
-                <i>
-                  <svg
-                    className="table-delete"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-        </span>
-      ),
-    },
-  ];
-
   const handleClearForm = async () => {
-    setData(null);
+    setDataSetting(null);
+    formik.resetForm();
   };
 
   const handleApplyFilters = (values) => {
     if (values?.site_id && values?.company_id) {
-      // handleSubmit1(values);
       fetchBankManagerList(values);
     }
   };
@@ -401,110 +137,7 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
       ? Yup.string().required("Client is required")
       : Yup.mixed().notRequired(),
     company_id: Yup.string().required("Company is required"),
-    start_date: Yup.date()
-      .required("Date is required")
-      .min(new Date("2023-01-01"), "Date cannot be before January 1, 2023"),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      columns: [],
-      rows: [],
-      head_array: [],
-      update_tlm_price: false,
-      notify_operator: false,
-      confirmation_required: true,
-      pricedata: [],
-    },
-    enableReinitialize: true,
-    onSubmit: () => {
-      // Your submit logic here
-    },
-  });
-
-  const standardizeName = (name) => name?.toLowerCase().replace(/\s+/g, "_");
-  const validationSchema = Yup.object({
-    fuels: Yup.array().of(
-      Yup.array().of(
-        Yup.object({
-          date: Yup.string().required("Date is required"),
-          time: Yup.string().required("Time is required"),
-          price: Yup.number().required("Price is required"),
-        })
-      )
-    ),
-  });
-
-  const fuels = [];
-  const lsitingformik = useFormik({
-    initialValues: { fuels },
-    // validationSchema,
-    onSubmit: (values) => {
-      // handleSubmit(values);
-      // setFormValues(values); // Store form values
-      // setIsModalOpen(true); // Open the modal
-    },
-  });
-
-  const { id: prarmSiteID } = useParams();
-
-  useEffect(() => {
-    if (data) {
-      //   Standardize column names
-      const columns = data?.head_arrayMain?.map((item) =>
-        standardizeName(item.name)
-      );
-      const firstRow = data?.current[0] || [];
-      const rows = firstRow?.reduce((acc, item) => {
-        const standardizedName = standardizeName(item.name);
-        acc.date = item.date;
-        acc.time = item.time;
-        acc[standardizedName] = item.price;
-        acc.readonly = !item?.is_editable;
-        acc.currentprice = item.status === "SAME";
-        return acc;
-      }, {});
-
-      formik.setValues({
-        columns: columns,
-        rows: [rows], // Make sure rows is an array with one object
-        update_tlm_price: data?.update_tlm_price,
-        confirmation_required: data?.confirmation_required,
-        notify_operator: data?.notify_operator,
-        head_array: data?.head_array,
-        pricedata: data,
-      });
-      lsitingformik.setValues({
-        fuels: data?.fuels,
-      });
-    }
-  }, [data]);
-
-  // Function to increase the value by 0.0001
-  const handleIncrease = (index) => {
-    const updatedValue = (
-      parseFloat(formik.values.pricedata.head_array[index]) + 0.0001
-    ).toFixed(4);
-    formik.setFieldValue(`pricedata.head_array[${index}]`, updatedValue);
-  };
-
-  // Function to decrease the value by 0.0001
-  const handleDecrease = (index) => {
-    const updatedValue = Math.max(
-      0,
-      parseFloat(formik.values.pricedata.head_array[index]) - 0.0001
-    ).toFixed(4);
-    formik.setFieldValue(`pricedata.head_array[${index}]`, updatedValue);
-  };
-
-  console.log(staticCompiPriceCommon2, "staticCompiPriceCommon2");
-  console.log(formik?.values, "formik?.values");
-
-  const formHandler = useFormik({
-    initialValues,
-    onSubmit: (values) => {
-      console.log("Form values:", values);
-    },
+    site_id: Yup.string().required("Site is required"),
   });
 
   const handleShowDate = (e) => {
@@ -518,134 +151,6 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
       inputDateElement.showPicker(); // Programmatically trigger the date picker
     }
   };
-
-  const renderPriceInputs = (timePeriodArray, timePeriodLabel) => {
-    return timePeriodArray.map((item, index) => (
-      <div key={index} className="d-flex justify-content-between gap-4 my-2">
-        <span className="d-flex align-items-center c-fw-500">{item.label}</span>
-        <span className="c-w-50">
-          <div className="d-flex align-items-center ">
-            {item.label === "Date" ? (
-              <input
-                type="date"
-                className="table-input mx-2"
-                value={item.value}
-                onChange={(e) =>
-                  formHandler.setFieldValue(
-                    `${timePeriodLabel}[${index}].value`,
-                    e.target.value
-                  )
-                }
-                onClick={handleShowDate}
-              />
-            ) : item.label === "Time" ? (
-              <input
-                type="time"
-                className="table-input mx-2"
-                value={item.value}
-                onChange={(e) =>
-                  formHandler.setFieldValue(
-                    `${timePeriodLabel}[${index}].value`,
-                    e.target.value
-                  )
-                }
-                onClick={handleShowDate}
-              />
-            ) : item.label === "Frequency" ? (
-              <input
-                type="text"
-                className="table-input mx-2 readonly"
-                value={item.value}
-                readOnly
-              />
-            ) : (
-              <div className="d-flex align-items-center w-100">
-                <input
-                  type="number"
-                  className="table-input mx-2"
-                  step="0.0001"
-                  value={item.value}
-                  onChange={(e) =>
-                    formHandler.setFieldValue(
-                      `${timePeriodLabel}[${index}].value`,
-                      e.target.value
-                    )
-                  }
-                />
-
-                {/* <OverlayTrigger
-                  placement="top"
-                  overlay={<Tooltip>{"Price Up"}</Tooltip>}
-                >
-                  <></>
-                </OverlayTrigger> */}
-
-                <OverlayTrigger
-                  placement="top"
-                  overlay={
-                    <Tooltip
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        justifyContent: "flex-start",
-                      }}
-                    >
-                      Price Up{" "}
-                    </Tooltip>
-                  }
-                >
-                  <span>
-                    <button
-                      type="button"
-                      className={`btn btn-sm  ms-2 ${item.arrowDirection === "up" ? "btn-success" : "btn-light"}`}
-                      onClick={() => {
-                        // formHandler.setFieldValue(
-                        //   `${timePeriodLabel}[${index}].value`,
-                        //   Math.max(0, parseFloat(item.value) - 0.0001).toFixed(4)
-                        // );
-                        formHandler.setFieldValue(
-                          `${timePeriodLabel}[${index}].arrowDirection`,
-                          "up"
-                        );
-                      }}
-                    >
-                      ↑
-                    </button>
-                  </span>
-                </OverlayTrigger>
-
-                <OverlayTrigger
-                  placement="top"
-                  overlay={<Tooltip>{"Price Down"}</Tooltip>}
-                >
-                  <span>
-                    <button
-                      type="button"
-                      className={`btn btn-sm  ms-2 ${item.arrowDirection === "down" ? "btn-danger" : "btn-light"}`}
-                      onClick={() => {
-                        // formHandler.setFieldValue(
-                        //   `${timePeriodLabel}[${index}].value`,
-                        //   Math.max(0, parseFloat(item.value) - 0.0001).toFixed(4)
-                        // );
-                        formHandler.setFieldValue(
-                          `${timePeriodLabel}[${index}].arrowDirection`,
-                          "down"
-                        );
-                      }}
-                    >
-                      ↓
-                    </button>
-                  </span>
-                </OverlayTrigger>
-              </div>
-            )}
-          </div>
-        </span>
-      </div>
-    ));
-  };
-
-  console.log(formHandler?.values, "formHandler?.values");
 
   return (
     <>
@@ -699,217 +204,239 @@ const FuelAutomation = ({ isLoading, getData, postData }) => {
           </Col>
         </Row>
 
-        <Row className=" row-sm">
-          <Col lg={12}>
-            <Card>
-              <Card.Header className=" ">
-                <h3 className="card-title ">
-                  {" "}
-                  <div className="d-flex w-100 justify-content-between align-items-center">
-                    <div>
-                      <span>
-                        Fuel Automation
-                        <span className="d-flex pt-1 align-items-center c-fs-12">
-                          <span className="greenboxx me-2"></span>
-                          <span className="text-muted">Current Price</span>
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </h3>
-              </Card.Header>
-              <Card.Body>
-                <Card.Header>
-                  <h3 className="card-title">Current Price </h3>
-                </Card.Header>
+        <Card>
+          <Card.Header className="d-flex justify-content-between">
+            <h3 className="card-title ">
+              {" "}
+              <div className="d-flex w-100 justify-content-between align-items-center">
+                <div>
+                  <span>
+                    Fuel Automation for ({formik.values?.site_name} )
+                    <span className="d-flex pt-1 align-items-center c-fs-12">
+                      <span className="greenboxx me-2"></span>
+                      <span className="text-muted">Current Price</span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </h3>
 
-                <FormikProvider value={lsitingformik}>
-                  <Form>
-                    <div className="table-container ">
-                      <table className="table">
-                        <thead>
-                          <tr>
-                            <th className="middy-table-head">Date</th>
-                            <th className="middy-table-head">Time</th>
-                            {formik.values?.head_array?.map((item) => (
-                              <th key={item?.id} className="middy-table-head">
-                                {item}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
+            {formik?.values?.setting?.length < formik?.values?.max &&
+            isEditPermissionAvailable ? (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-primary ms-2 btn-sm"
+                  onClick={() => {
+                    const newSetting = {
+                      time: "12:15",
+                      frequency: 1,
+                      grades:
+                        dataSetting?.setting?.[0]?.grades?.map((grade) => ({
+                          id: grade?.id,
+                          name: grade?.name,
+                          action: 1, // default action
+                          value: 0.001, // default value
+                        })) || [],
+                    };
+                    formik.setFieldValue("setting", [
+                      ...formik.values.setting,
+                      newSetting,
+                    ]);
+                  }}
+                >
+                  <i className="ph ph-plus"></i>
+                </button>
+              </>
+            ) : (
+              ""
+            )}
+          </Card.Header>
 
-                        <tbody>
-                          {formik?.values?.rows?.map((row, rowIndex) => (
-                            <tr className="middayModal-tr" key={rowIndex}>
-                              {formik?.values?.columns?.map(
-                                (column, colIndex) => (
-                                  <React.Fragment key={colIndex}>
-                                    <td
-                                      className={`time-input-fuel-sell ${
-                                        column === "time"
-                                          ? "middayModal-time-td "
-                                          : "middayModal-td "
-                                      }`}
-                                      key={colIndex}
-                                    >
-                                      {column === "date" ? (
-                                        <>
-                                          <input
-                                            type="date"
-                                            className={`table-input  ${
-                                              row.currentprice
-                                                ? "fuel-readonly"
-                                                : ""
-                                            } ${
-                                              row?.readonly
-                                                ? "readonly update-price-readonly"
-                                                : ""
-                                            }`}
-                                            value={
-                                              formik?.values?.pricedata
-                                                ?.currentDate
-                                            }
-                                            name={row?.[column]}
-                                            // onChange={(e) =>
-                                            //   handleChange(e, rowIndex, column)
-                                            // }
-                                            // onClick={(e) =>
-                                            //   handleShowDate(
-                                            //     e,
-                                            //     formik?.values?.pricedata
-                                            //       ?.currentDate
-                                            //   )
-                                            // } // Passing currentDate to the onClick handler
-                                            disabled={row?.readonly}
-                                            placeholder="Enter price"
-                                          />
-                                        </>
-                                      ) : column === "time" ? (
-                                        <>
-                                          <InputTime
-                                            label="Time"
-                                            value={
-                                              formik?.values?.pricedata
-                                                ?.currentTime
-                                            }
-                                            disabled={true} // Disable if not editable
-                                            className={`time-input-fuel-sell ${
-                                              !row?.[0]?.is_editable
-                                                ? "fuel-readonly"
-                                                : ""
-                                            }`}
-                                          />
-                                        </>
-                                      ) : (
+          <Card.Body>
+            {dataSetting?.setting?.length > 0 ? (
+              <>
+                <form onSubmit={formik.handleSubmit}>
+                  <Row>
+                    <CurrentDateTable data={dataSetting} />
+                  </Row>
+
+                  <Row className="mt-5">
+                    {formik.values?.setting?.map(
+                      (settingItem, settingIndex) => (
+                        <Col lg={6} key={settingIndex}>
+                          <>
+                            <Card.Header className="d-flex justify-content-between">
+                              <h3 className="card-title">
+                                <div className="d-flex align-items-center">
+                                  <span>
+                                    {formik.values?.site_name} - Set Pricing -{" "}
+                                  </span>
+                                  <span className="circle-num-automation c-fs-12 ms-1">
+                                    {settingIndex + 1}
+                                  </span>
+                                </div>
+                              </h3>
+
+                              {isEditPermissionAvailable && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger ms-2 btn-sm"
+                                    onClick={() => {
+                                      handleDelete(settingItem);
+                                    }}
+                                  >
+                                    <i className="ph ph-trash"></i>
+                                  </button>
+                                </>
+                              )}
+                            </Card.Header>
+                            <Card.Body>
+                              {/* Render time and frequency */}
+                              <div className="d-flex justify-content-between gap-4 my-2">
+                                <span className="d-flex align-items-center c-fw-500">
+                                  Time
+                                </span>
+                                <span className="c-w-50">
+                                  <input
+                                    type="time"
+                                    className="table-input mx-2"
+                                    value={settingItem.time}
+                                    onChange={(e) =>
+                                      formik.setFieldValue(
+                                        `setting[${settingIndex}].time`,
+                                        e.target.value
+                                      )
+                                    }
+                                    onClick={handleShowDate}
+                                  />
+                                </span>
+                              </div>
+                              <div className="d-flex justify-content-between gap-4 my-2">
+                                <span className="d-flex align-items-center c-fw-500">
+                                  Frequency
+                                </span>
+                                <span className="c-w-50">
+                                  <input
+                                    type="text"
+                                    className="table-input mx-2 readonly"
+                                    value={
+                                      settingItem.frequency == "1"
+                                        ? "Daily"
+                                        : "-"
+                                    }
+                                    readOnly={true}
+                                    onChange={(e) =>
+                                      formik.setFieldValue(
+                                        `setting[${settingIndex}].frequency`,
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </span>
+                              </div>
+
+                              {/* Render grades */}
+                              {settingItem.grades.map(
+                                (gradeItem, gradeIndex) => (
+                                  <div
+                                    key={gradeIndex}
+                                    className="d-flex justify-content-between gap-4 my-2"
+                                  >
+                                    <span className="d-flex align-items-center c-fw-500">
+                                      {gradeItem.name}
+                                    </span>
+                                    <span className="c-w-50">
+                                      <div className="d-flex align-items-center">
                                         <input
                                           type="number"
-                                          className={`table-input ${
-                                            row.currentprice
-                                              ? "fuel-readonly"
-                                              : ""
-                                          } ${row?.readonly ? "readonly" : ""}`}
-                                          name={`rows[${rowIndex}].${column}`}
-                                          value={row[column]}
-                                          // onChange={(e) =>
-                                          //   handleChange(e, rowIndex, column)
-                                          // }
-                                          disabled={row?.readonly}
-                                          placeholder="Enter price"
+                                          className="table-input mx-2"
+                                          step="0.001"
+                                          value={gradeItem.value}
+                                          onChange={(e) =>
+                                            formik.setFieldValue(
+                                              `setting[${settingIndex}].grades[${gradeIndex}].value`,
+                                              e.target.value
+                                            )
+                                          }
                                         />
-                                      )}
-                                    </td>
-                                  </React.Fragment>
+
+                                        <OverlayTrigger
+                                          placement="top"
+                                          overlay={<Tooltip>Price Up</Tooltip>}
+                                        >
+                                          <span>
+                                            <button
+                                              type="button"
+                                              className={`btn btn-sm ms-2 ${gradeItem.action === 1 ? "btn-success" : "btn-light"}`}
+                                              onClick={() => {
+                                                formik.setFieldValue(
+                                                  `setting[${settingIndex}].grades[${gradeIndex}].action`,
+                                                  1
+                                                );
+                                              }}
+                                            >
+                                              ↑
+                                            </button>
+                                          </span>
+                                        </OverlayTrigger>
+
+                                        <OverlayTrigger
+                                          placement="top"
+                                          overlay={
+                                            <Tooltip>Price Down</Tooltip>
+                                          }
+                                        >
+                                          <span>
+                                            <button
+                                              type="button"
+                                              className={`btn btn-sm ms-2 ${gradeItem.action === 2 ? "btn-danger" : "btn-light"}`}
+                                              onClick={() => {
+                                                formik.setFieldValue(
+                                                  `setting[${settingIndex}].grades[${gradeIndex}].action`,
+                                                  2
+                                                );
+                                              }}
+                                            >
+                                              ↓
+                                            </button>
+                                          </span>
+                                        </OverlayTrigger>
+                                      </div>
+                                    </span>
+                                  </div>
                                 )
                               )}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </Form>
-                </FormikProvider>
+                            </Card.Body>
+                          </>
+                        </Col>
+                      )
+                    )}
 
-                <Row className="mt-5">
-                  <Col lg={6}>
-                    <>
-                      <Card.Header>
-                        <h3 className="card-title">
-                          {" "}
-                          <div className=" d-flex align-items-center">
-                            <span>Amersham - Set Pricing - </span>
-                            <span className="circle-num-automation c-fs-12 ms-1">
-                              01
-                            </span>
-                          </div>
-                        </h3>{" "}
-                      </Card.Header>
-                      <Card.Body>
-                        {renderPriceInputs(
-                          formHandler.values.pricedata.day_time,
-                          "pricedata.day_time"
-                        )}
-                      </Card.Body>
-                    </>
-                  </Col>
-                  <Col lg={6}>
-                    <>
-                      <Card.Header>
-                        <h3 className="card-title">
-                          {" "}
-                          <div className=" d-flex align-items-center">
-                            <span>Amersham - Set Pricing - </span>
-                            <span className="circle-num-automation c-fs-12 ms-1">
-                              02
-                            </span>
-                          </div>
-                        </h3>{" "}
-                      </Card.Header>
-                      <Card.Body>
-                        {renderPriceInputs(
-                          formHandler.values.pricedata.night_time,
-                          "pricedata.night_time"
-                        )}
-                      </Card.Body>
-                    </>
-                  </Col>
-
-                  <Card.Footer className=" text-end">
-                    <button type="submit" className="btn btn-primary">
-                      Submit
-                    </button>
-                  </Card.Footer>
-                </Row>
-
-                {/* {dataSetting?.length > 0 ? (
-                  <>
-                    <div className="table-responsive deleted-table mt-5">
-                      <DataTable
-                        columns={columns}
-                        data={dataSetting}
-                        noHeader={true}
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead={true}
-                        highlightOnHover={true}
-                        fixedHeader={true}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src={require("../../../assets/images/commonimages/no_data.png")}
-                      alt="MyChartImage"
-                      className="all-center-flex nodata-image"
-                    />
-                  </>
-                )} */}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                    {isEditPermissionAvailable && (
+                      <>
+                        <Card.Footer className=" text-end">
+                          <button type="submit" className="btn btn-primary">
+                            Submit
+                          </button>
+                        </Card.Footer>
+                      </>
+                    )}
+                  </Row>
+                </form>
+              </>
+            ) : (
+              <>
+                <img
+                  src={require("../../../assets/images/commonimages/no_data.png")}
+                  alt="MyChartImage"
+                  className="all-center-flex nodata-image"
+                />
+              </>
+            )}
+          </Card.Body>
+        </Card>
       </div>
     </>
   );
