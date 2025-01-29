@@ -2226,6 +2226,12 @@ td.middayModal-td.time-input-fuel-sell {
   align-items: center;
   margin: auto;
 }
+.NoDatasmallimg {
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+
+}
 
 .c-fs-18 {
   font-size: 18px;
