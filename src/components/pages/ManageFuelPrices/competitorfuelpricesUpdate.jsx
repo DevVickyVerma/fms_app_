@@ -186,7 +186,7 @@ const competitorfuelpricesUpdate = ({
                       <th className="middy-table-head">Date</th>
                       <th className="middy-table-head">Time</th>
                       {formik.values?.head_array?.map((item) => (
-                        <th key={item?.id} className="middy-table-head">
+                        <th key={item} className="middy-table-head">
                           {item}
                         </th>
                       ))}

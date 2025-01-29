@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Breadcrumb,
   Card,
@@ -227,8 +227,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
       }
     });
   };
-
-  console.log(formik?.values, "formik?.values");
 
   return (
     <>
@@ -461,11 +459,10 @@ const CompetitorFuelPricesVersionTwo = (props) => {
 
                                         {formik?.values?.fuels?.[0]?.map(
                                           (competitor, competitorIndex) => (
-                                            <>
-                                              <td
-                                                key={competitor?.id}
-                                                className="middayModal-td vertical-align-middle align-middle"
-                                              >
+                                            <React.Fragment
+                                              key={competitor?.id}
+                                            >
+                                              <td className="middayModal-td vertical-align-middle align-middle">
                                                 <input
                                                   className={`table-input fuel-readonly`}
                                                   type="number"
@@ -475,7 +472,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   value={competitor?.price}
                                                 />
                                               </td>
-                                            </>
+                                            </React.Fragment>
                                           )
                                         )}
 
@@ -516,11 +513,8 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                         {/* // ** here i am iterating the GOV prices */}
                                         {competitor?.fuels?.gov?.map(
                                           (fuel, fuelIndex) => (
-                                            <>
-                                              <td
-                                                key={fuel?.id}
-                                                className="middayModal-td"
-                                              >
+                                            <React.Fragment key={fuel?.id}>
+                                              <td className="middayModal-td">
                                                 <input
                                                   className={`table-input ${
                                                     fuel?.canUpdate
@@ -552,7 +546,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   )}
                                                 </div>
                                               </td>
-                                            </>
+                                            </React.Fragment>
                                           )
                                         )}
 
@@ -627,11 +621,8 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                         {/* // ** here i am iterating the Petrol Price prices */}
                                         {competitor?.fuels?.pp?.map(
                                           (fuel, fuelIndex) => (
-                                            <>
-                                              <td
-                                                key={fuel?.id}
-                                                className="middayModal-td"
-                                              >
+                                            <React.Fragment key={fuel?.id}>
+                                              <td className="middayModal-td">
                                                 <input
                                                   className={`table-input ${
                                                     fuel?.canUpdate
@@ -662,7 +653,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   )}
                                                 </div>
                                               </td>
-                                            </>
+                                            </React.Fragment>
                                           )
                                         )}
 
@@ -743,11 +734,8 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                         {/* // ** here i am iterating the Operator Verified prices */}
                                         {competitor?.fuels?.ov?.map(
                                           (fuel, fuelIndex) => (
-                                            <>
-                                              <td
-                                                key={fuel?.id}
-                                                className="middayModal-td"
-                                              >
+                                            <React.Fragment key={fuel?.id}>
+                                              <td className="middayModal-td">
                                                 <input
                                                   className={`table-input ${
                                                     fuel?.canUpdate
@@ -778,7 +766,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                   )} */}
                                                 </div>
                                               </td>
-                                            </>
+                                            </React.Fragment>
                                           )
                                         )}
 
