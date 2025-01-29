@@ -157,7 +157,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               containerStyle={"dash-plates-3 "}
               xl={12}
               ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
-              tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
+              tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             />
           </Col>
           <Col lg={6}>

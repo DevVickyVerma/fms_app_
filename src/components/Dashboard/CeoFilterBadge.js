@@ -16,13 +16,13 @@ const CeoFilterBadge = ({
   console.log(selected, "handleRemoveFilter");
 
   return (
-    <div className="d-flex gap-2 flex-wrap btn">
+    <div className="d-flex gap-2 flex-wrap btn w-100">
       {filters?.client_name ||
       filters?.company_name ||
       filters?.site_name ||
       filters?.start_date ? (
         <div
-          className="badges-container d-flex flex-wrap align-items-center gap-2 px-4 py-sm-2 py-2 text-white"
+          className="badges-container d-flex flex-wrap align-items-center gap-2 px-4 py-sm-2 py-2 text-white w-100"
           style={{ background: "#ddd" }}
         >
           {filters?.client_name && (
