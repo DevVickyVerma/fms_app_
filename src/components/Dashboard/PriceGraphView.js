@@ -97,6 +97,7 @@ const PriceGraphView = (props) => {
   useEffect(() => {
     handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, [permissionsArray?.includes("ceodashboard-view")]);
+
   return (
     <>
       {isLoading ? <LoaderImg /> : null}
