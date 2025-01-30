@@ -190,9 +190,15 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                                       color: subItem?.price_color,
                                     }}
                                   >
-                                    <span className=" text-decoration-line-through">
-                                      {subItem?.prev_price}
-                                    </span>
+                                    {subItem?.status == "SAME" ? (
+                                      <></>
+                                    ) : (
+                                      <>
+                                        <span className=" text-decoration-line-through">
+                                          {subItem?.prev_price}
+                                        </span>
+                                      </>
+                                    )}
 
                                     <span
                                       className={`ms-2 ${

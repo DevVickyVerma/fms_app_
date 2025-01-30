@@ -90,9 +90,16 @@ const VersionTwoSuggestedFuelPrice = ({
                                     className=" fs-14 "
                                     style={{ color: item?.price_color }}
                                   >
-                                    <span className=" text-decoration-line-through">
-                                      {item.prev_price}
-                                    </span>
+                                    {item?.status == "SAME" ? (
+                                      <></>
+                                    ) : (
+                                      <>
+                                        <span className=" text-decoration-line-through">
+                                          {item?.prev_price}
+                                        </span>
+                                      </>
+                                    )}
+
                                     <span
                                       className={`ms-2 ${
                                         item?.status === "UP"
