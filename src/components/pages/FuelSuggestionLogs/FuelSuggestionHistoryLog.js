@@ -11,14 +11,11 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-import { Collapse } from "antd";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import moment from "moment";
 import DataTable from "react-data-table-component";
 import CustomPagination from "../../../Utils/CustomPagination";
 import FuelSuggestionHistoryLogModal from "./FuelSuggestionHistoryLogModal";
-
-const { Panel } = Collapse;
 
 const FuelSuggestionHistoryLog = (props) => {
   const { getData, isLoading, postData } = props;
@@ -28,12 +25,6 @@ const FuelSuggestionHistoryLog = (props) => {
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [logsModal, setLogsModal] = useState(false);
-  const [accordionSiteID, setaccordionSiteID] = useState();
-
-  const handleModalOpen = (item) => {
-    setModalOpen(true);
-    setSelectedItem(item);
-  };
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -52,10 +43,7 @@ const FuelSuggestionHistoryLog = (props) => {
     setSelectedDrsDate(values.start_date);
 
     try {
-      let { client_id, company_id, start_date, site_id, start_month } = values;
-      if (localStorage.getItem("superiorRole") === "Client") {
-        client_id = localStorage.getItem("superiorId");
-      }
+      let { client_id, site_id, start_month } = values;
 
       const firstDayOfMonth = moment(start_month, "YYYY-MM")
         .startOf("month")
@@ -82,59 +70,6 @@ const FuelSuggestionHistoryLog = (props) => {
       }
     } catch (error) {
       console.error("API error:", error);
-    }
-  };
-
-  const extractFuelData = (site) => {
-    if (site.competitors && site?.competitors?.length > 0) {
-      const competitorData = site?.competitors?.map((competitor) => {
-        const competitorname = competitor?.competitor_name;
-        const competitorID = competitor?.id;
-        const competitorimage = competitor?.supplier;
-        const fuels = competitor?.fuels?.[0] || {};
-        const time = fuels?.time || "N/A";
-
-        // Create an array of objects for each heading in the head_array with price data
-        const priceData = data?.head_array?.map((heading) => {
-          const categoryPrice =
-            fuels[heading] !== undefined ? fuels[heading] : "N/A";
-          return { heading, price: categoryPrice };
-        });
-
-        return {
-          competitorID,
-          competitorname,
-          competitorimage,
-          time,
-          priceData,
-        };
-      });
-
-      return competitorData;
-    } else {
-      return [
-        // Return an array with an object containing "N/A" values for all fields
-        {
-          competitorname: "N/A",
-          competitorimage: "N/A",
-          time: "N/A",
-          priceData: data.head_array.map((heading) => ({
-            heading,
-            price: "N/A",
-          })),
-        },
-      ];
-    }
-  };
-
-  const handleDataFromChild = async (dataFromChild) => {
-    try {
-      if (storedData) {
-        let updatedStoredData = JSON.parse(storedData);
-        handleSubmit1(updatedStoredData);
-      }
-    } catch (error) {
-      console.error("Error handling data from child:", error);
     }
   };
 
@@ -189,7 +124,7 @@ const FuelSuggestionHistoryLog = (props) => {
   }, [storedKeyName, currentPage]); // Add any other dependencies needed here
 
   const handleApplyFilters = (values) => {
-    if (values?.company_id && values?.start_date) {
+    if (values?.company_id && values?.start_month) {
       handleSubmit1(values);
     }
   };
@@ -202,79 +137,6 @@ const FuelSuggestionHistoryLog = (props) => {
   const handleClearForm = async (resetForm) => {
     setData(null);
   };
-
-  const dummyData = [
-    {
-      site_name: "Site A",
-      data: [
-        {
-          date: "2024-12-01",
-          time: "10:00 AM",
-          fuels: [
-            {
-              fuelType: "Unleaded",
-              oldPrice: "1.543",
-              newPrice: "1.593",
-              status: "text-success", // Price increased
-            },
-            {
-              fuelType: "Diesel",
-              oldPrice: "1.423",
-              newPrice: "1.379",
-              status: "text-danger", // Price decreased
-            },
-            {
-              fuelType: "Super Unleaded",
-              oldPrice: "1.623",
-              newPrice: "No Change",
-              status: "", // No change
-            },
-          ],
-        },
-        {
-          date: "2024-12-02",
-          time: "12:00 PM",
-          fuels: [
-            {
-              fuelType: "Adblue",
-              oldPrice: "1.249",
-              newPrice: "No Change",
-              status: "", // No change
-            },
-            {
-              fuelType: "LPG",
-              oldPrice: "1.312",
-              newPrice: "1.452",
-              status: "text-success", // Price increased
-            },
-          ],
-        },
-      ],
-    },
-    {
-      site_name: "Site B",
-      data: [
-        {
-          date: "2024-12-03",
-          time: "9:30 AM",
-          fuels: [
-            {
-              fuelType: "Unleaded",
-              oldPrice: "1.564",
-              newPrice: "1.489",
-              status: "text-danger", // Price decreased
-            },
-            {
-              fuelType: "Diesel",
-              oldPrice: "1.532",
-              newPrice: "No Change",
-              status: "", // No change
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
   const columns = [
     {
@@ -533,62 +395,6 @@ const FuelSuggestionHistoryLog = (props) => {
                     />
                   </>
                 )}
-                {/* {dummyData?.map((site, siteIndex) => (
-                  <div key={siteIndex} className="mt-2">
-                    <Collapse accordion>
-                      <Panel
-                        header={
-                          <div className="d-flex justify-content-between">
-                            <div>
-                              {site.site_name}
-
-                              <span className=" fw-bold ms-2">
-                                ({site?.data?.length})
-                              </span>
-                            </div>
-                          </div>
-                        }
-                        key={siteIndex}
-                      >
-                        {site.data.length > 0 ? (
-                          site.data.map((entry, entryIndex) => (
-                            <div key={entryIndex} className="mb-5">
-                              <h6 className=" fw-bold">{`Date: ${entry.date}, Time: ${entry.time}`}</h6>
-                              <table className="table table-modern tracking-in-expand">
-                                <thead>
-                                  <tr>
-                                    <th>Fuel Type</th>
-                                    <th>Old Price</th>
-                                    <th>New Price</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {entry.fuels.map((fuel, fuelIndex) => (
-                                    <tr key={fuelIndex}>
-                                      <td className="c-w-per-25">
-                                        {fuel.fuelType}
-                                      </td>
-                                      <td className="c-w-per-25">
-                                        {fuel.oldPrice}
-                                      </td>
-                                      <td
-                                        className={`${fuel.status} c-w-per-25`}
-                                      >
-                                        {fuel.newPrice}
-                                      </td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          ))
-                        ) : (
-                          <p>No Fuel Prices Available</p>
-                        )}
-                      </Panel>
-                    </Collapse>
-                  </div>
-                ))} */}
               </Card.Body>
               {data?.length > 0 && lastPage > 1 && (
                 <CustomPagination
