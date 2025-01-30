@@ -169,8 +169,7 @@ const PriceGraphView = (props) => {
                 </Card.Header>
                 <Card.Body>
                   {PriceGraphData?.labels &&
-                  PriceGraphData?.fuel_type?.length > 0 &&
-                  PriceGraphData?.datasets?.length > 0 ? (
+                  PriceGraphData?.fuel_type?.length > 0 ? (
                     <LinesDotGraphchart stockGraphData={PriceGraphData} />
                   ) : (
                     <NoDataComponent />
