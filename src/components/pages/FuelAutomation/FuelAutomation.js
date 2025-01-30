@@ -417,10 +417,21 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
 
                     {isEditPermissionAvailable && (
                       <>
-                        <Card.Footer className=" text-end">
-                          <button type="submit" className="btn btn-primary">
-                            Submit
-                          </button>
+                        <Card.Footer>
+                          <p className=" text-danger mt-2">
+                            <span className=" fw-bold">*Note -</span>
+                            <span className="ms-2">
+                              Ensure there is a 30-minute prior difference
+                              between the current time and the scheduler time.
+                              The scheduler will be set up and run immediately
+                              once you configure it.
+                            </span>
+                          </p>
+                          <div className=" text-end">
+                            <button type="submit" className="btn btn-primary">
+                              Submit
+                            </button>
+                          </div>
                         </Card.Footer>
                       </>
                     )}

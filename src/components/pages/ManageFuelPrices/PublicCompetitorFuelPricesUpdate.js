@@ -647,6 +647,15 @@ const PublicCompetitorFuelPricesUpdate = ({
                     </p>
                   </>
                 )}
+
+                <p className=" text-danger">
+                  <span className=" fw-bold">*Note -</span>
+                  <span className="ms-2">
+                    If the current time exceeds the suggested timeframe, the
+                    price will be updated 15 minutes after the action is taken
+                    (Approve/Modify).
+                  </span>
+                </p>
               </Card.Footer>
             </Form>
           </FormikProvider>
