@@ -285,7 +285,7 @@ export const MENUITEMS = [
         icon: "browsers",
         type: "sub",
         active: false,
-        permission: "site-list",
+        permission: "fuel-automation-list",
         visibility: false,
         children: [
           {
