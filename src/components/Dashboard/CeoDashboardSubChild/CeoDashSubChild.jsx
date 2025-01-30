@@ -96,10 +96,10 @@ const DashSubChild = ({
 
       <div className="page-header ">
         <div>
-          {/* <h1 className="page-title">
-            {getSiteStats?.data?.site_name || "CEO Dashboard Site details"} (
-            {getSiteStats?.data?.dateString})
-          </h1> */}
+          <h1 className="page-title">
+            {getSiteStats?.data?.site_name || "CEO Dashboard Site details"}
+            {/* ({getSiteStats?.data?.dateString}) */}
+          </h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item

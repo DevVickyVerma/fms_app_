@@ -112,7 +112,7 @@ const CEODashCommonVerticalCard = ({
                     className="mb-0 number-font c-fs-18"
                   >
                     {" "}
-                    {/* <span className="l-sign">{icon}</span>{" "} */}
+                    <span className="l-sign">{icon}</span>{" "}
                     {RightSideData ? formatNumber(RightSideData) : "0.0"}
                   </h2>
                 </>

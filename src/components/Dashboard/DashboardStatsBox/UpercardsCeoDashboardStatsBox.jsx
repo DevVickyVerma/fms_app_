@@ -99,7 +99,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={gross_volume?.status}
               percentageValue={gross_volume?.percentage}
               handleNavigateClick={handleNavigateClick}
-              icon={"ℓ"}
+              // icon={"ℓ"}
               containerStyle={"dash-plates-1"}
               xl={12}
               tooltipContent={`Till volume + other bunkering categories volume`}
@@ -116,10 +116,10 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={fuel_sales?.status}
               percentageValue={fuel_sales?.percentage}
               handleNavigateClick={handleNavigateClick}
-              icon={"£"}
+              // icon={"£"}
               containerStyle={"dash-plates-3 "}
               xl={12}
-              tooltipContent={`Til fuel sales + other bunkering categories sales`}
+              tooltipContent={`Till fuel sales + other bunkering categories sales`}
             />
           </Col>
           {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
@@ -153,7 +153,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={gross_margin?.status}
               percentageValue={gross_margin?.percentage}
               handleNavigateClick={handleNavigateClick}
-              icon={"ppl"}
+              icon={"£"}
               containerStyle={"dash-plates-3 "}
               xl={12}
               ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}

@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 const calculateTrendLine = (data) => {
-  const xValues = data.map((_, index) => index); // Sequential x-axis values
+  const xValues = data?.map((_, index) => index); // Sequential x-axis values
   const yValues = data;
   const n = yValues.length;
   const sumX = xValues.reduce((a, b) => a + b, 0);
@@ -35,7 +35,7 @@ const calculateTrendLine = (data) => {
   const b = (sumY - m * sumX) / n;
 
   // Generate trend line points
-  return xValues.map((x) => m * x + b);
+  return xValues?.map((x) => m * x + b);
 };
 const LinesDotGraphchart = ({ stockGraphData, showExWatValue = false }) => {
   const [selectedFuelType, setSelectedFuelType] = useState(
@@ -61,7 +61,6 @@ const LinesDotGraphchart = ({ stockGraphData, showExWatValue = false }) => {
     stockGraphData?.datasets[selectedFuelType]?.[0]?.data || [];
   const trendLineData = calculateTrendLine(originalData);
 
-  console.log(trendLineData, "trendLineData");
   const options = {
     responsive: true,
     plugins: {

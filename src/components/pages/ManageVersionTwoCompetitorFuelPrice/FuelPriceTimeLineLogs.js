@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { timeLineData } from "../../../Utils/commonFunctions/CommonData";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const FuelPriceTimeLineLogs = ({ data }) => {
-  const [staticData, setStaticData] = useState(timeLineData);
-
   return (
     <>
       <div className="table-container overflow-auto">
@@ -74,7 +71,47 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                     <span className="badge p-2"> {item?.name}</span>
                   </span>
                   <h6 className=" fw-600 d-flex justify-content-between align-items-center">
-                    Fuel Suggested For ({item?.logs?.date}, {item?.logs?.time})
+                    <div>
+                      Fuel Suggested For ({item?.logs?.date}, {item?.logs?.time}
+                      )
+                      <span className=" ms-1">
+                        {item?.logs?.is_approved == 1 ? (
+                          <>
+                            <span className="ms-1">
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip style={{ zIndex: "111111111" }}>
+                                    <span>
+                                      {item?.logs?.approvedFrom == 0 ? (
+                                        <>Actioned From FMS</>
+                                      ) : (
+                                        <>Actioned From Email</>
+                                      )}
+                                    </span>
+                                  </Tooltip>
+                                }
+                              >
+                                <span>
+                                  {item?.logs?.approvedFrom == 0 ? (
+                                    <>
+                                      <i className="pointer ph ph-desktop"></i>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <i className="pointer ph ph-envelope-simple-open"></i>
+                                    </>
+                                  )}
+                                </span>
+                              </OverlayTrigger>
+                            </span>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </span>
+                    </div>
+
                     <span>
                       {item?.logs?.status === 0 ? (
                         <span className="btn btn-warning btn-sm ms-2 cursor-default">
@@ -120,7 +157,7 @@ const FuelPriceTimeLineLogs = ({ data }) => {
             Creator - <span className=" fw-500">{item?.creator} </span>{" "}
           </div> */}
                   <div className=" c-fs-13 ">
-                    Action At -{" "}
+                    Actioned At -{" "}
                     <span className=" fw-500">{item?.logs?.created_at}</span>
                   </div>
                   <div></div>
@@ -212,10 +249,10 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                       ""
                     )}{" "}
                   </span> */}
-                    {item?.notes && (
+                    {item?.logs?.notes && (
                       <>
                         <span className=" text-danger">
-                          Rejected Reason - {item?.notes}{" "}
+                          Rejected Reason - {item?.logs?.notes}{" "}
                         </span>
                       </>
                     )}
@@ -234,7 +271,7 @@ const FuelPriceTimeLineLogs = ({ data }) => {
                           }
                           key={item}
                         >
-                          <span>
+                          <span className="pointer">
                             <span
                               className=" text-capitalize first-cap-container"
                               style={{ marginLeft: "5px" }}

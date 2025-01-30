@@ -533,7 +533,7 @@ const AddUsers = (props) => {
                         <Col lg={4} md={6}>
                           <FormGroup className="sendemail">
                             <label htmlFor="email" className="form-label mt-4">
-                              Is Main Competitor
+                              Is Main Approver
                             </label>
                             <div className="mapotions">
                               <input

@@ -67,15 +67,18 @@ const FuelSuggestionHistoryLog = (props) => {
       if (currentPage) queryParams.append("page", currentPage);
 
       const queryString = queryParams.toString();
-      const response = await getData(
-        `site/fuel-price/suggestion/history?${queryString}`
-      );
 
-      if (response && response.data && response.data.data) {
-        setData(response.data.data?.logs || []);
+      if (start_month) {
+        const response = await getData(
+          `site/fuel-price/suggestion/history?${queryString}`
+        );
 
-        setCurrentPage(response.data.data?.currentPage || 1);
-        setLastPage(response.data.data?.lastPage || 1);
+        if (response && response.data && response.data.data) {
+          setData(response.data.data?.logs || []);
+
+          setCurrentPage(response.data.data?.currentPage || 1);
+          setLastPage(response.data.data?.lastPage || 1);
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -275,22 +278,10 @@ const FuelSuggestionHistoryLog = (props) => {
 
   const columns = [
     {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "8%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
       name: "Creator",
       selector: (row) => [row.creator],
       sortable: false,
-      width: "14%",
+      width: "20%",
       cell: (row) => (
         <div
           className="d-flex pointer hyper-link"
@@ -299,6 +290,21 @@ const FuelSuggestionHistoryLog = (props) => {
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
             <h6 className="mb-0 fs-14 fw-semibold wrap-text hyper-link">
               {row.creator}
+              {/* <span className="ms-1">
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>{"Updated From FMS Or Email"} </Tooltip>}
+                >
+                  <span>
+                    <i
+                      className="ph ph-envelope-simple-open"
+                      aria-hidden="true"
+                    ></i>
+
+                    <i className="ph ph-desktop"></i>
+                  </span>
+                </OverlayTrigger>
+              </span> */}
             </h6>
           </div>
         </div>
@@ -308,7 +314,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Level",
       selector: (row) => [row.level],
       sortable: false,
-      width: "8%",
+      width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
