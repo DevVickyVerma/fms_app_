@@ -367,7 +367,7 @@ const EditCompany = (props) => {
                             htmlFor="week_start"
                             className="form-label mt-4"
                           >
-                            Start Month
+                            Start Week
                             <span className="text-danger">*</span>
                           </label>
                           <select

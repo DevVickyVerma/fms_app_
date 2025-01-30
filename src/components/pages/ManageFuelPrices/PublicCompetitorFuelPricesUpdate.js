@@ -264,7 +264,24 @@ const PublicCompetitorFuelPricesUpdate = ({
         }
       });
     } else {
-      handleSubmit(status); // Handle the regular submission
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You will not be able to recover this item!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: `Yes ${status === 3 ? "Approve" : "Modify"} it!`,
+        cancelButtonText: "Cancel",
+        reverseButtons: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            handleSubmit(status); // Handle the regular submission
+          } catch (error) {
+            console.error(error);
+            // handleError(error)
+          }
+        }
+      });
     }
   };
 
