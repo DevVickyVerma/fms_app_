@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Toast, Tooltip } from 'react-bootstrap'
 import NewFilterTab from '../pages/Filtermodal/NewFilterTab'
 import withApi from '../../Utils/ApiHelper'
 import { useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import SearchBar from '../../Utils/SearchBar'
 import NoDataComponent from '../../Utils/commonFunctions/NoDataComponent'
 import moment from 'moment'
 import TitanDetailModal from '../TitanDashboard/TitanDetailModal'
+import { Bounce, toast } from 'react-toastify'
 
 const CardReconciliation = (props) => {
     const { isLoading, getData, postData } = props;
@@ -57,11 +58,16 @@ const CardReconciliation = (props) => {
             company_id: "",
             site_id: "",
             start_date: "",
+            uploadedFiles: [],
             range_start_date: null, // Renamed start date field
             range_end_date: null, // Renamed end date field
         },
         validationSchemaForCustomInput,
         onSubmit: (values) => {
+
+            console.log(values, "validationSchemaForCustomInput");
+
+
             console.log(values, "values");
 
             GetDataWithClient(values);
@@ -199,7 +205,7 @@ const CardReconciliation = (props) => {
             cell: (row) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.total_price_till}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{parseFloat(row.total_price_till).toFixed(3)}</h6>
                     </div>
                 </div>
             ),
@@ -218,7 +224,7 @@ const CardReconciliation = (props) => {
             ),
         },
         {
-            name: "Card Reconciliation Detail",
+            name: "Card Reconciliation Details",
             selector: (row) => [row.price_difference],
             sortable: false,
             width: "15%",
@@ -243,15 +249,17 @@ const CardReconciliation = (props) => {
                 <span className="text-muted fs-15 fw-semibold">
                     <OverlayTrigger placement="top" overlay={<Tooltip>Difference</Tooltip>}>
                         <span>
-                            {row.price_difference < 0 ? (
-                                <button onClick={() => handleCardClick(row)} className="btn btn-danger btn-sm">Check Difference</button>
-                            ) : row.price_difference === 0 ? (
-                                <button className="btn btn-success btn-sm" disabled>Check Difference</button> // Disabled button when price_difference is 0
-                            ) : row.status === 0 ? (
-                                <button className="btn btn-danger btn-sm">--</button>
+                            {row.price_difference !== 0 ? (
+                                <button onClick={() => handleCardClick(row)} className="btn btn-danger btn-sm">
+                                    Check Difference
+                                </button>
                             ) : (
-                                <button className="badge">Unknown</button>
+                                <button className="btn btn-success btn-sm" disabled>
+                                    Check Difference
+                                </button> // Disabled button when price_difference is 0
                             )}
+
+
 
                         </span>
                     </OverlayTrigger>
@@ -261,6 +269,57 @@ const CardReconciliation = (props) => {
         },
 
     ];
+    const SuccessToast = (message) => {
+        toast.error(message, {
+            // // position: toast.POSITION.TOP_RIGHT,
+            hideProgressBar: false,
+            transition: Bounce,
+            autoClose: 2000,
+            theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+        });
+    };
+    const handleSubmit = async (files) => {
+        console.log(files, "files");
+
+        // Check if files are present
+        if (files && files.length > 0) {
+
+            const validTypes = ["application/pdf", "text/csv"];
+            const invalidFiles = files.filter(file => !validTypes.includes(file.type));
+
+            if (invalidFiles?.length > 0) {
+
+                // Show alert if invalid file types are found
+                SuccessToast("Only CSV and PDF files are allowed.");
+                return; // Prevent form submission if invalid files are present
+            }
+
+
+            try {
+                const formData = new FormData();
+
+                // Append site_id to the FormData
+                formData.append("site_id", filters?.site_id);
+
+                // Append each file to formData
+                files.forEach((file) => {
+                    formData.append("csv_file", file); // Append each file as 'csv_file'
+                });
+
+                // Define the endpoint for uploading
+                const postDataUrl = "/credit-card/upload-bank-transcation";
+
+                // Call the API with the FormData containing the files
+                const response = await postData(postDataUrl, formData); // Make the API request
+
+                console.log(response, "response"); // Log the response if needed
+            } catch (error) {
+                console.error("Error uploading files:", error); // Log the error if an issue occurs
+            }
+        } else {
+            console.log("No files selected to upload."); // If no files are provided
+        }
+    };
 
     return (
         <>
@@ -269,7 +328,7 @@ const CardReconciliation = (props) => {
             {showCeoDetailModal && (
                 <>
                     <TitanDetailModal
-                        title="Card Reconciliation Detail"
+                        title="Card Reconciliation Details"
                         filterData={filters}
                         sidebarContent={"sidebardataobject"}
                         visible={showCeoDetailModal}
@@ -319,6 +378,7 @@ const CardReconciliation = (props) => {
                                 showMonthInput={false}
                                 showDateInput={false}
                                 showStationInput={true}
+                                showFileUpload={true}
                                 showDateRangeInput={true}
                                 ClearForm={handleClearForm}
                                 Submittile={"Reconcil"}
@@ -333,12 +393,62 @@ const CardReconciliation = (props) => {
                             <Card.Header>
                                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                                     <h3 className="card-title">     Card Reconciliation </h3>
-                                    <div className="mt-2 mt-sm-0">
+                                    <div className="m-0 mt-sm-0 hcenter">
                                         <SearchBar
                                             onSearch={handleSearch}
                                             onReset={handleReset}
                                             hideReset={searchTerm}
                                         />
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={<Tooltip>Upload Files
+                                                    {formik.values.uploadedFiles.length > 0 && (
+                                                        <div className="mt-2">
+
+                                                            <ul>
+                                                                {formik.values.uploadedFiles.map((file, index) => (
+                                                                    <li key={index}>{file.name}</li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    )}
+
+                                                </Tooltip>} // Tooltip Text
+                                            >
+                                                <div className="file-upload-icon m-0">
+                                                    <label
+                                                        htmlFor="file-upload"
+                                                        style={{ margin: "0px" }}
+                                                        className="btn btn-outline-primary"
+                                                    >
+                                                        <i className="fa fa-upload"></i> {/* FontAwesome Upload Icon */}
+                                                        {formik.values.uploadedFiles.length > 0 && (
+                                                            <span className="badge bg-danger">
+                                                                {formik.values.uploadedFiles?.length}
+                                                            </span>
+                                                        )}
+                                                    </label>
+                                                    <input
+                                                        id="file-upload"
+                                                        type="file"
+                                                        multiple
+                                                        className="d-none"
+                                                        onChange={async (event) => {
+                                                            const files = Array.from(event.target.files);
+                                                            formik.setFieldValue("uploadedFiles", files);
+
+                                                            handleSubmit(files);
+
+                                                        }}
+                                                    />
+                                                </div>
+                                            </OverlayTrigger>
+
+                                            {/* Show uploaded file names */}
+
+                                        </form>
+
                                     </div>
                                 </div>
                             </Card.Header>

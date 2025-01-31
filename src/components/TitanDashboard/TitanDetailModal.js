@@ -183,7 +183,7 @@ const TitanDetailModal = (props) => {
             let response;
             // Dynamically handle API calls based on the title
             switch (title) {
-                case "Card Reconciliation Detail":
+                case "Card Reconciliation Details":
                     response = await getData(`credit-card/get-diff-transcations?${queryString}`);
 
                     break;
@@ -241,7 +241,7 @@ const TitanDetailModal = (props) => {
             name: "Sr. No.",
             selector: (row, index) => index + 1,
             sortable: false,
-            width: "10%",
+            width: "8%",
             center: false,
             cell: (row, index) => (
                 <span className="text-muted fs-15 fw-semibold text-center">
@@ -265,10 +265,10 @@ const TitanDetailModal = (props) => {
             ),
         },
         {
-            name: "Card Transaction Date",
+            name: "Card Trans Date",
             selector: (row) => [row.card_transaction_date],
             sortable: false,
-            width: "20%",
+            width: "21%",
             cell: (row) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -280,10 +280,25 @@ const TitanDetailModal = (props) => {
             ),
         },
         {
-            name: "Till Amount",
+            name: "Till Trans Date",
+            selector: (row) => [row.transaction_date],
+            sortable: false,
+            width: "21%",
+            cell: (row) => (
+                <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-flex">
+                        <h6 className="mb-0 fs-14 fw-semibold wrap-text">
+                            {row.transaction_date}
+                        </h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: "Till Amt",
             selector: (row) => [row.total_price_till],
             sortable: false,
-            width: "15%",
+            width: "10%",
             cell: (row) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -293,10 +308,10 @@ const TitanDetailModal = (props) => {
             ),
         },
         {
-            name: "Card Amount",
+            name: "Card Amt.",
             selector: (row) => [row.total_price_bank],
             sortable: false,
-            width: "15%",
+            width: "10%",
             cell: (row) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -306,10 +321,10 @@ const TitanDetailModal = (props) => {
             ),
         },
         {
-            name: "Price Difference",
+            name: "Price Diff",
             selector: (row) => [row.price_difference],
             sortable: false,
-            width: "20%",
+            width: "10%",
             cell: (row) => (
                 <div
                     className="d-flex"
@@ -346,7 +361,7 @@ const TitanDetailModal = (props) => {
                     width:
                         title == "MOP Breakdown"
                             ? "50%"
-                            : title == "Card Reconciliation Detail"
+                            : title == "Card Reconciliation Details"
                                 ? "60%"
                                 : title == "Comparison"
                                     ? "70%"
@@ -496,7 +511,7 @@ const TitanDetailModal = (props) => {
                                 />
                             </>
                         )}
-                        {title == "Card Reconciliation Detail" && (
+                        {title == "Card Reconciliation Details" && (
                             <>
                                 <div className="m-4 textend">
                                     <CeoFilterBadge
