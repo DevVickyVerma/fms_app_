@@ -99,9 +99,10 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={gross_volume?.status}
               percentageValue={gross_volume?.percentage}
               handleNavigateClick={handleNavigateClick}
-              icon={"ℓ"}
+              // icon={"ℓ"}
               containerStyle={"dash-plates-1"}
               xl={12}
+              tooltipContent={`Till volume + other bunkering categories volume`}
             />
           </Col>
           <Col lg={2}>
@@ -115,9 +116,10 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={fuel_sales?.status}
               percentageValue={fuel_sales?.percentage}
               handleNavigateClick={handleNavigateClick}
-              icon={"£"}
+              // icon={"£"}
               containerStyle={"dash-plates-3 "}
               xl={12}
+              tooltipContent={`Till fuel sales + other bunkering categories sales`}
             />
           </Col>
           {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
@@ -151,11 +153,11 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={gross_margin?.status}
               percentageValue={gross_margin?.percentage}
               handleNavigateClick={handleNavigateClick}
-              icon={"ppl"}
+              icon={"£"}
               containerStyle={"dash-plates-3 "}
               xl={12}
               ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
-              tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
+              tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             />
           </Col>
           <Col lg={6}>
@@ -215,6 +217,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 icon={"%"}
                 containerStyle={"dash-plates-5"}
                 xl={6}
+                tooltipContent={`Shop Margin = (Shop Profit / Shop Sales) *100`}
               />
             </Row>
           </Col>

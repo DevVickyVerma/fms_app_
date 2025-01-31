@@ -99,6 +99,7 @@ const EditUsers = (props) => {
 
       formData.append("last_name", values.last_name);
       formData.append("phone_number", values.phone_number);
+      formData.append("is_main", values.is_main);
 
       formData.append("id", id);
 
@@ -139,6 +140,7 @@ const EditUsers = (props) => {
       phone_number: "",
       selected_country_code: "+44",
       status: "1",
+      is_main: "0",
     },
     validationSchema: Yup.object({
       role_id: Yup.string().required("Role is required"),
@@ -394,41 +396,6 @@ const EditUsers = (props) => {
                         </div>
                       </Col>
 
-                      <Col lg={4} md={6}>
-                        <div className="form-group">
-                          <label htmlFor="level_id" className="form-label mt-4">
-                            Level
-                          </label>
-                          <select
-                            className={`input101 ${
-                              formik.errors.level_id && formik.touched.level_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="level_id"
-                            name="level_id"
-                            onChange={formik.handleChange}
-                            value={formik.values.level_id}
-                          >
-                            <option value="">Select a Level</option>
-                            {levelitems ? (
-                              levelitems.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled={true}>No Level</option>
-                            )}
-                          </select>
-                          {formik.errors.level_id &&
-                            formik.touched.level_id && (
-                              <div className="invalid-feedback">
-                                {formik.errors.level_id}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
                       {localStorage.getItem("superiorRole") !== "Client" ? (
                         <Col lg={4} md={6}>
                           <FormControl className="width">
@@ -516,6 +483,69 @@ const EditUsers = (props) => {
                       ) : (
                         ""
                       )}
+
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label htmlFor="level_id" className="form-label mt-4">
+                            Level
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.level_id && formik.touched.level_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="level_id"
+                            name="level_id"
+                            onChange={formik.handleChange}
+                            value={formik.values.level_id}
+                          >
+                            <option value="">Select a Level</option>
+                            {levelitems ? (
+                              levelitems.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled={true}>No Level</option>
+                            )}
+                          </select>
+                          {formik.errors.level_id &&
+                            formik.touched.level_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.level_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <div className="form-group d-flex align-items-center h-100 ms-3 mt-4">
+                          <div className=" position-relative pointer  ms-4">
+                            <input
+                              type="checkbox"
+                              id="is_main"
+                              name="is_main"
+                              checked={formik?.values?.is_main === 1}
+                              onChange={(e) => {
+                                formik.setFieldValue(
+                                  "is_main",
+                                  e.target.checked ? 1 : 0
+                                );
+                              }}
+                              className="mx-1 form-check-input form-check-input-updated pointer"
+                            />
+                            <label
+                              htmlFor="is_main"
+                              className="p-0 m-0 pointer"
+                            >
+                              {" "}
+                              Is Main Approver
+                            </label>
+                          </div>
+                        </div>
+                      </Col>
                     </Row>
 
                     <div className="text-end my-5 text-end-small-screen">

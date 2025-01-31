@@ -1,5 +1,6 @@
-import { Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import CEODashCommonCard from "../CEODashCommonCard";
+import { formatNumber } from "../../../Utils/commonFunctions/commonFunction";
 
 const CeoDashboardStatsBox = ({
   dashboardData,
@@ -54,29 +55,56 @@ const CeoDashboardStatsBox = ({
   return (
     <div>
       {dashboardData ? (
-        <Row>
-          {cardConfigs.map(
-            ({ dataKey, title, icon, containerStyle, tooltip }) => {
-              const cardData = dashboardData[dataKey];
+        <>
+          <Row className=" mb-4 fw-600">
+            <Col lg={12} className=" d-flex">
+              {" "}
+              <div className=" badge fs-13 ">
+                Fuel Sale (Inc. Vat) -{" "}
+                {formatNumber(
+                  Number(dashboardData?.card_fuel_sales?.total_sales) +
+                    Number(dashboardData?.cash_fuel_sales?.total_sales) +
+                    Number(dashboardData?.bunkered_card_fuel_sales.total_sales)
+                )}
+              </div>
+              <div className="  ms-2">
+                <span className="badge fs-13">
+                  Shop Sale (Inc. Vat) -{" "}
+                  {formatNumber(
+                    Number(dashboardData?.card_shop_sales?.total_sales) +
+                      Number(dashboardData?.cash_shop_sales?.total_sales) +
+                      Number(
+                        dashboardData?.bunkered_card_shop_sales?.total_sales
+                      )
+                  )}
+                </span>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            {cardConfigs.map(
+              ({ dataKey, title, icon, containerStyle, tooltip }) => {
+                const cardData = dashboardData[dataKey];
 
-              return (
-                <CEODashCommonCard
-                  key={dataKey}
-                  isParentComponent={parentComponent}
-                  showRightSide={false}
-                  leftSideData={cardData?.total_sales}
-                  leftSideTitle={title}
-                  statusValue={cardData?.status}
-                  percentageValue={cardData?.percentage}
-                  handleNavigateClick={CeohandleNavigateClick}
-                  icon={icon}
-                  containerStyle={containerStyle}
-                  tooltipContent={tooltip}
-                />
-              );
-            }
-          )}
-        </Row>
+                return (
+                  <CEODashCommonCard
+                    key={dataKey}
+                    isParentComponent={parentComponent}
+                    showRightSide={false}
+                    leftSideData={cardData?.total_sales}
+                    leftSideTitle={title}
+                    statusValue={cardData?.status}
+                    percentageValue={cardData?.percentage}
+                    handleNavigateClick={CeohandleNavigateClick}
+                    icon={icon}
+                    containerStyle={containerStyle}
+                    tooltipContent={tooltip}
+                  />
+                );
+              }
+            )}
+          </Row>
+        </>
       ) : null}
     </div>
   );

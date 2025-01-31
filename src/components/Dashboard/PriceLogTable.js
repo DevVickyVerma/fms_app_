@@ -1,5 +1,3 @@
-import React from "react";
-
 const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
   return (
     <>
@@ -21,7 +19,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
                 <td>
                   <img
                     src={log?.supplier}
-                    // alt="supplier"
+                    alt="supplier"
                     style={{
                       width: "25px",
                       height: "25px",
@@ -31,7 +29,6 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
                   {log.site}
                 </td>
                 <td>{log.competitor}</td>
-
                 <td>{log.date}</td>
               </tr>
             ))}
@@ -55,7 +52,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
                 <td>
                   <img
                     src={log?.supplier}
-                    // alt="supplier"
+                    alt="supplier"
                     style={{
                       width: "25px",
                       height: "25px",
@@ -89,7 +86,7 @@ const PriceLogTable = ({ PriceLogsvalue, PriceLogs }) => {
                 <td>
                   <img
                     src={log?.supplier}
-                    // alt="supplier"
+                    alt="supplier"
                     style={{
                       width: "25px",
                       height: "25px",

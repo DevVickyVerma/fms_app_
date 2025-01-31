@@ -60,7 +60,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
     ? singleSiteParsedData?.shop_profit
     : null;
 
-  const handleNavigateClick = () => { };
+  const handleNavigateClick = () => {};
 
   return (
     <div>
@@ -76,9 +76,10 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             statusValue={singleSiteFuelVolume?.status}
             percentageValue={singleSiteFuelVolume?.percentage}
             handleNavigateClick={handleNavigateClick}
-            icon={"ℓ"}
+            // icon={"ℓ"}
             containerStyle={"dash-plates-1"}
             xl={12}
+            tooltipContent={`Till volume + other bunkering categories volume`}
           />
         </Col>
         <Col lg={2}>
@@ -92,9 +93,10 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             statusValue={singleSiteFuelSales?.status}
             percentageValue={singleSiteFuelSales?.percentage}
             handleNavigateClick={handleNavigateClick}
-            icon={"£"}
+            // icon={"£"}
             containerStyle={"dash-plates-3 "}
             xl={12}
+            tooltipContent={`Till fuel sales + other bunkering categories sales`}
           />
         </Col>
         {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
@@ -128,11 +130,11 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             statusValue={gross_margin?.status}
             percentageValue={gross_margin?.percentage}
             handleNavigateClick={handleNavigateClick}
-            icon={"ppl"}
+            icon={"£"}
             containerStyle={"dash-plates-3 "}
             xl={12}
             ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
-            tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
+            tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
           />
         </Col>
         <Col lg={6}>
@@ -192,6 +194,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               icon={"%"}
               containerStyle={"dash-plates-5"}
               xl={6}
+              tooltipContent={`Shop Margin = (Shop Profit / Shop Sales) *100`}
             />
           </Row>
         </Col>
@@ -258,7 +261,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
           // handleNavigateClick={handleNavigateClick}
           // icon={"£"}
           containerStyle={"dash-plates-2"}
-          tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
+          tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
           ppl_msg={
             singleSiteGrossMargin?.is_ppl == 1
               ? singleSiteGrossMargin?.ppl_msg
@@ -279,7 +282,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
           // handleNavigateClick={handleNavigateClick}
           icon={"£"}
           containerStyle={"dash-plates-4"}
-          // tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
+          // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
           // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
           // showPPL={true}
         />
@@ -296,7 +299,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
           // handleNavigateClick={handleNavigateClick}
           icon={"£"}
           containerStyle={"dash-plates-6"}
-          // tooltipContent={`Gross Margin = (Gross Profit / Selling Price*Sales Volume) * 100`}
+          // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
           // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
           // showPPL={true}
         />

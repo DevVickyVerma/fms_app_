@@ -39,7 +39,7 @@ const EmailDetailModal = (props) => {
         show={addshowModal}
         onHide={AddCloseModal}
         placement="end"
-        className="offcanvas-end-dep customeoff "
+        className="offcanvas-end-dep customeoff"
       >
         <div className="offcanvas-header">
           <h5 className="modal-title" id="#gridSystemModal1">
@@ -56,33 +56,39 @@ const EmailDetailModal = (props) => {
         </div>
         <hr />
         <div className="offcanvas-body">
-          <div style={containerStyle}>
+          <div style={containerStyle} className=" overflow-auto">
             <div style={{ marginBottom: "10px" }}>
               <span style={boldTitleStyle}>Subject:</span> <br />
-              <span>{selectedRowId?.raw_data?.subject}</span>
+              <span>{selectedRowId?.raw_data?.data?.subject}</span>
               <br />
             </div>
             <div style={{ marginBottom: "10px" }}>
               <span style={boldTitleStyle}>Text:</span> <br />
               <span style={{ marginBottom: "10px" }}>
-                {selectedRowId?.raw_data?.text}
+                {/* {selectedRowId?.raw_data?.data?.message} */}
+                <div
+                  contentEditable="true"
+                  dangerouslySetInnerHTML={{
+                    __html: selectedRowId?.raw_data?.data?.message,
+                  }}
+                ></div>
               </span>
             </div>
             <div style={{ marginBottom: "10px" }}>
               <span style={boldTitleStyle}>To Email:</span> <br />
               <span style={{ marginBottom: "10px" }}>
-                {selectedRowId?.raw_data?.to_email}
+                {selectedRowId?.raw_data?.to_emails}
               </span>
             </div>
 
-            <div style={{ marginBottom: "10px" }}>
+            {/* <div style={{ marginBottom: "10px" }}>
               <span style={boldTitleStyle}>Type:</span> <br />
               <span>{selectedRowId?.raw_data?.type}</span>
-            </div>
+            </div> */}
             {selectedRowId?.raw_data?.cc_emails && (
               <div>
                 <span style={boldSpanStyle}>CC Emails:</span>
-                {selectedRowId.raw_data.cc_emails.map((email, index) => (
+                {selectedRowId.raw_data?.cc_emails?.map((email, index) => (
                   <span key={index} style={spanStyle}>
                     {email}
                   </span>

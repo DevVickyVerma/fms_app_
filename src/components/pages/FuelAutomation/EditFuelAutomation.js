@@ -55,7 +55,7 @@ const EditFuelAutomation = ({ isLoading, getData, postData }) => {
 
       const postDataUrl = `/site/fuel-automation-setting/update`;
       // here i am sending on site_id instead of id because in the api it is site_id
-      const navigatePath = `/manage-fuel-automation/:${data?.site_id}`;
+      const navigatePath = `/manage-fuel-automation/`;
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       handleError(error); // Set the submission state to false if an error occurs
@@ -125,7 +125,7 @@ const EditFuelAutomation = ({ isLoading, getData, postData }) => {
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
-                linkProps={{ to: `/manage-fuel-automation/${data?.site_id}` }}
+                linkProps={{ to: `/manage-fuel-automation/` }}
               >
                 Fuel Automation
               </Breadcrumb.Item>
@@ -230,7 +230,7 @@ const EditFuelAutomation = ({ isLoading, getData, postData }) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/manage-fuel-automation/:${data?.site_id}`}
+                      to={`/manage-fuel-automation/`}
                     >
                       Cancel
                     </Link>

@@ -90,9 +90,16 @@ const VersionTwoSuggestedFuelPrice = ({
                                     className=" fs-14 "
                                     style={{ color: item?.price_color }}
                                   >
-                                    <span className=" text-decoration-line-through">
-                                      {item.prev_price}
-                                    </span>
+                                    {item?.status == "SAME" ? (
+                                      <></>
+                                    ) : (
+                                      <>
+                                        <span className=" text-decoration-line-through">
+                                          {item?.prev_price}
+                                        </span>
+                                      </>
+                                    )}
+
                                     <span
                                       className={`ms-2 ${
                                         item?.status === "UP"
@@ -151,7 +158,7 @@ const VersionTwoSuggestedFuelPrice = ({
                                       "-"
                                     )}{" "}
                                   </span>
-                                  <span>by - Name Will Come</span>
+                                  {/* <span>by - Name Will Come</span> */}
                                 </Tooltip>
                               }
                             >
@@ -186,10 +193,13 @@ const VersionTwoSuggestedFuelPrice = ({
                           <td
                             className={`time-input-fuel-sell middayModal-td  `}
                           >
-                            <i
-                              className="ph ph-eye me-2 pointer"
-                              onClick={() => handleModalLogs(row)}
-                            />
+                            <div className=" btn btn-primary btn-sm">
+                              View Logs
+                              <i
+                                className="ph ph-file-text mx-1 pointer fs-13"
+                                onClick={() => handleModalLogs(row)}
+                              />
+                            </div>
                           </td>
                         </tr>
                       </React.Fragment>

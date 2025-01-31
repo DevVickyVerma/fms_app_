@@ -286,8 +286,9 @@ const PublicCompetitorPrice = ({
                       </div>
                     </div>
                   </div>
-                  <div className=" text-end">
-                    {/* Welcome, Mr. Jhon XYZX  */}
+                  <div className=" text-end fw-600">
+                    <span className=" me-1">Welcome, {data?.user_name}</span>
+                    <span className="badge p-2"> {data?.level_name}</span>
                   </div>
                 </div>
 

@@ -56,6 +56,7 @@ const AddUsers = (props) => {
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
+      formData.append("is_main", isMain);
       formData.append("country_code", selectedCountryCode);
 
       if (values?.level_id) {
@@ -83,9 +84,14 @@ const AddUsers = (props) => {
   };
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isMain, setIsMain] = useState(0);
 
   const SendMail = (event) => {
     setIsChecked(event.target.checked);
+  };
+
+  const SendCheckIsMain = () => {
+    setIsMain((prevIsMain) => (prevIsMain === 1 ? 0 : 1));
   };
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -142,6 +148,8 @@ const AddUsers = (props) => {
     label: site?.full_name,
     value: site?.id,
   }));
+
+  console.log(isMain, "isMain");
 
   return (
     <>
@@ -521,6 +529,28 @@ const AddUsers = (props) => {
                         ) : (
                           ""
                         )}
+
+                        <Col lg={4} md={6}>
+                          <FormGroup className="sendemail">
+                            <label htmlFor="email" className="form-label mt-4">
+                              Is Main Approver
+                            </label>
+                            <div className="mapotions">
+                              <input
+                                type="checkbox"
+                                checked={isMain}
+                                onChange={SendCheckIsMain}
+                                className="form-check-input"
+                              />
+                              <span className="ms-2 mt-2">Yes</span>
+                            </div>
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="email"
+                            />
+                          </FormGroup>
+                        </Col>
 
                         <Col lg={4} md={6}>
                           <FormGroup className="sendemail">

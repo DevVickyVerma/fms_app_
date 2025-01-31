@@ -162,7 +162,7 @@ const DashSubChildShopSale = ({ getData, getSiteStats }) => {
         </td>
 
         <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-          <div className="d-flex">
+          <div className="d-flex align-items-center h-100">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold">{item?.nett_sales}</h6>
             </div>
@@ -170,14 +170,14 @@ const DashSubChildShopSale = ({ getData, getSiteStats }) => {
         </td>
 
         <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-          <div className="d-flex">
+          <div className="d-flex align-items-center h-100">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold">{item?.profit}</h6>
             </div>
           </div>
         </td>
         <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
-          <div className="d-flex">
+          <div className="d-flex align-items-center h-100">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold">
                 {item?.total_transactions}

@@ -63,7 +63,7 @@ const CeoDashLiveMarginTable = ({ getData, fuel_stats }) => {
                     <>
                       <Col lg={6} md={12} xl={6} sm={12}>
                         <Card.Header>
-                          <h3 className="card-title">Key Matrices</h3>
+                          <h3 className="card-title">Key Metrics (Inc VAT)</h3>
                         </Card.Header>
                         <Card.Body>
                           <Row className="d-flex flex-column">

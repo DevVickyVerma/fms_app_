@@ -264,7 +264,24 @@ const PublicCompetitorFuelPricesUpdate = ({
         }
       });
     } else {
-      handleSubmit(status); // Handle the regular submission
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You will not be able to recover this item!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: `Yes ${status === 3 ? "Approve" : "Modify"} it!`,
+        cancelButtonText: "Cancel",
+        reverseButtons: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            handleSubmit(status); // Handle the regular submission
+          } catch (error) {
+            console.error(error);
+            // handleError(error)
+          }
+        }
+      });
     }
   };
 
@@ -647,6 +664,15 @@ const PublicCompetitorFuelPricesUpdate = ({
                     </p>
                   </>
                 )}
+
+                <p className=" text-danger">
+                  <span className=" fw-bold">*Note -</span>
+                  <span className="ms-2">
+                    If the current time exceeds the suggested timeframe, the
+                    price will be updated 15 minutes after the action is taken
+                    (Approve/Modify).
+                  </span>
+                </p>
               </Card.Footer>
             </Form>
           </FormikProvider>

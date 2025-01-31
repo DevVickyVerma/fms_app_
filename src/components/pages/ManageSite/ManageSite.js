@@ -19,9 +19,13 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import useToggleStatus from "../../../Utils/useToggleStatus";
+import FormikReactSelect from "../../Formik/FormikReactSelect";
+import StateReactSelect from "../../Formik/StateReactSelect";
+import { useMyContext } from "../../../Utils/MyContext";
 
 const ManageSite = (props) => {
   const { isLoading, getData, postData } = props;
+  const { contextClients } = useMyContext();
 
   const [data, setData] = useState();
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -30,7 +34,10 @@ const ManageSite = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [selectedClient, setSelectedClient] = useState({
+    value: "",
+    label: "Select Clients",
+  });
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
   const handleDelete = (id) => {
@@ -93,6 +100,9 @@ const ManageSite = (props) => {
       if (searchTerm) {
         apiUrl += `&keyword=${searchTerm}`;
       }
+      if (selectedClient?.value) {
+        apiUrl += `&client_id=${selectedClient?.value}`;
+      }
       const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data.sites) {
@@ -111,7 +121,7 @@ const ManageSite = (props) => {
   const navigate = useNavigate();
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
+  let UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
     if (UserPermissions) {
@@ -487,7 +497,7 @@ const ManageSite = (props) => {
                         </div>
                       </Dropdown.Item>
                     ) : null}
-                    {isFuelAutomationPermissionAvailable ? (
+                    {/* {isFuelAutomationPermissionAvailable ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div
                           onClick={() =>
@@ -503,7 +513,7 @@ const ManageSite = (props) => {
                           </div>
                         </div>
                       </Dropdown.Item>
-                    ) : null}
+                    ) : null} */}
                     {isBankManagerPermissionAvailable ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div onClick={() => navigate(`/managebank/${row.id}`)}>
@@ -611,7 +621,15 @@ const ManageSite = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, selectedClient]);
+
+  const handleClientChange = async (event) => {
+    // const selectedModuleId = event?.target?.value;
+    const selectedModuleId = event;
+    setSelectedClient(selectedModuleId);
+  };
+
+  console.log(UserPermissions?.superiorRole, "UserPermissions");
 
   return (
     <>
@@ -667,12 +685,49 @@ const ManageSite = (props) => {
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Sites</h3>
-                  <div className="mt-2 mt-sm-0">
+                  <div className="mt-2 mt-sm-0 d-flex flex-wrap">
                     <SearchBar
                       onSearch={handleSearch}
                       onReset={handleReset}
                       hideReset={searchTerm}
                     />
+                    {UserPermissions?.superiorRole === "Administrator" && (
+                      <>
+                        <div className=" search-component d-flex gap-2 mt-2 mt-sm-0">
+                          <StateReactSelect
+                            name="exampleSelect"
+                            label="Example Select"
+                            defaultValue={selectedClient}
+                            options={[
+                              { value: "", label: "Select Client" },
+                              ...(contextClients?.map((item) => ({
+                                value: item?.id,
+                                label: item?.client_name,
+                              })) || []),
+                            ]}
+                            className={"m-0 "}
+                            onChange={handleClientChange}
+                            showLabel={false}
+                          />
+
+                          {selectedClient?.value && (
+                            <span>
+                              <Link
+                                className="btn btn-danger  addclientbtn all-center-flex"
+                                onClick={() =>
+                                  setSelectedClient({
+                                    value: "",
+                                    label: "Select Clients",
+                                  })
+                                }
+                              >
+                                <i className="ph ph-arrow-clockwise ph-search-icons"></i>
+                              </Link>
+                            </span>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </Card.Header>

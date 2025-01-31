@@ -186,7 +186,7 @@ const competitorfuelpricesUpdate = ({
                       <th className="middy-table-head">Date</th>
                       <th className="middy-table-head">Time</th>
                       {formik.values?.head_array?.map((item) => (
-                        <th key={item?.id} className="middy-table-head">
+                        <th key={item} className="middy-table-head">
                           {item}
                         </th>
                       ))}
@@ -485,6 +485,15 @@ const competitorfuelpricesUpdate = ({
                     </p>
                   </>
                 )}
+
+                <p className=" text-danger">
+                  <span className=" fw-bold">*Note -</span>
+                  <span className="ms-2">
+                    If the current time exceeds the suggested timeframe, the
+                    price will be updated 15 minutes after the action is taken
+                    (Approve/Modify).
+                  </span>
+                </p>
               </Card.Footer>
             </Form>
           </FormikProvider>

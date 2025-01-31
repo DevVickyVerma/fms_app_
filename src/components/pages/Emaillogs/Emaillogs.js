@@ -90,7 +90,10 @@ const ManageEmail = (props) => {
               style={{ cursor: "pointer" }}
             >
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6 className="mb-0 fs-14 " style={{ fontWeight: "bold" }}>
+                <h6
+                  className="mb-0 fs-14 hyper-link"
+                  // style={{ fontWeight: "bold" }}
+                >
                   {row?.subject}
                 </h6>
               </div>
