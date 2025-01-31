@@ -17,6 +17,7 @@ const NewFilterTab = ({
   onApplyFilters,
   handleSendEmail,
   handleDeleteDRS,
+
   showClientInput = true,
   showEntityInput = true,
   showStationInput = true,
@@ -28,6 +29,7 @@ const NewFilterTab = ({
   showDRSDelete = false,
   showResetBtn = true,
   showDateRangeInput = false, // Add this prop
+  showFileUpload = false, // Add this prop
   validationSchema,
   storedKeyName,
   Submittile,
@@ -58,6 +60,7 @@ const NewFilterTab = ({
       clients: [],
       companies: [],
       sites: [],
+
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -70,6 +73,7 @@ const NewFilterTab = ({
       }
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     },
+
     validateOnChange: true,
     validateOnBlur: true,
   });
@@ -347,6 +351,11 @@ const NewFilterTab = ({
                     </div>
                   </Col>
                 )}
+
+
+
+
+
               </Row>
             </Card.Body>
             <Card.Footer>
