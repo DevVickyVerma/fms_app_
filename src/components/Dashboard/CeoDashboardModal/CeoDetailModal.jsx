@@ -722,8 +722,6 @@ const CeoDetailModal = (props) => {
     }
   };
 
-  console.log(formik.values, "formik.values");
-
   const sitefuelsoptions =
     selected && sitefuels
       ? sitefuels.map((site) => ({

@@ -786,7 +786,7 @@ const CeoDashboardChildTable = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <b>Site Stats Breakdown</b>
+              <b>Site Stats - Breakdown</b>
             </Card.Header>
             <Card.Body>
               {data ? (

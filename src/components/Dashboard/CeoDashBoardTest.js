@@ -341,7 +341,6 @@ const CeoDashBoardTest = (props) => {
       const queryString = queryParams.toString();
       const response = await getData(`titan-dashboard-graph?${queryString}`);
       if (response && response.data && response.data.data) {
-        console.log(response.data.data, "response.data.data");
       }
     } catch (error) {
       // handleError(error);
@@ -376,8 +375,6 @@ const CeoDashBoardTest = (props) => {
   }, [formik?.values?.selectedSite, priceLogsPermission]);
 
   useEffect(() => {
-    console.log(filters, "filters");
-
     if (priceLogsPermission && filters?.client_id && filters?.company_id) {
       FetchPriceLogs(PriceLogsvalue);
     }

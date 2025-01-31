@@ -31,6 +31,7 @@
 @import "./assets/switcher/demo.css";
 //Custom styles
 @import "./assets/css/custom.css";
+@import "./assets/css/animated.css";
 @import "./assets/css/card-loading-animation.css";
 
 //Maps
@@ -3987,7 +3988,9 @@ form.richText {
   background: white;
   z-index: 1;
   border: 5px solid white;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 2px 5px 0 rgba(0, 0, 0, 0.16),
+    0 2px 10px 0 rgba(0, 0, 0, 0.12);
   color: #25252a;
 }
 
