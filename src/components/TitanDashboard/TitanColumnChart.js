@@ -3,7 +3,6 @@ import ReactApexChart from "react-apexcharts";
 
 const TitanColumnChart = ({ stockGraphData }) => {
 
-    console.log(stockGraphData, "stockGraphData");
 
     const options = {
         chart: {
@@ -45,7 +44,7 @@ const TitanColumnChart = ({ stockGraphData }) => {
     const handleFuelTypeChange = (event) => {
         setSelectedFuelType(event.target.value);
     };
-    const selectedFuelData = stockGraphData[selectedFuelType];
+    const selectedFuelData = stockGraphData?.data[selectedFuelType];
     console.log(selectedFuelData, "selectedFuelData");
 
 
@@ -64,9 +63,11 @@ const TitanColumnChart = ({ stockGraphData }) => {
                             className="selectedMonth"
                         >
 
-                            {stockGraphData.fuel_type?.map((fuel) => (
+                            {stockGraphData?.fuel_type?.map((fuel) => (
                                 <option key={fuel} value={fuel}>
-                                    {fuel.charAt(0).toUpperCase() + fuel.slice(1)}
+                                    {/* {console.log(fuel, "fuel")}
+                                    {fuel} */}
+                                    {fuel?.charAt(0).toUpperCase() + fuel.slice(1)}
                                 </option>
                             ))}
                         </select>

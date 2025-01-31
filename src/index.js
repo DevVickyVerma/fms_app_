@@ -65,6 +65,10 @@ import FuelSuggestionEmailLogs from "./components/pages/FuelSuggestionLogs/FuelS
 import FuelSuggestionActivityLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionActivityLogs";
 import FuelSuggestionHistoryLog from "./components/pages/FuelSuggestionLogs/FuelSuggestionHistoryLog";
 //App
+
+const CardReconciliation = React.lazy(() => import("./components/CardReconciliation/CardReconciliation"));
+const CashReconciliation = React.lazy(() => import("./components/CardReconciliation/CashReconciliation"));
+
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
 
@@ -806,7 +810,8 @@ const Root = () => {
     FuelSellingPricesSuggestion
   );
   const WrappedFuelSellingSuggestionLogs = withApi(FuelSellingSuggestionLogs);
-
+  const WrappedCashReconciliation = withApi(CashReconciliation);
+  const WrappedCardReconciliation = withApi(CardReconciliation);
   return (
     <>
       <BrowserRouter>
@@ -819,6 +824,14 @@ const Root = () => {
                     <Route index={true} element={<Dashboard />} />
 
                     <Route path={`/dashboard`} element={<WrappedDashboard />} />
+                    <Route
+                      path={`/card-reconciliation`}
+                      element={<WrappedCardReconciliation />}
+                    />
+                    <Route
+                      path={`/cash-reconciliation`}
+                      element={<WrappedCashReconciliation />}
+                    />
                     <Route
                       path={`/competitor-view`}
                       element={<WrappeCEOCompetitorView />}

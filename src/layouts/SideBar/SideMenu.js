@@ -21,6 +21,30 @@ export const MENUITEMS = [
       //   title: "CEO Dashboard Old",
       // },
       {
+        title: "Card Reconciliation",
+        icon: "graduation-cap",
+        type: "sub",
+        active: false,
+        permission: "level-list",
+        visibility: false,
+        children: [
+          {
+            path: `/card-reconciliation`,
+            type: "link",
+            title: "Card Reconciliation",
+            permission: "level-list",
+            visibility: false,
+          },
+          {
+            path: `/cash-reconciliation`,
+            type: "link",
+            title: "Cash Reconciliation",
+            permission: "level-create",
+            visibility: false,
+          },
+        ],
+      },
+      {
         path: `/ceodashboard`,
         icon: "crown",
         type: "link",

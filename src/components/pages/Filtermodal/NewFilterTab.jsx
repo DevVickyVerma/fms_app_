@@ -30,6 +30,7 @@ const NewFilterTab = ({
   showDateRangeInput = false, // Add this prop
   validationSchema,
   storedKeyName,
+  Submittile,
   ClearForm,
   lg,
   parentMaxDate,
@@ -411,7 +412,7 @@ const NewFilterTab = ({
                 )}
 
                 <button className="btn btn-primary me-2" type="submit">
-                  Submit
+                  {Submittile ? Submittile : "Submit"}
                 </button>
               </div>
             </Card.Footer>

@@ -375,8 +375,6 @@ const TitanDashboard = (props) => {
     const handleCardClick = (cardName) => {
         console.log(filters?.company_id, "filters?.company_id");
         if (applyNavigate && formik?.values?.company_id) {
-
-
             console.log(cardName, "cardName");
             setModalTitle(cardName);
             setShowCeoDetailModal(true);

@@ -13,6 +13,8 @@ import withApi from "../../Utils/ApiHelper";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import { Card, Col } from "react-bootstrap";
 import { BestvsWorst, GraphfilterOptions } from "../../Utils/commonFunctions/commonFunction";
+import DataTable from "react-data-table-component";
+import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 
 
 const TitanDetailModal = (props) => {
@@ -21,22 +23,18 @@ const TitanDetailModal = (props) => {
         getData,
         visible,
         onClose,
-        filterDataAll,
         isLoading,
         filterData,
-        dashboardData,
+        cardID,
+
     } = props;
     const [apiData, setApiData] = useState(); // to store API response data
     const [loading, setLoading] = useState(false);
-    const [selected, setSelected] = useState([]);
-    const [selectedGrades, setselectedGrades] = useState([]);
-    const [sitefuels, setsitefuels] = useState();
+
 
     const { handleError } = useErrorHandler();
 
-    const userPermissions = useSelector(
-        (state) => state?.data?.data?.permissions || []
-    );
+
 
     var [isClientRole] = useState(
         localStorage.getItem("superiorRole") == "Client"
@@ -66,43 +64,7 @@ const TitanDetailModal = (props) => {
         }
     }, [isClientRole]);
 
-    useEffect(() => {
-        if (title == "Reports") {
-            const selectedItem = filterData?.sites?.find(
-                (item) => item.id === filterData?.sites?.[0]?.id
-            );
-            formik.setFieldValue("selectedSiteDetails", selectedItem);
-            formik.setFieldValue("selectedSite", filterData?.sites?.[0]?.id);
-            formik.setFieldValue("site_name", filterData?.sites?.[0]?.site_name);
-        }
 
-        if (visible && filterData) {
-            if (filterData?.site_id) {
-                const selectedItem = filterData?.sites.find(
-                    (item) => item.id === filterData?.site_id
-                );
-                formik.setFieldValue("selectedSite", filterData?.site_id);
-                formik.setFieldValue("selectedSiteDetails", selectedItem);
-                formik.setFieldValue("site_name", filterData?.site_name);
-            } else if (filterData?.company_id) {
-                const selectedItem = filterData?.companies?.find(
-                    (item) => item.id === filterData?.company_id
-                );
-                formik.setFieldValue("company_id", filterData?.company_id);
-                formik.setFieldValue("selectedCompany", filterData?.company_id);
-                formik.setFieldValue("selectedCompanyDetails", selectedItem);
-            }
-
-            if (filterData?.company_id) {
-                const selectedItem = filterData?.companies?.find(
-                    (item) => item.id === filterData?.company_id
-                );
-                formik.setFieldValue("company_id", filterData?.company_id);
-                formik.setFieldValue("selectedCompany", filterData?.company_id);
-                formik.setFieldValue("selectedCompanyDetails", selectedItem);
-            }
-        }
-    }, [visible]);
 
     const formik = useFormik({
         initialValues: {
@@ -111,6 +73,7 @@ const TitanDetailModal = (props) => {
             company_name: "",
             comparison_value: "weekly",
             comparison_label: "Weekly",
+            grades: [],
             selectedSite: "",
             selectedCompany: "",
             selectedCompanyDetails: "",
@@ -126,34 +89,9 @@ const TitanDetailModal = (props) => {
         },
     });
 
-    const handleMonthChange = (selectedId) => {
-        const selectedItem = apiData?.data?.months?.find(
-            (item) => item.display == selectedId
-        );
-        formik.setFieldValue("selectedMonth", selectedId);
-        formik.setFieldValue("selectedMonthDetails", selectedItem);
-    };
 
-    const handleDateChange = (dates) => {
-        if (dates) {
-            // When dates are selected
-            formik.setFieldValue("startDate", dates[0] ?? null);
-            formik.setFieldValue("endDate", dates[1] ?? null);
-        } else {
-            // When the date picker is cleared
-            formik.setFieldValue("startDate", null);
-            formik.setFieldValue("endDate", null);
-        }
-    };
     const [pdfisLoading, setpdfisLoading] = useState(false);
-    const ErrorToast = (message) => {
-        toast.error(message, {
-            autoClose: 2000,
-            hideProgressBar: false,
-            transition: Bounce,
-            theme: "colored",
-        });
-    };
+
 
 
     const fetchSiteList = async (companyId) => {
@@ -168,53 +106,42 @@ const TitanDetailModal = (props) => {
             handleError(error);
         }
     };
-    const handleCompanyChange = async (selectedId) => {
+
+
+    const onSiteSelect = async (selectedId) => {
+        const selectedSite = siteList?.find(site => site.id === selectedId);
         try {
-            if (selectedId) {
-                // Find the selected company details
-                const selectedItem = filterData?.companies.find(
-                    (item) => item.id === selectedId
-                );
-                if (title !== "Live Margin") {
-                    await fetchData(selectedId, "company"); // Fetch data for company change
-                }
-                await fetchSiteList(selectedId); // Fetch and update sites dynamically
 
-                await formik.setFieldValue("selectedCompany", selectedId);
-                await formik.setFieldValue("selectedCompanyDetails", selectedItem);
-                await formik.setFieldValue("selectedSite", "");
-                await formik.setFieldValue("selectedSiteDetails", "");
+            if (selectedSite) {
+                console.log(`Site: ${selectedSite.name}`);
+                console.log("Available Fuel Types:", selectedSite.fuel);
             } else {
-                await fetchData(null, "no-company");
-                // Clear fields if no company is selected
-                await formik.setFieldValue("selectedCompany", "");
-                await formik.setFieldValue("selectedCompanyDetails", "");
-                await formik.setFieldValue("selectedSite", "");
-                await formik.setFieldValue("selectedSiteDetails", "");
+                console.log("Site not found!");
             }
-        } catch (error) {
-            console.error("Error in handleCompanyChange:", error);
-        }
-    };
-
-    const handleSiteChange = async (selectedId) => {
-        try {
-            // Check if a site is selected (selectedId is not null or undefined)
-            if (selectedId) {
-                // Fetch data for site change with the custom selected site ID
-                await fetchData(selectedId, "site");
-            } else {
-                await fetchData(null, "no-site");
-            }
-
-            // Find the selected site details from filterData
-            const selectedItem = filterData?.sites.find(
-                (item) => item.id === selectedId
-            );
 
             // Update Formik state with selected site and its details
-            await formik.setFieldValue("selectedSite", selectedId);
-            await formik.setFieldValue("selectedSiteDetails", selectedItem);
+            await formik.setFieldValue("selectedSite", selectedSite?.id);
+            await formik.setFieldValue("selectedSiteDetails", selectedSite);
+        } catch (error) {
+            console.error("Error in handleSiteChange:", error);
+        }
+    }
+    const handleSiteChange = async (selectedId) => {
+        const selectedSite = siteList?.find(site => site.id === selectedId);
+        try {
+
+            if (selectedSite) {
+                // Update Formik state with selected site and its details
+                await formik.setFieldValue("grades", selectedSite.fuel);
+                console.log(`Site: ${selectedSite.name}`);
+                console.log("Available Fuel Types:", selectedSite.fuel);
+            } else {
+                console.log("Site not found!");
+            }
+
+            // Update Formik state with selected site and its details
+            await formik.setFieldValue("selectedSite", selectedSite?.id);
+            await formik.setFieldValue("selectedSiteDetails", selectedSite);
         } catch (error) {
             console.error("Error in handleSiteChange:", error);
         }
@@ -231,156 +158,49 @@ const TitanDetailModal = (props) => {
         try {
             setLoading(true); // Start loading indicator
             const queryParams = new URLSearchParams();
-            if (filterData?.client_id) {
+
+
+
+            if (cardID) {
+                queryParams.append("card_id", cardID);
+                queryParams.append("site_id", filterData.site_id);
+                const formattedStartDate = moment(filterData?.range_start_date).format('YYYY-MM-DD');
+                const formattedEndDate = moment(filterData?.range_end_date).format('YYYY-MM-DD');
+                queryParams.append("start_date", formattedStartDate);
+                queryParams.append("end_date", formattedEndDate);
+            } else if (title == "Performance") {
                 queryParams.append("client_id", filterData.client_id);
+                queryParams.append("company_id", filterData.company_id);
             }
 
-            if (title === "Live Margin") {
-                // * "is_ceo" goes 1 when api is called with CEO live margin
-                queryParams.append("is_ceo", 1);
 
-                if (filterData?.site_id) {
-                    formik.setFieldValue("selectedSite", filterData?.site_id);
-                }
-            }
 
-            if (title === "Comparison") {
-                const isCustom = formik?.values?.comparison_value === "custom";
 
-                if (isCustom) {
-                    const startDate = formik?.values?.startDate;
-                    const endDate = formik?.values?.endDate;
 
-                    // Check if both startDate and endDate are selected
-                    if (startDate && endDate) {
-                        const formattedStartDate = moment(startDate).format("DD-MM-YYYY");
-                        const formattedEndDate = moment(endDate).format("DD-MM-YYYY");
-                        const customDateRange = `${formattedStartDate}/${formattedEndDate}`;
-
-                        // Append the custom date range to the query params
-                        queryParams.append("filter_type", formik?.values?.comparison_value);
-                        queryParams.append("daterange", customDateRange);
-                    } else {
-                        return; // Stop the API call if dates are not selected
-                    }
-                } else if (formik?.values?.comparison_value) {
-                    // Append normal filter_type value if it's not custom
-                    queryParams.append("filter_type", formik?.values?.comparison_value);
-                }
-            }
-
-            const shouldSkipCompanyId = type === "no-company";
-
-            if (!shouldSkipCompanyId) {
-                if (type === "company" && customId) {
-                    queryParams.append("company_id", customId); // Use custom company ID
-                } else if (filterData?.company_id) {
-                    queryParams.append("company_id", filterData.company_id); // Use default company ID
-                }
-            }
-
-            const shouldSkipSiteId =
-                title === "Reports" ||
-                type === "no-site" ||
-                type === "company" ||
-                title === "MOP Breakdown" ||
-                title === "Live Margin";
-
-            if (!shouldSkipSiteId && !shouldSkipCompanyId) {
-                if (type === "site" && customId) {
-                    queryParams.append("site_id", customId); // Use custom site ID
-                } else if (filterData?.site_id) {
-                    queryParams.append("site_id", filterData.site_id); // Use default site ID
-                }
-                // else if (title === "Live Margin" && filterData?.sites?.[0]?.id) {
-                //   queryParams.append("site_id[0]", filterData.sites[0].id); // Use the first site ID as fallback
-                // }
-            }
-
-            if (
-                filterData?.sites?.length > 0 &&
-                (title === "MOP Breakdown" || title === "Live Margin")
-            ) {
-                // Determine the selected site based on title and site_id
-                const selectedSiteItem = filterData.site_id
-                    ? filterData.sites.find((item) => item.id === filterData.site_id) // Use filterData.site_id if it exists
-                    : title === "Live Margin" // If the title is "Live Margin", fallback to the first site
-                        ? filterData.sites[0]
-                        : null; // No site selected for "MOP Breakdown" if no filterData.site_id
-
-                if (selectedSiteItem) {
-                    const selectedOptions = [
-                        { label: selectedSiteItem.site_name, value: selectedSiteItem.id },
-                    ];
-
-                    setSelected(selectedOptions); // Store the selected site in state
-                    queryParams.append("site_id[0]", selectedSiteItem.id); // Append the site ID to queryParams
-
-                    if (title === "Live Margin") {
-                        fecthFuelList(selectedOptions, true); // Fetch fuel list if the title is "Live Margin"
-                    }
-                }
-            }
 
             const queryString = queryParams.toString(); // Construct the query string
 
             let response;
             // Dynamically handle API calls based on the title
             switch (title) {
-                case "MOP Breakdown":
-                    response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
+                case "Card Reconciliation Detail":
+                    response = await getData(`credit-card/get-diff-transcations?${queryString}`);
+
                     break;
-                case "Comparison":
-                    response = await getData(`ceo-dashboard/sales-stats?${queryString}`);
-                    break;
+
                 case "Performance":
                     response = await getData(
-                        `ceo-dashboard/site-performance?${queryString}`
+                        `titan-dashboard/performance-stats?${queryString}`
                     );
                     break;
-                case "Reports":
-                    response = await getData(
-                        `client/reportlist?client_id=${filterData?.client_id}`
-                    );
-                    break;
-                case "Live Margin":
-                    response = await getData(
-                        `ceo-dashboard/get-live-margin?${queryString}`
-                    );
-                    break;
-                case "Daily Wise Sales":
-                    response = await getData(`ceo-dashboard/stats?${queryString}`);
-                    break;
-                case "Stock":
-                    response = await getData(`ceo-dashboard/stock-stats?${queryString}`);
-                    break;
-                case "Shrinkage":
-                    response = await getData(
-                        `ceo-dashboard/shrinkage-stats?${queryString}`
-                    );
-                    break;
-                case "Stock Details":
-                    response = await getData(
-                        `ceo-dashboard/department-item-stocks?${queryString}`
-                    );
-                    break;
+
                 default:
                     console.log("Title not recognized");
             }
 
             if (response) {
-                setApiData(response.data); // Assuming response has a 'data' field
-
-                if (title === "Reports" && response.data.data?.months?.length > 0) {
-                    formik.setFieldValue(
-                        "selectedMonth",
-                        response.data.data?.months?.[0].display
-                    );
-                    formik.setFieldValue(
-                        "selectedMonthDetails",
-                        response.data.data?.months?.[0]
-                    );
-                }
+                setApiData(response.data?.data); // Assuming response has a 'data' field
+                console.log(response, "response");
             }
         } catch (error) {
             console.error("API call failed:", error);
@@ -405,157 +225,116 @@ const TitanDetailModal = (props) => {
 
 
 
-    const handleSelectChange = (selectedOptions) => {
-        if (selectedOptions?.length) {
-            fecthFuelList(selectedOptions); // Call function when selectedOptions is not empty
-        } else {
-            setselectedGrades([]);
-        }
-        setSelected(selectedOptions); // Update state with selected options
-    };
 
-    const handleMopSubmit = async (event) => {
-        event.preventDefault(); // Prevent default form submission behavior
-        setLoading(true);
-        // Retrieve form values
-        const selectedCompany = formik.values.company_id;
-        const selectedSites = selected;
 
-        // Validation
-        if (!selectedCompany) {
-            ErrorToast("Please select a company.");
-            return;
-        }
 
-        // console.log("Submitting form data:", payload);
-        const queryParams = new URLSearchParams();
-        if (filterData?.client_id) {
-            queryParams.append("client_id", filterData.client_id);
-        }
-        if (filterData?.company_id) {
-            queryParams.append("company_id", filterData.company_id); // Use default company ID
-        }
 
-        if (selected !== null && selected !== undefined) {
-            selected.forEach((client, index) => {
-                queryParams.append(`site_id[${index}]`, client.value); // Use client.value to get the selected value
-            });
-        }
 
-        const queryString = queryParams.toString(); // Construct the query string
 
-        try {
-            const response = await getData(`ceo-dashboard/mop-stats?${queryString}`);
-
-            if (response && response.data && response.data.data) {
-                setApiData(response.data);
-            } else {
-                throw new Error("No data available in the response");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        } finally {
-            setLoading(false); // Stop loading indicator
-        }
-    };
-    const handleLiveSubmit = async (event) => {
-        event.preventDefault(); // Prevent default form submission behavior
-        setLoading(true);
-        // Retrieve form values
-        const selectedCompany = formik.values.company_id;
-        const selectedSites = selected;
-
-        if (!selectedCompany) {
-            alert("Please select a company.");
-            return;
-        }
-        if (!selected || selected.length === 0) {
-            alert("Please select a Site.");
-            return;
-        }
-
-        // console.log("Submitting form data:", payload);
-        const queryParams = new URLSearchParams();
-        if (filterData?.client_id) {
-            queryParams.append("client_id", filterData.client_id);
-        }
-        if (filterData?.company_id) {
-            queryParams.append("company_id", filterData.company_id); // Use default company ID
-        }
-
-        if (selected !== null && selected !== undefined) {
-            selected.forEach((client, index) => {
-                queryParams.append(`site_id[${index}]`, client.value); // Use client.value to get the selected value
-            });
-        }
-        if (selectedGrades !== null && selectedGrades !== undefined) {
-            selectedGrades.forEach((client, index) => {
-                queryParams.append(`fuel_id[${index}]`, client.value); // Use client.value to get the selected value
-            });
-        }
-
-        const queryString = queryParams.toString(); // Construct the query string
-
-        try {
-            const response = await getData(
-                `ceo-dashboard/get-live-margin?${queryString}`
-            );
-
-            if (response && response.data && response.data.data) {
-                setApiData(response.data);
-            } else {
-                throw new Error("No data available in the response");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        } finally {
-            setLoading(false); // Stop loading indicator
-        }
-    };
-
-    const fecthFuelList = async (selectedOptions, dontCheckCompanyId = false) => {
-        setLoading(true);
-        // Retrieve form values
-        const selectedCompany = formik.values.company_id;
-        const selected = selectedOptions;
-
-        // Check company selection unless dontCheckCompanyId is true
-        if (!dontCheckCompanyId && !selectedCompany) {
-            ErrorToast("Please select a company.");
-            return;
-        }
-
-        // console.log("Submitting form data:", payload);
-        const queryParams = new URLSearchParams();
-
-        if (selected !== null && selected !== undefined) {
-            selected.forEach((client, index) => {
-                queryParams.append(`site_id[${index}]`, client.value); // Use client.value to get the selected value
-            });
-        }
-
-        const queryString = queryParams.toString(); // Construct the query string
-
-        try {
-            const response = await getData(`common/site-fuels?${queryString}`);
-
-            if (response && response.data && response.data.data) {
-                setsitefuels(response.data?.data);
-            } else {
-                throw new Error("No data available in the response");
-            }
-        } catch (error) {
-            console.error("API error:", error);
-        } finally {
-            setLoading(false); // Stop loading indicator
-        }
-    };
-
-    console.log(formik.values, "formik.values");
+    console.log(filterData, "filterData");
 
     const [bestvsWorst, setbestvsWorst] = useState("0");
     const [graphfilterOption, setgraphfilterOption] = useState("weekly");
 
+    const columns = [
+        {
+            name: "Sr. No.",
+            selector: (row, index) => index + 1,
+            sortable: false,
+            width: "10%",
+            center: false,
+            cell: (row, index) => (
+                <span className="text-muted fs-15 fw-semibold text-center">
+                    {index + 1}
+                </span>
+            ),
+        },
+        {
+            name: "Card Name",
+            selector: (row) => [row.card_name],
+            sortable: false,
+            width: "20%",
+            cell: (row) => (
+                <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-flex">
+                        <h6 className="mb-0 fs-14 fw-semibold wrap-text">
+                            {row.card_name}
+                        </h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: "Card Transaction Date",
+            selector: (row) => [row.card_transaction_date],
+            sortable: false,
+            width: "20%",
+            cell: (row) => (
+                <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-flex">
+                        <h6 className="mb-0 fs-14 fw-semibold wrap-text">
+                            {row.card_transaction_date}
+                        </h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: "Till Amount",
+            selector: (row) => [row.total_price_till],
+            sortable: false,
+            width: "15%",
+            cell: (row) => (
+                <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">{row.total_price_till}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: "Card Amount",
+            selector: (row) => [row.total_price_bank],
+            sortable: false,
+            width: "15%",
+            cell: (row) => (
+                <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold">  {parseFloat(row.total_price_bank).toFixed(3)}</h6>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            name: "Price Difference",
+            selector: (row) => [row.price_difference],
+            sortable: false,
+            width: "20%",
+            cell: (row) => (
+                <div
+                    className="d-flex"
+                    style={{ cursor: "default" }}
+                // onClick={() => handleToggleSidebar(row)}
+                >
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold ">   {parseFloat(row.price_difference).toFixed(3)}</h6>
+                    </div>
+                </div>
+            ),
+        },
+
+
+    ];
+
+    const siteList = apiData?.fuel_mapping?.map(site => ({
+        id: site.site_id,
+        name: site.name,
+        fuel: site?.fuel // Extract fuel types
+    }));
+
+
+
+    console.log(formik.values, "siteList");
 
     return (
         <>
@@ -567,8 +346,8 @@ const TitanDetailModal = (props) => {
                     width:
                         title == "MOP Breakdown"
                             ? "50%"
-                            : title == "Reports"
-                                ? "40"
+                            : title == "Card Reconciliation Detail"
+                                ? "60%"
                                 : title == "Comparison"
                                     ? "70%"
                                     : "80%",
@@ -576,15 +355,16 @@ const TitanDetailModal = (props) => {
             >
                 <div className="card">
                     <div className="card-header text-center SidebarSearchheader">
-                        <h3 className="SidebarSearch-title m-0">
+                        <h3 className=" card-title SidebarSearch-title m-0">
                             {title}
                         </h3>
 
-                        <button className="close-button" onClick={onClose}>
 
+                        <button className="close-button" onClick={onClose}>
                             <i className="ph ph-x-circle c-fs-25"></i>
                         </button>
                     </div>
+
                     <div
                         className="card-body scrollview pt-0"
                         style={{ background: "#f2f3f9" }}
@@ -664,14 +444,14 @@ const TitanDetailModal = (props) => {
                                                         value={formik.values.selectedSite}
                                                         style={{ width: "100%" }}
                                                         onChange={(e) =>
-                                                            handleSiteChange(e.target.value)
+                                                            onSiteSelect(e.target.value)
                                                         }
                                                         className="selectedMonth"
                                                     >
                                                         <option value="">--Select a Site--</option>
-                                                        {filterData?.sites?.map((item) => (
+                                                        {siteList?.map((item) => (
                                                             <option key={item.id} value={item.id}>
-                                                                {item.site_name}
+                                                                {item.name}
                                                             </option>
                                                         ))}
                                                     </select>
@@ -692,9 +472,9 @@ const TitanDetailModal = (props) => {
                                                         className="selectedMonth"
                                                     >
                                                         <option value="">--Select a Grade--</option>
-                                                        {filterData?.sites?.map((item) => (
+                                                        {formik.values?.selectedSiteDetails?.fuel?.map((item) => (
                                                             <option key={item.id} value={item.id}>
-                                                                {item.site_name}
+                                                                {item.name}
                                                             </option>
                                                         ))}
                                                     </select>
@@ -714,6 +494,52 @@ const TitanDetailModal = (props) => {
                                     tootiptitle={"Profit"}
                                     title={"Sites "}
                                 />
+                            </>
+                        )}
+                        {title == "Card Reconciliation Detail" && (
+                            <>
+                                <div className="m-4 textend">
+                                    <CeoFilterBadge
+                                        filters={{
+                                            client_name: filterData.client_name,
+                                            company_name:
+                                                filterData?.company_name,
+                                            site_name: filterData?.site_name,
+
+                                        }}
+                                        onRemoveFilter={handleRemoveFilter}
+                                        showResetBtn={false}
+                                        showCompResetBtn={false}
+                                        showStartDate={false}
+                                    />
+                                </div>
+                                <Card>
+
+                                    <Card.Body>
+                                        {apiData?.length > 0 ? (
+                                            <>
+                                                <div className="table-responsive deleted-table">
+                                                    <DataTable
+                                                        columns={columns}
+                                                        data={apiData}
+                                                        noHeader={true}
+                                                        defaultSortField="id"
+                                                        defaultSortAsc={false}
+                                                        striped={true}
+                                                        persistTableHead={true}
+                                                        highlightOnHover={true}
+                                                        responsive={true}
+                                                    />
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <NoDataComponent />
+                                            </>
+                                        )}
+                                    </Card.Body>
+
+                                </Card>
                             </>
                         )}
 

@@ -166,7 +166,7 @@ export const GraphfilterOptions = [
 
 export const BestvsWorst = [
   { value: "1", label: "Best" },
-  { value: "0", label: "worst" },
+  { value: "0", label: "Worst" },
 ];
 
 export const PriceLogsFilterValue = [
