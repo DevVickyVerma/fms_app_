@@ -241,7 +241,7 @@ const CardReconciliation = (props) => {
             ),
         },
         {
-            name: "Difference",
+            name: "Action",
             selector: (row) => [row.price_difference],
             sortable: false,
             width: "15%",

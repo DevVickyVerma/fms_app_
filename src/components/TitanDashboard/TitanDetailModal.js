@@ -265,7 +265,7 @@ const TitanDetailModal = (props) => {
             ),
         },
         {
-            name: "Card Trans Date",
+            name: "Card Trans Date/Time",
             selector: (row) => [row.card_transaction_date],
             sortable: false,
             width: "21%",
@@ -280,7 +280,7 @@ const TitanDetailModal = (props) => {
             ),
         },
         {
-            name: "Till Trans Date",
+            name: "Till Trans Date/Time",
             selector: (row) => [row.transaction_date],
             sortable: false,
             width: "21%",
@@ -321,7 +321,7 @@ const TitanDetailModal = (props) => {
             ),
         },
         {
-            name: "Price Diff",
+            name: "Difference",
             selector: (row) => [row.price_difference],
             sortable: false,
             width: "10%",
