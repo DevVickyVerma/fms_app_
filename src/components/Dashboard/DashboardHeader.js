@@ -14,9 +14,9 @@ const FiltersComponent = ({
   return (
     <div className="d-flex gap-2 flex-wrap">
       {filters?.client_id ||
-        filters?.company_id ||
-        filters?.site_id ||
-        filters?.start_date ? (
+      filters?.company_id ||
+      filters?.site_id ||
+      filters?.start_date ? (
         <div
           className="badges-container d-flex flex-wrap align-items-center gap-2 px-4 py-sm-0 py-2 text-white"
           style={{ background: "#ddd" }}
@@ -45,10 +45,10 @@ const FiltersComponent = ({
               <span className="font-semibold">Tank :</span> {filters?.tank_name}
             </div>
           )}
-          {console.log(filters, "filters")}
           {filters?.site_id && filters?.grade_name && ComponentTitan && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3">
-              <span className="font-semibold">Grade :</span> {filters?.grade_name}
+              <span className="font-semibold">Grade :</span>{" "}
+              {filters?.grade_name}
             </div>
           )}
 

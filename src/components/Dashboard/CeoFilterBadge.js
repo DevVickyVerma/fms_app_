@@ -13,8 +13,6 @@ const CeoFilterBadge = ({
     }
   };
 
-  console.log(selected, "handleRemoveFilter");
-
   return (
     <div className="d-flex gap-2 flex-wrap btn w-100">
       {filters?.client_name ||

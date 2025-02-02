@@ -82,8 +82,6 @@ export const renderTooltip = (message) => (
 );
 
 export const formatNumber = (num) => {
-  console.log(num, "formatNumber");
-
   if (num === 0) {
     return "0"; // Explicitly handle zero case
   }
