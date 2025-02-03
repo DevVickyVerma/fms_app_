@@ -1294,23 +1294,23 @@ const CeoDetailModal = (props) => {
 
                 <>
                   {apiData?.data ? (
-                    <Card className="h-100">
+                    <Card className="">
                       <Card.Header className="p-4">
-                        <h4 className="card-title">Pie Chart</h4>
+                        <h4 className="card-title">Fuel Card Stats</h4>
                       </Card.Header>
                       <Card.Body
                       //  className=" d-flex justify-content-center align-items-center w-100"
                       >
                         <MOPStackedBarChart
-                        // dashboardData={apiData?.data}
-                        // Mopstatsloading={loading}
+                          dashboardData={apiData?.data}
+                          // Mopstatsloading={loading}
                         />
                       </Card.Body>
                     </Card>
                   ) : (
                     <>
                       <Col lg={12}>
-                        <NoDataComponent title={"Pie Chart"} />
+                        <NoDataComponent title={"Fuel Card Stats"} />
                       </Col>
                     </>
                   )}

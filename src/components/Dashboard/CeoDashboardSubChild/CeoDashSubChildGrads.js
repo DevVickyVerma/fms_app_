@@ -28,6 +28,8 @@ import { SuccessAlert } from "../../../Utils/ToastUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import MOPStackedBarChart from "../CeoDashboardModal/MOPStackedBarChart";
+import NoDataComponent from "../../../Utils/commonFunctions/NoDataComponent";
 
 const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const { getGradsSiteDetails, setGradsGetSiteDetails, DashboardGradsLoading } =
@@ -562,6 +564,30 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                           </Row>
                         </Card.Body>
                       </Col>
+                    </>
+
+                    <>
+                      {getSiteStats ? (
+                        <Card className="h-100">
+                          <Card.Header className="p-4">
+                            <h4 className="card-title">Fuel Card Stats</h4>
+                          </Card.Header>
+                          <Card.Body
+                          //  className=" d-flex justify-content-center align-items-center w-100"
+                          >
+                            <MOPStackedBarChart
+                            // dashboardData={apiData?.data}
+                            // Mopstatsloading={loading}
+                            />
+                          </Card.Body>
+                        </Card>
+                      ) : (
+                        <>
+                          <Col lg={12}>
+                            <NoDataComponent title={"Fuel Card Stats"} />
+                          </Col>
+                        </>
+                      )}
                     </>
                   </Row>
                 </Card.Body>
