@@ -1,47 +1,26 @@
 import React from "react";
 import ApexCharts from "react-apexcharts";
 
-const thirdcategories = ["Unleaded", "Diesel"];
+const thirdcategories = [
+  "GBP",
+  "Visa Delta",
+  "Mastercard",
+  "Amex",
+  "Unknown",
+  "Arval",
+  "Electron",
+  "UK Fuels Bunkering",
+]; // Card types on the x-axis
 const thirdSeries = [
   {
-    name: "GBP",
-    data: [7385.25, 9468.16],
-    color: "#004c6d",
+    name: "Unleaded",
+    data: [285.25, 336.16, 601.68, 290.65, 15.0, 121.54, 19.99, 5.12],
+    color: "#004c6d", // GBP
   },
   {
-    name: "Visa Delta",
-    data: [7236.16, 6537.71],
-    color: "#a2c8e4",
-  },
-  {
-    name: "Mastercard",
-    data: [6051.68, 4141.29],
-    color: "#f39c12",
-  },
-  {
-    name: "Amex",
-    data: [290.65, 297.56],
-    color: "#e74c3c",
-  },
-  {
-    name: "Unknown",
-    data: [15.0, 125.0],
-    color: "#2ecc71",
-  },
-  {
-    name: "Arval",
-    data: [121.54, 82.68],
-    color: "#9b59b6",
-  },
-  {
-    name: "Electron",
-    data: [19.99, 0],
-    color: "#f1c40f",
-  },
-  {
-    name: "UK Fuels Bunkering",
-    data: [5.12, 252.3],
-    color: "#34495e",
+    name: "Diesel",
+    data: [98.16, 257.71, 411.29, 297.56, 125.0, 82.68, 0, 252.3],
+    color: "#a2c8e4", // Visa Delta
   },
 ];
 
