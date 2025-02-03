@@ -99,10 +99,10 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={gross_volume?.status}
               percentageValue={gross_volume?.percentage}
               handleNavigateClick={handleNavigateClick}
-              // icon={"ℓ"}
+              icon={"ℓ"}
               containerStyle={"dash-plates-1"}
               xl={12}
-              tooltipContent={`Till volume + other bunkering categories volume`}
+              upperTooltipContent={`Till volume + other bunkering categories volume`}
             />
           </Col>
           <Col lg={2}>
@@ -116,29 +116,12 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={fuel_sales?.status}
               percentageValue={fuel_sales?.percentage}
               handleNavigateClick={handleNavigateClick}
-              // icon={"£"}
-              containerStyle={"dash-plates-3 "}
-              xl={12}
-              tooltipContent={`Till fuel sales + other bunkering categories sales`}
-            />
-          </Col>
-          {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
-          {/* <Col lg={2}>
-            <CEODashCommonVerticalCard
-              isParentComponent={parentComponent}
-              showRightSide={true}
-              leftSideData={shop_fees?.shop_fee}
-              leftSideTitle={"Shop Earnings"}
-              RightSideData={fuel_commission?.fuel_commission}
-              RightSideTitle={"Fuel Commission"}
-              percentageValue={shop_fees?.percentage}
-              statusValue={shop_fees?.status}
-              handleNavigateClick={handleNavigateClick}
               icon={"£"}
               containerStyle={"dash-plates-3 "}
               xl={12}
+              upperTooltipContent={`Till fuel sales + other bunkering categories sales`}
             />
-          </Col> */}
+          </Col>
 
           {/* // ! Right Side Data Will come From "gross_margin_bunkered" that is
           different Key */}
@@ -148,8 +131,8 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               showRightSide={true}
               leftSideData={gross_margin?.gross_margin}
               leftSideTitle={"Gross Margin (Fuel)"}
-              RightSideData={gross_margin_bunkered?.gross_margin_bunkered}
-              RightSideTitle={"Gross (Bunkered)"}
+              RightSideTitle={"Gross Profit"}
+              RightSideData={gross_profit?.gross_profit}
               statusValue={gross_margin?.status}
               percentageValue={gross_margin?.percentage}
               handleNavigateClick={handleNavigateClick}
@@ -157,7 +140,10 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               containerStyle={"dash-plates-3 "}
               xl={12}
               ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
-              tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+              upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+              lowerTooltipContent={
+                "Gross Profit = (Selling Price - Purchase Price) * Sales Volume"
+              }
             />
           </Col>
           <Col lg={6}>
@@ -165,16 +151,13 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               <CEODashCommonCard
                 isParentComponent={parentComponent}
                 showRightSide={false}
-                leftSideData={gross_profit?.gross_profit}
-                leftSideTitle={"Gross Profit"}
-                statusValue={gross_profit?.status}
-                percentageValue={gross_profit?.percentage}
+                leftSideData={gross_margin_bunkered?.gross_margin_bunkered}
+                leftSideTitle={"Gross (Bunkered)"}
+                statusValue={gross_margin_bunkered?.status}
+                percentageValue={gross_margin_bunkered?.percentage}
                 handleNavigateClick={handleNavigateClick}
                 icon={"£"}
                 containerStyle={"dash-plates-5 "}
-                tooltipContent={
-                  "Gross Profit = Selling Price-Purchase Price * Sales Volume"
-                }
                 xl={6}
               />
 
@@ -201,7 +184,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 handleNavigateClick={handleNavigateClick}
                 icon={"£"}
                 containerStyle={"dash-plates-5"}
-                tooltipContent={`The data is accurately sourced from back-office system`}
+                upperTooltipContent={`The data is accurately sourced from back-office system`}
                 xl={6}
               />
 
@@ -217,7 +200,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 icon={"%"}
                 containerStyle={"dash-plates-5"}
                 xl={6}
-                tooltipContent={`Shop Margin = (Shop Profit / Shop Sales) *100`}
+                upperTooltipContent={`Shop Margin = (Shop Profit / Shop Sales) *100`}
               />
             </Row>
           </Col>

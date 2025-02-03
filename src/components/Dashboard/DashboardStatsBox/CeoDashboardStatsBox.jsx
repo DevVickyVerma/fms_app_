@@ -119,7 +119,7 @@ const CeoDashboardStatsBox = ({
                     handleNavigateClick={CeohandleNavigateClick}
                     icon={icon}
                     containerStyle={containerStyle}
-                    tooltipContent={tooltip}
+                    upperTooltipContent={tooltip}
                   />
                 );
               }

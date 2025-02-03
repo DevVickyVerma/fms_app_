@@ -13,7 +13,8 @@ const CEODashCommonVerticalCard = ({
   handleNavigateClick,
   showRightSide = false,
   icon = "",
-  tooltipContent = null,
+  upperTooltipContent = null,
+  lowerTooltipContent = null,
   showPPL = false,
   ppl_msg = null,
   containerStyle = "dash-plates-1",
@@ -50,12 +51,12 @@ const CEODashCommonVerticalCard = ({
             <div>
               <h6 className="mt-4 mb-2 boxtitle">
                 {leftSideTitle}
-                {tooltipContent && (
+                {upperTooltipContent && (
                   <>
                     <span className="ms-1">
                       <OverlayTrigger
                         placement="top"
-                        overlay={<Tooltip>{tooltipContent} </Tooltip>}
+                        overlay={<Tooltip>{upperTooltipContent} </Tooltip>}
                       >
                         <i
                           className="fa fa-info-circle pointer"
@@ -106,13 +107,30 @@ const CEODashCommonVerticalCard = ({
             <h6>
               {showRightSide && (
                 <>
-                  <h6 className="mt-4 mb-2 boxtitle">{RightSideTitle}</h6>
+                  <h6 className="mt-4 mb-2 boxtitle">
+                    {RightSideTitle}
+                    {lowerTooltipContent && (
+                      <>
+                        <span className="ms-1">
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip>{lowerTooltipContent} </Tooltip>}
+                          >
+                            <i
+                              className="fa fa-info-circle pointer"
+                              aria-hidden="true"
+                            ></i>
+                          </OverlayTrigger>
+                        </span>
+                      </>
+                    )}
+                  </h6>
                   <h2
                     // style={{ fontSize: "18px" }}
                     className="mb-0 number-font c-fs-18"
                   >
                     {" "}
-                    <span className="l-sign">{icon}</span>{" "}
+                    {/* <span className="l-sign">{icon}</span>{" "} */}
                     {RightSideData ? formatNumber(RightSideData) : "0.0"}
                   </h2>
                 </>

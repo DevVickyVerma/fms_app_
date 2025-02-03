@@ -12,7 +12,7 @@ const CEODashCommonCard = ({
   handleNavigateClick,
   showRightSide = false,
   icon = "",
-  tooltipContent = null,
+  upperTooltipContent = null,
   showPPL = false,
   ppl_msg = null,
   lg = 6,
@@ -37,11 +37,11 @@ const CEODashCommonCard = ({
           <div className="flex-grow-1">
             <h6 className="mb-2 boxtitle">
               {leftSideTitle}
-              {tooltipContent && (
+              {upperTooltipContent && (
                 <span className="ms-1">
                   <OverlayTrigger
                     placement="top"
-                    overlay={<Tooltip>{tooltipContent}</Tooltip>}
+                    overlay={<Tooltip>{upperTooltipContent}</Tooltip>}
                   >
                     <i
                       className="fa fa-info-circle pointer"

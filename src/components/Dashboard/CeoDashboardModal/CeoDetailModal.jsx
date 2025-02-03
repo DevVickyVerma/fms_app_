@@ -1240,6 +1240,7 @@ const CeoDetailModal = (props) => {
                           </div>
                         </Col>
                       )}
+
                       <hr></hr>
                       <div className="text-end">
                         <button

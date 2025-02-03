@@ -74,7 +74,7 @@ const DashboardStatsBox = (props) => {
             handleNavigateClick={handleNavigateClick}
             icon={"ℓ"}
             containerStyle={"dash-plates-1"}
-            // tooltipContent={'dash-plates-1'}
+            // upperTooltipContent={'dash-plates-1'}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -90,7 +90,7 @@ const DashboardStatsBox = (props) => {
             handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-3 "}
-            // tooltipContent={'dash-plates-1'}
+            // upperTooltipContent={'dash-plates-1'}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -106,9 +106,9 @@ const DashboardStatsBox = (props) => {
             handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-5 "}
-            // tooltipContent={'Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock'}
-            tooltipContent={
-              "Gross Profit = Selling Price-Purchase Price * Sales Volume"
+            // upperTooltipContent={'Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock'}
+            upperTooltipContent={
+              "Gross Profit = (Selling Price - Purchase Price) * Sales Volume"
             }
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
@@ -125,7 +125,7 @@ const DashboardStatsBox = (props) => {
             handleNavigateClick={handleNavigateClick}
             // icon={"£"}
             containerStyle={"dash-plates-2"}
-            tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             ppl_msg={
               GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""
             }
@@ -144,7 +144,7 @@ const DashboardStatsBox = (props) => {
             handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-4"}
-            // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
             // showPPL={true}
           />
@@ -161,7 +161,7 @@ const DashboardStatsBox = (props) => {
             handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-6"}
-            // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
             // showPPL={true}
           />
@@ -178,7 +178,7 @@ const DashboardStatsBox = (props) => {
             handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-5"}
-            tooltipContent={`The data is accurately sourced from back-office system`}
+            upperTooltipContent={`The data is accurately sourced from back-office system`}
             // ppl_msg={shopsale?.is_ppl == 1 ? shopsale?.ppl_msg : ""}
             // showPPL={true}
           />
