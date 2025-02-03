@@ -26,6 +26,8 @@ import moment from "moment/moment";
 import { MultiSelect } from "react-multi-select-component";
 import NoDataComponent from "../../../Utils/commonFunctions/NoDataComponent";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import { handleShowDate } from "../../../Utils/commonFunctions/commonFunction";
+import MOPStackedBarChart from "./MOPStackedBarChart";
 
 const CeoDetailModal = (props) => {
   const {
@@ -41,6 +43,7 @@ const CeoDetailModal = (props) => {
   const [apiData, setApiData] = useState(); // to store API response data
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedGrades, setselectedGrades] = useState([]);
   const [sitefuels, setsitefuels] = useState();
 
@@ -605,6 +608,9 @@ const CeoDetailModal = (props) => {
     }
     if (filterData?.company_id) {
       queryParams.append("company_id", filterData.company_id); // Use default company ID
+    }
+    if (selectedDate) {
+      queryParams.append("end_date", selectedDate); // Use default company ID
     }
 
     if (selected !== null && selected !== undefined) {
@@ -1241,6 +1247,22 @@ const CeoDetailModal = (props) => {
                         </Col>
                       )}
 
+                      <Col md={6}>
+                        <div className="form-group">
+                          <label className="form-label">
+                            Select Daily Date
+                          </label>
+                          <input
+                            type="date"
+                            className="input101"
+                            onClick={handleShowDate}
+                            value={selectedDate} // This should be a state variable
+                            onChange={(e) => setSelectedDate(e.target.value)} // Set selected date correctly
+                            placeholder="Select Daily Date"
+                          />
+                        </div>
+                      </Col>
+
                       <hr></hr>
                       <div className="text-end">
                         <button
@@ -1270,7 +1292,31 @@ const CeoDetailModal = (props) => {
                   )}
                 </Row>
 
-                <Row>
+                <>
+                  {apiData?.data ? (
+                    <Card className="h-100">
+                      <Card.Header className="p-4">
+                        <h4 className="card-title">Pie Chart</h4>
+                      </Card.Header>
+                      <Card.Body
+                      //  className=" d-flex justify-content-center align-items-center w-100"
+                      >
+                        <MOPStackedBarChart
+                        // dashboardData={apiData?.data}
+                        // Mopstatsloading={loading}
+                        />
+                      </Card.Body>
+                    </Card>
+                  ) : (
+                    <>
+                      <Col lg={12}>
+                        <NoDataComponent title={"Pie Chart"} />
+                      </Col>
+                    </>
+                  )}
+                </>
+
+                {/* <Row>
                   <Col
                     sm={12}
                     md={12}
@@ -1307,7 +1353,7 @@ const CeoDetailModal = (props) => {
                       </>
                     )}
                   </Col>
-                </Row>
+                </Row> */}
               </>
             )}
             {title == "Comparison" && (

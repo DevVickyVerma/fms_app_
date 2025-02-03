@@ -49,7 +49,7 @@ const CeoDashSitetable = (props) => {
 
   const columns = [
     {
-      name: "Sites",
+      name: "Sites - breakdown",
       selector: (row) => [row?.name],
       sortable: false,
       width: "23%",
@@ -881,7 +881,7 @@ const CeoDashSitetable = (props) => {
       ),
     },
     {
-      name: "Shop  Margin",
+      name: "Shop  Margin (%)",
       selector: (row) =>
         row?.valet_sales?.valet_sales
           ? parseFloat(row?.valet_sales?.valet_sales)
@@ -1002,7 +1002,7 @@ const CeoDashSitetable = (props) => {
               {data?.length > 0 ? (
                 <>
                   <div
-                    className={`table-responsive deleted-table performance-col ${
+                    className={`table-responsive deleted-table performance-col no-white-space  ${
                       isSitePermissionAvailable ||
                       isSiteSecondPermissionAvailable
                         ? "show-ceo-hover-effect-data-table"
