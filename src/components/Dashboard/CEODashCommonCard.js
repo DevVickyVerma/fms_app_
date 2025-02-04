@@ -10,6 +10,7 @@ const CEODashCommonCard = ({
   statusValue,
   percentageValue,
   handleNavigateClick,
+  lastMonthTooltipContent,
   showRightSide = false,
   icon = "",
   upperTooltipContent = null,
@@ -77,16 +78,44 @@ const CEODashCommonCard = ({
               </div>
             )}
             <div className="mt-3">
-              {statusValue === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span>{percentageValue}% Last Month</span>
-                </>
+              {lastMonthTooltipContent ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip>
+                      <span>{`${lastMonthTooltipContent}`}</span>
+                    </Tooltip>
+                  }
+                >
+                  <span>
+                    {statusValue === "up" ? (
+                      <>
+                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                        <span className="">{percentageValue}%</span>
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                        <span className="">{percentageValue}% Last Month</span>
+                      </>
+                    )}
+                  </span>
+                </OverlayTrigger>
               ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span>{percentageValue}% Last Month</span>
-                </>
+                <span>
+                  {" "}
+                  {statusValue === "up" ? (
+                    <>
+                      <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                      <span className="">{percentageValue}%</span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                      <span className="">{percentageValue}% Last Month</span>
+                    </>
+                  )}
+                </span>
               )}
             </div>
           </div>
