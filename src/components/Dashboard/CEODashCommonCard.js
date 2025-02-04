@@ -91,7 +91,7 @@ const CEODashCommonCard = ({
                     {statusValue === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="">{percentageValue}%</span>
+                        <span className="">{percentageValue}% Last Month</span>
                       </>
                     ) : (
                       <>
@@ -107,7 +107,7 @@ const CEODashCommonCard = ({
                   {statusValue === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="">{percentageValue}%</span>
+                      <span className="">{percentageValue}% Last Month</span>
                     </>
                   ) : (
                     <>

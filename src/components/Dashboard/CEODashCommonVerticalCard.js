@@ -7,10 +7,11 @@ const CEODashCommonVerticalCard = ({
   leftSideData,
   leftSideTitle,
   RightSideData,
+  secondIcon,
   RightSideTitle,
   statusValue,
   percentageValue,
-  lastMonthTooltipContent,
+  lastMonthTooltipContent = null,
   handleNavigateClick,
   showRightSide = false,
   icon = "",
@@ -105,7 +106,7 @@ const CEODashCommonVerticalCard = ({
                     {statusValue === "up" ? (
                       <>
                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="">{percentageValue}%</span>
+                        <span className="">{percentageValue}% Last Month</span>
                       </>
                     ) : (
                       <>
@@ -121,7 +122,7 @@ const CEODashCommonVerticalCard = ({
                   {statusValue === "up" ? (
                     <>
                       <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                      <span className="">{percentageValue}%</span>
+                      <span className="">{percentageValue}% Last Month</span>
                     </>
                   ) : (
                     <>
@@ -159,7 +160,7 @@ const CEODashCommonVerticalCard = ({
                     className="mb-0 number-font c-fs-18"
                   >
                     {" "}
-                    {/* <span className="l-sign">{icon}</span>{" "} */}
+                    <span className="l-sign">{secondIcon}</span>{" "}
                     {RightSideData ? formatNumber(RightSideData) : "0.0"}
                   </h2>
                 </>

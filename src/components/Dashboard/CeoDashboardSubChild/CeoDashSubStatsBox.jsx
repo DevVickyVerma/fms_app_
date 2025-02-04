@@ -118,7 +118,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
 
         {/* // ! Right Side Data Will come From "gross_margin_bunkered" that is
           different Key */}
-        <Col lg={2}>
+        {/* <Col lg={2}>
           <CEODashCommonVerticalCard
             isParentComponent={parentComponent}
             showRightSide={true}
@@ -138,7 +138,33 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               "Gross Profit = (Selling Price - Purchase Price) * Sales Volume"
             }
           />
+        </Col> */}
+
+        <Col lg={2}>
+          <CEODashCommonVerticalCard
+            isParentComponent={parentComponent}
+            showRightSide={true}
+            leftSideData={gross_margin?.gross_margin}
+            leftSideTitle={"Gross Margin (Fuel)"}
+            RightSideTitle={"Gross Profit"}
+            RightSideData={gross_profit?.gross_profit}
+            statusValue={gross_margin?.status}
+            percentageValue={gross_margin?.percentage}
+            handleNavigateClick={handleNavigateClick}
+            icon={"ppl"}
+            secondIcon={"£"}
+            // icon={"£"}
+            containerStyle={"dash-plates-3 "}
+            xl={12}
+            ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
+            upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            lowerTooltipContent={
+              "Gross Profit = (Selling Price - Purchase Price) * Sales Volume"
+            }
+            // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+          />
         </Col>
+
         <Col lg={6}>
           <Row>
             <CEODashCommonCard

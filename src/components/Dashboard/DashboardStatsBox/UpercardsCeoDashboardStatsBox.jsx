@@ -103,7 +103,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               containerStyle={"dash-plates-1"}
               xl={12}
               upperTooltipContent={`Till volume + other bunkering categories volume`}
-              lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+              // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
             />
           </Col>
           <Col lg={2}>
@@ -121,7 +121,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               containerStyle={"dash-plates-3 "}
               xl={12}
               upperTooltipContent={`Till fuel sales + other bunkering categories sales`}
-              lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+              // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
             />
           </Col>
 
@@ -138,7 +138,9 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               statusValue={gross_margin?.status}
               percentageValue={gross_margin?.percentage}
               handleNavigateClick={handleNavigateClick}
-              icon={"£"}
+              icon={"ppl"}
+              secondIcon={"£"}
+              // icon={"£"}
               containerStyle={"dash-plates-3 "}
               xl={12}
               ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
@@ -146,7 +148,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
               lowerTooltipContent={
                 "Gross Profit = (Selling Price - Purchase Price) * Sales Volume"
               }
-              lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+              // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
             />
           </Col>
           <Col lg={6}>
@@ -162,7 +164,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 icon={"£"}
                 containerStyle={"dash-plates-5 "}
                 xl={6}
-                lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+                // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
               />
 
               <CEODashCommonCard
@@ -176,7 +178,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 icon={"£"}
                 containerStyle={"dash-plates-4"}
                 xl={6}
-                lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+                // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
               />
 
               <CEODashCommonCard
@@ -191,7 +193,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 containerStyle={"dash-plates-5"}
                 upperTooltipContent={`The data is accurately sourced from back-office system`}
                 xl={6}
-                lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+                // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
               />
 
               <CEODashCommonCard
@@ -207,7 +209,7 @@ const UpercardsCeoDashboardStatsBox = (props) => {
                 containerStyle={"dash-plates-5"}
                 xl={6}
                 upperTooltipContent={`Shop Margin = (Shop Profit / Shop Sales) *100`}
-                lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+                // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
               />
             </Row>
           </Col>

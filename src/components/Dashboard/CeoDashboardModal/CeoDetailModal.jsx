@@ -1247,7 +1247,7 @@ const CeoDetailModal = (props) => {
                         </Col>
                       )}
 
-                      <Col md={6}>
+                      {/* <Col md={6}>
                         <div className="form-group">
                           <label className="form-label">
                             Select Daily Date
@@ -1261,7 +1261,7 @@ const CeoDetailModal = (props) => {
                             placeholder="Select Daily Date"
                           />
                         </div>
-                      </Col>
+                      </Col> */}
 
                       <hr></hr>
                       <div className="text-end">
@@ -1292,8 +1292,8 @@ const CeoDetailModal = (props) => {
                   )}
                 </Row>
 
-                <>
-                  {apiData?.data ? (
+                {/* <>
+                  {apiData?.data?.mopcategories && apiData?.data?.mopSeries ? (
                     <Card className="">
                       <Card.Header className="p-4">
                         <h4 className="card-title">Fuel Card Stats</h4>
@@ -1314,9 +1314,9 @@ const CeoDetailModal = (props) => {
                       </Col>
                     </>
                   )}
-                </>
+                </> */}
 
-                {/* <Row>
+                <Row>
                   <Col
                     sm={12}
                     md={12}
@@ -1353,7 +1353,7 @@ const CeoDetailModal = (props) => {
                       </>
                     )}
                   </Col>
-                </Row> */}
+                </Row>
               </>
             )}
             {title == "Comparison" && (

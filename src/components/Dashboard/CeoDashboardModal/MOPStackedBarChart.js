@@ -74,7 +74,9 @@ const MOPStackedBarChart = ({ dashboardData }) => {
         offsetY: 0,
       },
       xaxis: {
-        categories: dashboardData ? mopcategories : thirdcategories,
+        categories: dashboardData?.mopcategories
+          ? dashboardData?.mopcategories
+          : [],
       },
       yaxis: {
         title: {
@@ -87,7 +89,7 @@ const MOPStackedBarChart = ({ dashboardData }) => {
         horizontalAlign: "center",
       },
     },
-    series: dashboardData ? mopSeries : thirdSeries,
+    series: dashboardData?.mopSeries ? dashboardData?.mopSeries : [],
   };
 
   return (
