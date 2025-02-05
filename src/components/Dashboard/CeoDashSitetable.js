@@ -48,7 +48,8 @@ const CeoDashSitetable = (props) => {
     //   navigate(`/ceodashboard-details/${item?.id}`);
     // }
   };
-
+  console.log(data, "columnIndex");
+  console.log(data?.detail?.wet_stock_value?.value, "columnIndex");
   const columns = [
     {
       name: "Sites",
@@ -98,8 +99,8 @@ const CeoDashSitetable = (props) => {
     {
       name: "Gross Volume",
       selector: (row) =>
-        row.fuel_volume?.gross_volume
-          ? parseFloat(row.fuel_volume.gross_volume)
+        row.detail?.wet_stock_value
+          ? parseFloat(row.detail?.wet_stock_value?.value)
           : 0,
       sortable: true,
       id: "gross_volume",
@@ -116,8 +117,8 @@ const CeoDashSitetable = (props) => {
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-13 fw-semibold ">
                 <span className="l-sign">ℓ</span>{" "}
-                {row.fuel_volume?.gross_volume
-                  ? formatNumber(row.fuel_volume?.gross_volume)
+                {row.detail?.wet_stock_value?.value
+                  ? formatNumber(row.detail?.wet_stock_value?.value)
                   : "0"}
               </h6>
               <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>

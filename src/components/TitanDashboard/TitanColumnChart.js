@@ -27,6 +27,23 @@ const TitanColumnChart = ({ stockGraphData }) => {
         },
         xaxis: {
             categories: stockGraphData?.month,
+            title: {
+                text: "Months",
+                style: {
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                }
+            }
+        },
+        yaxis: {
+
+            title: {
+                text: "Value (£)",
+                style: {
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                }
+            }
         },
 
         fill: {
@@ -35,7 +52,7 @@ const TitanColumnChart = ({ stockGraphData }) => {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return "$ " + val + " thousands";
+                    return "£" + " " + val;
                 },
             },
         },
