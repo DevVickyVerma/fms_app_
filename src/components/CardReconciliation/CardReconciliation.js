@@ -224,7 +224,7 @@ const CardReconciliation = (props) => {
             ),
         },
         {
-            name: "Card Reconciliation Details",
+            name: "Credit Card Details",
             selector: (row) => [row.price_difference],
             sortable: false,
             width: "15%",
@@ -341,7 +341,7 @@ const CardReconciliation = (props) => {
             <>
                 <div className="page-header ">
                     <div>
-                        <h1 className="page-title">Card Reconciliation</h1>
+                        <h1 className="page-title">Credit Card</h1>
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
                                 className="breadcrumb-item"
@@ -354,7 +354,7 @@ const CardReconciliation = (props) => {
                                 className="breadcrumb-item active breadcrumds"
                                 aria-current="page"
                             >
-                                Card Reconciliation
+                                Credit Card
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
@@ -392,7 +392,7 @@ const CardReconciliation = (props) => {
                         <Card>
                             <Card.Header>
                                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
-                                    <h3 className="card-title">     Card Reconciliation </h3>
+                                    <h3 className="card-title">     Credit Card </h3>
                                     <div className="m-0 mt-sm-0 hcenter">
                                         <SearchBar
                                             onSearch={handleSearch}

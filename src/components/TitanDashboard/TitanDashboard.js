@@ -39,8 +39,8 @@ const TitanDashboard = (props) => {
     const [PriceGraphloading, setPriceGraphloading] = useState(false);
 
     const [PriceGraphData, setPriceGraphData] = useState();
-    const [bestvsWorst, setbestvsWorst] = useState("1");
-    const [graphfilterOption, setgraphfilterOption] = useState("weekly");
+    const [bestvsWorst, setbestvsWorst] = useState("0");
+    const [graphfilterOption, setgraphfilterOption] = useState("monthly");
 
     const userPermissions = useSelector(
         (state) => state?.data?.data?.permissions || []
@@ -409,7 +409,7 @@ const TitanDashboard = (props) => {
                         storedKeyName={storedKeyName}
                         layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
                         showStationValidation={false}
-                        showMonthInput={false}
+                        showMonthInput={true}
                         showDateInput={false}
                     />
                 </div>

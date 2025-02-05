@@ -21,7 +21,7 @@ export const MENUITEMS = [
       //   title: "CEO Dashboard Old",
       // },
       {
-        title: "Card Reconciliation",
+        title: "Reconciliation",
         icon: "graduation-cap",
         type: "sub",
         active: false,
@@ -31,14 +31,14 @@ export const MENUITEMS = [
           {
             path: `/card-reconciliation`,
             type: "link",
-            title: "Card Reconciliation",
+            title: "Credit Card ",
             permission: "level-list",
             visibility: false,
           },
           {
             path: `/cash-reconciliation`,
             type: "link",
-            title: "Cash Reconciliation",
+            title: "Cash",
             permission: "level-create",
             visibility: false,
           },
