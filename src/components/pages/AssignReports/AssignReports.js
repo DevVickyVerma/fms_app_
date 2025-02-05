@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
@@ -38,11 +38,11 @@ const AddCompany = (props) => {
     {
       name: "Select",
       selector: (row) => row.checked,
-      sortable: false,
+      sortable: true,
       center: false,
       width: "20%",
       cell: (row, index) => (
-        <div className="all-center-flex">
+        <div className="all-center-flex ms-4">
           <input
             type="checkbox"
             id={`checked-${index}`}

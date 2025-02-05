@@ -23,8 +23,6 @@ const CeoDashSitetable = (props) => {
   );
 
   const handleFuelPriceLinkClick = (item) => {
-
-
     console.log(item, "item");
     // setting data for 3rd screen here with tha name of singleSiteData
     // const rowDataString = JSON.stringify(item);
@@ -52,17 +50,18 @@ const CeoDashSitetable = (props) => {
   console.log(data?.detail?.wet_stock_value?.value, "columnIndex");
   const columns = [
     {
-      name: "Sites",
+      name: "Sites - breakdown",
       selector: (row) => [row?.name],
       sortable: false,
       width: "23%",
       id: "1",
       cell: (row) => (
         <div
-          className={`d-flex   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex   ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-flex  ">
@@ -80,10 +79,11 @@ const CeoDashSitetable = (props) => {
                 />
               </div>
               <div
-                className={`d-flex ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-                  ? "pointer"
-                  : ""
-                  }`}
+                className={`d-flex ${
+                  isSitePermissionAvailable || isSiteSecondPermissionAvailable
+                    ? "pointer"
+                    : ""
+                }`}
                 onClick={() => handleFuelPriceLinkClick(row)}
               >
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -107,10 +107,11 @@ const CeoDashSitetable = (props) => {
       width: "11%",
       cell: (row) => (
         <div
-          className={`d-flex   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex   ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="d-flex align-items-center h-100 ">
@@ -123,10 +124,11 @@ const CeoDashSitetable = (props) => {
               </h6>
               <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${row.fuel_volume?.status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 mb-0 c-fs-10 ${
+                    row.fuel_volume?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${row?.fuel_volume?.percentage}%`}
                 >
                   {row?.fuel_volume?.status === "up" ? (
@@ -150,10 +152,11 @@ const CeoDashSitetable = (props) => {
               {/* //Weekly Status Show */}
               <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
                 <p
-                  className={`me-1 mb-0  c-fs-10 ${row.fuel_volume?.w_status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 mb-0  c-fs-10 ${
+                    row.fuel_volume?.w_status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${row?.fuel_volume?.w_percentage}%`}
                 >
                   {row?.fuel_volume?.w_status === "up" ? (
@@ -177,10 +180,11 @@ const CeoDashSitetable = (props) => {
               {/* //Yearly Status Show */}
               <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${row.fuel_volume?.y_status === "up"
-                    ? "text-success"
-                    : "text-danger"
-                    }`}
+                  className={`me-1 mb-0 c-fs-10 ${
+                    row.fuel_volume?.y_status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                  }`}
                   data-tip={`${row?.fuel_volume?.y_percentage}%`}
                 >
                   {row?.fuel_volume?.y_status === "up" ? (
@@ -216,10 +220,11 @@ const CeoDashSitetable = (props) => {
       width: "11%",
       cell: (row) => (
         <div
-          className={`d-flex    ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex    ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -231,10 +236,11 @@ const CeoDashSitetable = (props) => {
             </h6>
             <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
-                className={`me-1 mb-0 c-fs-10 ${row?.fuel_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 mb-0 c-fs-10 ${
+                  row?.fuel_sales?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.fuel_sales?.percentage}%`}
               >
                 {row?.fuel_sales?.status === "up" ? (
@@ -257,10 +263,11 @@ const CeoDashSitetable = (props) => {
             {/* //Weekly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
-                className={`me-1 mb-0 c-fs-10 ${row.fuel_sales?.w_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 mb-0 c-fs-10 ${
+                  row.fuel_sales?.w_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.fuel_sales?.w_percentage}%`}
               >
                 {row?.fuel_sales?.w_status === "up" ? (
@@ -284,10 +291,11 @@ const CeoDashSitetable = (props) => {
             {/* //Yearly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
-                className={`me-1 mb-0 c-fs-10 ${row.fuel_sales?.y_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 mb-0 c-fs-10 ${
+                  row.fuel_sales?.y_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.fuel_sales?.y_percentage}%`}
               >
                 {row?.fuel_sales?.y_status === "up" ? (
@@ -322,10 +330,11 @@ const CeoDashSitetable = (props) => {
       id: "4",
       cell: (row) => (
         <div
-          className={`d-flex   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex   ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -337,10 +346,11 @@ const CeoDashSitetable = (props) => {
             </h6>
             <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
-                className={`me-1 mb-0 c-fs-10 ${row?.gross_profit?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 mb-0 c-fs-10 ${
+                  row?.gross_profit?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.gross_profit?.percentage}%`}
               >
                 {row?.gross_profit?.status === "up" ? (
@@ -364,10 +374,11 @@ const CeoDashSitetable = (props) => {
             {/* //Weekly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.gross_profit?.w_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.gross_profit?.w_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.gross_profit?.w_percentage}%`}
               >
                 {row?.gross_profit?.w_status === "up" ? (
@@ -391,10 +402,11 @@ const CeoDashSitetable = (props) => {
             {/* //Yearly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.gross_profit?.y_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.gross_profit?.y_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.gross_profit?.y_percentage}%`}
               >
                 {row?.gross_profit?.y_status === "up" ? (
@@ -429,10 +441,11 @@ const CeoDashSitetable = (props) => {
       width: "11%",
       cell: (row) => (
         <div
-          className={`d-flex   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex   ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -454,10 +467,11 @@ const CeoDashSitetable = (props) => {
             </h6>
             <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row?.gross_margin?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row?.gross_margin?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.gross_margin?.percentage}%`}
               >
                 {row?.gross_margin?.status === "up" ? (
@@ -481,10 +495,11 @@ const CeoDashSitetable = (props) => {
             {/* //Weekly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.gross_margin?.w_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.gross_margin?.w_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.gross_margin?.w_percentage}%`}
               >
                 {row?.gross_margin?.w_status === "up" ? (
@@ -508,10 +523,11 @@ const CeoDashSitetable = (props) => {
             {/* //Yearly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.gross_margin?.y_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.gross_margin?.y_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.gross_margin?.y_percentage}%`}
               >
                 {row?.gross_margin?.y_status === "up" ? (
@@ -546,10 +562,11 @@ const CeoDashSitetable = (props) => {
       width: "11%",
       cell: (row) => (
         <div
-          className={`d-flex   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex   ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -561,10 +578,11 @@ const CeoDashSitetable = (props) => {
             </h6>
             <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row?.shop_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row?.shop_sales?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.shop_sales?.percentage}%`}
               >
                 {row?.shop_sales?.status === "up" ? (
@@ -587,10 +605,11 @@ const CeoDashSitetable = (props) => {
             {/* //Weekly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.shop_sales?.w_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.shop_sales?.w_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.shop_sales?.w_percentage}%`}
               >
                 {row?.shop_sales?.w_status === "up" ? (
@@ -614,10 +633,11 @@ const CeoDashSitetable = (props) => {
             {/* //Yearly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.shop_sales?.y_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.shop_sales?.y_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.shop_sales?.y_percentage}%`}
               >
                 {row?.shop_sales?.y_status === "up" ? (
@@ -761,10 +781,11 @@ const CeoDashSitetable = (props) => {
       id: "8",
       cell: (row) => (
         <div
-          className={`d-flex   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex   ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -777,10 +798,11 @@ const CeoDashSitetable = (props) => {
             </h6>
             <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row?.shop_profit?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row?.shop_profit?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.shop_profit?.percentage}%`}
               >
                 {row?.shop_profit?.status === "up" ? (
@@ -803,10 +825,11 @@ const CeoDashSitetable = (props) => {
             {/* //Weekly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.shop_profit?.w_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.shop_profit?.w_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.shop_profit?.w_percentage}%`}
               >
                 {row?.shop_profit?.w_status === "up" ? (
@@ -830,10 +853,11 @@ const CeoDashSitetable = (props) => {
             {/* //Yearly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.shop_profit?.y_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.shop_profit?.y_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.shop_profit?.y_percentage}%`}
               >
                 {row?.shop_profit?.y_status === "up" ? (
@@ -858,7 +882,7 @@ const CeoDashSitetable = (props) => {
       ),
     },
     {
-      name: "Shop  Margin",
+      name: "Shop  Margin (%)",
       selector: (row) =>
         row?.valet_sales?.valet_sales
           ? parseFloat(row?.valet_sales?.valet_sales)
@@ -868,10 +892,11 @@ const CeoDashSitetable = (props) => {
       id: "8",
       cell: (row) => (
         <div
-          className={`d-flex   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
-            ? "pointer"
-            : ""
-            }`}
+          className={`d-flex   ${
+            isSitePermissionAvailable || isSiteSecondPermissionAvailable
+              ? "pointer"
+              : ""
+          }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -883,10 +908,11 @@ const CeoDashSitetable = (props) => {
             </h6>
             <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row?.valet_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row?.valet_sales?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.valet_sales?.percentage}%`}
               >
                 {row?.valet_sales?.status === "up" ? (
@@ -909,10 +935,11 @@ const CeoDashSitetable = (props) => {
             {/* //Weekly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.valet_sales?.w_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.valet_sales?.w_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.valet_sales?.w_percentage}%`}
               >
                 {row?.valet_sales?.w_status === "up" ? (
@@ -936,10 +963,11 @@ const CeoDashSitetable = (props) => {
             {/* //Yearly Status Show */}
             <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
               <p
-                className={`me-1  mb-0 c-fs-10 ${row.valet_sales?.y_status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1  mb-0 c-fs-10 ${
+                  row.valet_sales?.y_status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${row?.valet_sales?.y_percentage}%`}
               >
                 {row?.valet_sales?.y_status === "up" ? (
@@ -975,11 +1003,12 @@ const CeoDashSitetable = (props) => {
               {data?.length > 0 ? (
                 <>
                   <div
-                    className={`table-responsive deleted-table performance-col ${isSitePermissionAvailable ||
+                    className={`table-responsive deleted-table performance-col no-white-space  ${
+                      isSitePermissionAvailable ||
                       isSiteSecondPermissionAvailable
-                      ? "show-ceo-hover-effect-data-table"
-                      : ""
-                      }`}
+                        ? "show-ceo-hover-effect-data-table"
+                        : ""
+                    }`}
                   >
                     <DataTable
                       columns={columns}

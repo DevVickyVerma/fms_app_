@@ -33,7 +33,6 @@ const CeoDashBoardTest = (props) => {
   const [statsLoading, setStatsLoading] = useState(false);
 
   const [dashboardData, setDashboardData] = useState();
-  const [dashboardGraphData, setDashboardGraphData] = useState();
   const [filters, setFilters] = useState({
     client_id: "",
     company_id: "",

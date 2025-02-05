@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -13,7 +13,6 @@ const ManageComision = (props) => {
   const { isLoading, getData, postData } = props;
   const [SelectedsiteID, setsiteID] = useState();
   const [data, setData] = useState([]);
-
 
   const handleSubmit = async (values) => {
     try {
@@ -37,9 +36,6 @@ const ManageComision = (props) => {
     }
   };
 
-
-
-
   const formik = useFormik({
     initialValues: {
       data: data?.length > 0 ? data : [], // Ensure initial values are an array
@@ -47,8 +43,6 @@ const ManageComision = (props) => {
     onSubmit: handleSubmit,
     // validationSchema: validationSchema,
   });
-
-
 
   const handleSubmit1 = async (values) => {
     try {
@@ -100,7 +94,7 @@ const ManageComision = (props) => {
       sortable: false,
       width: "60%",
       center: false,
-      cell: (row, index) => (
+      cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <h4 className="bottom-toal">{row?.commission}</h4>
         ) : (
@@ -110,7 +104,7 @@ const ManageComision = (props) => {
               id={`commission-${index}`}
               name={`data[${index}].commission`}
               className="table-input"
-              value={formik.values.data[index]?.commission || ''}
+              value={formik.values.data[index]?.commission || ""}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -121,21 +115,15 @@ const ManageComision = (props) => {
                 className="invalid-feedback"
               />
             )} */}
-
           </div>
-        )
-      ),
+        ),
     },
     // ... remaining columns
   ];
 
-
-
-
-
-
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -154,7 +142,7 @@ const ManageComision = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -169,7 +157,7 @@ const ManageComision = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage

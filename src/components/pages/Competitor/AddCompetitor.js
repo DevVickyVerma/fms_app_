@@ -175,8 +175,6 @@ const AddCompetitor = (props) => {
     }
   };
 
-  console.log(formik.values, "formik.values");
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

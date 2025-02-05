@@ -10,9 +10,10 @@ const CEODashCommonCard = ({
   statusValue,
   percentageValue,
   handleNavigateClick,
+  lastMonthTooltipContent,
   showRightSide = false,
   icon = "",
-  tooltipContent = null,
+  upperTooltipContent = null,
   showPPL = false,
   ppl_msg = null,
   lg = 6,
@@ -37,11 +38,11 @@ const CEODashCommonCard = ({
           <div className="flex-grow-1">
             <h6 className="mb-2 boxtitle">
               {leftSideTitle}
-              {tooltipContent && (
+              {upperTooltipContent && (
                 <span className="ms-1">
                   <OverlayTrigger
                     placement="top"
-                    overlay={<Tooltip>{tooltipContent}</Tooltip>}
+                    overlay={<Tooltip>{upperTooltipContent}</Tooltip>}
                   >
                     <i
                       className="fa fa-info-circle pointer"
@@ -77,16 +78,44 @@ const CEODashCommonCard = ({
               </div>
             )}
             <div className="mt-3">
-              {statusValue === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span>{percentageValue}% Last Month</span>
-                </>
+              {lastMonthTooltipContent ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip>
+                      <span>{`${lastMonthTooltipContent}`}</span>
+                    </Tooltip>
+                  }
+                >
+                  <span>
+                    {statusValue === "up" ? (
+                      <>
+                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                        <span className="">{percentageValue}% Last Month</span>
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                        <span className="">{percentageValue}% Last Month</span>
+                      </>
+                    )}
+                  </span>
+                </OverlayTrigger>
               ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span>{percentageValue}% Last Month</span>
-                </>
+                <span>
+                  {" "}
+                  {statusValue === "up" ? (
+                    <>
+                      <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                      <span className="">{percentageValue}% Last Month</span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                      <span className="">{percentageValue}% Last Month</span>
+                    </>
+                  )}
+                </span>
               )}
             </div>
           </div>

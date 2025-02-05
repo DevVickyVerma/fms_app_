@@ -44,7 +44,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"ℓ"}
             containerStyle={"dash-plates-1"}
-            // tooltipContent={'dash-plates-1'}
+            // upperTooltipContent={'dash-plates-1'}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -60,7 +60,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-3"}
-            // tooltipContent={'dash-plates-1'}
+            // upperTooltipContent={'dash-plates-1'}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -76,7 +76,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-5"}
-            tooltipContent={`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}
+            upperTooltipContent={`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -92,7 +92,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             // icon={"£"}
             containerStyle={"dash-plates-2"}
-            tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             ppl_msg={
               singleSiteGrossMargin?.is_ppl == 1
                 ? singleSiteGrossMargin?.ppl_msg
@@ -113,7 +113,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-4"}
-            // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
             // showPPL={true}
           />
@@ -130,7 +130,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-6"}
-            // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
             // showPPL={true}
           />
@@ -147,7 +147,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-5"}
-            tooltipContent={`The data is accurately sourced from back-office system`}
+            upperTooltipContent={`The data is accurately sourced from back-office system`}
             // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
             // showPPL={true}
           />
@@ -166,7 +166,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"ℓ"}
             containerStyle={"dash-plates-1"}
-            // tooltipContent={'dash-plates-1'}
+            // upperTooltipContent={'dash-plates-1'}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -182,7 +182,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-3"}
-            // tooltipContent={'dash-plates-1'}
+            // upperTooltipContent={'dash-plates-1'}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -198,7 +198,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-5"}
-            tooltipContent={`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}
+            upperTooltipContent={`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}
             // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
           />
 
@@ -214,7 +214,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             // icon={"£"}
             containerStyle={"dash-plates-2"}
-            tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             ppl_msg={
               singleSiteGrossMargin?.is_ppl == 1
                 ? singleSiteGrossMargin?.ppl_msg
@@ -235,7 +235,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-4"}
-            // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
             // showPPL={true}
           />
@@ -252,7 +252,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-6"}
-            // tooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
+            // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
             // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
             // showPPL={true}
           />
@@ -269,7 +269,7 @@ const DashSubStatsBox = ({ Ceo }) => {
             // handleNavigateClick={handleNavigateClick}
             icon={"£"}
             containerStyle={"dash-plates-5"}
-            tooltipContent={`The data is accurately sourced from back-office system`}
+            upperTooltipContent={`The data is accurately sourced from back-office system`}
             // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
             // showPPL={true}
           />

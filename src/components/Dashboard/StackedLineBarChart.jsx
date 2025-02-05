@@ -150,3 +150,122 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
 };
 
 export default StackedLineBarChart;
+
+/* eslint-disable no-unused-vars */
+// import { Line } from "react-chartjs-2";
+// import { Chart as ChartJS } from "chart.js/auto"; // Important import for chart
+
+// const StackedLineBarChart = ({ stackedLineBarLabels }) => {
+//   // If data labels are not available, show a message
+//   if (!stackedLineBarLabels) {
+//     return <p>Please Apply Filter To Visualize Chart...</p>;
+//   }
+
+//   // Simplified dataset hardcoded for bar and line charts
+//   const data = {
+//     labels: stackedLineBarLabels,
+//     datasets: [
+//       {
+//         label: "Fuel Volume (ℓ)", // Bar 1
+//         data: [5723.17, 4816.96, 4633.21, 6896.3, 6345.85, 6368.66, 6351.85],
+//         borderColor: "rgba(126, 149, 228, 1)",
+//         backgroundColor: "rgba(126, 149, 228, 0.5)",
+//         yAxisID: "y1",
+//         type: "bar",
+//       },
+//       {
+//         label: "Fuel Sales (£)", // Bar 2 (New Bar)
+//         data: [4321.21, 4098.34, 3967.45, 4532.67, 4812.56, 4981.45, 4329.67],
+//         borderColor: "rgba(255, 99, 132, 1)",
+//         backgroundColor: "rgba(255, 99, 132, 0.5)",
+//         yAxisID: "y1",
+//         type: "bar",
+//       },
+//       {
+//         label: "Gross Margin (ppl) (Trend Line)", // Trend Line
+//         data: [5.22, 5.16, 5.2, 4.9, 5.15, 5.21, 5.15],
+//         borderColor: "rgba(59, 96, 172, 1)",
+//         backgroundColor: "rgba(59, 96, 172, 0.5)",
+//         yAxisID: "y",
+//         type: "line",
+//         borderDash: [5, 5], // Dotted line for trendline
+//         tension: 0.3, // Smoother line
+//         borderWidth: 2,
+//       },
+//       {
+//         label: "Shop Sales Ex Vat (£)", // Normal Line
+//         data: [1584.88, 1321.87, 1199.7, 1318.34, 1254.88, 1224.28, 1492.16],
+//         borderColor: "rgba(147, 141, 223, 1)",
+//         backgroundColor: "rgba(147, 141, 223, 0.5)",
+//         yAxisID: "y1",
+//         type: "line",
+//         tension: 0.3, // Smoother line
+//         borderWidth: 2,
+//       },
+//       {
+//         label: "Additional Sales (£)", // Extra Normal Line
+//         data: [1650.25, 1440.58, 1300.54, 1400.92, 1305.44, 1400.58, 1450.65],
+//         borderColor: "rgba(75, 192, 192, 1)",
+//         backgroundColor: "rgba(75, 192, 192, 0.5)",
+//         yAxisID: "y1",
+//         type: "line",
+//         tension: 0.3, // Smoother line
+//         borderWidth: 2,
+//       },
+//     ],
+//   };
+
+//   const options = {
+//     responsive: true,
+//     interaction: {
+//       mode: "index",
+//       intersect: false,
+//     },
+//     scales: {
+//       y: {
+//         type: "linear",
+//         display: true,
+//         position: "left",
+//         min: 0,
+//       },
+//       y1: {
+//         type: "linear",
+//         display: true,
+//         position: "right",
+//         grid: {
+//           drawOnChartArea: false,
+//         },
+//         min: 0,
+//       },
+//     },
+//     plugins: {
+//       legend: {
+//         position: "top",
+//       },
+//       tooltip: {
+//         callbacks: {
+//           label: function (context) {
+//             return `${context?.dataset?.label || ""}: ${context?.parsed?.y}`;
+//           },
+//         },
+//       },
+//     },
+//     elements: {
+//       bar: {
+//         borderRadius: 0,
+//       },
+//       line: {
+//         tension: 0.3,
+//         borderWidth: 2, // Common setting for all lines
+//       },
+//     },
+//   };
+
+//   return (
+//     <div>
+//       <Line data={data} options={options} />
+//     </div>
+//   );
+// };
+
+// export default StackedLineBarChart;
