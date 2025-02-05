@@ -399,7 +399,7 @@ const CardReconciliation = (props) => {
                                             onReset={handleReset}
                                             hideReset={searchTerm}
                                         />
-                                        <form onSubmit={formik.handleSubmit}>
+                                        {data?.length > 0 ? <form onSubmit={formik.handleSubmit}>
                                             <OverlayTrigger
                                                 placement="top"
                                                 overlay={<Tooltip>Upload Files
@@ -447,7 +447,8 @@ const CardReconciliation = (props) => {
 
                                             {/* Show uploaded file names */}
 
-                                        </form>
+                                        </form> : ""}
+
 
                                     </div>
                                 </div>
