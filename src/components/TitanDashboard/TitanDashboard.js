@@ -187,7 +187,8 @@ const TitanDashboard = (props) => {
         callback
     ) => {
         const updatedFilters = updateFilters(filters);
-        const { client_id, company_id, site_id, grade_id, tank_id } = updatedFilters;
+        console.log(updatedFilters, "updatedFilters");
+        const { client_id, company_id, site_id, grade_id, tank_id, start_month } = updatedFilters;
 
         if (
             !formik?.values?.selectedMonth &&
@@ -235,6 +236,7 @@ const TitanDashboard = (props) => {
                 if (site_id) queryParams.append("site_id", site_id);
                 if (tank_id) queryParams.append("tank_id", tank_id);
                 if (grade_id) queryParams.append("grade_id", grade_id);
+                if (start_month) queryParams.append("month", start_month);
                 if (client_id && company_id) {
                     setApplyNavigate(true);
                 } else {
@@ -569,10 +571,7 @@ const TitanDashboard = (props) => {
 
 
             <Row className="mb-5">
-                {/* <Col lg={6}>
-                    {dashboardData ? <TitanColumnChart title="Bar Chart" /> : <NoDataComponent title="Bar Chart" />}
 
-                </Col> */}
                 {priceGraphPermission && (
                     <>
                         <Col className="" sm={12} md={8} lg={8}>
@@ -588,7 +587,7 @@ const TitanDashboard = (props) => {
                                             {PriceGraphData?.name &&
                                                 ` (${PriceGraphData?.name})`}
                                             <br></br>
-                                            {userPermissions?.includes("ceodashboard-price-graph") ? (
+                                            {userPermissions?.includes("ceodashboard-price-graph") && filters?.company_id ? (
                                                 <span onClick={() => handleCardClick("Performance")} style={{ color: "#4663ac" }} className="pointer">
                                                     <div >
                                                         Table View
@@ -602,7 +601,7 @@ const TitanDashboard = (props) => {
                                     </div>
                                     <div className="flexspacebetween">
                                         {/* <CommonToggleBtn /> */}
-                                        {PriceGraphData ? (
+                                        {filters?.company_id && PriceGraphData ? (
                                             <div>
                                                 <select
                                                     id="BestvsWorst"
@@ -622,7 +621,7 @@ const TitanDashboard = (props) => {
                                         ) : (
                                             ""
                                         )}
-                                        {PriceGraphData ? (
+                                        {filters?.company_id && PriceGraphData ? (
                                             <div>
                                                 <select
                                                     id="GraphfilterOptions"
@@ -661,7 +660,6 @@ const TitanDashboard = (props) => {
 
 
                 <Col sm={12} md={4} lg={4}>
-
                     {statsLoading ? (
                         <SmallLoader title="Pie Chart" />
                     ) : dashboardData?.pie_graph_stats ? (
