@@ -10,6 +10,7 @@ import LoaderImg from '../../Utils/Loader';
 import FormikSelect from '../Formik/FormikSelect';
 import useErrorHandler from '../CommonComponent/useErrorHandler';
 import * as Yup from "yup";
+import FormikInput from '../Formik/FormikInput';
 const TitanFilterModal = ({
     getData,
     isLoading,
@@ -36,6 +37,7 @@ const TitanFilterModal = ({
     const validationSchema = Yup.object({
         client_id: Yup.string().required("Client is required"),
         company_id: Yup.string().required("Company is required"),
+        // ompany_id: Yup.string().required("Company is required"),
 
         // grade_id: Yup.string()
         //     .nullable()
@@ -335,7 +337,16 @@ const TitanFilterModal = ({
 
 
                             <Row>
-
+                                {showMonthInput && (
+                                    <Col lg={6}>
+                                        <FormikInput
+                                            formik={formik}
+                                            type="month"
+                                            label="Month"
+                                            name="start_month"
+                                        />
+                                    </Col>
+                                )}
 
                                 {showClientInput && localStorage.getItem('superiorRole') !== 'Client' && (
                                     <Col lg={6}>

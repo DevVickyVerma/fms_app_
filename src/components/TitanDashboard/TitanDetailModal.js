@@ -1,20 +1,17 @@
 
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { useSelector } from "react-redux";
-
-import { Bounce, toast } from "react-toastify";
 
 import moment from "moment/moment";
 import LoaderImg from "../../Utils/Loader";
 import CeoFilterBadge from "../Dashboard/CeoFilterBadge";
-import CeoDashSitetable from "../Dashboard/CeoDashSitetable";
 import withApi from "../../Utils/ApiHelper";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import { Card, Col } from "react-bootstrap";
 import { BestvsWorst, GraphfilterOptions } from "../../Utils/commonFunctions/commonFunction";
 import DataTable from "react-data-table-component";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
+import TitanStatsTable from "./TitanStatsTable";
 
 
 const TitanDetailModal = (props) => {
@@ -31,7 +28,7 @@ const TitanDetailModal = (props) => {
     const [apiData, setApiData] = useState(); // to store API response data
     const [loading, setLoading] = useState(false);
 
-
+    console.log(filterData, "filterData");
     const { handleError } = useErrorHandler();
 
 
@@ -75,7 +72,9 @@ const TitanDetailModal = (props) => {
             comparison_label: "Weekly",
             grades: [],
             selectedSite: "",
+            selectedGrade: "",
             selectedCompany: "",
+            selectedGradeDetails: "",
             selectedCompanyDetails: "",
             site_name: "",
             selectedSiteDetails: "",
@@ -113,38 +112,32 @@ const TitanDetailModal = (props) => {
         try {
 
             if (selectedSite) {
-                console.log(`Site: ${selectedSite.name}`);
-                console.log("Available Fuel Types:", selectedSite.fuel);
+                await formik.setFieldValue("selectedSite", selectedSite?.id);
+                await formik.setFieldValue("selectedSiteDetails", selectedSite);
             } else {
-                console.log("Site not found!");
+                await formik.setFieldValue("selectedSite", "");
+                await formik.setFieldValue("selectedSiteDetails", "");
             }
 
             // Update Formik state with selected site and its details
-            await formik.setFieldValue("selectedSite", selectedSite?.id);
-            await formik.setFieldValue("selectedSiteDetails", selectedSite);
+
         } catch (error) {
             console.error("Error in handleSiteChange:", error);
         }
     }
-    const handleSiteChange = async (selectedId) => {
-        const selectedSite = siteList?.find(site => site.id === selectedId);
-        try {
 
-            if (selectedSite) {
-                // Update Formik state with selected site and its details
-                await formik.setFieldValue("grades", selectedSite.fuel);
-                console.log(`Site: ${selectedSite.name}`);
-                console.log("Available Fuel Types:", selectedSite.fuel);
-            } else {
-                console.log("Site not found!");
-            }
-
-            // Update Formik state with selected site and its details
-            await formik.setFieldValue("selectedSite", selectedSite?.id);
-            await formik.setFieldValue("selectedSiteDetails", selectedSite);
-        } catch (error) {
-            console.error("Error in handleSiteChange:", error);
+    const handleGradeChange = async (selectedId) => {
+        const selectedSite = formik.values?.selectedSiteDetails?.fuel?.find(site => site.id == selectedId);
+        if (selectedSite) {
+            await formik.setFieldValue("selectedGrade", selectedId)
+            await formik.setFieldValue("selectedGradeDetails", selectedSite)
+        } else {
+            await formik.setFieldValue("selectedGrade", "");
+            await formik.setFieldValue("selectedGradeDetails", "");
         }
+
+
+
     };
 
 
@@ -349,7 +342,7 @@ const TitanDetailModal = (props) => {
 
 
 
-    console.log(formik.values, "siteList");
+    console.log(apiData?.stats, "apiData?.data");
 
     return (
         <>
@@ -395,7 +388,7 @@ const TitanDetailModal = (props) => {
                                         filters={{
                                             client_name: filterData.client_name,
                                             company_name:
-                                                formik?.values?.selectedCompanyDetails?.company_name,
+                                                filterData?.company_name,
                                             site_name: "",
                                             start_date: "",
                                         }}
@@ -477,12 +470,12 @@ const TitanDetailModal = (props) => {
                                             {filterData?.sites ? (
                                                 <Col lg={3} className="textend flexcolumn">
                                                     <select
-                                                        id="selectedSite"
-                                                        name="selectedSite"
-                                                        value={formik.values.selectedSite}
+                                                        id="selectedGrade"
+                                                        name="selectedGrade"
+                                                        value={formik.values.selectedGrade}
                                                         style={{ width: "100%" }}
                                                         onChange={(e) =>
-                                                            handleSiteChange(e.target.value)
+                                                            handleGradeChange(e.target.value)
                                                         }
                                                         className="selectedMonth"
                                                     >
@@ -504,8 +497,8 @@ const TitanDetailModal = (props) => {
                                         </div>
                                     </Card.Body>
                                 </Card>
-                                <CeoDashSitetable
-                                    data={apiData?.data}
+                                <TitanStatsTable
+                                    data={apiData?.stats}
                                     tootiptitle={"Profit"}
                                     title={"Sites "}
                                 />
