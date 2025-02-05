@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import LoaderImg from "../../../Utils/Loader";
 import FormikReactSelect from "../../Formik/FormikReactSelect";
 
-const ManageAddEditUsers = (props) => {
+const ManageAddEditUser = (props) => {
   const { isLoading, postData, getData } = props;
   const { id: urlId } = useParams();
 
@@ -93,9 +93,9 @@ const ManageAddEditUsers = (props) => {
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
-                linkProps={{ to: "/users/" }}
+                linkProps={{ to: "/manage-levels/" }}
               >
-                Manage Users
+                Manage Levels
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
@@ -132,53 +132,8 @@ const ManageAddEditUsers = (props) => {
                         name="last_name"
                       />
                     </Col>
-                    <Col lg={4} md={6}>
-                      <label htmlFor="phone_number" className="form-label mt-4">
-                        Phone Number<span className="text-danger">*</span>
-                      </label>
-                      <div className=" d-flex cursor-pointer">
-                        {/* <span className=" d-flex align-items-center disable-pre-number">
-                            +44
-                          </span> */}
-                        {/* <select
-                          value={selectedCountryCode}
-                          onChange={handleCountryCodeChange}
-                          className="d-flex align-items-center disable-pre-number "
-                          style={{ width: "100px", borderRadius: "0px" }}
-                        >
-                          {countryCodes.map((country, index) => (
-                            <option key={index} value={country.code}>
-                              {`${country.code} (${country.shortName})`}
-                            </option>
-                          ))}
-                        </select> */}
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.phone_number &&
-                            formik.touched.phone_number
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="phone_number"
-                          name="phone_number"
-                          placeholder="Phone Number"
-                          onChange={formik.handleChange}
-                          value={formik.values.phone_number || ""}
-                          style={{ borderRadius: "0px" }}
-                        />
-                      </div>
 
-                      {formik.errors.phone_number &&
-                        formik.touched.last_name && (
-                          <div className="custom-error-class">
-                            {formik.errors.phone_number}
-                          </div>
-                        )}
-                    </Col>
-
-                    <div className="mt-4 col-lg-6">
+                    <div className=" col-lg-6">
                       <FormikReactSelect
                         formik={formik}
                         name="company_id"
@@ -256,4 +211,4 @@ const ManageAddEditUsers = (props) => {
     </>
   );
 };
-export default withApi(ManageAddEditUsers);
+export default withApi(ManageAddEditUser);

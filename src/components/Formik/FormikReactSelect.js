@@ -24,7 +24,7 @@ const FormikReactSelect = ({
 
   return (
     <div
-      className={`form-group react-select-input ${formik.touched[name] && formik.errors[name] ? "has-error" : ""} ${formik.submitCount > 0 && !formik.errors[name] ? "has-success" : ""}`}
+      className={`form-group react-select-input  ${formik.touched[name] && formik.errors[name] ? "has-error" : ""} ${formik.submitCount > 0 && !formik.errors[name] ? "has-success" : ""}`}
     >
       <label htmlFor={name} className="mb-2">
         {label} {isRequired && <span className="text-danger">*</span>}
@@ -36,7 +36,7 @@ const FormikReactSelect = ({
         onChange={handleChange}
         onBlur={formik.handleBlur}
         options={options}
-        classNamePrefix="react-select react-select-default-input react-select-inputttt"
+        classNamePrefix="react-select react-select-default-input react-select-input custom-react-inside-input "
         placeholder={`Select ${label}`}
         isDisabled={isDisabled}
         // isClearable

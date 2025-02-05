@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+  Dropdown,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
@@ -11,7 +19,6 @@ import SearchBar from "../../../Utils/SearchBar";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import useToggleStatus from "../../../Utils/useToggleStatus";
 
-
 const ManageClient = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
@@ -19,46 +26,42 @@ const ManageClient = (props) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'client/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "client/delete", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/client/update-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, "/client/update-status", formData, handleSuccess);
   };
 
-
   const handleSuccess = () => {
-    handleFetchData()
-  }
+    handleFetchData();
+  };
 
   useEffect(() => {
     handleFetchData();
-
   }, [currentPage, searchTerm]);
 
   const handleFetchData = async () => {
@@ -71,7 +74,7 @@ const ManageClient = (props) => {
       const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data) {
-        setData(response.data.data.clients);
+        setData(response.data.data?.clients);
         setCurrentPage(response.data.data?.currentPage || 1);
         setLastPage(response.data.data?.lastPage || 1);
       } else {
@@ -82,19 +85,17 @@ const ManageClient = (props) => {
     }
   };
 
-
-
   const UserPermissions = useSelector((state) => state?.data?.data);
 
-
-
-  const isEditPermissionAvailable = UserPermissions?.permissions?.includes("client-edit");
+  const isEditPermissionAvailable =
+    UserPermissions?.permissions?.includes("client-edit");
   const isLoginPermissionAvailable = UserPermissions?.permissions?.includes(
     "client-account-access"
   );
   const isAddonPermissionAvailable =
     UserPermissions?.permissions?.includes("addons-assign");
-  const isAddPermissionAvailable = UserPermissions?.permissions?.includes("client-create");
+  const isAddPermissionAvailable =
+    UserPermissions?.permissions?.includes("client-create");
   const isDeletePermissionAvailable =
     UserPermissions?.permissions?.includes("client-delete");
   const isReportsPermissionAvailable =
@@ -108,14 +109,13 @@ const ManageClient = (props) => {
     isDeletePermissionAvailable ||
     isReportsPermissionAvailable;
 
-
   let storedKeyName = "localFilterModalData";
   const handleClientLogin = async (row) => {
     try {
       const response = await getData(`/account-login/${row.id}`);
 
       if (response) {
-        localStorage.removeItem(storedKeyName)
+        localStorage.removeItem(storedKeyName);
         localStorage.setItem("superiorId", response?.data?.data?.superiorId);
         localStorage.setItem("role", response?.data?.data?.role);
         localStorage.setItem("token", response.data.data.access_token);
@@ -204,7 +204,7 @@ const ManageClient = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -254,98 +254,96 @@ const ManageClient = (props) => {
     },
     anyPermissionAvailable
       ? {
-        name: "Action",
-        selector: (row) => [row.action],
-        sortable: false,
-        width: "15%",
-        cell: (row) => (
-          <span className="text-center">
-            {anyPermissionAvailable ? (
-              <Dropdown className="dropdown btn-group">
-                <Dropdown.Toggle
-                  variant="Primary"
-                  type="button"
-                  className="btn btn-primary dropdown-toggle"
-                >
-                  Actions
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu">
-                  {isEditPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to={`/editclient/${row.id}`}>
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-pencil me-2" />
-                          Edit
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isDeletePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to="#" onClick={() => handleDelete(row.id)}>
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-trash me-2" />
-                          Delete
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isLoginPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to="#" onClick={() => handleClientLogin(row)}>
-                        <div style={{ width: "100%" }}>
-                          {/* <i className="setting-icon">
+          name: "Action",
+          selector: (row) => [row.action],
+          sortable: false,
+          width: "15%",
+          cell: (row) => (
+            <span className="text-center">
+              {anyPermissionAvailable ? (
+                <Dropdown className="dropdown btn-group">
+                  <Dropdown.Toggle
+                    variant="Primary"
+                    type="button"
+                    className="btn btn-primary dropdown-toggle"
+                  >
+                    Actions
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="dropdown-menu">
+                    {isEditPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to={`/editclient/${row.id}`}>
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-pencil me-2" />
+                            Edit
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isDeletePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to="#" onClick={() => handleDelete(row.id)}>
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-trash me-2" />
+                            Delete
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isLoginPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to="#" onClick={() => handleClientLogin(row)}>
+                          <div style={{ width: "100%" }}>
+                            {/* <i className="setting-icon">
                             <VpnKeyIcon />
                           </i> */}
-                          <i className="ph ph-sign-in me-2" />
-                          Client Login
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isAddonPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to={`/assignclientaddon/${row.id}`}>
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-user-circle-plus me-2" />
-                          Assign Addon
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {UserPermissions?.permissions?.includes("payroll-setup") ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to={`/setup-payroll/${row.id}`}>
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-sliders me-2" />
-                          Setup Payroll
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isReportsPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        className="settingicon"
-                        to={`/assignreport/${row.id}`}
-                      >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-files me-2" />
-                          <span>Report Assign</span>
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                </Dropdown.Menu>
-              </Dropdown>
-            ) : null}
-          </span>
-        ),
-      }
+                            <i className="ph ph-sign-in me-2" />
+                            Client Login
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isAddonPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to={`/assignclientaddon/${row.id}`}>
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-user-circle-plus me-2" />
+                            Assign Addon
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {UserPermissions?.permissions?.includes("payroll-setup") ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to={`/setup-payroll/${row.id}`}>
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-sliders me-2" />
+                            Setup Payroll
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isReportsPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link
+                          className="settingicon"
+                          to={`/assignreport/${row.id}`}
+                        >
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-files me-2" />
+                            <span>Report Assign</span>
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : null}
+            </span>
+          ),
+        }
       : "",
   ];
-
-
 
   const dynamicClass = "dynamicClass"; /* your dynamic class */
   return (
@@ -353,7 +351,6 @@ const ManageClient = (props) => {
       {isLoading ? <Loaderimg /> : null}
 
       <>
-
         <div className="page-header d-flex flex-wrap">
           <div className="mb-2 mb-sm-0">
             <h1 className="page-title">Manage Clients</h1>
@@ -390,9 +387,6 @@ const ManageClient = (props) => {
           </div>
         </div>
 
-
-
-
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
@@ -400,7 +394,11 @@ const ManageClient = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Clients</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -420,7 +418,7 @@ const ManageClient = (props) => {
                         highlightOnHover={true}
                         searchable={false}
                         className={dynamicClass}
-                      // className="custom-datatable" // Add your custom class here
+                        // className="custom-datatable" // Add your custom class here
                       />
                     </div>
                   </>

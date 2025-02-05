@@ -16,7 +16,9 @@ const CommonSidebar = (props) => {
   };
 
   return (
-    <div className={`common-sidebar visible  ${visible ? "" : ""}`}>
+    <div
+      className={`common-sidebar ${visible ? "visible slide-in-right" : ""}`}
+    >
       <div className="card">
         <div className="card-header text-center SidebarSearchheader">
           <h3 className="SidebarSearch-title m-0">{title}</h3>
