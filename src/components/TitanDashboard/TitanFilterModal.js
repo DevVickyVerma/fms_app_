@@ -11,6 +11,7 @@ import FormikSelect from '../Formik/FormikSelect';
 import useErrorHandler from '../CommonComponent/useErrorHandler';
 import * as Yup from "yup";
 import FormikInput from '../Formik/FormikInput';
+import { getCurrentMonth } from '../../Utils/commonFunctions/commonFunction';
 const TitanFilterModal = ({
     getData,
     isLoading,
@@ -37,6 +38,7 @@ const TitanFilterModal = ({
     const validationSchema = Yup.object({
         client_id: Yup.string().required("Client is required"),
         company_id: Yup.string().required("Company is required"),
+        start_month: Yup.string().required("Month is required"),
         // ompany_id: Yup.string().required("Company is required"),
 
         // grade_id: Yup.string()
@@ -67,7 +69,7 @@ const TitanFilterModal = ({
             company_id: "",
             tank_id: "",
             company_name: "",
-            start_month: "",
+            start_month: getCurrentMonth(),
             report_month: "",
             report_monthvalue: "",
             site_id: "",
@@ -236,7 +238,6 @@ const TitanFilterModal = ({
             const selectedCompany = formik?.values?.sites?.find(company => company?.id === companyId);
             formik.setFieldValue('site_name', selectedCompany?.site_name || "");
         } else {
-
             formik.setFieldValue('site_id', "");
             formik.setFieldValue('site_name', "");
             formik.setFieldValue('tanks', []);
@@ -337,16 +338,7 @@ const TitanFilterModal = ({
 
 
                             <Row>
-                                {showMonthInput && (
-                                    <Col lg={6}>
-                                        <FormikInput
-                                            formik={formik}
-                                            type="month"
-                                            label="Month"
-                                            name="start_month"
-                                        />
-                                    </Col>
-                                )}
+
 
                                 {showClientInput && localStorage.getItem('superiorRole') !== 'Client' && (
                                     <Col lg={6}>
@@ -390,6 +382,16 @@ const TitanFilterModal = ({
                                             isRequired={false}
                                             // isRequired={formik?.values?.company_id?.trim() !== ""}
                                             onChange={handleSiteChange}
+                                        />
+                                    </Col>
+                                )}
+                                {showMonthInput && (
+                                    <Col lg={6}>
+                                        <FormikInput
+                                            formik={formik}
+                                            type="month"
+                                            label="Month"
+                                            name="start_month"
                                         />
                                     </Col>
                                 )}

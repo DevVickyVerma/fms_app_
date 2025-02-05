@@ -71,9 +71,11 @@ const TitanDetailModal = (props) => {
             comparison_value: "weekly",
             comparison_label: "Weekly",
             grades: [],
-            selectedSite: "",
             selectedGrade: "",
+            selectedGrade: "",
+            selectedTank: "",
             selectedCompany: "",
+            selectedTankDetails: "",
             selectedGradeDetails: "",
             selectedCompanyDetails: "",
             site_name: "",
@@ -87,9 +89,6 @@ const TitanDetailModal = (props) => {
             // console.log(values);
         },
     });
-
-
-    const [pdfisLoading, setpdfisLoading] = useState(false);
 
 
 
@@ -135,19 +134,23 @@ const TitanDetailModal = (props) => {
             await formik.setFieldValue("selectedGrade", "");
             await formik.setFieldValue("selectedGradeDetails", "");
         }
-
-
-
+    };
+    const handleTankChange = async (selectedId) => {
+        const selectedSite = formik.values?.selectedGradeDetails?.tanks?.find(site => site.id == selectedId);
+        if (selectedSite) {
+            await formik.setFieldValue("selectedTank", selectedId)
+            await formik.setFieldValue("selectedTankDetails", selectedSite)
+        } else {
+            await formik.setFieldValue("selectedTank", "");
+            await formik.setFieldValue("selectedTankDetails", "");
+        }
     };
 
-
-
     useEffect(() => {
-        // setSelected([]);
         fetchData(); // Trigger the fetchData function on component mount or title change
-    }, [title, formik?.values?.comparison_value, formik?.values?.endDate]); // Dependencies: title and selectedSite
-
-    const fetchData = async (customId, type) => {
+    }, [title, formik?.values?.selectedTank]); // Dependencies: title and selectedSite
+    console.log(formik?.values, "filterData");
+    const fetchData = async () => {
         try {
             setLoading(true); // Start loading indicator
             const queryParams = new URLSearchParams();
@@ -164,21 +167,20 @@ const TitanDetailModal = (props) => {
             } else if (title == "Performance") {
                 queryParams.append("client_id", filterData.client_id);
                 queryParams.append("company_id", filterData.company_id);
+                queryParams.append("case", bestvsWorst);
+                queryParams.append("filter_type", graphfilterOption);
+                if (formik?.values?.selectedTank) {
+                    queryParams.append("site_id", formik?.values?.selectedSite);
+                    queryParams.append("grade_id", formik?.values.selectedGrade);
+                    queryParams.append("tank_id", formik?.values.selectedTank);
+                }
             }
-
-
-
-
-
-
             const queryString = queryParams.toString(); // Construct the query string
-
             let response;
             // Dynamically handle API calls based on the title
             switch (title) {
                 case "Card Reconciliation Details":
                     response = await getData(`credit-card/get-diff-transcations?${queryString}`);
-
                     break;
 
                 case "Performance":
@@ -222,9 +224,6 @@ const TitanDetailModal = (props) => {
 
 
 
-
-
-    console.log(filterData, "filterData");
 
     const [bestvsWorst, setbestvsWorst] = useState("0");
     const [graphfilterOption, setgraphfilterOption] = useState("weekly");
@@ -341,12 +340,9 @@ const TitanDetailModal = (props) => {
     }));
 
 
-
-    console.log(apiData?.stats, "apiData?.data");
-
     return (
         <>
-            {isLoading || pdfisLoading ? <LoaderImg /> : ""}
+            {isLoading || loading ? <LoaderImg /> : ""}
             <div
                 className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
                     }`}
@@ -384,26 +380,41 @@ const TitanDetailModal = (props) => {
                         {title == "Performance" && (
                             <>
                                 <div className="m-4 textend">
-                                    <CeoFilterBadge
+
+                                    {formik?.values?.selectedTankDetails?.name ? <CeoFilterBadge
                                         filters={{
                                             client_name: filterData.client_name,
                                             company_name:
                                                 filterData?.company_name,
-                                            site_name: "",
-                                            start_date: "",
+                                            site_name: formik?.values?.selectedSiteDetails?.name, // Fixed formatting
+                                            grade: formik?.values?.selectedGradeDetails?.name, // Ensure correct property
+                                            tank: formik?.values?.selectedTankDetails?.name,
                                         }}
                                         onRemoveFilter={handleRemoveFilter}
                                         showResetBtn={false}
                                         showCompResetBtn={false}
                                         showStartDate={false}
-                                    />
+                                    /> : <CeoFilterBadge
+                                        filters={{
+                                            client_name: filterData.client_name,
+                                            company_name:
+                                                filterData?.company_name,
+
+                                        }}
+                                        onRemoveFilter={handleRemoveFilter}
+                                        showResetBtn={false}
+                                        showCompResetBtn={false}
+                                        showStartDate={false}
+                                    />}
+
+
                                 </div>
                                 <Card className="mt-5">
                                     <Card.Body className="">
                                         <div className="w-100" style={{ display: "flex" }}>
 
                                             {filterData?.sites ? (
-                                                <Col lg={2} className="textend flexcolumn">
+                                                <Col lg={1} className="textend flexcolumn ms-2 p-0 m-0">
 
                                                     <select
                                                         id="BestvsWorst"
@@ -481,6 +492,29 @@ const TitanDetailModal = (props) => {
                                                     >
                                                         <option value="">--Select a Grade--</option>
                                                         {formik.values?.selectedSiteDetails?.fuel?.map((item) => (
+                                                            <option key={item.id} value={item.id}>
+                                                                {item.name}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </Col>
+                                            ) : (
+                                                ""
+                                            )}
+                                            {filterData?.sites ? (
+                                                <Col lg={3} className="textend flexcolumn">
+                                                    <select
+                                                        id="selectedTank"
+                                                        name="selectedTank"
+                                                        value={formik.values.selectedTank}
+                                                        style={{ width: "100%" }}
+                                                        onChange={(e) =>
+                                                            handleTankChange(e.target.value)
+                                                        }
+                                                        className="selectedMonth"
+                                                    >
+                                                        <option value="">--Select a Tank--</option>
+                                                        {formik.values?.selectedGradeDetails?.tanks?.map((item) => (
                                                             <option key={item.id} value={item.id}>
                                                                 {item.name}
                                                             </option>

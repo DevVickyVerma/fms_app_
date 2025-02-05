@@ -16,9 +16,11 @@ const CeoFilterBadge = ({
   return (
     <div className="d-flex gap-2 flex-wrap btn w-100">
       {filters?.client_name ||
-      filters?.company_name ||
-      filters?.site_name ||
-      filters?.start_date ? (
+        filters?.company_name ||
+        filters?.site_name ||
+        filters?.tank ||
+        filters?.grade ||
+        filters?.start_date ? (
         <div
           className="badges-container d-flex flex-wrap align-items-center gap-2 px-4 py-sm-2 py-2 text-white w-100"
           style={{ background: "#ddd" }}
@@ -55,6 +57,21 @@ const CeoFilterBadge = ({
                   <span>&times;</span>
                 </button>
               )}
+            </div>
+          )}
+
+          {filters?.grade && (
+            <div className="badge bg-green-600 d-flex align-items-center gap-2 p-3 position-relative">
+              <span className="font-semibold">Grade :</span>{" "}
+              {filters?.grade}
+
+            </div>
+          )}
+          {filters?.tank && (
+            <div className="badge bg-green-600 d-flex align-items-center gap-2 p-3 position-relative">
+              <span className="font-semibold">Tank :</span>{" "}
+              {filters?.tank}
+
             </div>
           )}
           {selected?.length > 0 && (

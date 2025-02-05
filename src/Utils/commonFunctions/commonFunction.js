@@ -189,7 +189,12 @@ export function formatLabel(str) {
     .replace(/_/g, " ") // Replace underscores with spaces
     .replace(/\b\w/g, (match) => match.toUpperCase()); // Capitalize the first letter of each word
 }
-
+export const getCurrentMonth = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit format
+  return `${year}-${month}`;
+};
 export const staticCompiCEOValues = {
   dates: [
     "2024-11-30",
