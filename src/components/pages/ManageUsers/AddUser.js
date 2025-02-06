@@ -49,15 +49,15 @@ const AddUsers = (props) => {
       setSubmitting(true); // Set the submission state to true before making the API call
 
       const formData = new FormData();
-      formData.append("email", values.email);
-      formData.append("password", values.password);
-      formData.append("phone_number", values.phone_number);
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
+      formData.append("phone_number", values.phone_number);
+      formData.append("country_code", selectedCountryCode);
+      formData.append("email", values.email);
+      formData.append("password", values.password);
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
       formData.append("is_main", isMain);
-      formData.append("country_code", selectedCountryCode);
 
       if (values?.level_id) {
         formData.append("level_id", values?.level_id);
@@ -347,6 +347,7 @@ const AddUsers = (props) => {
                             />
                           </FormGroup>
                         </Col>
+
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className=" form-label mt-4">

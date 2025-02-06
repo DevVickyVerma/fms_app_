@@ -99,6 +99,7 @@ const App = () => {
     }
     //
   }, [isInactive, autoLogout, logoutTime]);
+
   useEffect(() => {
     const handleNetworkChange = () => {
       const newIsOnline = window.navigator.onLine;

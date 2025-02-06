@@ -5,7 +5,7 @@ import {
   StockData,
   StockDetail,
 } from "../../../Utils/commonFunctions/CommonData";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import CeoDashSitetable from "../CeoDashSitetable";
 import ReportTable from "../ReportTable";
 import { Doughnut } from "react-chartjs-2";
@@ -47,6 +47,9 @@ const CeoDetailModal = (props) => {
   const [selectedGrades, setselectedGrades] = useState([]);
   const [sitefuels, setsitefuels] = useState();
 
+  const [isPieChart, setIsPieChart] = useState(false);
+
+  const ReduxFullData = useSelector((state) => state?.data?.data);
   const { handleError } = useErrorHandler();
 
   const userPermissions = useSelector(
@@ -56,6 +59,13 @@ const CeoDetailModal = (props) => {
   var [isClientRole] = useState(
     localStorage.getItem("superiorRole") == "Client"
   );
+
+  useEffect(() => {
+    // Clear the selected date when no sites are selected or when multiple sites are selected
+    if (selected.length !== 1) {
+      setSelectedDate("");
+    }
+  }, [selected]);
 
   const fetchCompanyList = async (companyId) => {
     try {
@@ -776,6 +786,18 @@ const CeoDetailModal = (props) => {
                   </span>
                 </>
               )}
+
+              {title == "MOP Breakdown" ? (
+                <>
+                  (
+                  {dashboardData?.dateString
+                    ? dashboardData?.dateString
+                    : ReduxFullData?.dates}
+                  )
+                </>
+              ) : (
+                <></>
+              )}
             </h3>
 
             <button className="close-button" onClick={onClose}>
@@ -1225,6 +1247,7 @@ const CeoDetailModal = (props) => {
                           // placeholder="--Select a Company--"
                         />
                       )}
+
                       {filterData?.sites && (
                         <Col md={6}>
                           <div className="form-group">
@@ -1247,21 +1270,31 @@ const CeoDetailModal = (props) => {
                         </Col>
                       )}
 
-                      {/* <Col md={6}>
+                      <Col md={6}>
                         <div className="form-group">
                           <label className="form-label">
                             Select Daily Date
                           </label>
                           <input
                             type="date"
-                            className="input101"
+                            className={`input101 ${selected?.length !== 1 ? "readonly" : ""}`}
                             onClick={handleShowDate}
+                            min={moment()
+                              .subtract(2, "months")
+                              .format("YYYY-MM-DD")} // Min date: 2 months ago
+                            max={moment().format("YYYY-MM-DD")} // Max date: today (No future dates)
                             value={selectedDate} // This should be a state variable
                             onChange={(e) => setSelectedDate(e.target.value)} // Set selected date correctly
                             placeholder="Select Daily Date"
+                            disabled={selected?.length !== 1}
                           />
+                          {selected?.length !== 1 && (
+                            <small className="text-muted">
+                              Please select exactly one site to apply a date.
+                            </small>
+                          )}
                         </div>
-                      </Col> */}
+                      </Col>
 
                       <hr></hr>
                       <div className="text-end">
@@ -1292,30 +1325,6 @@ const CeoDetailModal = (props) => {
                   )}
                 </Row>
 
-                {/* <>
-                  {apiData?.data?.mopcategories && apiData?.data?.mopSeries ? (
-                    <Card className="">
-                      <Card.Header className="p-4">
-                        <h4 className="card-title">Fuel Card Stats</h4>
-                      </Card.Header>
-                      <Card.Body
-                      //  className=" d-flex justify-content-center align-items-center w-100"
-                      >
-                        <MOPStackedBarChart
-                          dashboardData={apiData?.data}
-                          // Mopstatsloading={loading}
-                        />
-                      </Card.Body>
-                    </Card>
-                  ) : (
-                    <>
-                      <Col lg={12}>
-                        <NoDataComponent title={"Fuel Card Stats"} />
-                      </Col>
-                    </>
-                  )}
-                </> */}
-
                 <Row>
                   <Col
                     sm={12}
@@ -1324,34 +1333,83 @@ const CeoDetailModal = (props) => {
                     key={Math.random()}
                     className="mb-6"
                   >
-                    {apiData?.data?.pie_graph_data?.stock_graph_data ? (
-                      <>
-                        <Card className="h-100">
-                          <Card.Header className="p-4">
-                            <h4 className="card-title">Pie Chart</h4>
-                          </Card.Header>
-                          <Card.Body className=" d-flex justify-content-center align-items-center">
-                            <div style={{ width: "350px", height: "350px" }}>
-                              <Doughnut
-                                data={
-                                  apiData?.data?.pie_graph_data
-                                    ?.stock_graph_data || []
-                                }
-                                options={
-                                  apiData?.data?.pie_graph_data
-                                    ?.stock_graph_options || []
-                                }
-                                height="150px"
+                    <Card className="h-100">
+                      <Card.Header className="p-4 w-100">
+                        <h4 className="card-title d-flex justify-content-between align-items-center w-100">
+                          <span>Fuel Card Stats</span>
+
+                          <span>
+                            <button
+                              className={`btn btn-${isPieChart ? "light" : "primary"} btn-sm`}
+                              onClick={() => setIsPieChart(false)}
+                            >
+                              <i className="ph ph-chart-bar c-top-3 me-1"></i>
+                              Staked Chart
+                            </button>
+
+                            <button
+                              className={`btn btn-${isPieChart ? "primary" : "light"} btn-sm`}
+                              onClick={() => setIsPieChart(true)}
+                            >
+                              <i className="ph ph-chart-pie c-top-3 me-1"></i>
+                              Pie Chart
+                            </button>
+                          </span>
+                        </h4>
+                      </Card.Header>
+
+                      {isPieChart ? (
+                        <>
+                          {apiData?.data?.pie_graph_data?.stock_graph_data ? (
+                            <>
+                              <Card.Body className=" d-flex justify-content-center align-items-center">
+                                <div
+                                  style={{ width: "350px", height: "350px" }}
+                                >
+                                  <Doughnut
+                                    data={
+                                      apiData?.data?.pie_graph_data
+                                        ?.stock_graph_data || []
+                                    }
+                                    options={
+                                      apiData?.data?.pie_graph_data
+                                        ?.stock_graph_options || []
+                                    }
+                                    height="150px"
+                                  />
+                                </div>
+                              </Card.Body>
+                            </>
+                          ) : (
+                            <>
+                              <NoDataComponent />
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {apiData?.data?.mopcategories &&
+                          apiData?.data?.mopSeries ? (
+                            // <Card className="">
+                            <Card.Body
+                            //  className=" d-flex justify-content-center align-items-center w-100"
+                            >
+                              <MOPStackedBarChart
+                                dashboardData={apiData?.data}
+                                // Mopstatsloading={loading}
                               />
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </>
-                    ) : (
-                      <>
-                        <NoDataComponent title={"Pie Chart"} />
-                      </>
-                    )}
+                            </Card.Body>
+                          ) : (
+                            // </Card>
+                            <>
+                              <Col lg={12}>
+                                <NoDataComponent title={"Fuel Card Stats"} />
+                              </Col>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </Card>
                   </Col>
                 </Row>
               </>

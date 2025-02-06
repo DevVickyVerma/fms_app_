@@ -566,7 +566,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                       </Col>
                     </>
 
-                    {/* <>
+                    <>
                       {getSiteStats ? (
                         <Card className="h-100">
                           <Card.Header className="p-4">
@@ -588,7 +588,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                           </Col>
                         </>
                       )}
-                    </> */}
+                    </>
                   </Row>
                 </Card.Body>
               </>

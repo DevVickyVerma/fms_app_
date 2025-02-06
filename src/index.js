@@ -64,10 +64,15 @@ import EditFuelAutomation from "./components/pages/FuelAutomation/EditFuelAutoma
 import FuelSuggestionEmailLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionEmailLogs";
 import FuelSuggestionActivityLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionActivityLogs";
 import FuelSuggestionHistoryLog from "./components/pages/FuelSuggestionLogs/FuelSuggestionHistoryLog";
+import ManageAddEditUser from "./components/pages/ManageUsers/ManageAddEditUser";
 //App
 
-const CardReconciliation = React.lazy(() => import("./components/CardReconciliation/CardReconciliation"));
-const CashReconciliation = React.lazy(() => import("./components/CardReconciliation/CashReconciliation"));
+const CardReconciliation = React.lazy(
+  () => import("./components/CardReconciliation/CardReconciliation")
+);
+const CashReconciliation = React.lazy(
+  () => import("./components/CardReconciliation/CashReconciliation")
+);
 
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -644,6 +649,7 @@ const Root = () => {
   const WrappedManageUser = withApi(ManageUser);
   const Wrapped2FAuthentiion = withApi(FAuthentiion);
   const WrappedAddUser = withApi(AddUser);
+  const WrappedManageAddEditUser = withApi(ManageAddEditUser);
   const WrappeAddEditUser = withApi(EditUser);
   const WrappedAddSite = withApi(AddSite);
   const WrappedSitecardopening = withApi(Sitecardopening);
@@ -902,6 +908,11 @@ const Root = () => {
                     />
 
                     <Route path={`addusers`} element={<WrappedAddUser />} />
+
+                    <Route
+                      path={`add-edit-user`}
+                      element={<WrappedManageAddEditUser />}
+                    />
 
                     <Route
                       path={`/competitor`}
@@ -1188,6 +1199,10 @@ const Root = () => {
                   /> */}
                     {/* Header  Components End */}
                     {/* Header  Components Start */}
+                    <Route
+                      path={`/Managecommission`}
+                      element={<WrappedManagecommission />}
+                    />
                     <Route
                       path={`/Managecommission`}
                       element={<WrappedManagecommission />}

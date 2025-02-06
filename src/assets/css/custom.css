@@ -2910,3 +2910,13 @@ td.middayModal-td.time-input-fuel-sell {
   white-space: unset !important;
   overflow: visible !important;
 }
+
+.custom-react-inside-input {
+  min-height: 30px !important;
+  border-radius: 0px !important;
+}
+
+.custom-react-inside-input .__placeholder {
+  display: flex;
+  align-items: center;
+}

@@ -28,7 +28,7 @@ const ManageSite = (props) => {
   const { contextClients } = useMyContext();
 
   const [data, setData] = useState();
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const [sidebardata, setSideData] = useState();
   const [sidebardataobject, setSideDataobject] = useState();
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,9 +70,9 @@ const ManageSite = (props) => {
   };
 
   const handleToggleSidebar = async (row) => {
+    setSidebarVisible(true);
     await getSiteDetails(row);
     setSideData(row.site_name);
-    setSidebarVisible(!sidebarVisible);
   };
 
   const getSiteDetails = async (row) => {
@@ -91,7 +91,7 @@ const ManageSite = (props) => {
   };
 
   const handleCloseSidebar = () => {
-    setSidebarVisible(true);
+    setSidebarVisible(false);
   };
 
   const FetchTableData = async () => {
@@ -105,9 +105,8 @@ const ManageSite = (props) => {
       }
       const response = await getData(apiUrl);
 
-      if (response && response.data && response.data.data.sites) {
-        setData(response.data.data.sites);
-
+      if (response && response.data && response.data.data) {
+        setData(response.data.data?.sites);
         setCurrentPage(response?.data?.data?.currentPage || 1);
         setLastPage(response?.data?.data?.lastPage || 1);
       } else {
@@ -629,8 +628,6 @@ const ManageSite = (props) => {
     setSelectedClient(selectedModuleId);
   };
 
-  console.log(UserPermissions?.superiorRole, "UserPermissions");
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -671,14 +668,19 @@ const ManageSite = (props) => {
           </div>
         </div>
 
-        <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
-          <CommonSidebar
-            title={sidebardata}
-            sidebarContent={sidebardataobject}
-            visible={sidebarVisible}
-            onClose={handleCloseSidebar}
-          />
-        </Suspense>
+        {sidebarVisible && (
+          <>
+            <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
+              <CommonSidebar
+                title={sidebardata}
+                sidebarContent={sidebardataobject}
+                visible={sidebarVisible}
+                onClose={handleCloseSidebar}
+              />
+            </Suspense>
+          </>
+        )}
+
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
@@ -697,6 +699,7 @@ const ManageSite = (props) => {
                           <StateReactSelect
                             name="exampleSelect"
                             label="Example Select"
+                            classNamePrefix="react-select react-select-default-input react-select-input custom-react-inside-input "
                             defaultValue={selectedClient}
                             options={[
                               { value: "", label: "Select Client" },
@@ -705,7 +708,7 @@ const ManageSite = (props) => {
                                 label: item?.client_name,
                               })) || []),
                             ]}
-                            className={"m-0 "}
+                            className={"m-0 custom-react-inside-input"}
                             onChange={handleClientChange}
                             showLabel={false}
                           />
