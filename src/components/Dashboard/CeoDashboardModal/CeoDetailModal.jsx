@@ -1290,7 +1290,7 @@ const CeoDetailModal = (props) => {
                           />
                           {selected?.length !== 1 && (
                             <small className="text-muted">
-                              Please select exactly one site to apply a date.
+                              Please select one site to apply a date.
                             </small>
                           )}
                         </div>
