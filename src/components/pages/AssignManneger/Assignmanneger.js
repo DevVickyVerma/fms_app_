@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -26,14 +26,11 @@ const ManageRoles = (props) => {
     FetchmannegerList();
   };
 
-
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append("id", id);
-    customDelete(postData, 'site/manager/delete', formData, handleSuccess);
+    customDelete(postData, "site/manager/delete", formData, handleSuccess);
   };
-
-
 
   const FetchmannegerList = async () => {
     try {
@@ -41,8 +38,7 @@ const ManageRoles = (props) => {
 
       if (response && response.data) {
         setData(response?.data?.data?.managers);
-
-        setSiteName(response?.data?.data?.site_name)
+        setSiteName(response?.data?.data?.site_name);
       } else {
         throw new Error("No data available in the response");
       }
@@ -103,10 +99,7 @@ const ManageRoles = (props) => {
       sortable: false,
       width: "25%",
       cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-        >
+        <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.reports}</h6>
           </div>
@@ -119,10 +112,7 @@ const ManageRoles = (props) => {
       sortable: false,
       width: "25%",
       cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-        >
+        <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.role}</h6>
           </div>
@@ -169,7 +159,7 @@ const ManageRoles = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Assign Manager  ({siteName})</h1>
+            <h1 className="page-title">Assign Manager ({siteName})</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"

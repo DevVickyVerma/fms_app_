@@ -2,15 +2,13 @@ import React from "react";
 import { Fragment, useState, useEffect } from "react";
 import { MENUITEMS } from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
-import Scrollbars from "react-custom-scrollbars";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../Utils/Loader";
+import Scrollbar from "react-scrollbars-custom";
 
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
-
   const [permissionsArray, setpermissionsArray] = useState([]);
-
   const UserPermissions = useSelector((state) => state?.data?.data);
   const loading = useSelector((state) => state.data.loading);
 
@@ -192,7 +190,7 @@ const Sidebar = () => {
           onMouseOver={() => Onhover()}
           onMouseOut={() => Outhover()}
         >
-          <Scrollbars style={{ paddingBottom: "60px" }}>
+          <Scrollbar style={{ paddingBottom: "60px" }}>
             <div className="header side-header">
               <Link to={`/dashboard/`} className="header-brand1">
                 <img
@@ -481,7 +479,7 @@ const Sidebar = () => {
                 </svg>
               </div>
             </div>
-          </Scrollbars>
+          </Scrollbar>
         </aside>
       </div>
     </>
