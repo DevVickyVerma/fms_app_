@@ -364,14 +364,18 @@ const ManageAddEditUsers = (props) => {
                       />
                     </Col>
 
-                    <Col lg={4} md={6}>
-                      <FormikCheckOneBox
-                        label="Send Welcome Email"
-                        name="send_mail"
-                        formik={formik}
-                        // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
-                      />
-                    </Col>
+                    {!urlId && (
+                      <>
+                        <Col lg={4} md={6}>
+                          <FormikCheckOneBox
+                            label="Send Welcome Email"
+                            name="send_mail"
+                            formik={formik}
+                            // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
+                          />
+                        </Col>
+                      </>
+                    )}
                   </Row>
                   <Card.Footer className="text-end">
                     <Link
