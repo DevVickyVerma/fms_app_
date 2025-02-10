@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import {
   Chart as ChartJS,
@@ -9,7 +9,14 @@ import {
   LinearScale,
   PointElement,
 } from "chart.js";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import moment from "moment/moment";
 import StackedLineBarChart from "../StackedLineBarChart";
@@ -29,10 +36,16 @@ const DashSubChild = ({
   getSiteStats,
   setGetSiteStats,
   getSiteDetails,
-  isLoading
+  isLoading,
 }) => {
-  const { dashSubChildShopSaleLoading, DashboardGradsLoading, showSmallLoader } = useMyContext();
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const {
+    dashSubChildShopSaleLoading,
+    DashboardGradsLoading,
+    showSmallLoader,
+  } = useMyContext();
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
   // const { id: current_site_id } = useParams();
   // const [mySelectedDate, setMySelectedDate] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -40,8 +53,6 @@ const DashSubChild = ({
 
   const singleSiteStoredData = localStorage.getItem("singleSiteData");
   const singleSiteParsedData = JSON.parse(singleSiteStoredData);
-
-
 
   // Fetch competitor data when permissions are valid
   // const fetchCompetitorData = async () => {
@@ -63,17 +74,20 @@ const DashSubChild = ({
   //   }
   // };
 
-
   // useEffect(() => {
-  //   // * for now it is commented for the competitor api data and commenting it for now 
+  //   // * for now it is commented for the competitor api data and commenting it for now
   //   // fetchCompetitorData();
   // }, [current_site_id, userPermissions, mySelectedDate]);
 
-
-
   // Memoizing stackedLineBar chart data to avoid unnecessary recalculations
-  const stackedLineBarDataForSite = useMemo(() => getSiteDetails?.performance_reporting?.datasets || [], [getSiteDetails]);
-  const stackedLineBarLabelsForSite = useMemo(() => getSiteDetails?.performance_reporting?.labels || [], [getSiteDetails]);
+  const stackedLineBarDataForSite = useMemo(
+    () => getSiteDetails?.performance_reporting?.datasets || [],
+    [getSiteDetails]
+  );
+  const stackedLineBarLabelsForSite = useMemo(
+    () => getSiteDetails?.performance_reporting?.labels || [],
+    [getSiteDetails]
+  );
 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
@@ -87,7 +101,6 @@ const DashSubChild = ({
     { name: "Low Fuel", color: "#ffa801" },
     { name: "Enough Fuel", color: "#009432" },
   ];
-
 
   // const formik = useFormik({
   //   initialValues: {
@@ -104,66 +117,89 @@ const DashSubChild = ({
   // };
   const location = useLocation();
   const { isCeoDashboard } = location.state || {}; // Destructure state and default to an empty object
-  const { details } = location.state || {}; 
+  const { details } = location.state || {};
   return (
     <>
-
       {isLoading ? <LoaderImg /> : null}
 
       {/* Showing error message for gross margin */}
-      {singleSiteParsedData?.gross_margin?.is_ppl == 1 && (<>
-        <div className="balance-alert head-alert-show">
-          <div>
-            {singleSiteParsedData?.gross_margin?.ppl_msg}
+      {singleSiteParsedData?.gross_margin?.is_ppl == 1 && (
+        <>
+          <div className="balance-alert head-alert-show">
+            <div>{singleSiteParsedData?.gross_margin?.ppl_msg}</div>
           </div>
-        </div>
-      </>)}
-
+        </>
+      )}
 
       <div className="page-header ">
         <div>
           <h1 className="page-title">
-            {getSiteStats?.data?.site_name || "Dashboard Site details"} ({getSiteStats?.data?.dateString})
+            {getSiteStats?.data?.site_name || "Dashboard Site details"} (
+            {getSiteStats?.data?.dateString})
           </h1>
-          {
-            isCeoDashboard ? (
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/ceodashboard" }}>
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
-                  {getSiteStats?.data?.site_name || "DashBoard Site details"}
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            ) : details ? (
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/ceodashboard" }}>
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/ceodashboard-details" }}>
-                  Details
-                </Breadcrumb.Item>
-                <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
-                  {getSiteStats?.data?.site_name || "DashBoard Site details"}
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            ) : (
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard" }}>
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: "/dashboard-details" }}>
-                  Details
-                </Breadcrumb.Item>
-                <Breadcrumb.Item className="breadcrumb-item active breadcrumds" aria-current="page">
-                  {getSiteStats?.data?.site_name || "DashBoard Site details"}
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            )
-          }
-
-
-
+          {isCeoDashboard ? (
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/ceodashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                {getSiteStats?.data?.site_name || "DashBoard Site details"}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          ) : details ? (
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/ceodashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/ceodashboard-details" }}
+              >
+                Details
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                {getSiteStats?.data?.site_name || "DashBoard Site details"}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          ) : (
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard-details" }}
+              >
+                Details
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                {getSiteStats?.data?.site_name || "DashBoard Site details"}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          )}
         </div>
 
         <div className="show-title">
@@ -171,18 +207,28 @@ const DashSubChild = ({
             placement="top"
             overlay={
               <Tooltip>
-                Opening Time: {getSiteStats?.data?.opening ? moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm") : "--"}<br />
-                Closing Time: {getSiteStats?.data?.closing ? moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm") : "--"}<br />
+                Opening Time:{" "}
+                {getSiteStats?.data?.opening
+                  ? moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm")
+                  : "--"}
+                <br />
+                Closing Time:{" "}
+                {getSiteStats?.data?.closing
+                  ? moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm")
+                  : "--"}
+                <br />
               </Tooltip>
             }
           >
-            <span className="pointer small-font-weight" >
+            <span className="pointer small-font-weight">
               Last Day End:
               {showSmallLoader ? (
                 <span className="Smallloader"></span>
               ) : (
                 <>
-                  {getSiteStats?.data?.last_dayend ? moment(getSiteStats?.data?.last_dayend).format("Do MMM") : null}
+                  {getSiteStats?.data?.last_dayend
+                    ? moment(getSiteStats?.data?.last_dayend).format("Do MMM")
+                    : null}
                   <i className="fa fa-info-circle" aria-hidden="true"></i>
                 </>
               )}
@@ -222,7 +268,7 @@ const DashSubChild = ({
                 <OverlayTrigger
                   placement="top"
                   overlay={
-                    <Tooltip className=" d-flex align-items-start justify-content-start" >
+                    <Tooltip className=" d-flex align-items-start justify-content-start">
                       {" "}
                       Security Amount :{" "}
                       {getSiteStats?.data?.cash_tracker?.security_amount}
@@ -250,23 +296,27 @@ const DashSubChild = ({
         {/* Header section*/}
 
         <>
-
           <div className="d-flex justify-content-between align-items-center flex-wrap bg-white text-black mb-5 py-3 px-3 primary-shadow gap-1">
             <div className=" d-flex align-items-center">
-              {showSmallLoader ? (<span className="Smallloader"></span>) : <>
-                <div className="">
-                  <img
-                    src={getSiteStats?.data?.site_image || null}
-                    alt={getSiteStats?.data?.site_image || ""}
-                    style={{ width: "50px", height: "50px" }}
-                  />
-                </div>
-                <div>
-                  <span className="fs-5 fw-light ms-2">{getSiteStats?.data?.site_name || ""}</span>
-                </div>
-              </>}
+              {showSmallLoader ? (
+                <span className="Smallloader"></span>
+              ) : (
+                <>
+                  <div className="">
+                    <img
+                      src={getSiteStats?.data?.site_image || null}
+                      alt={getSiteStats?.data?.site_image || ""}
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+                  <div>
+                    <span className="fs-5 fw-light ms-2">
+                      {getSiteStats?.data?.site_name || ""}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
-
 
             {/* RIGHT side heading title */}
             <div className=" d-flex gap-5 ">
@@ -278,16 +328,25 @@ const DashSubChild = ({
                       placement="top"
                       overlay={
                         <Tooltip className="d-flex align-items-start justify-content-start">
-                          Security Amount: {getSiteStats?.data?.cash_tracker?.security_amount || "--"}
+                          Security Amount:{" "}
+                          {getSiteStats?.data?.cash_tracker?.security_amount ||
+                            "--"}
                           <br />
-                          Loomis Day: {getSiteStats?.data?.cash_tracker?.last_loomis_day || "--"}
+                          Loomis Day:{" "}
+                          {getSiteStats?.data?.cash_tracker?.last_loomis_day ||
+                            "--"}
                           <br />
-                          Loomis Date: {getSiteStats?.data?.cash_tracker?.last_loomis_date || "--"}
+                          Loomis Date:{" "}
+                          {getSiteStats?.data?.cash_tracker?.last_loomis_date ||
+                            "--"}
                           <br />
                         </Tooltip>
                       }
                     >
-                      <i className="fa fa-info-circle fs-5" aria-hidden="true"></i>
+                      <i
+                        className="fa fa-info-circle fs-5"
+                        aria-hidden="true"
+                      ></i>
                     </OverlayTrigger>
                   </span>
                 </div>
@@ -302,11 +361,14 @@ const DashSubChild = ({
                         backgroundColor: "rgb(25, 122, 66)",
                       }}
                     >
-                      {showSmallLoader ? (<span className="Smallloader"></span>) : (getSiteStats?.data.cash_tracker?.cash_amount || "--")}
+                      {showSmallLoader ? (
+                        <span className="Smallloader"></span>
+                      ) : (
+                        getSiteStats?.data.cash_tracker?.cash_amount || "--"
+                      )}
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -315,160 +377,165 @@ const DashSubChild = ({
         {/* dashboard site Top section */}
         <DashSubStatsBox Ceo={isCeoDashboard || details ? true : false} />
 
-
         {/* grid values */}
 
         {/* Last delivery section persmission dashboard-site-detail is added  */}
 
-
-        {userPermissions.includes("dashboard-site-detail") && (<>
-          <Box
-            display={"flex"}
-            width={"100%"}
-            bgcolor={"#ffffff"}
-            color={"black"}
-            mb={"20px"}
-            flexDirection={"column"}
-            gap={4}
-            p={"25px"}
-            boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-            className="l-sign"
-          >
-            <Box>
-              <Box display={"flex"} gap={"12px"}>
-                <Typography
-                  height={"60px"}
-                  width={"60px"}
-                  borderRadius={"10px"}
-                  position={"relative"}
-                  bgcolor={"#d63031"}
-                  textAlign={"center"}
-                  py={"2px"}
-                  color={"#dfe6e9"}
-                  sx={{
-                    transition: "background-color 0.3s, color 0.3s",
-                    ":hover": {
-                      backgroundColor: "#e6191a",
-                      color: "#ffffff",
-                      cursor: "pointer",
-                    },
-                  }}
-                >
-                  <strong style={{ fontWeight: 700 }}>
-                    {" "}
-                    {
-                      moment(MonthLastDelivery, "MMM").isValid()
-                        ? MonthLastDelivery
-                        : "" // <span className="Smallloader"></span>
-                    }
-                  </strong>
+        {userPermissions.includes("dashboard-site-detail") && (
+          <>
+            <Box
+              display={"flex"}
+              width={"100%"}
+              bgcolor={"#ffffff"}
+              color={"black"}
+              mb={"20px"}
+              flexDirection={"column"}
+              gap={4}
+              p={"25px"}
+              boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
+              className="l-sign"
+            >
+              <Box>
+                <Box display={"flex"} gap={"12px"}>
                   <Typography
-                    height={"27px"}
-                    width={"77%"}
-                    bgcolor={"#ecf0f1"}
-                    position={"absolute"}
-                    borderRadius={"8px"}
-                    bottom={0}
-                    m={"6px"}
-                    color={"#2d3436"}
+                    height={"60px"}
+                    width={"60px"}
+                    borderRadius={"10px"}
+                    position={"relative"}
+                    bgcolor={"#d63031"}
                     textAlign={"center"}
-                    display={"flex"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
+                    py={"2px"}
+                    color={"#dfe6e9"}
+                    sx={{
+                      transition: "background-color 0.3s, color 0.3s",
+                      ":hover": {
+                        backgroundColor: "#e6191a",
+                        color: "#ffffff",
+                        cursor: "pointer",
+                      },
+                    }}
                   >
-                    {showSmallLoader && <span className="Smallloader"></span>}
-                    {!showSmallLoader && moment(day, "DD").isValid() && day}
+                    <strong style={{ fontWeight: 700 }}>
+                      {" "}
+                      {
+                        moment(MonthLastDelivery, "MMM").isValid()
+                          ? MonthLastDelivery
+                          : "" // <span className="Smallloader"></span>
+                      }
+                    </strong>
+                    <Typography
+                      height={"27px"}
+                      width={"77%"}
+                      bgcolor={"#ecf0f1"}
+                      position={"absolute"}
+                      borderRadius={"8px"}
+                      bottom={0}
+                      m={"6px"}
+                      color={"#2d3436"}
+                      textAlign={"center"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      {showSmallLoader && <span className="Smallloader"></span>}
+                      {!showSmallLoader && moment(day, "DD").isValid() && day}
+                    </Typography>
                   </Typography>
-                </Typography>
-                <Box variant="body1">
-                  <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                    Last Delivery on
-                  </Typography>
-                  <Typography variant="body1" fontSize={"18px"} fontWeight={500}>
-                    {getSiteDetails?.last_fuel_delivery_stats?.last_day
-                      ? getSiteDetails?.last_fuel_delivery_stats?.last_day
-                      : ""}
-                  </Typography>
+                  <Box variant="body1">
+                    <Typography variant="body3" sx={{ opacity: 0.5 }}>
+                      Last Delivery on
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      fontSize={"18px"}
+                      fontWeight={500}
+                    >
+                      {getSiteDetails?.last_fuel_delivery_stats?.last_day
+                        ? getSiteDetails?.last_fuel_delivery_stats?.last_day
+                        : ""}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
 
-
-
-
-            <Box display={"flex"} gap={"25px"} flexWrap={"wrap"} justifyContent={["center", "flex-start"]}>
-              {" "}
-              {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
-                (LastDeliveryState,) => (
-                  <Box
-                    borderRadius={"5px"}
-                    bgcolor={"#f2f2f8"}
-                    px={"20px"}
-                    py={"15px"}
-                    color={"black"}
-                    minWidth={"250px"}
-                  >
-                    <Typography
-                      display={"flex"}
-                      gap={"5px"}
-                      alignItems={"center"}
-                      mb={"5px"}
+              <Box
+                display={"flex"}
+                gap={"25px"}
+                flexWrap={"wrap"}
+                justifyContent={["center", "flex-start"]}
+              >
+                {" "}
+                {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
+                  (LastDeliveryState, index) => (
+                    <Box
+                      borderRadius={"5px"}
+                      bgcolor={"#f2f2f8"}
+                      px={"20px"}
+                      py={"15px"}
+                      color={"black"}
+                      minWidth={"250px"}
+                      key={index}
                     >
-                      <BsFillFuelPumpFill />
-                      {LastDeliveryState?.fuel}
-                    </Typography>
-                    <strong style={{ fontWeight: 700 }}>
-                      {LastDeliveryState?.value}
-                    </strong>
-                  </Box>
-                )
-              )}
+                      <Typography
+                        display={"flex"}
+                        gap={"5px"}
+                        alignItems={"center"}
+                        mb={"5px"}
+                      >
+                        <BsFillFuelPumpFill />
+                        {LastDeliveryState?.fuel}
+                      </Typography>
+                      <strong style={{ fontWeight: 700 }}>
+                        {LastDeliveryState?.value}
+                      </strong>
+                    </Box>
+                  )
+                )}
+              </Box>
             </Box>
-          </Box>
-        </>)}
-
-
-
-
+          </>
+        )}
       </div>
 
-
       {/* Grads Section */}
-      {DashboardGradsLoading ? <>
-        <Row>
-          <Col lg={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title">Grades Analysis</h3>
-              </Card.Header>
-              <Card.Body>
-                <span className="Smallloader"></span>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </> :
+      {DashboardGradsLoading ? (
+        <>
+          <Row>
+            <Col lg={12}>
+              <Card>
+                <Card.Header>
+                  <h3 className="card-title">Grades Analysis</h3>
+                </Card.Header>
+                <Card.Body>
+                  <span className="Smallloader"></span>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      ) : (
         <>
           <DashSubChildGrads getSiteStats={getSiteStats} />
         </>
-      }
-
+      )}
 
       {/* Grads Section */}
-      {dashSubChildShopSaleLoading ? <>
-        <Row>
-          <Col lg={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title">Shop Sales</h3>
-              </Card.Header>
-              <Card.Body>
-                <span className="Smallloader"></span>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </> :
+      {dashSubChildShopSaleLoading ? (
+        <>
+          <Row>
+            <Col lg={12}>
+              <Card>
+                <Card.Header>
+                  <h3 className="card-title">Shop Sales</h3>
+                </Card.Header>
+                <Card.Body>
+                  <span className="Smallloader"></span>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      ) : (
         <>
           {/* new Shop sale */}
           <DashSubChildShopSale
@@ -476,9 +543,7 @@ const DashSubChild = ({
             getSiteStats={getSiteStats}
           />
         </>
-      }
-
-
+      )}
 
       {/* tank analysis */}
       <Row className="my-4 l-sign">
@@ -496,7 +561,10 @@ const DashSubChild = ({
                         <Tooltip style={{ width: "200px" }}>
                           <div>
                             {colors?.map((color, index) => (
-                              <div key={index} className=" d-flex align-items-center py-1 px-3 text-white" >
+                              <div
+                                key={index}
+                                className=" d-flex align-items-center py-1 px-3 text-white"
+                              >
                                 <div
                                   style={{
                                     width: "20px", // Set the width for the color circle
@@ -505,7 +573,9 @@ const DashSubChild = ({
                                     backgroundColor: color?.color,
                                   }}
                                 ></div>
-                                <span className=" text-white ms-2">{color?.name}</span>
+                                <span className=" text-white ms-2">
+                                  {color?.name}
+                                </span>
                               </div>
                             ))}
                           </div>
@@ -532,8 +602,6 @@ const DashSubChild = ({
           </>
         </Col>
       </Row>
-
-
 
       {/* <Col xl={12} className="p-0">
         <Card>
@@ -593,7 +661,6 @@ const DashSubChild = ({
           </Card.Body>
         </Card>
       </Col> */}
-
 
       <Row className="my-4">
         <Col lg={12} md={12}>

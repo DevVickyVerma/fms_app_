@@ -1,34 +1,25 @@
 import { useEffect, useState } from "react";
-import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb, FormGroup } from "react-bootstrap";
 import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  InputLabel,
-} from "@material-ui/core";
+import { MultiSelect } from "react-multi-select-component";
+import FormikReactSelect from "../../Formik/FormikReactSelect";
 
 const AddCompany = (props) => {
   const { isLoading, getData, postData } = props;
   const [dropdownValue, setDropdownValue] = useState([]);
-  const [selectedSiteList1, setSelectedSiteList1] = useState([]);
-  const { id } = useParams();
+  const { id, siteName } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const FetchmannegerList = async () => {
     try {
       const response = await getData(`/site/manager/${id}`);
 
       if (response && response.data) {
-
         setDropdownValue(response.data.data);
-        setSelectedSiteList1(response.data.data.reports);
       } else {
         throw new Error("No data available in the response");
       }
@@ -41,30 +32,17 @@ const AddCompany = (props) => {
     FetchmannegerList();
   }, [UserPermissions]);
 
-  const [selectedItems1, setSelectedItems1] = useState([]);
-
-  const handleItemClick1 = (event) => {
-    setSelectedItems1(event.target.value);
-
-    const selectedSiteNames = event.target.value;
-    const filteredSites = selectedSiteList1.filter((item) =>
-      selectedSiteNames.includes(item.report_name)
-    );
-
-    formik.setFieldValue("sites", filteredSites);
-  };
-
   const handleSubmit = async () => {
     // event.preventDefault();
 
     try {
       const formData = new FormData();
 
-      formData.append("user_id", formik.values.client_id);
+      formData.append("user_id", formik.values.user_id);
       formData.append("site_id", id);
 
-      formik.values.sites.forEach((site, index) => {
-        formData.append(`reports[${index}]`, site.id);
+      formik.values.reports?.forEach((site, index) => {
+        formData.append(`reports[${index}]`, site.value);
       });
 
       const postDataUrl = "/site/manager/assign";
@@ -76,17 +54,27 @@ const AddCompany = (props) => {
     }
   };
   const validationSchema = Yup.object({
-    client_id: Yup.string().required("Client ID is required"),
+    user_id: Yup.string().required("User is required"),
+    reports: Yup.array()
+      .min(1, "At least one Report is required")
+      .required("Reports are required"),
   });
+
   const formik = useFormik({
     initialValues: {
-      client_id: "",
+      user_id: "",
+      reports: [],
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       handleSubmit(values);
     },
   });
+
+  const handleMultiSelectServiceChange = (selectedOptions) => {
+    formik.setFieldValue("reports", selectedOptions);
+  };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -94,7 +82,7 @@ const AddCompany = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Add Assign Manager</h1>
+              <h1 className="page-title">Add Assign Manager ({siteName})</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -130,74 +118,53 @@ const AddCompany = (props) => {
                 </Card.Header>
 
                 <form onSubmit={(event) => formik.handleSubmit(event)}>
-                  <Card.Body>
+                  <Card.Body style={{ minHeight: "300px" }}>
                     <Row>
                       <Col lg={4} md={6}>
-                        <div className="form-group">
-                          <label
-                            htmlFor="client_id"
-                            className=" form-label mt-4"
-                          >
-                            User<span className="text-danger">*</span>
-                          </label>
-                          <select
-                            as="select"
-                            className={`input101 ${formik.errors.client_id &&
-                              formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="client_id"
-                            name="client_id"
-                            onChange={formik.handleChange}
-                          >
-                            <option value=""> Select User</option>
-                            {dropdownValue.users &&
-                              dropdownValue.users.length > 0 ? (
-                              dropdownValue.users.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.user_name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled={true}>No User</option>
-                            )}
-                          </select>
-                          {formik.errors.client_id &&
-                            formik.touched.client_id && (
-                              <div className="invalid-feedback">
-                                {formik.errors.client_id}
-                              </div>
-                            )}
-                        </div>
+                        <FormikReactSelect
+                          formik={formik}
+                          name="user_id"
+                          label="User"
+                          options={[
+                            { value: "", label: "Select User" },
+                            ...(dropdownValue.users?.map((item) => ({
+                              value: item.id,
+                              label: item.user_name,
+                            })) || []),
+                          ]}
+                          onChange={(selectedOption) => {
+                            formik.handleChange(selectedOption.value);
+                          }}
+                        />
                       </Col>
 
-                      <Col lg={3} md={6}>
-                        <div className="form-group">
-                          <FormControl className="width mt-4">
-                            <InputLabel>Select Reports</InputLabel>
-                            <Select
-                              multiple={true}
-                              value={selectedItems1}
-                              onChange={handleItemClick1}
-                              renderValue={(selected) => selected.join(", ")}
-                            >
-                              {selectedSiteList1.map((item) => (
-                                <MenuItem
-                                  key={item.report_name}
-                                  value={item.report_name}
-                                >
-                                  <Checkbox
-                                    checked={selectedItems1.includes(
-                                      item.report_name
-                                    )}
-                                  />
-                                  <ListItemText primary={item.report_name} />
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </div>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label className="form-label mt-0">
+                            Select Report
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div>
+                            <MultiSelect
+                              value={formik?.values?.reports}
+                              onChange={handleMultiSelectServiceChange}
+                              labelledBy="Multi Select Reports"
+                              options={
+                                dropdownValue?.reports?.map((site) => ({
+                                  label: site?.report_name,
+                                  value: site?.id,
+                                })) || []
+                              }
+                              className="matrix-multi"
+                            />
+                            {formik.touched.reports &&
+                              typeof formik?.errors?.reports === "string" && (
+                                <div className="text-danger mt-1">
+                                  {formik.errors.reports}
+                                </div>
+                              )}
+                          </div>
+                        </FormGroup>
                       </Col>
                     </Row>
                   </Card.Body>

@@ -1896,7 +1896,7 @@ span.text-error {
 }
 
 .matrix-multi > .dropdown-container {
-  height: 43px;
+  height: 49px;
   border-radius: 0px !important;
   border: 1px solid #d4d4d4;
 }
@@ -2916,7 +2916,16 @@ td.middayModal-td.time-input-fuel-sell {
   border-radius: 0px !important;
 }
 
+.custom-react-inside-input .__single-value {
+  display: flex;
+  align-items: center;
+}
+
 .custom-react-inside-input .__placeholder {
   display: flex;
   align-items: center;
+}
+
+.ScrollbarsCustom-Track {
+  width: 3px !important;
 }

@@ -123,7 +123,6 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
                     md={3}
                     sm={3}
                     className="dashboardSubChildCard"
-                    borderRadius={"5px"}
                   >
                     <span
                       style={{
@@ -146,7 +145,6 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
                     md={3}
                     sm={3}
                     className="dashboardSubChildCard "
-                    borderRadius={"5px"}
                   >
                     <span
                       style={{
@@ -169,7 +167,6 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
                     md={3}
                     sm={3}
                     className="dashboardSubChildCard "
-                    borderRadius={"5px"}
                   >
                     <span
                       style={{
@@ -234,14 +231,14 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
   );
 };
 
-CeoDashSubChildShopSaleCenterModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  // sidebarContent: PropTypes.node.isRequired,
-  visible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  searchListstatus: PropTypes.bool.isRequired,
-};
+// CeoDashSubChildShopSaleCenterModal.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   sidebarContent: PropTypes.node.isRequired,
+//   visible: PropTypes.bool.isRequired,
+//   onClose: PropTypes.func.isRequired,
+//   onCancel: PropTypes.func.isRequired,
+//   onSubmit: PropTypes.func.isRequired,
+//   searchListstatus: PropTypes.bool.isRequired,
+// };
 
 export default CeoDashSubChildShopSaleCenterModal;
