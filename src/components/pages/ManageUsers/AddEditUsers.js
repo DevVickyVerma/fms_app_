@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
+import { useEffect, useReducer, useState } from "react";
+import { Col, Row, Card, Breadcrumb, FormGroup } from "react-bootstrap";
 import { useFormik } from "formik";
 import { Link, useParams } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,16 +9,82 @@ import FormikInput from "../../Formik/FormikInput";
 import * as Yup from "yup";
 import LoaderImg from "../../../Utils/Loader";
 import FormikReactSelect from "../../Formik/FormikReactSelect";
+import { countryCodes } from "../../../Utils/commonFunctions/CommonData";
+import { MultiSelect } from "react-multi-select-component";
+import FormikCheckOneBox from "../../Formik/FormikCheckOneBox";
+
+// Define the initial state
+const initialState = {
+  levels: [],
+  clientList: [],
+  roleList: [],
+  loading: true,
+  error: null,
+};
+
+// Define the reducer function
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SET_LEVELS":
+      return { ...state, levels: action.payload, loading: false };
+    case "SET_CLIENT_LIST":
+      return { ...state, clientList: action.payload, loading: false };
+    case "SET_ROLE_LIST":
+      return { ...state, roleList: action.payload, loading: false };
+    case "SET_ERROR":
+      return { ...state, error: action.payload, loading: false };
+    default:
+      return state;
+  }
+};
 
 const ManageAddEditUsers = (props) => {
   const { isLoading, postData, getData } = props;
   const { id: urlId } = useParams();
+  const [selected, setSelected] = useState([]);
 
-  const fetchDetailList = async () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const fetchCommonList = async () => {
     try {
-      const response = await getData(`/level/detail/${urlId}`);
+      const levelsResponse = await getData(`/levels`);
+      dispatch({
+        type: "SET_LEVELS",
+        payload: levelsResponse?.data?.data || [],
+      });
+    } catch (error) {
+      console.error("Error fetching levels:", error);
+      dispatch({ type: "SET_LEVELS", payload: [] });
+    }
 
-      if (response && response.data && response.data.data) {
+    try {
+      const clientListResponse = await getData(`/common/client-list`);
+      dispatch({
+        type: "SET_CLIENT_LIST",
+        payload: clientListResponse?.data?.data || [],
+      });
+    } catch (error) {
+      console.error("Error fetching client list:", error);
+      dispatch({ type: "SET_CLIENT_LIST", payload: [] });
+    }
+
+    try {
+      const roleListResponse = await getData(`/roles`);
+      dispatch({
+        type: "SET_ROLE_LIST",
+        payload: roleListResponse?.data?.data || [],
+      });
+    } catch (error) {
+      console.error("Error fetching role list:", error);
+      dispatch({ type: "SET_ROLE_LIST", payload: [] });
+    }
+  };
+
+  const fetchDetailList = async (urlId) => {
+    try {
+      const response = await getData(`/user/detail?id=${urlId}`);
+
+      if (response) {
         formik.setValues(response.data.data);
       }
     } catch (error) {
@@ -28,18 +94,40 @@ const ManageAddEditUsers = (props) => {
 
   const AddSiteinitialValues = {
     name: "",
+    country_code: "",
     sort_order: "",
     is_final: 0,
+    email: "",
+    password: "",
+    clients: [], // Empty array for clients
+    first_name: "",
+    last_name: "",
+    phone_number: "",
+    role_id: "",
+    level_id: "",
   };
+
   const formik = useFormik({
     initialValues: AddSiteinitialValues,
     validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      sort_order: Yup.number()
-        .min(1, "Sort order must be at least 1")
-        .max(10, "Sort order must be at most 10")
-        .required("Sort order is required"),
-      is_final: Yup.number().oneOf([0, 1], "Invalid value for is_final"),
+      first_name: Yup.string().required("First Name is required"),
+      role_id: Yup.string().required("Role is required"),
+      last_name: Yup.string().required("Last Name is required"),
+      email: Yup.string()
+        .required(" Email is required")
+        .email("Invalid email format"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(8, "Password must be at least 8 characters long")
+        .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .matches(/\d/, "Password must contain at least one numeric digit")
+        .matches(
+          /[!@#$%^&*(),.?":{}|<>]/,
+          "Password must contain at least one special character"
+        ),
+      phone_number: Yup.string()
+        .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
+        .required("Phone Number is required"),
     }),
     onSubmit: (values) => {
       handleSubmit1(values);
@@ -71,7 +159,11 @@ const ManageAddEditUsers = (props) => {
     if (urlId) {
       fetchDetailList(urlId);
     }
+    fetchCommonList();
   }, [urlId]);
+
+  console.log(state, "state");
+  console.log(formik?.values, "formik?.values");
 
   return (
     <>
@@ -118,31 +210,33 @@ const ManageAddEditUsers = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
-                    <Col lg={6}>
+                    <Col lg={4}>
                       <FormikInput
                         formik={formik}
                         type="text"
                         name="first_name"
                       />
                     </Col>
-                    <Col lg={6}>
+
+                    <Col lg={4}>
                       <FormikInput
                         formik={formik}
                         type="text"
                         name="last_name"
                       />
                     </Col>
+
                     <Col lg={4} md={6}>
-                      <label htmlFor="phone_number" className="form-label mt-4">
+                      <label htmlFor="phone_number" className="form-label mt-0">
                         Phone Number<span className="text-danger">*</span>
                       </label>
                       <div className=" d-flex cursor-pointer">
-                        {/* <span className=" d-flex align-items-center disable-pre-number">
-                            +44
-                          </span> */}
-                        {/* <select
-                          value={selectedCountryCode}
-                          onChange={handleCountryCodeChange}
+                        <select
+                          disabled
+                          value={formik?.values?.country_code}
+                          onChange={formik.handleChange}
+                          id="country_code"
+                          name="country_code"
                           className="d-flex align-items-center disable-pre-number "
                           style={{ width: "100px", borderRadius: "0px" }}
                         >
@@ -151,7 +245,8 @@ const ManageAddEditUsers = (props) => {
                               {`${country.code} (${country.shortName})`}
                             </option>
                           ))}
-                        </select> */}
+                        </select>
+
                         <input
                           type="number"
                           autoComplete="off"
@@ -178,56 +273,104 @@ const ManageAddEditUsers = (props) => {
                         )}
                     </Col>
 
-                    <div className="mt-4 col-lg-6">
+                    <Col lg={4}>
+                      <FormikInput
+                        formik={formik}
+                        type="email"
+                        name="email"
+                        label="Email"
+                      />
+                    </Col>
+
+                    <Col lg={4}>
+                      <FormikInput
+                        formik={formik}
+                        type="password"
+                        name="password"
+                        label="Password"
+                      />
+                    </Col>
+
+                    <div className="mt-0 col-lg-4">
                       <FormikReactSelect
                         formik={formik}
-                        name="company_id"
-                        label="Company"
+                        name="role_id"
+                        label="Role"
                         options={[
-                          { value: "", label: "Select Company" },
-                          ...(formik.values.companies?.map((item) => ({
-                            value: item.id,
-                            label: item.company_name,
+                          { value: "", label: "Select Role" },
+                          ...(state?.roleList?.map((item) => ({
+                            value: item?.id,
+                            label: item?.role_name,
                           })) || []),
                         ]}
                         onChange={(selectedOption) => {
                           formik.handleChange(selectedOption.value);
-                          //   handleCompanyChange(selectedOption.value);
                         }}
                       />
                     </div>
 
-                    <Col lg={6}>
-                      <FormikInput
+                    <div className="mt-0 col-lg-4">
+                      <FormikReactSelect
                         formik={formik}
-                        type="number"
-                        name="sort_order"
-                        label="Sort Order"
-                        min="1"
-                        max="10"
+                        name="level_id"
+                        label="Level"
+                        isRequired={false}
+                        options={[
+                          { value: "", label: "Select Level" },
+                          ...(state?.levels?.map((item) => ({
+                            value: item?.id,
+                            label: item?.name,
+                          })) || []),
+                        ]}
+                        onChange={(selectedOption) => {
+                          formik.handleChange(selectedOption.value);
+                        }}
+                      />
+                    </div>
+
+                    {localStorage.getItem("superiorRole") !== "Client" ? (
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label className="form-label mt-1">
+                            Select Client
+                          </label>
+                          <MultiSelect
+                            value={formik?.values?.clients || []}
+                            onChange={(selectedOption) =>
+                              formik?.setFieldValue("clients", selectedOption)
+                            }
+                            labelledBy="Select Client"
+                            disableSearch="true"
+                            options={
+                              state?.clientList?.map((site) => ({
+                                label: site?.full_name,
+                                value: site?.id,
+                              })) || []
+                            }
+                            showCheckbox="false"
+                          />
+                        </FormGroup>
+                      </Col>
+                    ) : (
+                      ""
+                    )}
+
+                    <Col lg={4} md={6}>
+                      <FormikCheckOneBox
+                        label="Is Main Approver"
+                        name="is_main"
+                        formik={formik}
+                        // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
                       />
                     </Col>
 
-                    <Col lg={6}>
-                      <div className=" position-relative pointer  ms-6 my-4">
-                        <input
-                          type="checkbox"
-                          id="is_final"
-                          name="is_final"
-                          checked={formik?.values?.is_final === 1}
-                          onChange={(e) => {
-                            formik.setFieldValue(
-                              "is_final",
-                              e.target.checked ? 1 : 0
-                            );
-                          }}
-                          className="mx-1 form-check-input form-check-input-updated pointer"
-                        />
-                        <label htmlFor="is_final" className="p-0 m-0 pointer">
-                          {" "}
-                          Final Approver
-                        </label>
-                      </div>
+                    <Col lg={4} md={6}>
+                      <FormikCheckOneBox
+                        label="Send Welcome Email"
+                        name="send_mail"
+                        formik={formik}
+                        // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
+                      />
                     </Col>
                   </Row>
                   <Card.Footer className="text-end">

@@ -30,6 +30,17 @@ export const Baroptions = {
     },
   },
 };
+export const countryCodes = [
+  { code: "+44", name: "United Kingdom", flag: "🇬🇧", shortName: "UK" },
+  { code: "+1", name: "United States", flag: "🇺🇸", shortName: "USA" },
+  { code: "+61", name: "Australia", flag: "🇦🇺", shortName: "AUS" },
+  { code: "+49", name: "Germany", flag: "🇩🇪", shortName: "GER" },
+  { code: "+33", name: "France", flag: "🇫🇷", shortName: "FRA" },
+  { code: "+91", name: "India", flag: "🇮🇳", shortName: "IND" },
+  { code: "+86", name: "China", flag: "🇨🇳", shortName: "CHN" },
+  { code: "+55", name: "Brazil", flag: "🇧🇷", shortName: "BRA" },
+  { code: "+81", name: "Japan", flag: "🇯🇵", shortName: "JPN" },
+];
 export const priceLogData = [
   {
     id: 1,
