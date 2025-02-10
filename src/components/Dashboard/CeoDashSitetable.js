@@ -118,8 +118,8 @@ const CeoDashSitetable = (props) => {
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-13 fw-semibold ">
                 <span className="l-sign">ℓ</span>{" "}
-                {row.detail?.wet_stock_value?.value
-                  ? formatNumber(row.detail?.wet_stock_value?.value)
+                {row.fuel_volume?.gross_volume
+                  ? formatNumber(row.fuel_volume?.gross_volume)
                   : "0"}
               </h6>
               <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
