@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Tooltip } from "react-bootstrap";
 
 // filterDataUtils.js
@@ -38,6 +39,17 @@ export function handleFilterData(
 export const hadndleShowDate = () => {
   const inputDateElement = document.querySelector('input[type="date"]');
   inputDateElement.showPicker();
+};
+
+export const getCurrentAndPreviousMonth = () => {
+  // Get the current month and year
+  const currentMonth = moment().format("MMM YYYY");
+
+  // Get the previous month and year
+  const previousMonth = moment().subtract(1, "month").format("MMM YYYY");
+
+  // Return the result in the format "Previous Month vs Current Month"
+  return `${previousMonth} vs ${currentMonth}`;
 };
 
 export const passwordTooltip = (

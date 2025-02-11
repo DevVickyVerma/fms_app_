@@ -40,6 +40,10 @@ const mopSeries = [
 ];
 
 const MOPStackedBarChart = ({ dashboardData }) => {
+  const dynamicColors = dashboardData?.mopSeries?.map(
+    (series) => series?.backgroundColor
+  );
+
   // Dummy data based on your provided structure
   const state = {
     options: {
@@ -54,9 +58,11 @@ const MOPStackedBarChart = ({ dashboardData }) => {
           columnWidth: "40%",
         },
       },
+      colors: dynamicColors || [], // Apply dynamic colors
       dataLabels: {
         enabled: true,
         style: {
+          // colors: ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0"], // Add your custom colors here
           colors: ["#000"],
           fontSize: "12px",
           fontWeight: "bold",
@@ -64,14 +70,14 @@ const MOPStackedBarChart = ({ dashboardData }) => {
         formatter: function (val) {
           return val;
         },
-        dropShadow: {
-          enabled: true,
-          top: 2,
-          left: 2,
-          blur: 4,
-          opacity: 0.3,
-        },
-        offsetY: 0,
+        // dropShadow: {
+        //   enabled: true,
+        //   top: 2,
+        //   left: 2,
+        //   blur: 4,
+        //   opacity: 0.3,
+        // },
+        // offsetY: 0,
       },
       xaxis: {
         categories: dashboardData?.mopcategories
