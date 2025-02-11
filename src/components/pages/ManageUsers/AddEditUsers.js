@@ -116,15 +116,20 @@ const ManageAddEditUsers = (props) => {
       email: Yup.string()
         .required(" Email is required")
         .email("Invalid email format"),
-      password: Yup.string()
-        .required("Password is required")
-        .min(8, "Password must be at least 8 characters long")
-        .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-        .matches(/\d/, "Password must contain at least one numeric digit")
-        .matches(
-          /[!@#$%^&*(),.?":{}|<>]/,
-          "Password must contain at least one special character"
-        ),
+      password: urlId
+        ? Yup.mixed().notRequired()
+        : Yup.string()
+            .required("Password is required")
+            .min(8, "Password must be at least 8 characters long")
+            .matches(
+              /[A-Z]/,
+              "Password must contain at least one uppercase letter"
+            )
+            .matches(/\d/, "Password must contain at least one numeric digit")
+            .matches(
+              /[!@#$%^&*(),.?":{}|<>]/,
+              "Password must contain at least one special character"
+            ),
       phone_number: Yup.string()
         .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
         .required("Phone Number is required"),
@@ -134,15 +139,25 @@ const ManageAddEditUsers = (props) => {
     },
   });
 
+  console.log(formik.errors, "formik erorrs");
+
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("sort_order", values.sort_order);
-      formData.append("is_final", values.is_final);
+      formData.append("first_name", values.first_name);
+      formData.append("last_name", values.last_name);
+      formData.append("phone_number", values.phone_number);
+      formData.append("country_code", values.country_code);
+      formData.append("email", values.email);
+
+      formData.append("role_id", values.role);
+      formData.append("send_mail", values.send_mail);
+      formData.append("is_main", values.is_main);
 
       if (urlId) {
         formData.append("id", values.id);
+      } else {
+        formData.append("password", values.password);
       }
 
       let postDataUrl = "/level/";
@@ -273,23 +288,27 @@ const ManageAddEditUsers = (props) => {
                         )}
                     </Col>
 
-                    <Col lg={4}>
-                      <FormikInput
-                        formik={formik}
-                        type="email"
-                        name="email"
-                        label="Email"
-                      />
-                    </Col>
+                    {!urlId && (
+                      <>
+                        <Col lg={4}>
+                          <FormikInput
+                            formik={formik}
+                            type="email"
+                            name="email"
+                            label="Email"
+                          />
+                        </Col>
 
-                    <Col lg={4}>
-                      <FormikInput
-                        formik={formik}
-                        type="password"
-                        name="password"
-                        label="Password"
-                      />
-                    </Col>
+                        <Col lg={4}>
+                          <FormikInput
+                            formik={formik}
+                            type="password"
+                            name="password"
+                            label="Password"
+                          />
+                        </Col>
+                      </>
+                    )}
 
                     <div className="mt-0 col-lg-4">
                       <FormikReactSelect
