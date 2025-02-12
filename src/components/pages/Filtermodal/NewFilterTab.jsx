@@ -237,7 +237,7 @@ const NewFilterTab = ({
     <>
       {isLoading ? <LoaderImg /> : null}
       <>
-        {isMobileApp ? (
+        {/* {!isMobileApp ? (
           <>
             {isOpen ? (
               <>
@@ -270,7 +270,7 @@ const NewFilterTab = ({
                         <Row>
                           {showClientInput &&
                             localStorage.getItem("superiorRole") !==
-                              "Client" && (
+                            "Client" && (
                               <Col lg={12}>
                                 <FormikSelect
                                   formik={formik}
@@ -425,7 +425,7 @@ const NewFilterTab = ({
                         <Row>
                           {showClientInput &&
                             localStorage.getItem("superiorRole") !==
-                              "Client" && (
+                            "Client" && (
                               <Col lg={lg || 6}>
                                 <FormikSelect
                                   formik={formik}
@@ -627,7 +627,220 @@ const NewFilterTab = ({
               </Col>
             </Row>
           </>
-        )}
+        )} */}
+        <Row>
+          <Col lg={12} xl={12} md={12} sm={12}>
+            <Card>
+              {/* <Card.Header>
+                <h3 className="card-title"> Filter </h3>
+              </Card.Header> */}
+              <form onSubmit={formik.handleSubmit}>
+                <div>
+                  <Card.Body>
+                    <Row>
+                      {showClientInput &&
+                        localStorage.getItem("superiorRole") !==
+                        "Client" && (
+                          <Col lg={lg || 6}>
+                            <FormikSelect
+                              formik={formik}
+                              name="client_id"
+                              label="Client"
+                              options={formik?.values?.clients?.map(
+                                (item) => ({
+                                  id: item?.id,
+                                  name: item?.full_name,
+                                })
+                              )}
+                              className="form-input"
+                              onChange={handleClientChange}
+                            />
+                          </Col>
+                        )}
+
+                      {showEntityInput && (
+                        <Col lg={lg || 6}>
+                          <FormikSelect
+                            formik={formik}
+                            name="company_id"
+                            label="Company"
+                            options={formik?.values?.companies?.map(
+                              (item) => ({
+                                id: item?.id,
+                                name: item?.company_name,
+                              })
+                            )}
+                            className="form-input"
+                            onChange={handleCompanyChange}
+                          />
+                        </Col>
+                      )}
+
+                      {showStationInput && (
+                        <Col lg={lg || 6}>
+                          <FormikSelect
+                            formik={formik}
+                            name="site_id"
+                            label="Site"
+                            options={formik?.values?.sites?.map((item) => ({
+                              id: item?.id,
+                              name: item?.site_name,
+                            }))}
+                            className="form-input"
+                            isRequired={showStationValidation}
+                            onChange={handleSiteChange}
+                          />
+                        </Col>
+                      )}
+
+                      {showDateInput && (
+                        <Col lg={lg || 6}>
+                          <FormikInput
+                            formik={formik}
+                            type="date"
+                            label="Date"
+                            name="start_date"
+                            maxDate={parentMaxDate}
+                          />
+                        </Col>
+                      )}
+
+                      {showMonthInput && (
+                        <Col lg={lg || 6}>
+                          <FormikInput
+                            formik={formik}
+                            type="month"
+                            label="Month"
+                            name="start_month"
+                            isRequired={showMonthValidation}
+                          />
+                        </Col>
+                      )}
+
+                      {showDateRangeInput && (
+                        <Col lg={lg || 6}>
+                          <div className="form-group ">
+                            <label htmlFor="date-range">
+                              Date Range{" "}
+                              <span className="text-danger">*</span>
+                            </label>
+                            <DatePicker
+                              id="date-range"
+                              selected={
+                                formik.values.range_start_date
+                                  ? new Date(formik.values.range_start_date)
+                                  : null
+                              }
+                              onChange={handleDateChange}
+                              startDate={
+                                formik.values.range_start_date
+                                  ? new Date(formik.values.range_start_date)
+                                  : null
+                              }
+                              endDate={
+                                formik.values.range_end_date
+                                  ? new Date(formik.values.range_end_date)
+                                  : null
+                              }
+                              selectsRange
+                              isClearable={true}
+                              placeholderText="Select Date Range"
+                              dateFormat="yyyy-MM-dd"
+                              autoComplete="off"
+                              className="input101 form-input"
+                            />
+                            {formik.errors.range_start_date &&
+                              formik.touched.range_start_date && (
+                                <div className="text-danger mt-1">
+                                  {formik.errors.range_start_date}
+                                </div>
+                              )}
+                            {formik.errors.range_end_date &&
+                              formik.touched.range_end_date && (
+                                <div className="text-danger mt-1">
+                                  {formik.errors.range_end_date}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
+                      )}
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer>
+                    <div className="text-end">
+                      {showSendEmail && (
+                        <>
+                          <span>
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={<Tooltip>Send Email</Tooltip>}
+                            >
+                              <button
+                                to="#"
+                                className="btn btn-info me-2 rounded-11"
+                                onClick={handleSendEmail}
+                              >
+                                Send Email
+                              </button>
+                            </OverlayTrigger>
+                          </span>
+                        </>
+                      )}
+                      {showDRSDelete && (
+                        <>
+                          <span>
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={<Tooltip>Delete</Tooltip>}
+                            >
+                              <Link
+                                to="#"
+                                className="btn btn-danger me-2 rounded-11"
+                                onClick={handleDeleteDRS}
+                              >
+                                <i>
+                                  <svg
+                                    className="table-delete"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    width="16"
+                                  >
+                                    <path d="M0 0h24v24H0V0z" fill="none" />
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                                  </svg>
+                                </i>
+                              </Link>
+                            </OverlayTrigger>
+                          </span>
+                        </>
+                      )}
+
+                      {showResetBtn && (
+                        <>
+                          <button
+                            className="btn btn-danger me-2"
+                            type="btn"
+                            onClick={handleClearForm}
+                          >
+                            Reset
+                          </button>
+                        </>
+                      )}
+
+                      <button
+                        className="btn btn-primary me-2"
+                        type="submit"
+                      >
+                        {Submittile ? Submittile : "Submit"}
+                      </button>
+                    </div>
+                  </Card.Footer>
+                </div>
+              </form>
+            </Card>
+          </Col>
+        </Row>
       </>
     </>
   );
