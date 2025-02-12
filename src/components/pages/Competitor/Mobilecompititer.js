@@ -19,10 +19,19 @@ import useCustomDelete from "../../CommonComponent/useCustomDelete";
 import useToggleStatus from "../../CommonComponent/useToggleStatus";
 import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
+import { useMyContext } from "../../../Utils/MyContext";
 
 const Competitor = (props) => {
   const { isLoading, getData, postData } = props;
   const [CompetitorList, setCompetitorList] = useState();
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
+  const { isMobileApp } = useMyContext();
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const handlePageChange = (newPage) => {
@@ -86,7 +95,26 @@ const Competitor = (props) => {
     UserPermissions?.includes("competitor-update");
 
   const handleSubmit1 = async (values) => {
-    let { site_id } = values;
+    let { client_id, company_id, site_id, client_name, company_name } = values;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...values,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
+    };
+
     try {
       const queryParams = new URLSearchParams();
       if (site_id) queryParams.append("site_id", site_id);
@@ -95,11 +123,12 @@ const Competitor = (props) => {
       const queryString = queryParams.toString();
       const response = await getData(`site/competitor/list?${queryString}`);
 
-      const { data } = response;
-      if (data) {
+      if (response && response.data && response.data.data) {
         setCompetitorList(response.data.data.competitors);
         setCurrentPage(response.data.data?.currentPage || 1);
         setLastPage(response.data.data?.lastPage || 1);
+        setIsMobileModalOpen(false);
+        setFilters(updatedFilters);
       }
     } catch (error) {
       handleError(error);
@@ -248,8 +277,9 @@ const Competitor = (props) => {
             >
               <Link
                 to="#"
-                className={`btn btn-${row.is_main === 1 ? "success" : "gray"
-                  }   btn-sm rounded-11 me-2`}
+                className={`btn btn-${
+                  row.is_main === 1 ? "success" : "gray"
+                }   btn-sm rounded-11 me-2`}
                 onClick={() => handleMakeMainCompetitor(row)}
               >
                 <i className="ph ph-target" />
@@ -309,6 +339,9 @@ const Competitor = (props) => {
   const handleClearForm = async () => {
     setCompetitorList(null);
   };
+  const handleMobileModalOpen = async () => {
+    setIsMobileModalOpen(true);
+  };
 
   const handleSuccess = () => {
     if (storedData) {
@@ -316,6 +349,19 @@ const Competitor = (props) => {
       handleApplyFilters(parsedData);
     }
   };
+
+  const handleToggleSidebar1 = () => {
+    // setSidebarVisible1(!sidebarVisible1);
+    // setCenterFilterModalOpen(!centerFilterModalOpen);
+  };
+
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    // setDashboardData(null);
+  };
+
+  console.log("isMobileModalOpen:", isMobileModalOpen);
 
   return (
     <>
@@ -359,30 +405,36 @@ const Competitor = (props) => {
         </div>
 
         {/* here I will start Body of competitor */}
-        <Row>
-          <Col lg={12} xl={12} md={12} sm={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Filter </h3>
-              </Card.Header>
 
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                lg="4"
-                showStationValidation={true}
-                showMonthInput={false}
-                showDateInput={false}
-                showStationInput={true}
-                ClearForm={handleClearForm}
-              />
-            </Card>
-          </Col>
-        </Row>
+        {isMobileApp ? (
+          <>
+            <CommonMobileFilters
+              filters={filters}
+              handleToggleSidebar1={handleMobileModalOpen}
+              handleResetFilters={handleResetFilters}
+              showResetBtn={true}
+            />
+          </>
+        ) : (
+          <></>
+        )}
+
+        <NewFilterTab
+          getData={getData}
+          isLoading={isLoading}
+          isStatic={true}
+          onApplyFilters={handleApplyFilters}
+          validationSchema={validationSchemaForCustomInput}
+          storedKeyName={storedKeyName}
+          lg="4"
+          showStationValidation={true}
+          showMonthInput={false}
+          showDateInput={false}
+          showStationInput={true}
+          ClearForm={handleClearForm}
+          isOpen={isMobileModalOpen}
+          onClose={() => setIsMobileModalOpen(false)}
+        />
 
         {/* here is my listing data table */}
         <Row className=" row-sm">
