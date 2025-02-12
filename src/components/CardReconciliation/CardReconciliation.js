@@ -21,8 +21,6 @@ const CardReconciliation = (props) => {
     const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
 
     let storedKeyName = "localFilterModalData";
-    const storedData = localStorage.getItem(storedKeyName);
-
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
@@ -168,7 +166,7 @@ const CardReconciliation = (props) => {
             setShowCeoDetailModal(true);
         }
     };
-    console.log(formik.values?.cardID, "cardID");
+
     const columns = [
         {
             name: "Sr. No.",
@@ -269,6 +267,7 @@ const CardReconciliation = (props) => {
         },
 
     ];
+
     const SuccessToast = (message) => {
         toast.error(message, {
             // // position: toast.POSITION.TOP_RIGHT,
@@ -279,9 +278,7 @@ const CardReconciliation = (props) => {
         });
     };
     const handleSubmit = async (files) => {
-        console.log(files, "files");
 
-        // Check if files are present
         if (files && files.length > 0) {
 
             const validTypes = ["application/pdf", "text/csv"];
@@ -303,7 +300,7 @@ const CardReconciliation = (props) => {
 
                 // Append each file to formData
                 files.forEach((file) => {
-                    formData.append("csv_file", file); // Append each file as 'csv_file'
+                    formData.append("file[]", file); // Append each file as 'csv_file'
                 });
 
                 // Define the endpoint for uploading
@@ -437,7 +434,6 @@ const CardReconciliation = (props) => {
                                                         onChange={async (event) => {
                                                             const files = Array.from(event.target.files);
                                                             formik.setFieldValue("uploadedFiles", files);
-
                                                             handleSubmit(files);
 
                                                         }}

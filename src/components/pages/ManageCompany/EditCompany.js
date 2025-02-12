@@ -24,7 +24,7 @@ const EditCompany = (props) => {
 
     const fetchData = async () => {
       try {
-        const response = await postData("/company/detail", formData);
+        const response = await getData("/company/detail", formData);
         if (response) {
           // formik.setFieldValue("company_code", response?.data?.data?.company_code);
           formik.setValues(response?.data);

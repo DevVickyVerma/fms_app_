@@ -1,9 +1,12 @@
 import { Col, Row } from "react-bootstrap";
 import CEODashCommonCard from "../CEODashCommonCard";
 import CEODashCommonVerticalCard from "../CEODashCommonVerticalCard";
+import { getCurrentAndPreviousMonth } from "../../../Utils/commonFunctions/commonFunction";
 
 const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
   const singleSiteStoredData = localStorage.getItem("ceo-singleSiteData");
+
+  let dateOnToolTip = getCurrentAndPreviousMonth();
   const singleSiteParsedData = JSON.parse(singleSiteStoredData);
 
   const singleSiteFuelSales = singleSiteParsedData
@@ -79,6 +82,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             containerStyle={"dash-plates-1"}
             xl={12}
             upperTooltipContent={`Till volume + other bunkering categories volume`}
+            lastMonthTooltipContent={dateOnToolTip}
           />
         </Col>
         <Col lg={2}>
@@ -96,50 +100,9 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
             containerStyle={"dash-plates-3 "}
             xl={12}
             upperTooltipContent={`Till fuel sales + other bunkering categories sales`}
+            lastMonthTooltipContent={dateOnToolTip}
           />
         </Col>
-        {/*  // !  here  "Shop Earnings" is  Coming from "shop_fees Data" */}
-        {/* <Col lg={2}>
-          <CEODashCommonVerticalCard
-            isParentComponent={parentComponent}
-            showRightSide={true}
-            leftSideData={shop_fees?.shop_fee}
-            leftSideTitle={"Shop Earnings"}
-            RightSideData={fuel_commission?.fuel_commission}
-            RightSideTitle={"Fuel Commission"}
-            percentageValue={shop_fees?.percentage}
-            statusValue={shop_fees?.status}
-            handleNavigateClick={handleNavigateClick}
-            icon={"£"}
-            containerStyle={"dash-plates-3 "}
-            xl={12}
-          />
-        </Col> */}
-
-        {/* // ! Right Side Data Will come From "gross_margin_bunkered" that is
-          different Key */}
-        {/* <Col lg={2}>
-          <CEODashCommonVerticalCard
-            isParentComponent={parentComponent}
-            showRightSide={true}
-            leftSideData={gross_margin?.gross_margin}
-            leftSideTitle={"Gross Margin (Fuel)"}
-            RightSideTitle={"Gross Profit"}
-            RightSideData={gross_profit?.gross_profit}
-            statusValue={gross_margin?.status}
-            percentageValue={gross_margin?.percentage}
-            handleNavigateClick={handleNavigateClick}
-            icon={"£"}
-            containerStyle={"dash-plates-3 "}
-            xl={12}
-            ppl_msg={gross_margin?.is_ppl == 1 ? gross_margin?.ppl_msg : ""}
-            upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
-            lowerTooltipContent={
-              "Gross Profit = (Selling Price - Purchase Price) * Sales Volume"
-            }
-          />
-        </Col> */}
-
         <Col lg={2}>
           <CEODashCommonVerticalCard
             isParentComponent={parentComponent}
@@ -162,6 +125,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               "Gross Profit = (Selling Price - Purchase Price) * Sales Volume"
             }
             // lastMonthTooltipContent={`Jan 24 vs Feb 25`}
+            lastMonthTooltipContent={dateOnToolTip}
           />
         </Col>
 
@@ -178,6 +142,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               icon={"£"}
               containerStyle={"dash-plates-5 "}
               xl={6}
+              lastMonthTooltipContent={dateOnToolTip}
             />
 
             <CEODashCommonCard
@@ -191,6 +156,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               icon={"£"}
               containerStyle={"dash-plates-4"}
               xl={6}
+              lastMonthTooltipContent={dateOnToolTip}
             />
 
             <CEODashCommonCard
@@ -205,6 +171,7 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               containerStyle={"dash-plates-5"}
               upperTooltipContent={`The data is accurately sourced from back-office system`}
               xl={6}
+              lastMonthTooltipContent={dateOnToolTip}
             />
 
             <CEODashCommonCard
@@ -220,132 +187,11 @@ const CeoDashSubStatsBox = ({ Ceo, parentComponent = false }) => {
               containerStyle={"dash-plates-5"}
               xl={6}
               upperTooltipContent={`Shop Margin = (Shop Profit / Shop Sales) *100`}
+              lastMonthTooltipContent={dateOnToolTip}
             />
           </Row>
         </Col>
       </Row>
-
-      {/* <Row>
-        <CEODashCommonCard
-          isParentComponent={false}
-          showRightSide={true}
-          leftSideData={singleSiteFuelVolume?.gross_volume}
-          leftSideTitle={"Fuel Volume"}
-          RightSideData={singleSiteFuelVolume?.bunkered_volume}
-          RightSideTitle={"Bunkered Volume"}
-          statusValue={singleSiteFuelVolume?.status}
-          percentageValue={singleSiteFuelVolume?.percentage}
-          // handleNavigateClick={handleNavigateClick}
-          icon={"ℓ"}
-          containerStyle={"dash-plates-1"}
-          // upperTooltipContent={'dash-plates-1'}
-          // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
-        />
-
-        <CEODashCommonCard
-          isParentComponent={false}
-          showRightSide={true}
-          leftSideData={singleSiteFuelSales?.gross_value}
-          leftSideTitle={"Fuel Sales"}
-          RightSideData={singleSiteFuelSales?.bunkered_value}
-          RightSideTitle={"Bunkered Sales"}
-          statusValue={singleSiteFuelSales?.status}
-          percentageValue={singleSiteFuelSales?.percentage}
-          // handleNavigateClick={handleNavigateClick}
-          icon={"£"}
-          containerStyle={"dash-plates-3"}
-          // upperTooltipContent={'dash-plates-1'}
-          // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
-        />
-
-        <CEODashCommonCard
-          isParentComponent={false}
-          showRightSide={false}
-          leftSideData={singleSiteGrossProfit?.gross_profit}
-          leftSideTitle={"Gross Profit"}
-          RightSideData={singleSiteGrossProfit?.bunkered_value}
-          RightSideTitle={"Bunkered Volume"}
-          statusValue={singleSiteGrossProfit?.status}
-          percentageValue={singleSiteGrossProfit?.percentage}
-          // handleNavigateClick={handleNavigateClick}
-          icon={"£"}
-          containerStyle={"dash-plates-5"}
-          upperTooltipContent={`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}
-          // ppl_msg={GrossMarginValue?.is_ppl == 1 ? GrossMarginValue?.ppl_msg : ""}
-        />
-
-        <CEODashCommonCard
-          isParentComponent={false}
-          showRightSide={false}
-          leftSideData={singleSiteGrossMargin?.gross_margin}
-          leftSideTitle={"Gross Profit"}
-          RightSideData={singleSiteGrossMargin?.bunkered_value}
-          RightSideTitle={"Bunkered Volume"}
-          statusValue={singleSiteGrossMargin?.status}
-          percentageValue={singleSiteGrossMargin?.percentage}
-          // handleNavigateClick={handleNavigateClick}
-          // icon={"£"}
-          containerStyle={"dash-plates-2"}
-          upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
-          ppl_msg={
-            singleSiteGrossMargin?.is_ppl == 1
-              ? singleSiteGrossMargin?.ppl_msg
-              : ""
-          }
-          showPPL={true}
-        />
-
-        <CEODashCommonCard
-          isParentComponent={false}
-          showRightSide={false}
-          leftSideData={singleSiteShopSale?.shop_sales}
-          leftSideTitle={"Shop Sales"}
-          RightSideData={singleSiteShopSale?.bunkered_value}
-          RightSideTitle={"Bunkered Volume"}
-          statusValue={singleSiteShopSale?.status}
-          percentageValue={singleSiteShopSale?.percentage}
-          // handleNavigateClick={handleNavigateClick}
-          icon={"£"}
-          containerStyle={"dash-plates-4"}
-          // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
-          // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
-          // showPPL={true}
-        />
-
-        <CEODashCommonCard
-          isParentComponent={false}
-          showRightSide={false}
-          leftSideData={singleSiteShopFee?.shop_fee}
-          leftSideTitle={"Shop Fee"}
-          RightSideData={singleSiteShopFee?.bunkered_value}
-          RightSideTitle={"Bunkered Volume"}
-          statusValue={singleSiteShopFee?.status}
-          percentageValue={singleSiteShopFee?.percentage}
-          // handleNavigateClick={handleNavigateClick}
-          icon={"£"}
-          containerStyle={"dash-plates-6"}
-          // upperTooltipContent={`Gross Margin = (Gross Profit / Sales Volume) * 100`}
-          // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
-          // showPPL={true}
-        />
-
-        <CEODashCommonCard
-          isParentComponent={false}
-          showRightSide={false}
-          leftSideData={singleSiteShopMargin?.shop_profit}
-          leftSideTitle={"Shop Profit"}
-          RightSideData={singleSiteShopMargin?.bunkered_value}
-          RightSideTitle={"Bunkered Volume"}
-          statusValue={singleSiteShopMargin?.status}
-          percentageValue={singleSiteShopMargin?.percentage}
-          // handleNavigateClick={handleNavigateClick}
-          icon={"£"}
-          containerStyle={"dash-plates-5"}
-          upperTooltipContent={`The data is accurately sourced from back-office system`}
-          // ppl_msg={singleSiteShopSale?.is_ppl == 1 ? singleSiteShopSale?.ppl_msg : ""}
-          // showPPL={true}
-        />
-      </Row> */}
     </div>
   );
 };

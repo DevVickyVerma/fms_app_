@@ -1,32 +1,33 @@
 import { useEffect, useState } from "react";
 
-import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb, FormGroup } from "react-bootstrap";
 
 import {
-  FormControl,
-  Select,
-  MenuItem,
   Checkbox,
-  ListItemText,
+  FormControl,
   InputLabel,
-} from "@material-ui/core";
+  ListItemText,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import FormikReactSelect from "../../Formik/FormikReactSelect";
+import { MultiSelect } from "react-multi-select-component";
 
 const EditUsers = (props) => {
   const { isLoading, getData, postData } = props;
-  const { handleError } = useErrorHandler();
   const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [SelectedClient, setSelectedClient] = useState();
   const [roleItems, setRoleItems] = useState("");
   const [LoadingFetchUserDetail, setLoadingFetchUserDetail] = useState(false);
+  const [selected, setSelected] = useState([]);
 
   const [levelitems, setLevelItems] = useState("");
 
@@ -69,7 +70,6 @@ const EditUsers = (props) => {
 
   const { id } = useParams();
   let combinedClientNames = [];
-  let combinedClientId = [];
   const fetchClientList = async () => {
     setLoadingFetchUserDetail(true);
     try {
@@ -77,10 +77,7 @@ const EditUsers = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-        response?.data?.data?.clients.forEach((client) => {
-          combinedClientNames.push(client.client_name);
-          combinedClientId.push(client.id);
-        });
+        setSelected(response.data.data?.clients);
 
         setSelectedItems(combinedClientNames);
         setLoadingFetchUserDetail(false);
@@ -115,9 +112,9 @@ const EditUsers = (props) => {
         formData.append("work_flow", values.work_flow);
 
       formData.append("status", values.status);
-      if (SelectedClient !== null && SelectedClient !== undefined) {
-        SelectedClient.forEach((client, index) => {
-          formData.append(`assign_client[${index}]`, client);
+      if (selected !== null && selected !== undefined) {
+        selected?.forEach((client, index) => {
+          formData.append(`assign_client[${index}]`, client?.value);
         });
       }
 
@@ -398,56 +395,30 @@ const EditUsers = (props) => {
 
                       {localStorage.getItem("superiorRole") !== "Client" ? (
                         <Col lg={4} md={6}>
-                          <FormControl className="width">
-                            <InputLabel>Select Clients</InputLabel>
-                            <Select
-                              multiple={true}
-                              value={selectedItems}
-                              // value={selectedItemsId}
-                              onChange={(event) => {
-                                setSelectedItems(event.target.value);
-
-                                const selectedSiteNames = event.target.value;
-                                const filteredSites = AddSiteData?.data?.filter(
-                                  (item) =>
-                                    // selectedSiteNames.includes(item.client_name)
-                                    selectedSiteNames.includes(item.full_name)
-                                );
-
-                                const ids = filteredSites.map(
-                                  (data) => data.id
-                                );
-                                setSelectedClient(ids);
-                              }}
-                              renderValue={(selected) => selected.join(", ")}
-                            >
-                              <MenuItem disabled={true} value="">
-                                <em>Select items</em>
-                              </MenuItem>
-
-                              {AddSiteData?.data?.map((item) => {
-                                const isItemSelected = selectedItems.includes(
-                                  item.full_name
-                                );
-
-                                return (
-                                  <MenuItem
-                                    // key={item.client_name}
-                                    // value={item.client_name}
-                                    key={item.full_name}
-                                    value={item.full_name}
-                                  >
-                                    <Checkbox checked={isItemSelected} />
-                                    <ListItemText primary={item.full_name} />
-                                  </MenuItem>
-                                );
-                              })}
-                            </Select>
-                          </FormControl>
+                          <FormGroup>
+                            <label className="form-label mt-4">
+                              Select Assign Client
+                              <span className="text-danger">*</span>
+                            </label>
+                            <MultiSelect
+                              value={selected}
+                              onChange={setSelected}
+                              labelledBy="Select Assign Client"
+                              // disableSearch="true"
+                              options={
+                                AddSiteData?.data?.map((site) => ({
+                                  label: site?.client_name,
+                                  value: site?.id,
+                                })) || []
+                              }
+                              showCheckbox="true"
+                            />
+                          </FormGroup>
                         </Col>
                       ) : (
                         ""
                       )}
+
                       {localStorage.getItem("role") === "Client" ? (
                         <Col lg={4} md={6}>
                           <div className="form-group">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import { Breadcrumb, Card, Row } from "react-bootstrap";
@@ -7,8 +7,7 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
-
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const initialValues = {
   name: "",
@@ -34,7 +33,6 @@ const AddRoles = (props) => {
   const { handleError } = useErrorHandler();
   useEffect(() => {
     FetchTableData();
-    
   }, []);
   const FetchTableData = async () => {
     try {
@@ -65,7 +63,6 @@ const AddRoles = (props) => {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
-
 
   const formik = useFormik({
     initialValues,
@@ -118,6 +115,8 @@ const AddRoles = (props) => {
       );
     }
   };
+
+  console.log(formik?.errors, "formik erro r", formik?.values);
 
   return (
     <>
@@ -178,14 +177,15 @@ const AddRoles = (props) => {
                           id="name"
                           name="name"
                           placeholder="Role Name"
-                          className={`input101 ${formik.touched.name && formik.errors.name
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.touched.name && formik.errors.name
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           value={formik.values.name}
                           onChange={formik.handleChange}
                         />
-                        {formik.touched.name && formik.errors.name && (
+                        {formik?.errors?.name && (
                           <div className="invalid-feedback">
                             {formik.errors.name}
                           </div>
@@ -194,18 +194,19 @@ const AddRoles = (props) => {
 
                       <div className="form-group">
                         {permissions.data &&
-                          Object.keys(permissions.data).length > 0 ? (
+                        Object.keys(permissions.data).length > 0 ? (
                           <div>
                             {Object.keys(permissions.data).map((heading) => (
                               <div key={heading}>
                                 <div className="table-heading d-flex">
                                   <div className="heading-input ">
                                     <input
-                                      className={`form-check-input ${formik.touched.permissions &&
+                                      className={`form-check-input ${
+                                        formik.touched.permissions &&
                                         formik.errors.permissions
-                                        ? "is-invalid"
-                                        : ""
-                                        }`}
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
                                       type="checkbox"
                                       name={`selectAll_${heading}`}
                                       id={`select-all-${heading}`}
@@ -229,11 +230,12 @@ const AddRoles = (props) => {
                                         className="form-check form-check-inline"
                                       >
                                         <input
-                                          className={`form-check-input ${formik.touched.permissions &&
+                                          className={`form-check-input ${
+                                            formik.touched.permissions &&
                                             formik.errors.permissions
-                                            ? "is-invalid"
-                                            : ""
-                                            }`}
+                                              ? "is-invalid"
+                                              : ""
+                                          }`}
                                           type="checkbox"
                                           name="permissions"
                                           value={nameItem.name}

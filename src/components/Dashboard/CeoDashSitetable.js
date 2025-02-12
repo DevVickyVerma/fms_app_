@@ -99,8 +99,8 @@ const CeoDashSitetable = (props) => {
     {
       name: "Gross Volume",
       selector: (row) =>
-        row.detail?.wet_stock_value
-          ? parseFloat(row.detail?.wet_stock_value?.value)
+        row.fuel_volume?.gross_volume
+          ? parseFloat(row.fuel_volume?.gross_volume)
           : 0,
       sortable: true,
       id: "gross_volume",
@@ -118,8 +118,8 @@ const CeoDashSitetable = (props) => {
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-13 fw-semibold ">
                 <span className="l-sign">ℓ</span>{" "}
-                {row.detail?.wet_stock_value?.value
-                  ? formatNumber(row.detail?.wet_stock_value?.value)
+                {row.fuel_volume?.gross_volume
+                  ? formatNumber(row.fuel_volume?.gross_volume)
                   : "0"}
               </h6>
               <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
@@ -661,115 +661,6 @@ const CeoDashSitetable = (props) => {
         </div>
       ),
     },
-    // {
-    //   name: "Shop Fees",
-    //   selector: (row) =>
-    //     row?.shop_fees?.shop_fee ? parseFloat(row?.shop_fees?.shop_fee) : 0,
-    //   sortable: true,
-    //   width: "11%",
-    //   id: "7",
-    //   cell: (row) => (
-    //     <div
-    //       className={`d-flex   ${
-    //         isSitePermissionAvailable || isSiteSecondPermissionAvailable
-    //           ? "pointer"
-    //           : ""
-    //       }`}
-    //       onClick={() => handleFuelPriceLinkClick(row)}
-    //     >
-    //       <div className="ms-2 mt-0 mt-sm-2 d-block">
-    //         <h6 className="mb-0 fs-13 fw-semibold">
-    //           £
-    //           {row?.shop_fees?.shop_fee
-    //             ? formatNumber(row?.shop_fees?.shop_fee)
-    //             : "0"}
-    //           {/* {row?.shop_fees?.shop_fees || "0.00"} */}
-    //         </h6>
-    //         <OverlayTrigger placement="top" overlay={<Tooltip>MoM</Tooltip>}>
-    //           <p
-    //             className={`me-1  mb-0 c-fs-10 ${
-    //               row?.shop_fees?.status === "up"
-    //                 ? "text-success"
-    //                 : "text-danger"
-    //             }`}
-    //             data-tip={`${row?.shop_fees?.percentage}%`}
-    //           >
-    //             {row?.shop_fees?.status === "up" ? (
-    //               <>
-    //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
-    //                 <span className="text-success">
-    //                   {row?.shop_fees?.percentage}%
-    //                 </span>
-    //               </>
-    //             ) : (
-    //               <>
-    //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-    //                 <span className="text-danger">
-    //                   {row?.shop_fees?.percentage}%
-    //                 </span>
-    //               </>
-    //             )}
-    //           </p>
-    //         </OverlayTrigger>
-    //         {/* //Weekly Status Show */}
-    //         <OverlayTrigger placement="top" overlay={<Tooltip>WoW</Tooltip>}>
-    //           <p
-    //             className={`me-1   mb-0 c-fs-10 ${
-    //               row.shop_fees?.w_status === "up"
-    //                 ? "text-success"
-    //                 : "text-danger"
-    //             }`}
-    //             data-tip={`${row?.shop_fees?.w_percentage}%`}
-    //           >
-    //             {row?.shop_fees?.w_status === "up" ? (
-    //               <>
-    //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
-    //                 <span className="text-success">
-    //                   {row?.shop_fees?.w_percentage}%
-    //                 </span>
-    //               </>
-    //             ) : (
-    //               <>
-    //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-    //                 <span className="text-danger">
-    //                   {row?.shop_fees?.w_percentage}%
-    //                 </span>
-    //               </>
-    //             )}
-    //           </p>
-    //         </OverlayTrigger>
-
-    //         {/* //Yearly Status Show */}
-    //         <OverlayTrigger placement="top" overlay={<Tooltip>YoY</Tooltip>}>
-    //           <p
-    //             className={`me-1  mb-0 c-fs-10 ${
-    //               row.shop_fees?.y_status === "up"
-    //                 ? "text-success"
-    //                 : "text-danger"
-    //             }`}
-    //             data-tip={`${row?.shop_fees?.y_percentage}%`}
-    //           >
-    //             {row?.shop_fees?.y_status === "up" ? (
-    //               <>
-    //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
-    //                 <span className="text-success">
-    //                   {row?.shop_fees?.y_percentage}%
-    //                 </span>
-    //               </>
-    //             ) : (
-    //               <>
-    //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-    //                 <span className="text-danger">
-    //                   {row?.shop_fees?.y_percentage}%
-    //                 </span>
-    //               </>
-    //             )}
-    //           </p>
-    //         </OverlayTrigger>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
     {
       name: "Shop Profit",
       selector: (row) =>
@@ -889,7 +780,7 @@ const CeoDashSitetable = (props) => {
           : 0,
       sortable: true,
       width: "11%",
-      id: "8",
+      id: "9",
       cell: (row) => (
         <div
           className={`d-flex   ${

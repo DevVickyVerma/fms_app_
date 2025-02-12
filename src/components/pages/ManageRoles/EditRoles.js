@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import { Breadcrumb, Card, Row } from "react-bootstrap";
@@ -19,7 +19,6 @@ const EditRoles = (props) => {
 
   useEffect(() => {
     FetchPermisionList();
-    
   }, []);
   const FetchPermisionList = async () => {
     try {
@@ -92,7 +91,6 @@ const EditRoles = (props) => {
     },
   });
 
-
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
@@ -109,7 +107,7 @@ const EditRoles = (props) => {
       const navigatePath = `/roles`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleHeadingCheckboxChange = (heading, isChecked) => {
@@ -195,16 +193,17 @@ const EditRoles = (props) => {
                         id="name"
                         name="name"
                         placeholder="RoleName"
-                        className={`input101 ${formik.touched.name && formik.errors.name
-                          ? "is-invalid"
-                          : ""
-                          }`}
+                        className={`input101 ${
+                          formik.touched.name && formik.errors.name
+                            ? "is-invalid"
+                            : ""
+                        }`}
                         value={formik.values.name}
                         onChange={formik.handleChange}
                       />
-                      {formik.touched.name && formik.errors.name && (
+                      {formik?.errors?.name && (
                         <div className="invalid-feedback">
-                          {formik.errors.name}
+                          {formik?.errors?.name}
                         </div>
                       )}
                     </div>
@@ -244,11 +243,12 @@ const EditRoles = (props) => {
                                   className="form-check form-check-inline"
                                 >
                                   <input
-                                    className={`form-check-input ${formik.touched.permissions &&
+                                    className={`form-check-input ${
+                                      formik.touched.permissions &&
                                       formik.errors.permissions
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
                                     type="checkbox"
                                     name="permissions"
                                     value={nameItem.name}

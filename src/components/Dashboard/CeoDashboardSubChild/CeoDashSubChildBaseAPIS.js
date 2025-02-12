@@ -195,13 +195,15 @@ const DashSubChildBaseAPIS = (props) => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
       if (currentScrollY > 150 && !callSiteFuelPerformanceApi) {
-        setCallSiteFuelPerformanceApi(true);
+        // setCallSiteFuelPerformanceApi(true);
       }
 
       if (currentScrollY > 250 && !callShopSaleApi) {
-        setCallShopSaleApi(true);
+        // setCallShopSaleApi(true);
       }
     }
+    setCallSiteFuelPerformanceApi(true);
+    setCallShopSaleApi(true);
 
     window.addEventListener("scroll", handleScroll);
 

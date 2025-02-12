@@ -226,7 +226,7 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
               <>
                 <button
                   type="button"
-                  className="btn btn-primary ms-2 btn-sm"
+                  className="btn btn-primary ms-2 btn-sm d-flex align-items-center"
                   onClick={() => {
                     const newSetting = {
                       time: "12:15",
@@ -245,7 +245,8 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
                     ]);
                   }}
                 >
-                  <i className="ph ph-plus"></i>
+                  Set New Scheduler
+                  <i className="ph ph-plus ms-1 fs-15"></i>
                 </button>
               </>
             ) : (
