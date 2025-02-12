@@ -12,6 +12,8 @@ import { BestvsWorst, GraphfilterOptions } from "../../Utils/commonFunctions/com
 import DataTable from "react-data-table-component";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import TitanStatsTable from "./TitanStatsTable";
+import SearchBar from "../../Utils/SearchBar";
+import CustomPagination from "../../Utils/CustomPagination";
 
 
 const TitanDetailModal = (props) => {
@@ -26,12 +28,26 @@ const TitanDetailModal = (props) => {
 
     } = props;
     const [apiData, setApiData] = useState(); // to store API response data
+    const [CardData, setCardData] = useState(); // to store API response data
     const [loading, setLoading] = useState(false);
+    const [bestvsWorst, setbestvsWorst] = useState("0");
 
-    console.log(filterData, "filterData");
+    const [graphfilterOption, setgraphfilterOption] = useState("weekly");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
+    const handleSearch = (searchTerm) => {
+        setSearchTerm(searchTerm);
+    };
+
+    const handleReset = () => {
+        setSearchTerm("");
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
     const { handleError } = useErrorHandler();
-
-
 
     var [isClientRole] = useState(
         localStorage.getItem("superiorRole") == "Client"
@@ -72,7 +88,7 @@ const TitanDetailModal = (props) => {
             comparison_label: "Weekly",
             grades: [],
             selectedGrade: "",
-            selectedGrade: "",
+
             selectedTank: "",
             selectedCompany: "",
             selectedTankDetails: "",
@@ -148,7 +164,7 @@ const TitanDetailModal = (props) => {
 
     useEffect(() => {
         fetchData(); // Trigger the fetchData function on component mount or title change
-    }, [title, formik?.values?.selectedTank]); // Dependencies: title and selectedSite
+    }, [title, formik?.values?.selectedTank, graphfilterOption, bestvsWorst, currentPage, searchTerm]); // Dependencies: title and selectedSite
     console.log(formik?.values, "filterData");
     const fetchData = async () => {
         try {
@@ -180,12 +196,19 @@ const TitanDetailModal = (props) => {
             // Dynamically handle API calls based on the title
             switch (title) {
                 case "Card Reconciliation Details":
-                    response = await getData(`credit-card/get-diff-transcations?${queryString}`);
+                    let apiUrl = `/credit-card/get-diff-transcations?${queryString}&page=${currentPage}`;
+                    if (searchTerm) {
+                        apiUrl += `& keyword=${searchTerm} `;
+                    }
+
+                    response = await getData(apiUrl);
+                    // response = await getData(`credit - card / get - diff - transcations ? ${ queryString } `);
+
                     break;
 
                 case "Performance":
                     response = await getData(
-                        `titan-dashboard/performance-stats?${queryString}`
+                        `titan - dashboard / performance - stats ? ${queryString} `
                     );
                     break;
 
@@ -195,7 +218,10 @@ const TitanDetailModal = (props) => {
 
             if (response) {
                 setApiData(response.data?.data); // Assuming response has a 'data' field
-                console.log(response, "response");
+                setCardData(response.data?.data?.card_list); // Assuming response has a 'data' field
+                setCurrentPage(response.data.data?.currentPage || 1);
+                setLastPage(response.data.data?.lastPage || 1);
+                console.log(response.data?.data?.data, "response.data?.data?.data");
             }
         } catch (error) {
             console.error("API call failed:", error);
@@ -225,8 +251,6 @@ const TitanDetailModal = (props) => {
 
 
 
-    const [bestvsWorst, setbestvsWorst] = useState("0");
-    const [graphfilterOption, setgraphfilterOption] = useState("weekly");
 
     const columns = [
         {
@@ -345,7 +369,7 @@ const TitanDetailModal = (props) => {
             {isLoading || loading ? <LoaderImg /> : ""}
             <div
                 className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
-                    }`}
+                    } `}
                 style={{
                     width:
                         title == "MOP Breakdown"
@@ -353,8 +377,8 @@ const TitanDetailModal = (props) => {
                             : title == "Card Reconciliation Details"
                                 ? "60%"
                                 : title == "Comparison"
-                                    ? "70%"
-                                    : "80%",
+                                    ? "60%"
+                                    : "60%",
                 }}
             >
                 <div className="card">
@@ -556,14 +580,26 @@ const TitanDetailModal = (props) => {
                                     />
                                 </div>
                                 <Card>
+                                    <Card.Header>
+                                        <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                                            <h3 className="card-title">Card Reconciliation Details</h3>
+                                            <div className="mt-2 mt-sm-0">
+                                                <SearchBar
+                                                    onSearch={handleSearch}
+                                                    onReset={handleReset}
+                                                    hideReset={searchTerm}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Card.Header>
 
                                     <Card.Body>
-                                        {apiData?.length > 0 ? (
+                                        {CardData?.length > 0 ? (
                                             <>
                                                 <div className="table-responsive deleted-table">
                                                     <DataTable
                                                         columns={columns}
-                                                        data={apiData}
+                                                        data={CardData}
                                                         noHeader={true}
                                                         defaultSortField="id"
                                                         defaultSortAsc={false}
@@ -580,6 +616,13 @@ const TitanDetailModal = (props) => {
                                             </>
                                         )}
                                     </Card.Body>
+                                    {CardData?.length > 0 && lastPage > 1 && (
+                                        <CustomPagination
+                                            currentPage={currentPage}
+                                            lastPage={lastPage}
+                                            handlePageChange={handlePageChange}
+                                        />
+                                    )}
 
                                 </Card>
                             </>

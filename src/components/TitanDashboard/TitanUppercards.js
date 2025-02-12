@@ -123,7 +123,7 @@ const TitanUppercards = (props) => {
                             isParentComponent={parentComponent}
                             showRightSide={true}
                             leftSideData={unkonwn_loss_volume?.value}
-                            leftSideTitle={"Unknown Loss"}
+                            leftSideTitle={"Site Loss"}
                             RightSideData={unkonwn_loss_volume?.ytd_value}
                             RightSideTitle={"YTD Volume"}
                             statusValue={unkonwn_loss_volume?.status}
@@ -133,7 +133,7 @@ const TitanUppercards = (props) => {
                             containerStyle={"dash-plates-3 "}
                             xl={12}
 
-                            Lefttooltip={`Unknown Loss (Liters)=  Wetstock Loss - Delivery Loss`}
+                            Lefttooltip={`Site Loss (Liters)=  Wetstock Loss - Delivery Loss`}
                             Righttooltip={`Year To Date `}
                         />
                     </Col>
@@ -202,7 +202,7 @@ const TitanUppercards = (props) => {
                             isParentComponent={parentComponent}
                             showRightSide={true}
                             leftSideData={unkonwn_loss_value?.value}
-                            leftSideTitle={"Unknown Loss"}
+                            leftSideTitle={"Site Loss"}
                             RightSideData={unkonwn_loss_value?.ytd_value}
                             RightSideTitle={"YTD Value"}
                             statusValue={unkonwn_loss_value?.status}
