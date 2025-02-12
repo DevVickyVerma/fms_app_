@@ -4,6 +4,9 @@
   "homepage": "https://react.spurko.com/",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^7.0.1",
+    "@capacitor/cli": "^7.0.1",
+    "@capacitor/core": "^7.0.1",
     "@capacitor/device": "^7.0.0",
     "@emotion/styled": "^11.13.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
