@@ -13,6 +13,15 @@ export const MENUITEMS = [
       },
 
 
+      // {
+      //   path: `/ceodashboard-test`,
+      //   icon: "house",
+      //   type: "link",
+      //   active: false,
+      //   permission: "ceodashboard-view",
+      //   visibility: false,
+      //   title: "CEO Dashboard Old",
+      // },
       {
         title: "Reconciliation",
         icon: "graduation-cap",
@@ -31,7 +40,7 @@ export const MENUITEMS = [
           {
             path: `/cash-reconciliation`,
             type: "link",
-            title: "Cash",
+            title: "Cash ",
             permission: "level-create",
             visibility: false,
           },
