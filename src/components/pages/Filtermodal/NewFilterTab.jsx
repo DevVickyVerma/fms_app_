@@ -237,7 +237,7 @@ const NewFilterTab = ({
     <>
       {isLoading ? <LoaderImg /> : null}
       <>
-        {isMobileApp ? (
+        {!isMobileApp ? (
           <>
             {isOpen ? (
               <>
@@ -270,7 +270,7 @@ const NewFilterTab = ({
                         <Row>
                           {showClientInput &&
                             localStorage.getItem("superiorRole") !==
-                              "Client" && (
+                            "Client" && (
                               <Col lg={12}>
                                 <FormikSelect
                                   formik={formik}
@@ -425,7 +425,7 @@ const NewFilterTab = ({
                         <Row>
                           {showClientInput &&
                             localStorage.getItem("superiorRole") !==
-                              "Client" && (
+                            "Client" && (
                               <Col lg={lg || 6}>
                                 <FormikSelect
                                   formik={formik}
@@ -628,6 +628,7 @@ const NewFilterTab = ({
             </Row>
           </>
         )}
+
       </>
     </>
   );
