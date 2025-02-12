@@ -11,6 +11,8 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
+
+
       // {
       //   path: `/ceodashboard-test`,
       //   icon: "house",
@@ -20,54 +22,30 @@ export const MENUITEMS = [
       //   visibility: false,
       //   title: "CEO Dashboard Old",
       // },
-      // {
-      //   title: "Card Reconciliation",
-      //   icon: "graduation-cap",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "level-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/card-reconciliation`,
-      //       type: "link",
-      //       title: "Card Reconciliation",
-      //       permission: "level-list",
-      //       visibility: false,
-      //     },
-      //     {
-      //       path: `/cash-reconciliation`,
-      //       type: "link",
-      //       title: "Cash Reconciliation",
-      //       permission: "level-create",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: "Reconciliation",
-      //   icon: "graduation-cap",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "level-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/card-reconciliation`,
-      //       type: "link",
-      //       title: "Credit Card ",
-      //       permission: "level-list",
-      //       visibility: false,
-      //     },
-      //     {
-      //       path: `/cash-reconciliation`,
-      //       type: "link",
-      //       title: "Cash",
-      //       permission: "level-create",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
+      {
+        title: "Reconciliation",
+        icon: "graduation-cap",
+        type: "sub",
+        active: false,
+        permission: "level-list",
+        visibility: false,
+        children: [
+          {
+            path: `/card-reconciliation`,
+            type: "link",
+            title: "Credit Card ",
+            permission: "level-list",
+            visibility: false,
+          },
+          {
+            path: `/cash-reconciliation`,
+            type: "link",
+            title: "Cash ",
+            permission: "level-create",
+            visibility: false,
+          },
+        ],
+      },
       {
         path: `/ceodashboard`,
         icon: "crown",

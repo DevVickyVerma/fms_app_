@@ -47,10 +47,10 @@ const TitanDashboard = (props) => {
     );
 
     const priceLogsPermission = userPermissions?.includes(
-        "ceodashboard-price-logs"
+        "titandashboard-details"
     );
     const priceGraphPermission = userPermissions?.includes(
-        "ceodashboard-price-graph"
+        "titandashboard-view"
     );
 
     const { handleError } = useErrorHandler();
@@ -77,7 +77,7 @@ const TitanDashboard = (props) => {
     useEffect(() => {
         localStorage.setItem(
             "Dashboardsitestats",
-            permissionsArray?.includes("ceodashboard-site-stats")
+            permissionsArray?.includes("titandashboard-view")
         );
         if (ReduxFullData?.company_id) {
             localStorage.setItem("PresetCompanyID", ReduxFullData?.company_id);
@@ -99,6 +99,9 @@ const TitanDashboard = (props) => {
 
 
     const handleApplyFilters = async (values) => {
+
+
+        console.log(values, "handleApplyFilters");
         formik.setFieldValue("client_id", values.client_id);
         formik.setFieldValue("company_id", values.company_id);
         try {
@@ -118,7 +121,7 @@ const TitanDashboard = (props) => {
             localStorage.setItem(storedKeyName, JSON.stringify(values));
 
             // Fetch dashboard stats if the user has the required permission
-            if (permissionsArray?.includes("ceodashboard-view")) {
+            if (permissionsArray?.includes("titandashboard-view")) {
                 // FetchPriceLogs(values)
                 // console.log(storedKeyName, "storedKeyName");
                 FetchDashboardStats(values);
@@ -187,7 +190,6 @@ const TitanDashboard = (props) => {
         callback
     ) => {
         const updatedFilters = updateFilters(filters);
-        console.log(updatedFilters, "updatedFilters");
         const { client_id, company_id, site_id, grade_id, tank_id, start_month } = updatedFilters;
 
         if (
@@ -297,7 +299,7 @@ const TitanDashboard = (props) => {
 
     useEffect(() => {
         handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
-    }, [permissionsArray?.includes("ceodashboard-view")]);
+    }, [permissionsArray?.includes("titandashboard-view")]);
 
     const handlelivemaringclosemodal = () => {
         setShowLiveData(false); // Toggle the state
@@ -460,8 +462,8 @@ const TitanDashboard = (props) => {
                     <div className="">
                         <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
                             Titan Dashboard (
-                            {dashboardData?.dateString
-                                ? dashboardData?.dateString
+                            {dashboardData?.display_date
+                                ? dashboardData?.display_date
                                 : ReduxFullData?.dates}
                             )
                         </h2>
@@ -587,7 +589,7 @@ const TitanDashboard = (props) => {
                                             {PriceGraphData?.name &&
                                                 ` (${PriceGraphData?.name})`}
                                             <br></br>
-                                            {userPermissions?.includes("ceodashboard-price-graph") && filters?.company_id ? (
+                                            {userPermissions?.includes("titandashboard-view") && filters?.company_id ? (
                                                 <span onClick={() => handleCardClick("Performance")} style={{ color: "#4663ac" }} className="pointer">
                                                     <div >
                                                         Table View
