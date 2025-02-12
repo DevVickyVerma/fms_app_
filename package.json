@@ -1,7 +1,7 @@
 {
   "name": "FMS-credentia",
   "version": "0.1.0",
-  "homepage": "https://fms.credentia.uk/dashboard/",
+  "homepage": "https://react.spurko.com/",
   "private": true,
   "dependencies": {
     "@emotion/styled": "^11.13.0",

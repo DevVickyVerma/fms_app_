@@ -1546,7 +1546,7 @@ const CeoDetailModal = (props) => {
                   />
                 </div>
                 <CeoDashSitetable
-                  data={apiData?.data}
+                  data={apiData?.data || []}
                   tootiptitle={"Profit"}
                   title={"Sites "}
                 />

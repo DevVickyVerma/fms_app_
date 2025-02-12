@@ -65,6 +65,7 @@ import FuelSuggestionEmailLogs from "./components/pages/FuelSuggestionLogs/FuelS
 import FuelSuggestionActivityLogs from "./components/pages/FuelSuggestionLogs/FuelSuggestionActivityLogs";
 import FuelSuggestionHistoryLog from "./components/pages/FuelSuggestionLogs/FuelSuggestionHistoryLog";
 import ManageAddEditUser from "./components/pages/ManageUsers/ManageAddEditUser";
+import AddEditUsers from "./components/pages/ManageUsers/AddEditUsers";
 //App
 
 const CardReconciliation = React.lazy(
@@ -913,6 +914,8 @@ const Root = () => {
                       path={`add-edit-user`}
                       element={<WrappedManageAddEditUser />}
                     />
+                    <Route path={`add-user`} element={<AddEditUsers />} />
+                    <Route path={`edit-user/:id`} element={<AddEditUsers />} />
 
                     <Route
                       path={`/competitor`}
