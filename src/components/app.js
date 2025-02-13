@@ -203,7 +203,7 @@ const App = () => {
 
   const registerPushNotifications = () => {
 
-    if (!isPlatform('ios') && !isPlatform('android') || !isMobile) {
+    if (isMobile) {
       console.log('Push notifications are not supported on this platform (Desktop/Web).');
       return; // Exit for unsupported platforms
     }
