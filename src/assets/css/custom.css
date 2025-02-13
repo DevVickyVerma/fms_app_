@@ -2985,3 +2985,16 @@ td.middayModal-td.time-input-fuel-sell {
 .shop-sale-modal {
   min-width: 500px !important;
 }
+
+.mobile-first-table .rdt_TableCell {
+  padding: 2px !important;
+  min-width: 180px !important;
+}
+
+.mobile-btn {
+  min-width: auto;
+}
+
+.mobile-ph {
+  font-size: var(--small-fs) !important;
+}
