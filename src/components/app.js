@@ -80,7 +80,6 @@ const App = () => {
   };
   const [plateform, setPlateform] = useState()
   const currentPlatforms = getPlatforms();
-  const displayText = currentPlatforms.includes("mobileweb") ? "ionic" : "web";
 
   useEffect(() => {
     if (currentPlatforms.includes("android")) {
@@ -202,8 +201,10 @@ const App = () => {
   }, []);
 
   const registerPushNotifications = () => {
+    console.log(deviceInfo, "registerPushNotifications");
+    // Check if the platform is iOS or Android or a WebView (mobile environment)
+    if (deviceInfo?.platform == "web") {
 
-    if (isMobile) {
       console.log('Push notifications are not supported on this platform (Desktop/Web).');
       return; // Exit for unsupported platforms
     }
@@ -243,7 +244,11 @@ const App = () => {
   };
 
   // Call the function to register for push notifications
-  registerPushNotifications();
+  if (deviceInfo) {
+    registerPushNotifications();
+  } else {
+    console.warn('Device info not available yet.');
+  }
   return (
     <MyProvider>
       <NavigationProvider>
