@@ -36,7 +36,7 @@ const Dashboard = (props) => {
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
   const dispatch = useDispatch();
-  const { deviceType, deviceInfo } = useMyContext();
+  const { deviceType, deviceInfo, isMobile } = useMyContext();
   useEffect(() => {
     dispatch(fetchData());
   }, []);
@@ -219,7 +219,7 @@ const Dashboard = (props) => {
       icon: "£"
     }
   ];
-
+  console.log(isMobile, "isMobile");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -292,7 +292,7 @@ const Dashboard = (props) => {
               )
             </h2>
             {
-              (deviceInfo?.operatingSystem !== "windows") && (
+              (isMobile) && (
                 <>
                   {/* Filter Button */}
                   <div className="spaceBetween">
@@ -309,7 +309,7 @@ const Dashboard = (props) => {
                       filters?.company_id ||
                       filters?.site_id ||
                       filters?.start_date) &&
-                      (deviceInfo?.operatingSystem !== "windows") && (
+                      (isMobile) && (
                         <IonButton
                           className="mob-custom-danger-btn"
                           size="small"
@@ -376,7 +376,7 @@ const Dashboard = (props) => {
       </IonButton> */}
 
 
-      {deviceInfo?.operatingSystem !== "windows" ? (
+      {isMobile ? (
         <div>
           <h1>Device Information</h1>
           <ul>
@@ -389,7 +389,7 @@ const Dashboard = (props) => {
           </ul>
         </div>
       ) : (
-        <p>{deviceInfo.operatingSystems}</p>
+        <p>{deviceInfo?.operatingSystem}</p>
       )}
 
 
@@ -398,7 +398,7 @@ const Dashboard = (props) => {
         {filters?.client_id && filters.company_id && (
           <>
             {
-              (deviceInfo?.operatingSystem !== "windows") ?
+              (isMobile) ?
                 <IonButton
                   className="mob-custom-danger-btn"
                   size="small"
@@ -451,7 +451,7 @@ const Dashboard = (props) => {
           </h2>
         )}
 
-        {deviceInfo?.operatingSystem !== "windows" ? <CardSwiper
+        {isMobile ? <CardSwiper
           dashboardData={dashboardData}
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           cardsData={DashboardcardsData(dashboardData)}  // ✅ Call the function
