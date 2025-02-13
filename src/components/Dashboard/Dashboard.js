@@ -389,7 +389,7 @@ const Dashboard = (props) => {
           </ul>
         </div>
       ) : (
-        <p>{deviceInfo.operatingSystem}</p>
+        <p>{deviceInfo.operatingSystems}</p>
       )}
 
 
