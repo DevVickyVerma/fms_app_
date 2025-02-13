@@ -13,7 +13,6 @@ const MyProvider = ({ children }) => {
 
   const [deviceType, setDeviceType] = useState("");
 
-  console.log(deviceInfo, "deviceInfo");
   useEffect(() => {
     const checkDevice = async () => {
       try {
