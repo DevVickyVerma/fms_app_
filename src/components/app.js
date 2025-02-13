@@ -195,8 +195,14 @@ const App = () => {
       event.detail.complete(); // Stop refresh animation
     }, 2000);
   }
-
+  // --primary - bg - color: #09469f;
+  // --primary - bg - hover: #0B5ECF;
   useEffect(() => {
+    // if (window.Capacitor) {
+    //   document.documentElement.style.setProperty('--primary-bg-color', '#09469f');
+    //   document.documentElement.style.setProperty('--primary-bg-hover', '#0B5ECF');
+    // }
+
     dispatch(fetchData());
   }, []);
 
@@ -244,7 +250,7 @@ const App = () => {
   };
 
   // Call the function to register for push notifications
-  if (deviceInfo) {
+  if (deviceInfo?.platform == "web") {
     registerPushNotifications();
   } else {
     console.warn('Device info not available yet.');
