@@ -208,7 +208,7 @@ const TitanDetailModal = (props) => {
 
                 case "Performance":
                     response = await getData(
-                        `titan - dashboard / performance - stats ? ${queryString} `
+                        `titan-dashboard/performance-stats?${queryString} `
                     );
                     break;
 

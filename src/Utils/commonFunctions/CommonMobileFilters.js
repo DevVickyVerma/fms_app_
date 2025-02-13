@@ -16,9 +16,9 @@ const CommonMobileFilters = ({
   return (
     <div className="d-flex gap-2 flex-wrap mb-4">
       {filters?.client_id ||
-      filters?.company_id ||
-      filters?.site_id ||
-      filters?.start_date ? (
+        filters?.company_id ||
+        filters?.site_id ||
+        filters?.start_date ? (
         <div
           className="badges-container d-flex align-items-center gap-2 px-4 py-sm-0 py-2 text-white w-100 overflow-auto"
           style={{ background: "#ddd" }}
@@ -67,35 +67,51 @@ const CommonMobileFilters = ({
 
         //   </span>
         // </div>
+        <>
 
-        <IonButton
-          onClick={handleToggleSidebar1}
-          //   type="danger"
-          expand="full"
-          size="small"
-          className="mobile-no-bg"
-          //   className="mob-custom-primary-btn"
-          style={{ marginRight: "8px" }}
-        >
-          *Please apply filter to see the stats <IonIcon icon={funnelOutline} />
-        </IonButton>
+
+          <mobileButton
+            onClick={handleToggleSidebar1}
+            text="Apply Filter to See Stats"
+            icon={funnelOutline}
+            color="danger" // Change this to "primary", "secondary", "success", etc.
+            className="mobile-no-bg"
+          />
+
+          <mobileButton
+            onClick={() => console.log("Another Button Clicked")}
+            text="Submit"
+            color="success"
+          />
+          <IonButton
+            onClick={handleToggleSidebar1}
+            //   type="danger"
+            expand="full"
+            size="small"
+            className="mobile-no-bg"
+            //   className="mob-custom-primary-btn"
+            style={{ marginRight: "8px" }}
+          >
+            *Please apply filter to see the stats <IonIcon icon={funnelOutline} />
+          </IonButton>
+        </>
       )}
 
       {(filters?.client_id ||
         filters?.company_id ||
         filters?.site_id ||
         filters?.start_date) && (
-        <Button
-          onClick={handleToggleSidebar1}
-          type="button"
-          className="btn btn-primary btn-sm"
-        >
-          {/* Filter */}
-          <span>
-            <i className="ph ph-funnel ms-1" />
-          </span>
-        </Button>
-      )}
+          <Button
+            onClick={handleToggleSidebar1}
+            type="button"
+            className="btn btn-primary btn-sm"
+          >
+            {/* Filter */}
+            <span>
+              <i className="ph ph-funnel ms-1" />
+            </span>
+          </Button>
+        )}
 
       {(filters?.client_id ||
         filters?.company_id ||
