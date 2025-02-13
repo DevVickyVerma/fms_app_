@@ -1,16 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import { SuccessAlert } from "../../Utils/ToastUtils";
+import { useMyContext } from "../../Utils/MyContext";
+import { IonIcon, IonItemDivider } from '@ionic/react';
+import { IonActionSheet, IonButton } from '@ionic/react';
+import { personCircleOutline, chatbubbleOutline, settingsOutline, logOutOutline, createOutline } from "ionicons/icons";
+
 
 const Header = (props) => {
   const { getData } = props;
   const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
     useState(null);
-
+  const { deviceType, deviceInfo } = useMyContext();
   const logout = async () => {
     localStorage.clear();
     window.location.replace("/");
@@ -74,7 +79,31 @@ const Header = (props) => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
   const mybalance = String(reduxData?.smsCredit);
+  const [showActionSheet, setShowActionSheet] = useState(false);
 
+  const handleAction = (action) => {
+    switch (action) {
+      case 'delete':
+        console.log('Delete action triggered');
+        break;
+      case 'share':
+        console.log('Share action triggered');
+        break;
+      case 'cancel':
+        console.log('Action cancelled');
+        break;
+      default:
+        console.log('Unknown action');
+    }
+    setShowActionSheet(false); // Close the action sheet after an action
+  };
+
+  const navigate = useNavigate();
+  const handleNavigation = (path) => {
+    navigate(path);
+
+    setShowActionSheet(false);
+  };
   return (
     <Navbar expand="md" className="app-header header sticky">
       <Container fluid={true} className="main-container">
@@ -114,72 +143,113 @@ const Header = (props) => {
 
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
-              <Navbar id="navbarSupportedContent-4">
-                <div className="d-flex order-lg-2 nav-header-box">
-                  <Dropdown className=" d-md-flex profile-1 profile-drop-down">
-                    <Dropdown.Toggle
-                      className="nav-link profile profile-box leading-none d-flex px-1"
-                      variant=""
-                    >
-                      <h5 className="header-name mb-0 d-flex">
-                        <span className="header-welcome-text">
-                          {`Welcome,  ${" "}`}&nbsp;
-                        </span>
-                        <span className="header-welcome-text-title">
-                          {reduxData?.first_name
-                            ? reduxData?.first_name
-                            : " Admin"}
-                        </span>
-                      </h5>
-                      <i className="ph ph-caret-circle-down ms-2" />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu
-                      className="dropdown-menu-end dropdown-menu-arrow"
-                      style={{ margin: 0 }}
-                    >
-                      <div className="drop-heading">
-                        <div className="">
-                          <h5 className="text-dark mb-0">
-                            {reduxData?.full_name
-                              ? reduxData?.full_name
-                              : "Admin"}{" "}
-                            <br />{" "}
-                          </h5>
-                        </div>
-                      </div>
-                      <div className="dropdown-divider m-0" />
-                      {isSmSPermissionAvailable &&
-                      localStorage.getItem("superiorRole") == "Client" ? (
-                        <Dropdown.Item as={Link} to="/manage-sms">
-                          <i className="dropdown-icon ph ph-chat-text" /> MY SMS{" "}
-                          <span className="mybalance">
-                            {mybalance !== undefined ? mybalance : ""}
+
+              {deviceInfo?.operatingSystem !== "windows" ?
+                <>
+                  <IonIcon style={{ marginRight: "10px", color: "#09469f" }}
+                    className="ms - 2  " onClick={() => setShowActionSheet(true)} icon={personCircleOutline} size="large" />
+                  <IonActionSheet
+                    isOpen={showActionSheet}
+
+                    buttons={
+                      [
+                        {
+                          text: 'Edit  Profile',
+                          icon: personCircleOutline,
+                          data: { action: 'delete' },
+                          handler: () => handleNavigation("/editprofile"),
+                        },
+                        {
+                          text: 'Settings',
+                          icon: settingsOutline,
+                          data: { action: 'share' },
+                          handler: () => handleNavigation("/settings"),
+                        },
+
+                        {
+                          text: 'Sign Out',
+                          data: { action: 'share' },
+                          icon: logOutOutline,
+                          handler: () => logout(),
+                        },
+
+                        {
+                          text: 'Cancel',
+                          role: 'cancel',
+                          data: { action: 'cancel' },
+                          handler: () => handleAction('cancel'),
+                        },
+                      ]
+                    }
+                    onDidDismiss={() => setShowActionSheet(false)}
+                  />
+                </> : <Navbar id="navbarSupportedContent-4">
+                  <div className="d-flex order-lg-2 nav-header-box">
+                    <Dropdown className=" d-md-flex profile-1 profile-drop-down">
+                      <Dropdown.Toggle
+                        className="nav-link profile profile-box leading-none d-flex px-1"
+                        variant=""
+                      >
+                        <h5 className="header-name mb-0 d-flex">
+                          <span className="header-welcome-text">
+                            {`Welcome,  ${" "}`}&nbsp;
                           </span>
-                        </Dropdown.Item>
-                      ) : null}
-                      {isProfileUpdatePermissionAvailable ? (
-                        <Dropdown.Item as={Link} to="/editprofile">
-                          <i className="dropdown-icon ph ph-user" /> Edit
-                          Profile
-                        </Dropdown.Item>
-                      ) : null}
+                          <span className="header-welcome-text-title">
+                            {reduxData?.first_name
+                              ? reduxData?.first_name
+                              : " Admin"}
+                          </span>
+                        </h5>
+                        <i className="ph ph-caret-circle-down ms-2" />
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu
+                        className="dropdown-menu-end dropdown-menu-arrow"
+                        style={{ margin: 0 }}
+                      >
+                        <div className="drop-heading">
+                          <div className="">
+                            <h5 className="text-dark mb-0">
+                              {reduxData?.full_name
+                                ? reduxData?.full_name
+                                : "Admin"}{" "}
+                              <br />{" "}
+                            </h5>
+                          </div>
+                        </div>
+                        <div className="dropdown-divider m-0" />
+                        {isSmSPermissionAvailable &&
+                          localStorage.getItem("superiorRole") == "Client" ? (
+                          <Dropdown.Item as={Link} to="/manage-sms">
+                            <i className="dropdown-icon ph ph-chat-text" /> MY SMS{" "}
+                            <span className="mybalance">
+                              {mybalance !== undefined ? mybalance : ""}
+                            </span>
+                          </Dropdown.Item>
+                        ) : null}
+                        {isProfileUpdatePermissionAvailable ? (
+                          <Dropdown.Item as={Link} to="/editprofile">
+                            <i className="dropdown-icon ph ph-user" /> Edit
+                            Profile
+                          </Dropdown.Item>
+                        ) : null}
 
-                      {isSettingsPermissionAvailable ? (
-                        <Dropdown.Item as={Link} to="/settings">
-                          <i className="dropdown-icon ph ph-gear" />
-                          Settings
-                        </Dropdown.Item>
-                      ) : null}
+                        {isSettingsPermissionAvailable ? (
+                          <Dropdown.Item as={Link} to="/settings">
+                            <i className="dropdown-icon ph ph-gear" />
+                            Settings
+                          </Dropdown.Item>
+                        ) : null}
 
-                      <Dropdown.Item onClick={logout}>
-                        <i className="dropdown-icon ph ph-sign-out" />
-                        Sign out
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  {/* <ToastContainer /> */}
-                </div>
-              </Navbar>
+                        <Dropdown.Item onClick={logout}>
+                          <i className="dropdown-icon ph ph-sign-out" />
+                          Sign out
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    {/* <ToastContainer /> */}
+                  </div>
+                </Navbar>}
+
             </div>
           </div>
         </div>
