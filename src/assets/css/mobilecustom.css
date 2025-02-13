@@ -97,3 +97,8 @@ ion-item {
   color: #fff;
   background-color: #09469f;
 }
+ion-button.mob-custom-danger-btn {
+  background-color: red !important;
+  --background: red !important;
+  --color: white !important;
+}

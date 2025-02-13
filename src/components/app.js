@@ -7,14 +7,85 @@ import TabToTop from "../layouts/TabToTop/TabToTop";
 import TopLoadingBar from "react-top-loading-bar";
 import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
-import { MyProvider } from "../Utils/MyContext";
+import { MyProvider, } from "../Utils/MyContext";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../Redux/dataSlice";
 import BlankDashboard from "./Dashboard/BlankDashboard";
 import "phosphor-icons/src/css/icons.css"; // Import Phosphor Icons CSS
 import { NavigationProvider } from "../Utils/NavigationProvider";
+import { setupIonicReact } from '@ionic/react';
+import { isPlatform } from '@ionic/react';
+import { getPlatforms } from '@ionic/react';
+import {
+  IonRefresher,
+  IonRefresherContent,
+  RefresherEventDetail,
+} from "@ionic/react";
+import { Device } from '@capacitor/device';
+import { PushNotifications } from '@capacitor/push-notifications';
 
+
+
+setupIonicReact();
 const App = () => {
+
+
+
+  const registerPushNotifications = () => {
+    // Check if we are running in a WebView (on a mobile device) or a native app
+    const isWebView = !Capacitor.isNativePlatform();
+
+
+    // Check if the platform is iOS or Android or a WebView (mobile environment)
+    if (!isPlatform('ios') && !isPlatform('android') || isWebView) {
+      console.log('Push notifications are not supported on this platform (Desktop/Web).');
+      return; // Exit for unsupported platforms
+    }
+
+    // Log the current platform (only iOS/Android or WebView will log)
+    console.log('Current platform:', isPlatform('ios') ? 'iOS' : isPlatform('android') ? 'Android' : 'WebView');
+
+    // Request push notification permissions for native platforms
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive === 'granted') {
+        PushNotifications.register();
+      } else {
+        console.warn('Push notification permissions not granted.');
+      }
+    });
+
+    // Listener for successful push registration (token)
+    PushNotifications.addListener('registration', token => {
+      console.log('Push registration success, token:', token.value);
+      // Send token to your backend server here
+    });
+
+    // Listener for registration errors
+    PushNotifications.addListener('registrationError', err => {
+      console.error('Push registration error:', err.error);
+    });
+
+    // Listener for when a push notification is received
+    PushNotifications.addListener('pushNotificationReceived', notification => {
+      console.log('Push notification received:', notification);
+    });
+
+    // Listener for when a push notification action is performed (e.g., tapping a notification)
+    PushNotifications.addListener('pushNotificationActionPerformed', notification => {
+      console.log('Push notification action performed:', notification);
+    });
+  };
+
+  // Call the function to register for push notifications
+  registerPushNotifications();
+
+  useEffect(() => {
+    // Get the list of platforms the app is running on
+    const currentPlatforms = getPlatforms();
+
+    // Log the platforms to the console
+    console.log('Current Platforms:', currentPlatforms);
+  }, []);
   const loadingBarRef = useRef();
   const location = useLocation();
   const simulateLoadingAndNavigate = () => {
@@ -53,8 +124,21 @@ const App = () => {
     setIsInactive(false);
     inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
   };
+  const [plateform, setPlateform] = useState()
+  const currentPlatforms = getPlatforms();
+  const displayText = currentPlatforms.includes("mobileweb") ? "ionic" : "web";
 
   useEffect(() => {
+    if (currentPlatforms.includes("android")) {
+      setPlateform("Android")
+      console.log("Running on Android");
+    } else if (currentPlatforms.includes("ios")) {
+      setPlateform("iOS")
+      console.log("Running on iOS");
+    } else {
+      setPlateform("Web")
+      console.log("Running on Web or another platform");
+    }
     window.addEventListener("mousemove", handleUserActivity);
     window.addEventListener("keydown", handleUserActivity);
     window.addEventListener("scroll", handleUserActivity);
@@ -99,7 +183,21 @@ const App = () => {
     }
     //
   }, [isInactive, autoLogout, logoutTime]);
+  const [deviceInfo, setDeviceInfo] = useState(null);
 
+  const [deviceType, setDeviceType] = useState("");
+
+  const checkDevice = async () => {
+    try {
+      const info = await Device.getInfo();
+      console.log("Device Info:", info);
+      setDeviceInfo(info);
+    } catch (error) {
+      console.error("Error fetching device info:", error);
+      setDeviceType("Error Detecting Device");
+      setDeviceInfo("Unknown");
+    }
+  };
   useEffect(() => {
     const handleNetworkChange = () => {
       const newIsOnline = window.navigator.onLine;
@@ -120,7 +218,7 @@ const App = () => {
         });
       }
     };
-
+    checkDevice();
     window.addEventListener("online", handleNetworkChange);
     window.addEventListener("offline", handleNetworkChange);
 
@@ -132,64 +230,17 @@ const App = () => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
-  // const Url = (process.env.REACT_APP_BASE_URL === "https://apis-l.credentia.uk/v1" || process.env.REACT_APP_BASE_URL === "https://apis-l.credentiauk.com/v1")
-  //   ? process.env.REACT_APP_BASE_URL
-  //   : "default_value"; // Replace "default_value" with the fallback URL or value you prefer
+  function handleRefresh(event) {
+    // Log username on refresh
+    setTimeout(() => {
+      dispatch(fetchData()); // Fetch new data if needed
+      event.detail.complete(); // Stop refresh animation
+    }, 2000);
+  }
 
-  // if (Url !== "default_value") {
-  //   // Prevent right-click context menu
-  //   document.addEventListener('contextmenu', (e) => {
-  //     e.preventDefault();
-  //   });
-
-  //   // Prevent certain keyboard shortcuts
-  //   document.addEventListener('keydown', (e) => {
-  //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U') || (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-  //       e.preventDefault();
-  //     }
-  //   });
-
-  //   // Detect and handle developer tools opening
-  //   const detectDevTools = () => {
-  //     const threshold = 160; // Adjust threshold as needed
-  //     let devToolsOpen = false;
-
-  //     const checkDevTools = () => {
-  //       if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
-  //         if (!devToolsOpen) {
-  //           devToolsOpen = true;
-
-  //           debugger; // Trigger debugger
-  //         }
-  //       } else {
-  //         devToolsOpen = false;
-  //       }
-  //     };
-
-  //     // Periodically check for developer tools
-  //     setInterval(checkDevTools, 100);
-
-  //     // Detect developer tools via user interactions
-  //     const detectUserInteractions = () => {
-  //       const handleInteraction = () => {
-  //         // Handle or log user interactions if dev tools are detected
-  //         if (devToolsOpen) {
-
-  //           debugger; // Trigger debugger
-  //         }
-  //       };
-
-  //       document.addEventListener('click', handleInteraction);
-  //       document.addEventListener('scroll', handleInteraction);
-  //     };
-
-  //     detectUserInteractions();
-  //   };
-
-  //   detectDevTools();
-
-  // }
-
+  useEffect(() => {
+    dispatch(fetchData());
+  }, []);
   return (
     <MyProvider>
       <NavigationProvider>
@@ -208,9 +259,19 @@ const App = () => {
 
                     <Header />
                     <Sidebar />
-                    <div className="main-content app-content ">
+
+                    <div className={`main-content app-content  ${deviceInfo?.operatingSystem == " android" || "ios" || "windows" ? "mob-app-content" : "app-content"} `}
+
+                    >
+
                       <div className="side-app">
                         <div className="main-container container-fluid">
+                          <div className="IonRefresher mt-4" >   <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+                            <IonRefresherContent
+                              pullingText="Pull to refresh..."
+                              refreshingText="Refreshing data..."
+                            />
+                          </IonRefresher></div>
                           <Outlet />
                         </div>
                       </div>
@@ -227,7 +288,7 @@ const App = () => {
           )}
         </Fragment>
       </NavigationProvider>
-    </MyProvider>
+    </MyProvider >
   );
 };
 

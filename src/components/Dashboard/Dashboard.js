@@ -363,6 +363,34 @@ const Dashboard = (props) => {
       ) : (
         ""
       )}
+      {/* <IonButton color="danger" size="small" expand="full" onClick={handleShowLive}>
+        Click Me
+      </IonButton>
+      <IonButton
+        style={{ backgroundColor: "red", color: "white" }}
+        size="small"
+        expand="full"
+        onClick={handleShowLive}
+      >
+        Click Me
+      </IonButton> */}
+
+      <div>
+        <h1>Device Information</h1>
+        {deviceInfo ? (
+          <ul>
+            <li><strong>Model:</strong> {deviceInfo.model}</li>
+            <li><strong>Platform:</strong> {deviceInfo.platform}</li>
+            <li><strong>Operating System:</strong> {deviceInfo.operatingSystem}</li>
+            <li><strong>OS Version:</strong> {deviceInfo.osVersion}</li>
+            <li><strong>Manufacturer:</strong> {deviceInfo.manufacturer}</li>
+            <li><strong>Is Virtual:</strong> {deviceInfo.isVirtual ? 'Yes' : 'No'}</li>
+          </ul>
+        ) : (
+          <p>Loading device information...</p>
+        )}
+      </div>
+
 
       <div className="mb-2 ">
         {filters?.client_id && filters.company_id && (
