@@ -2965,3 +2965,19 @@ td.middayModal-td.time-input-fuel-sell {
   background-color: red;
   border: none;
 }
+
+.small-img {
+  height: 40px;
+  width: 60px;
+}
+
+@media screen and (max-width: 768px) {
+  .small-img {
+    height: 30px;
+    width: 40px;
+  }
+
+  .small-screen-fs {
+    font-size: var(--small-fs) !important;
+  }
+}

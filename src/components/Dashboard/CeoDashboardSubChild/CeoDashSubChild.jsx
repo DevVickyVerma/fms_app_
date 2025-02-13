@@ -99,11 +99,11 @@ const DashSubChild = ({
       <div className="page-header ">
         <div>
           <h1 className="page-title">
-            {getSiteStats?.data?.site_name || "CEO Dashboard Site details"}
+            {getSiteStats?.data?.site_name || "CEO Dashboard"}
             {/* ({getSiteStats?.data?.dateString}) */}
           </h1>
 
-          <Breadcrumb className="breadcrumb">
+          <Breadcrumb className="breadcrumb mb-2 mb-sm-0">
             <Breadcrumb.Item
               className="breadcrumb-item"
               linkAs={Link}
@@ -122,7 +122,7 @@ const DashSubChild = ({
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              {getSiteStats?.data?.site_name || "CEO DashBoard Site details"}{" "}
+              {getSiteStats?.data?.site_name || "Site details"}{" "}
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>

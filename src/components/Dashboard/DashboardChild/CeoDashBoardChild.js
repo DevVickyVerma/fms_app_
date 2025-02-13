@@ -185,7 +185,7 @@ const CeoDashBoardChild = (props) => {
               : ReduxFullData?.dates}
             )
           </h2>
-          <Breadcrumb className="breadcrumb">
+          <Breadcrumb className="breadcrumb mb-2 mb-sm-0">
             <Breadcrumb.Item
               className="breadcrumb-item"
               linkAs={Link}

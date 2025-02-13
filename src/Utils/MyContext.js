@@ -25,8 +25,32 @@ const MyProvider = ({ children }) => {
         // Determine device type
         if (info.platform === "ios") {
           setDeviceType("iOS Device");
+          document.documentElement.style.setProperty(
+            "--font-family-sans-serif",
+            '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", "Arial", sans-serif'
+          );
+          document.documentElement.style.setProperty(
+            "--font-family-root",
+            '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", "Arial", sans-serif'
+          );
+          document.documentElement.style.setProperty(
+            "--font-family-monospace",
+            '-apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", "Arial", sans-serif'
+          );
         } else if (info.platform === "android") {
           setDeviceType("Android Device");
+          document.documentElement.style.setProperty(
+            "--font-family-sans-serif",
+            '"Roboto", sans-serif'
+          );
+          document.documentElement.style.setProperty(
+            "--font-family-root",
+            '"Roboto", sans-serif'
+          );
+          document.documentElement.style.setProperty(
+            "--font-family-monospace",
+            '"Roboto", sans-serif'
+          );
         } else if (info.platform === "web") {
           if (info.operatingSystem.toLowerCase().includes("windows")) {
             setDeviceType("Windows Device");
@@ -34,6 +58,19 @@ const MyProvider = ({ children }) => {
             setDeviceType("Web Browser");
           }
         } else {
+          document.documentElement.style.setProperty(
+            "--font-family-sans-serif",
+            '"Poppins", sans-serif'
+          );
+          document.documentElement.style.setProperty(
+            "--font-family-root",
+            '"Poppins", sans-serif'
+          );
+          document.documentElement.style.setProperty(
+            "--font-family-monospace",
+            '"Poppins", sans-serif'
+          );
+
           setDeviceType("Unknown Device");
         }
       } catch (error) {
@@ -42,6 +79,7 @@ const MyProvider = ({ children }) => {
         setDeviceInfo("Unknown");
       }
     };
+
     const fetchClientList = async () => {
       const token = localStorage.getItem("token");
       const baseUrl = process.env.REACT_APP_BASE_URL;
