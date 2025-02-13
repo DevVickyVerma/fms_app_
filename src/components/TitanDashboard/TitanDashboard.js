@@ -7,9 +7,7 @@ import { BestvsWorst, GraphfilterOptions, handleFilterData } from "../../Utils/c
 import { Card, Col, Row } from "react-bootstrap";
 import TitanFilterModal from "./TitanFilterModal";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
-import Swal from "sweetalert2";
 import TitanUppercards from "./TitanUppercards";
 import TitanCardLoading from "./TitanCardLoading";
 import TitanPieChart from "./TitanPieChart";
@@ -59,6 +57,7 @@ const TitanDashboard = (props) => {
         initialValues: {
             client_id: "",
             company_id: "",
+            site_id: "",
             selectedSite: "",
             selectedSiteDetails: "",
             selectedMonth: "",
@@ -190,8 +189,11 @@ const TitanDashboard = (props) => {
         callback
     ) => {
         const updatedFilters = updateFilters(filters);
-        const { client_id, company_id, site_id, grade_id, tank_id, start_month } = updatedFilters;
+        console.log(updatedFilters?.site_id, "updatedFilters");
+        formik.setFieldValue("site_id", updatedFilters?.site_id || "");
 
+        const { client_id, company_id, site_id, grade_id, tank_id, start_month } = updatedFilters;
+        if (site_id) formik.setFieldValue("site_id", site_id);
         if (
             !formik?.values?.selectedMonth &&
             !formik?.values?.selectedMonthDetails &&
@@ -263,13 +265,40 @@ const TitanDashboard = (props) => {
     };
 
 
-    const FetchPriceGraph = async () => {
+
+
+    const handleResetFilters = async () => {
+        localStorage.removeItem(storedKeyName);
+
+        setFilters(null);
+        setDashboardData(null);
+        formik.resetForm();
+    };
+
+    useEffect(() => {
+        handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
+    }, [permissionsArray?.includes("titandashboard-view")]);
+
+    const handlelivemaringclosemodal = () => {
+        setShowLiveData(false); // Toggle the state
+    };
+
+    useEffect(() => {
+        if (priceLogsPermission && formik.values?.company_id) {
+            console.log(formik.values, "useEffect");
+            FetchPriceGraph(formik.values);
+        }
+    }, [graphfilterOption, priceLogsPermission, bestvsWorst, formik?.values?.selectedSite, permissionsArray?.includes("titandashboard-view")]);
+
+    const FetchPriceGraph = async (site_id) => {
         try {
+            console.log(formik.values, "setPriceGraphData");
             setPriceGraphloading(true);
             const queryParams = new URLSearchParams();
-
+            console.log(site_id, " getData");
             queryParams.append("client_id", formik.values?.client_id);
             queryParams.append("company_id", formik.values?.company_id);
+            if (formik.values?.site_id) queryParams.append("site_id", formik.values?.site_id);
             queryParams.append("case", bestvsWorst);
             queryParams.append("filter_type", graphfilterOption);
 
@@ -289,87 +318,13 @@ const TitanDashboard = (props) => {
         }
     };
 
-    const handleResetFilters = async () => {
-        localStorage.removeItem(storedKeyName);
-
-        setFilters(null);
-        setDashboardData(null);
-        formik.resetForm();
-    };
-
-    useEffect(() => {
-        handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
-    }, [permissionsArray?.includes("titandashboard-view")]);
-
-    const handlelivemaringclosemodal = () => {
-        setShowLiveData(false); // Toggle the state
-    };
-
-    useEffect(() => {
-        if (formik?.values?.selectedSite && priceLogsPermission) {
-            FetchPriceGraph();
-        }
-    }, [graphfilterOption, priceLogsPermission, bestvsWorst, formik?.values?.selectedSite]);
-
-
-
     const openCenterFilterModal = () => {
         if (!filters?.company_id) {
             setCenterFilterModalOpen(true);
         }
     };
 
-    const handleSiteChange = async (selectedId) => {
-        const handleConfirmedAction = async (selectedId) => {
-            try {
-                const selectedItem = await filters?.sites.find(
-                    (item) => item.id === selectedId
-                );
-                filters.site_id = selectedId;
-                filters.site_name = selectedItem?.site_name;
 
-                handleApplyFilters(filters);
-            } catch (error) {
-                console.error("Error in handleConfirmedAction:", error);
-            }
-        };
-
-        const handleCancelledAction = async (selectedId) => {
-            try {
-                const selectedItem = await filters?.sites.find(
-                    (item) => item.id === selectedId
-                );
-
-                await formik.setFieldValue("selectedSite", selectedId);
-                await formik.setFieldValue("selectedSiteDetails", selectedItem);
-            } catch (error) {
-                console.error("Error in handleCancelledAction:", error);
-            }
-        };
-
-        Swal.fire({
-            title: "",
-            text: "Apply this change on   whole dashboard or  below statistics only?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonText: "Apply to All",
-            cancelButtonText: "Apply to This Only",
-            showDenyButton: true, // Enable the third button
-            denyButtonText: "Cancel", // Label for the third button
-            customClass: {
-                actions: "swal2-actions-custom", // Add a custom class to the action buttons
-            },
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await handleConfirmedAction(selectedId);
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                await handleCancelledAction(selectedId);
-            } else if (result.isDenied) {
-                // Logic for the deny button (third button)
-                Swal.close();
-            }
-        });
-    };
     const [applyNavigate, setApplyNavigate] = useState(false);
     const [showCeoDetailModal, setShowCeoDetailModal] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
@@ -397,6 +352,8 @@ const TitanDashboard = (props) => {
                         visible={showCeoDetailModal}
                         dashboardData={dashboardData}
                         onClose={handleCloseSidebar}
+                        PriceGraphData={PriceGraphData}
+                        filters={filters}
                     />
                 </>
             )}

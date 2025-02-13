@@ -30,9 +30,8 @@ const TitanDetailModal = (props) => {
     const [apiData, setApiData] = useState(); // to store API response data
     const [CardData, setCardData] = useState(); // to store API response data
     const [loading, setLoading] = useState(false);
-    const [bestvsWorst, setbestvsWorst] = useState("0");
-
-    const [graphfilterOption, setgraphfilterOption] = useState("weekly");
+    const [tablebestvsWorst, settablebestvsWorst] = useState("0");
+    const [tablefilterOption, setgraphfilterOption] = useState("weekly");
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
@@ -164,7 +163,7 @@ const TitanDetailModal = (props) => {
 
     useEffect(() => {
         fetchData(); // Trigger the fetchData function on component mount or title change
-    }, [title, formik?.values?.selectedTank, graphfilterOption, bestvsWorst, currentPage, searchTerm]); // Dependencies: title and selectedSite
+    }, [title, formik?.values?.selectedTank, tablefilterOption, tablebestvsWorst, currentPage, searchTerm]); // Dependencies: title and selectedSite
     console.log(formik?.values, "filterData");
     const fetchData = async () => {
         try {
@@ -183,8 +182,8 @@ const TitanDetailModal = (props) => {
             } else if (title == "Performance") {
                 queryParams.append("client_id", filterData.client_id);
                 queryParams.append("company_id", filterData.company_id);
-                queryParams.append("case", bestvsWorst);
-                queryParams.append("filter_type", graphfilterOption);
+                queryParams.append("case", tablebestvsWorst);
+                queryParams.append("filter_type", tablefilterOption);
                 if (formik?.values?.selectedTank) {
                     queryParams.append("site_id", formik?.values?.selectedSite);
                     queryParams.append("grade_id", formik?.values.selectedGrade);
@@ -443,8 +442,8 @@ const TitanDetailModal = (props) => {
                                                     <select
                                                         id="BestvsWorst"
                                                         name="BestvsWorst"
-                                                        value={bestvsWorst}
-                                                        onChange={(e) => setbestvsWorst(e.target.value)}
+                                                        value={tablebestvsWorst}
+                                                        onChange={(e) => settablebestvsWorst(e.target.value)}
                                                         className="selectedMonth ms-2"
                                                     >
 
@@ -464,7 +463,7 @@ const TitanDetailModal = (props) => {
                                                     <select
                                                         id="GraphfilterOptions"
                                                         name="GraphfilterOptions"
-                                                        value={graphfilterOption}
+                                                        value={tablefilterOption}
                                                         onChange={(e) => setgraphfilterOption(e.target.value)}
                                                         className="selectedMonth ms-2"
                                                     >
