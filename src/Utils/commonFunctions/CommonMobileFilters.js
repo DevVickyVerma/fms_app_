@@ -16,9 +16,9 @@ const CommonMobileFilters = ({
   return (
     <div className="d-flex gap-2 flex-wrap mb-4">
       {filters?.client_id ||
-        filters?.company_id ||
-        filters?.site_id ||
-        filters?.start_date ? (
+      filters?.company_id ||
+      filters?.site_id ||
+      filters?.start_date ? (
         <div
           className="badges-container d-flex align-items-center gap-2 px-4 py-sm-0 py-2 text-white w-100 overflow-auto"
           style={{ background: "#ddd" }}
@@ -68,8 +68,6 @@ const CommonMobileFilters = ({
         //   </span>
         // </div>
         <>
-
-
           <mobileButton
             onClick={handleToggleSidebar1}
             text="Apply Filter to See Stats"
@@ -92,7 +90,8 @@ const CommonMobileFilters = ({
             //   className="mob-custom-primary-btn"
             style={{ marginRight: "8px" }}
           >
-            *Please apply filter to see the stats <IonIcon icon={funnelOutline} />
+            *Please apply filter to see the stats{" "}
+            <IonIcon icon={funnelOutline} />
           </IonButton>
         </>
       )}
@@ -101,17 +100,17 @@ const CommonMobileFilters = ({
         filters?.company_id ||
         filters?.site_id ||
         filters?.start_date) && (
-          <Button
-            onClick={handleToggleSidebar1}
-            type="button"
-            className="btn btn-primary btn-sm"
-          >
-            {/* Filter */}
-            <span>
-              <i className="ph ph-funnel ms-1" />
-            </span>
-          </Button>
-        )}
+        <Button
+          onClick={handleToggleSidebar1}
+          type="button"
+          className="btn btn-primary btn-sm"
+        >
+          {/* Filter */}
+          <span>
+            <i className="ph ph-funnel ms-1" />
+          </span>
+        </Button>
+      )}
 
       {(filters?.client_id ||
         filters?.company_id ||

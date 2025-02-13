@@ -5,6 +5,9 @@ import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import InputTime from "../Competitor/InputTime";
 import ConfirmModal from "./ConfirmModal";
+import FormikCheckOneBox from "../../Formik/FormikCheckOneBox";
+import FormikCheckBooleanBox from "../../Formik/FormikCheckBooleanBox";
+import FormikRadioBox from "../../Formik/FormikRadioBox";
 
 const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
   const { notify_operator, update_tlm_price } = data || {};
@@ -122,7 +125,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
         }
       });
 
-      const postDataUrl = "/site/fuel-price/update-siteprice";
+      const postDataUrl = "/site/fuel-price/update-sitepriceeeee";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
@@ -165,6 +168,8 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
   const handleCancel = () => {
     setIsModalOpen(false); // Close the modal without submitting
   };
+
+  console.log(formik?.values, "formik values");
 
   return (
     <>
@@ -387,85 +392,118 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                   </div>
 
                   <Card.Footer>
-                    <div className="text-end d-flex justify-content-end align-items-baseline gap-4">
+                    <div className="text-end d-flex justify-content-end align-items-baseline gap-4 align-items-center flex-wrap">
                       {update_tlm_price !== 1 && notify_operator ? (
-                        <div className=" position-relative pointer">
-                          <input
-                            type="checkbox"
-                            id="notify_operator"
+                        <>
+                          {/* <div className=" position-relative pointer">
+                            <input
+                              type="checkbox"
+                              id="notify_operator"
+                              name="notify_operator"
+                              checked={formik?.values?.notify_operator}
+                              onChange={formik.handleChange}
+                              className="mx-1 form-check-input form-check-input-updated pointer"
+                            />
+                            <label
+                              htmlFor="notify_operator"
+                              className="me-3 m-0 pointer"
+                            >
+                              Notify Operator
+                            </label>
+                          </div> */}
+
+                          <FormikCheckBooleanBox
+                            label="Notify Operator"
                             name="notify_operator"
-                            checked={formik?.values?.notify_operator}
-                            onChange={formik.handleChange}
-                            className="mx-1 form-check-input form-check-input-updated pointer"
+                            formik={formik}
+                            disabled={false} // Set to true if you want to disable it
                           />
-                          <label
-                            htmlFor="notify_operator"
-                            className="me-3 m-0 pointer"
-                          >
-                            Notify Operator
-                          </label>
-                        </div>
+                        </>
                       ) : null}
 
                       {update_tlm_price == 1 ? (
                         <>
                           <>
                             {formik.values.update_tlm_price === 1 && (
-                              <div className="radio-section d-flex gap-lg-5 ">
-                                <div className="position-relative pointer">
-                                  <input
-                                    type="radio"
-                                    id="confirmation_required"
-                                    name="confirmation_required"
-                                    value={1} // Set value as 1 for confirmation
-                                    checked={
-                                      formik.values.confirmation_required === 1
-                                    }
-                                    onChange={() =>
-                                      formik.setFieldValue(
-                                        "confirmation_required",
+                              <>
+                                <div className="radio-section d-flex gap-4 flex-wrap">
+                                  {/* <div className="position-relative pointer">
+                                    <input
+                                      type="radio"
+                                      id="confirmation_required"
+                                      name="confirmation_required"
+                                      value={1} // Set value as 1 for confirmation
+                                      checked={
+                                        formik.values.confirmation_required ===
                                         1
-                                      )
-                                    }
-                                    className="mx-1 form-check-input form-check-input-updated pointer"
-                                  />
-                                  <label
-                                    htmlFor="confirmation_required"
-                                    className="p-0 m-0 pointer"
-                                  >
-                                    Update with Confirmation
-                                  </label>
-                                </div>
-
-                                <div className="position-relative pointer">
-                                  <input
-                                    type="radio"
-                                    id="update_forcefully"
-                                    name="confirmation_required"
-                                    value={0} // Set value as 0 for direct update
-                                    checked={
-                                      formik.values.confirmation_required === 0
-                                    }
-                                    onChange={() =>
-                                      formik.setFieldValue(
-                                        "confirmation_required",
+                                      }
+                                      onChange={() =>
+                                        formik.setFieldValue(
+                                          "confirmation_required",
+                                          1
+                                        )
+                                      }
+                                      className="mx-1 form-check-input form-check-input-updated pointer"
+                                    />
+                                    <label
+                                      htmlFor="confirmation_required"
+                                      className="p-0 m-0 pointer"
+                                    >
+                                      Update with Confirmation
+                                    </label>
+                                  </div>
+                                  <div className="position-relative pointer">
+                                    <input
+                                      type="radio"
+                                      id="update_forcefully"
+                                      name="confirmation_required"
+                                      value={0} // Set value as 0 for direct update
+                                      checked={
+                                        formik.values.confirmation_required ===
                                         0
-                                      )
-                                    }
-                                    className="mx-1 form-check-input form-check-input-updated pointer"
+                                      }
+                                      onChange={() =>
+                                        formik.setFieldValue(
+                                          "confirmation_required",
+                                          0
+                                        )
+                                      }
+                                      className="mx-1 form-check-input form-check-input-updated pointer"
+                                    />
+                                    <label
+                                      htmlFor="update_forcefully"
+                                      className="p-0 m-0 pointer"
+                                    >
+                                      Update Forcefully
+                                    </label>
+                                  </div> */}
+
+                                  <FormikRadioBox
+                                    label="Update with Confirmation"
+                                    name="confirmation_required"
+                                    formik={formik}
+                                    value={1} // Value for the first radio button
                                   />
-                                  <label
-                                    htmlFor="update_forcefully"
-                                    className="p-0 m-0 pointer"
-                                  >
-                                    Update Forcefully
-                                  </label>
+
+                                  <FormikRadioBox
+                                    label="Update Forcefully"
+                                    name="confirmation_required"
+                                    formik={formik}
+                                    value={0} // Value for the second radio button
+                                  />
                                 </div>
-                              </div>
+                              </>
                             )}
                           </>
 
-                          <div className=" position-relative pointer  ms-4">
+                          <FormikCheckOneBox
+                            label="Update TLM Price"
+                            name="update_tlm_price"
+                            formik={formik}
+                            // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
+                          />
+
+                          {/* <div className=" position-relative pointer  ms-4">
                             <input
                               type="checkbox"
                               id="update_tlm_price"
@@ -486,7 +524,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                               {" "}
                               Update TLM Price
                             </label>
-                          </div>
+                          </div> */}
                         </>
                       ) : null}
 
