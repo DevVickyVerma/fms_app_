@@ -19,6 +19,9 @@ import useCustomDelete from "../../CommonComponent/useCustomDelete";
 import useToggleStatus from "../../CommonComponent/useToggleStatus";
 import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline, refresh } from "ionicons/icons";
+import { Delete } from "@mui/icons-material";
 
 const Competitor = (props) => {
   const { isLoading, getData, postData } = props;
@@ -112,7 +115,7 @@ const Competitor = (props) => {
       name: "Name",
       selector: (row) => [row.name],
       sortable: false,
-      width: "20%",
+      // width: "20%",
       center: false,
       cell: (row) => (
         <div className="d-flex">
@@ -141,7 +144,7 @@ const Competitor = (props) => {
       name: "Suppliers",
       selector: (row) => [row.supplier],
       sortable: false,
-      width: "18%",
+      // width: "18%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -155,7 +158,7 @@ const Competitor = (props) => {
       selector: (row) => [row.created_date],
       // selector: "created_date",
       sortable: false,
-      width: "17%",
+      // width: "17%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -169,7 +172,7 @@ const Competitor = (props) => {
       selector: (row) => [row.address],
       // selector: "created_date",
       sortable: false,
-      width: "20%",
+      // width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -183,7 +186,8 @@ const Competitor = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "10%",
+      // width: "10%",
+      center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -223,9 +227,10 @@ const Competitor = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "15%",
+      center: true,
+      // width: "15%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isCompiUpdatePermissionAvailable ? (
             <OverlayTrigger
               placement="top"
@@ -248,21 +253,23 @@ const Competitor = (props) => {
             >
               <Link
                 to="#"
-                className={`btn btn-${row.is_main === 1 ? "success" : "gray"
-                  }   btn-sm rounded-11 me-2`}
+                className={`btn btn-${
+                  row.is_main === 1 ? "success" : "gray"
+                }   btn-sm rounded-11 mobile-btn p-2`}
                 onClick={() => handleMakeMainCompetitor(row)}
               >
-                <i className="ph ph-target" />
+                <i className="mobile-ph ph ph-target" />
               </Link>
             </OverlayTrigger>
           ) : null}
+
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/edit-competitor/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2"
               >
-                <i className="ph ph-pencil" />
+                <i className="mobile-ph ph ph-pencil" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -270,13 +277,21 @@ const Competitor = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash" />
+                <i className="mobile-ph ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}
+
+          {/* <IonButton
+            className="mob-custom-danger-btn"
+            size="small"
+            // onClick={handleResetFilters}
+          >
+            <IonIcon icon={Delete} />
+          </IonButton> */}
         </span>
       ),
     },
@@ -350,8 +365,9 @@ const Competitor = (props) => {
                   className="btn btn-primary "
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Competitor
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Add
+                  <span className=" d-none d-sm-flex">Competitor</span>
+                  <i className="ph ph-plus ms-1 ph-plus-icon small-screen-fs" />
                 </Link>
               ) : null}
             </div>
@@ -394,7 +410,7 @@ const Competitor = (props) => {
               <Card.Body>
                 {CompetitorList?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={CompetitorList}
