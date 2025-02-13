@@ -2980,6 +2980,10 @@ td.middayModal-td.time-input-fuel-sell {
   .small-screen-fs {
     font-size: var(--small-fs) !important;
   }
+
+  .mobile-head-container {
+    width: 100%;
+  }
 }
 
 .shop-sale-modal {

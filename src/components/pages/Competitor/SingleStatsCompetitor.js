@@ -200,7 +200,7 @@ const SingleStatsCompetitor = ({ getData }) => {
             {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
             Competitors{" "}
           </h1>
-          <Breadcrumb className="breadcrumb breadcrumb-subheader">
+          <Breadcrumb className="breadcrumb breadcrumb-subheader mb-2 mb-md-0">
             <Breadcrumb.Item
               className="breadcrumb-item"
               linkAs={Link}
@@ -221,85 +221,80 @@ const SingleStatsCompetitor = ({ getData }) => {
               aria-current="page"
             >
               {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
-              Competitors
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
 
-        <div className="ms-auto d-flex  gap-2 flex-wrap">
-          <div>
-            <label>Filter By Site:</label>
-            <div style={{ width: "200px" }}>
-              <Select
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                options={Optionssingle}
-                onChange={(value) => handleSitePathChange(value)}
-                className="test"
-                value={byDefaultSelectValue}
-              />
-            </div>
-          </div>
+        <div>
+          <Formik
+            initialValues={{
+              start_date: mySelectedDate || "",
+            }}
+            validationSchema={Yup.object().shape({
+              start_date: Yup.date().required("Start Date is required"),
+            })}
+            onSubmit={(values) => {
+              FetchCompititorData(values);
+            }}
+          >
+            {({ handleSubmit, errors, touched, setFieldValue }) => (
+              <Form
+                onSubmit={handleSubmit}
+                className="d-flex align-items-center gap-3 flex-wrap"
+              >
+                <div className="mobile-head-container">
+                  <label className="form-label mt-0">Filter By Site:</label>
+                  <div
+                  //  style={{ width: "200px" }}
+                  >
+                    <Select
+                      closeMenuOnSelect={false}
+                      components={animatedComponents}
+                      options={Optionssingle}
+                      onChange={(value) => handleSitePathChange(value)}
+                      className="test"
+                      value={byDefaultSelectValue}
+                    />
+                  </div>
+                </div>
 
-          <div>
-            <Formik
-              initialValues={{
-                start_date: mySelectedDate || "",
-              }}
-              validationSchema={Yup.object().shape({
-                start_date: Yup.date().required("Start Date is required"),
-              })}
-              onSubmit={(values) => {
-                FetchCompititorData(values);
-              }}
-            >
-              {({ handleSubmit, errors, touched, setFieldValue }) => (
-                <Form
-                  onSubmit={handleSubmit}
-                  style={{
-                    marginTop: "-11px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <div>
-                    <label htmlFor="start_date" className="form-label ">
-                      Date
-                    </label>
-                    <Field
-                      type="date"
-                      min={formattedMinDate} // Use formattedMinDate for the min attribute
-                      max={formattedMaxDate} // Use formattedMaxDate for the max attribute
-                      onClick={handleShowDate}
-                      className={`input101 compi-calender ${
-                        errors.start_date && touched.start_date
-                          ? "is-invalid"
-                          : ""
-                      }`}
-                      id="start_date"
-                      name="start_date"
-                      value={mySelectedDate}
-                      onChange={(e) => {
-                        const selectedstart_date = e.target.value;
-                        setMySelectedDate(selectedstart_date);
-                        setFieldValue("start_date", selectedstart_date);
-                      }}
-                    />
-                    <ErrorMessage
-                      component="div"
-                      className="invalid-feedback"
-                      name="start_date"
-                    />
-                  </div>
-                  <div style={{ marginTop: "38px", alignSelf: "baseline" }}>
-                    <button type="submit" className="btn btn-primary mx-2">
-                      Submit
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
+                <div className=" mobile-head-container">
+                  <label htmlFor="start_date" className="form-label  mt-0">
+                    Date
+                  </label>
+                  <Field
+                    type="date"
+                    min={formattedMinDate} // Use formattedMinDate for the min attribute
+                    max={formattedMaxDate} // Use formattedMaxDate for the max attribute
+                    onClick={handleShowDate}
+                    className={`input101 compi-calender ${
+                      errors.start_date && touched.start_date
+                        ? "is-invalid"
+                        : ""
+                    }`}
+                    id="start_date"
+                    name="start_date"
+                    value={mySelectedDate}
+                    onChange={(e) => {
+                      const selectedstart_date = e.target.value;
+                      setMySelectedDate(selectedstart_date);
+                      setFieldValue("start_date", selectedstart_date);
+                    }}
+                  />
+                  <ErrorMessage
+                    component="div"
+                    className="invalid-feedback"
+                    name="start_date"
+                  />
+                </div>
+                <div className="mobile-head-container mt-0 mt-sm-5">
+                  <button type="submit" className="btn btn-primary ">
+                    Submit
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
 
