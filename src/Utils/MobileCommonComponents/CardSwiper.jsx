@@ -66,7 +66,8 @@ const CardSwiper = ({
             slidesPerView={1}
 
             pagination={{ clickable: true }}
-            style={{ padding: "1.5rem" }}
+            style={{ padding: "20px", paddingLeft: "2px" }}
+
         >
             {cardsData?.map((card) => (
                 <SwiperSlide key={card.id}>

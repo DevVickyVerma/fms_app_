@@ -375,9 +375,10 @@ const Dashboard = (props) => {
         Click Me
       </IonButton> */}
 
-      <div>
-        <h1>Device Information</h1>
-        {deviceInfo?.operatingSystem !== "windows" ? (
+
+      {deviceInfo?.operatingSystem !== "windows" ? (
+        <div>
+          <h1>Device Information</h1>
           <ul>
             <li><strong>Model:</strong> {deviceInfo.model}</li>
             <li><strong>Platform:</strong> {deviceInfo.platform}</li>
@@ -386,10 +387,11 @@ const Dashboard = (props) => {
             <li><strong>Manufacturer:</strong> {deviceInfo.manufacturer}</li>
             <li><strong>Is Virtual:</strong> {deviceInfo.isVirtual ? 'Yes' : 'No'}</li>
           </ul>
-        ) : (
-          <p>Loading device information...</p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <p>{deviceInfo.operatingSystem}</p>
+      )}
+
 
 
       <div className="mb-2 ">
