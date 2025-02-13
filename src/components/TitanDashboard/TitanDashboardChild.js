@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import TitanUppercards from "./TitanUppercards";
 import SecondFiltersComponent from "../Dashboard/SecondFiltersComponent";
-import CeoDashboardChildTable from "../Dashboard/DashboardChild/CeoDashboardChildTable";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
 import TitanFilterModal from "./TitanFilterModal";
 import withApi from "../../Utils/ApiHelper";
 import LoaderImg from "../../Utils/Loader";
 import TitanDashboardChildTable from "./TitanDashboardChildTable";
 import TitanCardLoading from "./TitanCardLoading";
+import TitanStatsTable from "./TitanStatsTable";
 
 
 const TitanDashboardChild = (props) => {
@@ -256,8 +256,12 @@ const TitanDashboardChild = (props) => {
                     />
                 )}
             </Row>
-
-            <TitanDashboardChildTable data={tableData} />
+            <TitanStatsTable
+                data={tableData}
+                tootiptitle={"Profit"}
+                title={"Sites "}
+            />
+            {/* <TitanDashboardChildTable data={tableData} /> */}
         </>
     );
 };

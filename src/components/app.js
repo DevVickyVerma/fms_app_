@@ -16,11 +16,6 @@ import { NavigationProvider } from "../Utils/NavigationProvider";
 import { setupIonicReact } from '@ionic/react';
 import { isPlatform } from '@ionic/react';
 import { getPlatforms } from '@ionic/react';
-import {
-  IonRefresher,
-  IonRefresherContent,
-  RefresherEventDetail,
-} from "@ionic/react";
 import { Device } from '@capacitor/device';
 import { PushNotifications } from '@capacitor/push-notifications';
 
@@ -198,7 +193,7 @@ const App = () => {
   // --primary - bg - color: #09469f;
   // --primary - bg - hover: #0B5ECF;
   useEffect(() => {
-    // if (window.Capacitor) {
+    // if (deviceInfo?.platform !== "web") {
     //   document.documentElement.style.setProperty('--primary-bg-color', '#09469f');
     //   document.documentElement.style.setProperty('--primary-bg-hover', '#0B5ECF');
     // }
@@ -274,18 +269,13 @@ const App = () => {
                     <Header />
                     <Sidebar />
 
-                    <div className={`main-content app-content  ${deviceInfo?.operatingSystem == " android" || "ios" || "windows" ? "mob-app-content" : "app-content"} `}
+                    <div className={`main-content app-content`}
 
                     >
 
                       <div className="side-app">
                         <div className="main-container container-fluid">
-                          <div className="IonRefresher mt-4" >   <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
-                            <IonRefresherContent
-                              pullingText="Pull to refresh..."
-                              refreshingText="Refreshing data..."
-                            />
-                          </IonRefresher></div>
+
                           <Outlet />
                         </div>
                       </div>
