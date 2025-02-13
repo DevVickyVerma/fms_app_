@@ -1,21 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import { SuccessAlert } from "../../Utils/ToastUtils";
 import { useMyContext } from "../../Utils/MyContext";
-import { IonIcon, IonItemDivider } from '@ionic/react';
-import { IonActionSheet, IonButton } from '@ionic/react';
-import { personCircleOutline, chatbubbleOutline, settingsOutline, logOutOutline, createOutline } from "ionicons/icons";
+import { IonIcon } from '@ionic/react';
+import { IonActionSheet } from '@ionic/react';
+import { personCircleOutline, settingsOutline, logOutOutline } from "ionicons/icons";
 
 
 const Header = (props) => {
   const { getData } = props;
   const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
     useState(null);
-  const { deviceType, deviceInfo } = useMyContext();
+  const { deviceType, deviceInfo, isMobile } = useMyContext();
   const logout = async () => {
     localStorage.clear();
     window.location.replace("/");
@@ -144,7 +143,7 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
 
-              {deviceInfo?.operatingSystem !== "windows" ?
+              {isMobile ?
                 <>
                   <IonIcon style={{ marginRight: "10px", color: "#09469f" }}
                     className="ms - 2  " onClick={() => setShowActionSheet(true)} icon={personCircleOutline} size="large" />

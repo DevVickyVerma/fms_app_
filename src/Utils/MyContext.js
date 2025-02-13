@@ -14,13 +14,18 @@ const MyProvider = ({ children }) => {
   const [deviceInfo, setDeviceInfo] = useState(null);
 
   const [deviceType, setDeviceType] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkDevice = async () => {
       try {
         const info = await Device.getInfo();
-        console.log("Device Info:", info);
-
+        console.log("Device Info:", info?.operatingSystem, info);
+        if (info?.operatingSystem == "windows" || info?.operatingSystem == "android") {
+          setIsMobile(false);
+        } else {
+          setIsMobile(true);
+        }
         // Set platform directly
         setDeviceInfo(info);
 
@@ -150,6 +155,8 @@ const MyProvider = ({ children }) => {
     contextClients,
     setcontextClients,
     deviceInfo,
+    setIsMobile,
+    isMobile,
     setDeviceInfo,
     deviceType,
     setDeviceType,
