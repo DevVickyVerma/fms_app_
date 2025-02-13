@@ -380,12 +380,12 @@ const Dashboard = (props) => {
         <div>
           <h1>Device Information</h1>
           <ul>
-            <li><strong>Model:</strong> {deviceInfo.model}</li>
-            <li><strong>Platform:</strong> {deviceInfo.platform}</li>
-            <li><strong>Operating System:</strong> {deviceInfo.operatingSystem}</li>
-            <li><strong>OS Version:</strong> {deviceInfo.osVersion}</li>
-            <li><strong>Manufacturer:</strong> {deviceInfo.manufacturer}</li>
-            <li><strong>Is Virtual:</strong> {deviceInfo.isVirtual ? 'Yes' : 'No'}</li>
+            <li><strong>Model:</strong> {deviceInfo?.model}</li>
+            <li><strong>Platform:</strong> {deviceInfo?.platform}</li>
+            <li><strong>Operating System:</strong> {deviceInfo?.operatingSystem}</li>
+            <li><strong>OS Version:</strong> {deviceInfo?.osVersion}</li>
+            <li><strong>Manufacturer:</strong> {deviceInfo?.manufacturer}</li>
+            <li><strong>Is Virtual:</strong> {deviceInfo?.isVirtual ? 'Yes' : 'No'}</li>
           </ul>
         </div>
       ) : (
