@@ -9,7 +9,7 @@ import LoaderImg from "../../Utils/Loader";
 import { formatNumber } from "../../Utils/commonFunctions/commonFunction";
 
 const TitanStatsTable = (props) => {
-    const { isLoading, data, } = props;
+    const { isLoading, data, title } = props;
 
     const UserPermissions = useSelector(
         (state) => state?.data?.data?.permissions || []
@@ -602,7 +602,10 @@ const TitanStatsTable = (props) => {
 
             <Row className=" row-sm">
                 <Col lg={12}>
-                    <Card className="">
+                    <Card >
+                        <Card.Header>
+                            {title}
+                        </Card.Header>
                         <Card.Body>
                             {data?.length > 0 ? (
                                 <>

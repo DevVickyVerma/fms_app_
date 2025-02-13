@@ -372,8 +372,8 @@ const TitanDetailModal = (props) => {
                     } `}
                 style={{
                     width:
-                        title == "MOP Breakdown"
-                            ? "50%"
+                        title == "Performance"
+                            ? "80%"
                             : title == "Card Reconciliation Details"
                                 ? "60%"
                                 : title == "Comparison"
