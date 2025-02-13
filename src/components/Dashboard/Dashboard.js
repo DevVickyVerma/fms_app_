@@ -15,6 +15,10 @@ import FiltersComponent from "./DashboardHeader";
 import ChartCard from "./ChartCard";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { fetchData } from "../../Redux/dataSlice";
+import { useMyContext } from "../../Utils/MyContext";
+import CardSwiper from "../../Utils/MobileCommonComponents/CardSwiper";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline, refresh } from "ionicons/icons";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -32,7 +36,7 @@ const Dashboard = (props) => {
   let storedKeyName = "localFilterModalData";
   const [ShowLiveData, setShowLiveData] = useState(false);
   const dispatch = useDispatch();
-
+  const { deviceType, deviceInfo } = useMyContext();
   useEffect(() => {
     dispatch(fetchData());
   }, []);
@@ -144,6 +148,77 @@ const Dashboard = (props) => {
   const handlelivemaringclosemodal = () => {
     setShowLiveData(false); // Toggle the state
   };
+  const DashboardcardsData = (dashboardData) => [
+    {
+      id: 1,
+      title: 'Gross Volume',
+      value: dashboardData?.gross_volume?.gross_volume || "0.0",
+      subValue: dashboardData?.gross_volume?.bunkered_volume || "0.0",
+      subTitle: 'Bunkered Volume',
+      percentage: dashboardData?.gross_volume?.percentage || "0%",
+      status: dashboardData?.gross_volume?.status || "down",
+      icon: "ℓ"
+    },
+    {
+      id: 2,
+      title: 'Fuel Sales (Ex. Vat)',
+      value: dashboardData?.fuel_sales?.gross_value || "0.0",
+      subValue: dashboardData?.fuel_sales?.bunkered_value || "0.0",
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.fuel_sales?.percentage || "0%",
+      status: dashboardData?.fuel_sales?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 3,
+      title: 'Gross Profit',
+      value: dashboardData?.gross_profit?.gross_profit || "0.0",
+      subValue: "",
+      subTitle: '',
+      percentage: dashboardData?.gross_profit?.percentage || "0%",
+      status: dashboardData?.gross_profit?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 4,
+      title: 'Gross Margin',
+      value: dashboardData?.gross_margin?.gross_margin || "0 ppl",
+      subValue: "",
+      subTitle: '',
+      percentage: dashboardData?.gross_margin?.percentage || "0%",
+      status: dashboardData?.gross_margin?.status || "down"
+    },
+    {
+      id: 5,
+      title: 'Shop Sales (Ex. Vat)',
+      value: dashboardData?.shop_sales?.shop_sales || "0%",
+      subValue: dashboardData?.shop_sales?.bunkered_value,
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.shop_sales?.percentage || "0%",
+      status: dashboardData?.shop_sales?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 6,
+      title: 'Shop Fee',
+      value: dashboardData?.shop_fees?.shop_fee || "0%",
+      subValue: dashboardData?.shop_fees?.bunkered_value,
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.shop_fees?.percentage || "0%",
+      status: dashboardData?.shop_fees?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 7,
+      title: 'Shop Profit',
+      value: dashboardData?.shop_profit?.shop_profit || "0%",
+      subValue: dashboardData?.shop_profit?.bunkered_value,
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.shop_profit?.percentage || "0%",
+      status: dashboardData?.shop_profit?.status || "down",
+      icon: "£"
+    }
+  ];
 
   return (
     <>
@@ -208,7 +283,7 @@ const Dashboard = (props) => {
 
       <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
         {!ShowLiveData && (
-          <div className="">
+          <div className="spacebetweenw">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
               Dashboard (
               {dashboardData?.dateString
@@ -216,6 +291,37 @@ const Dashboard = (props) => {
                 : ReduxFullData?.dates}
               )
             </h2>
+            {
+              (deviceInfo?.operatingSystem === "ios" || deviceInfo?.operatingSystem === "android") && (
+                <>
+                  {/* Filter Button */}
+                  <div className="spaceBetween">
+                    <IonButton
+                      onClick={handleToggleSidebar1}
+                      type="danger"
+                      size="small"
+                      className="mob-custom-primary-btn"
+                      style={{ marginRight: '8px', }}
+                    >
+                      <IonIcon icon={funnelOutline} />
+                    </IonButton>
+                    {(filters?.client_id ||
+                      filters?.company_id ||
+                      filters?.site_id ||
+                      filters?.start_date) &&
+                      (deviceInfo?.operatingSystem === "ios" || deviceInfo?.operatingSystem === "android") && (
+                        <IonButton
+                          className="mob-custom-danger-btn"
+                          size="small"
+                          onClick={handleResetFilters}
+                        >
+                          <IonIcon icon={refresh} />
+                        </IonButton>
+                      )}
+                  </div>
+                </>
+              )
+            }
           </div>
         )}
         <div></div>
@@ -225,6 +331,7 @@ const Dashboard = (props) => {
           handleToggleSidebar1={handleToggleSidebar1}
           handleResetFilters={handleResetFilters}
           showResetBtn={true}
+
         />
       </div>
 
@@ -260,14 +367,30 @@ const Dashboard = (props) => {
       <div className="mb-2 ">
         {filters?.client_id && filters.company_id && (
           <>
-            <div className="text-end ">
-              <button
-                className=" mb-2 btn btn-primary"
-                onClick={handleShowLive}
-              >
-                Live Margin
-              </button>
-            </div>
+            {
+              (deviceInfo?.operatingSystem === "ios" || deviceInfo?.operatingSystem === "android") ?
+                <IonButton
+                  className="mob-custom-danger-btn"
+                  size="small"
+                  expand="full"
+                  onClick={handleShowLive}
+                >
+                  <p className="m-0">
+                    <img
+                      src={require("../../assets/images/commonimages/LiveIMg.gif")}
+                      alt="Live Img"
+                      className="Liveimage"
+
+                    /> Margins
+                  </p>
+                </IonButton>
+
+                : <div className="text-end " >
+                  <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
+                    Live Margin
+                  </button>
+                </div>
+            }
 
             {ShowLiveData && (
               <DashboardStatCard
@@ -298,7 +421,11 @@ const Dashboard = (props) => {
           </h2>
         )}
 
-        <DashboardStatsBox
+        {deviceInfo?.operatingSystem === "ios" || "android" ? <CardSwiper
+          dashboardData={dashboardData}
+          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+          cardsData={DashboardcardsData(dashboardData)}  // ✅ Call the function
+        /> : <DashboardStatsBox
           GrossVolume={dashboardData?.gross_volume}
           shopmargin={dashboardData?.shop_profit}
           GrossProfitValue={dashboardData?.gross_profit}
@@ -308,7 +435,7 @@ const Dashboard = (props) => {
           shop_fees={dashboardData?.shop_fees}
           dashboardData={dashboardData}
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-        />
+        />}
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <ChartCard
