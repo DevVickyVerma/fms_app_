@@ -292,7 +292,7 @@ const Dashboard = (props) => {
               )
             </h2>
             {
-              (deviceInfo?.operatingSystem === "ios" || deviceInfo?.operatingSystem === "android") && (
+              (deviceInfo?.operatingSystem !== "windows") && (
                 <>
                   {/* Filter Button */}
                   <div className="spaceBetween">
@@ -309,7 +309,7 @@ const Dashboard = (props) => {
                       filters?.company_id ||
                       filters?.site_id ||
                       filters?.start_date) &&
-                      (deviceInfo?.operatingSystem === "ios" || deviceInfo?.operatingSystem === "android") && (
+                      (deviceInfo?.operatingSystem !== "windows") && (
                         <IonButton
                           className="mob-custom-danger-btn"
                           size="small"
@@ -377,7 +377,7 @@ const Dashboard = (props) => {
 
       <div>
         <h1>Device Information</h1>
-        {deviceInfo ? (
+        {deviceInfo?.operatingSystem !== "windows" ? (
           <ul>
             <li><strong>Model:</strong> {deviceInfo.model}</li>
             <li><strong>Platform:</strong> {deviceInfo.platform}</li>
@@ -396,7 +396,7 @@ const Dashboard = (props) => {
         {filters?.client_id && filters.company_id && (
           <>
             {
-              (deviceInfo?.operatingSystem === "ios" || deviceInfo?.operatingSystem === "android") ?
+              (deviceInfo?.operatingSystem !== "windows") ?
                 <IonButton
                   className="mob-custom-danger-btn"
                   size="small"
@@ -449,7 +449,7 @@ const Dashboard = (props) => {
           </h2>
         )}
 
-        {deviceInfo?.operatingSystem === "ios" || "android" ? <CardSwiper
+        {deviceInfo?.operatingSystem !== "windows" ? <CardSwiper
           dashboardData={dashboardData}
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           cardsData={DashboardcardsData(dashboardData)}  // ✅ Call the function
