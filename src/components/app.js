@@ -144,7 +144,7 @@ const App = () => {
   const checkDevice = async () => {
     try {
       const info = await Device.getInfo();
-      if (info?.operatingSystem == "windows" || info?.operatingSystem == "android") {
+      if (info?.operatingSystem == "windows") {
         setIsMobile(false);
       } else {
         setIsMobile(true);
