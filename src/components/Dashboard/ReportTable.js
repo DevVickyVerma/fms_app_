@@ -17,7 +17,7 @@ const ReportTable = ({ reports, handleDownload }) => {
               <button onClick={() => handleDownload(report)}>
                 <i
                   className="fa fa-download"
-                  style={{ fontSize: "18px", color: "#4663ac" }}
+                  style={{ fontSize: "18px", color: "var(--primary-bg-color)" }}
                 ></i>
               </button>
             </td>

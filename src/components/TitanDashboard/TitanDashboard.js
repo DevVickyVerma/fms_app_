@@ -590,7 +590,7 @@ const TitanDashboard = (props) => {
                                                 ` (${PriceGraphData?.name})`}
                                             <br></br>
                                             {userPermissions?.includes("titandashboard-view") && filters?.company_id ? (
-                                                <span onClick={() => handleCardClick("Performance")} style={{ color: "#4663ac" }} className="pointer">
+                                                <span onClick={() => handleCardClick("Performance")} style={{ color: "var(--primary-bg-color)" }} className="pointer">
                                                     <div >
                                                         Table View
                                                     </div>

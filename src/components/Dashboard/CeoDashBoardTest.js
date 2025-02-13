@@ -662,7 +662,7 @@ const CeoDashBoardTest = (props) => {
                       )
                       <br />
                       {userPermissions?.includes("fuel-price-logs") ? (
-                        <span style={{ color: "#4663ac" }}>
+                        <span style={{ color: "var(--primary-bg-color)" }}>
                           <Link to="/fuel-price-exceptional-logs/">
                             View All
                           </Link>
@@ -741,7 +741,7 @@ const CeoDashBoardTest = (props) => {
                         ` (${formik.values.selectedSiteDetails.site_name})`}
                       <br></br>
                       {userPermissions?.includes("ceodashboard-price-graph") ? (
-                        <span style={{ color: "#4663ac" }} className="pointer">
+                        <span style={{ color: "var(--primary-bg-color)" }} className="pointer">
                           <div onClick={() => handleNavigateViewAllClick()}>
                             View All
                           </div>
