@@ -5,6 +5,8 @@ import { Device } from "@capacitor/device";
 // Create the context
 const MyContext = createContext();
 
+// console.log();
+
 // Create the provider component
 const MyProvider = ({ children }) => {
   const [contextClients, setcontextClients] = useState([]);
