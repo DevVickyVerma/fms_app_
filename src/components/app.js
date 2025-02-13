@@ -28,61 +28,15 @@ import { PushNotifications } from '@capacitor/push-notifications';
 
 setupIonicReact();
 const App = () => {
+  const [isMobile, setIsMobile] = useState(false);
 
 
-
-  const registerPushNotifications = () => {
-    // Check if we are running in a WebView (on a mobile device) or a native app
-    const isWebView = !Capacitor.isNativePlatform();
-
-
-    // Check if the platform is iOS or Android or a WebView (mobile environment)
-    if (!isPlatform('ios') && !isPlatform('android') || isWebView) {
-      console.log('Push notifications are not supported on this platform (Desktop/Web).');
-      return; // Exit for unsupported platforms
-    }
-
-    // Log the current platform (only iOS/Android or WebView will log)
-    console.log('Current platform:', isPlatform('ios') ? 'iOS' : isPlatform('android') ? 'Android' : 'WebView');
-
-    // Request push notification permissions for native platforms
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
-        PushNotifications.register();
-      } else {
-        console.warn('Push notification permissions not granted.');
-      }
-    });
-
-    // Listener for successful push registration (token)
-    PushNotifications.addListener('registration', token => {
-      console.log('Push registration success, token:', token.value);
-      // Send token to your backend server here
-    });
-
-    // Listener for registration errors
-    PushNotifications.addListener('registrationError', err => {
-      console.error('Push registration error:', err.error);
-    });
-
-    // Listener for when a push notification is received
-    PushNotifications.addListener('pushNotificationReceived', notification => {
-      console.log('Push notification received:', notification);
-    });
-
-    // Listener for when a push notification action is performed (e.g., tapping a notification)
-    PushNotifications.addListener('pushNotificationActionPerformed', notification => {
-      console.log('Push notification action performed:', notification);
-    });
-  };
-
-  // Call the function to register for push notifications
-  registerPushNotifications();
 
   useEffect(() => {
+
     // Get the list of platforms the app is running on
     const currentPlatforms = getPlatforms();
-
+    checkDevice()
     // Log the platforms to the console
     console.log('Current Platforms:', currentPlatforms);
   }, []);
@@ -190,6 +144,11 @@ const App = () => {
   const checkDevice = async () => {
     try {
       const info = await Device.getInfo();
+      if (info?.operatingSystem == "windows" || info?.operatingSystem == "android") {
+        setIsMobile(false);
+      } else {
+        setIsMobile(true);
+      }
       console.log("Device Info:", info);
       setDeviceInfo(info);
     } catch (error) {
@@ -241,6 +200,50 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchData());
   }, []);
+
+  const registerPushNotifications = () => {
+
+    if (!isPlatform('ios') && !isPlatform('android') || !isMobile) {
+      console.log('Push notifications are not supported on this platform (Desktop/Web).');
+      return; // Exit for unsupported platforms
+    }
+
+    // Log the current platform (only iOS/Android or WebView will log)
+    console.log('Current platform:', isPlatform('ios') ? 'iOS' : isPlatform('android') ? 'Android' : 'WebView');
+
+    // Request push notification permissions for native platforms
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive === 'granted') {
+        PushNotifications.register();
+      } else {
+        console.warn('Push notification permissions not granted.');
+      }
+    });
+
+    // Listener for successful push registration (token)
+    PushNotifications.addListener('registration', token => {
+      console.log('Push registration success, token:', token.value);
+      // Send token to your backend server here
+    });
+
+    // Listener for registration errors
+    PushNotifications.addListener('registrationError', err => {
+      console.error('Push registration error:', err.error);
+    });
+
+    // Listener for when a push notification is received
+    PushNotifications.addListener('pushNotificationReceived', notification => {
+      console.log('Push notification received:', notification);
+    });
+
+    // Listener for when a push notification action is performed (e.g., tapping a notification)
+    PushNotifications.addListener('pushNotificationActionPerformed', notification => {
+      console.log('Push notification action performed:', notification);
+    });
+  };
+
+  // Call the function to register for push notifications
+  registerPushNotifications();
   return (
     <MyProvider>
       <NavigationProvider>

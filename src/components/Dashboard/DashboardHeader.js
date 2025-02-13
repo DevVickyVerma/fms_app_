@@ -11,10 +11,9 @@ const FiltersComponent = ({
   showResetBtn = false,
   showStartDate = false,
   ComponentTitan = false,
-  isMobile = false,
 }) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
-  const { deviceType, deviceInfo } = useMyContext();
+  const { deviceType, deviceInfo, isMobile } = useMyContext();
   console.log(deviceInfo?.operatingSystem, "deviceType?.operatingSyste");
   return (
     // <div className="d-flex gap-2 flex-wrap">
@@ -80,11 +79,11 @@ const FiltersComponent = ({
       ) : (
         <div className="d-flex m-auto">
           <span className="p-2 badge bg-red-600 p-3">
-            {deviceInfo?.operatingSystem == "windows" ? " *Please apply filter to see the stats" : ""}
+            {!isMobile ? " *Please apply filter to see the stats" : ""}
           </span>
         </div>
       )}
-      {deviceInfo?.operatingSystem == "windows" ?
+      {!isMobile ?
         <Button
           onClick={handleToggleSidebar1}
           type="button"
@@ -99,7 +98,7 @@ const FiltersComponent = ({
         filters?.company_id ||
         filters?.site_id ||
         filters?.start_date) &&
-        showResetBtn && deviceInfo?.operatingSystem == "windows" && (
+        showResetBtn && !isMobile && (
           <span onClick={handleResetFilters} className="btn btn-danger">
             <i className="ph ph-arrow-clockwise" />
           </span>
