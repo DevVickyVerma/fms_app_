@@ -1,5 +1,4 @@
 import { Card, Col, Modal, Row } from "react-bootstrap";
-import PropTypes from "prop-types";
 
 const CeoDashSubChildShopSaleCenterModal = (props) => {
   const { showModal, setShowModal, shopPerformanceData } = props;
@@ -9,7 +8,7 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
   };
 
   const renderTableHeader = () => (
-    <tr className="fuelprice-tr" style={{ padding: "0px" }}>
+    <tr className="fuelprice-tr p-0 ">
       <th
         className="dashboard-shopSale-table-width dashboard-shopSale-table-th"
         style={{ paddingLeft: "25px" }}
@@ -31,7 +30,7 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
   const renderTableData = () => (
     <>
       {shopPerformanceData?.card_details?.map((cardDetail) => (
-        <tr className="fuelprice-tr " style={{ padding: "0px" }}>
+        <tr className="fuelprice-tr p-0">
           <td
             className="dashboard-shopSale-table-width dashboard-shopSale-table-td "
             style={{ minWidth: "25%" }}
@@ -39,20 +38,19 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
             <div className="d-flex align-items-center justify-center h-100">
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
-                  <h6 className="mb-0 fs-15 fw-semibold ">
+                  <h6 className="mb-0 fs-15 fw-semibold small-screen-fs">
                     <img
                       src={cardDetail.image}
                       alt={cardDetail.card_name || "Card Image Alt Text"}
                       style={{
-                        width: "60px",
-                        height: "40px",
                         background: "#FFF",
                         padding: "5px",
                         borderRadius: "8px",
                         margin: "0 5px",
                       }}
+                      className="small-img"
                     />
-                    {cardDetail?.card_name}
+                    <span className="">{cardDetail?.card_name}</span>
                   </h6>
                 </div>
               </div>
@@ -62,7 +60,7 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
           <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
             <div className="d-flex align-items-center h-100 ">
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6 className="mb-0 fs-14 fw-semibold ">
+                <h6 className="mb-0 fs-14 fw-semibold small-screen-fs">
                   {cardDetail?.shop_sales}
                 </h6>
               </div>
@@ -72,7 +70,7 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
           <td className="dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center">
             <div className="d-flex align-items-center h-100 ">
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6 className="mb-0 fs-14 fw-semibold ">
+                <h6 className="mb-0 fs-14 fw-semibold small-screen-fs">
                   {cardDetail?.quantity}
                 </h6>
               </div>
@@ -116,7 +114,7 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Body>
-                <Row className=" d-flex justify-content-between m-0">
+                <Row className=" d-flex justify-content-between m-0 small-screen-fs">
                   <Col
                     lg={3}
                     xl={3}
@@ -124,15 +122,8 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
                     sm={3}
                     className="dashboardSubChildCard"
                   >
-                    <span
-                      style={{
-                        display: "flex",
-                        gap: "5px",
-                        alignItems: "center",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      <strong style={{ fontWeight: 700 }}>
+                    <span className=" d-flex gap-2 align-items-center mb-2">
+                      <strong className="fw-600">
                         {" "}
                         Shop Sales :{shopPerformanceData?.shop_sales}
                       </strong>
@@ -146,15 +137,8 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
                     sm={3}
                     className="dashboardSubChildCard "
                   >
-                    <span
-                      style={{
-                        display: "flex",
-                        gap: "5px",
-                        alignItems: "center",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      <strong style={{ fontWeight: 700 }}>
+                    <span className=" d-flex gap-2 align-items-center mb-2">
+                      <strong className="fw-600">
                         {" "}
                         Quantity :{shopPerformanceData?.quantity}
                       </strong>
@@ -168,15 +152,8 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
                     sm={3}
                     className="dashboardSubChildCard "
                   >
-                    <span
-                      style={{
-                        display: "flex",
-                        gap: "5px",
-                        alignItems: "center",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      <strong style={{ fontWeight: 700 }}>
+                    <span className=" d-flex gap-2 align-items-center mb-2">
+                      <strong className="fw-600">
                         {" "}
                         Transactions :{shopPerformanceData?.transactions}
                       </strong>
@@ -230,15 +207,5 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
     </Modal>
   );
 };
-
-// CeoDashSubChildShopSaleCenterModal.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   sidebarContent: PropTypes.node.isRequired,
-//   visible: PropTypes.bool.isRequired,
-//   onClose: PropTypes.func.isRequired,
-//   onCancel: PropTypes.func.isRequired,
-//   onSubmit: PropTypes.func.isRequired,
-//   searchListstatus: PropTypes.bool.isRequired,
-// };
 
 export default CeoDashSubChildShopSaleCenterModal;

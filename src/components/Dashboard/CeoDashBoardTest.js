@@ -648,10 +648,11 @@ const CeoDashBoardTest = (props) => {
               sm={12}
               md={priceLogAndGraphPermission ? 6 : 12}
               key={Math.random()}
+              className="mb-4 mb-sm-0"
             >
               <Card className="h-100">
-                <Card.Header className="p-4">
-                  <div className="spacebetween" style={{ width: "100%" }}>
+                <Card.Header className="p-4 d-flex  flex-wrap flex-sm-nowrap justify-content-between">
+                  <div className="spacebetween w-100">
                     <h4 className="card-title">
                       {" "}
                       Fuel Price Exceptional Alerts (
@@ -671,7 +672,7 @@ const CeoDashBoardTest = (props) => {
                       )}
                     </h4>
                   </div>
-                  <div className="flexspacebetween">
+                  <div className="flexspacebetween mt-2 mt-sm-0">
                     {filters?.sites ? (
                       <div>
                         <select
@@ -731,7 +732,7 @@ const CeoDashBoardTest = (props) => {
                 className="h-100"
                 style={{ transition: "opacity 0.3s ease" }}
               >
-                <Card.Header className="p-4">
+                <Card.Header className="p-4 d-flex  flex-wrap flex-sm-nowrap">
                   <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title">
                       {" "}
@@ -750,7 +751,7 @@ const CeoDashBoardTest = (props) => {
                       )}
                     </h4>
                   </div>
-                  <div className="flexspacebetween">
+                  <div className="flexspacebetween mt-2 mt-sm-0">
                     {filters?.sites ? (
                       <div>
                         <select
