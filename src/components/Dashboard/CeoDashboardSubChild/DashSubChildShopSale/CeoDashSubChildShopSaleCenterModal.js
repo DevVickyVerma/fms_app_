@@ -96,7 +96,7 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
       show={showModal}
       onHide={handleCloseModal}
       centered
-      className="custom-modal-width custom-modal-height big-modal"
+      className="custom-modal-width custom-modal-height big-modal "
     >
       <div className="modal-header">
         <span className="ModalTitle d-flex justify-content-between w-100 p-0 fw-normal">
@@ -110,99 +110,69 @@ const CeoDashSubChildShopSaleCenterModal = (props) => {
       </div>
 
       <Modal.Body className="Disable2FA-modal">
-        <Row>
-          <Col lg={12} xl={12} md={12} sm={12}>
-            <Card>
-              <Card.Body>
-                <Row className=" d-flex justify-content-between m-0 small-screen-fs">
-                  <Col
-                    lg={3}
-                    xl={3}
-                    md={3}
-                    sm={3}
-                    className="dashboardSubChildCard"
-                  >
-                    <span className=" d-flex gap-2 align-items-center mb-2">
-                      <strong className="fw-600">
-                        {" "}
-                        Shop Sales :{shopPerformanceData?.shop_sales}
-                      </strong>
-                      {}
-                    </span>
-                  </Col>
-                  <Col
-                    lg={3}
-                    xl={3}
-                    md={3}
-                    sm={3}
-                    className="dashboardSubChildCard "
-                  >
-                    <span className=" d-flex gap-2 align-items-center mb-2">
-                      <strong className="fw-600">
-                        {" "}
-                        Quantity :{shopPerformanceData?.quantity}
-                      </strong>
-                      {}
-                    </span>
-                  </Col>
-                  <Col
-                    lg={3}
-                    xl={3}
-                    md={3}
-                    sm={3}
-                    className="dashboardSubChildCard "
-                  >
-                    <span className=" d-flex gap-2 align-items-center mb-2">
-                      <strong className="fw-600">
-                        {" "}
-                        Transactions :{shopPerformanceData?.transactions}
-                      </strong>
-                      {}
-                    </span>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+        <>
+          <Card.Body>
+            <Row className=" d-flex justify-content-between m-0 small-screen-fs">
+              <Col lg={4} className="">
+                <span className=" d-flex dashboardSubChildCard align-items-center mb-2">
+                  <strong className="fw-600">
+                    {" "}
+                    Shop Sales :{shopPerformanceData?.shop_sales}
+                  </strong>
+                  {}
+                </span>
+              </Col>
+              <Col lg={4} className=" ">
+                <span className=" d-flex dashboardSubChildCard align-items-center mb-2">
+                  <strong className="fw-600">
+                    {" "}
+                    Quantity :{shopPerformanceData?.quantity}
+                  </strong>
+                  {}
+                </span>
+              </Col>
+              <Col lg={4} className=" ">
+                <span className=" d-flex dashboardSubChildCard align-items-center mb-2">
+                  <strong className="fw-600">
+                    {" "}
+                    Transactions :{shopPerformanceData?.transactions}
+                  </strong>
+                  {}
+                </span>
+              </Col>
+            </Row>
 
-        <Row style={{ marginTop: "-32px" }}>
-          <Col lg={12} xl={12} md={12} sm={12}>
-            <Card>
-              <Card.Body>
-                {shopPerformanceData ? (
-                  <div
-                    className="table-container table-responsive"
+            {shopPerformanceData ? (
+              <div
+                className="table-container table-responsive mt-4"
+                style={{
+                  overflowY: "auto",
+                  maxHeight: "calc(100vh - 300px )",
+                  // minHeight: "100px"
+                }}
+              >
+                <table className="table">
+                  <thead
                     style={{
-                      overflowY: "auto",
-                      maxHeight: "calc(100vh - 300px )",
-                      // minHeight: "100px"
+                      position: "sticky",
+                      top: "0",
+                      width: "100%",
                     }}
                   >
-                    <table className="table">
-                      <thead
-                        style={{
-                          position: "sticky",
-                          top: "0",
-                          width: "100%",
-                        }}
-                      >
-                        <tr className="fuelprice-tr">{renderTableHeader()}</tr>
-                      </thead>
-                      <tbody>{renderTableData()}</tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <img
-                    src={require("../../../../assets/images/commonimages/no_data.png")}
-                    alt="MyChartImage"
-                    className="all-center-flex nodata-image"
-                  />
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                    <tr className="fuelprice-tr">{renderTableHeader()}</tr>
+                  </thead>
+                  <tbody>{renderTableData()}</tbody>
+                </table>
+              </div>
+            ) : (
+              <img
+                src={require("../../../../assets/images/commonimages/no_data.png")}
+                alt="MyChartImage"
+                className="all-center-flex nodata-image"
+              />
+            )}
+          </Card.Body>
+        </>
       </Modal.Body>
     </Modal>
   );

@@ -2981,3 +2981,7 @@ td.middayModal-td.time-input-fuel-sell {
     font-size: var(--small-fs) !important;
   }
 }
+
+.shop-sale-modal {
+  min-width: 500px !important;
+}
