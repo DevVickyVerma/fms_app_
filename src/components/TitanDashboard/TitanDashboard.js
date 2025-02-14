@@ -558,8 +558,8 @@ const TitanDashboard = (props) => {
 
                                         </h4>
                                     </div>
-                                    <div className="flexspacebetween">
-                                        {/* <CommonToggleBtn /> */}
+                                    {/* <div className="flexspacebetween">
+
                                         {filters?.company_id && PriceGraphData ? (
                                             <div>
                                                 <select
@@ -600,17 +600,17 @@ const TitanDashboard = (props) => {
                                         ) : (
                                             ""
                                         )}
-                                    </div>
+                                    </div> */}
                                 </Card.Header>
 
                                 <Card.Body>
-                                    {PriceGraphloading ? (
+                                    {/* {PriceGraphloading ? (
                                         <SmallLoader />
                                     ) : PriceGraphData ? (
                                         <TitanColumnChart stockGraphData={PriceGraphData} />
                                     ) : (
                                         <NoDataComponent showCard={true} />
-                                    )}
+                                    )} */}
                                 </Card.Body>
                             </Card>
                         </Col>

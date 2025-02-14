@@ -14,6 +14,8 @@ import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import TitanStatsTable from "./TitanStatsTable";
 import SearchBar from "../../Utils/SearchBar";
 import CustomPagination from "../../Utils/CustomPagination";
+import TitanColumnChart from "./TitanColumnChart";
+import SmallLoader from "../../Utils/SmallLoader";
 
 
 const TitanDetailModal = (props) => {
@@ -35,6 +37,8 @@ const TitanDetailModal = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState("");
+    const [PriceGraphloading, setPriceGraphloading] = useState(false);
+    const [PriceGraphData, setPriceGraphData] = useState();
     const handleSearch = (searchTerm) => {
         setSearchTerm(searchTerm);
     };
@@ -86,9 +90,9 @@ const TitanDetailModal = (props) => {
             comparison_value: "weekly",
             comparison_label: "Weekly",
             grades: [],
-            selectedGrade: "",
+            tableselectedGrade: "",
 
-            selectedTank: "",
+            tableselectedTank: "",
             selectedCompany: "",
             selectedTankDetails: "",
             selectedGradeDetails: "",
@@ -122,14 +126,14 @@ const TitanDetailModal = (props) => {
 
 
     const onSiteSelect = async (selectedId) => {
-        const selectedSite = siteList?.find(site => site.id === selectedId);
+        const tableselectedSite = siteList?.find(site => site.id === selectedId);
         try {
 
-            if (selectedSite) {
-                await formik.setFieldValue("selectedSite", selectedSite?.id);
-                await formik.setFieldValue("selectedSiteDetails", selectedSite);
+            if (tableselectedSite) {
+                await formik.setFieldValue("tableselectedSite", tableselectedSite?.id);
+                await formik.setFieldValue("selectedSiteDetails", tableselectedSite);
             } else {
-                await formik.setFieldValue("selectedSite", "");
+                await formik.setFieldValue("tableselectedSite", "");
                 await formik.setFieldValue("selectedSiteDetails", "");
             }
 
@@ -141,29 +145,29 @@ const TitanDetailModal = (props) => {
     }
 
     const handleGradeChange = async (selectedId) => {
-        const selectedSite = formik.values?.selectedSiteDetails?.fuel?.find(site => site.id == selectedId);
-        if (selectedSite) {
-            await formik.setFieldValue("selectedGrade", selectedId)
-            await formik.setFieldValue("selectedGradeDetails", selectedSite)
+        const tableselectedSite = formik.values?.selectedSiteDetails?.fuel?.find(site => site.id == selectedId);
+        if (tableselectedSite) {
+            await formik.setFieldValue("tableselectedGrade", selectedId)
+            await formik.setFieldValue("selectedGradeDetails", tableselectedSite)
         } else {
-            await formik.setFieldValue("selectedGrade", "");
+            await formik.setFieldValue("tableselectedGrade", "");
             await formik.setFieldValue("selectedGradeDetails", "");
         }
     };
     const handleTankChange = async (selectedId) => {
-        const selectedSite = formik.values?.selectedGradeDetails?.tanks?.find(site => site.id == selectedId);
-        if (selectedSite) {
-            await formik.setFieldValue("selectedTank", selectedId)
-            await formik.setFieldValue("selectedTankDetails", selectedSite)
+        const tableselectedSite = formik.values?.selectedGradeDetails?.tanks?.find(site => site.id == selectedId);
+        if (tableselectedSite) {
+            await formik.setFieldValue("tableselectedTank", selectedId)
+            await formik.setFieldValue("selectedTankDetails", tableselectedSite)
         } else {
-            await formik.setFieldValue("selectedTank", "");
+            await formik.setFieldValue("tableselectedTank", "");
             await formik.setFieldValue("selectedTankDetails", "");
         }
     };
 
     useEffect(() => {
         fetchData(); // Trigger the fetchData function on component mount or title change
-    }, [title, formik?.values?.selectedTank, tablefilterOption, tablebestvsWorst, currentPage, searchTerm]); // Dependencies: title and selectedSite
+    }, [title, formik?.values?.tableselectedTank, tablefilterOption, tablebestvsWorst, currentPage, searchTerm]); // Dependencies: title and tableselectedSite
     console.log(formik?.values, "filterData");
     const fetchData = async () => {
         try {
@@ -184,10 +188,10 @@ const TitanDetailModal = (props) => {
                 queryParams.append("company_id", filterData.company_id);
                 queryParams.append("case", tablebestvsWorst);
                 queryParams.append("filter_type", tablefilterOption);
-                if (formik?.values?.selectedTank) {
-                    queryParams.append("site_id", formik?.values?.selectedSite);
-                    queryParams.append("grade_id", formik?.values.selectedGrade);
-                    queryParams.append("tank_id", formik?.values.selectedTank);
+                if (formik?.values?.tableselectedTank) {
+                    queryParams.append("site_id", formik?.values?.tableselectedSite);
+                    queryParams.append("grade_id", formik?.values.tableselectedGrade);
+                    queryParams.append("tank_id", formik?.values.tableselectedTank);
                 }
             }
             const queryString = queryParams.toString(); // Construct the query string
@@ -206,10 +210,27 @@ const TitanDetailModal = (props) => {
                     break;
 
                 case "Performance":
-                    response = await getData(
-                        `titan-dashboard/performance-stats?${queryString} `
-                    );
+                    try {
+                        const [performanceResponse, graphResponse] = await Promise.all([
+                            getData(`titan-dashboard/performance-stats?${queryString}`),
+                            getData(`titan-dashboard/graph?${queryString}`)
+                        ]);
+
+                        if (performanceResponse && graphResponse) {
+                            setApiData(performanceResponse.data?.data);
+                            setPriceGraphData(graphResponse.data?.data); // Store graph API data separately
+
+                            setCurrentPage(performanceResponse.data?.data?.currentPage || 1);
+                            setLastPage(performanceResponse.data?.data?.lastPage || 1);
+
+                            console.log("Performance Data:", performanceResponse.data?.data);
+                            console.log("Graph Data:", graphResponse.data?.data);
+                        }
+                    } catch (error) {
+                        console.error("API call failed:", error);
+                    }
                     break;
+
 
                 default:
                     console.log("Title not recognized");
@@ -233,11 +254,11 @@ const TitanDetailModal = (props) => {
         if (filterName == "company_name") {
             await formik.setFieldValue("selectedCompany", "");
             await formik.setFieldValue("selectedCompanyDetails", "");
-            await formik.setFieldValue("selectedSite", "");
+            await formik.setFieldValue("tableselectedSite", "");
             await formik.setFieldValue("selectedSiteDetails", "");
             await fetchData(null, "no-company");
         } else if (filterName == "site_name") {
-            await formik.setFieldValue("selectedSite", "");
+            await formik.setFieldValue("tableselectedSite", "");
             await formik.setFieldValue("selectedSiteDetails", "");
             await fetchData(null, "no-site");
         }
@@ -362,7 +383,7 @@ const TitanDetailModal = (props) => {
         fuel: site?.fuel // Extract fuel types
     }));
 
-
+    console.log(siteList, "siteList");
     return (
         <>
             {isLoading || loading ? <LoaderImg /> : ""}
@@ -440,8 +461,8 @@ const TitanDetailModal = (props) => {
                                                 <Col lg={1} className="textend flexcolumn ms-2 p-0 m-0">
 
                                                     <select
-                                                        id="BestvsWorst"
-                                                        name="BestvsWorst"
+                                                        id="tableBWValue"
+                                                        name="tableBWValue"
                                                         value={tablebestvsWorst}
                                                         onChange={(e) => settablebestvsWorst(e.target.value)}
                                                         className="selectedMonth ms-2"
@@ -461,8 +482,8 @@ const TitanDetailModal = (props) => {
                                                 <Col lg={2} className="textend flexcolumn">
 
                                                     <select
-                                                        id="GraphfilterOptions"
-                                                        name="GraphfilterOptions"
+                                                        id="tablefilterOptions"
+                                                        name="tablefilterOptions"
                                                         value={tablefilterOption}
                                                         onChange={(e) => setgraphfilterOption(e.target.value)}
                                                         className="selectedMonth ms-2"
@@ -481,9 +502,9 @@ const TitanDetailModal = (props) => {
                                             {filterData?.sites ? (
                                                 <Col lg={3} className="textend flexcolumn">
                                                     <select
-                                                        id="selectedSite"
-                                                        name="selectedSite"
-                                                        value={formik.values.selectedSite}
+                                                        id="tableselectedSite"
+                                                        name="tableselectedSite"
+                                                        value={formik.values.tableselectedSite}
                                                         style={{ width: "100%" }}
                                                         onChange={(e) =>
                                                             onSiteSelect(e.target.value)
@@ -504,9 +525,9 @@ const TitanDetailModal = (props) => {
                                             {filterData?.sites ? (
                                                 <Col lg={3} className="textend flexcolumn">
                                                     <select
-                                                        id="selectedGrade"
-                                                        name="selectedGrade"
-                                                        value={formik.values.selectedGrade}
+                                                        id="tableselectedGrade"
+                                                        name="tableselectedGrade"
+                                                        value={formik.values.tableselectedGrade}
                                                         style={{ width: "100%" }}
                                                         onChange={(e) =>
                                                             handleGradeChange(e.target.value)
@@ -527,9 +548,9 @@ const TitanDetailModal = (props) => {
                                             {filterData?.sites ? (
                                                 <Col lg={3} className="textend flexcolumn">
                                                     <select
-                                                        id="selectedTank"
-                                                        name="selectedTank"
-                                                        value={formik.values.selectedTank}
+                                                        id="tableselectedTank"
+                                                        name="tableselectedTank"
+                                                        value={formik.values.tableselectedTank}
                                                         style={{ width: "100%" }}
                                                         onChange={(e) =>
                                                             handleTankChange(e.target.value)
@@ -559,6 +580,14 @@ const TitanDetailModal = (props) => {
                                     tootiptitle={"Profit"}
                                     title={"Sites "}
                                 />
+
+                                {PriceGraphloading ? (
+                                    <SmallLoader title="Site Performance" />
+                                ) : PriceGraphData ? (
+                                    <TitanColumnChart stockGraphData={PriceGraphData} />
+                                ) : (
+                                    <NoDataComponent title="Site Performance" showCard={true} />
+                                )}
                             </>
                         )}
                         {title == "Card Reconciliation Details" && (

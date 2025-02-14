@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { Card } from "react-bootstrap";
 
 const TitanColumnChart = ({ stockGraphData }) => {
 
-
+    console.log(stockGraphData, "TitanColumnChart");
     const options = {
         chart: {
             type: "bar",
@@ -67,37 +68,51 @@ const TitanColumnChart = ({ stockGraphData }) => {
 
 
     return (
-        <div>
+        <Card>
+            <Card.Header className="p-4">
+                <div className="spacebetween" style={{ width: "100%" }}>
+                    <h4 className="card-title">
+                        {" "}
+                        Site Performance {" "}
+                        {stockGraphData?.name &&
+                            ` (${stockGraphData?.name})`}
+                        <br></br>
+                    </h4>
+                    <div className="flexspacebetween textend">
+                        {stockGraphData?.fuel_type ? (
+                            <div>
+                                <select
+                                    id="fuelType"
+                                    name="fuelType"
+                                    value={selectedFuelType}
+                                    onChange={handleFuelTypeChange}
+                                    className="selectedMonth"
+                                >
 
-            <div className="flexspacebetween textend pb-4 pt-0">
-                {stockGraphData?.fuel_type ? (
-                    <div>
-                        <select
-                            id="fuelType"
-                            name="fuelType"
-                            value={selectedFuelType}
-                            onChange={handleFuelTypeChange}
-                            className="selectedMonth"
-                        >
-
-                            {stockGraphData?.fuel_type?.map((fuel) => (
-                                <option key={fuel} value={fuel}>
-                                    {/* {console.log(fuel, "fuel")}
+                                    {stockGraphData?.fuel_type?.map((fuel) => (
+                                        <option key={fuel} value={fuel}>
+                                            {/* {console.log(fuel, "fuel")}
                                     {fuel} */}
-                                    {fuel?.charAt(0).toUpperCase() + fuel.slice(1)}
-                                </option>
-                            ))}
-                        </select>
+                                            {fuel?.charAt(0).toUpperCase() + fuel.slice(1)}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                     </div>
-                ) : (
-                    ""
-                )}
-            </div>
-            <div id="chart">
-                <ReactApexChart options={options} series={selectedFuelData} type="bar" height={350} />
-            </div>
-            <div id="html-dist"></div>
-        </div>
+                </div>
+            </Card.Header>
+            <Card.Body>
+
+
+                <div id="chart">
+                    <ReactApexChart options={options} series={selectedFuelData} type="bar" height={350} />
+                </div>
+                <div id="html-dist"></div>
+            </Card.Body>
+        </Card>
     );
 };
 
