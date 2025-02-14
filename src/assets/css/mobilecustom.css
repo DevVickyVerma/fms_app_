@@ -55,7 +55,7 @@ ion-item {
   --color: white !important;
 }
 
-.Toastify__toast-container.Toastify__toast-container--top-right {
+/* .Toastify__toast-container.Toastify__toast-container--top-right {
   width: 100% !important;
   display: flex;
   justify-content: center;
@@ -64,7 +64,7 @@ ion-item {
 }
 .Toastify__toast {
   width: 100% !important;
-}
+} */
 .card {
   border-radius: 6px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
