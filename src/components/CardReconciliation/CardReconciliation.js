@@ -71,7 +71,6 @@ const CardReconciliation = (props) => {
             GetDataWithClient(values);
         },
     });
-    console.log(filters, "filters");
 
     const GetDataWithClient = async (values) => {
 
@@ -137,6 +136,10 @@ const CardReconciliation = (props) => {
 
     }
     const handleClearForm = async () => {
+        console.log(formik.values, "searchTerm");
+        setData([])
+        setFilters()
+        formik.resetForm()
         console.log("columnIndex");
     };
     const handlePageChange = (newPage) => {
@@ -144,6 +147,7 @@ const CardReconciliation = (props) => {
     };
 
     const handleSearch = (searchTerm) => {
+
         setSearchTerm(searchTerm);
     };
 
@@ -277,46 +281,55 @@ const CardReconciliation = (props) => {
             theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
         });
     };
+    const handleFileChange = async (event) => {
+        const files = Array.from(event.target.files);
+        formik.setFieldValue("uploadedFiles", files);
+        await handleSubmit(files);
+    };
+
     const handleSubmit = async (files) => {
+        if (!files || files.length === 0) {
+            console.log("No files selected to upload.");
+            return;
+        }
 
-        if (files && files.length > 0) {
+        // Allowed file types (CSV, PDF, Excel)
+        const validTypes = [
+            "application/pdf",
+            "text/csv",
+            "application/vnd.ms-excel",                  // .xls
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" // .xlsx
+        ];
 
-            const validTypes = ["application/pdf", "text/csv"];
-            const invalidFiles = files.filter(file => !validTypes.includes(file.type));
+        const invalidFiles = files.filter(file => !validTypes.includes(file.type));
 
-            if (invalidFiles?.length > 0) {
+        if (invalidFiles.length > 0) {
+            SuccessToast("Only CSV, PDF, and Excel files are allowed.");
+            return;
+        }
 
-                // Show alert if invalid file types are found
-                SuccessToast("Only CSV and PDF files are allowed.");
-                return; // Prevent form submission if invalid files are present
+        try {
+            const formData = new FormData();
+            formData.append("site_id", filters?.site_id);
+
+            files.forEach((file) => {
+                formData.append("file[]", file);
+            });
+
+            const response = await postData("/credit-card/upload-bank-transcation", formData);
+
+            if (response?.success) {
+                SuccessToast("Files uploaded successfully.");
+                formik.setFieldValue("uploadedFiles", []); // Clear uploaded files after success
+            } else {
+                console.error("Upload failed:", response?.message);
             }
-
-
-            try {
-                const formData = new FormData();
-
-                // Append site_id to the FormData
-                formData.append("site_id", filters?.site_id);
-
-                // Append each file to formData
-                files.forEach((file) => {
-                    formData.append("file[]", file); // Append each file as 'csv_file'
-                });
-
-                // Define the endpoint for uploading
-                const postDataUrl = "/credit-card/upload-bank-transcation";
-
-                // Call the API with the FormData containing the files
-                const response = await postData(postDataUrl, formData); // Make the API request
-
-                console.log(response, "response"); // Log the response if needed
-            } catch (error) {
-                console.error("Error uploading files:", error); // Log the error if an issue occurs
-            }
-        } else {
-            console.log("No files selected to upload."); // If no files are provided
+        } catch (error) {
+            console.error("Error uploading files:", error);
         }
     };
+
+
 
     return (
         <>
@@ -390,67 +403,65 @@ const CardReconciliation = (props) => {
                             <Card.Header>
                                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                                     <h3 className="card-title">     Credit Card </h3>
-                                    <div className="m-0 mt-sm-0 hcenter">
-                                        <SearchBar
-                                            onSearch={handleSearch}
-                                            onReset={handleReset}
-                                            hideReset={searchTerm}
-                                        />
-                                        {data?.length > 0 ? <form onSubmit={formik.handleSubmit}>
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={<Tooltip>Upload Files
-                                                    {formik.values.uploadedFiles.length > 0 && (
-                                                        <div className="mt-2">
 
-                                                            <ul>
-                                                                {formik.values.uploadedFiles.map((file, index) => (
-                                                                    <li key={index}>{file.name}</li>
-                                                                ))}
-                                                            </ul>
-                                                        </div>
-                                                    )}
+                                    {filters?.range_end_date &&
+                                        <div className="m-0 mt-sm-0 hcenter">
+                                            <SearchBar
+                                                onSearch={handleSearch}
+                                                onReset={handleReset}
+                                                hideReset={searchTerm}
+                                            />
+                                            <form onSubmit={formik.handleSubmit}>
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={
+                                                        <Tooltip>
+                                                            Upload Files
+                                                            {formik.values.uploadedFiles.length > 0 && (
+                                                                <div className="mt-2">
+                                                                    <ul>
+                                                                        {formik.values.uploadedFiles.map((file, index) => (
+                                                                            <li key={index}>{file.name}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                            )}
+                                                        </Tooltip>
+                                                    }
+                                                >
+                                                    <div className="file-upload-icon m-0">
+                                                        <label
+                                                            htmlFor="file-upload"
+                                                            className="btn btn-outline-primary"
+                                                            style={{ margin: "0px" }}
+                                                        >
+                                                            <i className="fa fa-upload"></i>
+                                                            {formik.values.uploadedFiles.length > 0 && (
+                                                                <span className="badge bg-danger">
+                                                                    {formik.values.uploadedFiles.length}
+                                                                </span>
+                                                            )}
+                                                        </label>
+                                                        <input
+                                                            id="file-upload"
+                                                            type="file"
+                                                            multiple
+                                                            className="d-none"
+                                                            onChange={(event) => handleFileChange(event)}
+                                                        />
+                                                    </div>
+                                                </OverlayTrigger>
+                                            </form>
 
-                                                </Tooltip>} // Tooltip Text
-                                            >
-                                                <div className="file-upload-icon m-0">
-                                                    <label
-                                                        htmlFor="file-upload"
-                                                        style={{ margin: "0px" }}
-                                                        className="btn btn-outline-primary"
-                                                    >
-                                                        <i className="fa fa-upload"></i> {/* FontAwesome Upload Icon */}
-                                                        {formik.values.uploadedFiles.length > 0 && (
-                                                            <span className="badge bg-danger">
-                                                                {formik.values.uploadedFiles?.length}
-                                                            </span>
-                                                        )}
-                                                    </label>
-                                                    <input
-                                                        id="file-upload"
-                                                        type="file"
-                                                        multiple
-                                                        className="d-none"
-                                                        onChange={async (event) => {
-                                                            const files = Array.from(event.target.files);
-                                                            formik.setFieldValue("uploadedFiles", files);
-                                                            handleSubmit(files);
-
-                                                        }}
-                                                    />
-                                                </div>
-                                            </OverlayTrigger>
-
-                                            {/* Show uploaded file names */}
-
-                                        </form> : ""}
+                                        </div>
+                                    }
 
 
-                                    </div>
+
                                 </div>
                             </Card.Header>
                             <Card.Body>
-                                {data?.length > 0 ? (
+                                {data?.length > 0 && filters?.range_end_date ? (
                                     <>
                                         <div className="table-responsive deleted-table">
                                             <DataTable

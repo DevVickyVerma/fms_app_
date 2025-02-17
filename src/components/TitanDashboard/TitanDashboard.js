@@ -3,7 +3,7 @@ import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import DashboardStatCard from "../../components/Dashboard/DashboardStatCard";
 import FiltersComponent from "../../components/Dashboard/DashboardHeader";
-import { BestvsWorst, GraphfilterOptions, handleFilterData } from "../../Utils/commonFunctions/commonFunction";
+import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
 import { Card, Col, Row } from "react-bootstrap";
 import TitanFilterModal from "./TitanFilterModal";
 import { useFormik } from "formik";
@@ -13,7 +13,6 @@ import TitanCardLoading from "./TitanCardLoading";
 import TitanPieChart from "./TitanPieChart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import SmallLoader from "../../Utils/SmallLoader";
-import TitanColumnChart from "./TitanColumnChart";
 import TitanDetailModal from "./TitanDetailModal";
 import TitanStatsTable from "./TitanStatsTable";
 import TitanTankFilter from "./TitanTankFilter";
@@ -39,8 +38,8 @@ const TitanDashboard = (props) => {
     const [PriceGraphloading, setPriceGraphloading] = useState(false);
 
     const [PriceGraphData, setPriceGraphData] = useState();
-    const [bestvsWorst, setbestvsWorst] = useState("0");
-    const [graphfilterOption, setgraphfilterOption] = useState("monthly");
+    const [triggerFetch, setTriggerFetch] = useState(false);
+
 
     const userPermissions = useSelector(
         (state) => state?.data?.data?.permissions || []
@@ -54,7 +53,6 @@ const TitanDashboard = (props) => {
     );
 
     const { handleError } = useErrorHandler();
-
     const formik = useFormik({
         initialValues: {
             client_id: "",
@@ -106,7 +104,7 @@ const TitanDashboard = (props) => {
     const handleApplyFilters = async (values) => {
 
 
-        console.log(values, "handleApplyFilters");
+
         formik.setFieldValue("client_id", values.client_id);
         formik.setFieldValue("company_id", values.company_id);
         try {
@@ -186,7 +184,6 @@ const TitanDashboard = (props) => {
 
         return { ...filters, client_id, client_name, company_id, company_name };
     };
-
     const fetchData = async (
         filters,
         endpoint,
@@ -196,10 +193,13 @@ const TitanDashboard = (props) => {
     ) => {
         const updatedFilters = updateFilters(filters);
         console.log(updatedFilters?.site_id, "updatedFilters");
-        formik.setFieldValue("site_id", updatedFilters?.site_id || "");
 
+        // Set 'site_id' in Formik
         const { client_id, company_id, site_id, grade_id, tank_id, start_month } = updatedFilters;
-        if (site_id) formik.setFieldValue("site_id", site_id);
+        console.log(site_id, "updatedFilters");
+        formik.setFieldValue("site_id", site_id); // Default to existing formik value if available
+
+        // Handle selected month logic
         if (
             !formik?.values?.selectedMonth &&
             !formik?.values?.selectedMonthDetails &&
@@ -220,48 +220,32 @@ const TitanDashboard = (props) => {
             }
         }
 
-        if (
-            updatedFilters?.company_id &&
-            updatedFilters?.sites &&
-            !updatedFilters?.site_id
-        ) {
-            const firstSiteDetails = updatedFilters?.sites?.[0];
-            if (firstSiteDetails) {
-                formik.setFieldValue("selectedSite", firstSiteDetails?.id);
-                formik.setFieldValue("selectedSiteDetails", firstSiteDetails);
-            }
-        } else if (updatedFilters?.sites && updatedFilters?.site_id) {
-            const selectedItem = filters?.sites.find(
-                (item) => item.id == updatedFilters?.site_id
-            );
-            formik.setFieldValue("selectedSite", updatedFilters?.site_id);
-            formik.setFieldValue("selectedSiteDetails", selectedItem);
-        }
+        // If no site_id, set first available site if any
+
+
+        // Fetch data using query params
         if (client_id) {
             try {
                 if (setLoading) setLoading(true);
                 const queryParams = new URLSearchParams();
                 if (client_id) queryParams.append("client_id", client_id);
                 if (company_id) queryParams.append("company_id", company_id);
-                if (site_id) queryParams.append("site_id", site_id);
+                if (site_id) queryParams.append("site_id", site_id); // Consistent use of site_id
                 if (tank_id) queryParams.append("tank_id", tank_id);
                 if (grade_id) queryParams.append("grade_id", grade_id);
                 if (start_month) queryParams.append("month", start_month);
-                if (client_id && company_id) {
-                    setApplyNavigate(true);
-                } else {
-                    setApplyNavigate(false);
-                }
 
                 const queryString = queryParams.toString();
                 const response = await getData(`${endpoint}?${queryString}`);
                 setFilters(updatedFilters);
                 setCenterFilterModalOpen(false);
+
                 if (response && response.data && response.data.data) {
                     setData(response.data.data);
                     if (callback) callback(response, updatedFilters);
                     localStorage.setItem(storedKeyName, JSON.stringify(updatedFilters));
                 }
+                setTriggerFetch(true);
             } catch (error) {
                 // handleError(error);
             } finally {
@@ -269,6 +253,45 @@ const TitanDashboard = (props) => {
             }
         }
     };
+
+    const FetchPriceGraph = async () => {
+        try {
+            setShowModal(false);
+            setPriceGraphloading(true);
+            console.log(formik.values, "ormik.values");
+            const queryParams = new URLSearchParams();
+            queryParams.append("client_id", formik.values?.client_id);
+            queryParams.append("company_id", formik.values?.company_id);
+
+            if (formik.values?.site_id) queryParams.append("site_id", formik.values?.site_id);
+            if (filters?.grade_id) queryParams.append("grade_id", filters?.grade_id);
+            if (filters?.tank_id) queryParams.append("tank_id", filters?.tank_id);
+            if (!formik.values?.site_id) queryParams.append("case", 0);;
+
+            queryParams.append("filter_type", "monthly");
+
+            const queryString = queryParams.toString();
+            const response = await getData(`titan-dashboard/performance-stats?${queryString}`);
+
+            if (response && response.data && response.data.data) {
+                setShowModal(false);
+                setPriceGraphData(response.data.data);
+                console.log(response?.data?.data, "columnIndex");
+            }
+        } catch (error) {
+            // handleError(error);
+        } finally {
+            setPriceGraphloading(false);
+        }
+    };
+    useEffect(() => {
+        if (priceLogsPermission && formik.values?.company_id && triggerFetch) {
+            FetchPriceGraph(formik.values);
+            setTriggerFetch(false); // Reset trigger after execution
+        }
+    }, [triggerFetch, formik.values?.company_id]); // Depend on triggerFetch and company_id
+
+
 
 
 
@@ -289,44 +312,9 @@ const TitanDashboard = (props) => {
         setShowLiveData(false); // Toggle the state
     };
 
-    useEffect(() => {
-        if (priceLogsPermission && formik.values?.company_id) {
 
-            FetchPriceGraph(formik.values);
-        }
-    }, [graphfilterOption, priceLogsPermission, bestvsWorst, formik?.values?.selectedSite, permissionsArray?.includes("titandashboard-view")]);
 
-    const FetchPriceGraph = async (site_id) => {
-        try {
-            console.log(formik.values, "setPriceGraphData");
-            setShowModal(false)
-            setPriceGraphloading(true);
-            const queryParams = new URLSearchParams();
-            console.log(site_id, " getData");
-            queryParams.append("client_id", formik.values?.client_id);
-            queryParams.append("company_id", formik.values?.company_id);
-            if (formik.values?.tableselectedSite) queryParams.append("site_id", formik.values?.tableselectedSite);
-            if (formik.values?.tableselectedTank) queryParams.append("tank_id", formik.values?.tableselectedTank);
-            if (formik.values?.tableselectedGrade) queryParams.append("grade_id", formik.values?.tableselectedGrade);
-            queryParams.append("case", bestvsWorst);
-            queryParams.append("filter_type", graphfilterOption);
 
-            const queryString = queryParams.toString();
-            const response = await getData(
-                `titan-dashboard/performance-stats?${queryString}`
-            );
-            if (response && response.data && response.data.data) {
-                setShowModal(false)
-                setPriceGraphData(response.data.data)
-                console.log(response?.data?.data, "columnIndex");
-
-            }
-        } catch (error) {
-            // handleError(error);
-        } finally {
-            setPriceGraphloading(false);
-        }
-    };
 
     const openCenterFilterModal = () => {
         if (!filters?.company_id) {
@@ -349,51 +337,10 @@ const TitanDashboard = (props) => {
             setShowCeoDetailModal(true);
         }
     };
-    const siteList = PriceGraphData?.fuel_mapping?.map(site => ({
-        id: site.site_id,
-        name: site.name,
-        fuel: site?.fuel // Extract fuel types
-    }));
 
-    const onSiteSelect = async (selectedId) => {
-        const tableselectedSite = siteList?.find(site => site.id === selectedId);
-        try {
 
-            if (tableselectedSite) {
-                await formik.setFieldValue("tableselectedSite", tableselectedSite?.id);
-                await formik.setFieldValue("selectedSiteDetails", tableselectedSite);
-            } else {
-                await formik.setFieldValue("tableselectedSite", "");
-                await formik.setFieldValue("selectedSiteDetails", "");
-            }
 
-            // Update Formik state with selected site and its details
 
-        } catch (error) {
-            console.error("Error in handleSiteChange:", error);
-        }
-    }
-
-    const handleGradeChange = async (selectedId) => {
-        const tableselectedSite = formik.values?.selectedSiteDetails?.fuel?.find(site => site.id == selectedId);
-        if (tableselectedSite) {
-            await formik.setFieldValue("tableselectedGrade", selectedId)
-            await formik.setFieldValue("selectedGradeDetails", tableselectedSite)
-        } else {
-            await formik.setFieldValue("tableselectedGrade", "");
-            await formik.setFieldValue("selectedGradeDetails", "");
-        }
-    };
-    const handleTankChange = async (selectedId) => {
-        const tableselectedSite = formik.values?.selectedGradeDetails?.tanks?.find(site => site.id == selectedId);
-        if (tableselectedSite) {
-            await formik.setFieldValue("tableselectedTank", selectedId)
-            await formik.setFieldValue("selectedTankDetails", tableselectedSite)
-        } else {
-            await formik.setFieldValue("tableselectedTank", "");
-            await formik.setFieldValue("selectedTankDetails", "");
-        }
-    };
     const [showModal, setShowModal] = useState(false);
     return (
         <>
@@ -590,14 +537,8 @@ const TitanDashboard = (props) => {
                 <TitanTankFilter
                     show={showModal}
                     handleClose={() => setShowModal(false)}
-                    formik={formik}
-                    siteList={siteList}
-                    BestvsWorst={BestvsWorst}
+                    onSubmit={FetchPriceGraph}
                     PriceGraphData={PriceGraphData}
-                    GraphfilterOptions={GraphfilterOptions}
-                    onSiteSelect={onSiteSelect}
-                    handleGradeChange={handleGradeChange}
-                    handleTankChange={handleTankChange}
                 />
                 {priceGraphPermission && (
                     <>
