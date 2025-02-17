@@ -71,7 +71,7 @@ const TitanColumnChart = ({ stockGraphData }) => {
         <Card>
             <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
-                    <h4 className="card-title">
+                    <h4 className="card-title all-center-flex">
                         {" "}
                         Site Performance {" "}
                         {stockGraphData?.name &&

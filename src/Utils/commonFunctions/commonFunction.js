@@ -175,6 +175,7 @@ export const GraphfilterOptions = [
 ];
 
 export const BestvsWorst = [
+  { value: "", label: "All" },
   { value: "1", label: "Best" },
   { value: "0", label: "Worst" },
 ];

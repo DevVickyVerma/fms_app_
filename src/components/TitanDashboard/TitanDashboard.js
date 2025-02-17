@@ -15,6 +15,8 @@ import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import SmallLoader from "../../Utils/SmallLoader";
 import TitanColumnChart from "./TitanColumnChart";
 import TitanDetailModal from "./TitanDetailModal";
+import TitanStatsTable from "./TitanStatsTable";
+import TitanTankFilter from "./TitanTankFilter";
 
 const TitanDashboard = (props) => {
 
@@ -60,10 +62,14 @@ const TitanDashboard = (props) => {
             site_id: "",
             selectedSite: "",
             selectedSiteDetails: "",
+            selectedGradeDetails: "",
             selectedMonth: "",
             selectedMonthDetails: "",
         },
         onSubmit: (values) => {
+            FetchPriceGraph(values)
+            console.log(values, "onSubmit");
+
             // console.log(values);
         },
     });
@@ -285,7 +291,7 @@ const TitanDashboard = (props) => {
 
     useEffect(() => {
         if (priceLogsPermission && formik.values?.company_id) {
-            console.log(formik.values, "useEffect");
+
             FetchPriceGraph(formik.values);
         }
     }, [graphfilterOption, priceLogsPermission, bestvsWorst, formik?.values?.selectedSite, permissionsArray?.includes("titandashboard-view")]);
@@ -293,20 +299,24 @@ const TitanDashboard = (props) => {
     const FetchPriceGraph = async (site_id) => {
         try {
             console.log(formik.values, "setPriceGraphData");
+            setShowModal(false)
             setPriceGraphloading(true);
             const queryParams = new URLSearchParams();
             console.log(site_id, " getData");
             queryParams.append("client_id", formik.values?.client_id);
             queryParams.append("company_id", formik.values?.company_id);
-            if (formik.values?.site_id) queryParams.append("site_id", formik.values?.site_id);
+            if (formik.values?.tableselectedSite) queryParams.append("site_id", formik.values?.tableselectedSite);
+            if (formik.values?.tableselectedTank) queryParams.append("tank_id", formik.values?.tableselectedTank);
+            if (formik.values?.tableselectedGrade) queryParams.append("grade_id", formik.values?.tableselectedGrade);
             queryParams.append("case", bestvsWorst);
             queryParams.append("filter_type", graphfilterOption);
 
             const queryString = queryParams.toString();
             const response = await getData(
-                `titan-dashboard/graph?${queryString}`
+                `titan-dashboard/performance-stats?${queryString}`
             );
             if (response && response.data && response.data.data) {
+                setShowModal(false)
                 setPriceGraphData(response.data.data)
                 console.log(response?.data?.data, "columnIndex");
 
@@ -339,6 +349,52 @@ const TitanDashboard = (props) => {
             setShowCeoDetailModal(true);
         }
     };
+    const siteList = PriceGraphData?.fuel_mapping?.map(site => ({
+        id: site.site_id,
+        name: site.name,
+        fuel: site?.fuel // Extract fuel types
+    }));
+
+    const onSiteSelect = async (selectedId) => {
+        const tableselectedSite = siteList?.find(site => site.id === selectedId);
+        try {
+
+            if (tableselectedSite) {
+                await formik.setFieldValue("tableselectedSite", tableselectedSite?.id);
+                await formik.setFieldValue("selectedSiteDetails", tableselectedSite);
+            } else {
+                await formik.setFieldValue("tableselectedSite", "");
+                await formik.setFieldValue("selectedSiteDetails", "");
+            }
+
+            // Update Formik state with selected site and its details
+
+        } catch (error) {
+            console.error("Error in handleSiteChange:", error);
+        }
+    }
+
+    const handleGradeChange = async (selectedId) => {
+        const tableselectedSite = formik.values?.selectedSiteDetails?.fuel?.find(site => site.id == selectedId);
+        if (tableselectedSite) {
+            await formik.setFieldValue("tableselectedGrade", selectedId)
+            await formik.setFieldValue("selectedGradeDetails", tableselectedSite)
+        } else {
+            await formik.setFieldValue("tableselectedGrade", "");
+            await formik.setFieldValue("selectedGradeDetails", "");
+        }
+    };
+    const handleTankChange = async (selectedId) => {
+        const tableselectedSite = formik.values?.selectedGradeDetails?.tanks?.find(site => site.id == selectedId);
+        if (tableselectedSite) {
+            await formik.setFieldValue("tableselectedTank", selectedId)
+            await formik.setFieldValue("selectedTankDetails", tableselectedSite)
+        } else {
+            await formik.setFieldValue("tableselectedTank", "");
+            await formik.setFieldValue("selectedTankDetails", "");
+        }
+    };
+    const [showModal, setShowModal] = useState(false);
     return (
         <>
             {/* {isLoading ? <LoaderImg /> : ""} */}
@@ -531,9 +587,21 @@ const TitanDashboard = (props) => {
 
             <Row className="mb-5">
 
+                <TitanTankFilter
+                    show={showModal}
+                    handleClose={() => setShowModal(false)}
+                    formik={formik}
+                    siteList={siteList}
+                    BestvsWorst={BestvsWorst}
+                    PriceGraphData={PriceGraphData}
+                    GraphfilterOptions={GraphfilterOptions}
+                    onSiteSelect={onSiteSelect}
+                    handleGradeChange={handleGradeChange}
+                    handleTankChange={handleTankChange}
+                />
                 {priceGraphPermission && (
                     <>
-                        <Col className="" sm={12} md={8} lg={8}>
+                        <Col className="" sm={12} md={9} lg={9}>
                             <Card
                                 className="h-100"
                                 style={{ transition: "opacity 0.3s ease" }}
@@ -557,68 +625,32 @@ const TitanDashboard = (props) => {
                                             )}
 
                                         </h4>
+
+                                        <button className="btn btn-primary" variant="primary" onClick={() => setShowModal(true)}>Open Filters</button>
                                     </div>
-                                    {/* <div className="flexspacebetween">
 
-                                        {filters?.company_id && PriceGraphData ? (
-                                            <div>
-                                                <select
-                                                    id="BestvsWorst"
-                                                    name="BestvsWorst"
-                                                    value={bestvsWorst}
-                                                    onChange={(e) => setbestvsWorst(e.target.value)}
-                                                    className="selectedMonth ms-2"
-                                                >
-
-                                                    {BestvsWorst?.map((item) => (
-                                                        <option key={item.value} value={item.value}>
-                                                            {item.label}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        ) : (
-                                            ""
-                                        )}
-                                        {filters?.company_id && PriceGraphData ? (
-                                            <div>
-                                                <select
-                                                    id="GraphfilterOptions"
-                                                    name="GraphfilterOptions"
-                                                    value={graphfilterOption}
-                                                    onChange={(e) => setgraphfilterOption(e.target.value)}
-                                                    className="selectedMonth ms-2"
-                                                >
-
-                                                    {GraphfilterOptions?.map((item) => (
-                                                        <option key={item.value} value={item.value}>
-                                                            {item.label}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div> */}
                                 </Card.Header>
 
                                 <Card.Body>
-                                    {/* {PriceGraphloading ? (
+                                    {PriceGraphloading ? (
                                         <SmallLoader />
-                                    ) : PriceGraphData ? (
-                                        <TitanColumnChart stockGraphData={PriceGraphData} />
+                                    ) : PriceGraphData?.stats ? (
+                                        <TitanStatsTable
+                                            data={PriceGraphData?.stats}
+                                        />
                                     ) : (
                                         <NoDataComponent showCard={true} />
-                                    )} */}
+                                    )}
+
                                 </Card.Body>
+
                             </Card>
                         </Col>
                     </>
                 )}
 
 
-                <Col sm={12} md={4} lg={4}>
+                <Col sm={12} md={3} lg={3}>
                     {statsLoading ? (
                         <SmallLoader title="Pie Chart" />
                     ) : dashboardData?.pie_graph_stats ? (

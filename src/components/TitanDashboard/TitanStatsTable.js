@@ -596,53 +596,60 @@ const TitanStatsTable = (props) => {
         },
 
     ];
+    const TableComponent = () => (
+        <div
+            className={`table-responsive deleted-table performance-col ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+                ? "show-ceo-hover-effect-data-table"
+                : ""
+                }`}
+        >
+            <DataTable
+                columns={columns}
+                data={data}
+                defaultSortField="gross_volume"
+                noHeader
+                defaultSortFieldId="gross_volume"
+                defaultSortAsc={false}
+                striped
+                persistTableHead
+                highlightOnHover
+                responsive
+            />
+        </div>
+    );
+
+    const NoDataComponent = () => (
+        <img
+            src={require("../../assets/images/commonimages/no_data.png")}
+            alt="No Data Available"
+            className="all-center-flex nodata-image"
+        />
+    );
+
     return (
         <>
             {isLoading ? <LoaderImg /> : null}
 
             <Row className=" row-sm">
                 <Col lg={12}>
-                    <Card >
-                        <Card.Header>
-                            {title}
-                        </Card.Header>
-                        <Card.Body>
-                            {data?.length > 0 ? (
-                                <>
-                                    <div
-                                        className={`table-responsive deleted-table performance-col ${isSitePermissionAvailable ||
-                                            isSiteSecondPermissionAvailable
-                                            ? "show-ceo-hover-effect-data-table"
-                                            : ""
-                                            }`}
-                                    >
-                                        <DataTable
-                                            columns={columns}
-                                            data={data}
-                                            defaultSortField="gross_volume"
-                                            noHeader={true}
-                                            defaultSortFieldId={"gross_volume"}
-                                            // defaultSortField="id"
-                                            defaultSortAsc={false}
-                                            striped={true}
-                                            persistTableHead={true}
-                                            highlightOnHover={true}
-                                            responsive={true}
-                                        />
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <img
-                                        src={require("../../assets/images/commonimages/no_data.png")}
-                                        alt="MyChartImage"
-                                        className="all-center-flex nodata-image"
-                                    />
-                                </>
-                            )}
-                        </Card.Body>
-                    </Card>
+                    {title ? (
+                        <Card>
+                            <Card.Header>{title}</Card.Header>
+                            <Card.Body>
+                                {data?.length > 0 ? (
+                                    <TableComponent />
+                                ) : (
+                                    <NoDataComponent />
+                                )}
+                            </Card.Body>
+                        </Card>
+                    ) : data?.length > 0 ? (
+                        <TableComponent />
+                    ) : (
+                        <NoDataComponent />
+                    )}
                 </Col>
+
             </Row>
         </>
     );
