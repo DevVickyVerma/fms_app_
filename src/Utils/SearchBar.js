@@ -27,7 +27,7 @@ const SearchBar = ({ onSearch, onReset, placeholder, hideReset }) => {
     <div className="search-component d-flex gap-2  ">
       <input
         type="text"
-        className="search-input w-40 form-control"
+        className="search-input form-control"
         placeholder={placeholder || "Search..."}
         value={searchTerm}
         onChange={handleInputChange}

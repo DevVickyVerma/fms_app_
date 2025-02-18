@@ -310,14 +310,6 @@ const Competitor = (props) => {
               </Link>
             </OverlayTrigger>
           ) : null}
-
-          {/* <IonButton
-            className="mob-custom-danger-btn"
-            size="small"
-            // onClick={handleResetFilters}
-          >
-            <IonIcon icon={Delete} />
-          </IonButton> */}
         </span>
       ),
     },

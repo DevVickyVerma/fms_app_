@@ -102,22 +102,9 @@ const ManageUser = (props) => {
 
   const columns = [
     {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "8%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
       name: "Full Name",
       selector: (row) => [row.full_name],
       sortable: false,
-      width: "18%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -132,7 +119,6 @@ const ManageUser = (props) => {
       name: "Role",
       selector: (row) => [row.role],
       sortable: false,
-      width: "13%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -145,7 +131,6 @@ const ManageUser = (props) => {
       name: "Addons",
       selector: (row) => [row.addons],
       sortable: false,
-      width: "16%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -158,7 +143,6 @@ const ManageUser = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "14%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -175,9 +159,9 @@ const ManageUser = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "11%",
+      center: true,
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold ">
+        <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
@@ -215,27 +199,28 @@ const ManageUser = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      center: true,
       cell: (row) => (
-        <span className="text-center d-flex justify-content-center gap-1 flex-wrap">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editusers/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2"
               >
-                <i className="ph ph-pencil" />
+                <i className="mobile-ph ph ph-pencil" />
               </Link>
             </OverlayTrigger>
           ) : null}
+
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11 responsive-btn"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
-                <i className="ph ph-trash" />
+                <i className="mobile-ph ph ph-trash" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -246,10 +231,9 @@ const ManageUser = (props) => {
             >
               <Link
                 to={`/assigusernaddon/${row.id}`}
-                className="btn btn-success btn-sm rounded-11 ms-2 responsive-btn"
+                className="btn btn-success btn-sm rounded-11 mobile-btn p-2"
               >
-                <i className="ph ph-user-circle-plus" />
-                {/* <AssignmentIndIcon /> */}
+                <i className="mobile-ph ph ph-user-circle-plus" />
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -304,19 +288,19 @@ const ManageUser = (props) => {
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Users </h3>
-                  <div className="mt-2 mt-sm-0">
+                  <div className="mobile-head-container mt-2 mt-sm-0">
                     <SearchBar
                       onSearch={handleSearch}
                       onReset={handleReset}
                       hideReset={searchTerm}
-                    />
+                    />{" "}
                   </div>
                 </div>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}
