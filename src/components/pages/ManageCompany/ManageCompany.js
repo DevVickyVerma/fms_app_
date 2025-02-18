@@ -142,22 +142,10 @@ const ManageCompany = (props) => {
 
   const columns = [
     {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "7%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
       name: "Company",
       selector: (row) => [row.company_name],
       sortable: false,
-      width: "25%",
+      //  width: "25%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -170,7 +158,7 @@ const ManageCompany = (props) => {
       name: "Client Name",
       selector: (row) => [row.client],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => {
         try {
           return (
@@ -196,7 +184,7 @@ const ManageCompany = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "16%",
+      //  width: "16%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -213,7 +201,8 @@ const ManageCompany = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
+      center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -254,7 +243,8 @@ const ManageCompany = (props) => {
           name: "Action",
           selector: (row) => [row.action],
           sortable: false,
-          width: "20%",
+          // width: "20%",
+          center: true,
           cell: (row) => (
             <span className="text-center">
               {anyPermissionAvailable ? (
@@ -281,7 +271,7 @@ const ManageCompany = (props) => {
                       <Dropdown.Item className="dropdown-item">
                         <Link to="#" onClick={() => handleDelete(row.id)}>
                           <div style={{ width: "100%" }}>
-                            <i className="ph ph-trash me-2" />
+                            <i className="ph ph-trash me-2 " />
                             Delete
                           </div>
                         </Link>
@@ -455,7 +445,7 @@ const ManageCompany = (props) => {
                   className="btn btn-primary "
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Company
+                  Add
                   <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
@@ -469,7 +459,7 @@ const ManageCompany = (props) => {
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Companies</h3>
-                  <div className="mt-2 mt-sm-0">
+                  <div className="mobile-head-container mt-2 mt-sm-0">
                     <SearchBar
                       onSearch={handleSearch}
                       onReset={handleReset}
@@ -482,7 +472,7 @@ const ManageCompany = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table site_deleted_table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

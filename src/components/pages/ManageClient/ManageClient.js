@@ -145,22 +145,10 @@ const ManageClient = (props) => {
 
   const columns = [
     {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "7%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
       name: "Client",
       selector: (row) => [row.full_name],
       sortable: false,
-      width: "20%",
+      //      width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -173,7 +161,7 @@ const ManageClient = (props) => {
       name: "Sms Balance",
       selector: (row) => [row.sms_balance],
       sortable: false,
-      width: "12%",
+      //      width: "12%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -186,7 +174,7 @@ const ManageClient = (props) => {
       name: "Addons",
       selector: (row) => [row.addons],
       sortable: false,
-      width: "20%",
+      //      width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -199,7 +187,7 @@ const ManageClient = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "14%",
+      //      width: "14%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -216,7 +204,8 @@ const ManageClient = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "12%",
+      //      width: "12%",
+      center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -257,7 +246,8 @@ const ManageClient = (props) => {
           name: "Action",
           selector: (row) => [row.action],
           sortable: false,
-          width: "15%",
+          center: true,
+          // width: "15%",
           cell: (row) => (
             <span className="text-center">
               {anyPermissionAvailable ? (
@@ -393,7 +383,7 @@ const ManageClient = (props) => {
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Clients</h3>
-                  <div className="mt-2 mt-sm-0">
+                  <div className="mobile-head-container mt-2 mt-sm-0">
                     <SearchBar
                       onSearch={handleSearch}
                       onReset={handleReset}
@@ -405,7 +395,7 @@ const ManageClient = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className=" deleted-table site_deleted_table">
+                    <div className=" deleted-table site_deleted_table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

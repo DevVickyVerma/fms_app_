@@ -4,7 +4,7 @@ import InputTime from "../../components/pages/Competitor/InputTime";
 const CurrentDateTable = ({ data }) => {
   return (
     <div>
-      <div className="table-container ">
+      <div className="table-container overflow-auto">
         <table className="table">
           <thead>
             <tr>
