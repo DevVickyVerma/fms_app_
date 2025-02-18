@@ -18,11 +18,12 @@ import { isPlatform } from "@ionic/react";
 import { getPlatforms } from "@ionic/react";
 import { Device } from "@capacitor/device";
 import { PushNotifications } from "@capacitor/push-notifications";
+import { StatusBar } from '@capacitor/status-bar';
 
 setupIonicReact();
 const App = () => {
   const [isMobile, setIsMobile] = useState(false);
-
+  StatusBar.hide();
   useEffect(() => {
     // Get the list of platforms the app is running on
     const currentPlatforms = getPlatforms();
