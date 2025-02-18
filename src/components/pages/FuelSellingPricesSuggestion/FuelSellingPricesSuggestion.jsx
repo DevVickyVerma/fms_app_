@@ -276,6 +276,7 @@ const FuelSellingPricesSuggestion = (props) => {
                         <div key={site.id} className="mt-2">
                           <Collapse accordion>
                             <Panel
+                              style={{ overflowX: "auto" }}
                               header={
                                 <>
                                   <div className=" d-flex justify-content-between ">
