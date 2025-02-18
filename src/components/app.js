@@ -23,7 +23,7 @@ import { StatusBar } from '@capacitor/status-bar';
 setupIonicReact();
 const App = () => {
   const [isMobile, setIsMobile] = useState(false);
-  StatusBar.hide();
+
   useEffect(() => {
     // Get the list of platforms the app is running on
     const currentPlatforms = getPlatforms();
@@ -202,7 +202,9 @@ const App = () => {
         "#0B5ECF"
       );
     }
-
+    if (deviceInfo?.platform == "ios") {
+      StatusBar.hide(); // Hide the status bar on mobile platforms
+    }
     dispatch(fetchData());
   }, []);
 
