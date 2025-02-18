@@ -26,6 +26,7 @@ import PracticeJavaScript from "./PracticeJavaScript";
 import { useMyContext } from "../../Utils/MyContext";
 import { IonButton, IonIcon } from "@ionic/react";
 import { funnelOutline, refresh } from "ionicons/icons";
+import CardSwiper from "../../Utils/MobileCommonComponents/CardSwiper";
 
 const CeoDashBoardTest = (props) => {
   const navigate = useNavigate();
@@ -457,7 +458,78 @@ const CeoDashBoardTest = (props) => {
       navigate(`/pricegraph-view/`);
     }
   };
-
+  const DashboardcardsData = (dashboardData) => [
+    {
+      id: 1,
+      title: "Gross Volume",
+      value: dashboardData?.gross_volume?.gross_volume || "0.0",
+      subValue: dashboardData?.gross_volume?.bunkered_volume || "0.0",
+      subTitle: "Bunkered Volume",
+      percentage: dashboardData?.gross_volume?.percentage || "0%",
+      status: dashboardData?.gross_volume?.status || "down",
+      icon: "ℓ",
+    },
+    {
+      id: 2,
+      title: "Fuel Sales (Ex. Vat)",
+      value: dashboardData?.fuel_sales?.gross_value || "0.0",
+      subValue: dashboardData?.fuel_sales?.bunkered_value || "0.0",
+      subTitle: "Bunkered Sales",
+      percentage: dashboardData?.fuel_sales?.percentage || "0%",
+      status: dashboardData?.fuel_sales?.status || "down",
+      icon: "£",
+    },
+    {
+      id: 3,
+      title: "Gross Margin (Fuel)",
+      value: dashboardData?.gross_margin?.gross_margin || "0.0",
+      subValue: dashboardData?.gross_profit?.gross_profit || "0.0",
+      subTitle: "Gross Profit",
+      percentage: dashboardData?.gross_margin?.percentage || "0%",
+      status: dashboardData?.gross_margin?.status || "down",
+      icon: "ppl",
+    },
+    {
+      id: 4,
+      title: "Gross Margin",
+      value: `${dashboardData?.gross_margin?.gross_margin || "0"} ppl`,
+      subValue: "",
+      subTitle: "",
+      percentage: dashboardData?.gross_margin?.percentage || "0%",
+      status: dashboardData?.gross_margin?.status || "down",
+    },
+    {
+      id: 5,
+      title: "Shop Sales (Ex. Vat)",
+      value: dashboardData?.shop_sales?.shop_sales || "0%",
+      subValue: dashboardData?.shop_sales?.bunkered_value,
+      subTitle: "Bunkered Sales",
+      percentage: dashboardData?.shop_sales?.percentage || "0%",
+      status: dashboardData?.shop_sales?.status || "down",
+      icon: "ppl",
+      secondIcon: "£",
+    },
+    {
+      id: 6,
+      title: "Shop Fee",
+      value: dashboardData?.shop_fees?.shop_fee || "0%",
+      subValue: dashboardData?.shop_fees?.bunkered_value,
+      subTitle: "Bunkered Sales",
+      percentage: dashboardData?.shop_fees?.percentage || "0%",
+      status: dashboardData?.shop_fees?.status || "down",
+      icon: "£",
+    },
+    {
+      id: 7,
+      title: "Shop Profit",
+      value: dashboardData?.shop_profit?.shop_profit || "0%",
+      subValue: dashboardData?.shop_profit?.bunkered_value,
+      subTitle: "Bunkered Sales",
+      percentage: dashboardData?.shop_profit?.percentage || "0%",
+      status: dashboardData?.shop_profit?.status || "down",
+      icon: "£",
+    },
+  ];
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
@@ -661,6 +733,13 @@ const CeoDashBoardTest = (props) => {
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           />
         )}
+
+        {/* {isMobile && (
+          <CardSwiper
+            dashboardData={dashboardData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+            cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
+          />)} */}
       </div>
 
       <div onClick={() => openCenterFilterModal()}>
