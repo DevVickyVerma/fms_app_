@@ -24,7 +24,7 @@ const ManageShops = (props) => {
   const { handleError } = useErrorHandler();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -35,21 +35,19 @@ const ManageShops = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'shop/delete', formData, FetchTableData);
+    formData.append("id", id);
+    customDelete(postData, "shop/delete", formData, FetchTableData);
   };
-
 
   useEffect(() => {
     FetchTableData();
-    
   }, [currentPage, searchTerm]);
 
   const toggleActive = (row) => {
@@ -74,8 +72,6 @@ const ManageShops = (props) => {
       handleError(error);
     }
   };
-
-
 
   const FetchTableData = async () => {
     try {
@@ -109,11 +105,9 @@ const ManageShops = (props) => {
     }
   }, [UserPermissions]);
 
-
   const isEditPermissionAvailable = permissionsArray?.includes("shop-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("shop-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("shop-delete");
-
 
   const columns = [
     {
@@ -163,7 +157,7 @@ const ManageShops = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -245,8 +239,6 @@ const ManageShops = (props) => {
     },
   ];
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -278,7 +270,8 @@ const ManageShops = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Shop <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Add Shop{" "}
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -292,7 +285,11 @@ const ManageShops = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Shops</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>

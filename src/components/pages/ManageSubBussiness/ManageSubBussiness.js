@@ -9,18 +9,13 @@ import { useSelector } from "react-redux";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import useToggleStatus from "../../../Utils/useToggleStatus";
 
-
-
 const ManageSubBusinessTypes = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
 
-
   useEffect(() => {
     handleFetchData();
-    
   }, []);
-
 
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
@@ -50,36 +45,48 @@ const ManageSubBusinessTypes = (props) => {
     }
   };
 
-
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'business/sub-types/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(
+      postData,
+      "business/sub-types/delete",
+      formData,
+      handleSuccess
+    );
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/business/update-sub-type-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/business/update-sub-type-status",
+      formData,
+      handleSuccess
+    );
   };
 
-
   const handleSuccess = () => {
-    handleFetchData()
-  }
+    handleFetchData();
+  };
 
-
-
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const isEditPermissionAvailable = userPermissions?.includes("business-sub-type-edit");
-  const isAddPermissionAvailable = userPermissions?.includes("business-sub-type-create");
-  const isDeletePermissionAvailable = userPermissions?.includes("business-sub-type-delete");
-
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const isEditPermissionAvailable = userPermissions?.includes(
+    "business-sub-type-edit"
+  );
+  const isAddPermissionAvailable = userPermissions?.includes(
+    "business-sub-type-create"
+  );
+  const isDeletePermissionAvailable = userPermissions?.includes(
+    "business-sub-type-delete"
+  );
 
   const columns = [
     {
@@ -208,15 +215,11 @@ const ManageSubBusinessTypes = (props) => {
     },
   ];
 
-
-
   const Loaderimg = () => (
     <div id="global-loader">
       <loderdata.Loadersbigsizes1 />
     </div>
   );
-
-
 
   return (
     <>
@@ -226,7 +229,7 @@ const ManageSubBusinessTypes = (props) => {
         <>
           <div className="page-header ">
             <div>
-              <h1 className="page-title">Manage SubBusiness  Type</h1>
+              <h1 className="page-title">Manage SubBusiness Type</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -240,7 +243,7 @@ const ManageSubBusinessTypes = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage SubBusiness  Type
+                  Manage SubBusiness Type
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -257,7 +260,8 @@ const ManageSubBusinessTypes = (props) => {
                 />
                 {isAddPermissionAvailable ? (
                   <Link to="/addsub-business" className="btn btn-primary ms-2">
-                    Add SubBusiness  Type <i className="ph ph-plus ms-1 ph-plus-icon" />
+                    Add SubBusiness Type{" "}
+                    <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                   </Link>
                 ) : null}
               </div>

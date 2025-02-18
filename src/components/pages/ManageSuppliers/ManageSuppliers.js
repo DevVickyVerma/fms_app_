@@ -1,23 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
 import useCustomDelete from "../../../Utils/useCustomDelete";
-import useToggleStatus from '../../../Utils/useToggleStatus';
+import useToggleStatus from "../../../Utils/useToggleStatus";
 
 const ManageSuppliers = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -28,45 +35,42 @@ const ManageSuppliers = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions
+  );
 
   const isEditPermissionAvailable = UserPermissions?.includes("supplier-edit");
   const isAddPermissionAvailable = UserPermissions?.includes("supplier-create");
-  const isDeletePermissionAvailable = UserPermissions?.includes("supplier-delete");
-
+  const isDeletePermissionAvailable =
+    UserPermissions?.includes("supplier-delete");
 
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'supplier/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "supplier/delete", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
+    formData.append("id", row.id.toString());
 
-    formData.append('status', (row?.supplier_status == 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/supplier/update-status', formData, handleSuccess);
+    formData.append("status", (row?.supplier_status == 1 ? 0 : 1).toString());
+    toggleStatus(postData, "/supplier/update-status", formData, handleSuccess);
   };
 
   const handleSuccess = () => {
-    FetchTableData()
-  }
-
-
+    FetchTableData();
+  };
 
   useEffect(() => {
     FetchTableData(currentPage);
-    
   }, [currentPage, searchTerm]);
-
 
   const FetchTableData = async () => {
     try {
@@ -87,7 +91,6 @@ const ManageSuppliers = (props) => {
       console.error("API error:", error);
     }
   };
-
 
   const columns = [
     {
@@ -251,7 +254,7 @@ const ManageSuppliers = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Supplier
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -265,7 +268,11 @@ const ManageSuppliers = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Suppliers</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -273,7 +280,6 @@ const ManageSuppliers = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-
                       <DataTable
                         columns={columns}
                         data={data}

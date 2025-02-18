@@ -1,9 +1,16 @@
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -17,7 +24,7 @@ const ManageItems = (props) => {
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -28,48 +35,41 @@ const ManageItems = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
-
-
-
-
 
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
 
-
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append("id", id);
-    customDelete(postData, 'department-item/delete', formData, handleSuccess);
+    customDelete(postData, "department-item/delete", formData, handleSuccess);
   };
 
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
 
-    formData.append('status', (row.status == 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/department-item/update-status', formData, handleSuccess);
+    formData.append("status", (row.status == 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/department-item/update-status",
+      formData,
+      handleSuccess
+    );
   };
 
   const handleSuccess = () => {
     FetchTableData();
   };
 
-
-
-
   useEffect(() => {
     FetchTableData(currentPage);
-    
   }, [currentPage, searchTerm]);
-
-
 
   const FetchTableData = async () => {
     try {
-
       let apiUrl = `/department-item/list?page=${currentPage}`;
       if (searchTerm) {
         apiUrl += `&keyword=${searchTerm}`;
@@ -88,11 +88,18 @@ const ManageItems = (props) => {
     }
   };
 
-
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const isEditPermissionAvailable = UserPermissions?.includes("department-item-edit");
-  const isAddPermissionAvailable = UserPermissions?.includes("department-item-create");
-  const isDeletePermissionAvailable = UserPermissions?.includes("department-item-delete");
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const isEditPermissionAvailable = UserPermissions?.includes(
+    "department-item-edit"
+  );
+  const isAddPermissionAvailable = UserPermissions?.includes(
+    "department-item-create"
+  );
+  const isDeletePermissionAvailable = UserPermissions?.includes(
+    "department-item-delete"
+  );
 
   const columns = [
     {
@@ -221,8 +228,6 @@ const ManageItems = (props) => {
     },
   ];
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -247,8 +252,6 @@ const ManageItems = (props) => {
             </Breadcrumb>
           </div>
           <div className="ms-auto pageheader-btn d-flex align-items-center">
-
-
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
@@ -257,7 +260,7 @@ const ManageItems = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Department Item
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -271,7 +274,11 @@ const ManageItems = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Department Items</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -292,7 +299,6 @@ const ManageItems = (props) => {
                         searchable={false}
                         subHeader={false}
                       />
-
                     </div>
                   </>
                 ) : (

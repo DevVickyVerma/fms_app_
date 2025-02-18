@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, Dropdown, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Dropdown,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -15,15 +23,16 @@ import useCustomDelete from "../../../Utils/useCustomDelete";
 const ManageCompany = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const { handleError } = useErrorHandler();
-  const [showUploadSageSalesModal, setShowUploadSageSalesModal] = useState(false);
+  const [showUploadSageSalesModal, setShowUploadSageSalesModal] =
+    useState(false);
   const [UploadModalTitle, setUploadModalTitle] = useState();
   const [UploadModalURLPath, setUploadModalURLPath] = useState();
-  const [companyId, setCompanyId] = useState("")
+  const [companyId, setCompanyId] = useState("");
   const [data, setData] = useState();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -34,20 +43,16 @@ const ManageCompany = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'company/delete', formData, FetchTableData);
+    formData.append("id", id);
+    customDelete(postData, "company/delete", formData, FetchTableData);
   };
-
-
-
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -61,7 +66,7 @@ const ManageCompany = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
-     await postData("/company/update-status", formData);
+      await postData("/company/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
@@ -73,12 +78,10 @@ const ManageCompany = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    
   }, [currentPage, searchTerm]);
 
   const FetchTableData = async () => {
     try {
-
       let apiUrl = `/company/list?page=${currentPage}`;
       if (searchTerm) {
         apiUrl += `&keyword=${searchTerm}`;
@@ -116,16 +119,17 @@ const ManageCompany = (props) => {
   const isAddPermissionAvailable = permissionsArray?.includes("company-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("company-delete");
-  const isSagePermissionAvailable =
-    permissionsArray?.includes("company-sage-config");
+  const isSagePermissionAvailable = permissionsArray?.includes(
+    "company-sage-config"
+  );
 
   const isUploadSagePermissionAvailable =
     permissionsArray?.includes("upload-sale");
-  const isUploadBankReferencePermissionAvailable =
-    permissionsArray?.includes("company-upload-bank-ref");
+  const isUploadBankReferencePermissionAvailable = permissionsArray?.includes(
+    "company-upload-bank-ref"
+  );
   const isCompanyUploadBankReimbursementPermissionAvailable =
     permissionsArray?.includes("company-upload-bank-reimbursement");
-
 
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
@@ -197,7 +201,7 @@ const ManageCompany = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -247,171 +251,169 @@ const ManageCompany = (props) => {
     },
     anyPermissionAvailable
       ? {
-        name: "Action",
-        selector: (row) => [row.action],
-        sortable: false,
-        width: "20%",
-        cell: (row) => (
-          <span className="text-center">
-            {anyPermissionAvailable ? (
-              <Dropdown className="dropdown btn-group">
-                <Dropdown.Toggle
-                  variant="Primary"
-                  type="button"
-                  className="btn btn-primary dropdown-toggle"
-                >
-                  Actions
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu">
-                  {isEditPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        to="/editcompany"
-                        onClick={() => handleEdit(row)}
-                      >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-pencil me-2" />
-                          Edit
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isDeletePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to="#" onClick={() => handleDelete(row.id)}>
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-trash me-2" />
-                          Delete
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
+          name: "Action",
+          selector: (row) => [row.action],
+          sortable: false,
+          width: "20%",
+          cell: (row) => (
+            <span className="text-center">
+              {anyPermissionAvailable ? (
+                <Dropdown className="dropdown btn-group">
+                  <Dropdown.Toggle
+                    variant="Primary"
+                    type="button"
+                    className="btn btn-primary dropdown-toggle"
+                  >
+                    Actions
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="dropdown-menu">
+                    {isEditPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to="/editcompany" onClick={() => handleEdit(row)}>
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-pencil me-2" />
+                            Edit
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isDeletePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to="#" onClick={() => handleDelete(row.id)}>
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-trash me-2" />
+                            Delete
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
 
-                  {permissionsArray?.includes("company-auto-report-list") ? (
-                    <Dropdown.Item
-                      className=" p-0 m-0"
-                    // className="dropdown-item"
-                    >
-                      <Link to={`/companyautoreport/${row.id}`}>
-                        <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                          <i className="ph ph-files me-2" />
-                          Company Auto Report
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isSagePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        className="settingicon"
-                        to={`/company/sage-fuels/${row.id}`}
+                    {permissionsArray?.includes("company-auto-report-list") ? (
+                      <Dropdown.Item
+                        className=" p-0 m-0"
+                        // className="dropdown-item"
                       >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-gas-pump me-2" />
-                          <span>Manage Sage Fuel</span>
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isSagePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        className="settingicon"
-                        to={`/company/sage-items/${row.id}`}
-                      >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-coda-logo me-2" />
-                          <span>Manage Sage Items</span>
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isSagePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        className="settingicon"
-                        to={`/company/sage-other-codes/${row.id}`}
-                      >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-code me-2" />
-                          <span>Sage Other Code</span>
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isUploadSagePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        className="settingicon"
-                        onClick={() => handleUploadSageSale(row.id)}
-                      >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-upload me-2" />
-                          <span>Upload Sage Sales</span>
-                        </div>
-                      </Link>
-                      <UploadSageSales />
-                    </Dropdown.Item>
-                  ) : null}
-                  {isUploadBankReferencePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        className="settingicon"
-                        onClick={() => handleUploadBankReferenceSale(row.id)}
-                      >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-vault me-2" />
-                          <span>Upload Bank Reference</span>
-                        </div>
-                      </Link>
-                      <UploadSageSales />
-                    </Dropdown.Item>
-                  ) : null}
-                  {isCompanyUploadBankReimbursementPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link
-                        className="settingicon"
-                        onClick={() => handleUploadBankReimbursementsSale(row.id)}
-                      >
-                        <div style={{ width: "100%" }}>
-                          <i className="ph ph-hand-coins me-2" />
-                          <span>Upload Bank Reimbursements</span>
-                        </div>
-                      </Link>
-                      <UploadSageSales />
-                    </Dropdown.Item>
-                  ) : null}
-                </Dropdown.Menu>
-              </Dropdown>
-            ) : null}
-          </span >
-        ),
-      }
+                        <Link to={`/companyautoreport/${row.id}`}>
+                          <div
+                            className="manage-site-dropdown-item"
+                            style={{ width: "100%" }}
+                          >
+                            <i className="ph ph-files me-2" />
+                            Company Auto Report
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isSagePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link
+                          className="settingicon"
+                          to={`/company/sage-fuels/${row.id}`}
+                        >
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-gas-pump me-2" />
+                            <span>Manage Sage Fuel</span>
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isSagePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link
+                          className="settingicon"
+                          to={`/company/sage-items/${row.id}`}
+                        >
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-coda-logo me-2" />
+                            <span>Manage Sage Items</span>
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isSagePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link
+                          className="settingicon"
+                          to={`/company/sage-other-codes/${row.id}`}
+                        >
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-code me-2" />
+                            <span>Sage Other Code</span>
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isUploadSagePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link
+                          className="settingicon"
+                          onClick={() => handleUploadSageSale(row.id)}
+                        >
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-upload me-2" />
+                            <span>Upload Sage Sales</span>
+                          </div>
+                        </Link>
+                        <UploadSageSales />
+                      </Dropdown.Item>
+                    ) : null}
+                    {isUploadBankReferencePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link
+                          className="settingicon"
+                          onClick={() => handleUploadBankReferenceSale(row.id)}
+                        >
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-vault me-2" />
+                            <span>Upload Bank Reference</span>
+                          </div>
+                        </Link>
+                        <UploadSageSales />
+                      </Dropdown.Item>
+                    ) : null}
+                    {isCompanyUploadBankReimbursementPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link
+                          className="settingicon"
+                          onClick={() =>
+                            handleUploadBankReimbursementsSale(row.id)
+                          }
+                        >
+                          <div style={{ width: "100%" }}>
+                            <i className="ph ph-hand-coins me-2" />
+                            <span>Upload Bank Reimbursements</span>
+                          </div>
+                        </Link>
+                        <UploadSageSales />
+                      </Dropdown.Item>
+                    ) : null}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : null}
+            </span>
+          ),
+        }
       : "",
   ];
 
   const handleUploadSageSale = (rowId) => {
     setShowUploadSageSalesModal(true);
     setUploadModalTitle("Upload Sage Sales");
-    setUploadModalURLPath("upload-sale")
-    setCompanyId(rowId)
+    setUploadModalURLPath("upload-sale");
+    setCompanyId(rowId);
   };
   const handleUploadBankReferenceSale = (rowId) => {
     setShowUploadSageSalesModal(true);
-    setUploadModalTitle("Upload Bank Reference")
-    setUploadModalURLPath("upload-bank-ref")
-    setCompanyId(rowId)
+    setUploadModalTitle("Upload Bank Reference");
+    setUploadModalURLPath("upload-bank-ref");
+    setCompanyId(rowId);
   };
   const handleUploadBankReimbursementsSale = (rowId) => {
     setShowUploadSageSalesModal(true);
-    setUploadModalTitle("Upload Bank Reimbursements")
-    setUploadModalURLPath("upload-bank-reimbursement")
-    setCompanyId(rowId)
+    setUploadModalTitle("Upload Bank Reimbursements");
+    setUploadModalURLPath("upload-bank-reimbursement");
+    setCompanyId(rowId);
   };
-
-
-
-
 
   return (
     <>
@@ -454,13 +456,12 @@ const ManageCompany = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Company
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
           </div>
         </div>
-
 
         <Row className=" row-sm ">
           <Col lg={12}>
@@ -469,7 +470,11 @@ const ManageCompany = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Companies</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -487,7 +492,6 @@ const ManageCompany = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>

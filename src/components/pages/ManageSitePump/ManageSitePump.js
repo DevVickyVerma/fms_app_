@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -20,19 +27,16 @@ const ManageSiteTank = (props) => {
   const { handleError } = useErrorHandler();
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'site-pump/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "site-pump/delete", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/site-pump/update-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, "/site-pump/update-status", formData, handleSuccess);
   };
-
-
 
   const handleSubmit1 = async (values) => {
     let { site_id } = values;
@@ -48,18 +52,17 @@ const ManageSiteTank = (props) => {
         setData(response?.data?.data);
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
       console.error("API error:", error);
     } // Set the submission state to false after the API call is completed
   };
 
-
-
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
   const isEditPermissionAvailable = UserPermissions?.includes("pump-edit");
   const isAddPermissionAvailable = UserPermissions?.includes("pump-create");
   const isDeletePermissionAvailable = UserPermissions?.includes("pump-delete");
-
 
   const columns = [
     {
@@ -79,7 +82,7 @@ const ManageSiteTank = (props) => {
       selector: (row) => [row.site],
       sortable: false,
       width: "15%",
-      cell: (row,) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.site}</h6>
@@ -201,8 +204,9 @@ const ManageSiteTank = (props) => {
     },
   ];
 
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -210,7 +214,6 @@ const ManageSiteTank = (props) => {
     company_id: Yup.string().required("Company is required"),
     site_id: Yup.string().required("Site is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -222,7 +225,7 @@ const ManageSiteTank = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -239,7 +242,7 @@ const ManageSiteTank = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -252,12 +255,12 @@ const ManageSiteTank = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.site_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
+  };
 
   const handleClearForm = async () => {
-    setData(null)
+    setData(null);
   };
 
   const handleSuccess = () => {
@@ -265,9 +268,7 @@ const ManageSiteTank = (props) => {
       let parsedData = JSON.parse(storedData);
       handleApplyFilters(parsedData);
     }
-  }
-
-
+  };
 
   return (
     <>
@@ -300,7 +301,8 @@ const ManageSiteTank = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Site Pump <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Add Site Pump{" "}
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -313,7 +315,6 @@ const ManageSiteTank = (props) => {
               <Card.Header>
                 <h3 className="card-title"> Filter </h3>
               </Card.Header>
-
 
               <NewFilterTab
                 getData={getData}
@@ -329,8 +330,6 @@ const ManageSiteTank = (props) => {
                 showStationInput={true}
                 ClearForm={handleClearForm}
               />
-
-
             </Card>
           </Col>
         </Row>
@@ -339,9 +338,7 @@ const ManageSiteTank = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">
-                  Manage Site Pumps
-                </h3>
+                <h3 className="card-title">Manage Site Pumps</h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (

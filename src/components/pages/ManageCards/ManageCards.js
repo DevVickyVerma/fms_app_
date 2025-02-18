@@ -1,17 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import CustomPagination from "../../../Utils/CustomPagination";
 import SearchBar from "../../../Utils/SearchBar";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-import useCustomDelete from '../../../Utils/useCustomDelete';
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const ManageCards = (props) => {
   const { apidata, isLoading, getData, postData } = props;
@@ -19,7 +26,7 @@ const ManageCards = (props) => {
   const { handleError } = useErrorHandler();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -30,9 +37,8 @@ const ManageCards = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
-
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -48,20 +54,16 @@ const ManageCards = (props) => {
   const isAddPermissionAvailable = permissionsArray?.includes("card-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("card-delete");
 
-
   useEffect(() => {
     FetchTableData();
   }, [currentPage, searchTerm]);
-
-
-  
 
   const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'card/delete', formData, FetchTableData);
+    formData.append("id", id);
+    customDelete(postData, "card/delete", formData, FetchTableData);
   };
 
   const toggleActive = (row) => {
@@ -95,7 +97,6 @@ const ManageCards = (props) => {
       }
       const response = await getData(apiUrl);
 
-
       if (response && response.data && response.data.data) {
         setData(response.data.data.cards);
         setCurrentPage(response?.data?.data?.currentPage || 1);
@@ -107,8 +108,6 @@ const ManageCards = (props) => {
       console.error("API error:", error);
     }
   };
-
-
 
   const columns = [
     {
@@ -159,10 +158,7 @@ const ManageCards = (props) => {
       sortable: false,
       width: "20%",
       cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-        >
+        <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
           </div>
@@ -243,7 +239,6 @@ const ManageCards = (props) => {
     },
   ];
 
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -268,7 +263,6 @@ const ManageCards = (props) => {
             </Breadcrumb>
           </div>
           <div className="ms-auto pageheader-btn  d-flex align-items-center">
-
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
@@ -277,7 +271,7 @@ const ManageCards = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Card
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -291,7 +285,11 @@ const ManageCards = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Cards</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>

@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
@@ -9,7 +16,7 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import useCustomDelete from "../../../Utils/useCustomDelete";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
-const OpeningBalance = ({ isLoading, getData, postData, }) => {
+const OpeningBalance = ({ isLoading, getData, postData }) => {
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -30,30 +37,29 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-  const isAddPermissionAvailable = permissionsArray?.includes("hide-category-add");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("hide-category-delete");
+  const isAddPermissionAvailable =
+    permissionsArray?.includes("hide-category-add");
+  const isDeletePermissionAvailable = permissionsArray?.includes(
+    "hide-category-delete"
+  );
 
   const { id } = useParams();
   const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'hidecategory/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "hidecategory/delete", formData, handleSuccess);
   };
 
   const handleSuccess = () => {
-    fetchOpeningBalanceList()
-  }
-
-
+    fetchOpeningBalanceList();
+  };
 
   const fetchOpeningBalanceList = async () => {
     try {
       const response = await getData(
-        `/hidecategory/list?site_id=${id}&page=${currentPage ? currentPage : 1
-        }`
+        `/hidecategory/list?site_id=${id}&page=${currentPage ? currentPage : 1}`
       );
       if (response && response.data) {
         setData(response?.data?.data?.categoires);
@@ -87,18 +93,14 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
       selector: (row) => [row?.name],
       sortable: false,
       width: "35%",
-      cell: (row,) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.name}
-            </h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
           </div>
         </div>
       ),
     },
-
-
 
     {
       name: "Action",
@@ -107,7 +109,6 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
       width: "25%",
       cell: (row) => (
         <span className="text-center">
-
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
@@ -131,7 +132,7 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title">
-              Manage  Hide Business Categories ({siteName})
+              Manage Hide Business Categories ({siteName})
             </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -164,7 +165,8 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Hide Business Categories <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Hide Business Categories{" "}
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : (
                 ""

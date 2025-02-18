@@ -291,7 +291,7 @@ const ManageUser = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add User
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

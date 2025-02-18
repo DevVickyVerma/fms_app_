@@ -3,22 +3,17 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit" // Use "explicit" instead of true for ESLint fixes on save
   },
-  // "eslint.options": {
-  //   "configFile": "eslint.config.mjs" // Path to your ESLint configuration file
-  // },
-  // "eslint.validate": [
-  //   "javascript",
-  //   "javascriptreact" // Ensures ESLint validates .js and .jsx files
-  // ],
   "editor.quickSuggestions": {
     "other": true,
     "comments": false,
     "strings": true
   },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
-
-  // "emmet.includeLanguages": {
-  //   "javascript": "javascriptreact"
-  // }
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
 }

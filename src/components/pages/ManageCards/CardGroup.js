@@ -1,7 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import DataTable from "react-data-table-component";
@@ -11,27 +18,19 @@ import CardGroupCenterModal from "./CardGroupCenterModal";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import useCustomDelete from "../../CommonComponent/useCustomDelete";
 
-
-
-
-const CardGroup = ({ isLoading, getData, postData, }) => {
+const CardGroup = ({ isLoading, getData, postData }) => {
   const [data, setData] = useState();
   const [showModal, setShowModal] = useState(false);
   const [showAddButton, setShowAddButton] = useState(false);
   const [detailApiData, setDetailApiData] = useState();
 
-
   const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'sage/card-group/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "sage/card-group/delete", formData, handleSuccess);
   };
-
-
-
-
 
   const handleSubmit1 = async (values) => {
     try {
@@ -44,8 +43,6 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
       console.error("API error:", error);
     }
   };
-
-
 
   const fetchUpdateCardDetail = async (rowId) => {
     try {
@@ -60,13 +57,16 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
       console.error("API error:", error);
     }
   };
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
 
-  const isEditPermissionAvailable = UserPermissions?.includes("cardgroup-update");
-  const isAddPermissionAvailable = UserPermissions?.includes("cardgroup-update");
-  const isDeletePermissionAvailable = UserPermissions?.includes("cardgroup-delete");
-
-
+  const isEditPermissionAvailable =
+    UserPermissions?.includes("cardgroup-update");
+  const isAddPermissionAvailable =
+    UserPermissions?.includes("cardgroup-update");
+  const isDeletePermissionAvailable =
+    UserPermissions?.includes("cardgroup-delete");
 
   const columns = [
     {
@@ -141,16 +141,14 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
               </Link>
             </OverlayTrigger>
           ) : null}
-
         </span>
       ),
     },
-
   ];
 
-
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -158,7 +156,6 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
     company_id: Yup.string().required("Company is required"),
     site_id: Yup.string().required("Site is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -170,7 +167,7 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -187,7 +184,7 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -200,12 +197,12 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
+  };
 
   const handleClearForm = async () => {
-    setData(null)
+    setData(null);
   };
 
   const handleSuccess = () => {
@@ -213,8 +210,7 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
       let parsedData = JSON.parse(storedData);
       handleApplyFilters(parsedData);
     }
-  }
-
+  };
 
   return (
     <>
@@ -268,8 +264,6 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
                 showStationInput={true}
                 ClearForm={handleClearForm}
               />
-
-
             </Card>
           </Col>
         </Row>
@@ -290,7 +284,7 @@ const CardGroup = ({ isLoading, getData, postData, }) => {
                       style={{ borderRadius: "4px" }}
                     >
                       Add Card
-                      <i className="ph ph-plus ms-1 ph-plus-icon" />
+                      <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                     </Link>
                   ) : null}
                 </div>

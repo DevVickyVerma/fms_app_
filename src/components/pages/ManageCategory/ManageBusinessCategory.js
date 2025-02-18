@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -22,15 +22,14 @@ const ManageBusinessCategory = (props) => {
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
   const [data, setData] = useState();
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   const FetchTableData = async () => {
@@ -55,15 +54,20 @@ const ManageBusinessCategory = (props) => {
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append("id", id);
-    customDelete(postData, 'business/category/delete', formData, handleSuccess);
+    customDelete(postData, "business/category/delete", formData, handleSuccess);
   };
 
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
 
-    formData.append('status', (row.status == 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/business/category/update-status', formData, handleSuccess);
+    formData.append("status", (row.status == 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/business/category/update-status",
+      formData,
+      handleSuccess
+    );
   };
 
   const handleSuccess = () => {
@@ -72,16 +76,20 @@ const ManageBusinessCategory = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    
   }, [searchTerm]);
 
-
-
-
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const isEditPermissionAvailable = UserPermissions?.includes("business-category-edit");
-  const isAddPermissionAvailable = UserPermissions?.includes("business-category-create");
-  const isDeletePermissionAvailable = UserPermissions?.includes("business-category-delete");
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const isEditPermissionAvailable = UserPermissions?.includes(
+    "business-category-edit"
+  );
+  const isAddPermissionAvailable = UserPermissions?.includes(
+    "business-category-create"
+  );
+  const isDeletePermissionAvailable = UserPermissions?.includes(
+    "business-category-delete"
+  );
 
   const columns = [
     {
@@ -195,10 +203,6 @@ const ManageBusinessCategory = (props) => {
     },
   ];
 
-
-
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -233,7 +237,7 @@ const ManageBusinessCategory = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Business Category
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -247,7 +251,11 @@ const ManageBusinessCategory = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Business Category</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -262,10 +270,8 @@ const ManageBusinessCategory = (props) => {
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
-
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>

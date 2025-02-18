@@ -2016,6 +2016,9 @@ td.middayModal-td.time-input-fuel-sell {
   .page-header {
     margin: 0.5rem 0rem 0.5rem;
   }
+  .ph-sm-icon {
+    font-size: 14px;
+  }
 }
 
 .Toastify__toast-theme--colored.Toastify__toast--error {

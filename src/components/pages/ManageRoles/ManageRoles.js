@@ -189,7 +189,7 @@ const ManageRoles = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Role
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : (
                 ""

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -20,8 +20,6 @@ import * as Yup from "yup";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
-
-
 const ManageSiteTank = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
@@ -30,16 +28,15 @@ const ManageSiteTank = (props) => {
   const { handleError } = useErrorHandler();
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'site-tank/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "site-tank/delete", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/site-tank/update-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(postData, "/site-tank/update-status", formData, handleSuccess);
   };
 
   const handleSubmit1 = async (values) => {
@@ -56,13 +53,14 @@ const ManageSiteTank = (props) => {
         setData(response?.data?.data);
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
       console.error("API error:", error);
     } // Set the submission state to false after the API call is completed
   };
 
-
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
 
   const isEditPermissionAvailable = UserPermissions?.includes("tank-edit");
   const isAddPermissionAvailable = UserPermissions?.includes("tank-create");
@@ -220,8 +218,9 @@ const ManageSiteTank = (props) => {
     },
   ];
 
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -229,7 +228,6 @@ const ManageSiteTank = (props) => {
     company_id: Yup.string().required("Company is required"),
     site_id: Yup.string().required("Site is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -241,7 +239,7 @@ const ManageSiteTank = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -258,7 +256,7 @@ const ManageSiteTank = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -271,12 +269,12 @@ const ManageSiteTank = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.site_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
+  };
 
   const handleClearForm = async () => {
-    setData(null)
+    setData(null);
   };
 
   const handleSuccess = () => {
@@ -284,7 +282,7 @@ const ManageSiteTank = (props) => {
       let parsedData = JSON.parse(storedData);
       handleApplyFilters(parsedData);
     }
-  }
+  };
 
   return (
     <>
@@ -318,7 +316,7 @@ const ManageSiteTank = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site Tank
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -346,8 +344,6 @@ const ManageSiteTank = (props) => {
                 showStationInput={true}
                 ClearForm={handleClearForm}
               />
-
-
             </Card>
           </Col>
         </Row>

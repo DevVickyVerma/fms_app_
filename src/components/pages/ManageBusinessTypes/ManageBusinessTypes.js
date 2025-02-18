@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -13,8 +13,8 @@ import {
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import useCustomDelete from '../../../Utils/useCustomDelete';
-import useToggleStatus from '../../../Utils/useToggleStatus';
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from "../../../Utils/useToggleStatus";
 
 const ManageBusinessTypes = (props) => {
   const { isLoading, getData, postData } = props;
@@ -40,30 +40,28 @@ const ManageBusinessTypes = (props) => {
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'business/delete-type', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "business/delete-type", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/business/update-type-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/business/update-type-status",
+      formData,
+      handleSuccess
+    );
   };
 
-
   const handleSuccess = () => {
-    FetchTableData()
-  }
-
-
-
-
+    FetchTableData();
+  };
 
   useEffect(() => {
     FetchTableData();
-    
   }, []);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -230,7 +228,7 @@ const ManageBusinessTypes = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Business Type
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -256,7 +254,6 @@ const ManageBusinessTypes = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>

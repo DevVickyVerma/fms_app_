@@ -405,8 +405,8 @@ const Competitor = (props) => {
                   className="btn btn-primary "
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Competitor
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Add
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

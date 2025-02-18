@@ -3,7 +3,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
@@ -20,7 +27,7 @@ const ManageCharges = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const { handleError } = useErrorHandler();
 
   const handlePageChange = (newPage) => {
@@ -32,13 +39,11 @@ const ManageCharges = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
-
 
   useEffect(() => {
     FetchTableData(currentPage);
-    
   }, [currentPage, searchTerm]);
 
   useEffect(() => {
@@ -93,13 +98,11 @@ const ManageCharges = (props) => {
             handleError(error);
           } finally {
           }
-
         };
         DeleteRole();
       }
     });
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -143,9 +146,6 @@ const ManageCharges = (props) => {
       console.error("API error:", error);
     }
   };
-
-
-
 
   const columns = [
     {
@@ -273,11 +273,6 @@ const ManageCharges = (props) => {
     },
   ];
 
-
-
-
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -302,11 +297,6 @@ const ManageCharges = (props) => {
             </Breadcrumb>
           </div>
 
-
-
-
-
-
           <div className="ms-auto pageheader-btn d-flex align-items-center">
             <div className="input-group">
               {isAddPermissionAvailable ? (
@@ -315,7 +305,8 @@ const ManageCharges = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Charge <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Add Charge{" "}
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -329,7 +320,11 @@ const ManageCharges = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Charges</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -337,7 +332,6 @@ const ManageCharges = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-
                       <DataTable
                         columns={columns}
                         data={data}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -23,30 +23,38 @@ const ManageSubBusinessCategory = (props) => {
   const { customDelete } = useCustomDelete();
   const { toggleStatus } = useToggleStatus();
   const [data, setData] = useState();
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
-
 
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append("id", id);
-    customDelete(postData, 'business/subcategory/delete', formData, handleSuccess);
+    customDelete(
+      postData,
+      "business/subcategory/delete",
+      formData,
+      handleSuccess
+    );
   };
 
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
 
-    formData.append('status', (row.status == 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/business/subcategory/update-status', formData, handleSuccess);
+    formData.append("status", (row.status == 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/business/subcategory/update-status",
+      formData,
+      handleSuccess
+    );
   };
 
   const handleSuccess = () => {
@@ -54,7 +62,6 @@ const ManageSubBusinessCategory = (props) => {
   };
   const FetchTableData = async () => {
     try {
-
       let apiUrl = `/business/subcategory`;
       if (searchTerm) {
         apiUrl += `?keyword=${searchTerm}`;
@@ -71,22 +78,22 @@ const ManageSubBusinessCategory = (props) => {
     }
   };
 
-
-
-
-
   useEffect(() => {
     FetchTableData();
-    
   }, [searchTerm]);
 
-
-
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const isEditPermissionAvailable = UserPermissions?.includes("business-sub-category-edit");
-  const isAddPermissionAvailable = UserPermissions?.includes("business-sub-category-create");
-  const isDeletePermissionAvailable = UserPermissions?.includes("business-sub-category-delete");
-
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const isEditPermissionAvailable = UserPermissions?.includes(
+    "business-sub-category-edit"
+  );
+  const isAddPermissionAvailable = UserPermissions?.includes(
+    "business-sub-category-create"
+  );
+  const isDeletePermissionAvailable = UserPermissions?.includes(
+    "business-sub-category-delete"
+  );
 
   const columns = [
     {
@@ -213,8 +220,6 @@ const ManageSubBusinessCategory = (props) => {
     },
   ];
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -248,8 +253,8 @@ const ManageSubBusinessCategory = (props) => {
                   className="btn btn-primary"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add SubBusiness  Category
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Add SubBusiness Category
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -263,7 +268,11 @@ const ManageSubBusinessCategory = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage SubBusiness Category</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>

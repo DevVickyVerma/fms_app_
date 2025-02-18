@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -15,14 +15,14 @@ import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import SearchBar from "../../../Utils/SearchBar";
 import CustomPagination from "../../../Utils/CustomPagination";
-import useCustomDelete from '../../../Utils/useCustomDelete';
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const ManageAddon = (props) => {
-  const { isLoading, getData, postData} = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -31,10 +31,8 @@ const ManageAddon = (props) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
-
-
 
   const handleEdit = (row) => {
     localStorage.setItem("EditAddon", row.id);
@@ -45,23 +43,13 @@ const ManageAddon = (props) => {
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('addon_id', id);
-    customDelete(postData, 'addon/delete', formData, FetchTableData);
+    formData.append("addon_id", id);
+    customDelete(postData, "addon/delete", formData, FetchTableData);
   };
-
-
-
-
-
-
-
 
   useEffect(() => {
     FetchTableData();
-    
   }, [searchTerm, currentPage]);
-
-
 
   const FetchTableData = async () => {
     try {
@@ -82,10 +70,6 @@ const ManageAddon = (props) => {
       console.error("API error:", error);
     }
   };
-
-
-
-
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -176,8 +160,6 @@ const ManageAddon = (props) => {
     },
   ];
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -210,7 +192,7 @@ const ManageAddon = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Addon
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -224,7 +206,11 @@ const ManageAddon = (props) => {
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Addons</h3>
                   <div className="mt-2 mt-sm-0">
-                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    <SearchBar
+                      onSearch={handleSearch}
+                      onReset={handleReset}
+                      hideReset={searchTerm}
+                    />
                   </div>
                 </div>
               </Card.Header>
@@ -241,7 +227,6 @@ const ManageAddon = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>

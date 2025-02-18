@@ -1,9 +1,16 @@
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -19,7 +26,7 @@ const ManageSiteTank = (props) => {
   const handleDelete = (id) => {
     const formData = new FormData();
     formData.append("id", id);
-    customDelete(postData, 'site-ppl/delete', formData, handleSuccess);
+    customDelete(postData, "site-ppl/delete", formData, handleSuccess);
   };
 
   const handleSubmit1 = async (values) => {
@@ -46,10 +53,9 @@ const ManageSiteTank = (props) => {
     }
   };
 
-
-
-
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
   const isEditPermissionAvailable = UserPermissions?.includes("ppl-edit");
   const isAddPermissionAvailable = UserPermissions?.includes("ppl-create");
   const isDeletePermissionAvailable = UserPermissions?.includes("ppl-delete");
@@ -180,8 +186,9 @@ const ManageSiteTank = (props) => {
     },
   ];
 
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -189,7 +196,6 @@ const ManageSiteTank = (props) => {
     company_id: Yup.string().required("Company is required"),
     site_id: Yup.string().required("Site is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -201,7 +207,7 @@ const ManageSiteTank = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -218,7 +224,7 @@ const ManageSiteTank = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -231,12 +237,12 @@ const ManageSiteTank = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.site_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
+  };
 
   const handleClearForm = async () => {
-    setData(null)
+    setData(null);
   };
 
   const handleSuccess = () => {
@@ -244,7 +250,7 @@ const ManageSiteTank = (props) => {
       let parsedData = JSON.parse(storedData);
       handleApplyFilters(parsedData);
     }
-  }
+  };
 
   return (
     <>
@@ -278,8 +284,7 @@ const ManageSiteTank = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site PPL Rate
-                  <i className="ph ph-plus ms-1 ph-plus-icon" />
-                  
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -315,9 +320,7 @@ const ManageSiteTank = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">
-                  Site PPL Rate{" "}
-                </h3>
+                <h3 className="card-title">Site PPL Rate </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
@@ -332,7 +335,6 @@ const ManageSiteTank = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>

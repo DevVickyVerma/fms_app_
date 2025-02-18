@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
@@ -9,7 +16,7 @@ import useCustomDelete from "../../../Utils/useCustomDelete";
 import CustomPagination from "../../../Utils/CustomPagination";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
-const OpeningBalance = ({ isLoading, getData, postData, }) => {
+const OpeningBalance = ({ isLoading, getData, postData }) => {
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -31,29 +38,33 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-  const isAddPermissionAvailable = permissionsArray?.includes("assign-business-sub-category-create");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("assign-business-sub-category-delete");
-  const isEditPermissionAvailable = permissionsArray?.includes("assign-business-sub-category-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes(
+    "assign-business-sub-category-create"
+  );
+  const isDeletePermissionAvailable = permissionsArray?.includes(
+    "assign-business-sub-category-delete"
+  );
+  const isEditPermissionAvailable = permissionsArray?.includes(
+    "assign-business-sub-category-edit"
+  );
   const { id } = useParams();
 
   const { customDelete } = useCustomDelete();
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'assignsubcategory/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "assignsubcategory/delete", formData, handleSuccess);
   };
 
   const handleSuccess = () => {
-    fetchOpeningBalanceList()
-  }
-
-
+    fetchOpeningBalanceList();
+  };
 
   const fetchOpeningBalanceList = async () => {
     try {
       const response = await getData(
-        `/assignsubcategory/list?site_id=${id}&page=${currentPage ? currentPage : 1
+        `/assignsubcategory/list?site_id=${id}&page=${
+          currentPage ? currentPage : 1
         }`
       );
       if (response && response.data) {
@@ -108,7 +119,7 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
@@ -152,7 +163,6 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
     },
   ];
 
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -193,7 +203,8 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Assign Business Sub Categories <i className="ph ph-plus ms-1 ph-plus-icon" />
+                  Assign Business Sub Categories{" "}
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
                 </Link>
               ) : (
                 ""
@@ -206,7 +217,10 @@ const OpeningBalance = ({ isLoading, getData, postData, }) => {
           <Col lg={12} md={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Manage Assigned Business Sub Categories </h3>
+                <h3 className="card-title">
+                  {" "}
+                  Manage Assigned Business Sub Categories{" "}
+                </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
