@@ -192,7 +192,7 @@ const App = () => {
   // --primary - bg - color: #09469f;
   // --primary - bg - hover: #0B5ECF;
   useEffect(() => {
-    if (deviceInfo?.platform == "ios") {
+    if (deviceInfo?.platform == "ios" || deviceInfo?.platform == "android") {
       document.documentElement.style.setProperty(
         "--primary-bg-color",
         "#09469f"
@@ -202,7 +202,7 @@ const App = () => {
         "#0B5ECF"
       );
     }
-    if (deviceInfo?.platform == "ios") {
+    if (deviceInfo?.platform == "ios" || deviceInfo?.platform == "android") {
       StatusBar.hide(); // Hide the status bar on mobile platforms
     }
     dispatch(fetchData());
