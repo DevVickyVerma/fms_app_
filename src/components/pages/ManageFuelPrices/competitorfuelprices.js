@@ -10,11 +10,32 @@ import { Collapse, Table } from "antd";
 import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import StaticCompiPrice from "./StaticCompiPrice";
+import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
+import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
+import { useMyContext } from "../../../Utils/MyContext";
+import { useSelector } from "react-redux";
 
 const { Panel } = Collapse;
 
 const CompetitorFuelPrices = (props) => {
   const { getData, isLoading, postData } = props;
+  const ReduxFullData = useSelector((state) => state?.data?.data);
+  const { isMobile } = useMyContext();
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
+
+  const handleMobileModalOpen = async () => {
+    setIsMobileModalOpen(true);
+  };
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    handleClearForm();
+  };
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
@@ -34,6 +55,26 @@ const CompetitorFuelPrices = (props) => {
 
   const handleSubmit1 = async (values) => {
     setSelectedDrsDate(values.start_date);
+
+    let { client_id, company_id, site_id, client_name, company_name } = values;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...values,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
+    };
 
     try {
       // const formData = new FormData();
@@ -57,6 +98,9 @@ const CompetitorFuelPrices = (props) => {
       const { data } = response1;
       if (data) {
         setData(data?.data);
+
+        setIsMobileModalOpen(false);
+        setFilters(updatedFilters);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -221,31 +265,38 @@ const CompetitorFuelPrices = (props) => {
           </div>
         </div>
 
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Filter Data</h3>
-              </Card.Header>
+        {isMobile ? (
+          <>
+            <CommonMobileFilters
+              filters={filters}
+              handleToggleSidebar1={handleMobileModalOpen}
+              handleResetFilters={handleResetFilters}
+              showResetBtn={true}
+              showSiteName={false}
+              showStartDate={true}
+            />
+          </>
+        ) : (
+          <></>
+        )}
 
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                lg="4"
-                showStationValidation={true}
-                showMonthInput={false}
-                showDateInput={true}
-                showDateValidation={true}
-                showStationInput={false}
-                ClearForm={handleClearForm}
-              />
-            </Card>
-          </Col>
-        </Row>
+        <MobNewFilterTab
+          getData={getData}
+          isLoading={isLoading}
+          isStatic={true}
+          onApplyFilters={handleApplyFilters}
+          validationSchema={validationSchemaForCustomInput}
+          storedKeyName={storedKeyName}
+          lg="4"
+          showStationValidation={true}
+          showMonthInput={false}
+          showDateInput={true}
+          showDateValidation={true}
+          showStationInput={false}
+          ClearForm={handleClearForm}
+          isOpen={isMobileModalOpen}
+          onClose={() => setIsMobileModalOpen(false)}
+        />
 
         <Row>
           <Col md={12} xl={12}>

@@ -13,7 +13,6 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import { Collapse } from "antd";
-import NewFilterTab from "../Filtermodal/NewFilterTab";
 import StaticCompiPrice from "./StaticCompiPrice";
 import { useSelector } from "react-redux";
 import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
@@ -21,6 +20,9 @@ import VersionTwoSuggestedFuelPrice from "./VersionTwoSuggestedFuelPrice";
 import { commonCompetitorMultiLineData } from "../../../Utils/commonFunctions/CommonData";
 import Swal from "sweetalert2";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
+import { useMyContext } from "../../../Utils/MyContext";
+import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
 
 const { Panel } = Collapse;
 
@@ -36,6 +38,24 @@ const CompetitorFuelPricesVersionTwo = (props) => {
   const [accordionSiteID, setaccordionSiteID] = useState();
 
   const { handleError } = useErrorHandler();
+  const ReduxFullData = useSelector((state) => state?.data?.data);
+
+  const { isMobile } = useMyContext();
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
+
+  const handleMobileModalOpen = async () => {
+    setIsMobileModalOpen(true);
+  };
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    handleClearForm();
+  };
 
   const formik = useFormik({
     initialValues: {},
@@ -57,6 +77,26 @@ const CompetitorFuelPricesVersionTwo = (props) => {
   const [versionData, setVersionData] = useState(commonCompetitorMultiLineData);
 
   const handleSubmit1 = async (values) => {
+    let { client_id, company_id, site_id, client_name, company_name } = values;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...values,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
+    };
+
     setSelectedDrsDate(values.start_date);
     setFilterData(values);
     try {
@@ -85,6 +125,9 @@ const CompetitorFuelPricesVersionTwo = (props) => {
       if (response && response.data && response.data.data) {
         setData(response.data.data);
         formik.setValues(response?.data?.data);
+
+        setIsMobileModalOpen(false);
+        setFilters(updatedFilters);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -269,31 +312,37 @@ const CompetitorFuelPricesVersionTwo = (props) => {
           </div>
         </div>
 
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Filter Data</h3>
-              </Card.Header>
+        {isMobile ? (
+          <>
+            <CommonMobileFilters
+              filters={filters}
+              handleToggleSidebar1={handleMobileModalOpen}
+              handleResetFilters={handleResetFilters}
+              showResetBtn={true}
+              showStartDate={true}
+            />
+          </>
+        ) : (
+          <></>
+        )}
 
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                lg="3"
-                showStationValidation={true}
-                showMonthInput={false}
-                showDateInput={true}
-                showDateValidation={true}
-                showStationInput={true}
-                ClearForm={handleClearForm}
-              />
-            </Card>
-          </Col>
-        </Row>
+        <MobNewFilterTab
+          getData={getData}
+          isLoading={isLoading}
+          isStatic={true}
+          onApplyFilters={handleApplyFilters}
+          validationSchema={validationSchemaForCustomInput}
+          storedKeyName={storedKeyName}
+          lg="3"
+          showStationValidation={true}
+          showMonthInput={false}
+          showDateInput={true}
+          showDateValidation={true}
+          showStationInput={true}
+          ClearForm={handleClearForm}
+          isOpen={isMobileModalOpen}
+          onClose={() => setIsMobileModalOpen(false)}
+        />
 
         <>
           <Row>
