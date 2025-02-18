@@ -151,75 +151,75 @@ const Dashboard = (props) => {
   const DashboardcardsData = (dashboardData) => [
     {
       id: 1,
-      title: 'Gross Volume',
+      title: "Gross Volume",
       value: dashboardData?.gross_volume?.gross_volume || "0.0",
       subValue: dashboardData?.gross_volume?.bunkered_volume || "0.0",
-      subTitle: 'Bunkered Volume',
+      subTitle: "Bunkered Volume",
       percentage: dashboardData?.gross_volume?.percentage || "0%",
       status: dashboardData?.gross_volume?.status || "down",
-      icon: "ℓ"
+      icon: "ℓ",
     },
     {
       id: 2,
-      title: 'Fuel Sales (Ex. Vat)',
+      title: "Fuel Sales (Ex. Vat)",
       value: dashboardData?.fuel_sales?.gross_value || "0.0",
       subValue: dashboardData?.fuel_sales?.bunkered_value || "0.0",
-      subTitle: 'Bunkered Sales',
+      subTitle: "Bunkered Sales",
       percentage: dashboardData?.fuel_sales?.percentage || "0%",
       status: dashboardData?.fuel_sales?.status || "down",
-      icon: "£"
+      icon: "£",
     },
     {
       id: 3,
-      title: 'Gross Profit',
+      title: "Gross Profit",
       value: dashboardData?.gross_profit?.gross_profit || "0.0",
       subValue: "",
-      subTitle: '',
+      subTitle: "",
       percentage: dashboardData?.gross_profit?.percentage || "0%",
       status: dashboardData?.gross_profit?.status || "down",
-      icon: "£"
+      icon: "£",
     },
     {
       id: 4,
-      title: 'Gross Margin',
+      title: "Gross Margin",
       value: `${dashboardData?.gross_margin?.gross_margin || "0"} ppl`,
       subValue: "",
-      subTitle: '',
+      subTitle: "",
       percentage: dashboardData?.gross_margin?.percentage || "0%",
-      status: dashboardData?.gross_margin?.status || "down"
+      status: dashboardData?.gross_margin?.status || "down",
     },
     {
       id: 5,
-      title: 'Shop Sales (Ex. Vat)',
+      title: "Shop Sales (Ex. Vat)",
       value: dashboardData?.shop_sales?.shop_sales || "0%",
       subValue: dashboardData?.shop_sales?.bunkered_value,
-      subTitle: 'Bunkered Sales',
+      subTitle: "Bunkered Sales",
       percentage: dashboardData?.shop_sales?.percentage || "0%",
       status: dashboardData?.shop_sales?.status || "down",
-      icon: "£"
+      icon: "£",
     },
     {
       id: 6,
-      title: 'Shop Fee',
+      title: "Shop Fee",
       value: dashboardData?.shop_fees?.shop_fee || "0%",
       subValue: dashboardData?.shop_fees?.bunkered_value,
-      subTitle: 'Bunkered Sales',
+      subTitle: "Bunkered Sales",
       percentage: dashboardData?.shop_fees?.percentage || "0%",
       status: dashboardData?.shop_fees?.status || "down",
-      icon: "£"
+      icon: "£",
     },
     {
       id: 7,
-      title: 'Shop Profit',
+      title: "Shop Profit",
       value: dashboardData?.shop_profit?.shop_profit || "0%",
       subValue: dashboardData?.shop_profit?.bunkered_value,
-      subTitle: 'Bunkered Sales',
+      subTitle: "Bunkered Sales",
       percentage: dashboardData?.shop_profit?.percentage || "0%",
       status: dashboardData?.shop_profit?.status || "down",
-      icon: "£"
-    }
+      icon: "£",
+    },
   ];
-  console.log(isMobile, "isMobile");
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -283,7 +283,7 @@ const Dashboard = (props) => {
 
       <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
         {!ShowLiveData && (
-          <div className="spacebetweenw">
+          <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
               Dashboard (
               {dashboardData?.dateString
@@ -291,37 +291,6 @@ const Dashboard = (props) => {
                 : ReduxFullData?.dates}
               )
             </h2>
-            {
-              (isMobile) && (
-                <>
-                  {/* Filter Button */}
-                  <div className="spaceBetween">
-                    <IonButton
-                      onClick={handleToggleSidebar1}
-                      type="danger"
-                      size="small"
-                      className="mob-custom-primary-btn"
-                      style={{ marginRight: '8px', }}
-                    >
-                      <IonIcon icon={funnelOutline} />
-                    </IonButton>
-                    {(filters?.client_id ||
-                      filters?.company_id ||
-                      filters?.site_id ||
-                      filters?.start_date) &&
-                      (isMobile) && (
-                        <IonButton
-                          className="mob-custom-danger-btn"
-                          size="small"
-                          onClick={handleResetFilters}
-                        >
-                          <IonIcon icon={refresh} />
-                        </IonButton>
-                      )}
-                  </div>
-                </>
-              )
-            }
           </div>
         )}
         <div></div>
@@ -331,8 +300,36 @@ const Dashboard = (props) => {
           handleToggleSidebar1={handleToggleSidebar1}
           handleResetFilters={handleResetFilters}
           showResetBtn={true}
-
         />
+        {isMobile && (
+          <>
+            {/* Filter Button */}
+            <div className="spaceBetween">
+              <IonButton
+                onClick={handleToggleSidebar1}
+                type="danger"
+                size="small"
+                className="mob-custom-primary-btn"
+                style={{ marginRight: "8px" }}
+              >
+                <IonIcon icon={funnelOutline} />
+              </IonButton>
+              {(filters?.client_id ||
+                filters?.company_id ||
+                filters?.site_id ||
+                filters?.start_date) &&
+                isMobile && (
+                  <IonButton
+                    className="mob-custom-danger-btn"
+                    size="small"
+                    onClick={handleResetFilters}
+                  >
+                    <IonIcon icon={refresh} />
+                  </IonButton>
+                )}
+            </div>
+          </>
+        )}
       </div>
 
       {!ReduxFullData?.role == "Client" && !ReduxFullData?.sms_balance < 3 ? (
@@ -375,52 +372,64 @@ const Dashboard = (props) => {
         Click Me
       </IonButton> */}
 
-
       {isMobile ? (
         <div>
           <h1>Device Information</h1>
           <ul>
-            <li><strong>Model:</strong> {deviceInfo?.model}</li>
-            <li><strong>Platform:</strong> {deviceInfo?.platform}</li>
-            <li><strong>Operating System:</strong> {deviceInfo?.operatingSystem}</li>
-            <li><strong>OS Version:</strong> {deviceInfo?.osVersion}</li>
-            <li><strong>Manufacturer:</strong> {deviceInfo?.manufacturer}</li>
-            <li><strong>Is Virtual:</strong> {deviceInfo?.isVirtual ? 'Yes' : 'No'}</li>
+            <li>
+              <strong>Model:</strong> {deviceInfo?.model}
+            </li>
+            <li>
+              <strong>Platform:</strong> {deviceInfo?.platform}
+            </li>
+            <li>
+              <strong>Operating System:</strong> {deviceInfo?.operatingSystem}
+            </li>
+            <li>
+              <strong>OS Version:</strong> {deviceInfo?.osVersion}
+            </li>
+            <li>
+              <strong>Manufacturer:</strong> {deviceInfo?.manufacturer}
+            </li>
+            <li>
+              <strong>Is Virtual:</strong>{" "}
+              {deviceInfo?.isVirtual ? "Yes" : "No"}
+            </li>
           </ul>
         </div>
       ) : (
         <p>{deviceInfo?.operatingSystem}</p>
       )}
 
-
-
       <div className="mb-2 ">
         {filters?.client_id && filters.company_id && (
           <>
-            {
-              (isMobile) ?
-                <IonButton
-                  className="mob-custom-danger-btn"
-                  size="small"
-                  expand="full"
+            {isMobile ? (
+              <IonButton
+                className="mob-custom-danger-btn"
+                size="small"
+                expand="full"
+                onClick={handleShowLive}
+              >
+                <p className="m-0">
+                  <img
+                    src={require("../../assets/images/commonimages/LiveIMg.gif")}
+                    alt="Live Img"
+                    className="Liveimage"
+                  />{" "}
+                  Margins
+                </p>
+              </IonButton>
+            ) : (
+              <div className="text-end ">
+                <button
+                  className=" mb-2 btn btn-primary"
                   onClick={handleShowLive}
                 >
-                  <p className="m-0">
-                    <img
-                      src={require("../../assets/images/commonimages/LiveIMg.gif")}
-                      alt="Live Img"
-                      className="Liveimage"
-
-                    /> Margins
-                  </p>
-                </IonButton>
-
-                : <div className="text-end " >
-                  <button className=" mb-2 btn btn-primary" onClick={handleShowLive}>
-                    Live Margin
-                  </button>
-                </div>
-            }
+                  Live Margin
+                </button>
+              </div>
+            )}
 
             {ShowLiveData && (
               <DashboardStatCard
@@ -451,21 +460,25 @@ const Dashboard = (props) => {
           </h2>
         )}
 
-        {isMobile ? <CardSwiper
-          dashboardData={dashboardData}
-          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-          cardsData={DashboardcardsData(dashboardData)}  // ✅ Call the function
-        /> : <DashboardStatsBox
-          GrossVolume={dashboardData?.gross_volume}
-          shopmargin={dashboardData?.shop_profit}
-          GrossProfitValue={dashboardData?.gross_profit}
-          GrossMarginValue={dashboardData?.gross_margin}
-          FuelValue={dashboardData?.fuel_sales}
-          shopsale={dashboardData?.shop_sales}
-          shop_fees={dashboardData?.shop_fees}
-          dashboardData={dashboardData}
-          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-        />}
+        {isMobile ? (
+          <CardSwiper
+            dashboardData={dashboardData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+            cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
+          />
+        ) : (
+          <DashboardStatsBox
+            GrossVolume={dashboardData?.gross_volume}
+            shopmargin={dashboardData?.shop_profit}
+            GrossProfitValue={dashboardData?.gross_profit}
+            GrossMarginValue={dashboardData?.gross_margin}
+            FuelValue={dashboardData?.fuel_sales}
+            shopsale={dashboardData?.shop_sales}
+            shop_fees={dashboardData?.shop_fees}
+            dashboardData={dashboardData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+          />
+        )}
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <ChartCard

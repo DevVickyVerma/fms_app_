@@ -23,6 +23,9 @@ import LoadingAnimationCard from "../../Utils/LoadingAnimationCard";
 import LinesDotGraphchart from "./LinesDotGraphchart";
 import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import PracticeJavaScript from "./PracticeJavaScript";
+import { useMyContext } from "../../Utils/MyContext";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline, refresh } from "ionicons/icons";
 
 const CeoDashBoardTest = (props) => {
   const navigate = useNavigate();
@@ -30,6 +33,7 @@ const CeoDashBoardTest = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
 
+  const { deviceType, deviceInfo, isMobile } = useMyContext();
   const [statsLoading, setStatsLoading] = useState(false);
 
   const [dashboardData, setDashboardData] = useState();
@@ -457,7 +461,7 @@ const CeoDashBoardTest = (props) => {
   return (
     <>
       {pdfisLoading ? <LoaderImg /> : ""}
-      <PracticeJavaScript />
+
       {centerFilterModalOpen && (
         <div className="">
           <CeoDashboardFilterModal
@@ -527,6 +531,7 @@ const CeoDashBoardTest = (props) => {
             </h2>
           </div>
         )}
+
         <div></div>
 
         <FiltersComponent
@@ -535,6 +540,36 @@ const CeoDashBoardTest = (props) => {
           handleResetFilters={handleResetFilters}
           showResetBtn={true}
         />
+
+        {isMobile && (
+          <>
+            {/* Filter Button */}
+            <div className="spaceBetween">
+              <IonButton
+                onClick={handleToggleSidebar1}
+                type="danger"
+                size="small"
+                className="mob-custom-primary-btn"
+                style={{ marginRight: "8px" }}
+              >
+                <IonIcon icon={funnelOutline} />
+              </IonButton>
+              {(filters?.client_id ||
+                filters?.company_id ||
+                filters?.site_id ||
+                filters?.start_date) &&
+                isMobile && (
+                  <IonButton
+                    className="mob-custom-danger-btn"
+                    size="small"
+                    onClick={handleResetFilters}
+                  >
+                    <IonIcon icon={refresh} />
+                  </IonButton>
+                )}
+            </div>
+          </>
+        )}
       </div>
 
       {!ReduxFullData?.role == "Client" && !ReduxFullData?.sms_balance < 3 ? (
@@ -741,7 +776,10 @@ const CeoDashBoardTest = (props) => {
                         ` (${formik.values.selectedSiteDetails.site_name})`}
                       <br></br>
                       {userPermissions?.includes("ceodashboard-price-graph") ? (
-                        <span style={{ color: "var(--primary-bg-color)" }} className="pointer">
+                        <span
+                          style={{ color: "var(--primary-bg-color)" }}
+                          className="pointer"
+                        >
                           <div onClick={() => handleNavigateViewAllClick()}>
                             View All
                           </div>
