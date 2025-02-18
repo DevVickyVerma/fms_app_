@@ -22,7 +22,7 @@ const MyProvider = ({ children }) => {
         const info = await Device.getInfo();
         if (
           info?.operatingSystem == "windows" ||
-          info?.operatingSystem == "android" ||
+          // info?.operatingSystem == "android" ||
           info?.operatingSystem == "unknown"
         ) {
           setIsMobile(false);
