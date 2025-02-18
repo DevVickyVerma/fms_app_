@@ -17134,7 +17134,7 @@ div.conv-form-wrapper div.options div.option.selected {
 
 @media (max-width: 540px) {
   img.mobile-logo {
-    margin-right: 133px;
+    margin-right: 0px;
     margin-top: -4px;
   }
 }
@@ -34599,7 +34599,7 @@ body.rtl {
   border-bottom: 1px solid #eaedf1;
   background-color: #fff !important;
   transition: padding-left 0.3s ease;
-  height: 62px;
+  height: 66px;
   margin: 0;
   padding: 0;
   padding-left: 13px;
