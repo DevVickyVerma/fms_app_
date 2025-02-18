@@ -201,10 +201,9 @@ const App = () => {
         "--primary-bg-hover",
         "#0B5ECF"
       );
+      document.body.classList.add("mobile-app");
     }
-    if (deviceInfo?.platform == "ios" || deviceInfo?.platform == "android") {
-      StatusBar.hide(); // Hide the status bar on mobile platforms
-    }
+
     dispatch(fetchData());
   }, []);
 
@@ -287,7 +286,7 @@ const App = () => {
                     <Sidebar />
 
                     <div
-                      className={`main-content app-content ${isMobile ? "app-mobile-main-content" : ""}`}
+                      className={`main-content app-content ${deviceInfo?.isVirtual ? "app-mobile-main-content" : ""}`}
                     >
                       <div className="side-app">
                         <div className="main-container container-fluid">
