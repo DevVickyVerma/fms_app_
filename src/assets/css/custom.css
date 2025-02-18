@@ -3031,5 +3031,18 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .app-mobile-main-content {
-  margin-top: 100px !important;
+  margin-top: 115px !important;
+}
+
+.mobile-content-header {
+  height: 100px !important;
+  padding-top: 40px !important;
+}
+
+.mobile-content-header-logo {
+  margin-top: 30px !important;
+}
+
+.mobile-content-header-sidebar {
+  padding: 94px 0 0 0 !important;
 }

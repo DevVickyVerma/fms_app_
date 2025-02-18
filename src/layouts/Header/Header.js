@@ -111,7 +111,7 @@ const Header = (props) => {
   return (
     <Navbar
       expand="md"
-      className={`app-header header sticky ${isMobile ? "mt-5" : ""}`}
+      className={`app-header header sticky ${isMobile ? "mobile-content-header" : ""}`}
     >
       <Container fluid={true} className="main-container">
         <div className="d-flex align-items-center">
@@ -125,7 +125,7 @@ const Header = (props) => {
             <Link to={`/dashboard/`} className="header-logo">
               <img
                 src={require("../../assets/images/brand/logo-3.png")}
-                className="mobile-logo logo-1"
+                className={`mobile-logo logo-1 ${isMobile ? "mobile-content-header-logo" : ""}`}
                 alt="logo"
               />
               <img

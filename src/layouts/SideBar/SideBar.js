@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../Utils/Loader";
 import Scrollbar from "react-scrollbars-custom";
+import { useMyContext } from "../../Utils/MyContext";
 
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
@@ -12,6 +13,7 @@ const Sidebar = () => {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const loading = useSelector((state) => state.data.loading);
 
+  const { deviceType, deviceInfo, isMobile } = useMyContext();
   const [isLoading, setIsLoading] = useState(true);
   const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
   const token = localStorage.getItem("token");
@@ -239,7 +241,7 @@ const Sidebar = () => {
                 </svg>
               </div>
               <ul
-                className="side-menu mt-3"
+                className={`side-menu mt-3 px-0 ${isMobile ? "mobile-content-header-sidebar" : ""} `}
                 id="sidebar-main"
                 style={{ marginBottom: "61px" }}
               >
