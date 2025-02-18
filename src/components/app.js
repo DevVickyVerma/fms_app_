@@ -7,33 +7,28 @@ import TabToTop from "../layouts/TabToTop/TabToTop";
 import TopLoadingBar from "react-top-loading-bar";
 import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
-import { MyProvider, } from "../Utils/MyContext";
+import { MyProvider } from "../Utils/MyContext";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../Redux/dataSlice";
 import BlankDashboard from "./Dashboard/BlankDashboard";
 import "phosphor-icons/src/css/icons.css"; // Import Phosphor Icons CSS
 import { NavigationProvider } from "../Utils/NavigationProvider";
-import { setupIonicReact } from '@ionic/react';
-import { isPlatform } from '@ionic/react';
-import { getPlatforms } from '@ionic/react';
-import { Device } from '@capacitor/device';
-import { PushNotifications } from '@capacitor/push-notifications';
-
-
+import { setupIonicReact } from "@ionic/react";
+import { isPlatform } from "@ionic/react";
+import { getPlatforms } from "@ionic/react";
+import { Device } from "@capacitor/device";
+import { PushNotifications } from "@capacitor/push-notifications";
 
 setupIonicReact();
 const App = () => {
   const [isMobile, setIsMobile] = useState(false);
 
-
-
   useEffect(() => {
-
     // Get the list of platforms the app is running on
     const currentPlatforms = getPlatforms();
-    checkDevice()
+    checkDevice();
     // Log the platforms to the console
-    console.log('Current Platforms:', currentPlatforms);
+    console.log("Current Platforms:", currentPlatforms);
   }, []);
   const loadingBarRef = useRef();
   const location = useLocation();
@@ -73,18 +68,18 @@ const App = () => {
     setIsInactive(false);
     inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
   };
-  const [plateform, setPlateform] = useState()
+  const [plateform, setPlateform] = useState();
   const currentPlatforms = getPlatforms();
 
   useEffect(() => {
     if (currentPlatforms.includes("android")) {
-      setPlateform("Android")
+      setPlateform("Android");
       console.log("Running on Android");
     } else if (currentPlatforms.includes("ios")) {
-      setPlateform("iOS")
+      setPlateform("iOS");
       console.log("Running on iOS");
     } else {
-      setPlateform("Web")
+      setPlateform("Web");
       console.log("Running on Web or another platform");
     }
     window.addEventListener("mousemove", handleUserActivity);
@@ -138,7 +133,10 @@ const App = () => {
   const checkDevice = async () => {
     try {
       const info = await Device.getInfo();
-      if (info?.operatingSystem == "windows" || info?.operatingSystem == "android") {
+      if (
+        info?.operatingSystem == "windows" ||
+        info?.operatingSystem == "android"
+      ) {
         setIsMobile(false);
       } else {
         setIsMobile(true);
@@ -194,8 +192,14 @@ const App = () => {
   // --primary - bg - hover: #0B5ECF;
   useEffect(() => {
     if (deviceInfo?.platform == "ios") {
-      document.documentElement.style.setProperty('--primary-bg-color', '#09469f');
-      document.documentElement.style.setProperty('--primary-bg-hover', '#0B5ECF');
+      document.documentElement.style.setProperty(
+        "--primary-bg-color",
+        "#09469f"
+      );
+      document.documentElement.style.setProperty(
+        "--primary-bg-hover",
+        "#0B5ECF"
+      );
     }
 
     dispatch(fetchData());
@@ -205,50 +209,60 @@ const App = () => {
     console.log(deviceInfo, "registerPushNotifications");
     // Check if the platform is iOS or Android or a WebView (mobile environment)
     if (deviceInfo?.platform == "web") {
-
-      console.log('Push notifications are not supported on this platform (Desktop/Web).');
+      console.log(
+        "Push notifications are not supported on this platform (Desktop/Web)."
+      );
       return; // Exit for unsupported platforms
     }
 
     // Log the current platform (only iOS/Android or WebView will log)
-    console.log('Current platform:', isPlatform('ios') ? 'iOS' : isPlatform('android') ? 'Android' : 'WebView');
+    console.log(
+      "Current platform:",
+      isPlatform("ios") ? "iOS" : isPlatform("android") ? "Android" : "WebView"
+    );
 
     // Request push notification permissions for native platforms
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
+    PushNotifications.requestPermissions().then((result) => {
+      if (result.receive === "granted") {
         PushNotifications.register();
       } else {
-        console.warn('Push notification permissions not granted.');
+        console.warn("Push notification permissions not granted.");
       }
     });
 
     // Listener for successful push registration (token)
-    PushNotifications.addListener('registration', token => {
-      console.log('Push registration success, token:', token.value);
+    PushNotifications.addListener("registration", (token) => {
+      console.log("Push registration success, token:", token.value);
       // Send token to your backend server here
     });
 
     // Listener for registration errors
-    PushNotifications.addListener('registrationError', err => {
-      console.error('Push registration error:', err.error);
+    PushNotifications.addListener("registrationError", (err) => {
+      console.error("Push registration error:", err.error);
     });
 
     // Listener for when a push notification is received
-    PushNotifications.addListener('pushNotificationReceived', notification => {
-      console.log('Push notification received:', notification);
-    });
+    PushNotifications.addListener(
+      "pushNotificationReceived",
+      (notification) => {
+        console.log("Push notification received:", notification);
+      }
+    );
 
     // Listener for when a push notification action is performed (e.g., tapping a notification)
-    PushNotifications.addListener('pushNotificationActionPerformed', notification => {
-      console.log('Push notification action performed:', notification);
-    });
+    PushNotifications.addListener(
+      "pushNotificationActionPerformed",
+      (notification) => {
+        console.log("Push notification action performed:", notification);
+      }
+    );
   };
 
   // Call the function to register for push notifications
   if (deviceInfo?.platform == "web") {
     registerPushNotifications();
   } else {
-    console.warn('Device info not available yet.');
+    console.warn("Device info not available yet.");
   }
   return (
     <MyProvider>
@@ -269,13 +283,11 @@ const App = () => {
                     <Header />
                     <Sidebar />
 
-                    <div className={`main-content app-content`}
-
+                    <div
+                      className={`main-content app-content ${isMobile ? "app-mobile-main-content" : ""}`}
                     >
-
                       <div className="side-app">
                         <div className="main-container container-fluid">
-
                           <Outlet />
                         </div>
                       </div>
@@ -292,7 +304,7 @@ const App = () => {
           )}
         </Fragment>
       </NavigationProvider>
-    </MyProvider >
+    </MyProvider>
   );
 };
 

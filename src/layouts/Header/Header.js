@@ -5,10 +5,13 @@ import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import { SuccessAlert } from "../../Utils/ToastUtils";
 import { useMyContext } from "../../Utils/MyContext";
-import { IonIcon } from '@ionic/react';
-import { IonActionSheet } from '@ionic/react';
-import { personCircleOutline, settingsOutline, logOutOutline } from "ionicons/icons";
-
+import { IonIcon } from "@ionic/react";
+import { IonActionSheet } from "@ionic/react";
+import {
+  personCircleOutline,
+  settingsOutline,
+  logOutOutline,
+} from "ionicons/icons";
 
 const Header = (props) => {
   const { getData } = props;
@@ -37,6 +40,8 @@ const Header = (props) => {
       // Handle the error here, such as displaying an error message or performing other actions
     }
   };
+
+  console.log(deviceInfo?.operatingSystem, "deviceInfoheader");
 
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
@@ -82,17 +87,17 @@ const Header = (props) => {
 
   const handleAction = (action) => {
     switch (action) {
-      case 'delete':
-        console.log('Delete action triggered');
+      case "delete":
+        console.log("Delete action triggered");
         break;
-      case 'share':
-        console.log('Share action triggered');
+      case "share":
+        console.log("Share action triggered");
         break;
-      case 'cancel':
-        console.log('Action cancelled');
+      case "cancel":
+        console.log("Action cancelled");
         break;
       default:
-        console.log('Unknown action');
+        console.log("Unknown action");
     }
     setShowActionSheet(false); // Close the action sheet after an action
   };
@@ -104,7 +109,10 @@ const Header = (props) => {
     setShowActionSheet(false);
   };
   return (
-    <Navbar expand="md" className="app-header header sticky">
+    <Navbar
+      expand="md"
+      className={`app-header header sticky ${isMobile ? "mt-5" : ""}`}
+    >
       <Container fluid={true} className="main-container">
         <div className="d-flex align-items-center">
           <Link
@@ -142,47 +150,50 @@ const Header = (props) => {
 
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
-
-              {isMobile ?
+              {isMobile ? (
                 <>
-                  <IonIcon style={{ marginRight: "10px", color: "#09469f" }}
-                    className="ms - 2  " onClick={() => setShowActionSheet(true)} icon={personCircleOutline} size="large" />
+                  <IonIcon
+                    style={{ marginRight: "10px", color: "#09469f" }}
+                    className="ms - 2  "
+                    onClick={() => setShowActionSheet(true)}
+                    icon={personCircleOutline}
+                    size="large"
+                  />
                   <IonActionSheet
                     isOpen={showActionSheet}
+                    buttons={[
+                      {
+                        text: "Edit  Profile",
+                        icon: personCircleOutline,
+                        data: { action: "delete" },
+                        handler: () => handleNavigation("/editprofile"),
+                      },
+                      {
+                        text: "Settings",
+                        icon: settingsOutline,
+                        data: { action: "share" },
+                        handler: () => handleNavigation("/settings"),
+                      },
 
-                    buttons={
-                      [
-                        {
-                          text: 'Edit  Profile',
-                          icon: personCircleOutline,
-                          data: { action: 'delete' },
-                          handler: () => handleNavigation("/editprofile"),
-                        },
-                        {
-                          text: 'Settings',
-                          icon: settingsOutline,
-                          data: { action: 'share' },
-                          handler: () => handleNavigation("/settings"),
-                        },
+                      {
+                        text: "Sign Out",
+                        data: { action: "share" },
+                        icon: logOutOutline,
+                        handler: () => logout(),
+                      },
 
-                        {
-                          text: 'Sign Out',
-                          data: { action: 'share' },
-                          icon: logOutOutline,
-                          handler: () => logout(),
-                        },
-
-                        {
-                          text: 'Cancel',
-                          role: 'cancel',
-                          data: { action: 'cancel' },
-                          handler: () => handleAction('cancel'),
-                        },
-                      ]
-                    }
+                      {
+                        text: "Cancel",
+                        role: "cancel",
+                        data: { action: "cancel" },
+                        handler: () => handleAction("cancel"),
+                      },
+                    ]}
                     onDidDismiss={() => setShowActionSheet(false)}
                   />
-                </> : <Navbar id="navbarSupportedContent-4">
+                </>
+              ) : (
+                <Navbar id="navbarSupportedContent-4">
                   <div className="d-flex order-lg-2 nav-header-box">
                     <Dropdown className=" d-md-flex profile-1 profile-drop-down">
                       <Dropdown.Toggle
@@ -217,9 +228,10 @@ const Header = (props) => {
                         </div>
                         <div className="dropdown-divider m-0" />
                         {isSmSPermissionAvailable &&
-                          localStorage.getItem("superiorRole") == "Client" ? (
+                        localStorage.getItem("superiorRole") == "Client" ? (
                           <Dropdown.Item as={Link} to="/manage-sms">
-                            <i className="dropdown-icon ph ph-chat-text" /> MY SMS{" "}
+                            <i className="dropdown-icon ph ph-chat-text" /> MY
+                            SMS{" "}
                             <span className="mybalance">
                               {mybalance !== undefined ? mybalance : ""}
                             </span>
@@ -247,8 +259,8 @@ const Header = (props) => {
                     </Dropdown>
                     {/* <ToastContainer /> */}
                   </div>
-                </Navbar>}
-
+                </Navbar>
+              )}
             </div>
           </div>
         </div>
