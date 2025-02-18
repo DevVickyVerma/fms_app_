@@ -3006,3 +3006,23 @@ td.middayModal-td.time-input-fuel-sell {
 .custom-radiobox:focus {
   box-shadow: none;
 }
+.flexstart {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  overflow-x: auto;
+  background: #ddd;
+  padding: 10px;
+}
+.filterbadge {
+  display: inline-block;
+  padding: 1em 0.8em;
+  font-size: 13px !important;
+  line-height: 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+}

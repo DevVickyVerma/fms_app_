@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import DashboardStatCard from "../../components/Dashboard/DashboardStatCard";
 import FiltersComponent from "../../components/Dashboard/DashboardHeader";
 import { handleFilterData } from "../../Utils/commonFunctions/commonFunction";
-import { Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import TitanFilterModal from "./TitanFilterModal";
 import { useFormik } from "formik";
 import useErrorHandler from "../CommonComponent/useErrorHandler";
@@ -16,6 +16,7 @@ import SmallLoader from "../../Utils/SmallLoader";
 import TitanDetailModal from "./TitanDetailModal";
 import TitanStatsTable from "./TitanStatsTable";
 import TitanTankFilter from "./TitanTankFilter";
+import CommonFilterBadge from "../CommonComponent/CommonFilterBadge";
 
 const TitanDashboard = (props) => {
 
@@ -24,6 +25,7 @@ const TitanDashboard = (props) => {
     const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
     const [statsLoading, setStatsLoading] = useState(false);
     const [dashboardData, setDashboardData] = useState();
+    const [tableFilterValue, settableFilterValue] = useState();
     const [filters, setFilters] = useState({
         client_id: "",
         company_id: "",
@@ -36,11 +38,8 @@ const TitanDashboard = (props) => {
     let storedKeyName = "localFilterModalData";
     const [ShowLiveData, setShowLiveData] = useState(false);
     const [PriceGraphloading, setPriceGraphloading] = useState(false);
-
     const [PriceGraphData, setPriceGraphData] = useState();
     const [triggerFetch, setTriggerFetch] = useState(false);
-
-
     const userPermissions = useSelector(
         (state) => state?.data?.data?.permissions || []
     );
@@ -66,7 +65,6 @@ const TitanDashboard = (props) => {
         },
         onSubmit: (values) => {
             FetchPriceGraph(values)
-            console.log(values, "onSubmit");
 
             // console.log(values);
         },
@@ -102,9 +100,6 @@ const TitanDashboard = (props) => {
 
 
     const handleApplyFilters = async (values) => {
-
-
-
         formik.setFieldValue("client_id", values.client_id);
         formik.setFieldValue("company_id", values.company_id);
         try {
@@ -125,8 +120,6 @@ const TitanDashboard = (props) => {
 
             // Fetch dashboard stats if the user has the required permission
             if (permissionsArray?.includes("titandashboard-view")) {
-                // FetchPriceLogs(values)
-                // console.log(storedKeyName, "storedKeyName");
                 FetchDashboardStats(values);
             }
         } catch (error) {
@@ -192,11 +185,8 @@ const TitanDashboard = (props) => {
         callback
     ) => {
         const updatedFilters = updateFilters(filters);
-        console.log(updatedFilters?.site_id, "updatedFilters");
-
-        // Set 'site_id' in Formik
         const { client_id, company_id, site_id, grade_id, tank_id, start_month } = updatedFilters;
-        console.log(site_id, "updatedFilters");
+
         formik.setFieldValue("site_id", site_id); // Default to existing formik value if available
 
         // Handle selected month logic
@@ -220,10 +210,12 @@ const TitanDashboard = (props) => {
             }
         }
 
-        // If no site_id, set first available site if any
 
-
-        // Fetch data using query params
+        if (client_id && company_id) {
+            setApplyNavigate(true);
+        } else {
+            setApplyNavigate(false);
+        }
         if (client_id) {
             try {
                 if (setLoading) setLoading(true);
@@ -254,21 +246,34 @@ const TitanDashboard = (props) => {
         }
     };
 
-    const FetchPriceGraph = async () => {
+    const FetchPriceGraph = async (values) => {
+        settableFilterValue(values);
+        console.log(values, "FetchPriceGraph");
         try {
             setShowModal(false);
             setPriceGraphloading(true);
-            console.log(formik.values, "ormik.values");
+
             const queryParams = new URLSearchParams();
             queryParams.append("client_id", formik.values?.client_id);
             queryParams.append("company_id", formik.values?.company_id);
 
-            if (formik.values?.site_id) queryParams.append("site_id", formik.values?.site_id);
-            if (filters?.grade_id) queryParams.append("grade_id", filters?.grade_id);
-            if (filters?.tank_id) queryParams.append("tank_id", filters?.tank_id);
-            if (!formik.values?.site_id) queryParams.append("case", 0);;
 
-            queryParams.append("filter_type", "monthly");
+            if (values) {
+                if (values?.tableselectedSite) queryParams.append("site_id", values?.tableselectedSite);
+                if (values?.tableselectedGrade) queryParams.append("grade_id", values?.tableselectedGrade);
+                if (values?.tableselectedTank) queryParams.append("tank_id", values?.tableselectedTank);
+                if (values?.tableBWValue) queryParams.append("case", values?.tableBWValue);
+                if (values?.tablefilterOptions) queryParams.append("filter_type", values?.tablefilterOptions);
+            } else {
+                if (formik.values?.site_id) queryParams.append("site_id", formik.values?.site_id);
+                if (filters?.grade_id) queryParams.append("grade_id", filters?.grade_id);
+                if (filters?.tank_id) queryParams.append("tank_id", filters?.tank_id);
+                if (!formik.values?.site_id) queryParams.append("case", 0);
+                queryParams.append("filter_type", "monthly");
+            }
+
+
+
 
             const queryString = queryParams.toString();
             const response = await getData(`titan-dashboard/performance-stats?${queryString}`);
@@ -276,7 +281,7 @@ const TitanDashboard = (props) => {
             if (response && response.data && response.data.data) {
                 setShowModal(false);
                 setPriceGraphData(response.data.data);
-                console.log(response?.data?.data, "columnIndex");
+
             }
         } catch (error) {
             // handleError(error);
@@ -330,9 +335,9 @@ const TitanDashboard = (props) => {
         setShowCeoDetailModal(false);
     };
     const handleCardClick = (cardName) => {
-        console.log(filters?.company_id, "filters?.company_id");
+
         if (applyNavigate && formik?.values?.company_id) {
-            console.log(cardName, "cardName");
+
             setModalTitle(cardName);
             setShowCeoDetailModal(true);
         }
@@ -342,6 +347,7 @@ const TitanDashboard = (props) => {
 
 
     const [showModal, setShowModal] = useState(false);
+    console.log(tableFilterValue, "tableFilterValue");
     return (
         <>
             {/* {isLoading ? <LoaderImg /> : ""} */}
@@ -468,7 +474,6 @@ const TitanDashboard = (props) => {
             ) : (
                 ""
             )}
-
             <div className="mb-2 " onClick={() => openCenterFilterModal()}>
                 {filters?.client_id && filters.company_id && (
                     <>
@@ -532,6 +537,7 @@ const TitanDashboard = (props) => {
             </div>
 
 
+
             <Row className="mb-5">
 
                 <TitanTankFilter
@@ -566,12 +572,60 @@ const TitanDashboard = (props) => {
                                             )}
 
                                         </h4>
-
-                                        <button className="btn btn-primary" variant="primary" onClick={() => setShowModal(true)}>Open Filters</button>
+                                        <Button
+                                            onClick={() => setShowModal(true)}
+                                            type="button"
+                                            className="btn btn-primary"
+                                        >
+                                            Filter
+                                            <span>
+                                                <i className="ph ph-funnel ms-1" />
+                                            </span>
+                                        </Button>
+                                        {/* <button className="btn btn-primary" variant="primary" onClick={() => setShowModal(true)}> Filter</button> */}
                                     </div>
 
                                 </Card.Header>
+                                <div className="flexstart" onClick={() => setShowModal(true)}>
+                                    <CommonFilterBadge
+                                        title="Type"
+                                        value={
+                                            tableFilterValue?.tableBWValue === "0"
+                                                ? "Worst"
+                                                : tableFilterValue?.tableBWValue === "1"
+                                                    ? "Best"
+                                                    : "All"
+                                        }
+                                        variant={
+                                            tableFilterValue?.tableBWValue === "1"
+                                                ? "success"
+                                                : tableFilterValue?.tableBWValue === "0"
+                                                    ? "danger"
+                                                    : "primary"
+                                        }
+                                    />
 
+
+                                    <CommonFilterBadge
+                                        title="Duration"
+                                        value={tableFilterValue?.tablefilterOptions ? tableFilterValue?.tablefilterOptions : "Monthly"}
+                                    />
+                                    <CommonFilterBadge
+                                        title="Site"
+                                        value={tableFilterValue?.selectedSiteDetails?.name}
+                                    />
+                                    <CommonFilterBadge
+                                        title="Grade"
+                                        value={tableFilterValue?.selectedGradeDetails?.name}
+                                    />
+                                    <CommonFilterBadge
+                                        title="Tank"
+                                        variant="warning"
+                                        value={tableFilterValue?.selectedTankDetails?.name}
+                                    />
+
+
+                                </div>
                                 <Card.Body>
                                     {PriceGraphloading ? (
                                         <SmallLoader />

@@ -584,7 +584,7 @@ const TitanDetailModal = (props) => {
                                 {PriceGraphloading ? (
                                     <SmallLoader title="Site Performance" />
                                 ) : PriceGraphData ? (
-                                    <TitanColumnChart stockGraphData={PriceGraphData} />
+                                    <TitanColumnChart tablebestvsWorst={tablebestvsWorst} stockGraphData={PriceGraphData} />
                                 ) : (
                                     <NoDataComponent title="Site Performance" showCard={true} />
                                 )}

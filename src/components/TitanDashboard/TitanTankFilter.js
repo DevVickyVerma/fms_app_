@@ -16,7 +16,8 @@ const TitanTankFilter = ({ show, handleClose, PriceGraphData, onSubmit }) => {
             selectedTankDetails: ''
         },
         onSubmit: async (values) => {
-            onSubmit()
+            // Call onSubmit (this will call the function passed from the parent)
+            onSubmit(values);
             console.log("Form values: ", values);
             // Handle submit action (e.g., API call or state update)
         }
@@ -68,7 +69,7 @@ const TitanTankFilter = ({ show, handleClose, PriceGraphData, onSubmit }) => {
     return (
         <Modal show={show} onHide={handleClose} size="lg" centered>
             <Modal.Header closeButton>
-                <Modal.Title>Filter Options</Modal.Title>
+                <Modal.Title>Filter </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="row">

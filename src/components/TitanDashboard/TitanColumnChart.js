@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { Card } from "react-bootstrap";
 
-const TitanColumnChart = ({ stockGraphData }) => {
+const TitanColumnChart = ({ stockGraphData, tablebestvsWorst }) => {
 
     console.log(stockGraphData, "TitanColumnChart");
     const options = {
@@ -66,16 +66,82 @@ const TitanColumnChart = ({ stockGraphData }) => {
     console.log(selectedFuelData, "selectedFuelData");
 
 
-
     return (
         <Card>
             <Card.Header className="p-4">
                 <div className="spacebetween" style={{ width: "100%" }}>
                     <h4 className="card-title all-center-flex">
                         {" "}
-                        Site Performance {" "}
+                        {!stockGraphData?.name && 'Site Performance'}
+                        {" "}
                         {stockGraphData?.name &&
-                            ` (${stockGraphData?.name})`}
+
+
+                            (<div className=" d-flex  ">
+                                <div className="d-flex align-items-center justify-center h-100">
+                                    <div>
+                                        <img
+                                            src={stockGraphData?.logo}
+                                            alt={stockGraphData?.logo}
+                                            className="mr-2"
+                                            style={{
+                                                width: "30px",
+                                                height: "30px",
+                                                minWidth: "30px",
+                                            }}
+                                        />
+                                    </div>
+                                    <div
+                                        className="spacebetween"
+
+                                    >
+                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
+                                            <h6 className="mb-0 fs-15 fw-semibold">{stockGraphData?.name}</h6>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="site-performance">
+                                    <h3 className="site-title ms-2 m-0" style={{ display: 'flex', alignItems: 'center' }}>
+                                        {tablebestvsWorst == "1" ? (
+                                            <span
+                                                className="badge"
+                                                style={{
+                                                    padding: '14px',
+                                                    fontSize: '16px',
+                                                    borderRadius: '6px',
+
+                                                    color: 'white',
+                                                    backgroundColor: 'green',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                &#9733; Best Site
+                                            </span>
+                                        ) : (
+                                            <span
+                                                className="badge"
+                                                style={{
+                                                    padding: '14px',
+
+                                                    borderRadius: '6px',
+                                                    // fontWeight: 'bold',
+                                                    color: 'white',
+                                                    backgroundColor: 'red',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                &#128577; Worst Site
+                                            </span>
+                                        )}
+                                    </h3>
+
+                                </div>
+                            </div>)
+
+                        }
                         <br></br>
                     </h4>
                     <div className="flexspacebetween textend">
@@ -102,6 +168,7 @@ const TitanColumnChart = ({ stockGraphData }) => {
                             ""
                         )}
                     </div>
+
                 </div>
             </Card.Header>
             <Card.Body>
