@@ -193,10 +193,10 @@ const App = () => {
   // --primary - bg - color: #09469f;
   // --primary - bg - hover: #0B5ECF;
   useEffect(() => {
-    // if (deviceInfo?.platform !== "web") {
-    //   document.documentElement.style.setProperty('--primary-bg-color', '#09469f');
-    //   document.documentElement.style.setProperty('--primary-bg-hover', '#0B5ECF');
-    // }
+    if (deviceInfo?.platform == "ios") {
+      document.documentElement.style.setProperty('--primary-bg-color', '#09469f');
+      document.documentElement.style.setProperty('--primary-bg-hover', '#0B5ECF');
+    }
 
     dispatch(fetchData());
   }, []);
