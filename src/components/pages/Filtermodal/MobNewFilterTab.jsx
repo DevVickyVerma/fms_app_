@@ -21,7 +21,7 @@ import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const NewFilterTab = ({
+const MobNewFilterTab = ({
   getData,
   isLoading,
   onApplyFilters,
@@ -633,4 +633,4 @@ const NewFilterTab = ({
   );
 };
 
-export default NewFilterTab;
+export default MobNewFilterTab;

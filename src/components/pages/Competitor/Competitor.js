@@ -20,7 +20,7 @@ import { handleFilterData } from "../../../Utils/commonFunctions/commonFunction"
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
 import { useMyContext } from "../../../Utils/MyContext";
-import NewFilterTab from "../Filtermodal/MobNewFilterTab";
+import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
 
 const Competitor = (props) => {
   const { isLoading, getData, postData } = props;
@@ -372,8 +372,6 @@ const Competitor = (props) => {
     // setDashboardData(null);
   };
 
-  console.log("isMobileModalOpen:", isMobileModalOpen);
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -430,7 +428,7 @@ const Competitor = (props) => {
           <></>
         )}
 
-        <NewFilterTab
+        <MobNewFilterTab
           getData={getData}
           isLoading={isLoading}
           isStatic={true}

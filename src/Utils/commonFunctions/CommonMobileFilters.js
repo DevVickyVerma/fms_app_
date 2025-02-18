@@ -10,17 +10,21 @@ const CommonMobileFilters = ({
   showResetBtn = false,
   showStartDate = false,
   ComponentTitan = false,
+  showSiteName = true,
 }) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
 
   return (
-    <div className="d-flex gap-2 flex-wrap mb-4">
+    <div
+      className="mb-4"
+      // className="d-flex gap-2 flex-wrap mb-4"
+    >
       {filters?.client_id ||
       filters?.company_id ||
       filters?.site_id ||
       filters?.start_date ? (
         <div
-          className="badges-container d-flex align-items-center gap-2 px-4 py-sm-0 py-2 text-white w-100 overflow-auto"
+          className="badges-container d-flex align-items-center gap-2 px-4 py-sm-0 py-2 text-white w-100 overflow-auto mb-2"
           style={{ background: "#ddd" }}
         >
           {filters?.client_id && (
@@ -37,7 +41,7 @@ const CommonMobileFilters = ({
             </div>
           )}
 
-          {filters?.site_id && filters?.site_name && (
+          {filters?.site_id && filters?.site_name && showSiteName && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3">
               <span className="font-semibold">Site :</span> {filters?.site_name}
             </div>
@@ -56,7 +60,7 @@ const CommonMobileFilters = ({
 
           {filters?.start_date && showStartDate && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3">
-              <span className="font-semibold">Start Date :</span>{" "}
+              <span className="font-semibold"> Date :</span>{" "}
               {filters?.start_date}
             </div>
           )}
@@ -88,7 +92,7 @@ const CommonMobileFilters = ({
             size="small"
             className="mobile-no-bg"
             //   className="mob-custom-primary-btn"
-            style={{ marginRight: "8px" }}
+            // style={{ marginRight: "8px" }}
           >
             *Please apply filter to see the stats{" "}
             <IonIcon icon={funnelOutline} />
@@ -117,7 +121,10 @@ const CommonMobileFilters = ({
         filters?.site_id ||
         filters?.start_date) &&
         showResetBtn && (
-          <span onClick={handleResetFilters} className="btn btn-danger btn-sm">
+          <span
+            onClick={handleResetFilters}
+            className="btn btn-danger btn-sm ms-2"
+          >
             <i className="ph ph-arrow-clockwise" />
           </span>
         )}

@@ -2013,6 +2013,9 @@ td.middayModal-td.time-input-fuel-sell {
   .Toastify__toast-container {
     width: calc(100% - 25px) !important;
   }
+  .page-header {
+    margin: 0.5rem 0rem 0.5rem;
+  }
 }
 
 .Toastify__toast-theme--colored.Toastify__toast--error {

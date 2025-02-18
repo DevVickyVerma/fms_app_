@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import Loaderimg from "../../../Utils/Loader";
@@ -23,16 +23,22 @@ import Summary from "../DRSComponents/Summary";
 import BunkeredSales from "../DRSComponents/BunkeredSales";
 import Swal from "sweetalert2";
 import { useMyContext } from "../../../Utils/MyContext";
-import NewFilterTab from "../Filtermodal/NewFilterTab";
-import { getCurrentDate, handleFilterData } from "../../../Utils/commonFunctions/commonFunction";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import {
+  getCurrentDate,
+  handleFilterData,
+} from "../../../Utils/commonFunctions/commonFunction";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
+import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
 
 const ManageDsr = (props) => {
   const { isLoading, getData, postData } = props;
   const { handleError } = useErrorHandler();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(localStorage.getItem("superiorId"));
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
   const [UploadTabname, setUploadTabname] = useState();
   const [modalTitle, setModalTitle] = useState("");
   const [Uploadtitle, setUploadtitle] = useState();
@@ -45,14 +51,12 @@ const ManageDsr = (props) => {
   const [PropsType, setPropsType] = useState();
   const [PropsDate, setPropsDate] = useState();
   const [getDataBtn, setgetDataBtn] = useState();
-  const [DRSDate,] = useState();
+  const [DRSDate] = useState();
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
-  const [selectedClientId,] = useState("");
+  const [selectedClientId] = useState("");
   const { timeLeft, setTimeLeft, isTimerRunning, setIsTimerRunning } =
     useMyContext();
   const [selectedItem, setSelectedItem] = useState(null);
-
-
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
@@ -60,6 +64,23 @@ const ManageDsr = (props) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
+
+  const { isMobile } = useMyContext();
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
+
+  const handleMobileModalOpen = async () => {
+    setIsMobileModalOpen(true);
+  };
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    handleClearForm();
+  };
 
   const isDeletePermissionAvailable =
     permissionsArray?.includes("drs-delete-data");
@@ -74,7 +95,6 @@ const ManageDsr = (props) => {
   const getDRSData = async () => {
     try {
       let parshedData = JSON.parse(storedData);
-
 
       const formData = new FormData();
       formData.append("site_id", parshedData?.site_id);
@@ -110,7 +130,6 @@ const ManageDsr = (props) => {
       if (result.isConfirmed) {
         let parshedData = JSON.parse(storedData);
 
-
         const formData = new FormData();
         formData.append("site_id", parshedData?.site_id);
         formData.append("drs_date", parshedData?.start_date);
@@ -123,7 +142,6 @@ const ManageDsr = (props) => {
               formData
             );
             if (responseForDelete?.api_response == "success") {
-
               GetDataWithClient(parshedData);
               Swal.fire({
                 title: "Deleted!",
@@ -136,7 +154,6 @@ const ManageDsr = (props) => {
             handleError(error);
           } finally {
           }
-
         };
 
         DeleteRole();
@@ -175,11 +192,31 @@ const ManageDsr = (props) => {
 
   const GetDataWithClient = async (values) => {
     if (!values?.site_id) return;
+
+    let { client_id, company_id, site_id, client_name, company_name } = values;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...values,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
+    };
+
     try {
       const formData = new FormData();
 
       formData.append("start_date", values.start_date);
-
 
       if (localStorage.getItem("superiorRole") !== "Client") {
         formData.append("client_id", values.client_id);
@@ -207,6 +244,8 @@ const ManageDsr = (props) => {
           setUploadTabname();
           setgetDataBtn(response1?.data?.data);
           setUploadtitle(response1?.data?.data);
+          setIsMobileModalOpen(false);
+          setFilters(updatedFilters);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -267,7 +306,9 @@ const ManageDsr = (props) => {
       getDRSData(); // Assuming you have a function to fetch data called getDRSData()
     }
   };
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -296,14 +337,10 @@ const ManageDsr = (props) => {
     },
   });
 
-
-
   const handleSuccess = () => {
     GetDataHttech();
     // Do any additional processing with the success message if needed
   };
-
-
 
   const handleSendEmail = async () => {
     // event.preventDefault();
@@ -316,7 +353,6 @@ const ManageDsr = (props) => {
       formData.append("site_id", parshedData?.site_id);
       formData.append("drs_date", parshedData?.start_date);
 
-
       const postDataUrl = "/send-report/email";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
@@ -325,26 +361,19 @@ const ManageDsr = (props) => {
     }
   };
 
-
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
 
   const ReduxFullData = useSelector((state) => state?.data?.data);
   useEffect(() => {
-    handleFilterData(handleApplyFilters, ReduxFullData, 'localFilterModalData',);
+    handleFilterData(handleApplyFilters, ReduxFullData, "localFilterModalData");
   }, []);
 
   const handleApplyFilters = (values) => {
-
     if (values?.start_date) {
-      GetDataWithClient(values)
+      GetDataWithClient(values);
     }
-
-  }
-
-
-
-
+  };
 
   const handleClearForm = async () => {
     setUploadList();
@@ -354,8 +383,7 @@ const ManageDsr = (props) => {
     setUploadtitle();
   };
 
-
-  const apikey = "1"
+  const apikey = "1";
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -382,43 +410,53 @@ const ManageDsr = (props) => {
           </div>
         </div>
 
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title">Filter</h3>
-              </Card.Header>
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                handleSendEmail={handleSendEmail}
-                handleDeleteDRS={handleDelete}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
-                lg="3"
-                showStationValidation={true}
-                showMonthInput={false}
-                showDateInput={true}
-                showStationInput={true}
-                showSendEmail={getDataBtn?.sendReportEmail && DataEnteryList}
-                showDRSDelete={isDeletePermissionAvailable && DataEnteryList}
-                ClearForm={handleClearForm}
-                parentMaxDate={getCurrentDate()}
-              />
-            </Card>
-          </Col>
-        </Row>
+        {/* here I will start Body of competitor */}
+
+        {isMobile ? (
+          <>
+            <CommonMobileFilters
+              filters={filters}
+              handleToggleSidebar1={handleMobileModalOpen}
+              handleResetFilters={handleResetFilters}
+              showResetBtn={true}
+              showStartDate={true}
+            />
+          </>
+        ) : (
+          <></>
+        )}
+
+        <MobNewFilterTab
+          getData={getData}
+          isLoading={isLoading}
+          isStatic={true}
+          onApplyFilters={handleApplyFilters}
+          handleSendEmail={handleSendEmail}
+          handleDeleteDRS={handleDelete}
+          validationSchema={validationSchemaForCustomInput}
+          storedKeyName={storedKeyName}
+          layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+          lg="3"
+          showStationValidation={true}
+          showMonthInput={false}
+          showDateInput={true}
+          showStationInput={true}
+          showSendEmail={getDataBtn?.sendReportEmail && DataEnteryList}
+          showDRSDelete={isDeletePermissionAvailable && DataEnteryList}
+          parentMaxDate={getCurrentDate()}
+          ClearForm={handleClearForm}
+          isOpen={isMobileModalOpen}
+          onClose={() => setIsMobileModalOpen(false)}
+        />
+
         {/* {Uploadtitle?.b_mdl === "PRISM" ||
           Uploadtitle?.b_mdl === "HTECH" ||
           Uploadtitle?.b_mdl === "EDGEPoS" ||
           (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1) ? ( */}
 
         {Uploadtitle?.b_mdl === "PRISM" ||
-          Uploadtitle?.b_mdl === "HTECH" ||
-          Uploadtitle?.b_mdl === "EDGEPoS" ? (
+        Uploadtitle?.b_mdl === "HTECH" ||
+        Uploadtitle?.b_mdl === "EDGEPoS" ? (
           <Row>
             <Col md={12} xl={12}>
               <Card>
@@ -430,20 +468,21 @@ const ManageDsr = (props) => {
                 <Card.Body>
                   <Row>
                     {Uploadtitle?.b_mdl === "PRISM" ||
-                      Uploadtitle?.b_mdl === "HTECH" ||
-                      Uploadtitle?.b_mdl === "EDGEPoS" ? (
+                    Uploadtitle?.b_mdl === "HTECH" ||
+                    Uploadtitle?.b_mdl === "EDGEPoS" ? (
                       UploadList && UploadList?.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
                             <Card
-                              className={`text-white ${item.bgColor === "blue"
-                                ? "bg-primary"
-                                : item.bgColor === "green"
-                                  ? "bg-card-green"
-                                  : item.bgColor === "red"
-                                    ? "bg-card-red"
-                                    : "bg-primary"
-                                }`}
+                              className={`text-white ${
+                                item.bgColor === "blue"
+                                  ? "bg-primary"
+                                  : item.bgColor === "green"
+                                    ? "bg-card-green"
+                                    : item.bgColor === "red"
+                                      ? "bg-card-red"
+                                      : "bg-primary"
+                              }`}
                             >
                               <Card.Body
                                 className="card-Div"
@@ -466,7 +505,6 @@ const ManageDsr = (props) => {
                     ) : null}
                   </Row>
                 </Card.Body>
-
 
                 {showModal ? (
                   <div
@@ -512,8 +550,8 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn?.showBtn === true &&
-                  isAssignPermissionAvailable &&
-                  DataEnteryList?.length > 0 ? (
+                isAssignPermissionAvailable &&
+                DataEnteryList?.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -535,18 +573,20 @@ const ManageDsr = (props) => {
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${item.bgColor === "amber"
-                            ? "bg-card-amber"
-                            : item.bgColor === "green"
-                              ? "bg-card-green"
-                              : item.bgColor === "red"
-                                ? "bg-card-red"
-                                : "bg-primary"
-                            }`}
+                          className={`text-white ${
+                            item.bgColor === "amber"
+                              ? "bg-card-amber"
+                              : item.bgColor === "green"
+                                ? "bg-card-green"
+                                : item.bgColor === "red"
+                                  ? "bg-card-red"
+                                  : "bg-primary"
+                          }`}
                         >
                           <Card.Body
-                            className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
-                              }`}
+                            className={`card-Div ${
+                              selectedItem === item ? "dsr-selected" : ""
+                            }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>

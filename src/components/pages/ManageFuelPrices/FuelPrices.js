@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 
 import {
@@ -15,11 +14,31 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import CustomModal from "../../../data/Modal/MiddayModal";
 import moment from "moment";
-import NewFilterTab from "../Filtermodal/NewFilterTab";
+import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
+import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
+import { useMyContext } from "../../../Utils/MyContext";
+import { useSelector } from "react-redux";
 
 const FuelPrices = (props) => {
   const { apidata, getData, postData, isLoading } = props;
   const navigate = useNavigate();
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+  const ReduxFullData = useSelector((state) => state?.data?.data);
+  const { isMobile } = useMyContext();
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
+
+  const handleMobileModalOpen = async () => {
+    setIsMobileModalOpen(true);
+  };
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    handleClearForm();
+  };
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
@@ -36,6 +55,26 @@ const FuelPrices = (props) => {
   }, []);
 
   const handleSubmit1 = async (values) => {
+    let { client_id, company_id, site_id, client_name, company_name } = values;
+
+    if (localStorage.getItem("superiorRole") === "Client") {
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
+    }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...values,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
+    };
+
     setSelectedCompanyId(values.company_id);
     setSelectedDrsDate(values.start_date);
 
@@ -65,6 +104,11 @@ const FuelPrices = (props) => {
       if (data) {
         if (data.api_response === "success") {
           setData(data.data || {});
+
+          setIsMobileModalOpen(false);
+          setFilters(updatedFilters);
+          setIsMobileModalOpen(false);
+          setFilters(updatedFilters);
         } else {
           // Handle the error case
           // You can display an error message or take appropriate action
@@ -282,30 +326,38 @@ const FuelPrices = (props) => {
           </div>
         </div>
 
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Fuel Selling Price </h3>
-              </Card.Header>
+        {isMobile ? (
+          <>
+            <CommonMobileFilters
+              filters={filters}
+              handleToggleSidebar1={handleMobileModalOpen}
+              handleResetFilters={handleResetFilters}
+              showResetBtn={true}
+              showSiteName={false}
+              showStartDate={true}
+            />
+          </>
+        ) : (
+          <></>
+        )}
 
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                lg="4"
-                showStationValidation={false}
-                showMonthInput={false}
-                showDateInput={true}
-                showStationInput={false}
-                ClearForm={handleClearForm}
-              />
-            </Card>
-          </Col>
-        </Row>
+        <MobNewFilterTab
+          getData={getData}
+          isLoading={isLoading}
+          isStatic={true}
+          onApplyFilters={handleApplyFilters}
+          validationSchema={validationSchemaForCustomInput}
+          storedKeyName={storedKeyName}
+          lg="4"
+          showStationValidation={false}
+          showMonthInput={false}
+          showDateInput={true}
+          showStationInput={false}
+          ClearForm={handleClearForm}
+          isOpen={isMobileModalOpen}
+          onClose={() => setIsMobileModalOpen(false)}
+        />
+
         <Row className="row-sm">
           <Col lg={12}>
             <Card
@@ -432,8 +484,8 @@ const FuelPrices = (props) => {
                                           fuel?.status === "UP"
                                             ? "table-inputGreen"
                                             : fuel?.status === "DOWN"
-                                            ? "table-inputRed"
-                                            : ""
+                                              ? "table-inputRed"
+                                              : ""
                                         } ${
                                           !fuel?.is_editable ? "readonly" : ""
                                         }`}

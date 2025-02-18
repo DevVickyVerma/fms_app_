@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -10,14 +10,31 @@ import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
-import NewFilterTab from "../Filtermodal/NewFilterTab";
-
+import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
+import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
+import { useMyContext } from "../../../Utils/MyContext";
 
 const ManageDsr = (props) => {
   const { isLoading, getData, postData } = props;
   const [SiteList, setSiteList] = useState([]);
   const [data, setData] = useState();
+  const { isMobile } = useMyContext();
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+  const ReduxFullData = useSelector((state) => state?.data?.data);
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
 
+  const handleMobileModalOpen = async () => {
+    setIsMobileModalOpen(true);
+  };
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    handleClearForm();
+  };
   const GetSiteList = async (values) => {
     try {
       if (values) {
@@ -36,33 +53,50 @@ const ManageDsr = (props) => {
     }
   };
 
-
-
   const handleSubmit = async (values) => {
-    setSiteList([])
-    setSelected([])
-    let { client_id, company_id, site_id, start_date } = values;
+    setSiteList([]);
+    setSelected([]);
+    let {
+      client_id,
+      company_id,
+      site_id,
+      client_name,
+      company_name,
+      start_date,
+    } = values;
 
-    // Check if the role is Client, then set the client_id and client_name from local storage
     if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = localStorage.getItem("superiorId");
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
     }
 
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...values,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
+    };
+
     const queryParams = new URLSearchParams();
-    if (client_id) queryParams.append('client_id', client_id);
-    if (company_id) queryParams.append('company_id', company_id);
-    if (site_id) queryParams.append('site_id', site_id);
-    if (start_date) queryParams.append('date', start_date);
+    if (client_id) queryParams.append("client_id", client_id);
+    if (company_id) queryParams.append("company_id", company_id);
+    if (site_id) queryParams.append("site_id", site_id);
+    if (start_date) queryParams.append("date", start_date);
 
     const queryString = queryParams.toString();
 
     if (values?.sites) {
-      setSiteList(values?.sites)
+      setSiteList(values?.sites);
     }
 
     try {
       const response = await getData(`site/fuel/purchase-price?${queryString}`);
-
 
       const { data } = response;
       if (data) {
@@ -80,6 +114,9 @@ const ManageDsr = (props) => {
         }));
 
         formik.setFieldValue("data", formValues);
+
+        setIsMobileModalOpen(false);
+        setFilters(updatedFilters);
       } else {
         throw new Error("No data available in the response");
       }
@@ -88,7 +125,6 @@ const ManageDsr = (props) => {
       // Handle error if the API call fails
     }
   };
-
 
   function calculateSum(index) {
     const plattsPrice =
@@ -363,15 +399,12 @@ const ManageDsr = (props) => {
     // ... remaining columns
   ];
 
-
-
-
   const formik = useFormik({
     initialValues: {
       client_id: "",
       company_id: "",
       site_id: "",
-      start_date: '',
+      start_date: "",
     },
     validationSchema: Yup.object({
       company_id: Yup.string().required("Company is required"),
@@ -385,12 +418,10 @@ const ManageDsr = (props) => {
     }),
 
     onSubmit: (values) => {
-      localStorage.setItem('fuelPurchasePrice', JSON.stringify(values));
+      localStorage.setItem("fuelPurchasePrice", JSON.stringify(values));
       handleSubmit(values);
     },
   });
-
-
 
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
@@ -400,7 +431,7 @@ const ManageDsr = (props) => {
       (Array.isArray(selected) && selected.length === 0)
     ) {
       ErrorAlert("Please select at least one site");
-      return
+      return;
     }
 
     try {
@@ -448,7 +479,6 @@ const ManageDsr = (props) => {
         formData.append("date", parsedData?.start_date);
       }
 
-
       const postDataUrl = "/site/fuel/purchase-price/update";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
@@ -457,15 +487,21 @@ const ManageDsr = (props) => {
     }
   };
 
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
 
-  const isEditPermissionAvailable = UserPermissions?.includes("fuel-purchase-update");
-  const isAddPermissionAvailable = UserPermissions?.includes("fuel-purchase-add");
+  const isEditPermissionAvailable = UserPermissions?.includes(
+    "fuel-purchase-update"
+  );
+  const isAddPermissionAvailable =
+    UserPermissions?.includes("fuel-purchase-add");
 
   const [selected, setSelected] = useState([]);
 
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
@@ -473,7 +509,6 @@ const ManageDsr = (props) => {
     company_id: Yup.string().required("Company is required"),
     site_id: Yup.string().required("Site is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -485,7 +520,7 @@ const ManageDsr = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -495,7 +530,7 @@ const ManageDsr = (props) => {
         handleApplyFilters(parsedData);
       }
 
-      GetSiteList(parsedData?.company_id)
+      GetSiteList(parsedData?.company_id);
 
       // Call the API with the updated or original data
     } else if (localStorage.getItem("superiorRole") === "Client") {
@@ -504,7 +539,7 @@ const ManageDsr = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -515,17 +550,15 @@ const ManageDsr = (props) => {
     }
   }, [storedKeyName]); // Add any other dependencies needed here
 
-
-
   const handleClearForm = async () => {
-    setData(null)
+    setData(null);
   };
 
   const handleApplyFilters = (values) => {
     if (values?.start_date && values?.company_id && values?.site_id) {
-      handleSubmit(values)
+      handleSubmit(values);
     }
-  }
+  };
 
   return (
     <>
@@ -567,32 +600,36 @@ const ManageDsr = (props) => {
           </div>
         </div>
 
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Fuel Purchase Price </h3>
-              </Card.Header>
+        {isMobile ? (
+          <>
+            <CommonMobileFilters
+              filters={filters}
+              handleToggleSidebar1={handleMobileModalOpen}
+              handleResetFilters={handleResetFilters}
+              showResetBtn={true}
+              showStartDate={true}
+            />
+          </>
+        ) : (
+          <></>
+        )}
 
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                lg="3"
-                showStationValidation={true}
-                showMonthInput={false}
-                showDateInput={true}
-                showStationInput={true}
-                ClearForm={handleClearForm}
-              />
-
-            </Card>
-          </Col>
-        </Row>
-
+        <MobNewFilterTab
+          getData={getData}
+          isLoading={isLoading}
+          isStatic={true}
+          onApplyFilters={handleApplyFilters}
+          validationSchema={validationSchemaForCustomInput}
+          storedKeyName={storedKeyName}
+          lg="3"
+          showStationValidation={true}
+          showMonthInput={false}
+          showDateInput={true}
+          showStationInput={true}
+          ClearForm={handleClearForm}
+          isOpen={isMobileModalOpen}
+          onClose={() => setIsMobileModalOpen(false)}
+        />
 
         <Row className="row-sm">
           <Col lg={12}>
@@ -616,8 +653,10 @@ const ManageDsr = (props) => {
                             labelledBy="Select Sites"
                             disableSearch="true"
                             // options={options}
-                            options={SiteList?.map((item) => ({ value: item.id, label: item.site_name }))}
-
+                            options={SiteList?.map((item) => ({
+                              value: item.id,
+                              label: item.site_name,
+                            }))}
                             showCheckbox="false"
                           />
                         </FormGroup>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -13,21 +13,55 @@ import {
 import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import NewFilterTab from "../Filtermodal/NewFilterTab";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import { useMyContext } from "../../../Utils/MyContext";
+import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
+import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
+import { useSelector } from "react-redux";
 
 const ManageSite = (props) => {
-  const { isLoading, getData, } = props;
+  const { isLoading, getData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate()
+  const ReduxFullData = useSelector((state) => state?.data?.data);
+  const navigate = useNavigate();
+  const { isMobile } = useMyContext();
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+  });
+
+  const handleMobileModalOpen = async () => {
+    setIsMobileModalOpen(true);
+  };
+  const handleResetFilters = async () => {
+    localStorage.removeItem(storedKeyName);
+    setFilters(null);
+    handleClearForm();
+  };
 
   const { handleError } = useErrorHandler();
   const handleSubmit1 = async (values) => {
+    let { client_id, company_id, site_id, client_name, company_name } = values;
 
-    let { client_id, company_id, } = values;
     if (localStorage.getItem("superiorRole") === "Client") {
-      client_id = localStorage.getItem("superiorId");
+      client_id = ReduxFullData?.superiorId;
+      client_name = ReduxFullData?.full_name;
     }
+
+    if (ReduxFullData?.company_id && !company_id) {
+      company_id = ReduxFullData?.company_id;
+      company_name = ReduxFullData?.company_name;
+    }
+
+    const updatedFilters = {
+      ...values,
+      client_id,
+      client_name,
+      company_id,
+      company_name,
+    };
 
     try {
       const queryParams = new URLSearchParams();
@@ -40,18 +74,16 @@ const ManageSite = (props) => {
       const { data } = response;
       if (data) {
         setData(data?.data);
+        setIsMobileModalOpen(false);
+        setFilters(updatedFilters);
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
       console.error("API error:", error);
     } // Set the submission state to false after the API call is completed
   };
 
-
-
-
   const PerformAction = (row) => {
-
     let storedKeyName = "localFilterModalData";
     const storedData = localStorage.getItem(storedKeyName);
 
@@ -64,10 +96,7 @@ const ManageSite = (props) => {
       localStorage.setItem(storedKeyName, JSON.stringify(updatedStoredData));
       navigate(`/data-entry`);
     }
-
   };
-
-
 
   const columns = [
     {
@@ -112,14 +141,13 @@ const ManageSite = (props) => {
                   className="mb-0 fs-14 fw-semibold badge bg-danger"
                   onClick={() => PerformAction(row)}
                 >
-
                   <OverlayTrigger
                     placement="top"
-                    overlay={<Tooltip>{`Go to ${row.site_name}'s Daily Work Flow`}</Tooltip>}
+                    overlay={
+                      <Tooltip>{`Go to ${row.site_name}'s Daily Work Flow`}</Tooltip>
+                    }
                   >
-                    <span>
-                      {row.work_flow}
-                    </span>
+                    <span>{row.work_flow}</span>
                   </OverlayTrigger>
                 </h6>
               </>
@@ -160,16 +188,15 @@ const ManageSite = (props) => {
     },
   ];
 
-
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
       : Yup.mixed().notRequired(),
     company_id: Yup.string().required("Company is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -181,7 +208,7 @@ const ManageSite = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -198,7 +225,7 @@ const ManageSite = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -211,14 +238,13 @@ const ManageSite = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
-
-  const handleClearForm = async () => {
-    setData(null)
   };
 
+  const handleClearForm = async () => {
+    setData(null);
+  };
 
   return (
     <>
@@ -248,32 +274,37 @@ const ManageSite = (props) => {
           </div>
         </div>
 
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Filter </h3>
-              </Card.Header>
+        {isMobile ? (
+          <>
+            <CommonMobileFilters
+              filters={filters}
+              handleToggleSidebar1={handleMobileModalOpen}
+              handleResetFilters={handleResetFilters}
+              showResetBtn={true}
+              showSiteName={false}
+            />
+          </>
+        ) : (
+          <></>
+        )}
 
-              <NewFilterTab
-                getData={getData}
-                isLoading={isLoading}
-                isStatic={true}
-                onApplyFilters={handleApplyFilters}
-                validationSchema={validationSchemaForCustomInput}
-                storedKeyName={storedKeyName}
-                layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
-                lg="4"
-                showStationValidation={false}
-                showMonthInput={false}
-                showDateInput={false}
-                showStationInput={false}
-                ClearForm={handleClearForm}
-              />
-
-            </Card>
-          </Col>
-        </Row>
+        <MobNewFilterTab
+          getData={getData}
+          isLoading={isLoading}
+          isStatic={true}
+          onApplyFilters={handleApplyFilters}
+          validationSchema={validationSchemaForCustomInput}
+          storedKeyName={storedKeyName}
+          layoutClasses="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5"
+          lg="4"
+          showStationValidation={false}
+          showMonthInput={false}
+          showDateInput={false}
+          showStationInput={false}
+          ClearForm={handleClearForm}
+          isOpen={isMobileModalOpen}
+          onClose={() => setIsMobileModalOpen(false)}
+        />
 
         <Row className=" row-sm">
           <Col lg={12}>
