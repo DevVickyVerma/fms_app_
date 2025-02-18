@@ -182,7 +182,7 @@ const Dashboard = (props) => {
     {
       id: 4,
       title: 'Gross Margin',
-      value: dashboardData?.gross_margin?.gross_margin || "0 ppl",
+      value: `${dashboardData?.gross_margin?.gross_margin || "0"} ppl`,
       subValue: "",
       subTitle: '',
       percentage: dashboardData?.gross_margin?.percentage || "0%",

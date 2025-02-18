@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 const CardSwiper = ({
     dashboardData,
     callStatsBoxParentFunc,
+    parentComponent = true,
     cardsData = [],
 
 }) => {
@@ -34,6 +35,7 @@ const CardSwiper = ({
     const navigate = useNavigate();
 
     const handleNavigateClick = () => {
+        console.log(parentComponent, "parentComponent");
         let ApplyFilterrequired = UserPermissions?.applyFilter;
 
         if (dashboardData && Object?.keys(dashboardData)?.length > 0) {
@@ -72,7 +74,8 @@ const CardSwiper = ({
             {cardsData?.map((card) => (
                 <SwiperSlide key={card.id}>
                     <div className="rounded-lg shadow-lg border-0"
-                        onClick={handleNavigateClick}
+                        onClick={parentComponent ? handleNavigateClick : undefined}
+
                         style={{
                             position: 'relative',
                             overflow: 'hidden',

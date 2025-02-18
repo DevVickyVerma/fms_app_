@@ -10,6 +10,8 @@ import * as Yup from 'yup';
 import FiltersComponent from "../DashboardHeader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import SecondFiltersComponent from '../SecondFiltersComponent';
+import CardSwiper from '../../../Utils/MobileCommonComponents/CardSwiper';
+import { useMyContext } from '../../../Utils/MyContext';
 
 
 
@@ -34,7 +36,7 @@ const DashBoardChild = (props) => {
   };
 
   const dispatch = useDispatch();
-
+  const { isMobile } = useMyContext();
   let storedKeyName = "localFilterModalData";
   const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
   const validationSchemaForCustomInput = Yup.object({
@@ -150,7 +152,77 @@ const DashBoardChild = (props) => {
 
   }, [dispatch, storedKeyName,]); // Add any other dependencies needed here
 
-
+  const DashboardcardsData = (dashboardData) => [
+    {
+      id: 1,
+      title: 'Gross Volume',
+      value: dashboardData?.gross_volume?.gross_volume || "0.0",
+      subValue: dashboardData?.gross_volume?.bunkered_volume || "0.0",
+      subTitle: 'Bunkered Volume',
+      percentage: dashboardData?.gross_volume?.percentage || "0%",
+      status: dashboardData?.gross_volume?.status || "down",
+      icon: "ℓ"
+    },
+    {
+      id: 2,
+      title: 'Fuel Sales (Ex. Vat)',
+      value: dashboardData?.fuel_sales?.gross_value || "0.0",
+      subValue: dashboardData?.fuel_sales?.bunkered_value || "0.0",
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.fuel_sales?.percentage || "0%",
+      status: dashboardData?.fuel_sales?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 3,
+      title: 'Gross Profit',
+      value: dashboardData?.gross_profit?.gross_profit || "0.0",
+      subValue: "",
+      subTitle: '',
+      percentage: dashboardData?.gross_profit?.percentage || "0%",
+      status: dashboardData?.gross_profit?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 4,
+      title: 'Gross Margin',
+      value: `${dashboardData?.gross_margin?.gross_margin || "0"} ppl`,
+      subValue: "",
+      subTitle: '',
+      percentage: dashboardData?.gross_margin?.percentage || "0%",
+      status: dashboardData?.gross_margin?.status || "down"
+    },
+    {
+      id: 5,
+      title: 'Shop Sales (Ex. Vat)',
+      value: dashboardData?.shop_sales?.shop_sales || "0%",
+      subValue: dashboardData?.shop_sales?.bunkered_value,
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.shop_sales?.percentage || "0%",
+      status: dashboardData?.shop_sales?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 6,
+      title: 'Shop Fee',
+      value: dashboardData?.shop_fees?.shop_fee || "0%",
+      subValue: dashboardData?.shop_fees?.bunkered_value,
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.shop_fees?.percentage || "0%",
+      status: dashboardData?.shop_fees?.status || "down",
+      icon: "£"
+    },
+    {
+      id: 7,
+      title: 'Shop Profit',
+      value: dashboardData?.shop_profit?.shop_profit || "0%",
+      subValue: dashboardData?.shop_profit?.bunkered_value,
+      subTitle: 'Bunkered Sales',
+      percentage: dashboardData?.shop_profit?.percentage || "0%",
+      status: dashboardData?.shop_profit?.status || "down",
+      icon: "£"
+    }
+  ];
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -214,7 +286,12 @@ const DashBoardChild = (props) => {
 
 
       <Row>
-        <DashboardStatsBox
+        {isMobile ? <CardSwiper
+          dashboardData={dashboardData}
+          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+          parentComponent={false}
+          cardsData={DashboardcardsData(dashboardData)}  // ✅ Call the function
+        /> : <DashboardStatsBox
           GrossVolume={dashboardData?.gross_volume}
           shopmargin={dashboardData?.shop_profit}
           GrossProfitValue={dashboardData?.gross_profit}
@@ -223,9 +300,18 @@ const DashBoardChild = (props) => {
           shopsale={dashboardData?.shop_sales}
           shop_fees={dashboardData?.shop_fees}
           parentComponent={false}
-        />
+        />}
       </Row>
-
+      {/* <DashboardStatsBox
+        GrossVolume={dashboardData?.gross_volume}
+        shopmargin={dashboardData?.shop_profit}
+        GrossProfitValue={dashboardData?.gross_profit}
+        GrossMarginValue={dashboardData?.gross_margin}
+        FuelValue={dashboardData?.fuel_sales}
+        shopsale={dashboardData?.shop_sales}
+        shop_fees={dashboardData?.shop_fees}
+        parentComponent={false}
+      /> */}
       <DashboardChildTable data={tableData} />
     </>
   );
