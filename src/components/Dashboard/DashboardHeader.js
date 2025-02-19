@@ -26,22 +26,23 @@ const FiltersComponent = ({
     //     style={{ background: "#ddd" }}
     //   >
 
-    <div className="d-flex gap-2 mt-3 align-items-center" style={filters?.client_id ? { background: "#ddd", overflowX: "auto", whiteSpace: "nowrap" } : {}}>
-
-
+    <div
+      className="d-flex gap-2 mt-3 align-items-center"
+      style={
+        filters?.client_id
+          ? { background: "#ddd", overflowX: "auto", whiteSpace: "nowrap" }
+          : {}
+      }
+    >
       {filters?.client_id ||
-        filters?.company_id ||
-        filters?.site_id ||
-        filters?.start_date ? (
-        <div
-          className="filters-container d-flex align-items-center gap-2 px-4 py-sm-0 py-2 text-white"
-
-        >
+      filters?.company_id ||
+      filters?.site_id ||
+      filters?.start_date ? (
+        <div className="filters-container d-flex align-items-center gap-2 px-4 py-sm-0 py-2 text-white">
           {filters?.client_id && (
             <div className="badge bg-blue-600 d-flex align-items-center gap-2 p-3">
               <span className="font-semibold">Client :</span>{" "}
               {filters?.client_name || ReduxFullData?.full_name || ""}
-
             </div>
           )}
 
@@ -65,7 +66,8 @@ const FiltersComponent = ({
           {console.log(filters, "filters")}
           {filters?.site_id && filters?.grade_name && ComponentTitan && (
             <div className="badge bg-red-600 d-flex align-items-center gap-2 p-3">
-              <span className="font-semibold">Grade :</span> {filters?.grade_name}
+              <span className="font-semibold">Grade :</span>{" "}
+              {filters?.grade_name}
             </div>
           )}
 
@@ -83,7 +85,7 @@ const FiltersComponent = ({
           </span>
         </div>
       )}
-      {!isMobile ?
+      {!isMobile ? (
         <Button
           onClick={handleToggleSidebar1}
           type="button"
@@ -93,12 +95,16 @@ const FiltersComponent = ({
           <span>
             <i className="ph ph-funnel ms-1" />
           </span>
-        </Button> : ""}
+        </Button>
+      ) : (
+        ""
+      )}
       {(filters?.client_id ||
         filters?.company_id ||
         filters?.site_id ||
         filters?.start_date) &&
-        showResetBtn && !isMobile && (
+        showResetBtn &&
+        !isMobile && (
           <span onClick={handleResetFilters} className="btn btn-danger">
             <i className="ph ph-arrow-clockwise" />
           </span>

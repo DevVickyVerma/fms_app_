@@ -304,7 +304,7 @@ const Dashboard = (props) => {
         {isMobile && (
           <>
             {/* Filter Button */}
-            <div className="spaceBetween">
+            <div className=" d-flex justify-content-end w-100">
               <IonButton
                 onClick={handleToggleSidebar1}
                 type="danger"
