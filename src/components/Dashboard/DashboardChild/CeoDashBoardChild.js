@@ -11,6 +11,8 @@ import SecondFiltersComponent from "../SecondFiltersComponent";
 import CeoDashboardChildTable from "./CeoDashboardChildTable";
 import CardSwiper from "../../../Utils/MobileCommonComponents/CardSwiper";
 import { useMyContext } from "../../../Utils/MyContext";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline } from "ionicons/icons";
 
 const CeoDashBoardChild = (props) => {
   const { isLoading, getData } = props;
@@ -198,7 +200,6 @@ const CeoDashBoardChild = (props) => {
       percentage: `${dashboardData?.shop_sales?.percentage || "0%"}`,
       status: dashboardData?.shop_sales?.status || "down",
       icon: "£",
-
     },
     {
       id: 6,
@@ -281,7 +282,36 @@ const CeoDashBoardChild = (props) => {
         <SecondFiltersComponent
           filters={filters}
           handleToggleSidebar1={handleToggleSidebar1}
+          // filters={filters}
+          // handleToggleSidebar1={handleToggleSidebar1}
+          // handleResetFilters={handleResetFilters}
+          showResetBtn={false}
         />
+        {isMobile && (
+          <>
+            {/* Filter Button */}
+            <div
+              className={`d-flex justify-content-end ${
+                (filters?.client_id ||
+                  filters?.company_id ||
+                  filters?.site_id ||
+                  filters?.start_date) &&
+                isMobile &&
+                "w-100"
+              } `}
+            >
+              <IonButton
+                onClick={handleToggleSidebar1}
+                type="danger"
+                size="small"
+                className="mob-custom-primary-btn"
+                style={{ marginRight: "8px" }}
+              >
+                <IonIcon icon={funnelOutline} />
+              </IonButton>
+            </div>
+          </>
+        )}
       </div>
       {/* <CardSwiper
         dashboardData={dashboardData}
@@ -294,25 +324,26 @@ const CeoDashBoardChild = (props) => {
           <CardSwiper
             dashboardData={dashboardData}
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-
             cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
-          />) : <UpercardsCeoDashboardStatsBox
-          gross_volume={dashboardData?.gross_volume || 0}
-          shopmargin={dashboardData?.shop_profit || 0}
-          valet_sales={dashboardData?.valet_sales || 0}
-          gross_profit={dashboardData?.gross_profit || 0}
-          gross_margin={dashboardData?.gross_margin || 0}
-          fuel_sales={dashboardData?.fuel_sales || 0}
-          fuel_commission={dashboardData?.fuel_commission || 0}
-          gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
-          shop_sales={dashboardData?.shop_sales || 0}
-          shop_fees={dashboardData?.shop_fees || 0}
-          shop_profit={dashboardData?.shop_profit || 0}
-          dashboardData={dashboardData}
-          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-          parentComponent={false}
-        />}
-
+          />
+        ) : (
+          <UpercardsCeoDashboardStatsBox
+            gross_volume={dashboardData?.gross_volume || 0}
+            shopmargin={dashboardData?.shop_profit || 0}
+            valet_sales={dashboardData?.valet_sales || 0}
+            gross_profit={dashboardData?.gross_profit || 0}
+            gross_margin={dashboardData?.gross_margin || 0}
+            fuel_sales={dashboardData?.fuel_sales || 0}
+            fuel_commission={dashboardData?.fuel_commission || 0}
+            gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
+            shop_sales={dashboardData?.shop_sales || 0}
+            shop_fees={dashboardData?.shop_fees || 0}
+            shop_profit={dashboardData?.shop_profit || 0}
+            dashboardData={dashboardData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+            parentComponent={false}
+          />
+        )}
       </Row>
 
       <CeoDashboardChildTable data={tableData} ceo={"true"} />
