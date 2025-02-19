@@ -1999,20 +1999,7 @@ td.middayModal-td.time-input-fuel-sell {
   width: 100% !important;
 }
 
-.Toastify__toast-container {
-  width: calc(100% - 311px) !important;
-}
-
-@media screen and (max-width: 950px) {
-  .Toastify__toast-container {
-    width: calc(100% - 25px) !important;
-  }
-}
-
 @media screen and (max-width: 480px) {
-  .Toastify__toast-container {
-    width: calc(100% - 25px) !important;
-  }
   .page-header {
     margin: 0.5rem 0rem 0.5rem;
   }

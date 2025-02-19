@@ -5,8 +5,8 @@ import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Slide, toast } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const UploadCompetitor = (props) => {
   const { getData } = props;
@@ -79,10 +79,10 @@ const UploadCompetitor = (props) => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      GetCompanyList(clientId);
     }
   }, []);
 
@@ -94,7 +94,6 @@ const UploadCompetitor = (props) => {
         );
 
         if (response) {
-
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -107,25 +106,6 @@ const UploadCompetitor = (props) => {
     }
   };
 
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      // // position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      // // position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
@@ -151,11 +131,11 @@ const UploadCompetitor = (props) => {
 
       if (response.ok) {
         const data = await response.json();
-        SuccessToast(data.message);
+        SuccessAlert(data.message);
         navigate("/competitor");
       } else {
         const errorData = await response.json();
-        ErrorToast(errorData.message);
+        ErrorAlert(errorData.message);
       }
     } catch (error) {
       console.error("Request Error:", error);
@@ -230,11 +210,12 @@ const UploadCompetitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
@@ -286,10 +267,11 @@ const UploadCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <div
-                          className={`dropzone ${formik.errors.image && formik.touched.image
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`dropzone ${
+                            formik.errors.image && formik.touched.image
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           onDrop={(event) => handleDrop(event)}
                           onDragOver={(event) => event.preventDefault()}
                         >
