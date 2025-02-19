@@ -22,22 +22,15 @@ import { PushNotifications } from "@capacitor/push-notifications";
 setupIonicReact();
 const App = () => {
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
-    // Get the list of platforms the app is running on
-    const currentPlatforms = getPlatforms();
     checkDevice();
-    // Log the platforms to the console
-    console.log("Current Platforms:", currentPlatforms);
   }, []);
   const loadingBarRef = useRef();
   const location = useLocation();
   const simulateLoadingAndNavigate = () => {
     loadingBarRef?.current?.continuousStart();
-    // simulate loading
     setTimeout(() => {
       loadingBarRef?.current?.complete();
-      // navigate("/new-url"); // replace "/new-url" with the URL you want to navigate to
     }, 50);
   };
 

@@ -463,6 +463,7 @@ const Dashboard = (props) => {
         {isMobile ? (
           <CardSwiper
             dashboardData={dashboardData}
+            navigattionPath="/dashboard-details"
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
             cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
           />

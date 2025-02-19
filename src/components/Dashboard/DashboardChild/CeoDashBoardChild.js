@@ -9,11 +9,14 @@ import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import UpercardsCeoDashboardStatsBox from "../DashboardStatsBox/UpercardsCeoDashboardStatsBox";
 import SecondFiltersComponent from "../SecondFiltersComponent";
 import CeoDashboardChildTable from "./CeoDashboardChildTable";
+import CardSwiper from "../../../Utils/MobileCommonComponents/CardSwiper";
+import { useMyContext } from "../../../Utils/MyContext";
 
 const CeoDashBoardChild = (props) => {
   const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [tableData, setTableData] = useState();
+  const { deviceType, deviceInfo, isMobile } = useMyContext();
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const userPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []
@@ -144,7 +147,80 @@ const CeoDashBoardChild = (props) => {
       }
     }
   }, [dispatch, storedKeyName]); // Add any other dependencies needed here
+  const DashboardcardsData = (dashboardData) => [
+    {
+      id: 1,
+      title: "Gross Volume",
+      value: dashboardData?.gross_volume?.gross_volume || "0.0",
+      subValue: dashboardData?.gross_volume?.bunkered_volume || "0.0",
+      subTitle: "Bunkered Volume",
+      percentage: `${dashboardData?.gross_volume?.percentage || "0%"} %`,
+      status: dashboardData?.gross_volume?.status || "down",
+      icon: "ℓ",
+    },
+    {
+      id: 2,
+      title: "Fuel Sales (Ex. Vat)",
+      value: dashboardData?.fuel_sales?.gross_value || "0.0",
+      subValue: dashboardData?.fuel_sales?.bunkered_value || "0.0",
+      subTitle: "Bunkered Sales",
+      percentage: `${dashboardData?.fuel_sales?.percentage || "0%"} %`,
+      status: dashboardData?.fuel_sales?.status || "down",
+      icon: "£",
+    },
+    {
+      id: 3,
+      title: "Gross Margin (Fuel)",
+      value: dashboardData?.gross_margin?.gross_margin || "0.0",
+      subValue: dashboardData?.gross_profit?.gross_profit || "0.0",
+      subTitle: "Gross Profit",
+      percentage: `${dashboardData?.gross_profit?.percentage || "0%"} %`,
+      status: dashboardData?.gross_margin?.status || "down",
+      icon: "£",
+      subicon: "ppl",
+    },
+    {
+      id: 4,
+      title: "Gross (Bunkered)",
+      value: `${dashboardData?.gross_margin_bunkered?.gross_margin_bunkered || "0"} ppl`,
+      subValue: "",
+      subTitle: "",
+      percentage: `${dashboardData?.gross_margin_bunkered?.percentage || "0%"} %`,
+      status: dashboardData?.gross_margin_bunkered?.status || "down",
+      icon: "£",
+    },
+    {
+      id: 5,
+      title: "Shop Sales (Ex. Vat)",
+      value: dashboardData?.shop_sales?.shop_sales || "0%",
+      subValue: dashboardData?.shop_sales?.bunkered_value,
+      subTitle: "Bunkered Sales",
+      percentage: `${dashboardData?.shop_sales?.percentage || "0%"} %`,
+      status: dashboardData?.shop_sales?.status || "down",
+      icon: "£",
 
+    },
+    {
+      id: 6,
+      title: "Shop Profit",
+      value: dashboardData?.shop_profit?.shop_profit || "0%",
+      subValue: dashboardData?.shop_profit?.bunkered_value,
+      subTitle: "Bunkered Sales",
+      percentage: `${dashboardData?.shop_profit?.percentage || "0%"} %`,
+      status: dashboardData?.shop_profit?.status || "down",
+      icon: "£",
+    },
+    {
+      id: 7,
+      title: "Shop  Margin",
+      value: dashboardData?.valet_sales?.valet_sales || "0%",
+      subValue: dashboardData?.valet_sales?.bunkered_value,
+      subTitle: "Bunkered Sales",
+      percentage: `${dashboardData?.valet_sales?.percentage || "0%"} %`,
+      status: dashboardData?.valet_sales?.status || "down",
+      icon: "%",
+    },
+  ];
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -207,9 +283,20 @@ const CeoDashBoardChild = (props) => {
           handleToggleSidebar1={handleToggleSidebar1}
         />
       </div>
+      {/* <CardSwiper
+        dashboardData={dashboardData}
+        callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
 
+        cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
+      /> */}
       <Row>
-        <UpercardsCeoDashboardStatsBox
+        {isMobile ? (
+          <CardSwiper
+            dashboardData={dashboardData}
+            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+
+            cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
+          />) : <UpercardsCeoDashboardStatsBox
           gross_volume={dashboardData?.gross_volume || 0}
           shopmargin={dashboardData?.shop_profit || 0}
           valet_sales={dashboardData?.valet_sales || 0}
@@ -224,7 +311,8 @@ const CeoDashBoardChild = (props) => {
           dashboardData={dashboardData}
           callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
           parentComponent={false}
-        />
+        />}
+
       </Row>
 
       <CeoDashboardChildTable data={tableData} ceo={"true"} />

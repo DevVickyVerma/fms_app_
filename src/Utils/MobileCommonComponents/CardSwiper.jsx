@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 
 const CardSwiper = ({
     dashboardData,
+    navigattionPath,
     callStatsBoxParentFunc,
     parentComponent = true,
     cardsData = [],
@@ -50,8 +51,8 @@ const CardSwiper = ({
             if (storedData) {
                 let parsedData = JSON.parse(storedData);
 
-                if (parsedData?.company_id && parsedData?.client_id) {
-                    navigate(`/dashboard-details`);
+                if (parsedData?.company_id && parsedData?.client_id && navigattionPath) {
+                    navigate(navigattionPath);
                 } else {
                     callStatsBoxParentFunc();
                 }
