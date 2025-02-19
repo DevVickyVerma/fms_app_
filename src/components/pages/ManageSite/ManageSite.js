@@ -174,22 +174,10 @@ const ManageSite = (props) => {
 
   const columns = [
     {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "7%",
-      center: false,
-      cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {row?.sr_no}
-        </span>
-      ),
-    },
-    {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "18%",
+      //  width: "18%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -210,7 +198,7 @@ const ManageSite = (props) => {
       name: " Client",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       cell: (row) => {
         try {
           return (
@@ -237,7 +225,7 @@ const ManageSite = (props) => {
       name: "Company",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "19%",
+      //  width: "19%",
       cell: (row) => {
         try {
           return (
@@ -264,7 +252,7 @@ const ManageSite = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -282,7 +270,8 @@ const ManageSite = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
+      center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -323,7 +312,8 @@ const ManageSite = (props) => {
           name: "Action",
           selector: (row) => [row.action],
           sortable: false,
-          width: "17%",
+          // width: "17%",
+          center: true,
           cell: (row) => (
             <span className="text-center">
               {anyPermissionAvailable ? (
@@ -687,19 +677,21 @@ const ManageSite = (props) => {
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Manage Sites</h3>
-                  <div className="mt-2 mt-sm-0 d-flex flex-wrap">
-                    <SearchBar
-                      onSearch={handleSearch}
-                      onReset={handleReset}
-                      hideReset={searchTerm}
-                    />
+                  <div className="mt-2 mt-sm-0 d-flex flex-wrap gap-2">
+                    <div className="mobile-head-container mt-2 mt-sm-0">
+                      <SearchBar
+                        onSearch={handleSearch}
+                        onReset={handleReset}
+                        hideReset={searchTerm}
+                      />{" "}
+                    </div>
                     {UserPermissions?.superiorRole === "Administrator" && (
                       <>
-                        <div className=" search-component d-flex gap-2 mt-2 mt-sm-0">
+                        <div className="mobile-head-container search-component d-flex gap-2 mt-2 mt-sm-0">
                           <StateReactSelect
                             name="exampleSelect"
                             label="Example Select"
-                            classNamePrefix="react-select react-select-default-input react-select-input custom-react-inside-input "
+                            classNamePrefix="react-select w-100 react-select-default-input react-select-input custom-react-inside-input "
                             defaultValue={selectedClient}
                             options={[
                               { value: "", label: "Select Client" },
@@ -708,7 +700,7 @@ const ManageSite = (props) => {
                                 label: item?.client_name,
                               })) || []),
                             ]}
-                            className={"m-0 custom-react-inside-input"}
+                            className={"m-0 custom-react-inside-input w-100"}
                             onChange={handleClientChange}
                             showLabel={false}
                           />
@@ -737,10 +729,7 @@ const ManageSite = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div
-                      className="table-responsive site_deleted_table"
-                      style={{ minHeight: "700px !important" }}
-                    >
+                    <div className="table-responsive site_deleted_table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

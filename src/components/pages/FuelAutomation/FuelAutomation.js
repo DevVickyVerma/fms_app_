@@ -271,7 +271,8 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
                               <h3 className="card-title">
                                 <div className="d-flex align-items-center">
                                   <span>
-                                    {formik.values?.site_name} - Set Pricing -{" "}
+                                    {formik.values?.site_name} - Set Pricing
+                                    -{" "}
                                   </span>
                                   <span className="circle-num-automation c-fs-12 ms-1">
                                     {settingIndex + 1}
@@ -293,7 +294,7 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
                                 </>
                               )}
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body className=" overflow-auto">
                               {/* Render time and frequency */}
                               <div className="d-flex justify-content-between gap-4 my-2">
                                 <span className="d-flex align-items-center c-fw-500">
