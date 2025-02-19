@@ -18,7 +18,6 @@ import { isPlatform } from "@ionic/react";
 import { getPlatforms } from "@ionic/react";
 import { Device } from "@capacitor/device";
 import { PushNotifications } from "@capacitor/push-notifications";
-import { StatusBar } from '@capacitor/status-bar';
 
 setupIonicReact();
 const App = () => {
@@ -182,15 +181,6 @@ const App = () => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
-  function handleRefresh(event) {
-    // Log username on refresh
-    setTimeout(() => {
-      dispatch(fetchData()); // Fetch new data if needed
-      event.detail.complete(); // Stop refresh animation
-    }, 2000);
-  }
-  // --primary - bg - color: #09469f;
-  // --primary - bg - hover: #0B5ECF;
   useEffect(() => {
     if (deviceInfo?.platform == "ios" || deviceInfo?.platform == "android") {
       document.documentElement.style.setProperty(
@@ -201,12 +191,12 @@ const App = () => {
         "--primary-bg-hover",
         "#0B5ECF"
       );
-      document.body.classList.add("mobile-app");
+
     }
 
     dispatch(fetchData());
   }, []);
-
+  // document.body.classList.add("mobile-app");
   const registerPushNotifications = () => {
     console.log(deviceInfo, "registerPushNotifications");
     // Check if the platform is iOS or Android or a WebView (mobile environment)
