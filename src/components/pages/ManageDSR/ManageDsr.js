@@ -30,6 +30,7 @@ import {
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import CommonMobileFilters from "../../../Utils/commonFunctions/CommonMobileFilters";
 import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
+import WorkflowSlider from "../../../Utils/MobileCommonComponents/WorkflowSlider";
 
 const ManageDsr = (props) => {
   const { isLoading, getData, postData } = props;
@@ -455,8 +456,8 @@ const ManageDsr = (props) => {
           (Uploadtitle?.b_mdl === "EVOBOS" && apikey == 1) ? ( */}
 
         {Uploadtitle?.b_mdl === "PRISM" ||
-        Uploadtitle?.b_mdl === "HTECH" ||
-        Uploadtitle?.b_mdl === "EDGEPoS" ? (
+          Uploadtitle?.b_mdl === "HTECH" ||
+          Uploadtitle?.b_mdl === "EDGEPoS" ? (
           <Row>
             <Col md={12} xl={12}>
               <Card>
@@ -468,21 +469,20 @@ const ManageDsr = (props) => {
                 <Card.Body>
                   <Row>
                     {Uploadtitle?.b_mdl === "PRISM" ||
-                    Uploadtitle?.b_mdl === "HTECH" ||
-                    Uploadtitle?.b_mdl === "EDGEPoS" ? (
+                      Uploadtitle?.b_mdl === "HTECH" ||
+                      Uploadtitle?.b_mdl === "EDGEPoS" ? (
                       UploadList && UploadList?.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
                             <Card
-                              className={`text-white ${
-                                item.bgColor === "blue"
-                                  ? "bg-primary"
-                                  : item.bgColor === "green"
-                                    ? "bg-card-green"
-                                    : item.bgColor === "red"
-                                      ? "bg-card-red"
-                                      : "bg-primary"
-                              }`}
+                              className={`text-white ${item.bgColor === "blue"
+                                ? "bg-primary"
+                                : item.bgColor === "green"
+                                  ? "bg-card-green"
+                                  : item.bgColor === "red"
+                                    ? "bg-card-red"
+                                    : "bg-primary"
+                                }`}
                             >
                               <Card.Body
                                 className="card-Div"
@@ -550,8 +550,8 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn?.showBtn === true &&
-                isAssignPermissionAvailable &&
-                DataEnteryList?.length > 0 ? (
+                  isAssignPermissionAvailable &&
+                  DataEnteryList?.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -568,28 +568,26 @@ const ManageDsr = (props) => {
                 )}
               </Card.Header>
               <Card.Body>
-                <Row>
+                {!isMobile ? <Row>
                   {DataEnteryList && DataEnteryList?.length > 0 ? (
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${
-                            item.bgColor === "amber"
-                              ? "bg-card-amber"
-                              : item.bgColor === "green"
-                                ? "bg-card-green"
-                                : item.bgColor === "red"
-                                  ? "bg-card-red"
-                                  : "bg-primary"
-                          }`}
+                          className={`text-white ${item.bgColor === "amber"
+                            ? "bg-card-amber"
+                            : item.bgColor === "green"
+                              ? "bg-card-green"
+                              : item.bgColor === "red"
+                                ? "bg-card-red"
+                                : "bg-primary"
+                            }`}
                         >
                           <Card.Body
-                            className={`card-Div ${
-                              selectedItem === item ? "dsr-selected" : ""
-                            }`}
+                            className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
+                              }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
-                            <h4 className="card-title">{item.name}</h4>
+                            <h4 className="card-title">{item.name}{item.name}</h4>
                           </Card.Body>
                         </Card>
                       </Col>
@@ -603,7 +601,13 @@ const ManageDsr = (props) => {
                       />
                     </>
                   )}
-                </Row>
+                </Row> : <WorkflowSlider
+                  DataEnteryList={DataEnteryList}
+                  selectedItem={selectedItem}
+                  handleEnteryClick={handleEnteryClick}
+                />}
+
+
               </Card.Body>
             </Card>
           </Col>

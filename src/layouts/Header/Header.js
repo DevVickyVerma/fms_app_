@@ -11,6 +11,7 @@ import {
   personCircleOutline,
   settingsOutline,
   logOutOutline,
+  closeOutline,
 } from "ionicons/icons";
 
 const Header = (props) => {
@@ -185,6 +186,7 @@ const Header = (props) => {
                       {
                         text: "Cancel",
                         role: "cancel",
+                        icon: closeOutline,
                         data: { action: "cancel" },
                         handler: () => handleAction("cancel"),
                       },
@@ -228,7 +230,7 @@ const Header = (props) => {
                         </div>
                         <div className="dropdown-divider m-0" />
                         {isSmSPermissionAvailable &&
-                        localStorage.getItem("superiorRole") == "Client" ? (
+                          localStorage.getItem("superiorRole") == "Client" ? (
                           <Dropdown.Item as={Link} to="/manage-sms">
                             <i className="dropdown-icon ph ph-chat-text" /> MY
                             SMS{" "}
