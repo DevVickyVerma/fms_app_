@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -8,17 +8,21 @@ import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const SiteSettings = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const { handleError } = useErrorHandler();
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const isEditPermissionAvailable = UserPermissions?.includes("shop-update-facility-fees");
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const isEditPermissionAvailable = UserPermissions?.includes(
+    "shop-update-facility-fees"
+  );
 
   const handleSubmit = async (values) => {
-    let { client_id, company_id, } = values;
+    let { client_id, company_id } = values;
     if (localStorage.getItem("superiorRole") === "Client") {
       client_id = localStorage.getItem("superiorId");
     }
@@ -28,10 +32,8 @@ const SiteSettings = (props) => {
     if (company_id) queryParams.append("company_id", company_id);
 
     try {
-
       const queryString = queryParams.toString();
       const response = await getData(`daily-facility-fees?${queryString}`);
-
 
       const { data } = response;
       if (data) {
@@ -62,14 +64,10 @@ const SiteSettings = (props) => {
       company_id: Yup.string().required("Company is required"),
     }),
     onSubmit: (values) => {
-      localStorage.setItem('localDailyFacilityFees', JSON.stringify(values));
+      localStorage.setItem("localDailyFacilityFees", JSON.stringify(values));
       handleSubmit(values);
     },
   });
-
-
-
-
 
   const columns = [
     {
@@ -126,8 +124,6 @@ const SiteSettings = (props) => {
     // ... remaining columns
   ];
 
-
-
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
 
@@ -149,20 +145,20 @@ const SiteSettings = (props) => {
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
-      handleError(error)
+      handleError(error);
       // Set the submission state to false if an error occurs
     }
   };
 
-
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
       ? Yup.string().required("Client is required")
       : Yup.mixed().notRequired(),
     company_id: Yup.string().required("Company is required"),
   });
-
 
   let storedKeyName = "localFilterModalData";
   const storedData = localStorage.getItem(storedKeyName);
@@ -174,7 +170,7 @@ const SiteSettings = (props) => {
       // Check if start_date exists in storedData
       if (!parsedData.start_date) {
         // If start_date does not exist, set it to the current date
-        const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+        const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
         parsedData.start_date = currentDate;
 
         // Update the stored data with the new start_date
@@ -191,7 +187,7 @@ const SiteSettings = (props) => {
       if (storedClientIdData) {
         const futurepriceLog = {
           client_id: storedClientIdData,
-          start_date: new Date().toISOString().split('T')[0], // Set current date as start_date
+          start_date: new Date().toISOString().split("T")[0], // Set current date as start_date
         };
 
         // Optionally store this data back to localStorage
@@ -204,14 +200,13 @@ const SiteSettings = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id) {
-      handleSubmit(values)
+      handleSubmit(values);
     }
-  }
-
-  const handleClearForm = async () => {
-    setData(null)
   };
 
+  const handleClearForm = async () => {
+    setData(null);
+  };
 
   return (
     <>
@@ -261,7 +256,6 @@ const SiteSettings = (props) => {
                 showStationInput={false}
                 ClearForm={handleClearForm}
               />
-
             </Card>
           </Col>
         </Row>
@@ -276,7 +270,7 @@ const SiteSettings = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={handleSubmitForm1}>
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}

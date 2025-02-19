@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -13,8 +13,8 @@ import {
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import useCustomDelete from '../../../Utils/useCustomDelete';
-import useToggleStatus from '../../../Utils/useToggleStatus';
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from "../../../Utils/useToggleStatus";
 
 const ManageRoles = (props) => {
   const { isLoading, getData, postData } = props;
@@ -27,24 +27,25 @@ const ManageRoles = (props) => {
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'site/auto-report/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "site/auto-report/delete", formData, handleSuccess);
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/site/auto-report/update-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/site/auto-report/update-status",
+      formData,
+      handleSuccess
+    );
   };
 
   const handleSuccess = () => {
-    FetchmannegerList()
-  }
-
-
-
+    FetchmannegerList();
+  };
 
   const FetchmannegerList = async () => {
     try {
@@ -53,7 +54,7 @@ const ManageRoles = (props) => {
       if (response && response.data) {
         setData(response?.data?.data?.autoreports);
 
-        setSiteName(response?.data?.data?.site_name)
+        setSiteName(response?.data?.data?.site_name);
       } else {
         throw new Error("No data available in the response");
       }
@@ -82,9 +83,6 @@ const ManageRoles = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes(
     "site-assign-manager"
   );
-
-
-
 
   const columns = [
     {
@@ -121,7 +119,7 @@ const ManageRoles = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.report_name}</h6>
@@ -169,7 +167,6 @@ const ManageRoles = (props) => {
         </span>
       ),
     },
-
 
     {
       name: "Action",
@@ -260,7 +257,7 @@ const ManageRoles = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

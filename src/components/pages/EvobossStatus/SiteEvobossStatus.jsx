@@ -180,7 +180,7 @@ const SiteEvobossStatus = (props) => {
                   {data?.length > 0 ? (
                     <>
                       <div
-                        className="table-responsive deleted-table"
+                        className="table-responsive deleted-table mobile-first-table"
                         style={{ height: "510px" }}
                       >
                         <DataTable

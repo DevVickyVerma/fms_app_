@@ -17,14 +17,12 @@ const Notification = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
   useEffect(() => {
     fetchData(currentPage);
-    
   }, [currentPage]);
 
   const fetchData = async (pageNumber) => {
@@ -156,7 +154,6 @@ const Notification = (props) => {
     },
   ];
 
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -191,8 +188,8 @@ const Notification = (props) => {
             <Card.Body>
               {data?.length > 0 ? (
                 <>
-                  <div className="table-responsive deleted-table">
-                    <div className="table-responsive deleted-table">
+                  <div className="table-responsive deleted-table mobile-first-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

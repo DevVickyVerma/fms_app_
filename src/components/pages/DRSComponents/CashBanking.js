@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import useCustomDelete from '../../../Utils/useCustomDelete';
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const CashBanking = (props) => {
   const {
@@ -26,7 +26,7 @@ const CashBanking = (props) => {
     start_date,
   } = props;
   const [data, setData] = useState();
-  const [checkState,] = useState(true);
+  const [checkState] = useState(true);
   const [Editdata, setEditData] = useState(false);
   const [editable, setis_editable] = useState();
 
@@ -42,33 +42,27 @@ const CashBanking = (props) => {
     sendDataToParent(allPropsData);
   };
 
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const CashBankingPermission = UserPermissions?.includes("drs-add-cash-banking")
-
-
-
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const CashBankingPermission = UserPermissions?.includes(
+    "drs-add-cash-banking"
+  );
 
   const { customDelete } = useCustomDelete();
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'drs/cash-banking/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "drs/cash-banking/delete", formData, handleSuccess);
   };
 
-
   const handleSuccess = () => {
-    FetchTableData()
-  }
-
-
-
-
-
+    FetchTableData();
+  };
 
   useEffect(() => {
     FetchTableData();
-    
   }, []);
 
   const FetchTableData = async () => {
@@ -91,8 +85,6 @@ const CashBanking = (props) => {
     }
   };
 
-
-
   const validationSchema = Yup.object({
     reference: Yup.string().required("Refrence is required"),
     value: Yup.string()
@@ -113,7 +105,7 @@ const CashBanking = (props) => {
   };
 
   //
-  const handleSubmit = async (values,) => {
+  const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
 
@@ -251,7 +243,6 @@ const CashBanking = (props) => {
     },
   ];
 
-
   document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -283,11 +274,12 @@ const CashBanking = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.reference &&
+                            className={`input101 ${
+                              formik.errors.reference &&
                               formik.touched.reference
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="reference"
                             name="reference"
                             placeholder="Refrence"
@@ -310,10 +302,11 @@ const CashBanking = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.value && formik.touched.value
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.value && formik.touched.value
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="value"
                             name="value"
                             placeholder="Value"
@@ -330,19 +323,19 @@ const CashBanking = (props) => {
                       </Col>
                     </Row>
                     <div className="text-end">
-
-                      {CashBankingPermission && (<>
-                        {Editdata ? (
-                          <button type="submit" className="btn btn-primary">
-                            Update
-                          </button>
-                        ) : (
-                          <button type="submit" className="btn btn-primary">
-                            Add
-                          </button>
-                        )}
-                      </>)}
-
+                      {CashBankingPermission && (
+                        <>
+                          {Editdata ? (
+                            <button type="submit" className="btn btn-primary">
+                              Update
+                            </button>
+                          ) : (
+                            <button type="submit" className="btn btn-primary">
+                              Add
+                            </button>
+                          )}
+                        </>
+                      )}
                     </div>
                   </form>
                 </Card.Body>
@@ -361,7 +354,7 @@ const CashBanking = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

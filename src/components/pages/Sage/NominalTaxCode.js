@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -7,9 +7,7 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
-
-
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const UploadCompetitor = (props) => {
   const { getData, isLoading, postData } = props;
@@ -18,8 +16,12 @@ const UploadCompetitor = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [data, setData] = useState();
   const { handleError } = useErrorHandler();
-  const userPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const isImportPermissionAvailable = userPermissions?.includes("nominal-taxcode-import");
+  const userPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const isImportPermissionAvailable = userPermissions?.includes(
+    "nominal-taxcode-import"
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -97,7 +99,6 @@ const UploadCompetitor = (props) => {
         );
 
         if (response) {
-
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -209,7 +210,6 @@ const UploadCompetitor = (props) => {
     }
   };
 
-
   const Onupload = async () => {
     try {
       const formData = new FormData();
@@ -285,17 +285,17 @@ const UploadCompetitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
@@ -308,7 +308,6 @@ const UploadCompetitor = (props) => {
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
-
 
                                 setCompanyList([]);
                               }
@@ -342,11 +341,12 @@ const UploadCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.company_id &&
+                          className={`input101 ${
+                            formik.errors.company_id &&
                             formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -359,8 +359,6 @@ const UploadCompetitor = (props) => {
                             } else {
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("site_id", "");
-
-
                             }
                           }}
                         >
@@ -393,10 +391,11 @@ const UploadCompetitor = (props) => {
                             File
                           </label>
                           <div
-                            className={`dropzone ${formik.errors.image && formik.touched.image
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`dropzone ${
+                              formik.errors.image && formik.touched.image
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             onDrop={(event) => handleDrop(event)}
                             onDragOver={(event) => event.preventDefault()}
                           >
@@ -458,7 +457,7 @@ const UploadCompetitor = (props) => {
           <Card.Body>
             {data?.length > 0 ? (
               <>
-                <div className="table-responsive deleted-table">
+                <div className="table-responsive deleted-table mobile-first-table">
                   <DataTable
                     columns={columns}
                     data={data}

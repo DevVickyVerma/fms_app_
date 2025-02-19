@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const CreditCardBanking = (props) => {
-  const {
-    company_id,
-    client_id,
-    site_id,
-    start_date,
-    sendDataToParent,
-  } = props;
+  const { company_id, client_id, site_id, start_date, sendDataToParent } =
+    props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
@@ -28,11 +23,9 @@ const CreditCardBanking = (props) => {
     sendDataToParent(allPropsData);
   };
 
-
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,12 +51,10 @@ const CreditCardBanking = (props) => {
           setData(data?.data?.listing);
           setis_editable(data?.data);
 
-
           if (data?.data?.listing) {
             // formik.setValues(data?.data?.listing)
             formik.setFieldValue("data", data?.data?.listing);
           }
-
         }
       } catch (error) {
         console.error("API error:", error);
@@ -185,7 +176,7 @@ const CreditCardBanking = (props) => {
               value={formik.values.data[index]?.koisk_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input ${row?.update_koisk_value ? 'UpdateValueInput' : ''} ${!row?.edit_koisk_value ? 'readonly' : ''}`}
+              className={`table-input ${row?.update_koisk_value ? "UpdateValueInput" : ""} ${!row?.edit_koisk_value ? "readonly" : ""}`}
               readOnly={!row?.edit_koisk_value}
             />
             {/* Error handling code */}
@@ -216,11 +207,10 @@ const CreditCardBanking = (props) => {
               type="number"
               id={`opt_value-${index}`}
               name={`data[${index}].opt_value`}
-
               value={formik.values.data[index]?.opt_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input ${row?.update_opt_value ? 'UpdateValueInput' : ''} ${!row?.edit_opt_value ? 'readonly' : ''}`}
+              className={`table-input ${row?.update_opt_value ? "UpdateValueInput" : ""} ${!row?.edit_opt_value ? "readonly" : ""}`}
               readOnly={!row?.edit_opt_value}
             />
             {/* Error handling code */}
@@ -250,11 +240,10 @@ const CreditCardBanking = (props) => {
               type="number"
               id={`account_value-${index}`}
               name={`data[${index}].account_value`}
-
               value={formik.values.data[index]?.account_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input ${row.update_account_value ? 'UpdateValueInput' : ''} ${!row?.edit_account_value ? 'readonly' : ''}`}
+              className={`table-input ${row.update_account_value ? "UpdateValueInput" : ""} ${!row?.edit_account_value ? "readonly" : ""}`}
               readOnly={!row?.edit_account_value}
             />
             {/* Error handling code */}
@@ -287,7 +276,7 @@ const CreditCardBanking = (props) => {
               value={formik.values.data[index]?.no_of_transactions}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input ${row.update_no_of_transactions ? 'UpdateValueInput' : ''} ${!row?.update_no_of_transactions ? 'readonly' : ''}`}
+              className={`table-input ${row.update_no_of_transactions ? "UpdateValueInput" : ""} ${!row?.update_no_of_transactions ? "readonly" : ""}`}
               readOnly={!row?.update_no_of_transactions}
             />
             {/* Error handling code */}
@@ -297,7 +286,6 @@ const CreditCardBanking = (props) => {
 
     // ... remaining columns
   ];
-
 
   // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
   if (editable?.is_adjustable) {
@@ -323,7 +311,7 @@ const CreditCardBanking = (props) => {
               type="number"
               id={`adj_value-${index}`}
               name={`data[${index}].adj_value`}
-              className={`table-input ${!row?.edit_adj_value ? 'readonly' : ''}`}
+              className={`table-input ${!row?.edit_adj_value ? "readonly" : ""}`}
               value={formik.values?.data?.[index]?.adj_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -362,7 +350,7 @@ const CreditCardBanking = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
-import withApi from '../../../Utils/ApiHelper';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from "../../../Utils/ApiHelper";
 
 const Departmentshopsale = (props) => {
   const {
@@ -14,7 +14,7 @@ const Departmentshopsale = (props) => {
     site_id,
     start_date,
     sendDataToParent,
-    getData
+    getData,
   } = props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
@@ -29,17 +29,13 @@ const Departmentshopsale = (props) => {
     sendDataToParent(allPropsData);
   };
 
-
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
 
-
-
   useEffect(() => {
     const fetchData = async () => {
-
       try {
         const response = await getData(
           `/department-shop-sale/list?site_id=${site_id}&drs_date=${start_date}`
@@ -47,17 +43,14 @@ const Departmentshopsale = (props) => {
 
         const { data } = response;
 
-
         if (data) {
           setData(data?.data?.listing);
           setis_editable(data?.data);
-
 
           if (data?.data?.listing) {
             // formik.setValues(data?.data?.listing)
             formik.setFieldValue("data", data?.data?.listing);
           }
-
         }
       } catch (error) {
         console.error("API error:", error);
@@ -80,18 +73,11 @@ const Departmentshopsale = (props) => {
     const formData = new FormData();
 
     for (const obj of values.data) {
-      const {
-        id,
-        gross_value,
-        disc_value,
-        nett_value,
-        adj_value,
-      } = obj;
+      const { id, gross_value, disc_value, nett_value, adj_value } = obj;
       const gross_valueKey = `gross_value[${id}]`;
       const discountKey = `disc_value[${id}]`;
       const nettValueKey = `nett_value[${id}]`;
       const adjValueKey = `adj_value[${id}]`;
-
 
       if (id) {
         formData.append(gross_valueKey, gross_value);
@@ -126,14 +112,13 @@ const Departmentshopsale = (props) => {
         ErrorAlert(responseData.message);
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
       // Handle request error
     } finally {
       setIsLoading(false);
     }
   };
   const columns = [
-
     {
       name: "ITEM NAME",
       selector: (row) => row.category_name,
@@ -172,7 +157,7 @@ const Departmentshopsale = (props) => {
               value={formik.values.data[index]?.gross_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input ${row.update_gross_value ? 'UpdateValueInput' : ''} ${!row?.edit_gross_value ? 'readonly' : ''}`}
+              className={`table-input ${row.update_gross_value ? "UpdateValueInput" : ""} ${!row?.edit_gross_value ? "readonly" : ""}`}
               readOnly={!row?.edit_gross_value}
             />
             {/* Error handling code */}
@@ -205,7 +190,7 @@ const Departmentshopsale = (props) => {
               value={formik.values.data[index]?.disc_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input ${row.update_disc_value ? 'UpdateValueInput' : ''} ${!row?.edit_disc_value ? 'readonly' : ''}`}
+              className={`table-input ${row.update_disc_value ? "UpdateValueInput" : ""} ${!row?.edit_disc_value ? "readonly" : ""}`}
               readOnly={!row?.edit_disc_value}
             />
           </div>
@@ -237,15 +222,13 @@ const Departmentshopsale = (props) => {
               value={formik.values.data[index]?.nett_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input ${row.update_nett_value ? 'UpdateValueInput' : ''} ${!row?.edit_nett_value ? 'readonly' : ''}`}
+              className={`table-input ${row.update_nett_value ? "UpdateValueInput" : ""} ${!row?.edit_nett_value ? "readonly" : ""}`}
               readOnly={!row?.edit_nett_value}
             />
           </div>
         ),
     },
   ];
-
-
 
   // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
   if (editable?.is_adjustable) {
@@ -271,7 +254,7 @@ const Departmentshopsale = (props) => {
               type="number"
               id={`adj_value-${index}`}
               name={`data[${index}].adj_value`}
-              className={`table-input ${!row?.edit_adj_value ? 'readonly' : ''}`}
+              className={`table-input ${!row?.edit_adj_value ? "readonly" : ""}`}
               value={formik.values?.data?.[index]?.adj_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -289,8 +272,6 @@ const Departmentshopsale = (props) => {
     onSubmit: handleSubmit,
   });
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -305,7 +286,7 @@ const Departmentshopsale = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}
@@ -321,7 +302,6 @@ const Departmentshopsale = (props) => {
 
                       {data?.length > 0 ? (
                         <div className="d-flex justify-content-end mt-3">
-
                           {editable?.is_editable && (
                             <button className="btn btn-primary" type="submit">
                               Submit

@@ -894,7 +894,7 @@ const CeoDashSitetable = (props) => {
               {data?.length > 0 ? (
                 <>
                   <div
-                    className={`table-responsive deleted-table performance-col no-white-space  ${
+                    className={`table-responsive deleted-table mobile-first-table performance-col no-white-space  ${
                       isSitePermissionAvailable ||
                       isSiteSecondPermissionAvailable
                         ? "show-ceo-hover-effect-data-table"

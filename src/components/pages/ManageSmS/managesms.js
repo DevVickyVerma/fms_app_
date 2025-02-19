@@ -830,7 +830,7 @@ const ManageSiteTank = (props) => {
                                 className="me-1"
                                 title="SMS Logs"
                               >
-                                <div className="table-responsive deleted-table">
+                                <div className="table-responsive deleted-table mobile-first-table">
                                   {data?.history.length > 0 ? (
                                     <DataTable
                                       columns={columns}
@@ -858,7 +858,7 @@ const ManageSiteTank = (props) => {
                                 title="Credit Log"
                               >
                                 {data?.history.length > 0 ? (
-                                  <div className="table-responsive deleted-table">
+                                  <div className="table-responsive deleted-table mobile-first-table">
                                     <DataTable
                                       columns={columns2}
                                       data={data?.history}

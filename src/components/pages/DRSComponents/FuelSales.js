@@ -1,16 +1,22 @@
 import React from "react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-import withApi from '../../../Utils/ApiHelper';
+import withApi from "../../../Utils/ApiHelper";
 
 const FuelSales = (props) => {
-  const { company_id, client_id, site_id, start_date, sendDataToParent, getData } =
-    props;
+  const {
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+    getData,
+  } = props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
@@ -30,8 +36,6 @@ const FuelSales = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-
-
     try {
       setIsLoading(true); // Set loading state to true before fetching data
 
@@ -43,7 +47,6 @@ const FuelSales = (props) => {
       if (data) {
         setData(data?.data?.listing);
         setis_editable(data?.data);
-
 
         if (data?.data?.listing) {
           // formik.setValues(data?.data?.listing)
@@ -63,7 +66,6 @@ const FuelSales = (props) => {
     if (start_date) {
       fetchData();
     }
-    
   }, [site_id, start_date]);
 
   const SubmitFuelSalesForm = async (values) => {
@@ -83,22 +85,17 @@ const FuelSales = (props) => {
       const adjValueKey = `adj_value[${id}]`;
       const salesVolumeKey = `sales_volume[${id}]`;
 
-
       if (id) {
         formData.append(grossValueKey, obj.gross_value.toString());
         formData.append(discountKey, obj.discount.toString());
         formData.append(nettValueKey, obj.nett_value.toString());
         formData.append(adjValueKey, obj.adj_value.toString());
         formData.append(salesVolumeKey, obj.sales_volume.toString());
-
       }
-
-
     });
 
     // formData.append('site_id',stationId? stationId:""); // Assuming stationId is your site_id
     // formData.append('drs_date', startDate); // Assuming startDate is your drs_date
-
 
     try {
       setIsLoading(true);
@@ -177,7 +174,7 @@ const FuelSales = (props) => {
               value={formik.values.data[index]?.sales_volume}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input  ${!row?.update_sales_volume ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.update_sales_volume ? "readonly" : ""}`}
               readOnly={!row?.update_sales_volume}
             />
             {/* Error handling code */}
@@ -210,7 +207,7 @@ const FuelSales = (props) => {
               value={formik.values.data[index]?.gross_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input  ${!row?.update_gross_value ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.update_gross_value ? "readonly" : ""}`}
               readOnly={!row?.update_gross_value}
             />
             {/* Error handling code */}
@@ -243,7 +240,7 @@ const FuelSales = (props) => {
               value={formik.values.data[index]?.discount}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input  ${!row?.update_discount ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.update_discount ? "readonly" : ""}`}
               readOnly={!row?.update_discount}
             />
             {/* Error handling code */}
@@ -276,7 +273,7 @@ const FuelSales = (props) => {
               value={formik.values.data[index]?.nett_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input  ${!row?.update_nett_value ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.update_nett_value ? "readonly" : ""}`}
               readOnly={!row?.update_nett_value}
             />
             {/* Error handling code */}
@@ -284,8 +281,6 @@ const FuelSales = (props) => {
         ),
     },
   ];
-
-
 
   // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
   if (editable?.is_adjustable) {
@@ -311,7 +306,7 @@ const FuelSales = (props) => {
               type="number"
               id={`adj_value-${index}`}
               name={`data[${index}].adj_value`}
-              className={`table-input ${!row?.edit_adj_value ? 'readonly' : ''}`}
+              className={`table-input ${!row?.edit_adj_value ? "readonly" : ""}`}
               value={formik.values?.data?.[index]?.adj_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -322,20 +317,16 @@ const FuelSales = (props) => {
     });
   }
 
-
   const formik = useFormik({
     initialValues: {
       data: data,
     },
     onSubmit: (values) => {
-      SubmitFuelSalesForm(values)
+      SubmitFuelSalesForm(values);
       // handlePostData(values);
     },
     // validationSchema: validationSchema,
   });
-
-
-
 
   return (
     <>
@@ -351,7 +342,7 @@ const FuelSales = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}
@@ -393,4 +384,3 @@ const FuelSales = (props) => {
 };
 
 export default withApi(FuelSales);
-

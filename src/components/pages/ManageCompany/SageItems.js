@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
@@ -12,9 +12,11 @@ const CompanySageFuels = ({ getData }) => {
   const id = useParams();
 
   const UserPermissions = useSelector(
-    (state) => state?.data?.data?.permissions || [],
+    (state) => state?.data?.data?.permissions || []
   );
-  const isUpdatePermissionAvailable = UserPermissions?.includes('company-sage-config');
+  const isUpdatePermissionAvailable = UserPermissions?.includes(
+    "company-sage-config"
+  );
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,17 +28,15 @@ const CompanySageFuels = ({ getData }) => {
   });
 
   useEffect(() => {
-    FetchSubCategoryList()
-  }, [])
-
+    FetchSubCategoryList();
+  }, []);
 
   const FetchSubCategoryList = async () => {
     try {
       const response = await getData(`/company/sage-items/${id?.id}`);
 
-
       if (response && response.data) {
-        formik.setFieldValue("data", response?.data?.data?.items)
+        formik.setFieldValue("data", response?.data?.data?.items);
         setData(response?.data?.data?.items);
       } else {
         throw new Error("No data available in the response");
@@ -127,7 +127,6 @@ const CompanySageFuels = ({ getData }) => {
     },
   ];
 
-
   const formik = useFormik({
     initialValues: {
       data: data,
@@ -143,11 +142,7 @@ const CompanySageFuels = ({ getData }) => {
     const formData = new FormData();
 
     for (const obj of values.data) {
-      const {
-        id,
-        sage_sale_code,
-        sage_purchage_code,
-      } = obj;
+      const { id, sage_sale_code, sage_purchage_code } = obj;
       const sage_sale_codeKey = `sage_sale_code[${id}]`;
       const sage_purchage_codeKey = `sage_purchage_code[${id}]`;
 
@@ -184,7 +179,6 @@ const CompanySageFuels = ({ getData }) => {
       setIsLoading(false);
     }
   };
-
 
   return (
     <>
@@ -228,9 +222,9 @@ const CompanySageFuels = ({ getData }) => {
                   <>
                     <form
                       onSubmit={(event) => formik.handleSubmit(event)}
-                    // onSubmit={formik.SubmitFuelSalesForm}
+                      // onSubmit={formik.SubmitFuelSalesForm}
                     >
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}
@@ -245,12 +239,16 @@ const CompanySageFuels = ({ getData }) => {
                       </div>
 
                       <Card.Footer className="text-end">
-                        {isUpdatePermissionAvailable && (<>
-                          <button className="btn btn-primary me-2" type="submit">
-                            Save
-                          </button>
-                        </>)}
-
+                        {isUpdatePermissionAvailable && (
+                          <>
+                            <button
+                              className="btn btn-primary me-2"
+                              type="submit"
+                            >
+                              Save
+                            </button>
+                          </>
+                        )}
                       </Card.Footer>
                     </form>
                   </>

@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Row,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -18,9 +13,7 @@ const ManageUser = (props) => {
 
   useEffect(() => {
     handleFetchData();
-    
   }, []);
-
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -65,7 +58,6 @@ const ManageUser = (props) => {
       console.error("API error:", error);
     }
   };
-
 
   const columns = [
     {
@@ -116,7 +108,7 @@ const ManageUser = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.email}</h6>
@@ -143,7 +135,6 @@ const ManageUser = (props) => {
       ),
     },
   ];
-
 
   return (
     <>
@@ -179,7 +170,7 @@ const ManageUser = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

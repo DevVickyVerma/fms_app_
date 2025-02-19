@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
@@ -6,16 +6,11 @@ import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import CoffeeAndValetUploadInvoice from "./CoffeeAndValetUploadInvoice";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const CoffeeValet = (props) => {
-  const {
-    company_id,
-    client_id,
-    site_id,
-    start_date,
-    sendDataToParent,
-  } = props;
+  const { company_id, client_id, site_id, start_date, sendDataToParent } =
+    props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
@@ -29,7 +24,6 @@ const CoffeeValet = (props) => {
     sendDataToParent(allPropsData);
   };
 
-
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editable, setis_editable] = useState();
@@ -39,8 +33,6 @@ const CoffeeValet = (props) => {
     useState();
   const [myValuesTotalValue, setMyValuesTotalValue] = useState();
   const [isLoading, setIsLoading] = useState(true);
-
-
 
   useEffect(() => {
     fetchData();
@@ -65,7 +57,6 @@ const CoffeeValet = (props) => {
       if (data) {
         setData(data?.data?.listing);
         setis_editable(data?.data);
-
 
         if (data?.data?.listing) {
           formik.setFieldValue("data", data?.data?.listing);
@@ -110,9 +101,6 @@ const CoffeeValet = (props) => {
       const adj_valueKey = `adj_value[${id}]`;
       //   const valuePerKey = `value_per[${id}]`;
       const com_rateKey = `com_rate[${id}]`;
-
-
-
 
       if (!processedIds.includes(id) && id !== undefined) {
         formData.append(`valet_sale_id[${index}]`, id);
@@ -189,7 +177,6 @@ const CoffeeValet = (props) => {
   if (editable?.is_file || editable?.is_upload_file) {
   }
 
-
   const handleInvoiceModal = (row) => {
     setShowModal(true);
     const allPropsData = {
@@ -199,11 +186,10 @@ const CoffeeValet = (props) => {
       start_date,
       selectedRow: row,
     };
-    setInvoiceCallData(allPropsData)
-  }
+    setInvoiceCallData(allPropsData);
+  };
 
   const columns = [
-
     {
       name: "ITEM CATEGORY",
       selector: (row) => row.item_category,
@@ -241,7 +227,7 @@ const CoffeeValet = (props) => {
               value={formik.values.data[index]?.opening}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`table-input  ${!row?.edit_opening ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.edit_opening ? "readonly" : ""}`}
               readOnly={!row?.edit_opening}
             />
             {/* Error handling code */}
@@ -278,7 +264,7 @@ const CoffeeValet = (props) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              className={`table-input  ${!row?.edit_closing ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.edit_closing ? "readonly" : ""}`}
               readOnly={!row?.edit_closing}
             />
             {/* Error handling code */}
@@ -313,7 +299,7 @@ const CoffeeValet = (props) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              className={`table-input  ${!row?.edit_tests ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.edit_tests ? "readonly" : ""}`}
               readOnly={!row?.edit_tests}
             />
             {/* Error handling code */}
@@ -348,7 +334,7 @@ const CoffeeValet = (props) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              className={`table-input  ${!row?.edit_adjust ? 'readonly' : ''}`}
+              className={`table-input  ${!row?.edit_adjust ? "readonly" : ""}`}
               readOnly={!row?.edit_adjust}
             />
             {/* Error handling code */}
@@ -542,37 +528,34 @@ const CoffeeValet = (props) => {
     },
     ...(editable?.is_file || editable?.is_upload_file
       ? [
-        {
-          name: "Invoices",
-          selector: (row) => row.file,
-          sortable: false,
-          width: "9.5%",
-          center: false,
-          cell: (row,) => {
-            if (row.item_category === "Total") {
-              return null;
-            }
-            return (
-              <div>
-                {/* {is_uploadfile && ( */}
-                <>
-                  <div onClick={() => handleInvoiceModal(row)}>
-                    <i
-                      className="fa fa-upload btn btn-sm btn-primary"
-                      aria-hidden="true"
-                    />
-                  </div>
-                </>
-
-              </div>
-            );
+          {
+            name: "Invoices",
+            selector: (row) => row.file,
+            sortable: false,
+            width: "9.5%",
+            center: false,
+            cell: (row) => {
+              if (row.item_category === "Total") {
+                return null;
+              }
+              return (
+                <div>
+                  {/* {is_uploadfile && ( */}
+                  <>
+                    <div onClick={() => handleInvoiceModal(row)}>
+                      <i
+                        className="fa fa-upload btn btn-sm btn-primary"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </>
+                </div>
+              );
+            },
           },
-        },
-      ]
+        ]
       : []),
   ];
-
-
 
   // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
   if (editable?.is_adjustable) {
@@ -598,7 +581,7 @@ const CoffeeValet = (props) => {
               type="number"
               id={`adj_value-${index}`}
               name={`data[${index}].adj_value`}
-              className={`table-input ${!row?.edit_adj_value ? 'readonly' : ''}`}
+              className={`table-input ${!row?.edit_adj_value ? "readonly" : ""}`}
               value={formik.values?.data?.[index]?.adj_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -608,7 +591,6 @@ const CoffeeValet = (props) => {
         ),
     });
   }
-
 
   const formik = useFormik({
     initialValues: {
@@ -704,7 +686,6 @@ const CoffeeValet = (props) => {
       {isLoading ? <Loaderimg /> : null}
       <>
         {
-
           <CoffeeAndValetUploadInvoice
             showModal={showModal}
             setShowModal={setShowModal}
@@ -722,7 +703,7 @@ const CoffeeValet = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}
@@ -750,8 +731,6 @@ const CoffeeValet = (props) => {
                             Submit
                           </button>
                         )}
-
-
                       </div>
                       {editable?.is_show_message ? (
                         <span className="text-error">

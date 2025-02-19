@@ -409,7 +409,7 @@ const ManageLevels = (props) => {
                         ))}
                       </ReactSortable>
                     </table>
-                    {/* <div className="table-responsive deleted-table">
+                    {/* <div className="table-responsive deleted-table mobile-first-table">
                                             <DataTable
                                                 columns={columns}
                                                 data={data}

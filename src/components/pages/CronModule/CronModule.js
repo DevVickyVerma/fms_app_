@@ -17,13 +17,15 @@ const CronModule = ({ getData, isLoading, postData }) => {
   const [cronList, setCronList] = useState();
   const [selectedCronList, setSelectedCronList] = useState();
 
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
   const isLogsPermissionAvailable = UserPermissions?.includes("cronjob-logs");
   const isHitPermissionAvailable = UserPermissions?.includes("cronjob-hit");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -34,10 +36,8 @@ const CronModule = ({ getData, isLoading, postData }) => {
   };
 
   const handleReset = () => {
-    setSearchTerm('');
+    setSearchTerm("");
   };
-
-
 
   useEffect(() => {
     FetchCronListApi();
@@ -116,11 +116,9 @@ const CronModule = ({ getData, isLoading, postData }) => {
 
   useEffect(() => {
     if (selectedCronList?.value) {
-      fetchCronJobApi()
+      fetchCronJobApi();
     }
-  }, [currentPage, searchTerm, selectedCronList?.value])
-
-
+  }, [currentPage, searchTerm, selectedCronList?.value]);
 
   const callfetchCronJobApi = () => {
     Swal.fire({
@@ -136,8 +134,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
         FetchHiddenCronList();
       }
     });
-  }
-
+  };
 
   const fetchCronJobApi = async () => {
     try {
@@ -167,7 +164,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
     const postDataUrl = `/cron-job/create?cron_job_id=${selectedCronList?.value}`;
     await postData(postDataUrl); // Set the submission state to false after the API call is completed
 
-    await fetchCronJobApi()
+    await fetchCronJobApi();
   };
 
   return (
@@ -268,21 +265,24 @@ const CronModule = ({ getData, isLoading, postData }) => {
             <Card.Header>
               <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                 <h3 className="card-title">Cron Module Logs</h3>
-                {
-                  selectedCronList?.value && (<>
+                {selectedCronList?.value && (
+                  <>
                     <div className="mt-2 mt-sm-0">
-                      <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                      <SearchBar
+                        onSearch={handleSearch}
+                        onReset={handleReset}
+                        hideReset={searchTerm}
+                      />
                     </div>
-                  </>)
-                }
-
+                  </>
+                )}
               </div>
             </Card.Header>
 
             <Card.Body>
               {data?.length > 0 ? (
                 <>
-                  <div className="table-responsive deleted-table">
+                  <div className="table-responsive deleted-table mobile-first-table">
                     <DataTable
                       columns={columns}
                       data={data}

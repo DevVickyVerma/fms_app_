@@ -13,9 +13,8 @@ import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
-
 const ManageEmail = (props) => {
-  const { isLoading, getData, } = props;
+  const { isLoading, getData } = props;
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -31,7 +30,6 @@ const ManageEmail = (props) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
 
   const columns = [
     {
@@ -98,27 +96,32 @@ const ManageEmail = (props) => {
     },
   ];
 
-
-
   const validationSchemaForCustomInput = Yup.object({});
 
   let storedKeyName = "localFilterModalData";
 
-  const handleApplyFilters = ((values) => {
+  const handleApplyFilters = (values) => {
     if (!values?.start_date) {
       // If start_date does not exist, set it to the current date
-      const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+      const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
       // Update the stored data with the new start_date
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
 
     FetchFilterData(values);
-  });
+  };
 
   const FetchFilterData = async (filters) => {
     if (filters) {
-      let { client_id, company_id, client_name, company_name, start_date, site_id } = filters;
+      let {
+        client_id,
+        company_id,
+        client_name,
+        company_name,
+        start_date,
+        site_id,
+      } = filters;
 
       if (localStorage.getItem("superiorRole") === "Client") {
         client_id = ReduxFullData?.superiorId;
@@ -137,7 +140,7 @@ const ManageEmail = (props) => {
         company_id,
         site_id,
         start_date,
-        company_name
+        company_name,
       };
       try {
         const queryParams = new URLSearchParams();
@@ -182,32 +185,25 @@ const ManageEmail = (props) => {
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
 
-
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
     setFilters(null);
     setData(null);
-    FetchFilterData()
+    FetchFilterData();
   };
-
 
   useEffect(() => {
     const storedData = localStorage.getItem(storedKeyName);
 
     if (storedData) {
       let parsedData = JSON.parse(storedData);
-      if (parsedData.start_date || parsedData.site_id) { }
-      FetchFilterData(parsedData)
+      if (parsedData.start_date || parsedData.site_id) {
+      }
+      FetchFilterData(parsedData);
     } else {
-      FetchFilterData()
+      FetchFilterData();
     }
-  }, [currentPage])
-
-
-
-
-
-
+  }, [currentPage]);
 
   return (
     <>
@@ -234,7 +230,6 @@ const ManageEmail = (props) => {
           />
         </div>
       )}
-
 
       <>
         <div className="page-header d-flex flex-wrap">
@@ -270,7 +265,6 @@ const ManageEmail = (props) => {
           </div>
         </div>
 
-
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
@@ -281,7 +275,7 @@ const ManageEmail = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}
@@ -323,7 +317,6 @@ export default withApi(ManageEmail);
 
 WorkflowExceptionFilter.defaultProps = {
   onSubmit: () => {
-    console.log( "columnIndex");
-
+    console.log("columnIndex");
   }, // Provide a default no-op function if `onSubmit` is not always required
 };

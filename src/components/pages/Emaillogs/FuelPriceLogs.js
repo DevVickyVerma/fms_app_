@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -9,8 +9,7 @@ import CustomPagination from "../../../Utils/CustomPagination";
 import NewFilterTab from "../Filtermodal/NewFilterTab";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
-
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageSiteTank = (props) => {
   const { isLoading, getData } = props;
@@ -18,7 +17,9 @@ const ManageSiteTank = (props) => {
   const ReduxFullData = useSelector((state) => state?.data?.data);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [isNotClient] = useState(localStorage.getItem("superiorRole") !== "Client");
+  const [isNotClient] = useState(
+    localStorage.getItem("superiorRole") !== "Client"
+  );
   const { handleError } = useErrorHandler();
   const validationSchemaForCustomInput = Yup.object({
     client_id: isNotClient
@@ -27,15 +28,10 @@ const ManageSiteTank = (props) => {
     company_id: Yup.string().required("Company is required"),
     start_date: Yup.date()
       .required("Date is required")
-      .min(
-        new Date("2023-01-01"),
-        "Date cannot be before January 1, 2023"
-      ),
+      .min(new Date("2023-01-01"), "Date cannot be before January 1, 2023"),
   });
 
-
   const columns = [
-
     {
       name: "Site",
       selector: (row) => [row.site],
@@ -157,17 +153,14 @@ const ManageSiteTank = (props) => {
     },
   ];
 
-
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-
   const handleClearForm = async () => {
     localStorage.removeItem(storedKeyName);
     setData(null);
-    handleSubmit1()
+    handleSubmit1();
   };
 
   let storedKeyName = "localFilterModalData";
@@ -177,23 +170,30 @@ const ManageSiteTank = (props) => {
 
     if (storedData) {
       let parsedData = JSON.parse(storedData);
-      if (parsedData.start_date || parsedData.site_id) { }
-      handleSubmit1(parsedData)
+      if (parsedData.start_date || parsedData.site_id) {
+      }
+      handleSubmit1(parsedData);
     } else {
-      handleSubmit1()
+      handleSubmit1();
     }
-  }, [currentPage])
+  }, [currentPage]);
 
   const handleApplyFilters = (values) => {
     if (values?.start_date && values?.company_id) {
-      handleSubmit1(values)
+      handleSubmit1(values);
     }
-  }
-
+  };
 
   const handleSubmit1 = async (filters) => {
     if (filters) {
-      let { client_id, company_id, client_name, company_name, start_date, site_id } = filters;
+      let {
+        client_id,
+        company_id,
+        client_name,
+        company_name,
+        start_date,
+        site_id,
+      } = filters;
 
       if (localStorage.getItem("superiorRole") === "Client") {
         client_id = ReduxFullData?.superiorId;
@@ -212,7 +212,7 @@ const ManageSiteTank = (props) => {
         company_id,
         site_id,
         start_date,
-        company_name
+        company_name,
       };
       try {
         const queryParams = new URLSearchParams();
@@ -249,7 +249,6 @@ const ManageSiteTank = (props) => {
     }
   };
 
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -275,7 +274,6 @@ const ManageSiteTank = (props) => {
           </div>
         </div>
 
-
         <Row>
           <Col md={12} xl={12}>
             <Card>
@@ -298,12 +296,9 @@ const ManageSiteTank = (props) => {
                 ClearForm={handleClearForm}
                 showDateRangeInput={false}
               />
-
             </Card>
           </Col>
         </Row>
-
-
 
         <Row className=" row-sm">
           <Col lg={12}>
@@ -315,7 +310,7 @@ const ManageSiteTank = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

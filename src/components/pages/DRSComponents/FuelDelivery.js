@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
-import withApi from '../../../Utils/ApiHelper';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
+import withApi from "../../../Utils/ApiHelper";
 
 const FuelDelivery = (props) => {
   const {
@@ -14,7 +14,7 @@ const FuelDelivery = (props) => {
     site_id,
     start_date,
     sendDataToParent,
-    getData
+    getData,
   } = props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
@@ -29,17 +29,13 @@ const FuelDelivery = (props) => {
     sendDataToParent(allPropsData);
   };
 
-
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
 
-
-
   useEffect(() => {
     const fetchData = async () => {
-
       try {
         const response = await getData(
           `/fuel-delivery/list?site_id=${site_id}&drs_date=${start_date}`
@@ -53,19 +49,19 @@ const FuelDelivery = (props) => {
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => ({
-              id: item.id,
-              opening: item.opening,
-              bunkd_delivery_volume: item.bunkd_delivery_volume,
-              delivery_volume: item.delivery_volume,
-              dips_stock: item.dips_stock,
-              sales_volume: item.sales_volume,
-              book_stock: item.book_stock,
-              variance: item.variance,
-              percentage_sales: item.percentage_sales,
-              variance_lt: item.variance_lt,
-              variance_per: item.variance_per,
-              // Add other properties as needed
-            }))
+                id: item.id,
+                opening: item.opening,
+                bunkd_delivery_volume: item.bunkd_delivery_volume,
+                delivery_volume: item.delivery_volume,
+                dips_stock: item.dips_stock,
+                sales_volume: item.sales_volume,
+                book_stock: item.book_stock,
+                variance: item.variance,
+                percentage_sales: item.percentage_sales,
+                variance_lt: item.variance_lt,
+                variance_per: item.variance_per,
+                // Add other properties as needed
+              }))
             : [];
 
           // Set the formik values using setFieldValue
@@ -483,7 +479,7 @@ const FuelDelivery = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}

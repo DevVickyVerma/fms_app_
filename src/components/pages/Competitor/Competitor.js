@@ -447,7 +447,7 @@ const Competitor = (props) => {
               <Card.Body>
                 {CompetitorList?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table mobile-first-table">
+                    <div className="table-responsive deleted-table mobile-first-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={CompetitorList}

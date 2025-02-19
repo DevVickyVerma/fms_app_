@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ShopSales = (props) => {
-  const {
-    company_id,
-    client_id,
-    site_id,
-    start_date,
-    sendDataToParent,
-  } = props;
+  const { company_id, client_id, site_id, start_date, sendDataToParent } =
+    props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = {
@@ -28,13 +23,10 @@ const ShopSales = (props) => {
     sendDataToParent(allPropsData);
   };
 
-
   const [data, setData] = useState([]);
   const [DeductionData, setDeductionData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,11 +53,11 @@ const ShopSales = (props) => {
           // Create an array of form values based on the response data
           const formValues = data?.data?.charges
             ? data.data.charges.map((item) => ({
-              id: item.charge_id,
-              charge_value: item.charge_value,
-              // value_per: item.value_per,
-              // Add other properties as needed
-            }))
+                id: item.charge_id,
+                charge_value: item.charge_value,
+                // value_per: item.value_per,
+                // Add other properties as needed
+              }))
             : [];
 
           // Set the formik values using setFieldValue
@@ -74,10 +66,10 @@ const ShopSales = (props) => {
           // Create an array of deduction form values based on the response data
           const deductionFormValues = data?.data?.deductions
             ? data.data.deductions.map((item) => ({
-              id: item.deduction_id,
-              deduction_value: item.deduction_value,
-              // Add other properties as needed
-            }))
+                id: item.deduction_id,
+                deduction_value: item.deduction_value,
+                // Add other properties as needed
+              }))
             : [];
 
           // Set the formik values for deductions using setFieldValue
@@ -96,7 +88,7 @@ const ShopSales = (props) => {
     fetchData();
   }, [site_id, start_date]);
 
-  const handleSubmit = async (values,) => {
+  const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
     // Create a new FormData object
@@ -163,7 +155,7 @@ const ShopSales = (props) => {
 
       selector: (row) => row.charge_name,
       sortable: false,
-      cell: (row,) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
@@ -213,7 +205,7 @@ const ShopSales = (props) => {
       selector: (row) => row.deduction_name, // Update the selector to use a function
       sortable: false,
       center: false,
-      cell: (row,) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
@@ -275,7 +267,7 @@ const ShopSales = (props) => {
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
-                  <div className="table-responsive deleted-table">
+                  <div className="table-responsive deleted-table mobile-first-table">
                     {data?.length > 0 ? (
                       <>
                         <DataTable

@@ -4,7 +4,7 @@ import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const SiteEvobossStatusPage = (props) => {
-  const { isLoading, } = props;
+  const { isLoading } = props;
   const [rowData, setRowData] = useState(null);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const SiteEvobossStatusPage = (props) => {
               </Card.Header>
 
               <Card.Body>
-                <div className="table-responsive deleted-table"></div>
+                <div className="table-responsive deleted-table mobile-first-table"></div>
               </Card.Body>
             </Card>
           </Col>

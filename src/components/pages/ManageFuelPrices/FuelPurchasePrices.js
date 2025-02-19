@@ -661,7 +661,7 @@ const ManageDsr = (props) => {
                           />
                         </FormGroup>
                       </Col>
-                      <div className="table-responsive deleted-table">
+                      <div className="table-responsive deleted-table mobile-first-table">
                         <DataTable
                           columns={columns}
                           data={data}

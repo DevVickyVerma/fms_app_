@@ -28,33 +28,42 @@ const ManageRoles = (props) => {
 
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'company/auto-report/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(
+      postData,
+      "company/auto-report/delete",
+      formData,
+      handleSuccess
+    );
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append('id', row.id.toString());
-    formData.append('status', (row.status === 1 ? 0 : 1).toString());
-    toggleStatus(postData, '/company/auto-report/update-status', formData, handleSuccess);
+    formData.append("id", row.id.toString());
+    formData.append("status", (row.status === 1 ? 0 : 1).toString());
+    toggleStatus(
+      postData,
+      "/company/auto-report/update-status",
+      formData,
+      handleSuccess
+    );
   };
 
-
   const handleSuccess = () => {
-    FetchmannegerList()
-  }
-
+    FetchmannegerList();
+  };
 
   const { id } = useParams();
   const FetchmannegerList = async () => {
     try {
-      const response = await getData(`/company/auto-report/list?company_id=${id}`);
+      const response = await getData(
+        `/company/auto-report/list?company_id=${id}`
+      );
 
       if (response && response.data) {
         setData(response?.data?.data?.autoreports);
-        localStorage.setItem('reportclientID', response?.data?.data?.client_id);
-        setSiteName(response?.data?.data?.company_name)
+        localStorage.setItem("reportclientID", response?.data?.data?.client_id);
+        setSiteName(response?.data?.data?.company_name);
       } else {
         throw new Error("No data available in the response");
       }
@@ -83,9 +92,6 @@ const ManageRoles = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes(
     "company-auto-report-delete"
   );
-
-
-
 
   const columns = [
     {
@@ -122,7 +128,7 @@ const ManageRoles = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.report_name}</h6>
@@ -171,7 +177,6 @@ const ManageRoles = (props) => {
       ),
     },
 
-
     {
       name: "Action",
       selector: (row) => [row.action],
@@ -205,8 +210,6 @@ const ManageRoles = (props) => {
     },
   ];
 
-
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -227,7 +230,7 @@ const ManageRoles = (props) => {
                 linkAs={Link}
                 linkProps={{ to: "/managecompany" }}
               >
-                Manage  Company
+                Manage Company
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
@@ -244,7 +247,6 @@ const ManageRoles = (props) => {
                   to={`/addcompanyautoreport/${siteName}/${id}`}
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
-
                 >
                   Add Company Auto Report
                 </Link>
@@ -264,7 +266,7 @@ const ManageRoles = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}
@@ -274,7 +276,6 @@ const ManageRoles = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>

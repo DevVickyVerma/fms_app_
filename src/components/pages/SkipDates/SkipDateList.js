@@ -1,23 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DatePicker from "react-multi-date-picker";
 import { AiOutlineClose } from "react-icons/ai";
-import { Breadcrumb, Card, Col, Form, Modal, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  Modal,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent } from "@mui/material";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
-import CustomPagination from '../../../Utils/CustomPagination';
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import CustomPagination from "../../../Utils/CustomPagination";
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, getData, postData } = props;
@@ -67,7 +72,6 @@ const ManageRoles = (props) => {
             handleError(error);
           } finally {
           }
-
         };
         DeleteRole();
       }
@@ -85,7 +89,7 @@ const ManageRoles = (props) => {
         setData(response.data.data.skipDates);
         setCurrentPage(response.data.data?.currentPage || 1);
         setLastPage(response.data.data?.lastPage || 1);
-        setSiteName(response?.data?.data?.site_name)
+        setSiteName(response?.data?.data?.site_name);
       } else {
         throw new Error("No data available in the response");
       }
@@ -135,11 +139,11 @@ const ManageRoles = (props) => {
       selector: (row) => [row.skip_date],
       sortable: false,
       width: "30%",
-      cell: (row,) => (
+      cell: (row) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.skip_date}</h6>
@@ -152,7 +156,7 @@ const ManageRoles = (props) => {
       selector: (row) => [row.created_date],
       sortable: false,
       width: "30%",
-      cell: (row,) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
@@ -183,8 +187,6 @@ const ManageRoles = (props) => {
       ),
     },
   ];
-
-
 
   const [showModal, setShowModal] = useState(false);
   const [selectedDates, setSelectedDates] = useState([]);
@@ -217,7 +219,6 @@ const ManageRoles = (props) => {
       return formatDate(date);
     });
 
-
     if (formatted.length > 0) {
       try {
         // Create a new FormData object
@@ -231,8 +232,8 @@ const ManageRoles = (props) => {
 
         const response = await postData(`site/skip-date/add`, formData);
 
-        if (response) { }
-
+        if (response) {
+        }
 
         // Console log the response
         if (apidata.api_response === "success") {
@@ -304,7 +305,7 @@ const ManageRoles = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import CustomPagination from "../../../Utils/CustomPagination";
@@ -12,10 +19,8 @@ import { useSelector } from "react-redux";
 import FiltersComponent from "../../Dashboard/DashboardHeader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
-
-
 const ManageEmail = (props) => {
-  const { isLoading, getData, } = props;
+  const { isLoading, getData } = props;
   const { handleError } = useErrorHandler();
   const [data, setData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +36,6 @@ const ManageEmail = (props) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
 
   const columns = [
     {
@@ -136,21 +140,28 @@ const ManageEmail = (props) => {
 
   let storedKeyName = "localFilterModalData";
 
-  const handleApplyFilters = ((values) => {
+  const handleApplyFilters = (values) => {
     if (!values?.start_date) {
       // If start_date does not exist, set it to the current date
-      const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+      const currentDate = new Date().toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
       values.start_date = currentDate;
       // Update the stored data with the new start_date
       localStorage.setItem(storedKeyName, JSON.stringify(values));
     }
 
     FetchFilterData(values);
-  });
+  };
 
   const FetchFilterData = async (filters) => {
     if (filters) {
-      let { client_id, company_id, client_name, company_name, start_date, site_id } = filters;
+      let {
+        client_id,
+        company_id,
+        client_name,
+        company_name,
+        start_date,
+        site_id,
+      } = filters;
 
       if (localStorage.getItem("superiorRole") === "Client") {
         client_id = ReduxFullData?.superiorId;
@@ -169,7 +180,7 @@ const ManageEmail = (props) => {
         company_id,
         site_id,
         start_date,
-        company_name
+        company_name,
       };
       try {
         const queryParams = new URLSearchParams();
@@ -214,30 +225,25 @@ const ManageEmail = (props) => {
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
 
-
   const handleResetFilters = async () => {
     localStorage.removeItem(storedKeyName);
     setFilters(null);
     setData(null);
-    FetchFilterData()
+    FetchFilterData();
   };
-
 
   useEffect(() => {
     const storedData = localStorage.getItem(storedKeyName);
 
     if (storedData) {
       let parsedData = JSON.parse(storedData);
-      if (parsedData.start_date || parsedData.site_id) { }
-      FetchFilterData(parsedData)
+      if (parsedData.start_date || parsedData.site_id) {
+      }
+      FetchFilterData(parsedData);
     } else {
-      FetchFilterData()
+      FetchFilterData();
     }
-  }, [currentPage])
-
-
-
-
+  }, [currentPage]);
 
   return (
     <>
@@ -265,10 +271,7 @@ const ManageEmail = (props) => {
         </div>
       )}
 
-
-
       <>
-
         <div className="page-header d-flex flex-wrap">
           <div className="mb-2 mb-sm-0">
             <h1 className="page-title">DRS Api Logs </h1>
@@ -312,7 +315,7 @@ const ManageEmail = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}
@@ -322,7 +325,6 @@ const ManageEmail = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>

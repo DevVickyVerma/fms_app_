@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import useCustomDelete from '../../../Utils/useCustomDelete';
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const BankDeposit = (props) => {
   const {
@@ -30,11 +30,14 @@ const BankDeposit = (props) => {
   } = props;
   const [Editdata, setEditData] = useState(false);
   const [bankAmount, setBankAmount] = useState();
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const CashBankDepositPermission = UserPermissions?.includes("drs-add-bank-deposit")
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || []
+  );
+  const CashBankDepositPermission = UserPermissions?.includes(
+    "drs-add-bank-deposit"
+  );
 
-  const [checkStateForBankDeposit] =
-    useState(true);
+  const [checkStateForBankDeposit] = useState(true);
   const [data, setData] = useState();
   const handleButtonClick = () => {
     const allPropsData = {
@@ -47,30 +50,19 @@ const BankDeposit = (props) => {
     sendDataToParent(allPropsData);
   };
 
-
-
-
-
   const { customDelete } = useCustomDelete();
   const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append('id', id);
-    customDelete(postData, 'drs/bank-deposite/delete', formData, handleSuccess);
+    formData.append("id", id);
+    customDelete(postData, "drs/bank-deposite/delete", formData, handleSuccess);
   };
 
-
-
-
   const handleSuccess = () => {
-    FetchTableData()
-  }
-
-
-
+    FetchTableData();
+  };
 
   useEffect(() => {
     FetchTableData();
-    
   }, []);
   const [editable, setis_editable] = useState();
   const FetchTableData = async () => {
@@ -93,8 +85,6 @@ const BankDeposit = (props) => {
     }
   };
 
-
-
   const validationSchema = Yup.object().shape({
     amount: Yup.string()
       .required("Amount is required")
@@ -103,8 +93,7 @@ const BankDeposit = (props) => {
       ),
     reason: Yup.string().required("Reason is required"),
   });
-  const handleSubmit = async (values,) => {
-
+  const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
 
@@ -168,7 +157,6 @@ const BankDeposit = (props) => {
     formik.setFieldTouched("image", true);
   };
 
-
   const columns = [
     {
       name: "Sr. No.",
@@ -230,7 +218,7 @@ const BankDeposit = (props) => {
 
       cell: (row) => (
         <div className="d-flex align-items-center card-img">
-          { }
+          {}
 
           <div style={{ cursor: "pointer" }}>
             {row.slip_type === "pdf" ? (
@@ -298,7 +286,6 @@ const BankDeposit = (props) => {
     },
   ];
 
-
   document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -328,10 +315,11 @@ const BankDeposit = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.amount && formik.touched.amount
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.amount && formik.touched.amount
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="amount"
                             name="amount"
                             placeholder="Amount"
@@ -352,10 +340,11 @@ const BankDeposit = (props) => {
                             Choose Reason<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.reason && formik.touched.reason
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.reason && formik.touched.reason
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="reason"
                             name="reason"
                             onChange={formik.handleChange}
@@ -382,10 +371,11 @@ const BankDeposit = (props) => {
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${formik.errors.image && formik.touched.image
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`dropzone ${
+                              formik.errors.image && formik.touched.image
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             onDrop={(event) => handleDrop(event)}
                             onDragOver={(event) => event.preventDefault()}
                           >
@@ -408,19 +398,19 @@ const BankDeposit = (props) => {
                         </div>
                       </Col>
                       <div className="text-end">
-
-                        {CashBankDepositPermission && (<>
-                          {Editdata ? (
-                            <button type="submit" className="btn btn-primary">
-                              Update
-                            </button>
-                          ) : (
-                            <button type="submit" className="btn btn-primary">
-                              Add
-                            </button>
-                          )}
-                        </>)}
-
+                        {CashBankDepositPermission && (
+                          <>
+                            {Editdata ? (
+                              <button type="submit" className="btn btn-primary">
+                                Update
+                              </button>
+                            ) : (
+                              <button type="submit" className="btn btn-primary">
+                                Add
+                              </button>
+                            )}
+                          </>
+                        )}
                       </div>
                     </Row>
                   </form>
@@ -448,8 +438,7 @@ const BankDeposit = (props) => {
                       borderRadius: "7px",
                     }}
                   >
-                    Amount need to be deposit:
-                    £{bankAmount}
+                    Amount need to be deposit: £{bankAmount}
                   </h3>
                 ) : (
                   ""
@@ -459,7 +448,7 @@ const BankDeposit = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}
@@ -469,7 +458,6 @@ const BankDeposit = (props) => {
                         striped={true}
                         persistTableHead={true}
                         highlightOnHover={true}
-
                       />
                     </div>
                   </>
