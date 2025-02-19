@@ -13,6 +13,8 @@ import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import withApi from '../../../Utils/ApiHelper';
+import { IonButton, IonIcon } from '@ionic/react';
+import { logoWhatsapp } from 'ionicons/icons';
 
 const Settings = ({ getData }) => {
   const [isLoading, setLoading] = useState(false);
@@ -22,7 +24,7 @@ const Settings = ({ getData }) => {
   const navigate = useNavigate();
   useEffect(() => {
     configsetting();
-    
+
   }, []);
 
   const token = localStorage.getItem("token");
@@ -216,6 +218,13 @@ const Settings = ({ getData }) => {
                             )}
                         </div>
                       </Col>
+                      <IonButton color="success">
+                        <IonIcon color="success" icon={logoWhatsapp} />
+                        <IonIcon color="success" icon={logoWhatsapp} />
+
+                        Chat on WhatsApp
+                      </IonButton>
+
                       <Col lg={6} md={6}>
                         <div className="form-group">
                           <label
