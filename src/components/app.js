@@ -174,17 +174,7 @@ const App = () => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    if (deviceInfo?.platform == "ios" || deviceInfo?.platform == "android") {
-      document.documentElement.style.setProperty(
-        "--primary-bg-color",
-        "#09469f"
-      );
-      document.documentElement.style.setProperty(
-        "--primary-bg-hover",
-        "#0B5ECF"
-      );
 
-    }
 
     dispatch(fetchData());
   }, []);
