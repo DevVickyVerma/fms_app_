@@ -100,34 +100,36 @@ const CommonMobileFilters = ({
         </>
       )}
 
-      {(filters?.client_id ||
-        filters?.company_id ||
-        filters?.site_id ||
-        filters?.start_date) && (
-        <Button
-          onClick={handleToggleSidebar1}
-          type="button"
-          className="btn btn-primary btn-sm"
-        >
-          {/* Filter */}
-          <span>
-            <i className="ph ph-funnel ms-1" />
-          </span>
-        </Button>
-      )}
-
-      {(filters?.client_id ||
-        filters?.company_id ||
-        filters?.site_id ||
-        filters?.start_date) &&
-        showResetBtn && (
-          <span
-            onClick={handleResetFilters}
-            className="btn btn-danger btn-sm ms-2"
+      <div className=" d-flex justify-content-end">
+        {(filters?.client_id ||
+          filters?.company_id ||
+          filters?.site_id ||
+          filters?.start_date) && (
+          <Button
+            onClick={handleToggleSidebar1}
+            type="button"
+            className="btn btn-primary btn-sm"
           >
-            <i className="ph ph-arrow-clockwise" />
-          </span>
+            {/* Filter */}
+            <span>
+              <i className="ph ph-funnel ms-1" />
+            </span>
+          </Button>
         )}
+
+        {(filters?.client_id ||
+          filters?.company_id ||
+          filters?.site_id ||
+          filters?.start_date) &&
+          showResetBtn && (
+            <span
+              onClick={handleResetFilters}
+              className="btn btn-danger btn-sm ms-2"
+            >
+              <i className="ph ph-arrow-clockwise" />
+            </span>
+          )}
+      </div>
     </div>
   );
 };
