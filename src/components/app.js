@@ -127,8 +127,7 @@ const App = () => {
     try {
       const info = await Device.getInfo();
       if (
-        info?.operatingSystem == "windows" ||
-        info?.operatingSystem == "android"
+        info?.operatingSystem == "windows"
       ) {
         setIsMobile(false);
       } else {

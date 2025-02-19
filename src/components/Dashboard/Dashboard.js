@@ -371,7 +371,7 @@ const Dashboard = (props) => {
       >
         Click Me
       </IonButton> */}
-
+      {/* 
       {isMobile ? (
         <div>
           <h1>Device Information</h1>
@@ -399,7 +399,7 @@ const Dashboard = (props) => {
         </div>
       ) : (
         <p>{deviceInfo?.operatingSystem}</p>
-      )}
+      )} */}
 
       <div className="mb-2 ">
         {filters?.client_id && filters.company_id && (
