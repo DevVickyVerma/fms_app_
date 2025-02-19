@@ -10,8 +10,10 @@ import withApi from "../../../Utils/ApiHelper";
 import { IonButton, IonIcon } from "@ionic/react";
 import { logoWhatsapp } from "ionicons/icons";
 import Switch from "react-switch";
+import { useMyContext } from "../../../Utils/MyContext";
 
 const Settings = ({ getData }) => {
+  const { isMobile } = useMyContext();
   const [isLoading, setLoading] = useState(false);
   const { handleError } = useErrorHandler();
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
@@ -162,12 +164,11 @@ const Settings = ({ getData }) => {
                             Date Format<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik2.errors.date_format &&
+                            className={`input101 ${formik2.errors.date_format &&
                               formik2.touched.date_format
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="date_format"
                             name="date_format"
                             onChange={formik2.handleChange}
@@ -197,12 +198,11 @@ const Settings = ({ getData }) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik2.errors.pagination &&
+                            className={`input101 ${formik2.errors.pagination &&
                               formik2.touched.pagination
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="pagination"
                             name="pagination"
                             placeholder="Pagination"
@@ -229,12 +229,11 @@ const Settings = ({ getData }) => {
                           <select
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik2.errors.auto_logout &&
+                            className={`input101 ${formik2.errors.auto_logout &&
                               formik2.touched.auto_logout
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="auto_logout"
                             name="auto_logout"
                             placeholder="auto_logout"
@@ -258,26 +257,33 @@ const Settings = ({ getData }) => {
                         </div>
                       </Col>
 
-                      {/* <Col lg={12} md={12}>
-                        <div className="form-group">
-                          <label className="form-label mt-4">
-                            Get Reports By Date{" "}
-                          </label>
-                          <Switch
-                            id="customToggle"
-                            checked={toggleValue}
-                            onChange={handleToggleChange}
-                          />
-                        </div>
-                      </Col> */}
 
-                      <Col lg={6} md={6}>
-                        {" "}
-                        <IonButton color="success">
-                          <IonIcon color="success" icon={logoWhatsapp} />
-                          Chat on WhatsApp
-                        </IonButton>
-                      </Col>
+                      {isMobile && (
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label className="form-label mt-4">
+                              Get Updates On Whatsapp{" "}<IonIcon color="success" size="large" icon={logoWhatsapp} className="icon-style bold" />
+                            </label>
+
+
+                            {" "}
+                            <Switch
+                              checked={toggleValue}
+                              onChange={handleToggleChange}
+                              onColor="#10dc60" // Green for ON
+                              offColor="#10dc60" // Red for OFF
+                              onHandleColor="#ffffff" // White handle
+                              offHandleColor="#ffffff" // White handle
+
+                              height={24} // Adjust switch height
+                              width={50} // Adjust switch width
+                              handleDiameter={20} // Handle size
+                            />
+                          </div>
+
+                        </Col>
+                      )}
+
 
                       <div className="text-end">
                         <button
