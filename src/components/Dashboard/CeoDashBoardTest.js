@@ -707,42 +707,46 @@ const CeoDashBoardTest = (props) => {
           </h2>
         )}
 
-        {statsLoading && !isMobile ? (
-          <>
-            <Row>
-              <LoadingAnimationCard />
-              <LoadingAnimationCard />
-              <LoadingAnimationCard />
-              <LoadingAnimationCard />
-              <LoadingAnimationCard />
-              <LoadingAnimationCard />
-            </Row>
-          </>
-        ) : (
-          <UpercardsCeoDashboardStatsBox
-            gross_volume={dashboardData?.gross_volume || 0}
-            shopmargin={dashboardData?.shop_profit || 0}
-            valet_sales={dashboardData?.valet_sales || 0}
-            gross_profit={dashboardData?.gross_profit || 0}
-            gross_margin={dashboardData?.gross_margin || 0}
-            fuel_sales={dashboardData?.fuel_sales || 0}
-            fuel_commission={dashboardData?.fuel_commission || 0}
-            gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
-            shop_sales={dashboardData?.shop_sales || 0}
-            shop_fees={dashboardData?.shop_fees || 0}
-            shop_profit={dashboardData?.shop_profit || 0}
-            dashboardData={dashboardData}
-            callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-          />
-        )}
 
-        {isMobile && (
+        {isMobile ? (
           <CardSwiper
             dashboardData={dashboardData}
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
             navigattionPath="/ceodashboard-details"
             cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
-          />)}
+          />
+        ) : (
+          !isMobile && ( // Ensures this section renders only when isMobile is false
+            statsLoading ? (
+              <Row>
+                <LoadingAnimationCard />
+                <LoadingAnimationCard />
+                <LoadingAnimationCard />
+                <LoadingAnimationCard />
+                <LoadingAnimationCard />
+                <LoadingAnimationCard />
+              </Row>
+            ) : (
+              <UpercardsCeoDashboardStatsBox
+                gross_volume={dashboardData?.gross_volume || 0}
+                shopmargin={dashboardData?.shop_profit || 0}
+                valet_sales={dashboardData?.valet_sales || 0}
+                gross_profit={dashboardData?.gross_profit || 0}
+                gross_margin={dashboardData?.gross_margin || 0}
+                fuel_sales={dashboardData?.fuel_sales || 0}
+                fuel_commission={dashboardData?.fuel_commission || 0}
+                gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
+                shop_sales={dashboardData?.shop_sales || 0}
+                shop_fees={dashboardData?.shop_fees || 0}
+                shop_profit={dashboardData?.shop_profit || 0}
+                dashboardData={dashboardData}
+                callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+              />
+            )
+          )
+        )}
+
+
       </div>
 
       <div onClick={() => openCenterFilterModal()}>
