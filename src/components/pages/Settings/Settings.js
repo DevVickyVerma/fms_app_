@@ -1,30 +1,27 @@
-import { useEffect, useState } from 'react';
-import {
-  Col,
-  Row,
-  Card,
-
-  Breadcrumb,
-} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-import withApi from '../../../Utils/ApiHelper';
-import { IonButton, IonIcon } from '@ionic/react';
-import { logoWhatsapp } from 'ionicons/icons';
+import withApi from "../../../Utils/ApiHelper";
+import { IonButton, IonIcon } from "@ionic/react";
+import { logoWhatsapp } from "ionicons/icons";
+import Switch from "react-switch";
 
 const Settings = ({ getData }) => {
   const [isLoading, setLoading] = useState(false);
   const { handleError } = useErrorHandler();
+  const [toggleValue, setToggleValue] = useState(false); // State for the toggle
 
-
+  const handleToggleChange = (checked) => {
+    setToggleValue(checked);
+  };
   const navigate = useNavigate();
   useEffect(() => {
     configsetting();
-
   }, []);
 
   const token = localStorage.getItem("token");
@@ -165,11 +162,12 @@ const Settings = ({ getData }) => {
                             Date Format<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik2.errors.date_format &&
+                            className={`input101 ${
+                              formik2.errors.date_format &&
                               formik2.touched.date_format
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="date_format"
                             name="date_format"
                             onChange={formik2.handleChange}
@@ -199,11 +197,12 @@ const Settings = ({ getData }) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik2.errors.pagination &&
+                            className={`input101 ${
+                              formik2.errors.pagination &&
                               formik2.touched.pagination
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="pagination"
                             name="pagination"
                             placeholder="Pagination"
@@ -218,12 +217,6 @@ const Settings = ({ getData }) => {
                             )}
                         </div>
                       </Col>
-                      <IonButton color="success">
-                        <IonIcon color="success" icon={logoWhatsapp} />
-                        <IonIcon color="success" icon={logoWhatsapp} />
-
-                        Chat on WhatsApp
-                      </IonButton>
 
                       <Col lg={6} md={6}>
                         <div className="form-group">
@@ -236,11 +229,12 @@ const Settings = ({ getData }) => {
                           <select
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik2.errors.auto_logout &&
+                            className={`input101 ${
+                              formik2.errors.auto_logout &&
                               formik2.touched.auto_logout
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="auto_logout"
                             name="auto_logout"
                             placeholder="auto_logout"
@@ -264,6 +258,27 @@ const Settings = ({ getData }) => {
                         </div>
                       </Col>
 
+                      {/* <Col lg={12} md={12}>
+                        <div className="form-group">
+                          <label className="form-label mt-4">
+                            Get Reports By Date{" "}
+                          </label>
+                          <Switch
+                            id="customToggle"
+                            checked={toggleValue}
+                            onChange={handleToggleChange}
+                          />
+                        </div>
+                      </Col> */}
+
+                      <Col lg={6} md={6}>
+                        {" "}
+                        <IonButton color="success">
+                          <IonIcon color="success" icon={logoWhatsapp} />
+                          Chat on WhatsApp
+                        </IonButton>
+                      </Col>
+
                       <div className="text-end">
                         <button
                           className="btn btn-primary me-2"
@@ -282,7 +297,7 @@ const Settings = ({ getData }) => {
         </div>
       </>
     </>
-  )
-}
+  );
+};
 
-export default withApi(Settings)
+export default withApi(Settings);
