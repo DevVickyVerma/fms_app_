@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Col, FormGroup, OverlayTrigger, Row } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import LoaderImg from "../../../Utils/Loader";

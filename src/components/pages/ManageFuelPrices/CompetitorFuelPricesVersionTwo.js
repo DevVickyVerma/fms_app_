@@ -380,7 +380,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                             <Collapse
                               accordion
                               key={competitor?.competitor_name}
-                              className={`${
+                              className={`overflow-auto ${
                                 competitor?.isMain == 1
                                   ? "main-competitor-effect"
                                   : ""
@@ -388,7 +388,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                             >
                               <Panel
                                 header={
-                                  <div className="d-flex align-items-center">
+                                  <div className="d-flex align-items-center ">
                                     <img
                                       src={competitor?.supplier}
                                       alt="i"

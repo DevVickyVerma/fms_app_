@@ -3,9 +3,9 @@ import { Card, Modal } from "react-bootstrap";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
 
 export function FormModal(props) {
   const { showModal, setShowModal, modalTitle } = props;
@@ -13,26 +13,6 @@ export function FormModal(props) {
 
   const handleClose = () => {
     setShowModal(false);
-  };
-
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      // position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      // position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
   };
 
   const handleSubmit1 = async (values) => {
@@ -54,7 +34,6 @@ export function FormModal(props) {
       formData.append("type", props.PropsFile);
       formData.append("file", values.image);
       formData.append("end_point", props.PropsFile);
-
     }
 
     try {
@@ -77,7 +56,6 @@ export function FormModal(props) {
         body: formData,
       });
 
-
       if (response?.status == 200) {
         props.onSuccess(" Child message");
       }
@@ -85,12 +63,12 @@ export function FormModal(props) {
       if (response.ok) {
         const data = await response.json();
 
-        SuccessToast(data.message);
+        SuccessAlert(data.message);
 
         handleClose();
       } else {
         const errorData = await response.json();
-        ErrorToast(errorData.message);
+        ErrorAlert(errorData.message);
         handleClose();
       }
     } catch (error) {
@@ -124,23 +102,25 @@ export function FormModal(props) {
     <>
       {isLoading ? <Loaderimg /> : null}
       <div>
-
-        <Modal show={showModal} onHide={handleClose} centered className='dashboard-center-modal' >
-
-          <div >
+        <Modal
+          show={showModal}
+          onHide={handleClose}
+          centered
+          className="dashboard-center-modal"
+        >
+          <div>
             <Modal.Header
               style={{
                 color: "#fff",
               }}
-              className='p-0 m-0 d-flex justify-content-between align-items-center'
+              className="p-0 m-0 d-flex justify-content-between align-items-center"
             >
-
-              <span className="ModalTitle d-flex justify-content-between w-100  fw-normal"  >
+              <span className="ModalTitle d-flex justify-content-between w-100  fw-normal">
                 <span>
                   {props.modalContentText}
                   {modalTitle}
                 </span>
-                <span onClick={handleClose} >
+                <span onClick={handleClose}>
                   <button className="close-button">
                     <FontAwesomeIcon icon={faTimes} />
                   </button>
@@ -176,8 +156,9 @@ export function FormModal(props) {
                     <div className="form-group">
                       <label htmlFor="image">File</label>
                       <div
-                        className={`dropzone ${errors.image && touched.image ? "is-invalid" : ""
-                          }`}
+                        className={`dropzone ${
+                          errors.image && touched.image ? "is-invalid" : ""
+                        }`}
                         onDrop={(event) => handleDrop(event, setFieldValue)}
                         onDragOver={(event) => event.preventDefault()}
                       >
@@ -190,7 +171,9 @@ export function FormModal(props) {
                           }
                           className="form-control"
                         />
-                        <p className="small mt-1">Upload File here, or click to browse</p>
+                        <p className="small mt-1">
+                          Upload File here, or click to browse
+                        </p>
                       </div>
                       <ErrorMessage
                         component="div"
@@ -208,11 +191,8 @@ export function FormModal(props) {
                 )}
               </Formik>
             </Card.Body>
-
           </div>
         </Modal>
-
-
       </div>
     </>
   );
