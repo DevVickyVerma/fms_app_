@@ -304,7 +304,16 @@ const Dashboard = (props) => {
         {isMobile && (
           <>
             {/* Filter Button */}
-            <div className=" d-flex justify-content-end w-100">
+            <div
+              className={`d-flex justify-content-end ${
+                (filters?.client_id ||
+                  filters?.company_id ||
+                  filters?.site_id ||
+                  filters?.start_date) &&
+                isMobile &&
+                "w-100"
+              } `}
+            >
               <IonButton
                 onClick={handleToggleSidebar1}
                 type="danger"

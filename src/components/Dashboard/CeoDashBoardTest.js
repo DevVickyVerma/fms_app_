@@ -509,7 +509,6 @@ const CeoDashBoardTest = (props) => {
       percentage: `${dashboardData?.shop_sales?.percentage || "0%"} `,
       status: dashboardData?.shop_sales?.status || "down",
       icon: "£",
-
     },
     {
       id: 6,
@@ -618,7 +617,16 @@ const CeoDashBoardTest = (props) => {
         {isMobile && (
           <>
             {/* Filter Button */}
-            <div className="spaceBetween">
+            <div
+              className={`d-flex justify-content-end ${
+                (filters?.client_id ||
+                  filters?.company_id ||
+                  filters?.site_id ||
+                  filters?.start_date) &&
+                isMobile &&
+                "w-100"
+              } `}
+            >
               <IonButton
                 onClick={handleToggleSidebar1}
                 type="danger"
@@ -707,7 +715,6 @@ const CeoDashBoardTest = (props) => {
           </h2>
         )}
 
-
         {isMobile ? (
           <CardSwiper
             dashboardData={dashboardData}
@@ -716,37 +723,34 @@ const CeoDashBoardTest = (props) => {
             cardsData={DashboardcardsData(dashboardData)} // ✅ Call the function
           />
         ) : (
-          !isMobile && ( // Ensures this section renders only when isMobile is false
-            statsLoading ? (
-              <Row>
-                <LoadingAnimationCard />
-                <LoadingAnimationCard />
-                <LoadingAnimationCard />
-                <LoadingAnimationCard />
-                <LoadingAnimationCard />
-                <LoadingAnimationCard />
-              </Row>
-            ) : (
-              <UpercardsCeoDashboardStatsBox
-                gross_volume={dashboardData?.gross_volume || 0}
-                shopmargin={dashboardData?.shop_profit || 0}
-                valet_sales={dashboardData?.valet_sales || 0}
-                gross_profit={dashboardData?.gross_profit || 0}
-                gross_margin={dashboardData?.gross_margin || 0}
-                fuel_sales={dashboardData?.fuel_sales || 0}
-                fuel_commission={dashboardData?.fuel_commission || 0}
-                gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
-                shop_sales={dashboardData?.shop_sales || 0}
-                shop_fees={dashboardData?.shop_fees || 0}
-                shop_profit={dashboardData?.shop_profit || 0}
-                dashboardData={dashboardData}
-                callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-              />
-            )
-          )
+          !isMobile && // Ensures this section renders only when isMobile is false
+          (statsLoading ? (
+            <Row>
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+              <LoadingAnimationCard />
+            </Row>
+          ) : (
+            <UpercardsCeoDashboardStatsBox
+              gross_volume={dashboardData?.gross_volume || 0}
+              shopmargin={dashboardData?.shop_profit || 0}
+              valet_sales={dashboardData?.valet_sales || 0}
+              gross_profit={dashboardData?.gross_profit || 0}
+              gross_margin={dashboardData?.gross_margin || 0}
+              fuel_sales={dashboardData?.fuel_sales || 0}
+              fuel_commission={dashboardData?.fuel_commission || 0}
+              gross_margin_bunkered={dashboardData?.gross_margin_bunkered || 0}
+              shop_sales={dashboardData?.shop_sales || 0}
+              shop_fees={dashboardData?.shop_fees || 0}
+              shop_profit={dashboardData?.shop_profit || 0}
+              dashboardData={dashboardData}
+              callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+            />
+          ))
         )}
-
-
       </div>
 
       <div onClick={() => openCenterFilterModal()}>
