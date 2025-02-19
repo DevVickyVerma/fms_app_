@@ -707,7 +707,7 @@ const CeoDashBoardTest = (props) => {
           </h2>
         )}
 
-        {statsLoading ? (
+        {statsLoading && !isMobile ? (
           <>
             <Row>
               <LoadingAnimationCard />
@@ -736,7 +736,7 @@ const CeoDashBoardTest = (props) => {
           />
         )}
 
-        {!isMobile && (
+        {isMobile && (
           <CardSwiper
             dashboardData={dashboardData}
             callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
