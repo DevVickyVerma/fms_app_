@@ -210,7 +210,7 @@ const FuelSuggestionEmailLogs = (props) => {
               <Card.Header>
                 <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
                   <h3 className="card-title">Fuel Suggestion Email Logs</h3>
-                  <div className="mt-2 mt-sm-0">
+                  <div className="mobile-head-container mt-2 mt-sm-0">
                     <SearchBar
                       onSearch={handleSearch}
                       onReset={handleReset}
