@@ -3038,3 +3038,7 @@ td.middayModal-td.time-input-fuel-sell {
 .mobile-content-header-sidebar {
   padding: 94px 0 0 0 !important;
 }
+
+.mobile-sidebar-header {
+  padding-top: 40px;
+}
