@@ -132,7 +132,7 @@ const CardSwiper = ({
                                 <span className="text-success me-2">▲</span> :
                                 <span className="text-danger me-2">▼</span>
                             }
-                            {card.percentage} Last Month
+                            {card.percentage} % Last Month
                         </p>
                     </div>
                 </SwiperSlide>
