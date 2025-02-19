@@ -267,7 +267,7 @@ const TitanDetailModal = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "8%",
+      //  width: "8%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -279,7 +279,7 @@ const TitanDetailModal = (props) => {
       name: "Card Name",
       selector: (row) => [row.card_name],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -294,7 +294,7 @@ const TitanDetailModal = (props) => {
       name: "Card Trans Date/Time",
       selector: (row) => [row.card_transaction_date],
       sortable: false,
-      width: "21%",
+      //  width: "21%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -309,7 +309,7 @@ const TitanDetailModal = (props) => {
       name: "Till Trans Date/Time",
       selector: (row) => [row.transaction_date],
       sortable: false,
-      width: "21%",
+      //  width: "21%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -324,7 +324,7 @@ const TitanDetailModal = (props) => {
       name: "Till Amt",
       selector: (row) => [row.total_price_till],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -337,7 +337,7 @@ const TitanDetailModal = (props) => {
       name: "Card Amt.",
       selector: (row) => [row.total_price_bank],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -353,7 +353,7 @@ const TitanDetailModal = (props) => {
       name: "Difference",
       selector: (row) => [row.price_difference],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div
           className="d-flex"

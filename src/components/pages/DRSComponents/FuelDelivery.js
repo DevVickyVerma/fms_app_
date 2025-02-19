@@ -167,7 +167,7 @@ const FuelDelivery = (props) => {
       name: "TANK-FUEL",
       selector: (row) => row.fuel_name,
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       center: false,
       cell: (row) => (
         <span className="text-muted coffe-item-category fw-semibold text-center">
@@ -182,7 +182,7 @@ const FuelDelivery = (props) => {
       name: "OPENING",
       selector: (row) => row.opening,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -210,7 +210,7 @@ const FuelDelivery = (props) => {
       name: "BUNKER DELIVERIES",
       selector: (row) => row.bunkd_delivery_volume,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -238,7 +238,7 @@ const FuelDelivery = (props) => {
       name: "DELIVERIES",
       selector: (row) => row.delivery_volume,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -266,7 +266,7 @@ const FuelDelivery = (props) => {
       name: "DIPS STOCK",
       selector: (row) => row.dips_stock,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -294,7 +294,7 @@ const FuelDelivery = (props) => {
       name: "SALES",
       selector: (row) => row.sales_volume,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -322,7 +322,7 @@ const FuelDelivery = (props) => {
       name: "BOOKED STOCK",
       selector: (row) => row.book_stock,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -346,7 +346,7 @@ const FuelDelivery = (props) => {
       name: "VARIANCE (L)",
       selector: (row) => row.variance,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -374,7 +374,7 @@ const FuelDelivery = (props) => {
       name: "VARIANCE (%)",
       selector: (row) => row.percentage_sales,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -402,7 +402,7 @@ const FuelDelivery = (props) => {
       name: "VARIANCE (L) 30 DAYS",
       selector: (row) => row.variance_lt,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -430,7 +430,7 @@ const FuelDelivery = (props) => {
       name: "VARIANCE (%) 30 DAYS",
       selector: (row) => row.variance_per,
       sortable: false,
-      width: "8.5%",
+      //  width: "8.5%",
       center: false,
       cell: (row, index) => (
         <div>

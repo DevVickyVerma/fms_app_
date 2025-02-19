@@ -113,7 +113,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
       name: "Items",
       selector: (row) => row.name,
       sortable: false,
-      width: "85%",
+      //  width: "85%",
       cell: (row) => (
         <div className="d-flex">
           <div className=" my-2 d-flex justify-content-center align-items-center gap-1 all-center-flex">

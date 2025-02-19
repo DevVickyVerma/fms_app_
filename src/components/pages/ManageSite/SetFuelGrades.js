@@ -61,7 +61,7 @@ const SetFuelGrades = ({ getData }) => {
       name: "Category Name",
       selector: (row) => row?.category_name,
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold ">
@@ -73,7 +73,7 @@ const SetFuelGrades = ({ getData }) => {
       name: "Sub Category Name",
       selector: (row) => row?.sub_category_name,
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       center: false,
 
       cell: (row) => (
@@ -92,7 +92,7 @@ const SetFuelGrades = ({ getData }) => {
       name: "Grades",
       selector: (row) => row?.grade,
       sortable: false,
-      width: "40%",
+      //  width: "40%",
       center: false,
       cell: (row, index) => (
         <div>

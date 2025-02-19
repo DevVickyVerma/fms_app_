@@ -64,7 +64,7 @@ const ManageUser = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -76,7 +76,7 @@ const ManageUser = (props) => {
       name: "Full Name",
       selector: (row) => [row.full_name],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -89,7 +89,7 @@ const ManageUser = (props) => {
       name: "Role",
       selector: (row) => [row.role],
       sortable: false,
-      width: "25%",
+      //  width: "25%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -103,7 +103,7 @@ const ManageUser = (props) => {
       name: "Email",
       selector: (row) => [row.email],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -121,7 +121,8 @@ const ManageUser = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "15%",
+      center: true,
+      //  width: "15%",
       cell: (row) => (
         <span className="text-center">
           <button

@@ -51,7 +51,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "ITEMS",
       selector: (row) => row.name,
       sortable: false,
-      width: "40%",
+      //  width: "40%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -65,7 +65,7 @@ const CompanySageFuels = ({ getData }) => {
 
       selector: (row) => row.sage_sale_code,
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       center: false,
 
       cell: (row, index) =>
@@ -97,7 +97,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "Sage Purchage Code",
       selector: (row) => row.sage_purchage_code,
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       center: false,
 
       cell: (row, index) =>

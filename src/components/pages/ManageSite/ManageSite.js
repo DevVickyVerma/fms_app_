@@ -270,8 +270,8 @@ const ManageSite = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      //  width: "12%",
       center: true,
+      //  width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -340,10 +340,7 @@ const ManageSite = (props) => {
                         onClick={() => navigate(`/editsite/${row.id}`)}
                       >
                         <div>
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-pencil me-2" />
                             Edit
                           </div>
@@ -357,10 +354,7 @@ const ManageSite = (props) => {
                         // className="dropdown-item"
                       >
                         <div to="#" onClick={() => handleDelete(row.id)}>
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-trash me-2" />
                             Delete
                           </div>
@@ -370,10 +364,7 @@ const ManageSite = (props) => {
                     {permissionsArray?.includes("budget-list") ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div onClick={() => navigate(`/site-budget/${row.id}`)}>
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-money me-2 c-top-3" />
                             Budget
                           </div>
@@ -387,10 +378,7 @@ const ManageSite = (props) => {
                             navigate(`/site-card-opening/${row.id}`)
                           }
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-folder-open me-2" />
                             Card Opening
                           </div>
@@ -404,10 +392,7 @@ const ManageSite = (props) => {
                             navigate(`/site-card-adjustment/${row.id}`)
                           }
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-folder-open me-2" />
                             Card Adjustment
                           </div>
@@ -419,10 +404,7 @@ const ManageSite = (props) => {
                         <div
                           onClick={() => navigate(`/set-fuel-grades/${row.id}`)}
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-gas-pump me-2" />
                             Set Fuel Grades
                           </div>
@@ -435,10 +417,7 @@ const ManageSite = (props) => {
                         <div
                           onClick={() => navigate(`/site-setting/${row.id}`)}
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-gear me-2" />
                             Settings
                           </div>
@@ -448,10 +427,7 @@ const ManageSite = (props) => {
                     {permissionsArray?.includes("auto-report-list") ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div onClick={() => navigate(`/autodayend/${row.id}`)}>
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-files me-2" />
                             Site Auto Report
                           </div>
@@ -463,10 +439,7 @@ const ManageSite = (props) => {
                         <div
                           onClick={() => navigate(`/assignmanger/${row.id}`)}
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-user-plus me-2" />
                             Assign Manager
                           </div>
@@ -476,10 +449,7 @@ const ManageSite = (props) => {
                     {isSkipDatePermissionAvailable ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div onClick={() => navigate(`/skipdates/${row.id}`)}>
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-calendar-check me-2" />
                             Skip Date
                           </div>
@@ -494,8 +464,8 @@ const ManageSite = (props) => {
                           }
                         >
                           <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
+                            className="manage-site-dropdown-item w-100" 
+                            
                           >
                             <i className="ph ph-person me-2" />
                             Fuel Automation
@@ -506,10 +476,7 @@ const ManageSite = (props) => {
                     {isBankManagerPermissionAvailable ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div onClick={() => navigate(`/managebank/${row.id}`)}>
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-person me-2" />
                             Bank Manager
                           </div>
@@ -521,10 +488,7 @@ const ManageSite = (props) => {
                         <div
                           onClick={() => navigate(`/opening-balance/${row.id}`)}
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-wallet me-2" />
                             Opening Balance
                           </div>
@@ -538,10 +502,7 @@ const ManageSite = (props) => {
                             navigate(`/bunkering-balance/${row.id}`)
                           }
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-wallet me-2" />
                             Bunkering Balance
                           </div>
@@ -557,10 +518,7 @@ const ManageSite = (props) => {
                             )
                           }
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-hourglass-high me-2" />
                             Assign Business Sub Categories
                           </div>
@@ -570,10 +528,7 @@ const ManageSite = (props) => {
                     {isDailyDuePermissionAvailable ? (
                       <Dropdown.Item className=" p-0 m-0">
                         <div onClick={() => navigate(`/daily-due/${row.id}`)}>
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-computer-tower me-2" />
                             Daily Dues
                           </div>
@@ -587,10 +542,7 @@ const ManageSite = (props) => {
                             navigate(`/hide-business-categories/${row.id}`)
                           }
                         >
-                          <div
-                            className="manage-site-dropdown-item"
-                            style={{ width: "100%" }}
-                          >
+                          <div className="manage-site-dropdown-item w-100">
                             <i className="ph ph-eye-closed me-2" />
                             Hide Business Categories
                           </div>
@@ -651,7 +603,7 @@ const ManageSite = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>
@@ -729,7 +681,7 @@ const ManageSite = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive site_deleted_table mobile-first-table">
+                    <div className="table-responsive mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

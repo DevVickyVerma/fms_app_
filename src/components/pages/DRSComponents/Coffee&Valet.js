@@ -194,7 +194,7 @@ const CoffeeValet = (props) => {
       name: "ITEM CATEGORY",
       selector: (row) => row.item_category,
       sortable: false,
-      width: editable?.is_adjustable ? "7%" : "14%",
+      //  width: editable?.is_adjustable ? "7%" : "14%",
       center: false,
       cell: (row) => (
         <span className="text-muted  fw-semibold text-center coffe-item-category">
@@ -206,7 +206,7 @@ const CoffeeValet = (props) => {
       name: "OPENING",
       selector: (row) => row.opening,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -238,7 +238,7 @@ const CoffeeValet = (props) => {
       name: "CLOSING ",
       selector: (row) => row.closing,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -275,7 +275,7 @@ const CoffeeValet = (props) => {
       name: "TESTS",
       selector: (row) => row.tests,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -310,7 +310,7 @@ const CoffeeValet = (props) => {
       name: "ADJUST",
       selector: (row) => row.adjust,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -345,7 +345,7 @@ const CoffeeValet = (props) => {
       name: "SALES",
       selector: (row) => row.sale,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -384,7 +384,7 @@ const CoffeeValet = (props) => {
       name: "PRICE",
       selector: (row) => row.price,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -420,7 +420,7 @@ const CoffeeValet = (props) => {
       name: "VALUE",
       selector: (row) => row.value,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -456,7 +456,7 @@ const CoffeeValet = (props) => {
       name: "COMMISSION RATE",
       selector: (row) => row.com_rate,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
 
       center: false,
       cell: (row, index) =>
@@ -489,7 +489,7 @@ const CoffeeValet = (props) => {
       name: "COMMISSION VALUE",
       selector: (row) => row.commission,
       sortable: false,
-      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "10%",
+      //  width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "10%",
       center: false,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -563,7 +563,7 @@ const CoffeeValet = (props) => {
       name: "ADJUSTMENT VALUE",
       selector: (row) => row.adj_value,
       sortable: false,
-      width: "7",
+      //  width: "7",
       center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (

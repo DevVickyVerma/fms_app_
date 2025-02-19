@@ -106,7 +106,7 @@ const ManageItems = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -118,7 +118,7 @@ const ManageItems = (props) => {
       name: "Name",
       selector: (row) => [row.name],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -132,7 +132,7 @@ const ManageItems = (props) => {
       name: "Items Code",
       selector: (row) => [row.code],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -145,7 +145,7 @@ const ManageItems = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -158,7 +158,8 @@ const ManageItems = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "12%",
+      center: true,
+      //  width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -199,14 +200,15 @@ const ManageItems = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "18%",
+      center: true,
+      //  width: "18%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/edititems/${row.id}`} // Assuming `row.id` contains the ID
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i className="ph ph-pencil" />
               </Link>
@@ -216,7 +218,7 @@ const ManageItems = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
@@ -260,7 +262,7 @@ const ManageItems = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Department Item
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

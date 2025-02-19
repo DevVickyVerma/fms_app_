@@ -180,7 +180,7 @@ const CardReconciliation = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -192,7 +192,7 @@ const CardReconciliation = (props) => {
       name: "Card Name",
       selector: (row) => [row.card_name],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-flex">
@@ -207,7 +207,7 @@ const CardReconciliation = (props) => {
       name: "Till Amount",
       selector: (row) => [row.total_price_till],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -222,7 +222,7 @@ const CardReconciliation = (props) => {
       name: "Card Amount",
       selector: (row) => [row.total_price_bank],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -238,7 +238,7 @@ const CardReconciliation = (props) => {
       name: "Credit Card Details",
       selector: (row) => [row.price_difference],
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -258,7 +258,7 @@ const CardReconciliation = (props) => {
       name: "Action",
       selector: (row) => [row.price_difference],
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold">
           <OverlayTrigger
@@ -476,7 +476,7 @@ const CardReconciliation = (props) => {
               <Card.Body>
                 {data?.length > 0 && filters?.range_end_date ? (
                   <>
-                    <div className="table-responsive deleted-table mobile-first-table">
+                    <div className="table-responsive  mobile-first-table">
                       <DataTable
                         columns={columns}
                         data={data}

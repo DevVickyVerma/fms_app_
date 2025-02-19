@@ -201,6 +201,7 @@ const ManageCompany = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
+      center: true,
       //  width: "12%",
       center: true,
       cell: (row) => (
@@ -446,7 +447,7 @@ const ManageCompany = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

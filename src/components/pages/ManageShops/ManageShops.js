@@ -114,7 +114,7 @@ const ManageShops = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -126,7 +126,7 @@ const ManageShops = (props) => {
       name: "Shops Name",
       selector: (row) => [row.shop_name],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -139,7 +139,7 @@ const ManageShops = (props) => {
       name: "Shops Code",
       selector: (row) => [row.code],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -152,7 +152,7 @@ const ManageShops = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -169,7 +169,8 @@ const ManageShops = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "10%",
+      center: true,
+      //  width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -210,14 +211,15 @@ const ManageShops = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      center: true,
+      //  width: "20%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editshops/${row.id}`} // Assuming `row.id` contains the ID
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i className="ph ph-pencil" />
               </Link>
@@ -227,7 +229,7 @@ const ManageShops = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
@@ -271,7 +273,7 @@ const ManageShops = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Shop{" "}
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

@@ -66,7 +66,7 @@ const AddCompany = (props) => {
       name: "Addon",
       selector: (row) => row.name,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">

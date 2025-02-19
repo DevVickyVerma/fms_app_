@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb, Accordion } from "react-bootstrap";
 
 import DataTable from "react-data-table-component";
@@ -8,14 +8,10 @@ import { Link, useParams } from "react-router-dom";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
-import useErrorHandler from '../../CommonComponent/useErrorHandler';
+import useErrorHandler from "../../CommonComponent/useErrorHandler";
 
 const SiteSettings = (props) => {
-  const {
-    getData,
-    postData,
-    isLoading,
-  } = props;
+  const { getData, postData, isLoading } = props;
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions
   );
@@ -61,7 +57,10 @@ const SiteSettings = (props) => {
         setAssignCashCards(data?.data ? data.data.cashCards : []);
         setSiteValet(data?.data ? data.data.valetitems : []);
         setSiteName(response?.data?.data);
-        formik.setFieldValue("AssignFormikbussiness", data?.data?.business_models);
+        formik.setFieldValue(
+          "AssignFormikbussiness",
+          data?.data?.business_models
+        );
         formik.setFieldValue("FormikDeductionData", data?.data?.deductions);
         formik.setFieldValue("Formiksite_items", data?.data?.site_items);
         formik.setFieldValue("FormikChargesData", data?.data?.charges);
@@ -171,7 +170,7 @@ const SiteSettings = (props) => {
       });
 
       for (const obj of values.AssignFormikCards) {
-        const { id, for_tenant, checked, } = obj;
+        const { id, for_tenant, checked } = obj;
         const card_valueKey = `cards[${id}]`;
         if (checked) {
           formData.append(card_valueKey, for_tenant);
@@ -193,13 +192,7 @@ const SiteSettings = (props) => {
         }
       }
       for (const obj of values.FormikDeductionData) {
-        const {
-          id,
-          deduction_value,
-          checked,
-          admin,
-          operator,
-        } = obj;
+        const { id, deduction_value, checked, admin, operator } = obj;
         const deductions_admin_valueKey = `deduction_admin[${id}]`;
         const deductions_operator_valueKey = `deduction_operator[${id}]`;
         const deductions_amount_valueKey = `deduction_amount[${id}]`;
@@ -251,7 +244,6 @@ const SiteSettings = (props) => {
   });
 
   const handleRadioBussinessmodel = (row, index) => {
-
     const updatedModels = BussinesModelData.map((item) => {
       if (item.id === row.id) {
         const updatedModelTypes = item.business_model_types.map((model, i) => ({
@@ -328,7 +320,7 @@ const SiteSettings = (props) => {
       name: "Business Models",
       selector: "item_name",
       sortable: false,
-      width: "45%",
+      //  width: "45%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -395,7 +387,7 @@ const SiteSettings = (props) => {
       name: "Card Model",
       selector: (row) => row.card_name,
       sortable: false,
-      width: "85%",
+      //  width: "85%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -433,7 +425,7 @@ const SiteSettings = (props) => {
       name: "Card Name",
       selector: (row) => row.card_name,
       sortable: false,
-      width: "85%",
+      //  width: "85%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -471,7 +463,7 @@ const SiteSettings = (props) => {
       name: "Name",
       selector: (row) => row.name,
       sortable: false,
-      width: "85%",
+      //  width: "85%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -495,9 +487,7 @@ const SiteSettings = (props) => {
             id={`checked-${index}`}
             name={`bunkerFuels[${index}].checked`}
             className="table-checkbox-input"
-            checked={
-              formik.values?.bunkerFuels?.[index]?.checked ?? false
-            }
+            checked={formik.values?.bunkerFuels?.[index]?.checked ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
@@ -509,7 +499,7 @@ const SiteSettings = (props) => {
       name: "Name",
       selector: (row) => row?.fuel_name,
       sortable: false,
-      width: "85%",
+      //  width: "85%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -562,7 +552,7 @@ const SiteSettings = (props) => {
       name: "Amount",
       selector: (row) => row.charge_value,
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -575,7 +565,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
         </div>
       ),
@@ -657,7 +647,7 @@ const SiteSettings = (props) => {
       width: "25%",
       selector: (row) => row.deduction_name,
       sortable: false,
-      cell: (row,) => (
+      cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
@@ -670,7 +660,7 @@ const SiteSettings = (props) => {
       name: "Amount",
       selector: (row) => row.deduction_value,
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -685,7 +675,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -769,7 +759,7 @@ const SiteSettings = (props) => {
       name: "Department Name",
       selector: (row) => row.dept_name,
       sortable: false,
-      width: "40%",
+      //  width: "40%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -782,7 +772,7 @@ const SiteSettings = (props) => {
       name: "Meter Reading",
       selector: (row) => row.price,
       sortable: false,
-      width: "25%",
+      //  width: "25%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -795,7 +785,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -854,7 +844,7 @@ const SiteSettings = (props) => {
       name: "Fuel Name",
       selector: (row) => row.fuel_name,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -899,7 +889,7 @@ const SiteSettings = (props) => {
       name: "Fuel Name",
       selector: (row) => row.drs_card_name,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -937,7 +927,7 @@ const SiteSettings = (props) => {
       name: "Cash Day",
       selector: (row) => row.day,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -984,7 +974,7 @@ const SiteSettings = (props) => {
       name: "Reports",
       selector: (row) => row.report_name,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -1025,7 +1015,7 @@ const SiteSettings = (props) => {
       name: "Sheet Name",
       selector: (row) => row.sheet_name,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -1063,7 +1053,7 @@ const SiteSettings = (props) => {
       name: "Name",
       selector: (row) => row.name,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -1116,8 +1106,6 @@ const SiteSettings = (props) => {
         formData.append(key, value);
       });
 
-
-
       const CahsCardsFormikDataids = [];
       const CahsCardsFormikDataKey = "cash_cards";
 
@@ -1154,7 +1142,6 @@ const SiteSettings = (props) => {
         formData.append(key, value);
       });
 
-
       const bunkringDataFormikDataids = [];
       const bunkerFuelFormikDataKey = "bunker_fuel";
 
@@ -1179,15 +1166,10 @@ const SiteSettings = (props) => {
       const navigatePath = "/sites";
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-
-
     } catch (error) {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
-
-
-
 
   return (
     <>
@@ -1507,7 +1489,6 @@ const SiteSettings = (props) => {
                                 striped={true}
                                 persistTableHead={true}
                                 highlightOnHover={true}
-
                                 responsive={true}
                               />
                             </div>
@@ -1597,7 +1578,6 @@ const SiteSettings = (props) => {
                               </>
                             )}
                           </Col>
-
 
                           <Col lg={4} md={4}>
                             <Card.Header className="cardheader-table">

@@ -57,7 +57,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -69,7 +69,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
       name: "Site Name",
       selector: (row) => [row?.site_name],
       sortable: false,
-      width: "85%",
+      //  width: "85%",
       cell: (row) => (
         <div
           onClick={() => handleCompiNavigateClick(row)}

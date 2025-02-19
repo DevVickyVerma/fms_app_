@@ -142,7 +142,7 @@ const CreditCardBanking = (props) => {
       name: "Card Name",
       selector: (row) => row.card_name,
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       center: false,
       cell: (row) => (
         <span className="text-muted coffe-item-category fw-semibold text-center">
@@ -154,7 +154,7 @@ const CreditCardBanking = (props) => {
       name: "KOISK VALUE",
       selector: (row) => row.koisk_value,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -188,7 +188,7 @@ const CreditCardBanking = (props) => {
 
       selector: (row) => row.opt_value,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -221,7 +221,7 @@ const CreditCardBanking = (props) => {
       name: "ACCOUNT VALUE	",
       selector: (row) => row.account_value,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -254,7 +254,7 @@ const CreditCardBanking = (props) => {
       name: "NO. OF TRANSACTIONS",
       selector: (row) => row.no_of_transactions,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -293,7 +293,7 @@ const CreditCardBanking = (props) => {
       name: "ADJUSTMENT VALUE",
       selector: (row) => row.adj_value,
       sortable: false,
-      width: "16%",
+      //  width: "16%",
       center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (

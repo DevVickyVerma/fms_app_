@@ -53,7 +53,7 @@ const CeoDashSitetable = (props) => {
       name: "Sites - breakdown",
       selector: (row) => [row?.name],
       sortable: false,
-      width: "23%",
+      //  width: "23%",
       id: "1",
       cell: (row) => (
         <div

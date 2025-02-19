@@ -65,7 +65,7 @@ const ManageSiteTank = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "6%",
+      //  width: "6%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -77,7 +77,7 @@ const ManageSiteTank = (props) => {
       name: "Site Name",
       selector: (row) => [row.site],
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -91,7 +91,7 @@ const ManageSiteTank = (props) => {
       name: "Client  Name",
       selector: (row) => [row.client],
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -104,7 +104,7 @@ const ManageSiteTank = (props) => {
       name: "Company Name",
       selector: (row) => [row.company],
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -117,7 +117,7 @@ const ManageSiteTank = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "8.2%",
+      //  width: "8.2%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -130,7 +130,7 @@ const ManageSiteTank = (props) => {
       name: "Pence Per Liter",
       selector: (row) => [row.pence_per_liter],
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -143,7 +143,7 @@ const ManageSiteTank = (props) => {
       name: "Sales Volume",
       selector: (row) => [row.sales_volume],
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -157,14 +157,15 @@ const ManageSiteTank = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "14.2%",
+      center: true,
+      //  width: "14.2%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editppl/${row.id}`} // Assuming `row.id` contains the ID
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i className="ph ph-pencil" />
               </Link>
@@ -174,7 +175,7 @@ const ManageSiteTank = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
@@ -284,7 +285,7 @@ const ManageSiteTank = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site PPL Rate
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

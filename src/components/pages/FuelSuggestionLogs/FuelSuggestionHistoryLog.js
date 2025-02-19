@@ -143,7 +143,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Creator",
       selector: (row) => [row.creator],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div
           className="d-flex pointer hyper-link"
@@ -176,7 +176,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Level",
       selector: (row) => [row.level],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -189,7 +189,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Fuel Suggested Date",
       selector: (row) => [row.date],
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -202,7 +202,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Fuel Suggested Time",
       selector: (row) => [row.time],
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -215,7 +215,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Created At",
       selector: (row) => [row.created_at],
       sortable: false,
-      width: "13%",
+      //  width: "13%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -229,7 +229,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Status",
       selector: (row) => [row.time],
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       cell: (row) => (
         <div className="d-flex pointer" onClick={() => handleModalLogs(row)}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -292,7 +292,7 @@ const FuelSuggestionHistoryLog = (props) => {
       name: "Action",
       selector: (row) => [row.time],
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       cell: (row) => (
         <div
           className="d-flex pointer hyper-link"

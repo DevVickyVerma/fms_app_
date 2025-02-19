@@ -91,7 +91,7 @@ const ManageAddon = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -103,7 +103,7 @@ const ManageAddon = (props) => {
       name: "Addon",
       selector: (row) => [row.name],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -116,7 +116,7 @@ const ManageAddon = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -130,14 +130,15 @@ const ManageAddon = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "30%",
+      center: true,
+      //  width: "30%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editaddon/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
                 onClick={() => handleEdit(row)}
               >
                 <i className="ph ph-pencil" />
@@ -148,7 +149,7 @@ const ManageAddon = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
@@ -192,7 +193,7 @@ const ManageAddon = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Addon
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

@@ -48,7 +48,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -60,7 +60,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       name: "User",
       selector: (row) => [row?.user],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -73,7 +73,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       name: "Hit Type",
       selector: (row) => [row?.type],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -86,7 +86,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       name: "Date",
       selector: (row) => [row?.date],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">

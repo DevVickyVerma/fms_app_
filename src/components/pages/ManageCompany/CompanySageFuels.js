@@ -84,7 +84,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "FUEL",
       selector: (row) => row.name,
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -96,7 +96,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "Sage Account Code",
       selector: (row) => row.sage_account_code,
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       center: false,
 
       cell: (row, index) =>
@@ -130,7 +130,7 @@ const CompanySageFuels = ({ getData }) => {
 
       selector: (row) => row.sage_nominal_code,
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       center: false,
 
       cell: (row, index) =>
@@ -162,7 +162,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "Sage Purchage Code",
       selector: (row) => row.sage_purchage_code,
       sortable: false,
-      width: "14.2%",
+      //  width: "14.2%",
       center: false,
 
       cell: (row, index) =>
@@ -194,7 +194,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "Positive Nominal Type",
       selector: (row) => row.positive_nominal_type_id,
       sortable: false,
-      width: "14.4%",
+      //  width: "14.4%",
       center: false,
 
       cell: (row, index) =>
@@ -237,7 +237,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "Negative Nominal Type",
       selector: (row) => row.negative_nominal_type_id,
       sortable: false,
-      width: "14.4%",
+      //  width: "14.4%",
       center: false,
 
       cell: (row, index) =>
@@ -281,7 +281,7 @@ const CompanySageFuels = ({ getData }) => {
       name: "Nominal Tax Code",
       selector: (row) => row.nominal_tax_code_id,
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       center: false,
 
       cell: (row, index) =>

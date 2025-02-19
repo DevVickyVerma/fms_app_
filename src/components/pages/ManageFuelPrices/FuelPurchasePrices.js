@@ -177,7 +177,7 @@ const ManageDsr = (props) => {
       name: "FUEL NAME",
       selector: (row) => row.fuel_name,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-left">
@@ -189,7 +189,7 @@ const ManageDsr = (props) => {
       name: "PLATTS",
       selector: (row) => row.platts_price,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
 
       cell: (row, index) => (
@@ -217,7 +217,7 @@ const ManageDsr = (props) => {
 
       selector: (row) => row.premium_price,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
 
       cell: (row, index) =>
@@ -248,7 +248,7 @@ const ManageDsr = (props) => {
       name: "	DEVELOPMENT FUELS ",
       selector: (row) => row.development_fuels_price,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
 
       cell: (row, index) =>
@@ -280,7 +280,7 @@ const ManageDsr = (props) => {
       name: "DUTY ",
       selector: (row) => row.duty_price,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
 
       cell: (row, index) =>
@@ -312,7 +312,7 @@ const ManageDsr = (props) => {
       name: "EX VAT",
       selector: (row) => row.ex_vat_price,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
 
       cell: (row, index) =>
@@ -341,7 +341,7 @@ const ManageDsr = (props) => {
       name: "VAT %",
       selector: (row) => row.vat_percentage_rate,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
 
       cell: (row, index) =>
@@ -373,7 +373,7 @@ const ManageDsr = (props) => {
       name: "TOTAL",
       selector: (row) => row.total,
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       center: false,
 
       cell: (row, index) =>
@@ -593,7 +593,7 @@ const ManageDsr = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Fuel Purchase
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

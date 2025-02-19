@@ -74,7 +74,7 @@ const SiteSettings = (props) => {
       name: "SITE NAME",
       selector: (row) => row?.site_name,
       sortable: false,
-      width: "33%",
+      //  width: "33%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -86,7 +86,7 @@ const SiteSettings = (props) => {
       name: "CREATED DATE",
       selector: (row) => row?.date,
       sortable: false,
-      width: "33%",
+      //  width: "33%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -99,7 +99,7 @@ const SiteSettings = (props) => {
       name: "VALUE",
       selector: (row) => row?.value,
       sortable: false,
-      width: "33%",
+      //  width: "33%",
       center: false,
 
       cell: (row, index) =>

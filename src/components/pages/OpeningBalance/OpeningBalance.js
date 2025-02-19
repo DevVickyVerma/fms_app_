@@ -78,7 +78,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "Balance Type",
       selector: (row) => [row?.opening_balance_type],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -93,7 +93,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "Opening Balance",
       selector: (row) => [row?.opening_balance],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -107,7 +107,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "LOOMIS OPENING BALANCE",
       selector: (row) => [row?.opening_balance_loomis],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -123,7 +123,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "LOOMIS UNDER/OVER BALANCE",
       selector: (row) => [row?.opening_balance_ou_loomis],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -139,7 +139,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "BANK UNDER/OVER BALANCE",
       selector: (row) => [row?.opening_balance_ou_bank],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -155,7 +155,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "CLOSING BALANCE ADJUSTMENT",
       selector: (row) => [row?.closing_balance_adjustment],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -171,7 +171,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: " OPENING BALANCE DATE",
       selector: (row) => [row?.opening_balance_date],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -187,14 +187,14 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "Action",
       selector: (row) => [row?.action],
       sortable: false,
-      width: "12.5%",
+      //  width: "12.5%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/edit-opening-balance/${row?.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2 responsive-btn"
               >
                 <i className="ph ph-pencil" />
               </Link>
@@ -204,7 +204,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11 responsive-btn"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2 responsive-btn"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
@@ -255,7 +255,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Opening Balance{" "}
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : (
                 ""

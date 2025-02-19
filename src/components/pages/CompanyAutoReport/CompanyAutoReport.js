@@ -98,7 +98,7 @@ const ManageRoles = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -110,7 +110,7 @@ const ManageRoles = (props) => {
       name: "Subject",
       selector: (row) => [row.subject],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -123,7 +123,7 @@ const ManageRoles = (props) => {
       name: "Reports",
       selector: (row) => [row.report_name],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -140,7 +140,8 @@ const ManageRoles = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "12%",
+      center: true,
+      //  width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -181,14 +182,15 @@ const ManageRoles = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "30%",
+      center: true,
+      //  width: "30%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editcompanyautoreport/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i className="ph ph-pencil" />
               </Link>
@@ -198,7 +200,7 @@ const ManageRoles = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />

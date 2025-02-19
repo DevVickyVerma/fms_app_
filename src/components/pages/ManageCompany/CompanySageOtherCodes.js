@@ -76,7 +76,7 @@ const CompanySageOtherCodes = ({ getData }) => {
       name: "Sage Name",
       selector: (row) => row.name,
       sortable: false,
-      width: "50%",
+      //  width: "50%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -88,7 +88,7 @@ const CompanySageOtherCodes = ({ getData }) => {
       name: "Nominal Codes",
       selector: (row) => row.nominal_codes,
       sortable: false,
-      width: "50%",
+      //  width: "50%",
       center: false,
 
       cell: (row, index) => (

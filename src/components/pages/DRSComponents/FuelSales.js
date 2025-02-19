@@ -140,7 +140,7 @@ const FuelSales = (props) => {
       name: "FUEL",
       selector: (row) => row?.fuel_name,
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       center: false,
       cell: (row) => (
         <span className="text-muted coffe-item-category fw-semibold text-center">
@@ -152,7 +152,7 @@ const FuelSales = (props) => {
       name: "SALES VOLUME	",
       selector: (row) => row.sales_volume,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -185,7 +185,7 @@ const FuelSales = (props) => {
       name: "GROSS VALUE	",
       selector: (row) => row.gross_value,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -218,7 +218,7 @@ const FuelSales = (props) => {
       name: "DISCOUNT	",
       selector: (row) => row.discount,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -251,7 +251,7 @@ const FuelSales = (props) => {
       name: "NETT VALUE",
       selector: (row) => row.nett_value,
       sortable: false,
-      width: editable?.is_adjustable ? "16%" : "20%",
+      //  width: editable?.is_adjustable ? "16%" : "20%",
       center: false,
 
       cell: (row, index) =>
@@ -288,7 +288,7 @@ const FuelSales = (props) => {
       name: "ADJUSTMENT VALUE",
       selector: (row) => row.adj_value,
       sortable: false,
-      width: "16%",
+      //  width: "16%",
       center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (

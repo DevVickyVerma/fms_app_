@@ -168,7 +168,7 @@ const ShopSales = (props) => {
       name: "	SALES AMOUNT",
       selector: (row) => row.charge_value,
       sortable: false,
-      width: "50%",
+      //  width: "50%",
       center: false,
       // Title: "CASH METERED SALES",
 
@@ -218,7 +218,7 @@ const ShopSales = (props) => {
       name: "	SALES AMOUNT",
       selector: (row) => row.deduction_value,
       sortable: false,
-      width: "50%",
+      //  width: "50%",
       center: false,
       // Title: "CASH METERED SALES",
 

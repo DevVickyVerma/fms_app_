@@ -80,7 +80,7 @@ const ManageComision = (props) => {
       name: "CATEGORY NAME",
       selector: (row) => row.name,
       sortable: false,
-      width: "40%",
+      //  width: "40%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -92,7 +92,7 @@ const ManageComision = (props) => {
       name: "COMMISSION",
       selector: (row) => row?.commission,
       sortable: false,
-      width: "60%",
+      //  width: "60%",
       center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (

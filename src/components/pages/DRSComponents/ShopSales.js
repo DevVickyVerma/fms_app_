@@ -1,14 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-import withApi from '../../../Utils/ApiHelper';
+import withApi from "../../../Utils/ApiHelper";
 
 const ShopSales = (props) => {
-  const { company_id, client_id, site_id, start_date, sendDataToParent, getData } = props;
+  const {
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+    getData,
+  } = props;
   const { handleError } = useErrorHandler();
   const handleButtonClick = () => {
     const allPropsData = { company_id, client_id, site_id, start_date };
@@ -21,7 +28,6 @@ const ShopSales = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-
     try {
       const response = await getData(
         `/shop-sale/list?site_id=${site_id}&drs_date=${start_date}`
@@ -33,7 +39,6 @@ const ShopSales = (props) => {
         setData(data?.data?.charges);
         setDeductionData(data?.data?.deductions);
         setis_editable(data?.data);
-
 
         if (data?.data?.charges) {
           formik.setFieldValue("data", data?.data?.charges);
@@ -84,8 +89,6 @@ const ShopSales = (props) => {
     formData.append("site_id", site_id);
     formData.append("drs_date", start_date);
 
-
-
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -111,7 +114,7 @@ const ShopSales = (props) => {
         // Handle specific error cases if needed
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
       console.error("Request Error:", error);
       // Handle request error
     } finally {
@@ -187,7 +190,9 @@ const ShopSales = (props) => {
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 coffe-item-category fw-semibold">{row.charge_name}</h6>
+            <h6 className="mb-0 coffe-item-category fw-semibold">
+              {row.charge_name}
+            </h6>
           </div>
         </div>
       ),
@@ -196,7 +201,7 @@ const ShopSales = (props) => {
       name: "SALES AMOUNT",
       selector: (row) => row.charge_value,
       sortable: false,
-      width: editable?.is_adjustable ? "30%" : "40%",
+      //  width: editable?.is_adjustable ? "30%" : "40%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -221,59 +226,59 @@ const ShopSales = (props) => {
     },
     editable?.is_charge_file || editable?.is_upload_file
       ? {
-        name: "Invoices",
-        selector: (row) => row.file,
-        sortable: false,
-        width: "20%",
-        center: false,
-        cell: (row, index) => {
-          if (row.item_category === "Total") {
-            return null;
-          }
-          const hasFile = row.file && row.file.trim() !== "";
-          const is_uploadfile = editable?.is_upload_file;
-          return (
-            <div>
-              {is_uploadfile && (
-                <label
-                  htmlFor={`file-charge-${index}`}
-                  className="file-upload-icon"
-                >
-                  <i
-                    className="fa fa-upload btn btn-sm btn-primary"
-                    aria-hidden="true"
-                  />
-                  <input
-                    type="file"
-                    id={`file-charge-${index}`}
-                    name={`data[${index}].file`}
-                    className="table-input visually-hidden"
-                    onChange={(e) =>
-                      handleFileChange(e, index, row, "charge")
-                    }
-                    title="Choose a file to upload"
-                  />
-                </label>
-              )}
-              {hasFile && (
-                <a
-                  href={row.file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="View image"
-                >
-                  <span>
+          name: "Invoices",
+          selector: (row) => row.file,
+          sortable: false,
+          width: "20%",
+          center: false,
+          cell: (row, index) => {
+            if (row.item_category === "Total") {
+              return null;
+            }
+            const hasFile = row.file && row.file.trim() !== "";
+            const is_uploadfile = editable?.is_upload_file;
+            return (
+              <div>
+                {is_uploadfile && (
+                  <label
+                    htmlFor={`file-charge-${index}`}
+                    className="file-upload-icon"
+                  >
                     <i
-                      className="fa fa-file-image-o btn btn-sm btn-info ms-2"
+                      className="fa fa-upload btn btn-sm btn-primary"
                       aria-hidden="true"
                     />
-                  </span>
-                </a>
-              )}
-            </div>
-          );
-        },
-      }
+                    <input
+                      type="file"
+                      id={`file-charge-${index}`}
+                      name={`data[${index}].file`}
+                      className="table-input visually-hidden"
+                      onChange={(e) =>
+                        handleFileChange(e, index, row, "charge")
+                      }
+                      title="Choose a file to upload"
+                    />
+                  </label>
+                )}
+                {hasFile && (
+                  <a
+                    href={row.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="View image"
+                  >
+                    <span>
+                      <i
+                        className="fa fa-file-image-o btn btn-sm btn-info ms-2"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </a>
+                )}
+              </div>
+            );
+          },
+        }
       : {},
   ];
 
@@ -287,7 +292,9 @@ const ShopSales = (props) => {
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 coffe-item-category fw-semibold">{row.deduction_name}</h6>
+            <h6 className="mb-0 coffe-item-category fw-semibold">
+              {row.deduction_name}
+            </h6>
           </div>
         </div>
       ),
@@ -296,7 +303,7 @@ const ShopSales = (props) => {
       name: "SALES AMOUNT",
       selector: (row) => row.deduction_value,
       sortable: false,
-      width: editable?.is_adjustable ? "30%" : "40%",
+      //  width: editable?.is_adjustable ? "30%" : "40%",
       center: false,
       cell: (row, index) => (
         <div>
@@ -321,59 +328,58 @@ const ShopSales = (props) => {
     },
     editable?.is_charge_file || editable?.is_upload_file
       ? {
-        name: "Invoices",
-        selector: (row) => row.file,
-        sortable: false,
-        width: "20%",
-        center: false,
-        cell: (row, index) => {
-          const hasFile = row.file && row.file.trim() !== "";
-          const is_uploadfile = editable?.is_upload_file;
-          return (
-            <div>
-              {is_uploadfile && (
-                <label
-                  htmlFor={`file-deduction-${index}`}
-                  className="file-upload-icon"
-                >
-                  <i
-                    className="fa fa-upload btn btn-sm btn-primary"
-                    aria-hidden="true"
-                  />
-                  <input
-                    type="file"
-                    id={`file-deduction-${index}`}
-                    name={`deductions[${index}].file`}
-                    className="table-input visually-hidden"
-                    onChange={(e) =>
-                      handleFileChange(e, index, row, "deduction")
-                    }
-                    title="Choose a file to upload"
-                  />
-                </label>
-              )}
-              {hasFile && (
-                <a
-                  href={row.file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="View image"
-                >
-                  <span>
+          name: "Invoices",
+          selector: (row) => row.file,
+          sortable: false,
+          width: "20%",
+          center: false,
+          cell: (row, index) => {
+            const hasFile = row.file && row.file.trim() !== "";
+            const is_uploadfile = editable?.is_upload_file;
+            return (
+              <div>
+                {is_uploadfile && (
+                  <label
+                    htmlFor={`file-deduction-${index}`}
+                    className="file-upload-icon"
+                  >
                     <i
-                      className="fa fa-file-image-o btn btn-sm btn-info ms-2"
+                      className="fa fa-upload btn btn-sm btn-primary"
                       aria-hidden="true"
                     />
-                  </span>
-                </a>
-              )}
-            </div>
-          );
-        },
-      }
+                    <input
+                      type="file"
+                      id={`file-deduction-${index}`}
+                      name={`deductions[${index}].file`}
+                      className="table-input visually-hidden"
+                      onChange={(e) =>
+                        handleFileChange(e, index, row, "deduction")
+                      }
+                      title="Choose a file to upload"
+                    />
+                  </label>
+                )}
+                {hasFile && (
+                  <a
+                    href={row.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="View image"
+                  >
+                    <span>
+                      <i
+                        className="fa fa-file-image-o btn btn-sm btn-info ms-2"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </a>
+                )}
+              </div>
+            );
+          },
+        }
       : {},
   ];
-
 
   // Conditionally push the "ADJUSTMENT VALUE" column if `editable?.is_adjustable` is true
   if (editable?.is_adjustable) {
@@ -381,7 +387,7 @@ const ShopSales = (props) => {
       name: "ADJUSTMENT VALUE",
       selector: (row) => row.charge_adj_value,
       sortable: false,
-      width: "16%",
+      //  width: "16%",
       center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -399,7 +405,7 @@ const ShopSales = (props) => {
               type="number"
               id={`charge_adj_value-${index}`}
               name={`data[${index}].charge_adj_value`}
-              className={`table-input ${!row?.edit_charge_adj_value ? 'readonly' : ''}`}
+              className={`table-input ${!row?.edit_charge_adj_value ? "readonly" : ""}`}
               value={formik.values?.data?.[index]?.charge_adj_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -415,7 +421,7 @@ const ShopSales = (props) => {
       name: "ADJUSTMENT VALUE",
       selector: (row) => row.deduction_adj_value,
       sortable: false,
-      width: "16%",
+      //  width: "16%",
       center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -433,7 +439,7 @@ const ShopSales = (props) => {
               type="number"
               id={`deduction_adj_value-${index}`}
               name={`deductions[${index}].deduction_adj_value`}
-              className={`table-input ${!row?.edit_deduction_adj_value ? 'readonly' : ''}`}
+              className={`table-input ${!row?.edit_deduction_adj_value ? "readonly" : ""}`}
               value={formik.values?.deductions?.[index]?.deduction_adj_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -443,11 +449,6 @@ const ShopSales = (props) => {
         ),
     });
   }
-
-
-
-
-
 
   return (
     <>

@@ -204,8 +204,8 @@ const ManageClient = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      //      width: "12%",
       center: true,
+      //      width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>

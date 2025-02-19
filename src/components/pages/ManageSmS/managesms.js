@@ -331,7 +331,7 @@ const ManageSiteTank = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "6%",
+      //  width: "6%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -343,7 +343,7 @@ const ManageSiteTank = (props) => {
       name: "Credited By",
       selector: (row) => [row.credit],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -361,7 +361,7 @@ const ManageSiteTank = (props) => {
       name: "Site",
       selector: (row) => [row.site],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -375,7 +375,7 @@ const ManageSiteTank = (props) => {
       name: "SMS Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -423,7 +423,7 @@ const ManageSiteTank = (props) => {
       name: "SMS By",
       selector: (row) => [row.creator],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -436,7 +436,7 @@ const ManageSiteTank = (props) => {
       name: "Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -451,7 +451,7 @@ const ManageSiteTank = (props) => {
       name: "Sr. No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "6%",
+      //  width: "6%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -463,7 +463,7 @@ const ManageSiteTank = (props) => {
       name: "Credited By",
       selector: (row) => [row.creator],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -476,7 +476,7 @@ const ManageSiteTank = (props) => {
       name: "SMS ",
       selector: (row) => [row.credit],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -495,7 +495,7 @@ const ManageSiteTank = (props) => {
       name: "Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "23.5",
+      //  width: "23.5",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">

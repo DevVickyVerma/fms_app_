@@ -104,7 +104,7 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -116,7 +116,7 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Manager Name",
       selector: (row) => [row.manager_name],
       sortable: false,
-      width: "12.8%",
+      //  width: "12.8%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -129,7 +129,7 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Bank Name",
       selector: (row) => [row.bank_name],
       sortable: false,
-      width: "12.8%",
+      //  width: "12.8%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -146,7 +146,7 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Account Name",
       selector: (row) => [row.account_name],
       sortable: false,
-      width: "12.8%",
+      //  width: "12.8%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -163,7 +163,7 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Account No.",
       selector: (row) => [row.account_no],
       sortable: false,
-      width: "12.8%",
+      //  width: "12.8%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -180,7 +180,7 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Sort Code",
       selector: (row) => [row.sort_code],
       sortable: false,
-      width: "12.8%",
+      //  width: "12.8%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -198,7 +198,7 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "12.8%",
+      //  width: "12.8%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -216,14 +216,15 @@ const ManageBank = ({ isLoading, getData }) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "12.8%",
+      center: true,
+      //  width: "12.8%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editbankmanager/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i>
                   <svg
@@ -244,7 +245,7 @@ const ManageBank = ({ isLoading, getData }) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i>

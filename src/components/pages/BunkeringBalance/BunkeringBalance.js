@@ -85,7 +85,7 @@ const BunkeringBalance = ({ isLoading, getData, postData }) => {
       name: "Bunkering Balance Date",
       selector: (row) => [row?.balance_date],
       sortable: false,
-      width: "33.33%",
+      //  width: "33.33%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -99,7 +99,7 @@ const BunkeringBalance = ({ isLoading, getData, postData }) => {
       name: "Bunkering Balance Amount",
       selector: (row) => [row?.amount],
       sortable: false,
-      width: "33.33%",
+      //  width: "33.33%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -117,14 +117,14 @@ const BunkeringBalance = ({ isLoading, getData, postData }) => {
       name: "Action",
       selector: (row) => [row?.action],
       sortable: false,
-      width: "33.33%",
+      //  width: "33.33%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/edit-bunkering-balance/${row?.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i>
                   <svg
@@ -145,7 +145,7 @@ const BunkeringBalance = ({ isLoading, getData, postData }) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row?.id)}
               >
                 <i>
@@ -207,7 +207,7 @@ const BunkeringBalance = ({ isLoading, getData, postData }) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Bunkering Balance{" "}
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : (
                 ""

@@ -78,7 +78,7 @@ const ManageSiteTank = (props) => {
       name: "Site Name",
       selector: (row) => [row.site],
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -91,7 +91,7 @@ const ManageSiteTank = (props) => {
       name: "Pump Name",
       selector: (row) => [row.site_pump],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -105,7 +105,7 @@ const ManageSiteTank = (props) => {
       name: "Fuel Name",
       selector: (row) => [row.fuel_name],
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -119,7 +119,7 @@ const ManageSiteTank = (props) => {
       name: "Site Nozzle Name",
       selector: (row) => [row.name],
       sortable: false,
-      width: "15%",
+      //  width: "15%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -132,7 +132,7 @@ const ManageSiteTank = (props) => {
       name: "Site Nozzle Code",
       selector: (row) => [row.code],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -145,7 +145,7 @@ const ManageSiteTank = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -158,7 +158,8 @@ const ManageSiteTank = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "10%",
+      center: true,
+      //  width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -199,14 +200,15 @@ const ManageSiteTank = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "15%",
+      center: true,
+      //  width: "15%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editsitenozzle/${row.id}`} // Assuming `row.id` contains the ID
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i className="ph ph-pencil" />
               </Link>
@@ -216,7 +218,7 @@ const ManageSiteTank = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
@@ -326,7 +328,7 @@ const ManageSiteTank = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Site Nozzle
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

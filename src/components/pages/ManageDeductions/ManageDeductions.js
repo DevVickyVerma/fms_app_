@@ -97,7 +97,7 @@ const ManageDeductions = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -109,7 +109,7 @@ const ManageDeductions = (props) => {
       name: "Deductions Name",
       selector: (row) => [row.deduction_name],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -122,7 +122,7 @@ const ManageDeductions = (props) => {
       name: "Deductions Code",
       selector: (row) => [row.deduction_code],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -135,7 +135,7 @@ const ManageDeductions = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -152,7 +152,7 @@ const ManageDeductions = (props) => {
       name: "Status",
       selector: (row) => [row.deduction_status],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -193,14 +193,15 @@ const ManageDeductions = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      center: true,
+      //  width: "20%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="d-flex gap-2">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editdeductions/${row.id}`} // Assuming `row.id` contains the ID
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2"
               >
                 <i className="ph ph-pencil" />
               </Link>
@@ -210,7 +211,7 @@ const ManageDeductions = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />
@@ -255,7 +256,7 @@ const ManageDeductions = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Deduction
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

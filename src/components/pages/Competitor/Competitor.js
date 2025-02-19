@@ -212,6 +212,7 @@ const Competitor = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
+      center: true,
       // width: "10%",
       center: true,
       cell: (row) => (
@@ -254,6 +255,7 @@ const Competitor = (props) => {
       selector: (row) => [row.action],
       sortable: false,
       center: true,
+      center: true,
       // width: "15%",
       cell: (row) => (
         <span className="d-flex gap-2">
@@ -293,7 +295,7 @@ const Competitor = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/edit-competitor/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 mobile-btn p-2"
               >
                 <i className="mobile-ph ph ph-pencil" />
               </Link>
@@ -303,7 +305,7 @@ const Competitor = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="mobile-ph ph ph-trash" />
@@ -398,7 +400,7 @@ const Competitor = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : null}
             </div>

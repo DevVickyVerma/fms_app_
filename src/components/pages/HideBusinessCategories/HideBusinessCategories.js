@@ -79,7 +79,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "S.NO",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -92,7 +92,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "Main Category Name",
       selector: (row) => [row?.name],
       sortable: false,
-      width: "35%",
+      //  width: "35%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -106,14 +106,14 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
       name: "Action",
       selector: (row) => [row?.action],
       sortable: false,
-      width: "25%",
+      //  width: "25%",
       cell: (row) => (
         <span className="text-center">
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row?.id)}
               >
                 <i className="ph ph-trash" />
@@ -166,7 +166,7 @@ const OpeningBalance = ({ isLoading, getData, postData }) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Hide Business Categories{" "}
-                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                  <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                 </Link>
               ) : (
                 ""

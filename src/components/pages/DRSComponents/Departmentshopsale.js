@@ -123,7 +123,7 @@ const Departmentshopsale = (props) => {
       name: "ITEM NAME",
       selector: (row) => row.category_name,
       sortable: false,
-      width: editable?.is_adjustable ? "20%" : "25%",
+      //  width: editable?.is_adjustable ? "20%" : "25%",
       center: false,
       cell: (row) => (
         <span className="text-muted coffe-item-category fw-semibold text-center">
@@ -135,7 +135,7 @@ const Departmentshopsale = (props) => {
       name: "	GROSS VALUE",
       selector: (row) => row.gross_value,
       sortable: false,
-      width: editable?.is_adjustable ? "20%" : "25%",
+      //  width: editable?.is_adjustable ? "20%" : "25%",
       center: false,
 
       cell: (row, index) =>
@@ -168,7 +168,7 @@ const Departmentshopsale = (props) => {
       name: "	DISC VALUE ",
       selector: (row) => row.disc_value,
       sortable: false,
-      width: editable?.is_adjustable ? "20%" : "25%",
+      //  width: editable?.is_adjustable ? "20%" : "25%",
       center: false,
 
       cell: (row, index) =>
@@ -200,7 +200,7 @@ const Departmentshopsale = (props) => {
       name: "	NETT VALUE",
       selector: (row) => row.nett_value,
       sortable: false,
-      width: editable?.is_adjustable ? "20%" : "25%",
+      //  width: editable?.is_adjustable ? "20%" : "25%",
       center: false,
 
       cell: (row, index) =>
@@ -236,7 +236,7 @@ const Departmentshopsale = (props) => {
       name: "ADJUSTMENT VALUE",
       selector: (row) => row.adj_value,
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       center: false,
       cell: (row, index) =>
         row.fuel_name === "Total" ? (

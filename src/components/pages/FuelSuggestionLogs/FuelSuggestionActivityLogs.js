@@ -60,7 +60,7 @@ const FuelSuggestionActivityLogs = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "5%",
+      //  width: "5%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -72,7 +72,7 @@ const FuelSuggestionActivityLogs = (props) => {
       name: "Name",
       selector: (row) => [row?.name],
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -85,7 +85,7 @@ const FuelSuggestionActivityLogs = (props) => {
       name: "Model",
       selector: (row) => [row?.model],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -99,7 +99,7 @@ const FuelSuggestionActivityLogs = (props) => {
       name: "Message",
       selector: (row) => [row?.message],
       sortable: false,
-      width: "29%",
+      //  width: "29%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -113,7 +113,7 @@ const FuelSuggestionActivityLogs = (props) => {
       name: "Created Date",
       selector: (row) => [row?.created_date],
       sortable: false,
-      width: "16%",
+      //  width: "16%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -126,7 +126,7 @@ const FuelSuggestionActivityLogs = (props) => {
       name: "Action",
       selector: (row) => [row?.action],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <span
           className="text-muted fs-15 fw-semibold text-center"
@@ -160,7 +160,7 @@ const FuelSuggestionActivityLogs = (props) => {
       name: "Status",
       selector: (row) => [row?.status],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>

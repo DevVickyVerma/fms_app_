@@ -115,7 +115,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData }) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -127,7 +127,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData }) => {
       name: "Item Group",
       selector: (row) => [row.name],
       sortable: false,
-      width: "40%",
+      //  width: "40%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block ">
@@ -140,7 +140,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData }) => {
       name: "Items",
       selector: (row) => [row.name],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -160,14 +160,15 @@ const DepartmentCardGroup = ({ isLoading, getData, postData }) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      center: true,
+      //  width: "20%",
       cell: (row) => (
         <span className="text-center d-flex justify-content-center gap-1 flex-wrap">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/department-item-group/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
+                className="btn btn-primary btn-sm rounded-11 mobile-btn p-2 me-2 responsive-btn"
               >
                 <i>
                   <svg
@@ -188,7 +189,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData }) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11 responsive-btn"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2 responsive-btn"
                 onClick={() => handleDelete(row.id)}
               >
                 <i>
@@ -295,7 +296,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData }) => {
                       style={{ borderRadius: "4px" }}
                     >
                       Add items Group{" "}
-                      <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon" />
+                      <i className="ph ph-plus ms-1 ph-plus-icon ph-sm-icon ph-sm-icon" />
                     </Link>
                   ) : null}
                 </div>

@@ -98,7 +98,7 @@ const FuturePriceLogs = (props) => {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "22%",
+      //  width: "22%",
       cell: (row) => (
         <div
           className="d-flex future-back-color align-items-center"
@@ -129,7 +129,7 @@ const FuturePriceLogs = (props) => {
       name: "Fuel",
       selector: (row) => [row?.category_name],
       sortable: false,
-      width: "22%",
+      //  width: "22%",
       cell: (row) => (
         <div
           className="d-flex future-back-color  align-items-center"
@@ -146,7 +146,7 @@ const FuturePriceLogs = (props) => {
       name: "Price Requested Date/Time",
       selector: (row) => [row.price_date],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div
           className="d-flex future-back-color  align-items-center"
@@ -162,7 +162,7 @@ const FuturePriceLogs = (props) => {
       name: "Updated Price",
       selector: (row) => [row.old_price],
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       cell: (row) => (
         <div
           className="d-flex w-100 h-100 future-back-color"
@@ -203,7 +203,8 @@ const FuturePriceLogs = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "12%",
+      center: true,
+      //  width: "12%",
       cell: (row) => (
         <span
           className="text-muted fs-15 fw-semibold text-center future-back-color py-2"
@@ -244,7 +245,7 @@ const FuturePriceLogs = (props) => {
                       >
                         <Link
                           to="#"
-                          className="btn btn-danger btn-sm rounded-11 responsive-btn"
+                          className="btn btn-danger btn-sm rounded-11 mobile-btn p-2 responsive-btn"
                           onClick={() => handleDelete(row.id)}
                         >
                           <CloseIcon />

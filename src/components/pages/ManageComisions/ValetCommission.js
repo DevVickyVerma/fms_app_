@@ -56,7 +56,7 @@ const ManageDsr = (props) => {
       name: " CATEGORY NAME",
       selector: (row) => row.name,
       sortable: false,
-      width: "40%",
+      //  width: "40%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -68,7 +68,7 @@ const ManageDsr = (props) => {
       name: "PRICE(£)",
       selector: (row) => row.price,
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       center: false,
 
       cell: (row, index) =>
@@ -93,7 +93,7 @@ const ManageDsr = (props) => {
       name: "COMMISSION(%)",
       selector: (row) => row.commission,
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       center: false,
 
       cell: (row, index) =>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
 import { Link, useParams } from "react-router-dom";
@@ -30,7 +30,6 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     FetchmannegerList();
-
   }, []);
 
   const ReportsColumn = [
@@ -61,7 +60,7 @@ const AddCompany = (props) => {
       name: "Addon",
       selector: (row) => row.name,
       sortable: false,
-      width: "80%",
+      //  width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">

@@ -42,7 +42,7 @@ const ManageEmail = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -54,7 +54,7 @@ const ManageEmail = (props) => {
       name: "Site",
       selector: (row) => [row?.site],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -67,7 +67,7 @@ const ManageEmail = (props) => {
       name: "Api Type",
       selector: (row) => [row?.api_type],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -80,7 +80,7 @@ const ManageEmail = (props) => {
       name: "Data Import Type",
       selector: (row) => [row?.data_import_type],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -93,7 +93,7 @@ const ManageEmail = (props) => {
       name: "Hit Type",
       selector: (row) => [row?.hit_type],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -106,7 +106,7 @@ const ManageEmail = (props) => {
       name: "Log Date",
       selector: (row) => [row?.log_date],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -119,7 +119,7 @@ const ManageEmail = (props) => {
       name: "Status",
       selector: (row) => [row?.status],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>

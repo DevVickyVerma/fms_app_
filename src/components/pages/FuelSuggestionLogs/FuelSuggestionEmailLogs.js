@@ -68,7 +68,7 @@ const FuelSuggestionEmailLogs = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "6%",
+      //  width: "6%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -80,7 +80,7 @@ const FuelSuggestionEmailLogs = (props) => {
       name: "Subject",
       selector: (row) => [row?.subject],
       sortable: false,
-      width: "25%",
+      //  width: "25%",
       cell: (row) => (
         <div>
           {row?.raw_data !== null ? (
@@ -107,7 +107,7 @@ const FuelSuggestionEmailLogs = (props) => {
       name: "Message",
       selector: (row) => [row?.message],
       sortable: false,
-      width: "25%",
+      //  width: "25%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -120,7 +120,7 @@ const FuelSuggestionEmailLogs = (props) => {
       name: "Email",
       selector: (row) => [row?.email],
       sortable: false,
-      width: "20%",
+      //  width: "20%",
       cell: (row) => {
         try {
           return (
@@ -145,7 +145,7 @@ const FuelSuggestionEmailLogs = (props) => {
       name: "Created Date",
       selector: (row) => [row?.created_date],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -162,7 +162,7 @@ const FuelSuggestionEmailLogs = (props) => {
       name: "Status",
       selector: (row) => [row?.status],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>

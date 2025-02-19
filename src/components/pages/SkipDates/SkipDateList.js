@@ -125,7 +125,7 @@ const ManageRoles = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -138,7 +138,7 @@ const ManageRoles = (props) => {
       name: "Skip Date",
       selector: (row) => [row.skip_date],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div
           className="d-flex"
@@ -155,7 +155,7 @@ const ManageRoles = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "30%",
+      //  width: "30%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -169,14 +169,15 @@ const ManageRoles = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "30%",
+      center: true,
+      //  width: "30%",
       cell: (row) => (
         <span className="text-center">
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 mobile-btn p-2"
                 onClick={() => handleDelete(row.id)}
               >
                 <i className="ph ph-trash" />

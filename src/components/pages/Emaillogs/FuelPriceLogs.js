@@ -36,7 +36,7 @@ const ManageSiteTank = (props) => {
       name: "Site",
       selector: (row) => [row.site],
       sortable: false,
-      width: "10%",
+      //  width: "10%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -49,7 +49,7 @@ const ManageSiteTank = (props) => {
       name: "User  Name",
       selector: (row) => [row.user],
       sortable: false,
-      width: "11%",
+      //  width: "11%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -62,7 +62,7 @@ const ManageSiteTank = (props) => {
       name: "Fuel Name",
       selector: (row) => [row.name],
       sortable: false,
-      width: "11%",
+      //  width: "11%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -75,7 +75,7 @@ const ManageSiteTank = (props) => {
       name: "Mode ",
       selector: (row) => [row.is_checked],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -89,7 +89,7 @@ const ManageSiteTank = (props) => {
       name: " Action Type",
       selector: (row) => [row.type],
       sortable: false,
-      width: "12%",
+      //  width: "12%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -103,7 +103,7 @@ const ManageSiteTank = (props) => {
       name: "Prev Price",
       selector: (row) => [row.prev_price],
       sortable: false,
-      width: "8%",
+      //  width: "8%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -116,7 +116,7 @@ const ManageSiteTank = (props) => {
       name: " Price",
       selector: (row) => [row.price],
       sortable: false,
-      width: "8%",
+      //  width: "8%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -129,7 +129,7 @@ const ManageSiteTank = (props) => {
       name: "Price Date",
       selector: (row) => [row.date],
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -142,7 +142,7 @@ const ManageSiteTank = (props) => {
       name: "Log Date",
       selector: (row) => [row.created],
       sortable: false,
-      width: "14%",
+      //  width: "14%",
       cell: (row) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
