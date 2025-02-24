@@ -17,7 +17,6 @@ import StaticCompiPrice from "./StaticCompiPrice";
 import { useSelector } from "react-redux";
 import CompetitorfuelpricesUpdate from "../../../components/pages/ManageFuelPrices/competitorfuelpricesUpdate";
 import VersionTwoSuggestedFuelPrice from "./VersionTwoSuggestedFuelPrice";
-import { commonCompetitorMultiLineData } from "../../../Utils/commonFunctions/CommonData";
 import Swal from "sweetalert2";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
 import MobNewFilterTab from "../Filtermodal/MobNewFilterTab";
@@ -74,7 +73,6 @@ const CompetitorFuelPricesVersionTwo = (props) => {
   };
 
   const [data, setData] = useState(null);
-  const [versionData, setVersionData] = useState(commonCompetitorMultiLineData);
 
   const handleSubmit1 = async (values) => {
     let { client_id, company_id, site_id, client_name, company_name } = values;
@@ -380,11 +378,10 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                             <Collapse
                               accordion
                               key={competitor?.competitor_name}
-                              className={`overflow-auto ${
-                                competitor?.isMain == 1
-                                  ? "main-competitor-effect"
-                                  : ""
-                              }`}
+                              className={`overflow-auto ${competitor?.isMain == 1
+                                ? "main-competitor-effect"
+                                : ""
+                                }`}
                             >
                               <Panel
                                 header={
@@ -495,7 +492,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                           // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                                           className="middayModal-td text-muted fs-15 fw-semibold p-4"
                                           style={{ maxWidth: "50px" }}
-                                          // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
+                                        // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                                         >
                                           <img
                                             src={formik?.values?.supplier}
@@ -565,11 +562,10 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                             <React.Fragment key={fuel?.id}>
                                               <td className="middayModal-td">
                                                 <input
-                                                  className={`table-input ${
-                                                    fuel?.canUpdate
-                                                      ? ""
-                                                      : "readonly"
-                                                  }`}
+                                                  className={`table-input ${fuel?.canUpdate
+                                                    ? ""
+                                                    : "readonly"
+                                                    }`}
                                                   type="number"
                                                   readOnly={!fuel?.canUpdate}
                                                   step="0.010"
@@ -585,7 +581,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
 
                                                 <div className="small text-muted text-end">
                                                   {fuel?.last_updated !==
-                                                  "-" ? (
+                                                    "-" ? (
                                                     <>
                                                       Last Updated -{" "}
                                                       {fuel?.last_updated}{" "}
@@ -620,7 +616,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                           ) : (
                                             <>
                                               {competitor?.acceptedBy ===
-                                              "gov" ? (
+                                                "gov" ? (
                                                 <>
                                                   <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                                 </>
@@ -673,11 +669,10 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                             <React.Fragment key={fuel?.id}>
                                               <td className="middayModal-td">
                                                 <input
-                                                  className={`table-input ${
-                                                    fuel?.canUpdate
-                                                      ? ""
-                                                      : "readonly"
-                                                  }`}
+                                                  className={`table-input ${fuel?.canUpdate
+                                                    ? ""
+                                                    : "readonly"
+                                                    }`}
                                                   type="number"
                                                   readOnly={!fuel?.canUpdate}
                                                   step="0.010"
@@ -692,7 +687,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                                 />
                                                 <div className="small text-muted text-end">
                                                   {fuel?.last_updated !==
-                                                  "-" ? (
+                                                    "-" ? (
                                                     <>
                                                       Last Updated -{" "}
                                                       {fuel?.last_updated}{" "}
@@ -727,7 +722,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                           ) : (
                                             <>
                                               {competitor?.acceptedBy ===
-                                              "pp" ? (
+                                                "pp" ? (
                                                 <>
                                                   <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                                 </>
@@ -786,11 +781,10 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                             <React.Fragment key={fuel?.id}>
                                               <td className="middayModal-td">
                                                 <input
-                                                  className={`table-input ${
-                                                    fuel?.canUpdate
-                                                      ? ""
-                                                      : "readonly"
-                                                  }`}
+                                                  className={`table-input ${fuel?.canUpdate
+                                                    ? ""
+                                                    : "readonly"
+                                                    }`}
                                                   type="number"
                                                   readOnly={!fuel?.canUpdate}
                                                   step="0.010"
@@ -840,7 +834,7 @@ const CompetitorFuelPricesVersionTwo = (props) => {
                                           ) : (
                                             <>
                                               {competitor?.acceptedBy ===
-                                              "ov" ? (
+                                                "ov" ? (
                                                 <>
                                                   <i className="ph ph-seal-check work-flow-sucess-status c-top-3"></i>
                                                 </>

@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import { Tabs, Tab, Container, Card } from 'react-bootstrap';
-import PriceLogTable from '../../Dashboard/PriceLogTable';
-import { PriceLogsFilterValue } from '../../../Utils/commonFunctions/commonFunction';
-import { PriceLogs } from '../../../Utils/commonFunctions/CommonData';
+import { Tabs, Tab, Card } from 'react-bootstrap';
 
 const TabDesign = () => {
-    const [PriceLogsvalue, setPriceLogsvalue] = useState(PriceLogsFilterValue[0]?.value); // state for selected site
-
+    const PriceLogs = {
+        priceLogs: [
+            {
+                id: "L2tYSGtOY2pCYWJjdDcvaHF3UERzdz09",
+                site: "Brewster Street Service Station G400",
+                supplier: "http://192.168.1.112:4001/splr/essar-logo.png",
+                competitor: "Asda Superstore, Petrol Station",
+                date: "2024-12-23",
+            },
+        ],
+    };
     return (
 
         <>

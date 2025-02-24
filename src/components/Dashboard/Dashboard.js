@@ -282,7 +282,7 @@ const Dashboard = (props) => {
         </>
       )}
 
-      <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
+      <div className="d-flex justify-content-between align-items-center flex-wrap mb-3">
         {!ShowLiveData && (
           <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">

@@ -98,6 +98,11 @@ ion-item {
   --color: white !important;
   --border-radius: 0 !important;
 }
+.mob-custom-primary-btn {
+  --background: #09469f !important;
+  --color: white !important;
+  --border-radius: 0 !important;
+}
 ion-button.mob-custom-danger-btn {
   --background: red !important;
   --color: white !important;
@@ -114,4 +119,8 @@ ion-button.mob-custom-danger-btn {
   background: #fff;
   color: #09469f;
   width: 2.5rem;
+}
+
+.input101 {
+  height: auto;
 }
