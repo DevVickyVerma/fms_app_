@@ -19,6 +19,7 @@ import { useMyContext } from "../../Utils/MyContext";
 import CardSwiper from "../../Utils/MobileCommonComponents/CardSwiper";
 import { IonButton, IonIcon } from "@ionic/react";
 import { funnelOutline, refresh } from "ionicons/icons";
+import { color } from "framer-motion";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -305,21 +306,20 @@ const Dashboard = (props) => {
           <>
             {/* Filter Button */}
             <div
-              className={`d-flex justify-content-end ${
-                (filters?.client_id ||
-                  filters?.company_id ||
-                  filters?.site_id ||
-                  filters?.start_date) &&
+              className={`d-flex justify-content-end ${(filters?.client_id ||
+                filters?.company_id ||
+                filters?.site_id ||
+                filters?.start_date) &&
                 isMobile &&
                 "w-100"
-              } `}
+                } `}
             >
               <IonButton
                 onClick={handleToggleSidebar1}
-                type="danger"
+
                 size="small"
                 className="mob-custom-primary-btn"
-                style={{ marginRight: "8px" }}
+                style={{ marginRight: "8px", }}
               >
                 <IonIcon icon={funnelOutline} />
               </IonButton>

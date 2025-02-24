@@ -94,11 +94,24 @@ ion-item {
   }
 }
 .mob-custom-primary-btn {
-  color: #fff;
-  background-color: #09469f;
+  --background: #09469f !important;
+  --color: white !important;
+  --border-radius: 0 !important;
 }
 ion-button.mob-custom-danger-btn {
-  background-color: red !important;
   --background: red !important;
   --color: white !important;
+  --border-radius: 0 !important;
+}
+
+.icon-roundcover {
+  height: 2.5rem;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  color: #09469f;
+  width: 2.5rem;
 }

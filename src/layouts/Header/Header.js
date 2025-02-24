@@ -153,13 +153,15 @@ const Header = (props) => {
             <div>
               {isMobile ? (
                 <>
-                  <IonIcon
-                    style={{ marginRight: "10px", color: "#09469f" }}
-                    className="ms - 2  "
-                    onClick={() => setShowActionSheet(true)}
-                    icon={personCircleOutline}
-                    size="large"
-                  />
+                  <div className="icon-roundcover">
+                    <IonIcon
+                      // style={{ marginRight: "10px", color: "#09469f" }}
+                      // className="ms - 2  "
+                      onClick={() => setShowActionSheet(true)}
+                      icon={personCircleOutline}
+                      size="large"
+                    />
+                  </div>
                   <IonActionSheet
                     isOpen={showActionSheet}
                     buttons={[

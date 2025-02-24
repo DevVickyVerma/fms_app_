@@ -34599,12 +34599,13 @@ body.rtl {
   display: flex;
   z-index: 999 !important;
   border-bottom: 1px solid #eaedf1;
-  background-color: #fff !important;
+  background-color: var(--primary-bg-color) !important;
   transition: padding-left 0.3s ease;
   height: 62px;
   margin: 0;
   padding: 0;
   padding-left: 13px;
+  padding-right: 13px;
 }
 
 @media (min-width: 992px) {
