@@ -25,8 +25,11 @@ const MyProvider = ({ children }) => {
           // info?.operatingSystem == "android" ||
           info?.operatingSystem == "unknown"
         ) {
+
+          console.log(info, "Systeminfos");
           setIsMobile(false);
         } else {
+          console.log(info, "Systeminfos");
           setIsMobile(true);
         }
         // Set platform directly
