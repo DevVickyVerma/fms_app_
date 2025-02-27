@@ -34599,7 +34599,7 @@ body.rtl {
   display: flex;
   z-index: 999 !important;
   border-bottom: 1px solid #eaedf1;
-  background-color: #fff !important;
+  background-color: #08469f !important;
   transition: padding-left 0.3s ease;
   height: 62px;
   margin: 0;
