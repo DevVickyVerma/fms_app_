@@ -152,13 +152,15 @@ const Header = (props) => {
             <div>
               {isMobile ? (
                 <>
-                  <IonIcon
-                    style={{ marginRight: "10px", color: "#09469f" }}
-                    className="ms - 2  "
-                    onClick={() => setShowActionSheet(true)}
-                    icon={personCircleOutline}
-                    size="large"
-                  />
+                  <div className="icon-roundcover">
+                    <IonIcon
+                      // style={{ marginRight: "10px", color: "#09469f" }}
+                      // className="ms - 2  "
+                      onClick={() => setShowActionSheet(true)}
+                      icon={personCircleOutline}
+                      size="large"
+                    />
+                  </div>
                   <IonActionSheet
                     isOpen={showActionSheet}
                     buttons={[
@@ -228,7 +230,7 @@ const Header = (props) => {
                         </div>
                         <div className="dropdown-divider m-0" />
                         {isSmSPermissionAvailable &&
-                        localStorage.getItem("superiorRole") == "Client" ? (
+                          localStorage.getItem("superiorRole") == "Client" ? (
                           <Dropdown.Item as={Link} to="/manage-sms">
                             <i className="dropdown-icon ph ph-chat-text" /> MY
                             SMS{" "}
