@@ -1,13 +1,13 @@
 /* ###### Bootstrap ###### */
 
 :root {
-  --primary-bg-color: #2D8BA8;
+  --primary-bg-color: #2d8ba8;
   --primary-bg-hover: #233ac5;
   --primary-bg-border: #5161c1;
   --dark-body: #292e4a;
   --dark-border: #30314e;
-  --dark-primary: #2D8BA8;
-  --transparent-primary: #2D8BA8;
+  --dark-primary: #2d8ba8;
+  --transparent-primary: #2d8ba8;
   --transparent-body: #452293;
   --transparent-theme: rgba(0, 0, 0, 0.2);
   --transparent-border: rgba(255, 255, 255, 0.1);
@@ -27,12 +27,12 @@
   --white: #ffffff;
   --gray: #6c757d;
   --gray-dark: #343a40;
-  --primary: #2D8BA8;
+  --primary: #2d8ba8;
   --secondary: #6c757d;
   --success: #28a745;
   --info: #17a2b8;
   --warning: #ffc107;
-  --danger: #b52d2d;
+  --danger: var(--secondery-bg-color);
   --light: #f8f9fa;
   --dark: #343a40;
   --breakpoint-xs: 0;
@@ -40,11 +40,13 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  --font-family-sans-serif:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace:
+    SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
 }
 
 * {
@@ -102,7 +104,6 @@ p {
 }
 
 abbr {
-
   &[title],
   &[data-original-title] {
     text-decoration: underline;
@@ -235,7 +236,6 @@ label {
 }
 
 input {
-
   &[type="radio"],
   &[type="checkbox"] {
     box-sizing: border-box;
@@ -270,7 +270,6 @@ legend {
 }
 
 [type="number"] {
-
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     height: auto;
@@ -376,7 +375,7 @@ code {
   word-break: break-word;
 }
 
-a>code {
+a > code {
   color: inherit;
 }
 
@@ -504,7 +503,6 @@ pre {
 }
 
 .sr-only-focusable {
-
   &:active,
   &:focus {
     position: static;
@@ -767,8 +765,7 @@ pre {
   }
 }
 
-.row-cards> {
-
+.row-cards > {
   .col,
   [class*="col-"] {
     display: -ms-flexbox;
@@ -778,8 +775,7 @@ pre {
   }
 }
 
-.row-deck> {
-
+.row-deck > {
   .col,
   [class*="col-"] {
     display: -ms-flexbox;

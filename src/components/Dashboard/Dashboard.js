@@ -305,14 +305,13 @@ const Dashboard = (props) => {
           <>
             {/* Filter Button */}
             <div
-              className={`d-flex justify-content-end ${
-                (filters?.client_id ||
-                  filters?.company_id ||
-                  filters?.site_id ||
-                  filters?.start_date) &&
+              className={`d-flex justify-content-end ${(filters?.client_id ||
+                filters?.company_id ||
+                filters?.site_id ||
+                filters?.start_date) &&
                 isMobile &&
                 "w-100"
-              } `}
+                } `}
             >
               <IonButton
                 onClick={handleToggleSidebar1}

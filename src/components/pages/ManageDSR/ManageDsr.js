@@ -495,6 +495,7 @@ const ManageDsr = (props) => {
                         ))
                       ) : (
                         <>
+
                           <img
                             src={require("../../../assets/images/commonimages/no_data.png")}
                             alt="MyChartImage"

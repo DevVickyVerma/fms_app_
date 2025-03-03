@@ -108,9 +108,11 @@ License        :   Licensed under ThemeForest License
   --primary-bg-hover: #3d68d4; */
   --primary-bg-color: #09469f;
   --primary-bg-hover: #0b5ecf;
-  --primary-text-color: #000000de;
-  --primary-dark-text-color: #0000;
+  --primary-text-color: #09469f;
+  --bs-card-title-color: #09469f;
+  --primary-dark-text-color: #000000de;
   --primary-bg-border: #2d8ba8e0;
+  --secondery-bg-color: #b52d2d;
   --dark-body: #292e4a;
   --dark-border: #30314e;
   --dark-primary: var(--primary-bg-color);
@@ -1947,8 +1949,8 @@ fieldset:disabled a.btn {
 
 .btn-danger {
   color: #fff;
-  background: #b52d2d !important;
-  border-color: #b52d2d !important;
+  background: var(--secondery-bg-color) !important;
+  border-color: var(--secondery-bg-color) !important;
 }
 
 .btn-danger:hover {

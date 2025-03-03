@@ -10,7 +10,7 @@ const LoaderImg = () => (
   //   </div>
   // </div>
   <div id="global-mobile-loader" className="main-content">
-    <div className="mobile-loader">
+    <div className="mobile-loader ">
       <IonSpinner name="lines"></IonSpinner>
     </div>
   </div>

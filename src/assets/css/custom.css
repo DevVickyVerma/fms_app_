@@ -402,7 +402,7 @@ tbody tr {
 }
 
 .bg-card-red {
-  background-color: #d24e4e;
+  background-color: var(--secondery-bg-color);
 }
 
 .module-height-Manager {
@@ -812,8 +812,8 @@ span.ModalTitle-2fa {
   padding: 8px 15px;
   margin-bottom: 0px;
   color: #fff;
-  background: #b52d2d;
-  border-color: #b52d2d;
+  background: var(--secondery-bg-color);
+  border-color: var(--secondery-bg-color);
 }
 
 .header-btn {
@@ -1482,7 +1482,7 @@ li.ms-2.disabled-checkbox {
 }
 
 span.text-error {
-  background: #b52d2d;
+  background: var(--secondery-bg-color);
   float: right;
   margin-top: 10px;
   padding: 2px 9px;
@@ -2169,7 +2169,7 @@ td.middayModal-td.time-input-fuel-sell {
   margin: 10px 0;
   font-size: 16px;
   color: white;
-  background: #b52d2d;
+  background: var(--secondery-bg-color);
   padding: 8px;
   border-radius: 7px;
 }
