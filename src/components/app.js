@@ -258,7 +258,11 @@ const App = () => {
                     <Sidebar />
 
                     <div
+<<<<<<< HEAD
                       className={`main-content app-content ${isMobile ? "app-mobile-main-content" : ""}`}
+=======
+                      className={`main-content app-content ${!deviceInfo?.isVirtual ? "app-mobile-main-content" : ""}`}
+>>>>>>> d1ad9c67fe837721c15a4b0c128b6abd9db0d418
                     >
                       <div className="side-app">
                         <div className="main-container container-fluid">
