@@ -108,13 +108,8 @@ License        :   Licensed under ThemeForest License
   --primary-bg-hover: #3d68d4; */
   --primary-bg-color: #09469f;
   --primary-bg-hover: #0b5ecf;
-<<<<<<< HEAD
   --primary-text-color: #000000de;
-=======
-  --primary-text-color: #09469f;
-  --bs-card-title-color: #09469f;
->>>>>>> d1ad9c67fe837721c15a4b0c128b6abd9db0d418
-  --primary-dark-text-color: #000000de;
+  --primary-dark-text-color: #0000;
   --primary-bg-border: #2d8ba8e0;
   --dark-body: #292e4a;
   --dark-border: #30314e;
@@ -34604,11 +34599,7 @@ body.rtl {
   display: flex;
   z-index: 999 !important;
   border-bottom: 1px solid #eaedf1;
-<<<<<<< HEAD
   background-color: #08469f !important;
-=======
-  background-color: var(--primary-bg-color) !important;
->>>>>>> d1ad9c67fe837721c15a4b0c128b6abd9db0d418
   transition: padding-left 0.3s ease;
   height: 62px;
   margin: 0;
