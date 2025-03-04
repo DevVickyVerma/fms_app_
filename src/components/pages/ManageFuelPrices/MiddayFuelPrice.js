@@ -169,7 +169,6 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
     setIsModalOpen(false); // Close the modal without submitting
   };
 
-  console.log(formik?.values, "formik values");
 
   return (
     <>
@@ -228,25 +227,22 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                               (column, colIndex) => (
                                 <React.Fragment key={colIndex}>
                                   <td
-                                    className={`time-input-fuel-sell ${
-                                      column === "time"
+                                    className={`time-input-fuel-sell ${column === "time"
                                         ? "middayModal-time-td "
                                         : "middayModal-td "
-                                    }`}
+                                      }`}
                                     key={colIndex}
                                   >
                                     {column === "date" ? (
                                       <input
                                         type="date"
-                                        className={`table-input  ${
-                                          row.currentprice
+                                        className={`table-input  ${row.currentprice
                                             ? "fuel-readonly"
                                             : ""
-                                        } ${
-                                          row?.readonly
+                                          } ${row?.readonly
                                             ? "readonly update-price-readonly"
                                             : ""
-                                        }`}
+                                          }`}
                                         value={
                                           formik?.values?.pricedata?.currentDate
                                         }
@@ -273,21 +269,19 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                               ?.currentTime
                                           }
                                           disabled={true} // Disable if not editable
-                                          className={`time-input-fuel-sell ${
-                                            !row?.[0]?.is_editable
+                                          className={`time-input-fuel-sell ${!row?.[0]?.is_editable
                                               ? "fuel-readonly"
                                               : ""
-                                          }`}
+                                            }`}
                                         />
                                       </>
                                     ) : (
                                       <input
                                         type="number"
-                                        className={`table-input ${
-                                          row.currentprice
+                                        className={`table-input ${row.currentprice
                                             ? "fuel-readonly"
                                             : ""
-                                        } ${row?.readonly ? "readonly" : ""}`}
+                                          } ${row?.readonly ? "readonly" : ""}`}
                                         name={`rows[${rowIndex}].${column}`}
                                         value={row[column]}
                                         onChange={(e) =>
@@ -320,9 +314,8 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                           formik?.values?.pricedata?.currentDate
                                         )
                                       } // Passing currentDate to the onClick handler
-                                      className={`table-input ${
-                                        !row?.[0]?.is_editable ? "readonly" : ""
-                                      }`}
+                                      className={`table-input ${!row?.[0]?.is_editable ? "readonly" : ""
+                                        }`}
                                       placeholder="Enter Date"
                                     />
                                     <ErrorMessage
@@ -351,13 +344,11 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                         }
                                       }}
                                       disabled={!row?.[0]?.is_editable} // Disable if not editable
-                                      className={`time-input-fuel-sell ${
-                                        !row?.[0]?.is_editable ? "readonly" : ""
-                                      }   ${
-                                        row?.[0]?.is_editable
+                                      className={`time-input-fuel-sell ${!row?.[0]?.is_editable ? "readonly" : ""
+                                        }   ${row?.[0]?.is_editable
                                           ? "c-timeinput-default"
                                           : ""
-                                      } `}
+                                        } `}
                                     />
                                   </>
                                 </td>
@@ -368,9 +359,8 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                                       <Field
                                         name={`listing[${rowIndex}][${itemIndex}].price`}
                                         type="number"
-                                        className={`table-input ${
-                                          !item?.is_editable ? "readonly" : ""
-                                        }`}
+                                        className={`table-input ${!item?.is_editable ? "readonly" : ""
+                                          }`}
                                         disabled={!item?.is_editable}
                                         placeholder="Enter price"
                                         step="0.010"
@@ -500,7 +490,7 @@ const MiddayFuelPrice = ({ data, postData, handleFormSubmit }) => {
                             label="Update TLM Price"
                             name="update_tlm_price"
                             formik={formik}
-                            // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
+                          // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
                           />
 
                           {/* <div className=" position-relative pointer  ms-4">

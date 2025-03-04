@@ -248,7 +248,6 @@ const TitanDashboard = (props) => {
 
     const FetchPriceGraph = async (values) => {
         settableFilterValue(values);
-        console.log(values, "FetchPriceGraph");
         try {
             setShowModal(false);
             setPriceGraphloading(true);
@@ -347,7 +346,6 @@ const TitanDashboard = (props) => {
 
 
     const [showModal, setShowModal] = useState(false);
-    console.log(tableFilterValue, "tableFilterValue");
     return (
         <>
             {/* {isLoading ? <LoaderImg /> : ""} */}

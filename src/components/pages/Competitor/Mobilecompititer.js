@@ -279,9 +279,8 @@ const Competitor = (props) => {
             >
               <Link
                 to="#"
-                className={`btn btn-${
-                  row.is_main === 1 ? "success" : "gray"
-                }   btn-sm rounded-11 me-2`}
+                className={`btn btn-${row.is_main === 1 ? "success" : "gray"
+                  }   btn-sm rounded-11 me-2`}
                 onClick={() => handleMakeMainCompetitor(row)}
               >
                 <i className="ph ph-target" />
@@ -363,7 +362,6 @@ const Competitor = (props) => {
     // setDashboardData(null);
   };
 
-  console.log("isMobileModalOpen:", isMobileModalOpen);
 
   return (
     <>

@@ -464,6 +464,11 @@ a.text-primary:focus {
   backface-visibility: visible;
   /* background-size: 600% 100%; */
   position: relative;
+  background: linear-gradient(
+    to right,
+    #08469f,
+    #4a90e2
+  ) !important; /* Gradient Background */
   /* Required for pseudo-element positioning */
 }
 

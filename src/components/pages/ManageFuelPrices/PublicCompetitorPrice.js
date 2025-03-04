@@ -111,12 +111,6 @@ const PublicCompetitorPrice = ({
     onDataFromChild(dataToSend);
   };
 
-  const handleFormSubmit = (values) => {
-    console.log(values, "submited");
-
-    // const dataToSend = "Data from child 123";
-    // onDataFromChild(dataToSend);
-  };
 
   const fetchData = async () => {
     const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -135,9 +129,7 @@ const PublicCompetitorPrice = ({
     } catch (err) {
       setIsLinkExpired(true);
       setIsLoading(false);
-      console.log(
-        err.response ? err.response.data.message : "Error fetching clients"
-      );
+
     }
   };
 
@@ -318,11 +310,10 @@ const PublicCompetitorPrice = ({
                           <Collapse
                             accordion
                             key={competitor?.competitor_name}
-                            className={`${
-                              competitor?.isMain == 1
-                                ? "main-competitor-effect"
-                                : ""
-                            }`}
+                            className={`${competitor?.isMain == 1
+                              ? "main-competitor-effect"
+                              : ""
+                              }`}
                           >
                             <Panel
                               header={
@@ -428,7 +419,7 @@ const PublicCompetitorPrice = ({
                                         // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                                         className="middayModal-td text-muted fs-15 fw-semibold p-4"
                                         style={{ maxWidth: "50px" }}
-                                        // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
+                                      // colSpan={data?.head_array?.length + 2} // +1 for the competitor name column
                                       >
                                         <img
                                           src={formik?.values?.supplier}
@@ -500,11 +491,10 @@ const PublicCompetitorPrice = ({
                                               className="middayModal-td"
                                             >
                                               <input
-                                                className={`table-input ${
-                                                  fuel?.canUpdate
-                                                    ? ""
-                                                    : "readonly"
-                                                }`}
+                                                className={`table-input ${fuel?.canUpdate
+                                                  ? ""
+                                                  : "readonly"
+                                                  }`}
                                                 type="number"
                                                 readOnly={!fuel?.canUpdate}
                                                 step="0.010"
@@ -576,11 +566,10 @@ const PublicCompetitorPrice = ({
                                               className="middayModal-td"
                                             >
                                               <input
-                                                className={`table-input ${
-                                                  fuel?.canUpdate
-                                                    ? ""
-                                                    : "readonly"
-                                                }`}
+                                                className={`table-input ${fuel?.canUpdate
+                                                  ? ""
+                                                  : "readonly"
+                                                  }`}
                                                 type="number"
                                                 readOnly={!fuel?.canUpdate}
                                                 step="0.010"
@@ -657,11 +646,10 @@ const PublicCompetitorPrice = ({
                                               className="middayModal-td"
                                             >
                                               <input
-                                                className={`table-input ${
-                                                  fuel?.canUpdate
-                                                    ? ""
-                                                    : "readonly"
-                                                }`}
+                                                className={`table-input ${fuel?.canUpdate
+                                                  ? ""
+                                                  : "readonly"
+                                                  }`}
                                                 type="number"
                                                 readOnly={!fuel?.canUpdate}
                                                 step="0.010"

@@ -42,7 +42,6 @@ const Header = (props) => {
     }
   };
 
-  console.log(deviceInfo?.operatingSystem, "deviceInfoheader");
 
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions || []

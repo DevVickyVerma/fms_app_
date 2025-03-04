@@ -67,13 +67,13 @@ const App = () => {
   useEffect(() => {
     if (currentPlatforms.includes("android")) {
       setPlateform("Android");
-      console.log("Running on Android");
+
     } else if (currentPlatforms.includes("ios")) {
       setPlateform("iOS");
-      console.log("Running on iOS");
+
     } else {
       setPlateform("Web");
-      console.log("Running on Web or another platform");
+
     }
     window.addEventListener("mousemove", handleUserActivity);
     window.addEventListener("keydown", handleUserActivity);
@@ -133,7 +133,7 @@ const App = () => {
       } else {
         setIsMobile(true);
       }
-      console.log("Device Info:", info);
+
       setDeviceInfo(info);
     } catch (error) {
       console.error("Error fetching device info:", error);
@@ -180,20 +180,12 @@ const App = () => {
   }, []);
   // document.body.classList.add("mobile-app");
   const registerPushNotifications = () => {
-    console.log(deviceInfo, "registerPushNotifications");
-    // Check if the platform is iOS or Android or a WebView (mobile environment)
     if (deviceInfo?.platform == "web") {
-      console.log(
-        "Push notifications are not supported on this platform (Desktop/Web)."
-      );
+
       return; // Exit for unsupported platforms
     }
 
-    // Log the current platform (only iOS/Android or WebView will log)
-    console.log(
-      "Current platform:",
-      isPlatform("ios") ? "iOS" : isPlatform("android") ? "Android" : "WebView"
-    );
+
 
     // Request push notification permissions for native platforms
     PushNotifications.requestPermissions().then((result) => {
@@ -206,8 +198,6 @@ const App = () => {
 
     // Listener for successful push registration (token)
     PushNotifications.addListener("registration", (token) => {
-      console.log("Push registration success, token:", token.value);
-      // Send token to your backend server here
     });
 
     // Listener for registration errors

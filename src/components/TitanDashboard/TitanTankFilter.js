@@ -18,7 +18,6 @@ const TitanTankFilter = ({ show, handleClose, PriceGraphData, onSubmit }) => {
         onSubmit: async (values) => {
             // Call onSubmit (this will call the function passed from the parent)
             onSubmit(values);
-            console.log("Form values: ", values);
             // Handle submit action (e.g., API call or state update)
         }
     });

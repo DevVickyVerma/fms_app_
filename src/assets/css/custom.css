@@ -562,8 +562,12 @@ span.ModalTitle {
   align-items: center;
   padding: 8px 15px;
   margin-bottom: 0px;
-  color: #000;
-  background: #fff;
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    rgb(8, 70, 159),
+    rgba(8, 70, 159, 0.54)
+  ) !important;
 }
 
 .profile-box {

@@ -4,7 +4,6 @@ import { Card } from "react-bootstrap";
 
 const TitanColumnChart = ({ stockGraphData, tablebestvsWorst }) => {
 
-    console.log(stockGraphData, "TitanColumnChart");
     const options = {
         chart: {
             type: "bar",
@@ -63,8 +62,6 @@ const TitanColumnChart = ({ stockGraphData, tablebestvsWorst }) => {
         setSelectedFuelType(event.target.value);
     };
     const selectedFuelData = stockGraphData?.data[selectedFuelType];
-    console.log(selectedFuelData, "selectedFuelData");
-
 
     return (
         <Card>

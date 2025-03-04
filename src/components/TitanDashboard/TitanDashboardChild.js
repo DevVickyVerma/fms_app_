@@ -50,7 +50,7 @@ const TitanDashboardChild = (props) => {
     });
 
     const handleApplyFilters = (values) => {
-        console.log(values, "values");
+
         if (userPermissions?.includes("ceodashboard-view")) {
             callFetchFilterData(values);
         }
@@ -146,8 +146,7 @@ const TitanDashboardChild = (props) => {
                 handleApplyFilters(futurepriceLog);
             }
         }
-    }, [dispatch, storedKeyName]); // Add any other dependencies needed here
-    console.log(tableData, "tableData");
+    }, [dispatch, storedKeyName]);
     return (
         <>
             {isLoading ? <LoaderImg /> : null}

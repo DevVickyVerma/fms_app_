@@ -85,15 +85,7 @@ const EditFuelAutomation = ({ isLoading, getData, postData }) => {
 
   const frequencyOptions = [{ id: 1, name: "Daily" }];
 
-  const handleShowDate = (e) => {
-    const inputDateElement = e?.target; // Get the clicked input element
 
-    console.log("inputDateElement", inputDateElement);
-
-    if (inputDateElement && inputDateElement?.showPicker) {
-      inputDateElement.showPicker(); // Programmatically trigger the date picker
-    }
-  };
 
   // Function to handle the action click and set the formik value
   const handleActionClick = (actionType) => {
@@ -194,11 +186,10 @@ const EditFuelAutomation = ({ isLoading, getData, postData }) => {
                           <button
                             type="button"
                             onClick={() => handleActionClick(1)}
-                            className={`btn-action ${
-                              formik.values.action === 1
-                                ? "highlighted btn btn-primary"
-                                : "work-flow-sucess-status"
-                            }`}
+                            className={`btn-action ${formik.values.action === 1
+                              ? "highlighted btn btn-primary"
+                              : "work-flow-sucess-status"
+                              }`}
                           >
                             <i className={`ph ph-arrow-up`}></i>
                           </button>
@@ -212,11 +203,10 @@ const EditFuelAutomation = ({ isLoading, getData, postData }) => {
                           <button
                             type="button"
                             onClick={() => handleActionClick(2)}
-                            className={`btn-action ${
-                              formik.values.action === 2
-                                ? "highlighted btn btn-danger"
-                                : "work-flow-danger-status"
-                            }`}
+                            className={`btn-action ${formik.values.action === 2
+                              ? "highlighted btn btn-danger"
+                              : "work-flow-danger-status"
+                              }`}
                           >
                             <i className={`ph ph-arrow-down`}></i>
                           </button>

@@ -6049,15 +6049,19 @@ a.card-tabs-item.active {
 }
 
 .card-header {
-  background: none;
+  background: linear-gradient(
+    135deg,
+    rgb(8, 70, 159),
+    rgba(8, 70, 159, 0.54)
+  ) !important;
   padding: 1rem 1.5rem;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
   align-items: center;
   margin-bottom: 0;
-  background-color: transparenrt;
   border-bottom: 1px solid #eaedf1;
+  color: #fff;
 }
 
 .card-header .card-title {
@@ -43882,7 +43886,7 @@ iframe {
   box-shadow:
     0 0 4px rgba(0, 0, 0, 0.14),
     0 4px 8px rgba(0, 0, 0, 0.06);
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 
 /*------------------------------------------------------------------
@@ -44059,7 +44063,9 @@ iframe {
 
 @media (max-width: 576px) {
   .wrap-login100 {
+    width: 100%;
     padding: 25px 15px 25px 15px;
+    background: #fff;
   }
 }
 
@@ -56023,7 +56029,7 @@ button.close-button {
   height: 40px;
   width: 40px;
   text-decoration: none;
-  color: #000;
+  color: #fff;
   /* background: linear-gradient(to bottom right,
       #2D8BA8d6 0%,
       var(--primary06) 100%);

@@ -164,8 +164,7 @@ const TitanDetailModal = (props) => {
     tablebestvsWorst,
     currentPage,
     searchTerm,
-  ]); // Dependencies: title and tableselectedSite
-  console.log(formik?.values, "filterData");
+  ]);
   const fetchData = async () => {
     try {
       setLoading(true); // Start loading indicator
@@ -222,8 +221,6 @@ const TitanDetailModal = (props) => {
               setCurrentPage(performanceResponse.data?.data?.currentPage || 1);
               setLastPage(performanceResponse.data?.data?.lastPage || 1);
 
-              console.log("Performance Data:", performanceResponse.data?.data);
-              console.log("Graph Data:", graphResponse.data?.data);
             }
           } catch (error) {
             console.error("API call failed:", error);
@@ -239,7 +236,6 @@ const TitanDetailModal = (props) => {
         setCardData(response.data?.data?.card_list); // Assuming response has a 'data' field
         setCurrentPage(response.data.data?.currentPage || 1);
         setLastPage(response.data.data?.lastPage || 1);
-        console.log(response.data?.data?.data, "response.data?.data?.data");
       }
     } catch (error) {
       console.error("API call failed:", error);
@@ -358,7 +354,7 @@ const TitanDetailModal = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
@@ -377,14 +373,12 @@ const TitanDetailModal = (props) => {
     fuel: site?.fuel, // Extract fuel types
   }));
 
-  console.log(siteList, "siteList");
   return (
     <>
       {isLoading || loading ? <LoaderImg /> : ""}
       <div
-        className={`common-sidebar    ${
-          visible ? "visible slide-in-right " : "slide-out-right"
-        } `}
+        className={`common-sidebar    ${visible ? "visible slide-in-right " : "slide-out-right"
+          } `}
         style={{
           width:
             title == "Performance"

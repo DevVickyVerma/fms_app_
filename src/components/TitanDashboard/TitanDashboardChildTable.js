@@ -84,7 +84,7 @@ const TitanDashboardChildTable = (props) => {
             <React.Fragment key={index}>
 
 
-                {console.log(item, "item")}
+
                 {isSitePermissionAvailable || isSiteSecondPermissionAvailable ? (
                     <>
 

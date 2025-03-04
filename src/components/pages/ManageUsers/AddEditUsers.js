@@ -119,17 +119,17 @@ const ManageAddEditUsers = (props) => {
       password: urlId
         ? Yup.mixed().notRequired()
         : Yup.string()
-            .required("Password is required")
-            .min(8, "Password must be at least 8 characters long")
-            .matches(
-              /[A-Z]/,
-              "Password must contain at least one uppercase letter"
-            )
-            .matches(/\d/, "Password must contain at least one numeric digit")
-            .matches(
-              /[!@#$%^&*(),.?":{}|<>]/,
-              "Password must contain at least one special character"
-            ),
+          .required("Password is required")
+          .min(8, "Password must be at least 8 characters long")
+          .matches(
+            /[A-Z]/,
+            "Password must contain at least one uppercase letter"
+          )
+          .matches(/\d/, "Password must contain at least one numeric digit")
+          .matches(
+            /[!@#$%^&*(),.?":{}|<>]/,
+            "Password must contain at least one special character"
+          ),
       phone_number: Yup.string()
         .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
         .required("Phone Number is required"),
@@ -139,7 +139,6 @@ const ManageAddEditUsers = (props) => {
     },
   });
 
-  console.log(formik.errors, "formik erorrs");
 
   const handleSubmit1 = async (values) => {
     try {
@@ -177,8 +176,6 @@ const ManageAddEditUsers = (props) => {
     fetchCommonList();
   }, [urlId]);
 
-  console.log(state, "state");
-  console.log(formik?.values, "formik?.values");
 
   return (
     <>
@@ -265,12 +262,11 @@ const ManageAddEditUsers = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.phone_number &&
+                          className={`input101 ${formik.errors.phone_number &&
                             formik.touched.phone_number
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="phone_number"
                           name="phone_number"
                           placeholder="Phone Number"
@@ -379,7 +375,7 @@ const ManageAddEditUsers = (props) => {
                         label="Is Main Approver"
                         name="is_main"
                         formik={formik}
-                        // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
+                      // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
                       />
                     </Col>
 
@@ -390,7 +386,7 @@ const ManageAddEditUsers = (props) => {
                             label="Send Welcome Email"
                             name="send_mail"
                             formik={formik}
-                            // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
+                          // disabled={true} // You can toggle this between true/false to enable/disable the checkbox
                           />
                         </Col>
                       </>
@@ -408,7 +404,7 @@ const ManageAddEditUsers = (props) => {
                     <button
                       type="submit"
                       className="btn btn-primary me-2 "
-                      // disabled={Object.keys(errors).length > 0}
+                    // disabled={Object.keys(errors).length > 0}
                     >
                       {urlId ? "Update" : "Save"}
                     </button>

@@ -269,7 +269,6 @@ const TitanFilterModal = ({
             formik.setFieldValue('grade_id', companyId);
             const selectedCompany = formik?.values?.grades?.find(company => company?.id === companyId);
             FetchTankList(companyId)
-            console.log(selectedCompany, "selectedCompany");
             formik.setFieldValue('grade_name', selectedCompany?.fuel_name || "");
         } else {
             formik.setFieldValue('tanks', []);
@@ -280,34 +279,34 @@ const TitanFilterModal = ({
         }
     };
     const FetchGradeList = async (id) => {
-        console.log(id, "id");
+
         try {
             const response = await getData(`common/site-grade-list?site_id=${id}`);
 
             const { data } = response;
             if (data) {
                 formik.setFieldValue('grades', response?.data?.data);
-                console.log(data, "tanks");
+
             }
         } catch (error) {
             console.error("API error:", error);
         }
     };
     const FetchTankList = async (id) => {
-        console.log(id, "id");
+
         try {
             const response = await getData(`common/tank-list?site_id=${formik.values.site_id}&grade_id=${id}`);
 
             const { data } = response;
             if (data) {
                 formik.setFieldValue('tanks', response?.data?.data);
-                console.log(data, "tanks");
+
             }
         } catch (error) {
             console.error("API error:", error);
         }
     };
-    console.log(formik.values, "columnIndex");
+
 
     return (
         <>

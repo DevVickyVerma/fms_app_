@@ -21,7 +21,7 @@ const TitanStatsTable = (props) => {
   );
 
   const handleFuelPriceLinkClick = (item) => {
-    console.log(item, "item");
+
     // setting data for 3rd screen here with tha name of singleSiteData
     // const rowDataString = JSON.stringify(item);
     // localStorage.setItem("ceo-singleSiteData", rowDataString);
@@ -54,11 +54,10 @@ const TitanStatsTable = (props) => {
       id: "1",
       cell: (row) => (
         <div
-          className={`spacebetween   ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`spacebetween   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-flex  ">
@@ -76,11 +75,10 @@ const TitanStatsTable = (props) => {
                 />
               </div>
               <div
-                className={`spacebetween ${
-                  isSitePermissionAvailable || isSiteSecondPermissionAvailable
-                    ? "pointer"
-                    : ""
-                }`}
+                className={`spacebetween ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+                  ? "pointer"
+                  : ""
+                  }`}
                 onClick={() => handleFuelPriceLinkClick(row)}
               >
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -104,11 +102,10 @@ const TitanStatsTable = (props) => {
       width: "19.25%",
       cell: (row) => (
         <div
-          className={` spacebetween  ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={` spacebetween  ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
           style={{ width: "100%" }}
         >
@@ -142,11 +139,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.wet_stock_value?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.wet_stock_value?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.wet_stock_value?.percentage}%`}
                 >
                   {row.detail?.wet_stock_value?.status == "up" ? (
@@ -198,11 +194,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.wet_stock_volume?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.wet_stock_volume?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.wet_stock_volume?.percentage}%`}
                 >
                   {row.detail?.wet_stock_volume?.status == "up" ? (
@@ -238,11 +233,10 @@ const TitanStatsTable = (props) => {
       width: "19.25%",
       cell: (row) => (
         <div
-          className={`spacebetween   ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`spacebetween   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
           style={{ width: "100%" }}
         >
@@ -276,11 +270,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.delivery_loss_value?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.delivery_loss_value?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.delivery_loss_value?.percentage}%`}
                 >
                   {row.detail?.delivery_loss_value?.status == "up" ? (
@@ -332,11 +325,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.delivery_loss_volume?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.delivery_loss_volume?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.delivery_loss_volume?.percentage}%`}
                 >
                   {row.detail?.delivery_loss_volume?.status == "up" ? (
@@ -372,11 +364,10 @@ const TitanStatsTable = (props) => {
       width: "19.25%",
       cell: (row) => (
         <div
-          className={`spacebetween   ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`spacebetween   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
           style={{ width: "100%" }}
         >
@@ -410,11 +401,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.unkonwn_loss_value?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.unkonwn_loss_value?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.unkonwn_loss_value?.percentage}%`}
                 >
                   {row.detail?.unkonwn_loss_value?.status == "up" ? (
@@ -466,11 +456,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.unkonwn_loss_volume?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.unkonwn_loss_volume?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.unkonwn_loss_volume?.percentage}%`}
                 >
                   {row.detail?.unkonwn_loss_volume?.status == "up" ? (
@@ -506,11 +495,10 @@ const TitanStatsTable = (props) => {
       width: "19.25%",
       cell: (row) => (
         <div
-          className={`spacebetween   ${
-            isSitePermissionAvailable || isSiteSecondPermissionAvailable
-              ? "pointer"
-              : ""
-          }`}
+          className={`spacebetween   ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+            ? "pointer"
+            : ""
+            }`}
           onClick={() => handleFuelPriceLinkClick(row)}
           style={{ width: "100%" }}
         >
@@ -544,11 +532,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.dip_stock_value?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.dip_stock_value?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.dip_stock_value?.percentage}%`}
                 >
                   {row.detail?.dip_stock_value?.status == "up" ? (
@@ -600,11 +587,10 @@ const TitanStatsTable = (props) => {
                 overlay={<Tooltip>Percentage</Tooltip>}
               >
                 <p
-                  className={`me-1 mb-0 c-fs-10 ${
-                    row.detail?.dip_stock_volume?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                  }`}
+                  className={`me-1 mb-0 c-fs-10 ${row.detail?.dip_stock_volume?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                    }`}
                   data-tip={`${row.detail?.dip_stock_volume?.percentage}%`}
                 >
                   {row.detail?.dip_stock_volume?.status == "up" ? (
@@ -632,11 +618,10 @@ const TitanStatsTable = (props) => {
   ];
   const TableComponent = () => (
     <div
-      className={`table-responsive deleted-table mobile-first-table performance-col ${
-        isSitePermissionAvailable || isSiteSecondPermissionAvailable
-          ? "show-ceo-hover-effect-data-table"
-          : ""
-      }`}
+      className={`table-responsive deleted-table mobile-first-table performance-col ${isSitePermissionAvailable || isSiteSecondPermissionAvailable
+        ? "show-ceo-hover-effect-data-table"
+        : ""
+        }`}
     >
       <DataTable
         columns={columns}

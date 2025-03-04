@@ -72,9 +72,7 @@ const CardReconciliation = (props) => {
     },
     validationSchemaForCustomInput,
     onSubmit: (values) => {
-      console.log(values, "validationSchemaForCustomInput");
 
-      console.log(values, "values");
 
       GetDataWithClient(values);
     },
@@ -84,7 +82,6 @@ const CardReconciliation = (props) => {
     if (!values?.site_id) return;
     if (values?.client_id && values?.company_id) {
       setFilters(values);
-      console.log(values, "columnInsetApplyNavigatedex");
       setApplyNavigate(true);
     } else {
       setApplyNavigate(false);
@@ -142,11 +139,9 @@ const CardReconciliation = (props) => {
     }
   };
   const handleClearForm = async () => {
-    console.log(formik.values, "searchTerm");
     setData([]);
     setFilters();
     formik.resetForm();
-    console.log("columnIndex");
   };
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -168,7 +163,6 @@ const CardReconciliation = (props) => {
   };
   const handleCardClick = (cardName) => {
     if (applyNavigate && filters?.company_id) {
-      console.log(cardName?.card_id, "cardName");
       formik.setFieldValue("cardID", cardName?.card_id);
       // setModalTitle(cardName);
       setShowCeoDetailModal(true);
@@ -243,7 +237,7 @@ const CardReconciliation = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
@@ -302,7 +296,6 @@ const CardReconciliation = (props) => {
 
   const handleSubmit = async (files) => {
     if (!files || files.length === 0) {
-      console.log("No files selected to upload.");
       return;
     }
 

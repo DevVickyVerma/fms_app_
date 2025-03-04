@@ -34,7 +34,7 @@ const TitanCommonCards = ({
     return (
 
         <>
-            {console.log(leftSideData, "leftSideData")}
+      
             <motion.div
                 onClick={handleNavigateClick}
                 className={`uniform-card-height ceo-card-default-height ${isParentComponent ? "" : ""}`}

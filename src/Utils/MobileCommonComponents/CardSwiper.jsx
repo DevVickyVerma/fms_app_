@@ -36,7 +36,6 @@ const CardSwiper = ({
     const navigate = useNavigate();
 
     const handleNavigateClick = () => {
-        console.log(parentComponent, "parentComponent");
         let ApplyFilterrequired = UserPermissions?.applyFilter;
 
         if (dashboardData && Object?.keys(dashboardData)?.length > 0) {
@@ -82,7 +81,7 @@ const CardSwiper = ({
                             overflow: 'hidden',
                             background: 'linear-gradient(135deg, #08469F, #08469f8a)',
                             color: "white",
-                            borderRadius: "12px",
+                            borderRadius: "6px",
                             padding: "30px 20px",
                             showIcon: false,
                         }}>

@@ -208,7 +208,7 @@ export default function Login() {
         <div className="login-img overflow-hidden">
           <Row>
             <Col lg={12} md={12} sm={12} className="c-login-left-card">
-              <div className="page">
+              <div className="page" >
                 <div className="container-login100 d-flex justify-content-center">
                   <div className="wrap-login100 p-0">
                     <Card.Body>
@@ -235,11 +235,10 @@ export default function Login() {
                                 style={{ display: "flex" }}
                               >
                                 <Field
-                                  className={`input100 ${
-                                    errors.email && touched.email
-                                      ? "is-invalid"
-                                      : ""
-                                  }`}
+                                  className={`input100 ${errors.email && touched.email
+                                    ? "is-invalid"
+                                    : ""
+                                    }`}
                                   // type="password"
                                   type="text"
                                   name="email"
@@ -316,11 +315,10 @@ export default function Login() {
                                 style={{ display: "flex" }}
                               >
                                 <Field
-                                  className={`input100 ${
-                                    errors.password && touched.password
-                                      ? "is-invalid"
-                                      : ""
-                                  }`}
+                                  className={`input100 ${errors.password && touched.password
+                                    ? "is-invalid"
+                                    : ""
+                                    }`}
                                   // type="password"
                                   type={passwordVisible ? "password" : "text"}
                                   name="password"
@@ -462,13 +460,8 @@ export default function Login() {
                       </Formik>
                     </Card.Body>
                     <Card.Footer
-                      className=" text-end p-2 color-white"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, rgb(70 99 172) 0%, rgb(70 99 172) 91.71%)",
-                        color: "white",
-                        fontSize: "12px",
-                      }}
+                      className=" text-end p-2 color-white btn-primary"
+
                     >
                       <span className=" " style={{ paddingRight: "20px" }}>
                         SECURE WITH{" "}

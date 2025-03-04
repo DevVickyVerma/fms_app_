@@ -36,13 +36,11 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values) => {
-      console.log("Form values:", values);
       handleSubmit(values);
     },
   });
 
   const handleSubmit = async (values) => {
-    console.log(values, "values");
 
     const formData = new FormData();
     formData.append("site_id", values?.site_id);
@@ -222,7 +220,7 @@ const FuelAutomation = ({ isLoading, getData, postData, apidata }) => {
             </h3>
 
             {formik?.values?.setting?.length < formik?.values?.max &&
-            isEditPermissionAvailable ? (
+              isEditPermissionAvailable ? (
               <>
                 <button
                   type="button"

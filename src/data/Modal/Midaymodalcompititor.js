@@ -156,12 +156,7 @@ const Competitormodal = ({
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend);
   };
-  const handleFormSubmit = (values) => {
-    console.log(values, "submited");
 
-    // const dataToSend = "Data from child 123";
-    // onDataFromChild(dataToSend);
-  };
 
   return (
     <>

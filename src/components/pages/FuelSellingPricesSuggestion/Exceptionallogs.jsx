@@ -98,7 +98,7 @@ const Exceptionallogs = (props) => {
 
   const handleApplyFilters = (values) => {
     if (values?.company_id && values?.start_date) {
-      console.log(values, "values");
+
       handleSubmit1(values);
     }
   };
@@ -108,11 +108,9 @@ const Exceptionallogs = (props) => {
   };
 
   const handleTabSelect = (eventKey) => {
-    console.log(eventKey, "eventKey");
     setPriceLogsvalue(eventKey); // Update the state with the selected tab's eventKey
   };
 
-  console.log(data?.priceLogs, "PriceLogsvalue");
 
   return (
     <>
