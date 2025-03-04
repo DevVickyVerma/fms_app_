@@ -3042,3 +3042,10 @@ td.middayModal-td.time-input-fuel-sell {
 .mobile-sidebar-header {
   padding-top: 40px;
 }
+.dZZCFt {
+  display: flex;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 12px;
+  font-weight: 600 !important;
+}

@@ -76,11 +76,11 @@ const CardSwiper = ({
                 <SwiperSlide key={card.id}>
                     <div className="rounded-lg shadow-lg border-0"
                         onClick={parentComponent ? handleNavigateClick : undefined}
-
+                        // background: linear-gradient(to right, #08469F, #08469f8a);
                         style={{
                             position: 'relative',
                             overflow: 'hidden',
-                            background: 'linear-gradient(135deg, #5B61FC, #9D6CFF)',
+                            background: 'linear-gradient(135deg, #08469F, #08469f8a)',
                             color: "white",
                             borderRadius: "12px",
                             padding: "30px 20px",
@@ -132,7 +132,7 @@ const CardSwiper = ({
                                 <span className="text-success me-2">▲</span> :
                                 <span className="text-danger me-2">▼</span>
                             }
-                            {card.percentage} % Last Month
+                            {card.percentage}  Last Month
                         </p>
                     </div>
                 </SwiperSlide>

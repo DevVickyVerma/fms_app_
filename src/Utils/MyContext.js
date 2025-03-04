@@ -24,7 +24,7 @@ const MyProvider = ({ children }) => {
           // info?.operatingSystem == "windows" ||
           // info?.operatingSystem == "android" ||
           // info?.operatingSystem == "unknown"
-          !info?.isVirtual
+          info?.isVirtual
         ) {
           setIsMobile(false);
         } else {
