@@ -153,9 +153,9 @@ License        :   Licensed under ThemeForest License
   --breakpoint-xl: 1200px;
   --small-fs: 12px;
   --primary-box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.5);
-  --font-family-sans-serif: "Poppins", sans-serif;
-  --font-family-root: "Poppins", sans-serif;
-  --font-family-monospace: "Poppins", sans-serif;
+  --font-family-sans-serif: Nunito, sans-serif;
+  --font-family-root: Nunito, sans-serif;
+  --font-family-monospace: Nunito, sans-serif;
 }
 
 * {

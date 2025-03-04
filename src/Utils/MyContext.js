@@ -21,9 +21,10 @@ const MyProvider = ({ children }) => {
       try {
         const info = await Device.getInfo();
         if (
-          info?.operatingSystem == "windows" ||
+          // info?.operatingSystem == "windows" ||
           // info?.operatingSystem == "android" ||
-          info?.operatingSystem == "unknown"
+          // info?.operatingSystem == "unknown"
+          !info?.isVirtual
         ) {
           setIsMobile(false);
         } else {
@@ -49,18 +50,10 @@ const MyProvider = ({ children }) => {
           );
         } else if (info.platform === "android") {
           setDeviceType("Android Device");
-          document.documentElement.style.setProperty(
-            "--font-family-sans-serif",
-            '"Roboto", sans-serif'
-          );
-          document.documentElement.style.setProperty(
-            "--font-family-root",
-            '"Roboto", sans-serif'
-          );
-          document.documentElement.style.setProperty(
-            "--font-family-monospace",
-            '"Roboto", sans-serif'
-          );
+          document.documentElement.style.setProperty("--font-family-sans-serif", '"Nunito", sans-serif');
+          document.documentElement.style.setProperty("--font-family-root", '"Nunito", sans-serif');
+          document.documentElement.style.setProperty("--font-family-monospace", '"Nunito", sans-serif');
+
         } else if (info.platform === "web") {
           if (info.operatingSystem.toLowerCase().includes("windows")) {
             setDeviceType("Windows Device");
@@ -68,18 +61,10 @@ const MyProvider = ({ children }) => {
             setDeviceType("Web Browser");
           }
         } else {
-          document.documentElement.style.setProperty(
-            "--font-family-sans-serif",
-            '"Poppins", sans-serif'
-          );
-          document.documentElement.style.setProperty(
-            "--font-family-root",
-            '"Poppins", sans-serif'
-          );
-          document.documentElement.style.setProperty(
-            "--font-family-monospace",
-            '"Poppins", sans-serif'
-          );
+          document.documentElement.style.setProperty("--font-family-sans-serif", '"Nunito", sans-serif');
+          document.documentElement.style.setProperty("--font-family-root", '"Nunito", sans-serif');
+          document.documentElement.style.setProperty("--font-family-monospace", '"Nunito", sans-serif');
+
 
           setDeviceType("Unknown Device");
         }

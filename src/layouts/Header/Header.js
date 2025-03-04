@@ -18,7 +18,7 @@ const Header = (props) => {
   const { getData } = props;
   const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
     useState(null);
-  const { deviceType, deviceInfo, isMobile } = useMyContext();
+  const { deviceInfo, isMobile } = useMyContext();
   const logout = async () => {
     localStorage.clear();
     window.location.replace("/");
@@ -115,6 +115,7 @@ const Header = (props) => {
       className={`app-header header sticky ${isMobile ? "mobile-content-header" : ""}`}
     >
       <Container fluid={true} className="main-container">
+
         <div className="d-flex align-items-center">
           <Link
             aria-label="Hide Sidebar"
@@ -148,8 +149,10 @@ const Header = (props) => {
               alt="logo"
             />
           </Link>
+          <h4 style={{ color: "#fff" }}>  {isMobile ? "mobile" : "Normal"}</h4>
 
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
+
             <div>
               {isMobile ? (
                 <>
