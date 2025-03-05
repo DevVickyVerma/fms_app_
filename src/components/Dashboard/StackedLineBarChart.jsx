@@ -72,6 +72,7 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
     },
     plugins: {
       legend: {
+        display: false,
         position: "top",
         labels: {
           font: {

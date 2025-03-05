@@ -43,11 +43,12 @@ const DashboardOverallStatsPieChart = ({ data }) => {
         breakpoint: 576, // For mobile portrait view
         options: {
           chart: {
-            width: 250,  // Further reduce size for smaller screens
-            height: 250,
+            // width: 250,  // Further reduce size for smaller screens
+            // height: 250,
           },
           legend: {
             position: 'bottom',
+            // show: false,
           },
         },
       },

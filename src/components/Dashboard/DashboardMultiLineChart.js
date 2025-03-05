@@ -104,7 +104,7 @@ const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
         },
       },
       legend: {
-        display: true,
+        display: false,
         labels: {
           font: {
             size: 14,
