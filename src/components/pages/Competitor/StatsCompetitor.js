@@ -53,18 +53,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
   };
 
   const columns = [
-    {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      //  width: "15%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
+
     {
       name: "Site Name",
       selector: (row) => [row?.site_name],
