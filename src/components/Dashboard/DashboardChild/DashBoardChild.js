@@ -285,23 +285,23 @@ const DashBoardChild = (props) => {
       </div>
 
 
-      <Row>
-        {isMobile ? <CardSwiper
-          dashboardData={dashboardData}
-          callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
-          parentComponent={false}
-          cardsData={DashboardcardsData(dashboardData)}  // ✅ Call the function
-        /> : <DashboardStatsBox
-          GrossVolume={dashboardData?.gross_volume}
-          shopmargin={dashboardData?.shop_profit}
-          GrossProfitValue={dashboardData?.gross_profit}
-          GrossMarginValue={dashboardData?.gross_margin}
-          FuelValue={dashboardData?.fuel_sales}
-          shopsale={dashboardData?.shop_sales}
-          shop_fees={dashboardData?.shop_fees}
-          parentComponent={false}
-        />}
-      </Row>
+
+      {isMobile ? <CardSwiper
+        dashboardData={dashboardData}
+        callStatsBoxParentFunc={() => setCenterFilterModalOpen(true)}
+        parentComponent={false}
+        cardsData={DashboardcardsData(dashboardData)}  // ✅ Call the function
+      /> : <DashboardStatsBox
+        GrossVolume={dashboardData?.gross_volume}
+        shopmargin={dashboardData?.shop_profit}
+        GrossProfitValue={dashboardData?.gross_profit}
+        GrossMarginValue={dashboardData?.gross_margin}
+        FuelValue={dashboardData?.fuel_sales}
+        shopsale={dashboardData?.shop_sales}
+        shop_fees={dashboardData?.shop_fees}
+        parentComponent={false}
+      />}
+
       {/* <DashboardStatsBox
         GrossVolume={dashboardData?.gross_volume}
         shopmargin={dashboardData?.shop_profit}

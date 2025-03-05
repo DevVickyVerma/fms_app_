@@ -29,8 +29,6 @@ import { useSelector } from "react-redux";
 import CeoDashSubChildGrads from "./CeoDashSubChildGrads";
 import CeoDashSubChildShopSale from "./DashSubChildShopSale/CeoDashSubChildShopSale";
 import CeoDashSubStatsBox from "./CeoDashSubStatsBox";
-import NoDataComponent from "../../../Utils/commonFunctions/NoDataComponent";
-import MOPStackedBarChart from "../CeoDashboardModal/MOPStackedBarChart";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -300,7 +298,7 @@ const DashSubChild = ({
         </>
 
         {/* dashboard site Top section */}
-        <CeoDashSubStatsBox Ceo={isCeoDashboard || details ? true : false} />
+        <CeoDashSubStatsBox />
 
         {/* grid values */}
 

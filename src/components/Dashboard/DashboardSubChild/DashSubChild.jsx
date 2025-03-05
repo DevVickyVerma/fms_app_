@@ -374,8 +374,8 @@ const DashSubChild = ({
           </div>
         </>
 
-        {/* dashboard site Top section */}
-        <DashSubStatsBox Ceo={isCeoDashboard || details ? true : false} />
+        {/* dashboard sitedd Top section */}
+        <DashSubStatsBox />
 
         {/* grid values */}
 
