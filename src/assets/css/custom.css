@@ -2997,7 +2997,7 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .mobile-ph {
-  font-size: var(--small-fs) !important;
+  /* font-size: var(--small-fs) !important; */
 }
 
 .custom-radiobox:focus {

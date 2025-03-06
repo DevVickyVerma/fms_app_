@@ -21,10 +21,10 @@ const MyProvider = ({ children }) => {
       try {
         const info = await Device.getInfo();
         if (
-          info?.operatingSystem == "windows" ||
-          info?.operatingSystem == "android" ||
-          info?.operatingSystem == "unknown"
-          // info?.isVirtual
+          // info?.operatingSystem == "windows" ||
+          // info?.operatingSystem == "android" ||
+          // info?.operatingSystem == "unknown"
+          !info?.isVirtual
         ) {
           setIsMobile(false);
         } else {
