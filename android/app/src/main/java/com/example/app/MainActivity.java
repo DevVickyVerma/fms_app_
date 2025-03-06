@@ -1,4 +1,4 @@
-package com.example.app;
+package uk.credentia.fms;
 
 import com.getcapacitor.BridgeActivity;
 

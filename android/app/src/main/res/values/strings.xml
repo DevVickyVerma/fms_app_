@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">fms-app</string>
     <string name="title_activity_main">fms-app</string>
-    <string name="package_name">com.example.app</string>
-    <string name="custom_url_scheme">com.example.app</string>
+    <string name="package_name">uk.credentia.fms</string>
+    <string name="custom_url_scheme">uk.credentia.fms</string>
 </resources>

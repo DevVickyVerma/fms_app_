@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "578983291103",
-    "project_id": "fms-credentia",
-    "storage_bucket": "fms-credentia.firebasestorage.app"
+    "project_number": "225943207345",
+    "project_id": "fms-credentia-dce6f",
+    "storage_bucket": "fms-credentia-dce6f.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:578983291103:android:9fafaff0e7c801d936616a",
+        "mobilesdk_app_id": "1:225943207345:android:a502f257bbf1fa9022d190",
         "android_client_info": {
-          "package_name": "com.example.app"
+          "package_name": "uk.credentia.fms"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAu-MeKAseUlxw_ZG-8db4jq6AOlyJcLWg"
+          "current_key": "AIzaSyDeKIRt-FqAWYGTT1tr5Vx9XK1hyaQoOG0"
         }
       ],
       "services": {

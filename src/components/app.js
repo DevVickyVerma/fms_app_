@@ -128,13 +128,13 @@ const App = () => {
       const info = await Device.getInfo();
       if (
         // info?.operatingSystem == "windows"
-        !info?.isVirtual
+        info?.isVirtual
       ) {
         setIsMobile(false);
       } else {
         setIsMobile(true);
       }
-
+      console.log(info, "setDeviceInfo");
       setDeviceInfo(info);
     } catch (error) {
       console.error("Error fetching device info:", error);
@@ -229,13 +229,14 @@ const App = () => {
   } else {
     console.warn("Device info not available yet.");
   }
+  console.log(deviceType, "deviceType");
   return (
     <MyProvider>
       <NavigationProvider>
         <Fragment>
           {UserPermissions?.permissions?.length > 0 ? (
             <>
-              <div className="horizontalMenucontainer">
+              <div className="horizontalMenucontainer mt-4">
                 <TabToTop />
                 <div className="page">
                   <div className="page-main">

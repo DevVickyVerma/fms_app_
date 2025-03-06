@@ -1,8 +1,8 @@
 // import type { CapacitorConfig } from '@capacitor/cli';
 
 // const config: CapacitorConfig = {
-//   appId: 'com.example.app',
-//   appName: 'FMS-credentia',
+//   appId: 'uk.credentia.fms',
+//   appName: 'FMS-Credentia',
 //   webDir: 'build'
 // };
 
@@ -10,8 +10,8 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "com.example.app",
-  appName: "FMS-credentia",
+  appId: "uk.credentia.fms",
+  appName: "FMS-Credentia",
   webDir: "build",
   // server: { url: "http://192.168.1.187:3000", cleartext: true },
   plugins: {
