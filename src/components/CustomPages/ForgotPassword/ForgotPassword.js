@@ -62,7 +62,7 @@ export default function ForgotPassword() {
                     >
                       {() => (
                         <Form className=" shadow-none p-0 m-0" method="post">
-                          <Card.Body className="mx-auto">
+                          <Card.Body className="mx-auto p-0">
                             <div
                               display={"flex"}
                               flexDirection={"column"}
@@ -82,9 +82,9 @@ export default function ForgotPassword() {
                                     alt=""
                                   />
                                 </span>
-                                <p className=" m-0 p-0 font-weight-bold">
+                                {/* <p className=" m-0 p-0 font-weight-bold">
                                   Forgot Password
-                                </p>
+                                </p> */}
                                 {/* <p className="text-muted">
                                     Enter the email address registered on your account
                                   </p> */}
@@ -98,11 +98,19 @@ export default function ForgotPassword() {
                                     E-Mail
                                   </label>
                                   <Field
-                                    className="form-control"
+                                    className="input100"
                                     name="email"
                                     placeholder="Enter Your Email"
                                     type="email"
                                   />
+                                  <span className="focus-input100"></span>
+
+                                  <span className="symbol-input100">
+                                    <i
+                                      className="zmdi zmdi-email"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
                                   <ErrorMessage
                                     className="text-danger"
                                     name="email"
@@ -112,14 +120,14 @@ export default function ForgotPassword() {
                                 <div className="container-login100-form-btn">
                                   <button
                                     type="submit"
-                                    className="login100-form-btn btn-primary"
+                                    className=" w-100 btn  btn-primary"
                                   >
                                     Submit
                                   </button>
                                   {/* <ToastContainer /> */}
                                 </div>
                                 <div className="text-center mt-4">
-                                  <p className="text-dark mb-0">
+                                  <p className="text-dark text-end mb-0">
                                     Forgot It?
                                     <Link
                                       to={`/`}
@@ -132,22 +140,23 @@ export default function ForgotPassword() {
                               </div>
                             </div>
                           </Card.Body>
-                          <Card.Footer
-                            className=" text-end p-2 color-white btn-primary"
 
-                          >
-                            <span className=" " style={{ paddingRight: "20px" }}>
-                              SECURE WITH{" "}
-                              <strong className="  font-weight-bold">2FA</strong>{" "}
-                              <i className="fa fa-shield" aria-hidden="true"></i>
-                              <i className="fa fa-brands-google"></i>
-                              <i className="fa fa-brands-microsoft"></i>
-                            </span>
-                          </Card.Footer>
                         </Form>
                       )}
                     </Formik>
                   </Card.Body>
+                  <Card.Footer
+                    className=" text-end p-2 color-white btn-primary"
+
+                  >
+                    <span className=" " style={{ paddingRight: "20px" }}>
+                      SECURE WITH{" "}
+                      <strong className="  font-weight-bold">2FA</strong>{" "}
+                      <i className="fa fa-shield" aria-hidden="true"></i>
+                      <i className="fa fa-brands-google"></i>
+                      <i className="fa fa-brands-microsoft"></i>
+                    </span>
+                  </Card.Footer>
                 </div>
               </div>
             </div>
