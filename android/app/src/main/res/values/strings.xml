@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">fms-app</string>
-    <string name="title_activity_main">fms-app</string>
+    <string name="app_name">FMS-Credentia</string>
+    <string name="title_activity_main">FMS-Credentia</string>
     <string name="package_name">uk.credentia.fms</string>
     <string name="custom_url_scheme">uk.credentia.fms</string>
 </resources>

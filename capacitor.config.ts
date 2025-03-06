@@ -1,12 +1,3 @@
-// import type { CapacitorConfig } from '@capacitor/cli';
-
-// const config: CapacitorConfig = {
-//   appId: 'uk.credentia.fms',
-//   appName: 'FMS-Credentia',
-//   webDir: 'build'
-// };
-
-// export default config;
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
