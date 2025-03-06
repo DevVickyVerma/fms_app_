@@ -2021,6 +2021,7 @@ td.middayModal-td.time-input-fuel-sell {
 }
 
 .Toastify__toast {
+  margin-top: 10px !important;
   border-radius: 0px !important;
 }
 

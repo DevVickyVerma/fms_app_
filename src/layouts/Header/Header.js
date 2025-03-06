@@ -122,7 +122,7 @@ const Header = (props) => {
             to="#"
             onClick={() => openCloseSidebar()}
           />
-          <div className="responsive-logo">
+          {/* <div className="responsive-logo">
             <Link to={`/dashboard/`} className="header-logo">
               <img
                 src={require("../../assets/images/brand/logo-3.png")}
@@ -148,7 +148,7 @@ const Header = (props) => {
               alt="logo"
             />
           </Link>
-          <h4 style={{ color: "#fff" }}>  {isMobile ? "mobile" : "Normal"}</h4>
+          <h4 style={{ color: "#fff" }}>  {isMobile ? "mobile" : "Normal"}</h4> */}
 
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
 
