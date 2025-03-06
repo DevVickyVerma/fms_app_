@@ -30,7 +30,7 @@ span.text-danger.danger-title {
 
 .SidebarSearchheader {
   max-width: 100%;
-  color: #fff;
+  color: #fff !important;
   height: 45px;
   text-decoration: none;
   color: #000;
@@ -3053,3 +3053,4 @@ td.middayModal-td.time-input-fuel-sell {
   font-size: 12px;
   font-weight: 600 !important;
 }
+/*  */

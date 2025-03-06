@@ -17,7 +17,7 @@ const BottomPageSlider = ({ cards, isMobile }) => {
         >
             {cards?.map(({ title, icon: Icon, bgColor, permission, onClick }, index) =>
                 permission ? (
-                    <SwiperSlide key={index}>
+                    <SwiperSlide style={{ padding: "0px 0px 20px 0px", }} key={index}>
                         <Card
                             className="pointer ceocard-hover"
                             onClick={onClick}

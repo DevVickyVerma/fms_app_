@@ -6,13 +6,7 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
   if (!stackedLineBarLabels || !stackedLineBarData) {
     return <p> Please Apply Filter To Visualize Charttt.....</p>;
   }
-  const shortenLabel = (label) => {
-    if (window.innerWidth < 768) {
-      // Shorten the label for mobile view
-      return label.length > 10 ? label.substring(0, 7) + "..." : label;
-    }
-    return label;
-  };
+
   const datasets = stackedLineBarData?.map((dataset, index) => ({
     label: dataset?.label,
     data: dataset?.data,
@@ -72,15 +66,12 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
     },
     plugins: {
       legend: {
-        display: false,
-        position: "top",
+        display: true,
         labels: {
           font: {
-            size: 16,
-            weight: "normal",
+            size: 14,
           },
           color: "#333",
-          padding: 20,
         },
       },
       tooltip: {

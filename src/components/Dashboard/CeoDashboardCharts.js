@@ -5,6 +5,12 @@ import NoDataComponent from "../../Utils/commonFunctions/NoDataComponent";
 import { useEffect, useState } from "react";
 import withApi from "../../Utils/ApiHelper";
 import LoaderImg from "../../Utils/Loader";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import { useMyContext } from "../../Utils/MyContext";
 
 const CeoDashboardCharts = ({
   Salesstatsloading,
@@ -54,30 +60,49 @@ const CeoDashboardCharts = ({
       <CeoDashboardBarChart data={data} options={Baroptions} title={title} />
     );
   };
-
+  const { isMobile } = useMyContext();
   return (
     <>
       {isLoading ? <LoaderImg /> : null}
-      <Row className="mb-4">
-        <Col sm={12} md={6} xl={6} key="chart-1">
-          {renderChartOrLoader(
-            BarGraphSalesStats?.fuel_sales,
-            `Fuel (${formik?.values?.comparison_label})`
-          )}
-        </Col>
-        <Col sm={12} md={6} xl={6} key="chart-2">
-          {renderChartOrLoader(
-            BarGraphSalesStats?.shop_sales,
-            `Shop (${formik?.values?.comparison_label})`
-          )}
-        </Col>
-        {/* <Col sm={12} md={6} xl={6} key="chart-3" className="mt-4">
-          {renderChartOrLoader(
-            BarGraphSalesStats?.valet_sales,
-            `Valet (${formik?.values?.comparison_label})`
-          )}
-        </Col> */}
-      </Row>
+      {isMobile ?
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={10}
+          slidesPerView={1} // Default: Show 1 card per slide
+          pagination={{ clickable: true }}
+          navigation
+          breakpoints={{
+            768: { slidesPerView: 2 }, // Show 2 cards per slide on tablets
+            1024: { slidesPerView: 3, navigation: false }, // Show 3+ cards in normal layout
+          }}
+        >
+          <SwiperSlide >
+            {renderChartOrLoader(
+              BarGraphSalesStats?.fuel_sales,
+              `Fuel (${formik?.values?.comparison_label})`
+            )}
+          </SwiperSlide>
+          <SwiperSlide >
+            {renderChartOrLoader(
+              BarGraphSalesStats?.shop_sales,
+              `Shop (${formik?.values?.comparison_label})`
+            )}
+          </SwiperSlide>
+        </Swiper> : <Row className="mb-4">
+          <Col sm={12} md={6} xl={6} key="chart-1">
+            {renderChartOrLoader(
+              BarGraphSalesStats?.fuel_sales,
+              `Fuel (${formik?.values?.comparison_label})`
+            )}
+          </Col>
+          <Col sm={12} md={6} xl={6} key="chart-2">
+            {renderChartOrLoader(
+              BarGraphSalesStats?.shop_sales,
+              `Shop (${formik?.values?.comparison_label})`
+            )}
+          </Col>
+
+        </Row>}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import Loaderimg from "../../Utils/Loader";
@@ -19,6 +19,11 @@ import { useMyContext } from "../../Utils/MyContext";
 import CardSwiper from "../../Utils/MobileCommonComponents/CardSwiper";
 import { IonButton, IonIcon } from "@ionic/react";
 import { funnelOutline, refresh } from "ionicons/icons";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -219,6 +224,18 @@ const Dashboard = (props) => {
       icon: "£",
     },
   ];
+  const cardRefs = useRef([]);
+  const [maxHeight, setMaxHeight] = useState(0);
+
+  // Function to adjust heights dynamically
+  useEffect(() => {
+    if (cardRefs.current.length) {
+      const heights = cardRefs.current.map((card) =>
+        card ? card.offsetHeight : 0
+      );
+      setMaxHeight(Math.max(...heights));
+    }
+  }, [dashboardData]); // Runs when data is loaded
 
   return (
     <>
@@ -281,7 +298,7 @@ const Dashboard = (props) => {
         </>
       )}
 
-      <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
+      <div className="d-flex justify-content-between align-items-center flex-wrap">
         {!ShowLiveData && (
           <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
@@ -368,46 +385,6 @@ const Dashboard = (props) => {
       ) : (
         ""
       )}
-      {/* <IonButton color="danger" size="small" expand="full" onClick={handleShowLive}>
-        Click Me
-      </IonButton>
-      <IonButton
-        style={{ backgroundColor: "red", color: "white" }}
-        size="small"
-        expand="full"
-        onClick={handleShowLive}
-      >
-        Click Me
-      </IonButton> */}
-      {/* 
-      {isMobile ? (
-        <div>
-          <h1>Device Information</h1>
-          <ul>
-            <li>
-              <strong>Model:</strong> {deviceInfo?.model}
-            </li>
-            <li>
-              <strong>Platform:</strong> {deviceInfo?.platform}
-            </li>
-            <li>
-              <strong>Operating System:</strong> {deviceInfo?.operatingSystem}
-            </li>
-            <li>
-              <strong>OS Version:</strong> {deviceInfo?.osVersion}
-            </li>
-            <li>
-              <strong>Manufacturer:</strong> {deviceInfo?.manufacturer}
-            </li>
-            <li>
-              <strong>Is Virtual:</strong>{" "}
-              {deviceInfo?.isVirtual ? "Yes" : "No"}
-            </li>
-          </ul>
-        </div>
-      ) : (
-        <p>{deviceInfo?.operatingSystem}</p>
-      )} */}
 
       <div className="mb-2 ">
         {filters?.client_id && filters.company_id && (
@@ -489,49 +466,124 @@ const Dashboard = (props) => {
           />
         )}
 
-        <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
-          <ChartCard
-            title="Total Sales"
-            chartType="default"
-            chartData={dashboardData?.line_graph}
-            noChartImage="../../assets/images/no-chart-img.png"
-            noChartMessage="Please Apply Filter To Visualize Chart....."
-          >
-            <StackedLineBarChart
-              stackedLineBarData={dashboardData?.line_graph?.datasets || []}
-              stackedLineBarLabels={dashboardData?.line_graph?.labels || []}
-            />
-          </ChartCard>
+        {isMobile ?
+          <>
+            <Swiper
+              modules={[Navigation, Pagination]}
+              spaceBetween={10}
+              slidesPerView={1}
+              pagination={{ clickable: true }}
+              navigation
+              className="mt-4 relative pb-10"
+            >
+              {[
+                {
+                  title: "Total Sales",
+                  chartType: "default",
+                  chartData: dashboardData?.line_graph,
+                  component: (
+                    <StackedLineBarChart
+                      stackedLineBarData={dashboardData?.line_graph?.datasets || []}
+                      stackedLineBarLabels={dashboardData?.line_graph?.labels || []}
+                    />
+                  ),
+                },
+                {
+                  title: "Overall Sales",
+                  chartType: "stats",
+                  chartData: dashboardData?.pi_graph,
+                  component: (
+                    <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
+                  ),
+                },
+                {
+                  title: "Total Day Wise Sales",
+                  chartType: "full",
+                  chartData: dashboardData?.d_line_graph,
+                  component: (
+                    <DashboardMultiLineChart
+                      LinechartValues={dashboardData?.d_line_graph?.series || []}
+                      LinechartOption={dashboardData?.d_line_graph?.option?.labels || []}
+                    />
+                  ),
+                },
+              ].map(({ title, chartType, chartData, component }, index) => (
+                <SwiperSlide key={index} className="flex items-stretch">
+                  <div className="w-full flex justify-center items-stretch">
+                    <div
+                      ref={(el) => (cardRefs.current[index] = el)}
+                      className="w-full flex flex-col  p-0"
+                      style={{ height: maxHeight ? `${maxHeight}px` : "auto" }}
+                    >
+                      <ChartCard
+                        title={title}
+                        chartType={"full"}
+                        isMobile={isMobile}
+                        chartData={chartData}
+                        noChartImage="../../assets/images/no-chart-img.png"
+                        noChartMessage="Please Apply Filter To Visualize Chart....."
+                        className="h-full flex flex-col p-0"
+                      >
+                        <div className="flex-grow flex items-center justify-center">
+                          {component}
+                        </div>
+                      </ChartCard>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
 
-          <ChartCard
-            title="Overall Sales"
-            chartType="stats"
-            chartData={dashboardData?.pi_graph}
-            noChartImage="../../assets/images/no-chart-img.png"
-            noChartMessage="Please Apply Filter To Visualize Chart....."
-          >
-            <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
-          </ChartCard>
-        </Row>
-        <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
-          <ChartCard
-            title="Total Day Wise Sales"
-            chartType="full"
-            chartData={dashboardData?.d_line_graph}
-            noChartImage="../../assets/images/no-chart-img.png"
-            noChartMessage="No data available"
-          >
-            <DashboardMultiLineChart
-              LinechartValues={dashboardData?.d_line_graph?.series || []}
-              LinechartOption={
-                dashboardData?.d_line_graph?.option?.labels || []
-              }
-            />
-          </ChartCard>
-        </Row>
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
+              <div className="swiper-pagination"></div>
+            </div>
+
+
+          </> : <>  <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
+            <ChartCard
+              title="Total Sales"
+              chartType="default"
+              chartData={dashboardData?.line_graph}
+              noChartImage="../../assets/images/no-chart-img.png"
+              noChartMessage="Please Apply Filter To Visualize Chart....."
+            >
+              <StackedLineBarChart
+                stackedLineBarData={dashboardData?.line_graph?.datasets || []}
+                stackedLineBarLabels={dashboardData?.line_graph?.labels || []}
+              />
+            </ChartCard>
+
+            <ChartCard
+              title="Overall Sales"
+              chartType="stats"
+              chartData={dashboardData?.pi_graph}
+              noChartImage="../../assets/images/no-chart-img.png"
+              noChartMessage="Please Apply Filter To Visualize Chart....."
+            >
+              <DashboardOverallStatsPieChart data={dashboardData?.pi_graph} />
+            </ChartCard>
+          </Row>
+            <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
+              <ChartCard
+                title="Total Day Wise Sales"
+                chartType="full"
+                chartData={dashboardData?.d_line_graph}
+                noChartImage="../../assets/images/no-chart-img.png"
+                noChartMessage="No data available"
+              >
+                <DashboardMultiLineChart
+                  LinechartValues={dashboardData?.d_line_graph?.series || []}
+                  LinechartOption={
+                    dashboardData?.d_line_graph?.option?.labels || []
+                  }
+                />
+              </ChartCard>
+            </Row></>}
+
+
 
         {/* {dashboardData ? <CeoDashBoard dashboardData={dashboardData} /> : ""} */}
-      </div>
+      </div >
     </>
   );
 };

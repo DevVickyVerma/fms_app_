@@ -14,7 +14,7 @@ const CeoFilterBadge = ({
   };
 
   return (
-    <div className="d-flex gap-2 flex-wrap btn w-100">
+    <div className="d-flex gap-2 btn w-100">
       {filters?.client_name ||
         filters?.company_name ||
         filters?.site_name ||
@@ -22,23 +22,20 @@ const CeoFilterBadge = ({
         filters?.grade ||
         filters?.start_date ? (
         <div
-          className="badges-container d-flex flex-wrap align-items-center gap-2 px-4 py-sm-2 py-2 text-white w-100"
-          style={{ background: "#ddd" }}
+          className="badges-container d-flex flex-nowrap align-items-center gap-2 px-4 py-sm-2 py-2 text-white w-100 overflow-x-auto"
+          style={{ background: "#ddd", whiteSpace: "nowrap" }} // Ensures all badges stay in one line
         >
           {filters?.client_name && (
             <div className="badge bg-blue-600 d-flex align-items-center gap-2 p-3 position-relative">
-              <span className="font-semibold">Client :</span>{" "}
-              {filters?.client_name}
+              <span className="font-semibold">Client :</span> {filters?.client_name}
             </div>
           )}
           {filters?.company_name && (
             <div className="badge bg-green-600 d-flex align-items-center gap-2 p-3 position-relative">
-              <span className="font-semibold">Company :</span>{" "}
-              {filters?.company_name}
+              <span className="font-semibold">Company :</span> {filters?.company_name}
               {showCompResetBtn && (
                 <button
                   className="btn btn-danger btn-sm position-absolute ceo-cross-icon"
-                  // style={{ top: "-20px", right: "-20px", borderRadius: "50%" }}
                   onClick={() => handleRemoveFilter("company_name")}
                 >
                   <span>&times;</span>
@@ -59,46 +56,32 @@ const CeoFilterBadge = ({
               )}
             </div>
           )}
-
           {filters?.grade && (
             <div className="badge bg-green-600 d-flex align-items-center gap-2 p-3 position-relative">
-              <span className="font-semibold">Grade :</span>{" "}
-              {filters?.grade}
-
+              <span className="font-semibold">Grade :</span> {filters?.grade}
             </div>
           )}
           {filters?.tank && (
             <div className="badge bg-green-600 d-flex align-items-center gap-2 p-3 position-relative">
-              <span className="font-semibold">Tank :</span>{" "}
-              {filters?.tank}
-
+              <span className="font-semibold">Tank :</span> {filters?.tank}
             </div>
           )}
           {selected?.length > 0 && (
-            <div className="badge bg-red-600 d-flex align-items-center gap-2 position-relative break-word w-100">
-              <span
-                className="font-semibold min-w-40"
-                style={{ minWidth: "40px" }}
-              >
-                Sites :
-              </span>
-              {/* Display selected sites as comma-separated */}
-              <span className="">
+            <div className="badge bg-red-600 d-flex align-items-center gap-2 position-relative">
+              <span className="font-semibold">Sites :</span>
+              <span>
                 {selected.map((site, index) => (
-                  <span key={index} className="me-1 break-word py-2">
+                  <span key={index} className="me-1">
                     {site.label}
-                    {index < selected.length - 1 && ", "}{" "}
-                    {/* Add comma if it's not the last item */}
+                    {index < selected.length - 1 && ", "}
                   </span>
                 ))}
               </span>
             </div>
           )}
-
           {filters?.start_date && showStartDate && (
             <div className="badge bg-yellow-600 d-flex align-items-center gap-2 p-3 position-relative">
-              <span className="font-semibold">Start Date :</span>{" "}
-              {filters?.start_date}
+              <span className="font-semibold">Start Date :</span> {filters?.start_date}
               <button
                 className="btn btn-danger btn-sm position-absolute ceo-cross-icon"
                 onClick={() => handleRemoveFilter("start_date")}
@@ -115,16 +98,8 @@ const CeoFilterBadge = ({
           </span>
         </div>
       )}
-      {/* {(filters?.client_name ||
-        filters?.company_name ||
-        filters?.site_name ||
-        filters?.start_date) &&
-        showResetBtn && (
-          <span onClick={handleResetFilters} className="btn btn-danger">
-            <i className="ph ph-arrow-clockwise" />
-          </span>
-        )} */}
     </div>
+
   );
 };
 

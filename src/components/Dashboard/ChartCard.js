@@ -7,9 +7,10 @@ const ChartCard = ({
     chartData,
     noChartMessage,
     CeoDashBoard,
-    children
+    children,
+    isMobile
 }) => (
-    <Col lg={chartType === 'full' ? 12 : (chartType === 'stats' ? 4 : 8)}>
+    <Col className={isMobile ? "p-0" : ""} lg={chartType === 'full' ? 12 : (chartType === 'stats' ? 4 : 8)}>
         <Card className={chartType === 'stats' ? 'pie-card-default-height' : ''}>
             <Card.Header className="card-header">
                 <h4 className="card-title">{title}</h4>

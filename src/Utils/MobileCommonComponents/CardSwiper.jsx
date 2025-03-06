@@ -109,9 +109,6 @@ const CardSwiper = ({
                                         {card?.subValue
                                             ? formatNumber(card?.subValue)
                                             : "0.0"}
-
-
-
                                     </h4>
                                     <p className="mb-1">{card.subTitle}</p>
 

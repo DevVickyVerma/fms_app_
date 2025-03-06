@@ -597,10 +597,10 @@ const CeoDashBoardTest = (props) => {
         </>
       )}
 
-      <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
+      <div className="d-flex justify-content-between align-items-center flex-wrap ">
         {!ShowLiveData && (
           <div className="">
-            <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
+            <h2 className="page-title dashboard-page-title  mb-sm-0">
               CEO Dashboard (
               {dashboardData?.dateString
                 ? dashboardData?.dateString
@@ -776,13 +776,10 @@ const CeoDashBoardTest = (props) => {
           slidesPerView={1}
           pagination={{ clickable: true }}
           navigation
-          breakpoints={{
-            768: { slidesPerView: 2 }, // Show 2 cards on tablets
-            1024: { slidesPerView: 2, navigation: false }, // Show 2 cards on large screens
-          }}
+
         >
           {priceLogsPermission && (
-            <SwiperSlide>
+            <SwiperSlide style={{ padding: "0px 0px 20px 0px", }} >
               <Col
                 sm={12}
                 md={priceLogAndGraphPermission ? 6 : 12}
@@ -852,7 +849,7 @@ const CeoDashBoardTest = (props) => {
           )}
 
           {priceGraphPermission && (
-            <SwiperSlide>
+            <SwiperSlide style={{ padding: "0px 0px 20px 0px", }}>
               <Col className="" sm={12} md={priceLogAndGraphPermission ? 6 : 12}>
                 <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
                   <Card.Header className="p-4 d-flex flex-wrap flex-sm-nowrap">

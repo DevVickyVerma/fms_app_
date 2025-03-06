@@ -1,7 +1,11 @@
 import { Card, Col, Row } from "react-bootstrap";
 import CEODashCommonCard from "../CEODashCommonCard";
 import { formatNumber } from "../../../Utils/commonFunctions/commonFunction";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 const CeoDashboardStatsBox = ({
   dashboardData,
   parentComponent = true,
@@ -70,10 +74,10 @@ const CeoDashboardStatsBox = ({
                     £
                     {formatNumber(
                       Number(dashboardData?.card_fuel_sales?.total_sales) +
-                        Number(dashboardData?.cash_fuel_sales?.total_sales) +
-                        Number(
-                          dashboardData?.bunkered_card_fuel_sales.total_sales
-                        )
+                      Number(dashboardData?.cash_fuel_sales?.total_sales) +
+                      Number(
+                        dashboardData?.bunkered_card_fuel_sales.total_sales
+                      )
                     )}
                   </span>
                 </Card.Body>
@@ -90,10 +94,10 @@ const CeoDashboardStatsBox = ({
                       £
                       {formatNumber(
                         Number(dashboardData?.card_shop_sales?.total_sales) +
-                          Number(dashboardData?.cash_shop_sales?.total_sales) +
-                          Number(
-                            dashboardData?.bunkered_card_shop_sales?.total_sales
-                          )
+                        Number(dashboardData?.cash_shop_sales?.total_sales) +
+                        Number(
+                          dashboardData?.bunkered_card_shop_sales?.total_sales
+                        )
                       )}
                     </span>
                   </span>
@@ -103,27 +107,38 @@ const CeoDashboardStatsBox = ({
           </Row>
 
           <Row className="flip-in-ver-right">
-            {cardConfigs.map(
-              ({ dataKey, title, icon, containerStyle, tooltip }) => {
+            <Swiper
+              modules={[Navigation, Pagination]}
+              spaceBetween={10}
+              slidesPerView={1} // Default: Show 1 card per slide
+              pagination={{ clickable: true }}
+              navigation
+              breakpoints={{
+                768: { slidesPerView: 2 }, // Show 2 cards per slide on tablets
+                1024: { slidesPerView: 3, navigation: false }, // Show 3+ cards in normal layout
+              }}
+            >
+              {cardConfigs.map(({ dataKey, title, icon, containerStyle, tooltip }) => {
                 const cardData = dashboardData[dataKey];
 
                 return (
-                  <CEODashCommonCard
-                    key={dataKey}
-                    isParentComponent={parentComponent}
-                    showRightSide={false}
-                    leftSideData={cardData?.total_sales}
-                    leftSideTitle={title}
-                    statusValue={cardData?.status}
-                    percentageValue={cardData?.percentage}
-                    handleNavigateClick={CeohandleNavigateClick}
-                    icon={icon}
-                    containerStyle={containerStyle}
-                    upperTooltipContent={tooltip}
-                  />
+                  <SwiperSlide key={dataKey}>
+                    <CEODashCommonCard
+                      isParentComponent={parentComponent}
+                      showRightSide={false}
+                      leftSideData={cardData?.total_sales}
+                      leftSideTitle={title}
+                      statusValue={cardData?.status}
+                      percentageValue={cardData?.percentage}
+                      handleNavigateClick={CeohandleNavigateClick}
+                      icon={icon}
+                      containerStyle={containerStyle}
+                      upperTooltipContent={tooltip}
+                    />
+                  </SwiperSlide>
                 );
-              }
-            )}
+              })}
+            </Swiper>
           </Row>
         </>
       ) : null}
