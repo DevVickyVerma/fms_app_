@@ -11,6 +11,8 @@ import {
 import CeoDetailModal from "../../components/Dashboard/CeoDashboardModal/CeoDetailModal";
 import { useSelector } from "react-redux";
 import { GiVendingMachine } from "react-icons/gi";
+import { useMyContext } from "../../Utils/MyContext";
+import BottomPageSlider from "./BottomPageSlider";
 
 const CeoDashBoardBottomPage = (props) => {
   const { getData, filters, applyNavigate, dashboardData } = props;
@@ -56,7 +58,38 @@ const CeoDashBoardBottomPage = (props) => {
       setShowCeoDetailModal(true);
     }
   };
+  const cardsData = [
+    {
+      title: "MOP Breakdown",
+      icon: FaChartLine,
+      bgColor: "#6D6E71",
+      permission: mopPermission,
+      onClick: () => handleCardClick("MOP Breakdown"),
+    },
+    {
+      title: "Comparison",
+      icon: FaRegChartBar,
+      bgColor: "#5F8AC7",
+      permission: comparisonPermission,
+      onClick: () => handleCardClick("Comparison"),
+    },
+    {
+      title: "Performance",
+      icon: FaGasPump,
+      bgColor: "#20559A",
+      permission: performancePermission,
+      onClick: () => handleCardClick("Performance"),
+    },
+    {
+      title: "Reports",
+      icon: FaFileAlt,
+      bgColor: "#A6CE39",
+      permission: reportsPermission,
+      onClick: () => handleCardClick("Reports"),
+    },
+  ];
 
+  const { isMobile } = useMyContext();
   return (
     <>
       {showCeoDetailModal && (
@@ -90,9 +123,8 @@ const CeoDashBoardBottomPage = (props) => {
                     alignItems: "center",
                     justifyContent: "center",
                   }}
-                  className={`pointer ceo-sats-card-hover ${
-                    applyNavigate ? "" : ""
-                  }`}
+                  className={`pointer ceo-sats-card-hover ${applyNavigate ? "" : ""
+                    }`}
                 >
                   <FaChartLine size={25} />
                   <h3 style={{ fontSize: "18px" }} className="m-0 ms-2">
@@ -115,9 +147,8 @@ const CeoDashBoardBottomPage = (props) => {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                className={`pointer ceo-sats-card-hover ${
-                  applyNavigate ? "" : ""
-                }`}
+                className={`pointer ceo-sats-card-hover ${applyNavigate ? "" : ""
+                  }`}
               >
                 <h3 style={{ fontSize: "18px" }} className="m-0">
                   <img
@@ -132,284 +163,205 @@ const CeoDashBoardBottomPage = (props) => {
           </Row>
         </Col>
       </>
-
-      {/* {/ Second Row /} */}
-      <Row className="my-2">
-        {mopComparisonPerformanceReportsPermission && (
-          <>
-            <Col lg={stockDetailsPermission ? 6 : 12}>
-              <Row>
-                {mopPermission && (
-                  <>
-                    <Col
-                      md={6}
-                      onClick={() => handleCardClick("MOP Breakdown")}
-                      className="slide-in-left "
-                    >
-                      <Card
-                        className={`pointer ceocard-hover  ${
-                          applyNavigate ? "" : ""
-                        }`}
-                        style={{
-                          backgroundColor: "#6D6E71", // Red background
-                          color: "#fff",
-                          minHeight: "120px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "10px",
-                          transition: "all 0.3s ease", // Smooth opacity transition
-                        }}
+      {mopComparisonPerformanceReportsPermission && (
+        isMobile ? <BottomPageSlider cards={cardsData} isMobile={isMobile} /> : <Row className="my-2">
+          {mopComparisonPerformanceReportsPermission && (
+            isMobile ? <BottomPageSlider cards={cardsData} isMobile={isMobile} /> : <>
+              <Col lg={stockDetailsPermission ? 6 : 12}>
+                <Row>
+                  {mopPermission && (
+                    <>
+                      <Col
+                        md={6}
+                        onClick={() => handleCardClick("MOP Breakdown")}
+                        className="slide-in-left "
                       >
-                        <FaChartLine size={40} />
-                        <h5 className="m-0 mt-2">MOP Breakdown</h5>
-                      </Card>
-                    </Col>
-                  </>
-                )}
+                        <Card
+                          className={`pointer ceocard-hover  ${applyNavigate ? "" : ""
+                            }`}
+                          style={{
+                            backgroundColor: "#6D6E71", // Red background
+                            color: "#fff",
+                            minHeight: "120px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "10px",
+                            transition: "all 0.3s ease", // Smooth opacity transition
+                          }}
+                        >
+                          <FaChartLine size={40} />
+                          <h5 className="m-0 mt-2">MOP Breakdown</h5>
+                        </Card>
+                      </Col>
+                    </>
+                  )}
 
-                {comparisonPermission && (
-                  <>
-                    <Col
-                      md={6}
-                      onClick={() => handleCardClick("Comparison")}
-                      className="slide-in-left "
-                    >
-                      <Card
-                        className={`pointer ceocard-hover ${
-                          applyNavigate ? "" : ""
-                        }`}
-                        style={{
-                          backgroundColor: "#5F8AC7", // Dark Blue background
-                          color: "#fff",
-                          minHeight: "120px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "10px",
-                          transition: "all 0.3s ease", // Smooth opacity transition
-                        }}
+                  {comparisonPermission && (
+                    <>
+                      <Col
+                        md={6}
+                        onClick={() => handleCardClick("Comparison")}
+                        className="slide-in-left "
                       >
-                        <FaRegChartBar size={40} />
-                        <h5 className="m-0 mt-2">Comparison</h5>
-                      </Card>
-                    </Col>
-                  </>
-                )}
+                        <Card
+                          className={`pointer ceocard-hover ${applyNavigate ? "" : ""
+                            }`}
+                          style={{
+                            backgroundColor: "#5F8AC7", // Dark Blue background
+                            color: "#fff",
+                            minHeight: "120px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "10px",
+                            transition: "all 0.3s ease", // Smooth opacity transition
+                          }}
+                        >
+                          <FaRegChartBar size={40} />
+                          <h5 className="m-0 mt-2">Comparison</h5>
+                        </Card>
+                      </Col>
+                    </>
+                  )}
 
-                {performancePermission && (
-                  <>
-                    <Col
-                      md={6}
-                      onClick={() => handleCardClick("Performance")}
-                      className="slide-in-right"
-                    >
-                      <Card
-                        className={`pointer ceocard-hover ${
-                          applyNavigate ? "" : ""
-                        }`}
-                        style={{
-                          backgroundColor: "#20559A", // Light Blue background
-                          color: "#fff",
-                          minHeight: "120px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "10px",
-                          transition: "all 0.3s ease", // Smooth opacity transition
-                        }}
+                  {performancePermission && (
+                    <>
+                      <Col
+                        md={6}
+                        onClick={() => handleCardClick("Performance")}
+                        className="slide-in-right"
                       >
-                        <FaGasPump size={40} />
-                        <h5 className="m-0 mt-2">Performance</h5>
-                      </Card>
-                    </Col>
-                  </>
-                )}
-                {reportsPermission && (
-                  <>
-                    {" "}
-                    <Col
-                      md={6}
-                      onClick={() => handleCardClick("Reports")}
-                      className="slide-in-right"
-                    >
-                      <Card
-                        className={`pointer ceocard-hover ${
-                          applyNavigate ? "" : ""
-                        }`}
-                        style={{
-                          backgroundColor: "#A6CE39", // Yellow background
-                          color: "#fff",
-                          minHeight: "120px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "10px",
-                          transition: "all 0.3s ease", // Smooth opacity transition
-                        }}
+                        <Card
+                          className={`pointer ceocard-hover ${applyNavigate ? "" : ""
+                            }`}
+                          style={{
+                            backgroundColor: "#20559A", // Light Blue background
+                            color: "#fff",
+                            minHeight: "120px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "10px",
+                            transition: "all 0.3s ease", // Smooth opacity transition
+                          }}
+                        >
+                          <FaGasPump size={40} />
+                          <h5 className="m-0 mt-2">Performance</h5>
+                        </Card>
+                      </Col>
+                    </>
+                  )}
+                  {reportsPermission && (
+                    <>
+                      {" "}
+                      <Col
+                        md={6}
+                        onClick={() => handleCardClick("Reports")}
+                        className="slide-in-right"
                       >
-                        <FaFileAlt size={40} />
-                        <h5 className="m-0 mt-2">Reports</h5>
-                      </Card>
-                    </Col>
-                  </>
-                )}
-              </Row>
-            </Col>
-          </>
-        )}
+                        <Card
+                          className={`pointer ceocard-hover ${applyNavigate ? "" : ""
+                            }`}
+                          style={{
+                            backgroundColor: "#A6CE39", // Yellow background
+                            color: "#fff",
+                            minHeight: "120px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "10px",
+                            transition: "all 0.3s ease", // Smooth opacity transition
+                          }}
+                        >
+                          <FaFileAlt size={40} />
+                          <h5 className="m-0 mt-2">Reports</h5>
+                        </Card>
+                      </Col>
+                    </>
+                  )}
+                </Row>
+              </Col>
+            </>
 
-        {stockDetailsPermission && (
-          <>
-            <Col
-              md={mopComparisonPerformanceReportsPermission ? 6 : 4}
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent parent onClick from firing
-              }}
-              className="slide-in-bottom"
-            >
-              <Card
-                className={`card-default-height ${applyNavigate ? "" : ""}`}
-                style={{
-                  color: "#fff",
-                  minHeight: "111px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px",
-                  transition: "all 0.3s ease",
-                  background:
-                    "linear-gradient(90deg, rgba(95,138,199,1) 29%, rgba(166,206,57,1) 100%)",
-                  position: "relative", // To enable positioning of child elements
+
+          )}
+
+          {stockDetailsPermission && (
+            <>
+              <Col
+                md={mopComparisonPerformanceReportsPermission ? 6 : 4}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent parent onClick from firing
                 }}
+                className="slide-in-bottom"
               >
-                {/* Top-left image */}
-                <div
+                <Card
+                  className={`card-default-height ${applyNavigate ? "" : ""}`}
                   style={{
-                    position: "absolute",
-                    top: "2px", // Adjust the vertical offset
-                    right: "2px", // Adjust the horizontal offset
-                    transform: "rotate(359deg)", // Rotate the image vertically
+                    color: "#fff",
+                    minHeight: "111px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "10px",
+                    transition: "all 0.3s ease",
+                    background:
+                      "linear-gradient(90deg, rgba(95,138,199,1) 29%, rgba(166,206,57,1) 100%)",
+                    position: "relative", // To enable positioning of child elements
                   }}
                 >
-                  <div className="ribbon-2">
-                    <h4 className="m-0 p-2" style={{ fontWeight: "500" }}>
-                      Coming Soon <i className="ph ph-confetti"></i>
-                    </h4>
-                  </div>
-                </div>
-
-                <div className="d-flex flex-column justify-content-center align-items-center gap-5 py-3 ceo-coming-soon-card">
-                  <div className="">
-                    <div className="d-flex flex-column justify-content-center align-items-center">
-                      <GiVendingMachine size={40} />
-                      <h5 className="m-0 mt-2">Stock Details</h5>
+                  {/* Top-left image */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "2px", // Adjust the vertical offset
+                      right: "2px", // Adjust the horizontal offset
+                      transform: "rotate(359deg)", // Rotate the image vertically
+                    }}
+                  >
+                    <div className="ribbon-2">
+                      <h4 className="m-0 p-2" style={{ fontWeight: "500" }}>
+                        Coming Soon <i className="ph ph-confetti"></i>
+                      </h4>
                     </div>
                   </div>
-                  <div className="d-flex gap-5">
-                    <div className="px-0 px-md-5">
-                      <FaChartPie size={40} />
-                      <h5 className="m-0 mt-2">Stock</h5>
+
+                  <div className="d-flex flex-column justify-content-center align-items-center gap-5 py-3 ceo-coming-soon-card">
+                    <div className="">
+                      <div className="d-flex flex-column justify-content-center align-items-center">
+                        <GiVendingMachine size={40} />
+                        <h5 className="m-0 mt-2">Stock Details</h5>
+                      </div>
                     </div>
-                    <div className="px-0 px-md-5 d-flex flex-column align-items-center">
-                      <FaClipboardList size={40} />
-                      <h5 className="m-0 mt-2">Shrinkage</h5>
+                    <div className="d-flex gap-5">
+                      <div className="px-0 px-md-5">
+                        <FaChartPie size={40} />
+                        <h5 className="m-0 mt-2">Stock</h5>
+                      </div>
+                      <div className="px-0 px-md-5 d-flex flex-column align-items-center">
+                        <FaClipboardList size={40} />
+                        <h5 className="m-0 mt-2">Shrinkage</h5>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
-            </Col>
+                </Card>
+              </Col>
 
-            {/* <Col
-              md={mopComparisonPerformanceReportsPermission ? 2 : 4}
-              onClick={() => handleCardClick("Stock")}
-              className="slide-in-bottom"
-            >
-              <Card
-                className={`card-default-height ${
-                  applyNavigate ? "pointer ceocard-hover" : ""
-                }`}
-                style={{
-                  backgroundColor: "#20559A", // Light Blue background
-                  color: "#fff",
-                  // height: "100%",
-                  minHeight: "111px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px",
-                  transition: "all 0.3s ease", // Smooth opacity transition
-                }}
-              >
-                <div>
-                  <FaChartPie size={40} />
-                  <h5 className="m-0 mt-2">Stock</h5>
-                </div>
-              </Card>
-            </Col>
 
-            <Col
-              md={mopComparisonPerformanceReportsPermission ? 2 : 4}
-              onClick={() => handleCardClick("Shrinkage")}
-              className="slide-in-bottom"
-            >
-              <Card
-                className={`card-default-height ${
-                  applyNavigate ? "pointer ceocard-hover" : ""
-                }`}
-                style={{
-                  backgroundColor: "#A6CE39", // Dark Blue background
-                  color: "#fff",
-                  // height: "100%",
-                  minHeight: "111px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px",
-                  transition: "all 0.3s ease", // Smooth opacity transition
-                }}
-              >
-                <FaClipboardList size={40} />
-                <h5 className="m-0 mt-2">Shrinkage</h5>
-              </Card>
-            </Col>
+            </>
+          )}
+        </Row >
 
-            <Col
-              md={mopComparisonPerformanceReportsPermission ? 2 : 4}
-              onClick={() => handleCardClick("Stock Details")}
-              className="slide-in-bottom"
-            >
-              <Card
-                className={`card-default-height ${
-                  applyNavigate ? "pointer ceocard-hover" : ""
-                }`}
-                style={{
-                  backgroundColor: "#6D6E71", // Red background
-                  color: "#fff",
-                  // height: "100%",
-                  minHeight: "111px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px",
-                  transition: "all 0.3s ease", // Smooth opacity transition
-                }}
-              >
-                <GiVendingMachine size={40} />
-                <h5 className="m-0 mt-2">Stock Details</h5>
-              </Card>
-            </Col> */}
-          </>
-        )}
-      </Row>
+
+      )}
+      {/* {/ Second Row /} */}
+
     </>
   );
 };

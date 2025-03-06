@@ -81,7 +81,7 @@ const CardSwiper = ({
                             overflow: 'hidden',
                             background: 'linear-gradient(135deg, #08469F, #08469f8a)',
                             color: "white",
-                            borderRadius: "6px",
+                            borderRadius: "0px",
                             padding: "30px 20px",
                             showIcon: false,
                         }}>
