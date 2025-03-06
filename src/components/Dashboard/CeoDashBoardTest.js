@@ -27,6 +27,11 @@ import { useMyContext } from "../../Utils/MyContext";
 import { IonButton, IonIcon } from "@ionic/react";
 import { funnelOutline, refresh } from "ionicons/icons";
 import CardSwiper from "../../Utils/MobileCommonComponents/CardSwiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 
 const CeoDashBoardTest = (props) => {
   const navigate = useNavigate();
@@ -34,7 +39,7 @@ const CeoDashBoardTest = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
 
-  const { deviceType, deviceInfo, isMobile } = useMyContext();
+  const { isMobile } = useMyContext();
   const [statsLoading, setStatsLoading] = useState(false);
 
   const [dashboardData, setDashboardData] = useState();
@@ -618,14 +623,13 @@ const CeoDashBoardTest = (props) => {
           <>
             {/* Filter Button */}
             <div
-              className={`d-flex justify-content-end ${
-                (filters?.client_id ||
-                  filters?.company_id ||
-                  filters?.site_id ||
-                  filters?.start_date) &&
+              className={`d-flex justify-content-end ${(filters?.client_id ||
+                filters?.company_id ||
+                filters?.site_id ||
+                filters?.start_date) &&
                 isMobile &&
                 "w-100"
-              } `}
+                } `}
             >
               <IonButton
                 onClick={handleToggleSidebar1}
@@ -765,49 +769,52 @@ const CeoDashBoardTest = (props) => {
           </Col>
         </Row>
       </div>
-
-      <Row className="my-2">
-        {priceLogsPermission && (
-          <>
-            <Col
-              sm={12}
-              md={priceLogAndGraphPermission ? 6 : 12}
-              key={Math.random()}
-              className="mb-4 mb-sm-0"
-            >
-              <Card className="h-100">
-                <Card.Header className="p-4 d-flex  flex-wrap flex-sm-nowrap justify-content-between">
-                  <div className="spacebetween w-100">
-                    <h4 className="card-title">
-                      {" "}
-                      Fuel Price Exceptional Alerts (
-                      {PriceLogsFilterValue?.find(
-                        (item) => item.value === PriceLogsvalue
-                      )?.label || "Value not found"}
-                      )
-                      <br />
-                      {userPermissions?.includes("fuel-price-logs") ? (
-                        <span style={{ color: "var(--primary-bg-color)" }}>
-                          <Link to="/fuel-price-exceptional-logs/">
-                            View All
-                          </Link>
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </h4>
-                  </div>
-                  <div className="flexspacebetween mt-2 mt-sm-0">
-                    {filters?.sites ? (
-                      <div>
+      {isMobile ? <Row className="my-2">
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={10}
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          navigation
+          breakpoints={{
+            768: { slidesPerView: 2 }, // Show 2 cards on tablets
+            1024: { slidesPerView: 2, navigation: false }, // Show 2 cards on large screens
+          }}
+        >
+          {priceLogsPermission && (
+            <SwiperSlide>
+              <Col
+                sm={12}
+                md={priceLogAndGraphPermission ? 6 : 12}
+                key={Math.random()}
+                className="mb-4 mb-sm-0"
+              >
+                <Card className="h-100">
+                  <Card.Header className="p-4 d-flex flex-wrap flex-sm-nowrap justify-content-between">
+                    <div className="spacebetween w-100">
+                      <h4 className="card-title">
+                        Fuel Price Exceptional Alerts (
+                        {PriceLogsFilterValue?.find(
+                          (item) => item.value === PriceLogsvalue
+                        )?.label || "Value not found"}
+                        )
+                        <br />
+                        {userPermissions?.includes("fuel-price-logs") && filters?.sites && (
+                          <span style={{ color: "#fff", textDecoration: "underline" }}
+                            className="pointer">
+                            <Link to="/fuel-price-exceptional-logs/">View All</Link>
+                          </span>
+                        )}
+                      </h4>
+                    </div>
+                    <div className="flexspacebetween mt-2 mt-sm-0 text-end ms-auto">
+                      {filters?.sites && (
                         <select
                           id="PriceLogsvalue"
                           name="PriceLogsvalue"
                           value={PriceLogsvalue}
-                          onChange={(e) =>
-                            handlePriceLogsChange(e.target.value)
-                          }
-                          className="selectedMonth"
+                          onChange={(e) => handlePriceLogsChange(e.target.value)}
+                          className="selectedMonth p-0 "
                         >
                           {PriceLogsFilterValue?.map((item) => (
                             <option key={item.value} value={item.value}>
@@ -815,79 +822,66 @@ const CeoDashBoardTest = (props) => {
                             </option>
                           ))}
                         </select>
+                      )}
+                    </div>
+                  </Card.Header>
+                  <Card.Body>
+                    {PriceLogsloading ? (
+                      <SmallLoader />
+                    ) : PriceLogs?.priceLogs?.length > 0 ? (
+                      <div
+                        style={{
+                          maxHeight: "250px",
+                          overflowX: "auto",
+                          overflowY: "auto",
+                        }}
+                      >
+                        <PriceLogTable PriceLogsvalue={PriceLogsvalue} PriceLogs={PriceLogs} />
                       </div>
                     ) : (
-                      ""
-                    )}
-                  </div>
-                </Card.Header>
-                <Card.Body>
-                  {PriceLogsloading ? (
-                    <SmallLoader />
-                  ) : PriceLogs?.priceLogs?.length > 0 ? (
-                    <div
-                      style={{
-                        maxHeight: "250px",
-                        overflowX: "auto",
-                        overflowY: "auto",
-                      }}
-                    >
-                      <PriceLogTable
-                        PriceLogsvalue={PriceLogsvalue}
-                        PriceLogs={PriceLogs}
+                      <img
+                        src={require("../../assets/images/commonimages/no_data.png")}
+                        alt="No data available"
+                        className="all-center-flex smallNoDataimg h-100"
                       />
-                    </div>
-                  ) : (
-                    <img
-                      src={require("../../assets/images/commonimages/no_data.png")}
-                      alt="No data available"
-                      className="all-center-flex smallNoDataimg h-100"
-                    />
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          </>
-        )}
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </SwiperSlide>
+          )}
 
-        {priceGraphPermission && (
-          <>
-            <Col className="" sm={12} md={priceLogAndGraphPermission ? 6 : 12}>
-              <Card
-                className="h-100"
-                style={{ transition: "opacity 0.3s ease" }}
-              >
-                <Card.Header className="p-4 d-flex  flex-wrap flex-sm-nowrap">
-                  <div className="spacebetween" style={{ width: "100%" }}>
-                    <h4 className="card-title">
-                      {" "}
-                      Price Graph{" "}
-                      {formik.values?.selectedSiteDetails?.site_name &&
-                        ` (${formik.values.selectedSiteDetails.site_name})`}
-                      <br></br>
-                      {userPermissions?.includes("ceodashboard-price-graph") ? (
-                        <span
-                          style={{ color: "var(--primary-bg-color)" }}
-                          className="pointer"
-                        >
-                          <div onClick={() => handleNavigateViewAllClick()}>
-                            View All
-                          </div>
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </h4>
-                  </div>
-                  <div className="flexspacebetween mt-2 mt-sm-0">
-                    {filters?.sites ? (
-                      <div>
+          {priceGraphPermission && (
+            <SwiperSlide>
+              <Col className="" sm={12} md={priceLogAndGraphPermission ? 6 : 12}>
+                <Card className="h-100" style={{ transition: "opacity 0.3s ease" }}>
+                  <Card.Header className="p-4 d-flex flex-wrap flex-sm-nowrap">
+                    <div className="spacebetween" style={{ width: "100%" }}>
+                      <h4 className="card-title">
+                        Price Graph{" "}
+                        {formik.values?.selectedSiteDetails?.site_name &&
+                          ` (${formik.values.selectedSiteDetails.site_name})`}
+                        <br />
+                        {userPermissions?.includes("ceodashboard-price-graph") && formik.values?.selectedSiteDetails?.site_name && (
+                          <span
+                            style={{ color: "#fff", textDecoration: "underline" }}
+                            className="pointer"
+                          >
+                            <div onClick={() => handleNavigateViewAllClick()}>
+                              View All
+                            </div>
+                          </span>
+                        )}
+                      </h4>
+                    </div>
+                    <div className="flexspacebetween mt-2 mt-sm-0 ms-auto">
+                      {filters?.sites && (
                         <select
                           id="selectedSite"
                           name="selectedSite"
                           value={formik.values.selectedSite}
                           onChange={(e) => handleSiteChange(e.target.value)}
-                          className="selectedMonth"
+                          className="selectedMonth p-0"
                         >
                           <option value="">--Select a Site--</option>
                           {filters?.sites?.map((item) => (
@@ -896,31 +890,182 @@ const CeoDashBoardTest = (props) => {
                             </option>
                           ))}
                         </select>
+                      )}
+                    </div>
+                  </Card.Header>
+
+                  <Card.Body>
+                    {PriceGraphloading ? (
+                      <SmallLoader />
+                    ) : PriceGraphData?.labels && PriceGraphData?.fuel_type?.length > 0 ? (
+                      <LinesDotGraphchart stockGraphData={PriceGraphData} showExWatValue={true} />
+                    ) : (
+                      <NoDataComponent showCard={false} />
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </SwiperSlide>
+          )}
+        </Swiper>
+      </Row> :
+        <Row className="my-2">
+          {priceLogsPermission && (
+            <>
+              <Col
+                sm={12}
+                md={priceLogAndGraphPermission ? 6 : 12}
+                key={Math.random()}
+                className="mb-4 mb-sm-0"
+              >
+                <Card className="h-100">
+                  <Card.Header className="p-4 d-flex  flex-wrap flex-sm-nowrap justify-content-between">
+                    <div className="spacebetween w-100">
+                      <h4 className="card-title">
+                        {" "}
+                        Fuel Price Exceptional Alerts (
+                        {PriceLogsFilterValue?.find(
+                          (item) => item.value === PriceLogsvalue
+                        )?.label || "Value not found"}
+                        )
+                        <br />
+                        {userPermissions?.includes("fuel-price-logs") ? (
+                          <span style={{ color: "var(--primary-bg-color)" }}>
+                            <Link to="/fuel-price-exceptional-logs/">
+                              View All
+                            </Link>
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </h4>
+                    </div>
+                    <div className="flexspacebetween mt-2 mt-sm-0">
+                      {filters?.sites ? (
+                        <div>
+                          <select
+                            id="PriceLogsvalue"
+                            name="PriceLogsvalue"
+                            value={PriceLogsvalue}
+                            onChange={(e) =>
+                              handlePriceLogsChange(e.target.value)
+                            }
+                            className="selectedMonth"
+                          >
+                            {PriceLogsFilterValue?.map((item) => (
+                              <option key={item.value} value={item.value}>
+                                {item.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </Card.Header>
+                  <Card.Body>
+                    {PriceLogsloading ? (
+                      <SmallLoader />
+                    ) : PriceLogs?.priceLogs?.length > 0 ? (
+                      <div
+                        style={{
+                          maxHeight: "250px",
+                          overflowX: "auto",
+                          overflowY: "auto",
+                        }}
+                      >
+                        <PriceLogTable
+                          PriceLogsvalue={PriceLogsvalue}
+                          PriceLogs={PriceLogs}
+                        />
                       </div>
                     ) : (
-                      ""
+                      <img
+                        src={require("../../assets/images/commonimages/no_data.png")}
+                        alt="No data available"
+                        className="all-center-flex smallNoDataimg h-100"
+                      />
                     )}
-                  </div>
-                </Card.Header>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </>
+          )}
 
-                <Card.Body>
-                  {PriceGraphloading ? (
-                    <SmallLoader />
-                  ) : PriceGraphData?.labels &&
-                    PriceGraphData?.fuel_type?.length > 0 ? (
-                    <LinesDotGraphchart
-                      stockGraphData={PriceGraphData}
-                      showExWatValue={true}
-                    />
-                  ) : (
-                    <NoDataComponent showCard={false} />
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          </>
-        )}
-      </Row>
+          {priceGraphPermission && (
+            <>
+              <Col className="" sm={12} md={priceLogAndGraphPermission ? 6 : 12}>
+                <Card
+                  className="h-100"
+                  style={{ transition: "opacity 0.3s ease" }}
+                >
+                  <Card.Header className="p-4 d-flex  flex-wrap flex-sm-nowrap">
+                    <div className="spacebetween" style={{ width: "100%" }}>
+                      <h4 className="card-title">
+                        {" "}
+                        Price Graph{" "}
+                        {formik.values?.selectedSiteDetails?.site_name &&
+                          ` (${formik.values.selectedSiteDetails.site_name})`}
+                        <br></br>
+                        {userPermissions?.includes("ceodashboard-price-graph") ? (
+                          <span
+                            style={{ color: "var(--primary-bg-color)" }}
+                            className="pointer"
+                          >
+                            <div onClick={() => handleNavigateViewAllClick()}>
+                              View All
+                            </div>
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </h4>
+                    </div>
+                    <div className="flexspacebetween mt-2 mt-sm-0">
+                      {filters?.sites ? (
+                        <div>
+                          <select
+                            id="selectedSite"
+                            name="selectedSite"
+                            value={formik.values.selectedSite}
+                            onChange={(e) => handleSiteChange(e.target.value)}
+                            className="selectedMonth"
+                          >
+                            <option value="">--Select a Site--</option>
+                            {filters?.sites?.map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.site_name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </Card.Header>
+
+                  <Card.Body>
+                    {PriceGraphloading ? (
+                      <SmallLoader />
+                    ) : PriceGraphData?.labels &&
+                      PriceGraphData?.fuel_type?.length > 0 ? (
+                      <LinesDotGraphchart
+                        stockGraphData={PriceGraphData}
+                        showExWatValue={true}
+                      />
+                    ) : (
+                      <NoDataComponent showCard={false} />
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </>
+          )}
+        </Row>}
+
+
     </>
   );
 };

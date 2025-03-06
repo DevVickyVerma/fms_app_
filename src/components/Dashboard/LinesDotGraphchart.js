@@ -46,17 +46,7 @@ const LinesDotGraphchart = ({ stockGraphData, showExWatValue = false }) => {
   const handleFuelTypeChange = (event) => {
     setSelectedFuelType(event.target.value);
   };
-  const maxPoints = 10;
 
-  // Slice the data to show only the first 10 points
-  const limitedData = stockGraphData?.datasets[selectedFuelType]?.map(
-    (dataset) => {
-      return {
-        ...dataset,
-        data: dataset.data,
-      };
-    }
-  );
   const originalData =
     stockGraphData?.datasets[selectedFuelType]?.[0]?.data || [];
   const trendLineData = calculateTrendLine(originalData);

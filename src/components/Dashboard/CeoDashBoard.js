@@ -479,13 +479,10 @@ const CeoDashBoard = (props) => {
             : `client_id=${filters.client_id}&`;
 
         // Construct commonParams basedd on toggleValue
-        const commonParams = `/download-report/${
-          report?.report_code
-        }?${clientIDCondition}company_id=${
-          filters.company_id
-        }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${
-          formik?.values?.selectedMonthDetails?.value
-        }`;
+        const commonParams = `/download-report/${report?.report_code
+          }?${clientIDCondition}company_id=${filters.company_id
+          }&site_id[]=${encodeURIComponent(formik.values?.selectedSite)}&month=${formik?.values?.selectedMonthDetails?.value
+          }`;
 
         // API URL for the fetch request
         const apiUrl = `${process.env.REACT_APP_BASE_URL + commonParams}`;
@@ -507,8 +504,7 @@ const CeoDashBoard = (props) => {
           const errorData = await response.json();
           ErrorToast(errorData?.message);
           throw new Error(
-            `Errorsss ${response.status}: ${
-              errorData?.message || "Something went wrong!"
+            `Errorsss ${response.status}: ${errorData?.message || "Something went wrong!"
             }`
           );
         }
@@ -626,7 +622,7 @@ const CeoDashBoard = (props) => {
       if (response && response.data && response.data.data) {
         setGetCompetitorsPrice(response?.data?.data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleChange = (event) => {
@@ -696,7 +692,7 @@ const CeoDashBoard = (props) => {
         </>
       )}
 
-      <div className="d-flex justify-content-between align-items-center flex-wrap mb-5">
+      <div className="d-flex justify-content-between align-items-center flex-wrap">
         {!ShowLiveData && (
           <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">

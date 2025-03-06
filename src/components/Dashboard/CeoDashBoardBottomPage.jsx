@@ -127,9 +127,9 @@ const CeoDashBoardBottomPage = (props) => {
                     }`}
                 >
                   <FaChartLine size={25} />
-                  <h3 style={{ fontSize: "18px" }} className="m-0 ms-2">
+                  <h5 style={{ fontSize: "16px" }} className="m-0 ms-2">
                     Daily Wise Sales
-                  </h3>
+                  </h5>
                 </Col>
               </>
             )}
@@ -150,14 +150,14 @@ const CeoDashBoardBottomPage = (props) => {
                 className={`pointer ceo-sats-card-hover ${applyNavigate ? "" : ""
                   }`}
               >
-                <h3 style={{ fontSize: "18px" }} className="m-0">
+                <h5 style={{ fontSize: "16px" }} className="m-0">
                   <img
                     src={require("../../assets/images/commonimages/LiveIMg.gif")}
                     alt="Live Img"
                     className="Liveimage"
                   />{" "}
                   Margins
-                </h3>
+                </h5>
               </Col>
             )}
           </Row>
