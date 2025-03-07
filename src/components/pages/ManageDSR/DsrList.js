@@ -12,7 +12,9 @@ import NewDashboardFilterModal from "../Filtermodal/NewDashboardFilterModal";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-
+import { useMyContext } from "../../../Utils/MyContext";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline, refresh } from "ionicons/icons";
 const ManageEmail = (props) => {
   const { isLoading, getData } = props;
   const [data, setData] = useState();
@@ -204,7 +206,7 @@ const ManageEmail = (props) => {
       FetchFilterData();
     }
   }, [currentPage]);
-
+  const { isMobile } = useMyContext();
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -232,37 +234,74 @@ const ManageEmail = (props) => {
       )}
 
       <>
-        <div className="page-header d-flex flex-wrap">
-          <div className="mb-2 mb-sm-0">
-            <h1 className="page-title">Workflow Exception</h1>
-            <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item
-                className="breadcrumb-item"
-                linkAs={Link}
-                linkProps={{ to: "/dashboard" }}
-              >
-                Dashboard
-              </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item active breadcrumds"
-                aria-current="page"
-              >
-                Workflow Exception
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
+        <div className="d-flex justify-content-between align-items-center flex-wrap">
 
-          <div className="">
-            <div className="input-group">
-              <FiltersComponent
-                filters={filters}
-                handleToggleSidebar1={handleToggleSidebar1}
-                handleResetFilters={handleResetFilters}
-                showResetBtn={true}
-                showStartDate={true}
-              />
+          <div className="page-header d-flex flex-wrap">
+            <div className="mb-2 mb-sm-0">
+              <h1 className="page-title">Workflow Exception</h1>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Workflow Exception
+                </Breadcrumb.Item>
+              </Breadcrumb>
             </div>
+
+
           </div>
+          <FiltersComponent
+            filters={filters}
+            handleToggleSidebar1={handleToggleSidebar1}
+            handleResetFilters={handleResetFilters}
+            showResetBtn={true}
+            showStartDate={true}
+          />
+          {isMobile && (
+            <>
+              {/* Filter Button */}
+              <div
+                className={`d-flex justify-content-end ${(filters?.client_id ||
+                  filters?.company_id ||
+                  filters?.site_id ||
+                  filters?.start_date) &&
+                  isMobile &&
+                  "w-100"
+                  } `}
+              >
+                <IonButton
+                  onClick={handleToggleSidebar1}
+                  type="danger"
+                  size="small"
+                  className="mob-custom-primary-btn"
+                  style={{ marginRight: "8px" }}
+                >
+                  <IonIcon icon={funnelOutline} />
+                </IonButton>
+                {(filters?.client_id ||
+                  filters?.company_id ||
+                  filters?.site_id ||
+                  filters?.start_date) &&
+                  isMobile && (
+                    <IonButton
+                      className="mob-custom-danger-btn"
+                      size="small"
+                      onClick={handleResetFilters}
+                    >
+                      <IonIcon icon={refresh} />
+                    </IonButton>
+                  )}
+              </div>
+            </>
+          )}
         </div>
 
         <Row className=" row-sm">

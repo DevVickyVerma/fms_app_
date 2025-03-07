@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -6,9 +7,19 @@ import { Pagination, Navigation } from "swiper/modules";
 import { Card } from "react-bootstrap";
 
 const WorkflowSlider = ({ DataEnteryList, selectedItem, handleEnteryClick }) => {
+    const [localSelectedItem, setLocalSelectedItem] = useState(null);
+
+    // Set the first item as default when DataEnteryList changes
+    useEffect(() => {
+        if (DataEnteryList && DataEnteryList.length > 0) {
+            setLocalSelectedItem(DataEnteryList[0]);
+            handleEnteryClick(DataEnteryList[0]);  // Call with the first item
+        }
+    }, [DataEnteryList]);
+
     return (
         <Swiper
-            slidesPerView={1} // Adjust based on screen size
+            slidesPerView={1}
             spaceBetween={10}
             navigation={true}
             pagination={{ clickable: true }}
@@ -33,9 +44,12 @@ const WorkflowSlider = ({ DataEnteryList, selectedItem, handleEnteryClick }) => 
                                 }`}
                         >
                             <Card.Body
-                                className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
+                                className={`card-Div ${localSelectedItem === item ? "dsr-selected" : ""
                                     }`}
-                                onClick={() => handleEnteryClick(item)}
+                                onClick={() => {
+                                    setLocalSelectedItem(item);
+                                    handleEnteryClick(item);
+                                }}
                             >
                                 <h4 className="card-title">{item.name}</h4>
                             </Card.Body>

@@ -302,7 +302,7 @@ const Dashboard = (props) => {
         {!ShowLiveData && (
           <div className="">
             <h2 className="page-title dashboard-page-title mb-2 mb-sm-0">
-              Mobile  Dashboards (
+              Dashboard (
               {dashboardData?.dateString
                 ? dashboardData?.dateString
                 : ReduxFullData?.dates}
@@ -310,7 +310,7 @@ const Dashboard = (props) => {
             </h2>
           </div>
         )}
-        <div></div>
+
 
         <FiltersComponent
           filters={filters}

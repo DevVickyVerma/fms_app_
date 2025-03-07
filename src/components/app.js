@@ -127,10 +127,10 @@ const App = () => {
     try {
       const info = await Device.getInfo();
       if (
-        // info?.operatingSystem == "windows" ||
+        info?.operatingSystem == "windows" ||
         // info?.operatingSystem == "android" ||
-        // info?.operatingSystem == "unknown"
-        !info?.isVirtual
+        info?.operatingSystem == "unknown"
+        // !info?.isVirtual
       ) {
         setIsMobile(false);
       } else {

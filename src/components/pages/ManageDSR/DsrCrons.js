@@ -18,7 +18,9 @@ import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import FiltersComponent from "../../Dashboard/DashboardHeader";
 import useErrorHandler from "../../CommonComponent/useErrorHandler";
-
+import { useMyContext } from "../../../Utils/MyContext";
+import { IonButton, IonIcon } from "@ionic/react";
+import { funnelOutline, refresh } from "ionicons/icons";
 const ManageEmail = (props) => {
   const { isLoading, getData } = props;
   const { handleError } = useErrorHandler();
@@ -38,18 +40,7 @@ const ManageEmail = (props) => {
   };
 
   const columns = [
-    {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      //  width: "10%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
+
     {
       name: "Site",
       selector: (row) => [row?.site],
@@ -244,7 +235,7 @@ const ManageEmail = (props) => {
       FetchFilterData();
     }
   }, [currentPage]);
-
+  const { isMobile } = useMyContext();
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -271,7 +262,10 @@ const ManageEmail = (props) => {
         </div>
       )}
 
-      <>
+
+
+      <div className="d-flex justify-content-between align-items-center flex-wrap">
+
         <div className="page-header d-flex flex-wrap">
           <div className="mb-2 mb-sm-0">
             <h1 className="page-title">DRS Api Logs </h1>
@@ -292,63 +286,97 @@ const ManageEmail = (props) => {
             </Breadcrumb>
           </div>
 
-          <div className="">
-            <div className="input-group">
-              <FiltersComponent
-                filters={filters}
-                handleToggleSidebar1={handleToggleSidebar1}
-                handleResetFilters={handleResetFilters}
-                showResetBtn={true}
-                showStartDate={true}
-              />
-            </div>
-          </div>
+
         </div>
-
-        <Row className=" row-sm">
-          <Col lg={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> DRS Api Logs</h3>
-              </Card.Header>
-
-              <Card.Body>
-                {data?.length > 0 ? (
-                  <>
-                    <div className="table-responsive deleted-table mobile-first-table">
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader={true}
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead={true}
-                        highlightOnHover={true}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src={require("../../../assets/images/commonimages/no_data.png")}
-                      alt="MyChartImage"
-                      className="all-center-flex nodata-image"
-                    />
-                  </>
+        <FiltersComponent
+          filters={filters}
+          handleToggleSidebar1={handleToggleSidebar1}
+          handleResetFilters={handleResetFilters}
+          showResetBtn={true}
+          showStartDate={true}
+        />
+        {isMobile && (
+          <>
+            {/* Filter Button */}
+            <div
+              className={`d-flex justify-content-end ${(filters?.client_id ||
+                filters?.company_id ||
+                filters?.site_id ||
+                filters?.start_date) &&
+                isMobile &&
+                "w-100"
+                } `}
+            >
+              <IonButton
+                onClick={handleToggleSidebar1}
+                type="danger"
+                size="small"
+                className="mob-custom-primary-btn"
+                style={{ marginRight: "8px" }}
+              >
+                <IonIcon icon={funnelOutline} />
+              </IonButton>
+              {(filters?.client_id ||
+                filters?.company_id ||
+                filters?.site_id ||
+                filters?.start_date) &&
+                isMobile && (
+                  <IonButton
+                    className="mob-custom-danger-btn"
+                    size="small"
+                    onClick={handleResetFilters}
+                  >
+                    <IonIcon icon={refresh} />
+                  </IonButton>
                 )}
-              </Card.Body>
-              {data?.length > 0 && lastPage > 1 && (
-                <CustomPagination
-                  currentPage={currentPage}
-                  lastPage={lastPage}
-                  handlePageChange={handlePageChange}
-                />
+            </div>
+          </>
+        )}
+      </div>
+      <Row className=" row-sm">
+        <Col lg={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title"> DRS Api Logs</h3>
+            </Card.Header>
+
+            <Card.Body>
+              {data?.length > 0 ? (
+                <>
+                  <div className="table-responsive deleted-table mobile-first-table">
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader={true}
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      persistTableHead={true}
+                      highlightOnHover={true}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <img
+                    src={require("../../../assets/images/commonimages/no_data.png")}
+                    alt="MyChartImage"
+                    className="all-center-flex nodata-image"
+                  />
+                </>
               )}
-            </Card>
-          </Col>
-        </Row>
-      </>
+            </Card.Body>
+            {data?.length > 0 && lastPage > 1 && (
+              <CustomPagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                handlePageChange={handlePageChange}
+              />
+            )}
+          </Card>
+        </Col>
+      </Row>
+
     </>
   );
 };
