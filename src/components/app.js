@@ -127,8 +127,10 @@ const App = () => {
     try {
       const info = await Device.getInfo();
       if (
-        info?.operatingSystem == "windows"
-        // info?.isVirtual
+        // info?.operatingSystem == "windows" ||
+        // info?.operatingSystem == "android" ||
+        // info?.operatingSystem == "unknown"
+        !info?.isVirtual
       ) {
         setIsMobile(false);
       } else {
@@ -179,19 +181,18 @@ const App = () => {
 
     dispatch(fetchData());
   }, []);
-  // document.body.classList.add("mobile-app");
   const registerPushNotifications = () => {
-    if (deviceInfo?.platform == "web") {
-
-      return; // Exit for unsupported platforms
+    // Don't register for push notifications if on web
+    if (deviceInfo?.platform === "web") {
+      console.log("Push notifications are not supported on web.");
+      return;
     }
-
-
 
     // Request push notification permissions for native platforms
     PushNotifications.requestPermissions().then((result) => {
       if (result.receive === "granted") {
-        PushNotifications.register();
+        console.log("Push notifications permission granted!");
+        PushNotifications.register(); // Register for push notifications
       } else {
         console.warn("Push notification permissions not granted.");
       }
@@ -199,6 +200,8 @@ const App = () => {
 
     // Listener for successful push registration (token)
     PushNotifications.addListener("registration", (token) => {
+      console.log("Push registration success, token:", token);
+      // Send the token to your backend server if needed
     });
 
     // Listener for registration errors
@@ -206,29 +209,25 @@ const App = () => {
       console.error("Push registration error:", err.error);
     });
 
-    // Listener for when a push notification is received
-    PushNotifications.addListener(
-      "pushNotificationReceived",
-      (notification) => {
-        console.log("Push notification received:", notification);
-      }
-    );
+    // Listener for push notification received (while app is in the foreground)
+    PushNotifications.addListener("pushNotificationReceived", (notification) => {
+      console.log("Push notification received:", notification);
+      // You can handle the notification here
+    });
 
-    // Listener for when a push notification action is performed (e.g., tapping a notification)
-    PushNotifications.addListener(
-      "pushNotificationActionPerformed",
-      (notification) => {
-        console.log("Push notification action performed:", notification);
-      }
-    );
+    // Listener for push notification action performed (e.g., tapping on the notification)
+    PushNotifications.addListener("pushNotificationActionPerformed", (notification) => {
+      console.log("Push notification action performed:", notification);
+      // You can handle the action here (e.g., navigate to a specific screen)
+    });
   };
 
-  // Call the function to register for push notifications
-  if (deviceInfo?.platform == "web") {
-    registerPushNotifications();
-  } else {
-    console.warn("Device info not available yet.");
-  }
+  useEffect(() => {
+    // Only register for push notifications if the device is mobile and ready
+    if (deviceInfo && deviceInfo.platform !== "web") {
+      registerPushNotifications(); // Register push notifications for native platforms
+    }
+  }, [deviceInfo]);
   console.log(deviceType, "deviceType");
   return (
     <MyProvider>
